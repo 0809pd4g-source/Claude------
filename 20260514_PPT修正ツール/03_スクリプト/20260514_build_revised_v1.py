@@ -7,7 +7,7 @@ from pptx.dml.color import RGBColor
 from pptx.enum.shapes import MSO_SHAPE
 from pptx.enum.text import PP_ALIGN
 
-WORKDIR    = r"C:\Users\masato.nakazawa\Downloads\新しいフォルダー"
+WORKDIR    = r"C:\Users\masato.nakazawa\Downloads\Claudeプロジェクト"
 INPUT_NAME = "20260430_RESTfulヒアリング結果共有_FINDEX.pptx"
 OUTDIR_NAME= "20260430_RESTfulヒアリング結果共有_FINDEX"
 

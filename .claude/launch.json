@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "患者サマリー可視化",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "7431", "--directory", "C:\\Users\\masato.nakazawa\\Downloads\\20260716_マイナポ患者サマリー可視化\\20260716_マイナポ患者サマリー可視化\\02_成果物"],
+      "port": 7431,
+      "url": "http://localhost:7431"
+    }
+  ]
+}

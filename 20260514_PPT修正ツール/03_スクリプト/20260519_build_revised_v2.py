@@ -7,7 +7,7 @@ from pptx.dml.color import RGBColor
 from pptx.enum.shapes import MSO_SHAPE
 from pptx.enum.text import PP_ALIGN
 
-WORKDIR     = r"C:\Users\masato.nakazawa\Downloads\新しいフォルダー"
+WORKDIR     = r"C:\Users\masato.nakazawa\Downloads\Claudeプロジェクト"
 INPUT_NAME  = "20260518_1330_開発進捗連絡会議_議事要旨(案).pptx"
 OUTDIR_NAME = "20260518_1330_開発進捗連絡会議_議事要旨(案)"
 
