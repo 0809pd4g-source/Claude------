@@ -1,0 +1,10 @@
+# OS
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Claude Code ローカル専用設定（マシン固有・絶対パス/権限を含む）
+.claude/settings.local.json
+
+# 一時ファイル
+*.tmp

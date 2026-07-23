@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>電子カルテ情報共有サービス まとめ</title>
+<style>
+  :root {
+    --primary: #0a6e8a;
+    --primary-dark: #074f63;
+    --accent: #2bb0c9;
+    --bg: #f4f8fa;
+    --card: #ffffff;
+    --text: #1f2d34;
+    --muted: #5b6b73;
+    --border: #d9e4e8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+  }
+  header {
+    background: linear-gradient(135deg, var(--primary-dark), var(--accent));
+    color: #fff;
+    padding: 56px 24px 48px;
+    text-align: center;
+  }
+  header h1 { margin: 0 0 12px; font-size: 2rem; letter-spacing: .04em; }
+  header p { margin: 0; opacity: .92; font-size: 1.05rem; }
+  .badge {
+    display: inline-block; margin-top: 18px; padding: 6px 16px;
+    background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.4);
+    border-radius: 999px; font-size: .9rem;
+  }
+  main { max-width: 960px; margin: -28px auto 0; padding: 0 20px 60px; }
+  section {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 28px 30px; margin-bottom: 24px;
+    box-shadow: 0 6px 20px rgba(10,110,138,.06);
+  }
+  h2 {
+    font-size: 1.35rem; margin: 0 0 18px; padding-left: 14px;
+    border-left: 5px solid var(--accent); color: var(--primary-dark);
+  }
+  h3 { color: var(--primary); margin: 22px 0 10px; font-size: 1.08rem; }
+  p { margin: 0 0 12px; }
+  .lead { font-size: 1.05rem; }
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .feature {
+    border: 1px solid var(--border); border-radius: 10px; padding: 18px;
+    background: #fbfdfe;
+  }
+  .feature .num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--accent); color: #fff; font-weight: 700; margin-bottom: 8px;
+  }
+  .feature h4 { margin: 0 0 6px; color: var(--primary-dark); font-size: 1rem; }
+  .feature p { margin: 0; font-size: .92rem; color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; font-size: .95rem; }
+  th { background: #eef6f8; color: var(--primary-dark); }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 10px; }
+  .tag {
+    background: #e4f3f6; color: var(--primary-dark); border: 1px solid var(--accent);
+    border-radius: 8px; padding: 8px 14px; font-size: .92rem; font-weight: 600;
+  }
+  ul.benefits { margin: 0; padding-left: 0; list-style: none; }
+  ul.benefits li { padding: 8px 0 8px 28px; position: relative; border-bottom: 1px dashed var(--border); }
+  ul.benefits li:last-child { border-bottom: none; }
+  ul.benefits li::before { content: "✓"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+  .timeline { list-style: none; margin: 0; padding: 0; }
+  .timeline li { position: relative; padding: 0 0 22px 26px; border-left: 2px solid var(--accent); }
+  .timeline li:last-child { border-left: 2px solid transparent; padding-bottom: 0; }
+  .timeline li::before {
+    content: ""; position: absolute; left: -8px; top: 4px; width: 14px; height: 14px;
+    border-radius: 50%; background: var(--accent); border: 3px solid #fff; box-shadow: 0 0 0 1px var(--accent);
+  }
+  .timeline .date { font-weight: 700; color: var(--primary-dark); }
+  .note { background: #fff8e6; border: 1px solid #f0d98a; border-radius: 10px; padding: 14px 18px; font-size: .92rem; }
+  footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 24px; }
+  footer a { color: var(--primary); }
+  .sources { font-size: .85rem; }
+  .sources li { margin-bottom: 4px; }
+
+  /* consultant sections */
+  .consult { border-left: 6px solid var(--primary); }
+  .consult h2 { border-left-color: var(--primary); }
+  .kicker {
+    display: inline-block; font-size: .78rem; font-weight: 700; letter-spacing: .08em;
+    color: var(--primary); background: #e4f3f6; border-radius: 6px; padding: 3px 10px; margin-bottom: 12px;
+  }
+  ol.steps { counter-reset: step; list-style: none; margin: 0; padding: 0; }
+  ol.steps li {
+    position: relative; padding: 14px 14px 14px 56px; margin-bottom: 12px;
+    border: 1px solid var(--border); border-radius: 10px; background: #fbfdfe;
+  }
+  ol.steps li::before {
+    counter-increment: step; content: counter(step);
+    position: absolute; left: 14px; top: 14px; width: 30px; height: 30px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--primary); color: #fff; border-radius: 50%; font-weight: 700;
+  }
+  ol.steps b { color: var(--primary-dark); }
+  ol.steps small { color: var(--muted); }
+  .risk td:first-child { font-weight: 600; color: var(--primary-dark); width: 32%; }
+  .sh-actor { background: #eef6f8; }
+  .pill { display:inline-block; background:#fde8d6; color:#9a5316; border:1px solid #e9a86a; border-radius:6px; padding:2px 8px; font-size:.8rem; font-weight:700; }
+  .map { display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); }
+  .map div { border:1px solid var(--border); border-radius:10px; padding:14px; background:#fbfdfe; font-size:.9rem; }
+  .map strong { display:block; color:var(--primary-dark); margin-bottom:4px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>電子カルテ情報共有サービス</h1>
+  <p>全国の医療機関で診療情報を共有する、厚生労働省の医療情報プラットフォーム</p>
+  <span class="badge">2025年運用開始 ／ 2026年度冬頃 本格運用予定</span>
+</header>
+
+<main>
+  <section>
+    <h2>サービス概要</h2>
+    <p class="lead">
+      <strong>電子カルテ情報共有サービス</strong>は、全国の医療機関・薬局の間で
+      患者の診療情報を電子的に共有するための、国（厚生労働省）が整備する全国共通の基盤です。
+      オンライン資格確認等システムのネットワークを活用し、医療機関をまたいで「3文書6情報」を
+      安全にやり取りできるようにすることを目的としています。
+    </p>
+    <p>
+      これにより、初診時から患者の正確な情報をもとに診療を行えるようになり、
+      重複検査・重複投薬の削減、診断精度の向上、地域医療連携の強化が期待されています。
+    </p>
+  </section>
+
+  <section>
+    <h2>4つの機能</h2>
+    <div class="grid">
+      <div class="feature">
+        <span class="num">1</span>
+        <h4>診療情報提供書送付サービス</h4>
+        <p>紹介状・返書を電子的に送受信。医療機関間の連携をスムーズにします。</p>
+      </div>
+      <div class="feature">
+        <span class="num">2</span>
+        <h4>健診結果報告書閲覧サービス</h4>
+        <p>健康診断結果報告書を医療機関・本人が閲覧できます。</p>
+      </div>
+      <div class="feature">
+        <span class="num">3</span>
+        <h4>6情報閲覧サービス</h4>
+        <p>傷病名・アレルギー・処方などの6情報を医療機関間で共有・閲覧します。</p>
+      </div>
+      <div class="feature">
+        <span class="num">4</span>
+        <h4>患者サマリー閲覧サービス</h4>
+        <p>患者本人がマイナポータル等を通じて自身の医療情報を確認できます。</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>共有される情報「3文書6情報」</h2>
+    <h3>3文書</h3>
+    <table>
+      <tr><th>文書</th><th>内容</th></tr>
+      <tr><td>診療情報提供書</td><td>紹介状・返書（医療機関間の患者紹介に用いる文書）</td></tr>
+      <tr><td>退院時サマリー</td><td>入院から退院までの経過・治療内容をまとめた文書</td></tr>
+      <tr><td>健康診断結果報告書</td><td>健康診断・特定健診などの結果</td></tr>
+    </table>
+
+    <h3>6情報</h3>
+    <div class="tag-row">
+      <span class="tag">傷病名</span>
+      <span class="tag">アレルギー（薬剤）</span>
+      <span class="tag">アレルギー（その他）</span>
+      <span class="tag">感染症</span>
+      <span class="tag">検査（救急・生活習慣病等）</span>
+      <span class="tag">処方</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>主なメリット</h2>
+    <ul class="benefits">
+      <li>初診時から患者の正確な情報をもとに、適切な診療が可能になる</li>
+      <li>重複した検査・投薬を削減し、患者負担と医療費を抑制</li>
+      <li>救急・災害時にアレルギーや既往歴などを迅速に把握できる</li>
+      <li>医療機関間の連携が強化され、地域医療ネットワークが充実</li>
+      <li>患者本人も自身の医療情報を確認でき、健康管理に役立つ</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>導入スケジュール</h2>
+    <ul class="timeline">
+      <li><span class="date">2025年1月〜</span> 一部機能の運用・モデル事業による検証を開始</li>
+      <li><span class="date">2025〜2026年</span> モデル事業での検証・システム改修を実施</li>
+      <li><span class="date">2026年度 冬頃</span> 全国で利用可能な状態とする「本格運用開始」を目標</li>
+      <li><span class="date">2026年末〜2027年</span> クリニックを含む各医療機関への影響が本格化する見込み</li>
+    </ul>
+    <p class="note">
+      ※ 参加には、医療機関の電子カルテが国の定める技術基準（標準規格 HL7 FHIR 等）に
+      対応している必要があります。導入にあたっては補助金の活用も検討されています。
+      スケジュールは検証状況により変動する可能性があります。
+    </p>
+  </section>
+
+  <section class="consult">
+    <span class="kicker">FOR CONSULTANTS</span>
+    <h2>稼働支援プロジェクトにおける支援領域マップ</h2>
+    <p>クライアント（医療機関・自治体・ベンダー等）の稼働支援にあたり、コンサルタントが押さえるべき支援領域を整理します。技術導入だけでなく、業務・組織・運用定着までを射程に入れることがポイントです。</p>
+    <div class="map">
+      <div><strong>① 制度・要件理解</strong>3文書6情報／標準規格／診療報酬・加算要件の把握</div>
+      <div><strong>② システム導入</strong>ベンダー対応状況の確認・改修管理・接続テスト</div>
+      <div><strong>③ 業務プロセス設計</strong>同意取得・情報登録・閲覧の業務フロー再設計</div>
+      <div><strong>④ 申請・補助金</strong>支払基金ポータルでの利用申請・補助金申請の伴走</div>
+      <div><strong>⑤ 教育・チェンジマネジメント</strong>医療スタッフ・受付向け研修と運用マニュアル整備</div>
+      <div><strong>⑥ 運用定着・KPI管理</strong>稼働後のモニタリングと課題対応</div>
+    </div>
+  </section>
+
+  <section class="consult">
+    <span class="kicker">FOR CONSULTANTS</span>
+    <h2>導入ステップ（チェックリスト）</h2>
+    <p>医療機関が利用開始に至るまでの標準的な流れです。各ステップでベンダー・支払基金ポータルとの連携が発生します。</p>
+    <ol class="steps">
+      <li><b>オンライン資格確認等システムの導入（前提）</b><br><small>本サービスは同システムのネットワーク上で稼働。未導入の場合はここが起点。</small></li>
+      <li><b>利用中の電子カルテのサービス対応状況を確認</b><br><small>標準規格（HL7 FHIR）対応・改修要否をベンダーに確認。対応ベンダー一覧は厚労省／支払基金サイトで公開。</small></li>
+      <li><b>医療機関等向け総合ポータルサイト（支払基金）で利用申請</b><br><small>運営主体は社会保険診療報酬支払基金。申請・補助金・運用開始日入力もここで実施。</small></li>
+      <li><b>HPKI等の電子署名環境を準備</b><br><small>文書には医師等の電子署名が必要。HPKIカード／スマホ（FIDO）／マイナンバーカードによる認証、ローカル署名・リモート署名から選択。</small></li>
+      <li><b>システム設定・接続テスト</b><br><small>ベンダーと連携し、登録・送信・閲覧の動作確認を実施。</small></li>
+      <li><b>院内業務フロー整備・スタッフ教育</b><br><small>患者同意取得、情報登録の運用ルールを確立。</small></li>
+      <li><b>運用開始日を登録し本稼働</b><br><small>ポータルで運用開始日を入力し稼働。</small></li>
+    </ol>
+    <p class="note">※ 詳細手順・最新の対応ベンダーは「医療機関等向け総合ポータルサイト」で確認。オンライン資格確認等コールセンター：0800-080-4583（無料）。</p>
+  </section>
+
+  <section class="consult">
+    <span class="kicker">FOR CONSULTANTS</span>
+    <h2>システム要件・前提条件</h2>
+    <table class="risk">
+      <tr><th>項目</th><th>内容</th></tr>
+      <tr><td>ネットワーク基盤</td><td>オンライン資格確認等システム（医療機関向け閉域ネットワーク）の導入が前提</td></tr>
+      <tr><td>標準規格</td><td>電子カルテが HL7 FHIR など国の定める標準規格・データ形式に対応していること</td></tr>
+      <tr><td>電子署名</td><td>HPKI による電子署名。認証方式は ①HPKIカード ②スマホ（FIDO） ③マイナンバーカード の3通り</td></tr>
+      <tr><td>患者認証・同意</td><td>マイナンバーカード（マイナ保険証）による本人確認・同意取得</td></tr>
+      <tr><td>安全管理</td><td>「医療情報システムの安全管理に関するガイドライン」への準拠</td></tr>
+    </table>
+  </section>
+
+  <section class="consult">
+    <span class="kicker">FOR CONSULTANTS</span>
+    <h2>主なステークホルダー</h2>
+    <table>
+      <tr><th>関係者</th><th>役割</th></tr>
+      <tr class="sh-actor"><td>厚生労働省</td><td>制度設計・運用方針・標準規格の策定</td></tr>
+      <tr><td>社会保険診療報酬支払基金</td><td>運営主体。ポータル運営、利用申請・補助金・運用開始日管理</td></tr>
+      <tr><td>システムベンダー</td><td>電子カルテの標準規格対応・改修、接続支援</td></tr>
+      <tr><td>医療機関・薬局</td><td>情報の登録・送信・閲覧、患者同意の取得、運用</td></tr>
+      <tr><td>患者</td><td>マイナンバーカードによる同意、自身の情報の閲覧</td></tr>
+    </table>
+  </section>
+
+  <section class="consult">
+    <span class="kicker">FOR CONSULTANTS</span>
+    <h2>患者同意の取り扱い</h2>
+    <p>医療情報の共有・閲覧には<strong>患者本人の同意が必須</strong>です。オンライン資格確認の受付時に、マイナンバーカード（マイナ保険証）を用いて<strong>閲覧のたびに同意を取得</strong>する運用が基本となります。受付・問診の業務フロー設計と、患者・スタッフ双方への説明（チェンジマネジメント）が稼働支援上の重要論点です。</p>
+  </section>
+
+  <section class="consult">
+    <span class="kicker">FOR CONSULTANTS</span>
+    <h2>補助金・診療報酬インセンティブ</h2>
+    <table class="risk">
+      <tr><th>制度</th><th>ポイント</th></tr>
+      <tr><td>医療情報化支援基金（ICT基金）</td><td>支払基金が運営。電子カルテ情報共有サービス導入費用の一部を補助</td></tr>
+      <tr><td>IT導入補助金</td><td>補助率は原則1/2以内（最大2/3以内）。<b>交付決定通知の受領前に発注すると補助対象外</b>となる点に注意</td></tr>
+      <tr><td>医療DX推進体制整備加算</td><td>本サービス対応が算定要件に関連。経過措置・要件強化の期限が実質的なデッドラインとなるため、<b>最新の告示・通知を必ず確認</b></td></tr>
+    </table>
+    <p class="note">※ 補助金・加算の金額・要件・期限は改定が頻繁です。提案時点で厚労省・支払基金の最新情報を確認してください。</p>
+  </section>
+
+  <section class="consult">
+    <span class="kicker">FOR CONSULTANTS</span>
+    <h2>主な課題・リスクと対応策（提言）</h2>
+    <table class="risk">
+      <tr><th>課題・リスク</th><th>対応策の方向性</th></tr>
+      <tr><td>電子カルテ普及率（診療所で約55%）</td><td>未導入施設は電子カルテ導入から計画。補助金活用と段階的ロードマップを設計</td></tr>
+      <tr><td>患者同意取得の負荷</td><td>受付フローへの組み込み、説明ツール整備、スタッフ研修で定着</td></tr>
+      <tr><td>システム投資・申請の煩雑さ</td><td>補助金スケジュール（発注前の交付決定）を踏まえた調達計画。申請の伴走支援</td></tr>
+      <tr><td>診療報酬インセンティブの喪失</td><td>加算要件の期限から逆算したマイルストーン設定</td></tr>
+      <tr><td>セキュリティ・個人情報保護</td><td>安全管理ガイドライン準拠の点検、インシデント対応体制の整備</td></tr>
+      <tr><td>ベンダー改修・接続テストの遅延</td><td>ベンダーとの早期合意、テスト計画の前倒しとクリティカルパス管理</td></tr>
+    </table>
+  </section>
+
+  <section class="consult">
+    <span class="kicker">FOR CONSULTANTS</span>
+    <h2>プロジェクト管理の論点</h2>
+    <h3>主要マイルストーン（逆算設計）</h3>
+    <ul class="benefits">
+      <li>診療報酬加算要件の期限 ＝ 稼働の最終デッドライン（全国本格運用：2026年度冬頃目標）</li>
+      <li>補助金の交付決定 → 発注 → 改修 → テスト → 運用開始の順序を厳守</li>
+      <li>本格運用は「臨床現場で支障なく運用可能な文書・情報から段階的に開始」</li>
+    </ul>
+    <h3>モニタリングKPI（例）</h3>
+    <ul class="benefits">
+      <li>利用申請・運用開始日の登録進捗率</li>
+      <li>ベンダー改修・接続テストの完了率</li>
+      <li>患者同意取得率／情報登録件数</li>
+      <li>スタッフ研修の受講率・習熟度</li>
+      <li>補助金申請・交付の進捗</li>
+    </ul>
+  </section>
+
+  <section class="sources">
+    <h2>参考情報</h2>
+    <ul>
+      <li><a href="https://www.mhlw.go.jp/content/10808000/001016921.pdf" target="_blank" rel="noopener">厚生労働省「文書情報（3文書）及び電子カルテ情報（6情報）の取扱について」</a></li>
+      <li><a href="https://gemmed.ghc-j.com/?p=71681" target="_blank" rel="noopener">GemMed「2026年度冬頃の本格運用を目指す―医療等情報利活用ワーキング」</a></li>
+      <li><a href="https://clius.jp/mag/2026/03/23/karte-kyoyu-guide/" target="_blank" rel="noopener">CLIUS「電子カルテ情報共有サービス 2026年冬本格運用ガイド」</a></li>
+      <li><a href="https://www.phchd.com/jp/medicom/park/idea/management-information-sharing" target="_blank" rel="noopener">メディコム（ウィーメックス）「電子カルテ情報共有サービスの中身とは？」</a></li>
+      <li><a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/iryou/johoka/denkaru_iryoujuuji.html" target="_blank" rel="noopener">厚生労働省「電子カルテ情報共有サービス（医療機関等向け）」</a></li>
+      <li><a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/iryou/johoka/denkaru_systemvendor.html" target="_blank" rel="noopener">厚生労働省「電子カルテ情報共有サービス（システムベンダ向け）」</a></li>
+      <li><a href="https://www.ssk.or.jp/datahealth/onlinesikaku/index.html" target="_blank" rel="noopener">社会保険診療報酬支払基金「医療情報化支援基金等」</a></li>
+      <li><a href="https://www.yuyama.co.jp/column/medicalrecord/electronic-health-record/" target="_blank" rel="noopener">ユヤマ「電子カルテ情報共有サービス完全ガイド（義務化・補助金・経過措置）」</a></li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  作成日: 2026年6月18日 ／ 本ページは公開情報をもとにまとめた概要です。最新・正確な情報は厚生労働省の公式発表をご確認ください。
+</footer>
+</body>
+</html>
