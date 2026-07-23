@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>マイナポータル 患者サマリー 改修前後 比較シミュレーター</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Meiryo UI','メイリオ',sans-serif; background: #dde3ec; color: #222; font-size: 13px; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+
+/* ===== ヘッダー ===== */
+.app-header { background: #1a2e50; color: #fff; padding: 7px 16px; display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.app-header .title { font-size: 13px; font-weight: bold; }
+.app-header .sub { font-size: 10px; opacity: .65; }
+.sim-badge { margin-left: auto; background: #e65c00; padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: bold; }
+
+/* ===== メインレイアウト ===== */
+.layout { display: flex; flex: 1; overflow: hidden; }
+
+/* ===== 左パネル ===== */
+.sidebar { width: 230px; min-width: 230px; background: #fff; border-right: 1px solid #c8d0df; overflow-y: auto; padding: 12px 10px; }
+.sb-label { font-size: 10px; font-weight: bold; color: #1a2e50; margin-bottom: 5px; border-bottom: 1.5px solid #1a2e50; padding-bottom: 2px; }
+.sb-section { margin-bottom: 14px; }
+
+.persona-card { border: 1.5px solid #d0d8e8; border-radius: 6px; padding: 7px 9px; margin-bottom: 5px; cursor: pointer; background: #fafbfc; transition: all .15s; }
+.persona-card:hover { border-color: #1a2e50; background: #eef2fb; }
+.persona-card.active { border-color: #1a2e50; background: #dce6f8; }
+.pc-name { font-weight: bold; font-size: 12px; }
+.pc-meta { font-size: 10px; color: #666; }
+.pc-tag { display: inline-block; background: #e0ecff; color: #1a2e50; font-size: 9px; padding: 1px 5px; border-radius: 6px; margin: 2px 1px 0; }
+
+select.scenario-select {
+  width: 100%; padding: 6px 26px 6px 8px; border: 1.5px solid #c0ccdf; border-radius: 5px;
+  font-family: inherit; font-size: 11px; color: #222; background: #fff; cursor: pointer;
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='%231a2e50' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: calc(100% - 8px) center;
+}
+select.scenario-select:focus { outline: none; border-color: #1a2e50; }
+
+.scenario-badge { margin-top: 5px; padding: 7px 9px; border-radius: 5px; font-size: 10px; line-height: 1.7; border-left: 3px solid; }
+.scenario-badge.pre   { background: #e8f5e9; border-color: #4caf50; color: #1b5e20; }
+.scenario-badge.post1 { background: #fff8e1; border-color: #ffc107; color: #5d3300; }
+.scenario-badge.post2 { background: #fce4ec; border-color: #e91e63; color: #4a0020; }
+
+/* 承継タイムライン */
+.tl-wrap { padding-left: 12px; position: relative; }
+.tl-wrap::before { content:''; position:absolute; left:4px; top:6px; bottom:6px; width:1px; background:#dde; }
+.tl-item { display:flex; gap:6px; margin-bottom:8px; font-size:10px; position:relative; }
+.tl-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:2px; }
+.tl-dot.visit { background: #1a2e50; }
+.tl-dot.suc   { background: #e91e63; }
+.tl-dot.view  { background: #ff8c00; box-shadow:0 0 0 2px #ffe0b2; }
+.tl-date { font-weight: bold; color: #333; min-width: 65px; }
+.tl-desc { color: #555; line-height: 1.4; }
+.tl-desc .suc-name { color: #e91e63; font-weight: bold; }
+
+.filter-box { background: #f0f4fc; border: 1px solid #cdd8ee; border-radius: 5px; padding: 7px 9px; font-size: 10px; color: #444; line-height: 1.8; }
+.filter-box strong { color: #1a2e50; }
+.filter-box .fk-before { color: #c0392b; }
+.filter-box .fk-after  { color: #1a7c3a; }
+
+/* ===== 比較エリア ===== */
+.compare-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+/* 上部ラベルバー */
+.compare-labels { display: flex; flex-shrink: 0; }
+.compare-labels .cl-spacer { flex: 1; }
+.compare-label {
+  width: 330px; min-width: 330px; text-align: center; padding: 6px 8px;
+  font-size: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.compare-label.before { background: #c62828; color: #fff; }
+.compare-label.after  { background: #1b5e20; color: #fff; }
+
+/* スマホを並べるエリア */
+.phones-row { flex: 1; display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 12px 16px; gap: 16px; }
+
+/* スマホフレーム */
+.phone-wrap { display: flex; flex-direction: column; gap: 4px; align-items: center; }
+.phone-version-badge { font-size: 11px; font-weight: bold; padding: 3px 12px; border-radius: 10px; }
+.phone-version-badge.before { background: #ffcdd2; color: #b71c1c; }
+.phone-version-badge.after  { background: #c8e6c9; color: #1b5e20; }
+
+.phone { width: 320px; min-width: 320px; background: #fff; border-radius: 28px; border: 8px solid #1a1a1a; box-shadow: 0 6px 24px rgba(0,0,0,.28); overflow: hidden; height: 640px; display: flex; flex-direction: column; }
+.phone-notch { background: #1a1a1a; height: 22px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.phone-notch .np { background: #333; width: 64px; height: 10px; border-radius: 5px; }
+.phone-status { background: #fff; padding: 3px 14px; display: flex; justify-content: space-between; font-size: 9px; color: #333; flex-shrink: 0; font-weight: bold; }
+.phone-screen { flex: 1; overflow-y: auto; }
+
+/* システムリボン */
+.sys-ribbon { padding: 4px 10px; font-size: 10px; font-weight: bold; text-align: center; }
+.sys-ribbon.before { background: #ffebee; color: #b71c1c; border-bottom: 1.5px solid #ef9a9a; }
+.sys-ribbon.after  { background: #e8f5e9; color: #1b5e20; border-bottom: 1.5px solid #a5d6a7; }
+
+/* ===== マイナポータル UI ===== */
+.mp-nav { background: #fff; border-bottom: 1px solid #e8e8e8; padding: 9px 12px; display: flex; align-items: center; gap: 8px; position: sticky; top: 0; z-index: 10; }
+.mp-nav-logo { font-size: 12px; font-weight: bold; color: #003f8a; flex: 1; }
+.mp-nav-bell { font-size: 16px; color: #555; }
+
+/* 一覧ヒーロー */
+.hero { background: linear-gradient(135deg, #003f8a 0%, #0057c8 100%); color: #fff; padding: 14px 12px 12px; }
+.hero-label { font-size: 9px; opacity: .8; }
+.hero-title { font-size: 19px; font-weight: bold; line-height: 1.2; margin-top: 2px; }
+.hero-desc  { font-size: 9px; opacity: .7; margin-top: 5px; line-height: 1.5; }
+
+/* 受診カード */
+.visit-list { padding: 0 10px; margin-top: 10px; }
+.vc {
+  border: 1px solid #dde4ef; border-radius: 8px; padding: 9px 10px; margin-bottom: 7px;
+  background: #fff; cursor: pointer; display: flex; align-items: center; gap: 7px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.05); transition: box-shadow .15s;
+}
+.vc:hover { box-shadow: 0 2px 8px rgba(0,63,138,.15); }
+.vc.suc-card-before { border-color: #e91e63; border-style: dashed; }
+.vc.suc-card-after  { border-color: #1b5e20; border-width: 2px; }
+.vc-date { font-size: 9px; color: #888; flex-shrink: 0; width: 62px; }
+.vc-info { flex: 1; min-width: 0; }
+.vc-hosp { font-size: 11px; font-weight: bold; color: #222; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.vc-hosp .old-strike { text-decoration: line-through; color: #aaa; font-size: 9px; font-weight: normal; display: block; }
+.vc-hosp .new-bold   { color: #1b5e20; }
+.vc-hosp .suc-badge  { background: #e91e63; color: #fff; font-size: 8px; padding: 1px 4px; border-radius: 2px; margin-right: 3px; }
+.vc-hosp .old-note   { color: #e91e63; font-size: 9px; font-weight: normal; }
+.vc-dept { font-size: 9px; color: #666; margin-top: 1px; }
+.vc-arrow { color: #bbb; font-size: 13px; }
+
+/* 承継通知バナー */
+.suc-banner { margin: 8px 10px; background: #fce4ec; border: 1px solid #f48fb1; border-radius: 6px; padding: 8px 10px; }
+.suc-banner-title { font-size: 10px; font-weight: bold; color: #880e4f; }
+.suc-banner-body  { font-size: 9px; color: #4a0020; margin-top: 3px; line-height: 1.6; }
+
+/* アレルギー・アコーディオン */
+.profile-sec { padding: 8px 10px 0; }
+.ps-title { font-size: 11px; font-weight: bold; color: #333; display: flex; justify-content: space-between; cursor: pointer; padding: 6px 0; border-bottom: 1px solid #eee; }
+.ps-tags { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 3px; margin-bottom: 6px; }
+.at { font-size: 9px; padding: 2px 8px; border-radius: 8px; }
+.at.drug  { background: #ffebee; color: #c00; border: 1px solid #ef9a9a; }
+.at.other { background: #fff8e1; color: #7a5800; border: 1px solid #ffc107; }
+
+.acc-sec { padding: 0 10px; }
+.acc-hd { background: #f4f6fc; border: 1px solid #dde4f0; border-radius: 6px; padding: 8px 10px; display: flex; align-items: center; cursor: pointer; margin-top: 6px; }
+.acc-icon { font-size: 13px; margin-right: 5px; }
+.acc-lbl  { font-size: 11px; font-weight: bold; flex: 1; }
+.acc-cnt  { background: #003f8a; color: #fff; font-size: 9px; padding: 1px 6px; border-radius: 6px; margin-right: 5px; }
+.acc-chev { color: #aaa; font-size: 11px; }
+.acc-body { border: 1px solid #dde4f0; border-top: none; border-radius: 0 0 6px 6px; display: none; }
+.acc-body.open { display: block; }
+.acc-row { padding: 6px 10px; border-bottom: 1px solid #f0f0f0; font-size: 10px; }
+.acc-row:last-child { border-bottom: none; }
+
+/* 画面B：詳細 */
+.back-bar { padding: 7px 12px; display: flex; align-items: center; gap: 5px; cursor: pointer; color: #003f8a; font-size: 11px; font-weight: bold; border-bottom: 1px solid #eee; background: #fafbfc; }
+.detail-body { padding: 12px 12px; }
+.detail-date { font-size: 19px; font-weight: bold; }
+.detail-hosp { font-size: 11px; color: #555; margin-top: 4px; }
+.detail-hosp .dh-new   { color: #1b5e20; font-weight: bold; }
+.detail-hosp .dh-old   { text-decoration: line-through; color: #aaa; }
+.detail-hosp .dh-badge { background: #e91e63; color: #fff; font-size: 8px; padding: 1px 4px; border-radius: 2px; margin-right: 3px; }
+.detail-hosp .dh-warn  { color: #e91e63; font-size: 9px; }
+.detail-doctor { font-size: 10px; color: #888; margin-top: 2px; margin-bottom: 12px; }
+
+.ds-title { font-size: 12px; font-weight: bold; color: #333; margin: 12px 0 6px; padding-top: 10px; border-top: 1px solid #eee; }
+.disease-row { margin-bottom: 5px; }
+.disease-role { font-size: 9px; color: #888; }
+.disease-main { font-size: 13px; font-weight: bold; }
+.disease-sub  { font-size: 11px; color: #555; }
+.advice-box { font-size: 11px; line-height: 1.7; white-space: pre-wrap; background: #fffde7; border-left: 3px solid #ffc107; padding: 8px 10px; border-radius: 0 5px 5px 0; color: #333; }
+
+.goto-links { padding: 8px 10px; display: flex; gap: 6px; flex-direction: column; }
+.gb { background: #fff; border: 1.5px solid #003f8a; border-radius: 8px; padding: 10px 12px; display: flex; align-items: center; gap: 8px; cursor: pointer; color: #003f8a; font-size: 11px; font-weight: bold; transition: background .15s; }
+.gb:hover { background: #eef3fc; }
+.gb .gb-ico { font-size: 17px; }
+.gb .gb-cnt { margin-left: auto; background: #003f8a; color: #fff; font-size: 9px; padding: 1px 6px; border-radius: 6px; }
+.gb.disabled { border-color: #ccc; color: #bbb; cursor: default; }
+.gb.disabled .gb-ico { opacity: .4; }
+
+/* 画面C：処方 */
+.sc-title-bar { background: #fff; border-bottom: 1px solid #eee; padding: 8px 12px; display: flex; align-items: center; gap: 6px; position: sticky; top: 0; z-index: 10; }
+.sc-back { color: #003f8a; cursor: pointer; font-size: 16px; font-weight: bold; }
+.sc-name { font-size: 12px; font-weight: bold; }
+.sc-cnt  { background: #003f8a; color: #fff; font-size: 9px; padding: 1px 6px; border-radius: 6px; margin-left: 3px; }
+.rx-head { font-size: 11px; font-weight: bold; color: #555; padding: 8px 12px 3px; }
+.rx-card { margin: 0 10px 6px; border: 1px solid #c8dff5; border-radius: 7px; overflow: hidden; }
+.rx-card-hd { background: #e8f0fb; padding: 7px 10px; font-size: 10px; color: #003f8a; font-weight: bold; display: flex; justify-content: space-between; cursor: pointer; }
+.rx-card-bd { padding: 8px 10px; font-size: 10px; }
+.rx-name   { font-weight: bold; color: #003f8a; }
+.rx-detail { color: #444; font-size: 9px; margin-top: 1px; }
+.rx-pharm  { color: #888; font-size: 9px; margin-top: 2px; }
+
+/* 画面D：検査 */
+.lab-head { font-size: 11px; font-weight: bold; color: #555; padding: 8px 12px 3px; }
+.lab-tbl { width: 100%; border-collapse: collapse; font-size: 10px; }
+.lab-tbl th { background: #f0f4fc; color: #334; padding: 4px 8px; text-align: left; border-bottom: 1px solid #dde4ef; }
+.lab-tbl tr { border-bottom: 1px solid #f0f2f7; }
+.lab-tbl td { padding: 6px 8px; vertical-align: top; }
+.lab-val   { font-size: 12px; font-weight: bold; }
+.lv-H { color: #c0392b; } .lv-L { color: #2471a3; } .lv-n { color: #229954; }
+.flag { font-size: 8px; padding: 1px 3px; border-radius: 2px; }
+.flag.H { background: #fde8e8; color: #c00; }
+.flag.L { background: #e8f0fe; color: #1a5276; }
+
+.out-banner { background: #fff8e1; border-left: 3px solid #ffc107; margin: 8px 10px; padding: 7px 9px; border-radius: 0 5px 5px 0; font-size: 9px; color: #856404; }
+.empty-ph { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 80%; color: #bbb; gap: 8px; }
+.empty-ph .ei { font-size: 32px; }
+.empty-ph p { font-size: 11px; text-align: center; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <div>
+    <div class="title">🏥 マイナポータル 患者サマリー 改修前後 比較シミュレーター</div>
+    <div class="sub">電子カルテ情報共有サービス（患者サマリー登録・閲覧サービス編）／ 医療機関承継シナリオ対応 ／ ⚠ 模擬表示</div>
+  </div>
+  <div class="sim-badge">🔀 左右連動比較</div>
+</div>
+
+<div class="layout">
+
+  <!-- ===== 左パネル ===== -->
+  <div class="sidebar">
+
+    <div class="sb-section">
+      <div class="sb-label">① ペルソナ</div>
+      <div id="persona-list"></div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-label">② 閲覧日シナリオ</div>
+      <select class="scenario-select" id="scenario-select" onchange="update()">
+        <option value="">-- 先にペルソナを選択 --</option>
+      </select>
+      <div id="scenario-badge" style="margin-top:5px"></div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-label">承継イベント タイムライン</div>
+      <div class="tl-wrap">
+        <div id="timeline"></div>
+      </div>
+    </div>
+
+    <div class="sb-section">
+      <div class="sb-label">表示ルール（仕様より）</div>
+      <div class="filter-box">
+        <strong>患者サマリー</strong>：閲覧日から<strong>過去180日</strong>以内<br>
+        <strong>検査・処方</strong>：指導日から<strong>過去30日</strong>以内<br>
+        <strong>アレルギー・感染症</strong>：<strong>全期間</strong><br>
+        <span class="fk-before">■ 改修前</span>：承継後も<strong>旧病院名</strong>のまま<br>
+        <span class="fk-after">■ 改修後</span>：<strong>新病院名</strong>を表示
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== 比較エリア ===== -->
+  <div class="compare-area">
+    <div class="compare-labels">
+      <div class="cl-spacer"></div>
+      <div class="compare-label before">🔴 改修前 — 旧医療機関名が表示される</div>
+      <div style="width:16px;flex-shrink:0"></div>
+      <div class="compare-label after" >🟢 改修後 — 承継先の医療機関名が表示される</div>
+    </div>
+
+    <div class="phones-row">
+      <!-- 改修前スマホ -->
+      <div class="phone-wrap">
+        <div class="phone-version-badge before">🔴 改修前</div>
+        <div class="phone">
+          <div class="phone-notch"><div class="np"></div></div>
+          <div class="phone-status"><span>12:34</span><span>📶 🔋</span></div>
+          <div class="phone-screen" id="screen-before"></div>
+        </div>
+      </div>
+
+      <!-- 改修後スマホ -->
+      <div class="phone-wrap">
+        <div class="phone-version-badge after">🟢 改修後</div>
+        <div class="phone">
+          <div class="phone-notch"><div class="np"></div></div>
+          <div class="phone-status"><span>12:34</span><span>📶 🔋</span></div>
+          <div class="phone-screen" id="screen-after"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ===================================================================
+//  データ定義
+// ===================================================================
+const PERSONAS = [
+  {
+    id: 'tanaka',
+    name: '田中 健一',
+    kana: 'たなか けんいち',
+    age: 62, sex: '男性', icon: '👨',
+    tags: ['糖尿病', '高血圧'],
+    allergies: { drug: ['ペニシリン系（発疹）'], other: ['甲殻類（蕁麻疹）'] },
+    visits: [
+      {
+        date: '2026-05-15',
+        hospital: '古い病院',          // 承継前の名前
+        dept: '内科', doctor: '青木 誠', type: '外来',
+        succession: {
+          date: '2026-06-01',
+          newName: '新しい病院',
+          oldName: '古い病院',
+        },
+        diseases: [
+          { name: '2型糖尿病', primary: true },
+          { name: '高血圧症',  primary: false },
+        ],
+        advice:
+`【内服継続】
+・メトホルミン 朝食後
+・アムロジピン 夕食後
+
+【生活習慣の改善】
+・1日30分のウォーキングを目標に。
+・塩分は1日7g未満。
+
+【次回】3ヶ月後にHbA1c採血予定。`,
+        labs: [
+          { name: 'HbA1c(NGSP)', value: '7.2', unit: '%',            ref: '4.6〜6.2', flag: 'H' },
+          { name: '空腹時血糖',   value: '142', unit: 'mg/dL',        ref: '70〜109',  flag: 'H' },
+          { name: 'eGFR',         value: '68',  unit: 'mL/min/1.73m²', ref: '60以上',   flag: '' },
+        ],
+        prescriptions: [
+          { name: 'メトホルミン塩酸塩錠 500mg', detail: '2錠 分2 朝夕食後 / 60日分', pharmacy: '古い調剤薬局' },
+          { name: 'アムロジピン錠 5mg',         detail: '1錠 分1 夕食後 / 60日分',  pharmacy: '古い調剤薬局' },
+        ],
+      },
+      {
+        date: '2026-02-10',
+        hospital: '別のクリニック',
+        dept: '内科', doctor: '田中 義雄', type: '外来',
+        succession: null,
+        diseases: [{ name: '2型糖尿病', primary: true }],
+        advice: `血糖値のコントロールが安定してきました。引き続き内服を継続してください。`,
+        labs: [
+          { name: 'HbA1c(NGSP)', value: '7.5', unit: '%', ref: '4.6〜6.2', flag: 'H' },
+        ],
+        prescriptions: [
+          { name: 'メトホルミン塩酸塩錠 500mg', detail: '2錠 分2 / 60日分', pharmacy: '別の調剤薬局' },
+        ],
+      },
+    ],
+    scenarios: [
+      {
+        value: '2026-05-25',
+        label: '① 2026年5月25日（承継前・指導日10日後）',
+        type: 'pre',
+        note: '承継（6/1）前の閲覧。「古い病院」名が両画面とも同じ表示。処方・検査あり（10日後）。',
+      },
+      {
+        value: '2026-07-01',
+        label: '② 2026年7月1日（承継後・指導日47日後）',
+        type: 'post1',
+        note: '承継（6/1）後に閲覧。改修前は旧名のまま、改修後は新名で表示。処方・検査は30日超で非表示。',
+      },
+      {
+        value: '2026-10-01',
+        label: '③ 2026年10月1日（承継後・指導日139日後）',
+        type: 'post2',
+        note: '長期経過。180日以内なのでサマリーはまだ表示。処方・検査は非表示。医療機関名差異が継続。',
+      },
+    ],
+  },
+  {
+    id: 'yamamoto',
+    name: '山本 花子',
+    kana: 'やまもと はなこ',
+    age: 78, sex: '女性', icon: '👩',
+    tags: ['心不全', '慢性腎臓病'],
+    allergies: { drug: ['アスピリン（喘息様症状）'], other: [] },
+    visits: [
+      {
+        date: '2026-06-10',
+        hospital: '旧中央病院',
+        dept: '循環器内科', doctor: '高橋 誠司', type: '外来',
+        succession: {
+          date: '2026-07-01',
+          newName: '新中央病院',
+          oldName: '旧中央病院',
+        },
+        diseases: [
+          { name: '慢性心不全（EF低下型）', primary: true },
+          { name: '慢性腎臓病 G3a',         primary: false },
+        ],
+        advice:
+`【服薬管理】
+現在の処方を確実に内服。自己中断は危険。
+
+【体重管理（重要）】
+毎朝体重計測。2日で2kg以上増加→すぐ連絡。
+
+【食事制限】
+・塩分：1日5g未満
+・水分：1日1,000mL以内
+・カリウム制限（腎機能保護）`,
+        labs: [
+          { name: 'BNP',     value: '285', unit: 'pg/mL',           ref: '〜18.4',  flag: 'H' },
+          { name: 'eGFR',    value: '38',  unit: 'mL/min/1.73m²',   ref: '60以上',  flag: 'L' },
+          { name: 'カリウム', value: '5.2', unit: 'mEq/L',           ref: '3.5〜5.0', flag: 'H' },
+        ],
+        prescriptions: [
+          { name: 'フロセミド錠 20mg',          detail: '1錠 分1 朝食後 / 14日分',  pharmacy: '旧中央薬局' },
+          { name: 'サクビトリルバルサルタン錠 50mg', detail: '2錠 分2 / 14日分',   pharmacy: '旧中央薬局' },
+        ],
+      },
+    ],
+    scenarios: [
+      {
+        value: '2026-06-20',
+        label: '① 2026年6月20日（承継前・指導日10日後）',
+        type: 'pre',
+        note: '承継（7/1）前の閲覧。「旧中央病院」名が両画面とも同じ表示。処方・検査あり（10日後）。',
+      },
+      {
+        value: '2026-07-15',
+        label: '② 2026年7月15日（承継後・指導日35日後）',
+        type: 'post1',
+        note: '承継（7/1）後に閲覧。改修前は「旧中央病院」のまま、改修後は「新中央病院」で表示。処方・検査は35日超で非表示。',
+      },
+      {
+        value: '2026-09-20',
+        label: '③ 2026年9月20日（承継後・指導日102日後）',
+        type: 'post2',
+        note: '長期経過。180日以内なのでサマリーはまだ表示。処方・検査は非表示。医療機関名差異が継続。',
+      },
+    ],
+  },
+];
+
+// ===================================================================
+//  State（両画面で共有）
+// ===================================================================
+const S = { personaId: null, scenarioValue: '', screen: 'A', visitIdx: null };
+
+function persona() { return PERSONAS.find(p => p.id === S.personaId) || null; }
+function pd(s) { return s ? new Date(s + 'T00:00:00') : null; }
+function diffDays(a, b) { return Math.round((a - b) / 86400000); }
+function fmtD(s) {
+  if (!s) return '';
+  const d = pd(s);
+  return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+}
+function inRange(p, vd) {
+  return (p && vd) ? p.visits.filter(v => { const n = diffDays(vd, pd(v.date)); return n >= 0 && n <= 180; }) : [];
+}
+function labsOk(v, vd) { return vd ? diffDays(vd, pd(v.date)) <= 30 : false; }
+function isSucceeded(v, vd) { return v.succession && vd && vd >= pd(v.succession.date); }
+
+// 医療機関名を取得（ver='before'|'after'）
+function hospDisplay(v, vd, ver) {
+  if (isSucceeded(v, vd)) {
+    return ver === 'before'
+      ? { type: 'old_warn', name: v.succession.oldName, old: v.succession.oldName }
+      : { type: 'new',      name: v.succession.newName, old: v.succession.oldName };
+  }
+  return { type: 'normal', name: v.hospital };
+}
+
+// ===================================================================
+//  サイドバー描画
+// ===================================================================
+function renderSidebar() {
+  const p = persona();
+  document.getElementById('persona-list').innerHTML = PERSONAS.map(pr => `
+    <div class="persona-card${pr.id === S.personaId ? ' active' : ''}" onclick="selPersona('${pr.id}')">
+      <div class="pc-name">${pr.icon} ${pr.name}</div>
+      <div class="pc-meta">${pr.age}歳 ${pr.sex} ／ ${pr.kana}</div>
+      <div>${pr.tags.map(t => `<span class="pc-tag">${t}</span>`).join('')}</div>
+    </div>`).join('');
+
+  const sel = document.getElementById('scenario-select');
+  sel.innerHTML = p
+    ? `<option value="">-- 閲覧日を選択 --</option>` + p.scenarios.map(s =>
+        `<option value="${s.value}"${s.value === S.scenarioValue ? ' selected' : ''}>${s.label}</option>`).join('')
+    : `<option value="">-- ペルソナを先に選択 --</option>`;
+
+  const sc = p ? p.scenarios.find(s => s.value === S.scenarioValue) : null;
+  const bdg = document.getElementById('scenario-badge');
+  if (sc) {
+    const c = sc.type === 'pre' ? 'pre' : sc.type === 'post1' ? 'post1' : 'post2';
+    const icon = sc.type === 'pre' ? '📅 承継前' : sc.type === 'post1' ? '⚠️ 承継直後' : '⏳ 承継後（長期）';
+    bdg.innerHTML = `<div class="scenario-badge ${c}"><strong>${icon}</strong><br>${sc.note}</div>`;
+  } else bdg.innerHTML = '';
+
+  // タイムライン
+  const tl = document.getElementById('timeline');
+  if (!p) { tl.innerHTML = ''; return; }
+  const evs = [];
+  p.visits.forEach(v => {
+    evs.push({ date: v.date, type: 'visit', label: `指導日：${v.hospital}` });
+    if (v.succession) evs.push({
+      date: v.succession.date, type: 'suc',
+      label: `承継：${v.succession.oldName}→<span class="suc-name">${v.succession.newName}</span>`,
+    });
+  });
+  if (sc) evs.push({ date: sc.value, type: 'view', label: `📍 閲覧日` });
+  evs.sort((a, b) => a.date.localeCompare(b.date));
+  tl.innerHTML = evs.map(e => `
+    <div class="tl-item">
+      <div class="tl-dot ${e.type === 'visit' ? 'visit' : e.type === 'suc' ? 'suc' : 'view'}"></div>
+      <div><div class="tl-date">${fmtD(e.date)}</div><div class="tl-desc">${e.label}</div></div>
+    </div>`).join('');
+}
+
+// ===================================================================
+//  両スマホ描画（共通）
+// ===================================================================
+function renderBoth() {
+  renderOnePhone('before');
+  renderOnePhone('after');
+}
+
+function renderOnePhone(ver) {
+  const el = document.getElementById('screen-' + ver);
+  const p = persona();
+  const sc = p ? p.scenarios.find(s => s.value === S.scenarioValue) : null;
+  if (!p || !sc) {
+    el.innerHTML = `<div class="empty-ph"><div class="ei">👆</div><p>ペルソナと閲覧日を<br>選択してください</p></div>`;
+    return;
+  }
+  const vd = pd(sc.value);
+  if (S.screen === 'A') renderA(el, p, vd, ver);
+  else if (S.screen === 'B') renderB(el, p, vd, ver);
+  else if (S.screen === 'C') renderC(el, p, vd, ver);
+  else if (S.screen === 'D') renderD(el, p, vd, ver);
+}
+
+// ===== 画面A：一覧 =====
+function renderA(el, p, vd, ver) {
+  const visits = inRange(p, vd);
+  const outCnt = p.visits.length - visits.length;
+  const sucVisit = visits.find(v => isSucceeded(v, vd));
+
+  // 承継通知バナー（改修後のみ）
+  let banner = '';
+  if (sucVisit && ver === 'after') {
+    const s = sucVisit.succession;
+    banner = `<div class="suc-banner">
+      <div class="suc-banner-title">🏥 医療機関の承継情報</div>
+      <div class="suc-banner-body">${s.oldName} → <strong>${s.newName}</strong><br>承継日：${fmtD(s.date)}</div>
+    </div>`;
+  }
+
+  const cards = visits.length === 0
+    ? `<div style="padding:12px;font-size:10px;color:#999;text-align:center">過去180日以内の<br>患者サマリーがありません</div>`
+    : visits.map((v, i) => {
+        const hd = hospDisplay(v, vd, ver);
+        const suc = isSucceeded(v, vd);
+        let hospHtml = '';
+        if (hd.type === 'new') {
+          hospHtml = `<div class="vc-hosp new-bold"><span class="suc-badge">承継</span>${hd.name}</div>
+                      <div class="vc-hosp"><span class="old-strike">旧：${hd.old}</span></div>`;
+        } else if (hd.type === 'old_warn') {
+          hospHtml = `<div class="vc-hosp">${hd.name}<span class="old-note" style="margin-left:4px">※承継済</span></div>`;
+        } else {
+          hospHtml = `<div class="vc-hosp">${hd.name}</div>`;
+        }
+        const cardCls = suc ? (ver === 'before' ? ' suc-card-before' : ' suc-card-after') : '';
+        return `<div class="vc${cardCls}" onclick="goDetail(${i})">
+          <div class="vc-date">${fmtD(v.date)}</div>
+          <div class="vc-info">${hospHtml}<div class="vc-dept">${v.dept} ／ ${v.doctor}</div></div>
+          <div class="vc-arrow">›</div>
+        </div>`;
+      }).join('');
+
+  const allRx = visits.flatMap(v => labsOk(v, vd) ? v.prescriptions : []);
+
+  el.innerHTML = `
+    <div class="sys-ribbon ${ver}">${ver === 'before' ? '🔴 改修前システム' : '🟢 改修後システム'}</div>
+    <div class="mp-nav"><span style="font-size:16px;color:#003f8a">☰</span><span class="mp-nav-logo">マイナポータル</span><span class="mp-nav-bell">🔔</span></div>
+    <div class="hero"><div class="hero-label">患者サマリー</div><div class="hero-title">療養上のアドバイス</div><div class="hero-desc">医療機関に記録された傷病をもとにした療養上の計画・アドバイスの要約</div></div>
+    ${banner}
+    ${outCnt > 0 ? `<div class="out-banner">過去180日より前の受診 ${outCnt}件 は非表示</div>` : ''}
+    <div class="visit-list">${cards}</div>
+    <div class="profile-sec">
+      <div class="ps-title" onclick="togAcc('${ver}-al')">プロファイル情報 <span id="${ver}-al-chev">▼</span></div>
+      <div id="${ver}-al-body" style="display:none">
+        <div class="ps-tags">
+          ${p.allergies.drug.map(a=>`<span class="at drug">💊 ${a}</span>`).join('')}
+          ${p.allergies.other.map(a=>`<span class="at other">⚠ ${a}</span>`).join('')}
+          ${(!p.allergies.drug.length && !p.allergies.other.length) ? '<span style="font-size:9px;color:#aaa">登録なし</span>' : ''}
+        </div>
+      </div>
+    </div>
+    <div class="acc-sec">
+      <div class="acc-hd" onclick="togAcc('${ver}-rx')">
+        <span class="acc-icon">💊</span><span class="acc-lbl">薬剤</span>
+        <span class="acc-cnt">${allRx.length}</span><span class="acc-chev" id="${ver}-rx-chev">▼</span>
+      </div>
+      <div class="acc-body" id="${ver}-rx-body">
+        ${allRx.length === 0
+          ? '<div class="acc-row" style="font-size:9px;color:#aaa">30日ルールにより非表示</div>'
+          : allRx.map(r=>`<div class="acc-row"><strong>${r.name}</strong><br><span style="font-size:9px;color:#555">${r.detail}</span></div>`).join('')}
+      </div>
+    </div>
+  `;
+}
+
+// ===== 画面B：詳細 =====
+function renderB(el, p, vd, ver) {
+  const vs = inRange(p, vd);
+  const v = vs[S.visitIdx];
+  if (!v) { S.screen = 'A'; renderBoth(); return; }
+  const hd = hospDisplay(v, vd, ver);
+  const suc = isSucceeded(v, vd);
+  const showLab = labsOk(v, vd) && v.labs.length > 0;
+  const showRx  = labsOk(v, vd) && v.prescriptions.length > 0;
+  const days = diffDays(vd, pd(v.date));
+
+  let hospHtml = '';
+  if (hd.type === 'new') {
+    hospHtml = `<div class="detail-hosp">医療機関：<span class="dh-badge">承継</span><span class="dh-new">${hd.name}</span>　${v.dept}</div>
+                <div style="font-size:9px;color:#aaa;margin-top:2px">旧：<span class="dh-old">${hd.old}</span></div>`;
+  } else if (hd.type === 'old_warn') {
+    hospHtml = `<div class="detail-hosp">医療機関：${hd.name}　${v.dept}<span class="dh-warn" style="margin-left:4px">※承継済（旧名）</span></div>`;
+  } else {
+    hospHtml = `<div class="detail-hosp">医療機関：${hd.name}　${v.dept}</div>`;
+  }
+
+  el.innerHTML = `
+    <div class="sys-ribbon ${ver}">${ver === 'before' ? '🔴 改修前システム' : '🟢 改修後システム'}</div>
+    <div class="mp-nav"><span style="font-size:16px;color:#003f8a">☰</span><span class="mp-nav-logo">マイナポータル</span><span class="mp-nav-bell">🔔</span></div>
+    <div class="back-bar" onclick="goA()">‹ 療養上のアドバイス</div>
+    <div class="detail-body">
+      <div class="detail-date">${fmtD(v.date)}</div>
+      ${hospHtml}
+      <div class="detail-doctor">医師：${v.doctor}（${v.type}）　指導日から${days}日後に閲覧</div>
+      <div class="ds-title">傷病名</div>
+      ${v.diseases.map(d=>`<div class="disease-row"><div class="disease-role">${d.primary?'主病':'副病'}</div>
+        <span class="${d.primary?'disease-main':'disease-sub'}">${d.name}</span></div>`).join('')}
+      <div class="ds-title">療養上の計画・アドバイス</div>
+      <div class="advice-box">${v.advice}</div>
+    </div>
+    <div class="goto-links">
+      <div class="gb${showRx?'':' disabled'}" onclick="${showRx?`goC('${ver}')`:''}" >
+        <span class="gb-ico">💊</span><span>処方情報</span>
+        ${showRx ? `<span class="gb-cnt">${v.prescriptions.length}件</span>` : `<span style="font-size:9px;color:#bbb;margin-left:auto">30日超・非表示</span>`}
+      </div>
+      <div class="gb${showLab?'':' disabled'}" onclick="${showLab?`goD('${ver}')`:''}" >
+        <span class="gb-ico">🔬</span><span>検査結果</span>
+        ${showLab ? `<span class="gb-cnt">${v.labs.length}件</span>` : `<span style="font-size:9px;color:#bbb;margin-left:auto">30日超・非表示</span>`}
+      </div>
+    </div>
+  `;
+}
+
+// ===== 画面C：処方 =====
+function renderC(el, p, vd, ver) {
+  const v = inRange(p, vd)[S.visitIdx];
+  if (!v) { S.screen = 'B'; renderBoth(); return; }
+  el.innerHTML = `
+    <div class="sys-ribbon ${ver}">${ver==='before'?'🔴 改修前':'🟢 改修後'}</div>
+    <div class="sc-title-bar"><span class="sc-back" onclick="goB()">‹</span><span class="sc-name">処方情報</span><span class="sc-cnt">${v.prescriptions.length}</span></div>
+    <div class="rx-head">${fmtD(v.date)} ／ ${v.doctor}</div>
+    ${v.prescriptions.map((rx,i)=>`
+      <div class="rx-card">
+        <div class="rx-card-hd" onclick="togRx('${ver}',${i})">${rx.name} <span id="${ver}-rchev-${i}">▼</span></div>
+        <div class="rx-card-bd" id="${ver}-rbody-${i}" style="display:none">
+          <div class="rx-name">${rx.name}</div>
+          <div class="rx-detail">用法：${rx.detail}</div>
+          <div class="rx-pharm">薬局：${rx.pharmacy}</div>
+        </div>
+      </div>`).join('')}`;
+}
+
+// ===== 画面D：検査 =====
+function renderD(el, p, vd, ver) {
+  const v = inRange(p, vd)[S.visitIdx];
+  if (!v) { S.screen = 'B'; renderBoth(); return; }
+  el.innerHTML = `
+    <div class="sys-ribbon ${ver}">${ver==='before'?'🔴 改修前':'🟢 改修後'}</div>
+    <div class="sc-title-bar"><span class="sc-back" onclick="goB()">‹</span><span class="sc-name">検査結果</span><span class="sc-cnt">${v.labs.length}</span></div>
+    <div class="lab-head">${fmtD(v.date)}</div>
+    <table class="lab-tbl">
+      <tr><th style="width:110px">検査項目</th><th>結果</th><th style="width:70px">基準値</th></tr>
+      ${v.labs.map(l=>{
+        const c=l.flag==='H'?'lv-H':l.flag==='L'?'lv-L':'lv-n';
+        const b=l.flag?`<span class="flag ${l.flag}">${l.flag}</span>`:'';
+        return `<tr><td>${l.name} ${b}</td>
+          <td><div class="lab-val ${c}">${l.value}</div><div style="font-size:8px;color:#666">${l.unit}</div></td>
+          <td style="font-size:9px;color:#888">${l.ref}</td></tr>`;
+      }).join('')}
+    </table>`;
+}
+
+// ===================================================================
+//  アコーディオン・遷移（両スマホ連動）
+// ===================================================================
+function togAcc(id) {
+  const body = document.getElementById(id + '-body');
+  const chev = document.getElementById(id + '-chev');
+  if (!body) return;
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : '';
+  if (chev) chev.textContent = open ? '▼' : '▲';
+}
+function togRx(ver, i) {
+  const body = document.getElementById(`${ver}-rbody-${i}`);
+  const chev = document.getElementById(`${ver}-rchev-${i}`);
+  if (!body) return;
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  if (chev) chev.textContent = open ? '▼' : '▲';
+}
+function scrollTop() {
+  document.getElementById('screen-before').scrollTop = 0;
+  document.getElementById('screen-after').scrollTop = 0;
+}
+function goDetail(i) { S.visitIdx = i; S.screen = 'B'; renderBoth(); scrollTop(); }
+function goA()       { S.screen = 'A'; renderBoth(); scrollTop(); }
+function goB()       { S.screen = 'B'; renderBoth(); scrollTop(); }
+function goC(ver)    { S.screen = 'C'; renderBoth(); scrollTop(); }
+function goD(ver)    { S.screen = 'D'; renderBoth(); scrollTop(); }
+
+// ===================================================================
+//  外部操作
+// ===================================================================
+function selPersona(id) {
+  S.personaId = id; S.scenarioValue = ''; S.screen = 'A'; S.visitIdx = null;
+  renderSidebar(); renderBoth();
+}
+function update() {
+  S.scenarioValue = document.getElementById('scenario-select').value;
+  S.screen = 'A'; S.visitIdx = null;
+  renderSidebar(); renderBoth();
+}
+window.onload = () => { renderSidebar(); renderBoth(); };
+</script>
+</body>
+</html>

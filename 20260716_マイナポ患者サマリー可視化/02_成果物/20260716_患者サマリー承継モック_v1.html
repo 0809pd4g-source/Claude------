@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>患者サマリー 承継パターン別モック（マイナポータル表示イメージ）</title>
+<style>
+:root{
+  --surface-2:#ffffff; --surface-1:#f7f6f2; --surface-0:#efeee8;
+  --border:#e5e3dc; --border-strong:#cbc9c0;
+  --text-primary:#1a1a18; --text-secondary:#6b6a65; --text-muted:#9a9891;
+  --bg-success:#EAF3DE; --text-success:#27500A;
+  --bg-warning:#FAEEDA; --text-warning:#633806;
+  --bg-danger:#FCEBEB; --text-danger:#791F1F;
+  --bg-accent:#E6F1FB; --text-accent:#0C447C;
+  --radius:8px;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --surface-2:#2a2a28; --surface-1:#333331; --surface-0:#1e1e1c;
+    --border:#4a4a47; --border-strong:#5f5e5a;
+    --text-primary:#ededed; --text-secondary:#b0afa8; --text-muted:#86847d;
+    --bg-success:#27500A; --text-success:#C0DD97;
+    --bg-warning:#633806; --text-warning:#FAC775;
+    --bg-danger:#791F1F; --text-danger:#F7C1C1;
+    --bg-accent:#0C447C; --text-accent:#B5D4F4;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;padding:2rem 1.5rem;background:var(--surface-0);color:var(--text-primary);
+  font-family:"Meiryo UI","Meiryo",sans-serif;line-height:1.7;max-width:1120px;margin:0 auto}
+h1{font-size:22px;font-weight:500;margin:0 0 .25rem}
+h2{font-size:18px;font-weight:500;margin:2rem 0 .75rem;border-bottom:0.5px solid var(--border);padding-bottom:.35rem}
+.lead{color:var(--text-secondary);font-size:14px;margin:0 0 1rem}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--text-secondary);margin-bottom:1rem}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.dot{width:12px;height:12px;border-radius:3px;display:inline-block}
+.note{background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;
+  padding:.75rem 1rem;font-size:12.5px;color:var(--text-secondary);margin-bottom:1rem}
+.note b{color:var(--text-primary);font-weight:500}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.cell{background:var(--surface-1);border-radius:12px;padding:12px}
+.plabel{display:flex;align-items:center;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+.pname{font-size:14px;font-weight:500}
+.badge{font-size:11px;padding:2px 8px;border-radius:var(--radius)}
+.b-ok{background:var(--bg-success);color:var(--text-success)}
+.b-warn{background:var(--bg-warning);color:var(--text-warning)}
+.b-ng{background:var(--bg-danger);color:var(--text-danger)}
+.phone{background:var(--surface-2);border:0.5px solid var(--border);border-radius:16px;overflow:hidden}
+.sbar{display:flex;justify-content:space-between;padding:5px 12px;font-size:11px;color:var(--text-secondary)}
+.hbar{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:0.5px solid var(--border);font-size:13px}
+.hbar-back{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:0.5px solid var(--border);font-size:13px}
+.body{padding:12px}
+.scr-title{font-size:16px;font-weight:500;margin-bottom:10px}
+.card{border:0.5px solid var(--border);border-radius:12px;padding:10px;margin-bottom:8px}
+.card-h{display:flex;justify-content:space-between;align-items:center}
+.card-h b{font-weight:500}
+.sub{font-size:12px;color:var(--text-secondary);margin-top:3px}
+.tag{font-size:10px;padding:1px 6px;border-radius:var(--radius)}
+.tag-after{background:var(--bg-accent);color:var(--text-accent)}
+.tag-before{background:var(--surface-1);color:var(--text-secondary)}
+.sec-h{font-size:13px;font-weight:500;margin-bottom:4px;margin-top:8px}
+.sec-b{font-size:12px;color:var(--text-secondary)}
+.empty-line{font-size:12px;color:var(--text-muted);border:0.5px dashed var(--border-strong);
+  border-radius:8px;padding:8px;text-align:center;margin-bottom:8px}
+.date-big{font-size:18px;font-weight:500}
+.chip{font-size:11px;padding:4px 10px;border-radius:8px}
+.chip-row{display:flex;gap:8px}
+.info-band{font-size:11px;padding:6px 10px;border-radius:8px;margin:8px 0}
+.band-accent{background:var(--bg-accent);color:var(--text-accent)}
+.band-warn{background:var(--bg-warning);color:var(--text-warning)}
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:44px 12px;color:var(--text-muted)}
+footer{margin-top:2.5rem;padding-top:1rem;border-top:0.5px solid var(--border);
+  font-size:12px;color:var(--text-muted)}
+</style>
+</head>
+<body>
+
+<h1>患者サマリー 承継パターン別モック</h1>
+<p class="lead">医療機関の承継時に、マイナポータルの患者サマリー表示がどう変わるかを「新旧紐づけの有無 × 承継後の処方・検査の登録有無」の4パターンで可視化したモックである。医療機関名は分かりやすさのため「昔のクリニック（承継前）」「新しい病院（承継後）」としている。</p>
+
+<div class="legend">
+  <span><span class="dot" style="background:var(--bg-success)"></span>フル表示</span>
+  <span><span class="dot" style="background:var(--bg-warning)"></span>部分表示</span>
+  <span><span class="dot" style="background:var(--bg-danger)"></span>乏しい／未生成</span>
+</div>
+
+<div class="note">
+  <b>確信度の区分</b>　軸「処方・検査（30日・医療機関コードで紐づけ）」および「未生成条件」は技術解説書（PDF）に基づく<b>確実</b>な事実。軸「新旧紐づけの有無」と、P3・P4の分断／未生成の挙動は<b>PDF外の前提（要裏取り）</b>に基づく推論であり、断定ではない。
+</div>
+
+<h2>一覧画面（療養上のアドバイス）</h2>
+<div class="grid">
+
+  <div class="cell">
+    <div class="plabel"><span class="pname">パターン1</span><span class="badge b-ok">紐づけ あり</span><span class="badge b-ok">処方・検査 あり</span></div>
+    <div class="phone">
+      <div class="sbar"><span>12:34</span><span>&#9679;&#9679;&#9679;</span></div>
+      <div class="hbar"><span>&#9776; マイナポータル</span><span>&#9737;</span></div>
+      <div class="body">
+        <div class="scr-title">療養上のアドバイス</div>
+        <div class="card"><div class="card-h"><b>新しい病院</b><span class="tag tag-after">承継後</span></div><div class="sub">受診日：2026年7月10日 ／ 内科・医師太郎</div></div>
+        <div class="card" style="margin-bottom:12px"><div class="card-h"><b>昔のクリニック</b><span class="tag tag-before">承継前</span></div><div class="sub">受診日：2026年3月6日 ／ 内科・医師太郎</div></div>
+        <div class="sec-h">処方情報 <span style="color:var(--text-secondary);font-weight:400">(1件)</span></div>
+        <div class="sec-b" style="border-bottom:0.5px solid var(--border);padding-bottom:8px">2026/6/17 オルメサルタンOD錠20mg ほか</div>
+        <div class="sec-h">検査結果 <span style="color:var(--text-secondary);font-weight:400">(1件)</span></div>
+        <div class="sec-b">2026/7/10 総蛋白(TP)、HbA1c ほか</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cell">
+    <div class="plabel"><span class="pname">パターン2</span><span class="badge b-ok">紐づけ あり</span><span class="badge b-warn">処方・検査 なし</span></div>
+    <div class="phone">
+      <div class="sbar"><span>12:34</span><span>&#9679;&#9679;&#9679;</span></div>
+      <div class="hbar"><span>&#9776; マイナポータル</span><span>&#9737;</span></div>
+      <div class="body">
+        <div class="scr-title">療養上のアドバイス</div>
+        <div class="card"><div class="card-h"><b>新しい病院</b><span class="tag tag-after">承継後</span></div><div class="sub">受診日：2026年7月10日 ／ 内科・医師太郎</div></div>
+        <div class="card" style="margin-bottom:12px"><div class="card-h"><b>昔のクリニック</b><span class="tag tag-before">承継前</span></div><div class="sub">受診日：2026年3月6日 ／ 内科・医師太郎</div></div>
+        <div class="sec-h">処方情報</div>
+        <div class="empty-line">該当なし（承継後30日内の登録なし）</div>
+        <div class="sec-h">検査結果</div>
+        <div class="empty-line" style="margin-bottom:0">該当なし（承継後30日内の登録なし）</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cell">
+    <div class="plabel"><span class="pname">パターン3</span><span class="badge b-warn">紐づけ なし</span><span class="badge b-ok">処方・検査 あり</span></div>
+    <div class="phone">
+      <div class="sbar"><span>12:34</span><span>&#9679;&#9679;&#9679;</span></div>
+      <div class="hbar"><span>&#9776; マイナポータル</span><span>&#9737;</span></div>
+      <div class="body">
+        <div class="scr-title">療養上のアドバイス</div>
+        <div class="card"><div class="card-h"><b>新しい病院</b><span class="tag tag-after">承継後</span></div><div class="sub">受診日：2026年7月10日 ／ 内科・医師太郎</div></div>
+        <div class="empty-line" style="margin-bottom:12px">昔のクリニック分は表示されない（分断）</div>
+        <div class="sec-h">処方情報 <span style="color:var(--text-secondary);font-weight:400">(1件)</span></div>
+        <div class="sec-b" style="border-bottom:0.5px solid var(--border);padding-bottom:8px">2026/7/2 オルメサルタンOD錠20mg ほか</div>
+        <div class="sec-h">検査結果 <span style="color:var(--text-secondary);font-weight:400">(1件)</span></div>
+        <div class="sec-b">2026/7/10 総蛋白(TP)、HbA1c ほか</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cell">
+    <div class="plabel"><span class="pname">パターン4</span><span class="badge b-warn">紐づけ なし</span><span class="badge b-ng">処方・検査 なし</span></div>
+    <div class="phone">
+      <div class="sbar"><span>12:34</span><span>&#9679;&#9679;&#9679;</span></div>
+      <div class="hbar"><span>&#9776; マイナポータル</span><span>&#9737;</span></div>
+      <div class="body">
+        <div class="scr-title">療養上のアドバイス</div>
+        <div class="empty-state">
+          <div style="font-size:24px;margin-bottom:8px">&#9432;</div>
+          <div style="font-size:13px">表示する情報がありません</div>
+          <div style="font-size:11px;margin-top:4px">承継後に傷病名・計画の登録がないため未生成</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<h2>詳細画面（傷病名・療養上の計画・アドバイス）</h2>
+<div class="grid">
+
+  <div class="cell">
+    <div class="plabel"><span class="pname">パターン1</span><span class="badge b-ok">紐づけ あり</span><span class="badge b-ok">処方・検査 あり</span></div>
+    <div class="phone">
+      <div class="sbar"><span>12:34</span><span>&#9679;&#9679;&#9679;</span></div>
+      <div class="hbar-back"><span>&#8249;</span><span>療養上のアドバイス（患者サマリー）</span></div>
+      <div class="body">
+        <div class="date-big">2026年7月10日</div>
+        <div class="sub" style="margin:2px 0 12px">医療機関：新しい病院・内科 ／ 医師太郎</div>
+        <div class="sec-h" style="margin-top:0">傷病名</div>
+        <div class="sec-b">主傷病：胃体部癌</div>
+        <div class="sec-b" style="margin-bottom:10px">副傷病：潰瘍性大腸炎性関節炎</div>
+        <div class="sec-h">療養上の計画・アドバイス</div>
+        <div class="sec-b" style="line-height:1.6;margin-bottom:8px">【目標】体重60kg／BMI22.0／血圧&lt;130/80／HbA1c6.0%<br>【行動目標】前医（昔のクリニック）からの処方を継続の上、内服忘れをなくす。食事・運動は継続。</div>
+        <div class="info-band band-accent">&#8635; 昔のクリニックの記録も参照できます</div>
+        <div class="chip-row"><span class="chip b-ok">処方情報 1件</span><span class="chip b-ok">検査結果 1件</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cell">
+    <div class="plabel"><span class="pname">パターン2</span><span class="badge b-ok">紐づけ あり</span><span class="badge b-warn">処方・検査 なし</span></div>
+    <div class="phone">
+      <div class="sbar"><span>12:34</span><span>&#9679;&#9679;&#9679;</span></div>
+      <div class="hbar-back"><span>&#8249;</span><span>療養上のアドバイス（患者サマリー）</span></div>
+      <div class="body">
+        <div class="date-big">2026年7月10日</div>
+        <div class="sub" style="margin:2px 0 12px">医療機関：新しい病院・内科 ／ 医師太郎</div>
+        <div class="sec-h" style="margin-top:0">傷病名</div>
+        <div class="sec-b">主傷病：胃体部癌</div>
+        <div class="sec-b" style="margin-bottom:10px">副傷病：潰瘍性大腸炎性関節炎</div>
+        <div class="sec-h">療養上の計画・アドバイス</div>
+        <div class="sec-b" style="line-height:1.6;margin-bottom:8px">【目標】体重60kg／BMI22.0／血圧&lt;130/80／HbA1c6.0%<br>【行動目標】前医（昔のクリニック）からの処方を継続の上、内服忘れをなくす。食事・運動は継続。</div>
+        <div class="info-band band-accent">&#8635; 昔のクリニックの記録も参照できます</div>
+        <div class="empty-line" style="margin-bottom:0">処方・検査：該当なし（承継後30日内の登録なし）</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cell">
+    <div class="plabel"><span class="pname">パターン3</span><span class="badge b-warn">紐づけ なし</span><span class="badge b-ok">処方・検査 あり</span></div>
+    <div class="phone">
+      <div class="sbar"><span>12:34</span><span>&#9679;&#9679;&#9679;</span></div>
+      <div class="hbar-back"><span>&#8249;</span><span>療養上のアドバイス（患者サマリー）</span></div>
+      <div class="body">
+        <div class="date-big">2026年7月10日</div>
+        <div class="sub" style="margin:2px 0 12px">医療機関：新しい病院・内科 ／ 医師太郎</div>
+        <div class="sec-h" style="margin-top:0">傷病名</div>
+        <div class="sec-b">主傷病：胃体部癌</div>
+        <div class="sec-b" style="margin-bottom:10px">副傷病：潰瘍性大腸炎性関節炎</div>
+        <div class="sec-h">療養上の計画・アドバイス</div>
+        <div class="sec-b" style="line-height:1.6;margin-bottom:8px">【目標】体重60kg／BMI22.0／血圧&lt;130/80／HbA1c6.0%<br>【行動目標】週3日程度の運動を継続。内服忘れをなくす。（承継後に登録した分）</div>
+        <div class="info-band band-warn">&#9741; 昔のクリニックの記録は表示されません</div>
+        <div class="chip-row"><span class="chip b-ok">処方情報 1件</span><span class="chip b-ok">検査結果 1件</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cell">
+    <div class="plabel"><span class="pname">パターン4</span><span class="badge b-warn">紐づけ なし</span><span class="badge b-ng">処方・検査 なし</span></div>
+    <div class="phone">
+      <div class="sbar"><span>12:34</span><span>&#9679;&#9679;&#9679;</span></div>
+      <div class="hbar-back"><span>&#8249;</span><span>療養上のアドバイス（患者サマリー）</span></div>
+      <div class="body">
+        <div class="empty-state" style="padding:56px 12px">
+          <div style="font-size:24px;margin-bottom:8px">&#9432;</div>
+          <div style="font-size:13px">表示する情報がありません</div>
+          <div style="font-size:11px;margin-top:4px">承継後に傷病名・計画の登録がないため未生成</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>出典：厚生労働省医政局「電子カルテ情報共有サービスの導入に関するシステムベンダ向け技術解説書（患者サマリー登録・閲覧サービス編）」令和8年6月 1.0.1版。</p>
+  <p>前提：技術解説書に「承継」の記載はない。承継後の医療機関名・新旧コードの紐づけに関する挙動はPDF外の前提（要裏取り）に基づく推論である。傷病名・計画・アドバイスの例文は図3（表示イメージ・参考）を基にした例示であり、実データではない。</p>
+  <p>作成日：2026-07-16　／　v1</p>
+</footer>
+
+</body>
+</html>

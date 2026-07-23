@@ -7,9 +7,10 @@ Downloads 配下の全プロジェクト（更新履歴.md と プロジェク�
 """
 import os, io, datetime
 
-ROOT = r"C:\Users\masato.nakazawa\Downloads"
+ROOT = r"C:\Users\masato.nakazawa\Downloads\Claudeプロジェクト"
 OUT = os.path.join(ROOT, "プロジェクト一覧.md")
 MAX_DEPTH = 2  # ROOT からの深さ
+EXCLUDE = ("00_プロジェクトテンプレート", "_ツール")  # プロジェクトとして扱わない
 
 
 def read(path):
@@ -59,7 +60,7 @@ def find_projects():
         if depth > MAX_DEPTH:
             dirnames[:] = []
             continue
-        if "00_プロジェクトテンプレート" in dirpath:
+        if any(x in dirpath for x in EXCLUDE):
             continue
         if "更新履歴.md" in filenames and "プロジェクト状況.md" in filenames:
             projects.append(dirpath)
