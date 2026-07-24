@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selected Logistics & Field Notes - Blog</title>
+<style>
+  :root {
+    --bg-main: #0b0f19;      /* 深海や夜空を思わせるリッチなダークトーン */
+    --bg-card: #161f30;      /* コンテンツが浮かび上がるカード色 */
+    --accent-glow: #00f2fe;  /* 先進的なネオンシアン */
+    --accent-warm: #f39c12;  /* 温かみのあるアンバー */
+    --text-main: #f0f4f8;    /* 読みやすいオフホワイト */
+    --text-muted: #8fa0b5;   /* 補足情報用のローコントラスト */
+    --border-color: #24344d;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    line-height: 1.7;
+    padding: 40px 20px;
+  }
+
+  /* 自由なレイアウトを実現するメインコンテナ */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  /* ヒーローエリア：左寄せで大胆なタイポグラフィ */
+  header {
+    padding: 60px 40px;
+    background: linear-gradient(135deg, #111827 0%, #064e3b 100%);
+    border-radius: 24px;
+    border: 1px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+  }
+
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -50px; right: -50px;
+    width: 200px; height: 200px;
+    background: var(--accent-glow);
+    filter: blur(120px);
+    opacity: 0.3;
+  }
+
+  header h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(to right, #ffffff, var(--accent-glow));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 12px;
+  }
+
+  header p {
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    max-width: 600px;
+  }
+
+  /* 非対称な2カラムのグリッドレイアウト */
+  .main-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* 左側を広く、右側を狭く */
+    gap: 32px;
+  }
+
+  @media (max-width: 900px) {
+    .main-layout { grid-template-columns: 1fr; }
+  }
+
+  /* 左側のメインコンテンツ（大きな自由帳スタイル） */
+  .content-board {
+    background-color: var(--bg-card);
+    border-radius: 24px;
+    padding: 40px;
+    border: 1px solid var(--border-color);
+  }
+
+  .content-board h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .content-board h2::before {
+    content: '';
+    width: 12px; height: 12px;
+    background-color: var(--accent-glow);
+    border-radius: 50%;
+  }
+
+  /* リストでもテーブルでもない、自由な情報の連なり */
+  .journal-item {
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .journal-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .journal-meta {
+    font-size: 0.85rem;
+    color: var(--accent-warm);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+
+  .journal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #fff;
+  }
+
+  /* グローバルナビゲーション */
+  .global-nav {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .global-nav a {
+    color: var(--text-main);
+    text-decoration: none;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.2s ease;
+  }
+  .global-nav a:hover {
+    background: rgba(0, 242, 254, 0.1);
+    border-color: var(--accent-glow);
+    color: var(--accent-glow);
+  }
+  .global-nav a.active {
+    background: rgba(0, 242, 254, 0.1);
+    border-color: var(--accent-glow);
+    color: var(--accent-glow);
+  }
+
+  /* セクション共通スタイル */
+  .section-block {
+    margin-bottom: 56px;
+  }
+  .section-block:last-child {
+    margin-bottom: 0;
+  }
+
+  /* 右側のサイドパネル：情報をコンパクトにストックする場所 */
+  .side-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .panel-block {
+    background-color: #0f172a;
+    border-radius: 24px;
+    padding: 30px;
+    border: 1px solid var(--border-color);
+  }
+
+  .panel-block h3 {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* タグを自由に散りばめるエリア */
+  .cloud-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .cloud-tags span {
+    background-color: rgba(0, 242, 254, 0.08);
+    color: var(--accent-glow);
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border: 1px solid rgba(0, 242, 254, 0.2);
+    transition: all 0.2s ease;
+  }
+  
+  .cloud-tags span:hover {
+    background-color: var(--accent-glow);
+    color: var(--bg-main);
+  }
+
+  /* ミニマルなデータ並び */
+  .data-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.9rem;
+  }
+  .data-row:last-child { border-bottom: none; }
+  .data-label { color: var(--text-muted); }
+  .data-value { font-weight: 600; color: #fff; }
+
+  footer {
+    text-align: center;
+    padding: 40px 0;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  
+  <!-- ヒーローヘッダー -->
+  <header>
+    <h1>Selected Logistics &amp; Logs</h1>
+    <p>日常のインプット、知的な探求、そしてフィールドワークの軌跡をクリエイティブにストックするプライベート空間</p>
+    <nav class="global-nav">
+      <a href="mylife.html">作品 (Photos)</a>
+      <a href="blog.html" class="active">ブログ (Blog)</a>
+      <a href="about.html">自己紹介 (About)</a>
+    </nav>
+  </header>
+
+  <!-- メインレイアウト（非対称） -->
+  <div class="main-layout">
+    
+    <!-- 左側：タイムラインやテーブルに縛られない自由な記述スペース -->
+    <main class="content-board">
+      
+      <!-- ブログセクション -->
+      <div id="blog" class="section-block">
+        <h2>Blog / Notes</h2>
+        <div class="journal-item">
+        <div class="journal-meta">Field Work &amp; Optics</div>
+        <div class="journal-title">自然のディテールを切り取る</div>
+        <p>遠くの枝に佇む生命の色彩、あるいは一瞬の光の移り変わり。カメラのレンズを通じて世界を観察することは、日常のノイズを排して最も純粋なインプットを得る時間に他ならない。</p>
+      </div>
+
+      <div class="journal-item">
+        <div class="journal-meta">Travel Strategy</div>
+        <div class="journal-title">まだ見ぬ境界線（ラストフロンティア）へ</div>
+        <p>観光地として消費されていない、独自の歴史とコミュニティが息づく場所。利便性から少し離れた旅の計画は、新しい視点やクリエイティビティを常に刺激してくれる。</p>
+      </div>
+
+      <div class="journal-item">
+        <div class="journal-meta">Body &amp; Mind Reset</div>
+        <div class="journal-title">深いリフレッシュのための空間設計</div>
+        <p>思考が飽和したとき、熱と冷水の静かな交代浴が頭の中をクリアにする。都市の喧騒の中に潜む静寂なスポットや、ローカルな温泉街でのセッションは欠かせないルーティンだ。</p>
+      </div>
+
+      <!-- ここから新しく追加したコンテンツ -->
+      <div class="journal-item">
+        <div class="journal-meta">Tech &amp; Workspace</div>
+        <div class="journal-title">新しい開発環境とワークスペースの構築</div>
+        <p>日々の生産性を高めるため、デスク周りのレイアウトとエディタの設定を見直した。視覚的なノイズを減らし、シームレスに思考をアウトプットに落とし込める環境が整いつつある。</p>
+      </div>
+      </div>
+
+    </main>
+
+    <!-- 右側：ステータスやタグを感覚的に置くサイドパネル -->
+    <aside class="side-panel">
+      
+      <div class="panel-block">
+        <h3>Focus Tags</h3>
+        <div class="cloud-tags">
+          <span>#Nature</span>
+          <span>#Photography</span>
+          <span>#Athletics</span>
+          <span>#SaunaLog</span>
+          <span>#TravelAisa</span>
+          <span>#DataArchitecture</span>
+        </div>
+      </div>
+
+      <div class="panel-block">
+        <h3>Quick Metrics</h3>
+        <div class="data-row">
+          <div class="data-label">Status</div>
+          <div class="data-value" style="color: var(--accent-glow);">Active</div>
+        </div>
+        <div class="data-row">
+          <div class="data-label">Gear Setup</div>
+          <div class="data-value">Full-Frame / Telephoto</div>
+        </div>
+        <div class="data-row">
+          <div class="data-label">Next Destination</div>
+          <div class="data-value">Uncharted Islands</div>
+        </div>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <footer>
+    &copy; 2026 Private Dashboard. 自由にコードを書き換えてご活用ください。
+  </footer>
+
+</div>
+
+</body>
+</html>
