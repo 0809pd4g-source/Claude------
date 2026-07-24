@@ -4,9 +4,16 @@
     {
       "name": "患者サマリー可視化",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "7431", "--directory", "C:\\Users\\masato.nakazawa\\Downloads\\20260716_マイナポ患者サマリー可視化\\20260716_マイナポ患者サマリー可視化\\02_成果物"],
+      "runtimeArgs": ["-m", "http.server", "7431", "--directory", "C:\\Users\\masato.nakazawa\\Downloads\\Claudeプロジェクト\\20260716_マイナポ患者サマリー可視化\\02_成果物"],
       "port": 7431,
       "url": "http://localhost:7431"
+    },
+    {
+      "name": "個人サイト",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "7432", "--directory", "C:\\Users\\masato.nakazawa\\Downloads\\Claudeプロジェクト\\20260723_個人サイト\\02_成果物\\v1"],
+      "port": 7432,
+      "url": "http://localhost:7432/"
     }
   ]
 }

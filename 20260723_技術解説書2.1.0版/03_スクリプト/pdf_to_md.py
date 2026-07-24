@@ -94,7 +94,6 @@ def main(out_path: str):
     md.append("")
 
     buf = []  # 段落結合バッファ
-    table_mode = [False]  # 表領域では行区切りを保持（セル単位で読めるようにする）
 
     def flush():
         if buf:
@@ -130,7 +129,6 @@ def main(out_path: str):
         if s == "":
             flush()
             md.append("")
-            table_mode[0] = False  # 空行で表領域を抜ける
             idx += 1
             continue
 
@@ -141,7 +139,6 @@ def main(out_path: str):
             if key in toc:
                 num, title, level = toc[key]
                 flush()
-                table_mode[0] = False
                 prefix = "##" if level == 1 else "###"
                 md.append(f"{prefix} {num} {title}")
                 md.append("")
@@ -152,7 +149,6 @@ def main(out_path: str):
         # 図キャプション
         if FIG_RE.match(s):
             flush()
-            table_mode[0] = False
             md.append(f"**{s}**")
             md.append("")
             md.append("> （図：画像は原典PDFを参照）")
@@ -160,18 +156,11 @@ def main(out_path: str):
             idx += 1
             continue
 
-        # 表キャプション → 以降を表領域とし、行区切りを保持
+        # 表キャプション（表は語を壊さないよう連結テキストとして扱う＝テキスト中心方針）
         if TBL_RE.match(s):
             flush()
             md.append(f"**{s}**")
             md.append("")
-            table_mode[0] = True
-            idx += 1
-            continue
-
-        # 表領域中は各行を独立行（箇条書き）として保持
-        if table_mode[0]:
-            md.append(f"- {s}")
             idx += 1
             continue
 
@@ -188,6 +177,41 @@ def main(out_path: str):
         idx += 1
 
     flush()
+
+    # 変換メモ（やったこと・やっていないこと）を末尾に付す
+    md.append("")
+    md.append("---")
+    md.append("")
+    md.append("## 変換メモ")
+    md.append("")
+    md.append(
+        "本ファイルは原典PDF（`電子カルテ情報共有サービスの導入に関する"
+        "システムベンダ向け技術解説書_v2.1.0.pdf`, 全217ページ）から"
+        "自動抽出・整形したMarkdownである。"
+    )
+    md.append("")
+    md.append("### やったこと")
+    md.append("")
+    md.append("- 全217ページの本文テキストを抽出（PyMuPDF、UTF-8）。")
+    md.append("- 目次を解析し、全10章・全節の見出し階層（`##` 章 / `###` 節）を再現。")
+    md.append("- ページ番号・ページ区切りを除去し、PDFの視覚折返しで分断された行を段落に結合。")
+    md.append("- 図キャプション（図N.）を太字化し、画像はプレースホルダ注記に置換。")
+    md.append("- 表キャプション（表N.）を太字化。")
+    md.append("")
+    md.append("### やっていないこと・限界")
+    md.append("")
+    md.append(
+        "- **図・画像は抽出していない**（テキスト中心方針）。原典PDFを参照のこと。"
+    )
+    md.append(
+        "- **表は罫線・列構造を復元していない**。表の内容は語の途切れを避けるため"
+        "連結テキストとして本文に残しており、セル境界は明確でない。"
+        "正確な表構造が必要な場合は原典PDFを参照するか、個別の表復元を依頼のこと。"
+    )
+    md.append(
+        "- レイアウト依存の脚注・欄外注記・ヘッダ等は、本文と混在している場合がある。"
+    )
+    md.append("")
 
     # 過剰な空行を圧縮
     text = "\n".join(md)
