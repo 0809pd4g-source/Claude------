@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>東ティモール ビジネス&投資ブリーフ ― Timor-Leste Business & Investment Brief</title>
+<style>
+  :root{
+    --red:#B22222; --gold:#DAA520; --dark:#1A1D20;
+    --bg:#f6f7f9; --card:#ffffff; --text:#20262b; --muted:#5c6b73;
+    --border:#e4e8ec; --soft:#f0f3f5;
+    --hi:#0f7b63; --hi-dark:#0a5a48;
+    --sev-h:#c0392b; --sev-m:#c77b13; --sev-l:#3f8f3f;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Segoe UI","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.75;}
+  header.top{background:linear-gradient(135deg,#111417,#23282d);color:#fff;padding:30px 26px;position:relative;
+    border-bottom:4px solid var(--gold);}
+  header.top::before{content:"";position:absolute;top:0;left:0;width:100%;height:5px;
+    background:linear-gradient(to right,var(--red) 70%,var(--gold) 70%);}
+  header.top .eyebrow{font-size:.74rem;letter-spacing:.18em;color:var(--gold);font-weight:700;margin:0 0 6px;}
+  header.top h1{margin:0;font-size:1.55rem;letter-spacing:.01em;}
+  header.top h1 span{color:var(--gold);}
+  header.top p.sub{margin:6px 0 0;color:#b9c2c8;font-size:.9rem;max-width:820px;}
+  .wrap{max-width:1040px;margin:0 auto;padding:24px 20px 60px;}
+
+  .disclaimer{background:#fff8e6;border:1px solid #ecd48a;border-left:4px solid var(--gold);
+    border-radius:8px;padding:12px 16px;font-size:.83rem;color:#6b5a1e;margin:18px 0 26px;}
+
+  section{background:var(--card);border:1px solid var(--border);border-radius:14px;
+    padding:26px 28px;margin-bottom:22px;box-shadow:0 4px 16px rgba(20,30,40,.04);}
+  h2{font-size:1.25rem;margin:0 0 4px;color:var(--dark);display:flex;align-items:center;gap:12px;}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;flex-shrink:0;
+    border-radius:8px;background:var(--red);color:#fff;font-weight:800;font-size:.95rem;}
+  h2 .en{font-size:.7rem;letter-spacing:.12em;color:var(--muted);font-weight:700;}
+  .lead{font-size:1.02rem;margin:14px 0 0;}
+  h3{color:var(--hi-dark);font-size:1rem;margin:20px 0 8px;}
+  p{margin:0 0 12px;}
+  strong{color:#14181c;}
+
+  /* エグゼクティブサマリー */
+  .exec{background:linear-gradient(180deg,#ffffff,#fbfdfe);border-left:5px solid var(--red);}
+  .exec ul{margin:12px 0 0;padding-left:1.2em;}
+  .exec li{margin:6px 0;}
+
+  /* KPIグリッド */
+  .kpis{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));margin-top:8px;}
+  .kpi{border:1px solid var(--border);border-radius:10px;padding:13px 15px;background:#fbfdfe;}
+  .kpi .k{font-size:.75rem;color:var(--muted);margin:0 0 3px;}
+  .kpi .v{font-size:1.12rem;font-weight:800;color:var(--dark);margin:0;line-height:1.3;}
+  .kpi .v small{font-weight:600;font-size:.72rem;color:var(--muted);display:block;margin-top:2px;}
+
+  table{width:100%;border-collapse:collapse;margin-top:10px;}
+  th,td{border:1px solid var(--border);padding:9px 11px;text-align:left;font-size:.9rem;vertical-align:top;}
+  th{background:var(--soft);color:var(--dark);}
+  caption{caption-side:bottom;text-align:left;font-size:.78rem;color:var(--muted);padding:6px 2px;}
+
+  /* セクターカード */
+  .cards{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:6px;}
+  .scard{border:1px solid var(--border);border-radius:10px;padding:16px 18px;background:#fbfdfe;}
+  .scard h4{margin:0 0 6px;color:var(--red);font-size:1rem;}
+  .scard p{margin:0;font-size:.9rem;color:#3a464c;}
+
+  .callout{border-left:4px solid var(--gold);background:#fffdea;padding:13px 17px;border-radius:0 8px 8px 0;
+    margin:16px 0;font-size:.92rem;}
+  .callout.warn{border-left-color:var(--red);background:#fdeceb;}
+
+  /* リスク重要度バッジ */
+  .sev{display:inline-block;font-size:.72rem;font-weight:800;padding:2px 9px;border-radius:20px;color:#fff;white-space:nowrap;}
+  .sev.h{background:var(--sev-h);} .sev.m{background:var(--sev-m);} .sev.l{background:var(--sev-l);}
+
+  /* 依存度バー */
+  .depbar{margin:14px 0 2px;}
+  .depbar .row{display:flex;align-items:center;gap:10px;margin:7px 0;font-size:.85rem;}
+  .depbar .lab{width:150px;flex-shrink:0;color:var(--muted);}
+  .depbar .track{flex:1;height:16px;background:var(--soft);border-radius:8px;overflow:hidden;border:1px solid var(--border);}
+  .depbar .fill{height:100%;border-radius:8px 0 0 8px;}
+
+  ul.check{list-style:none;margin:0;padding:0;}
+  ul.check li{padding:8px 0 8px 28px;position:relative;border-bottom:1px dashed var(--border);font-size:.93rem;}
+  ul.check li:last-child{border-bottom:none;}
+  ul.check li::before{content:"▸";position:absolute;left:4px;color:var(--red);font-weight:800;}
+
+  .done{font-size:.88rem;}
+  .done h4{margin:12px 0 5px;color:var(--dark);}
+  .done ul{margin:0;padding-left:1.2em;}
+  footer{text-align:center;color:var(--muted);font-size:.82rem;padding:22px;}
+  a{color:var(--hi-dark);}
+
+  /* 相互リンク・ナビ */
+  .xnav{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+  .xnav a{font-size:.8rem;font-weight:700;text-decoration:none;padding:6px 12px;border-radius:8px;
+    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.32);color:#fff;white-space:nowrap;}
+  .xnav a:hover{background:rgba(255,255,255,.22);}
+  .xnav a.lang{background:var(--gold);border-color:var(--gold);color:#3a2c05;}
+
+  /* 印刷 / PDF 最適化 */
+  @media print{
+    header.top{background:#fff;color:#000;border-bottom:2px solid #999;}
+    header.top::before{display:none;}
+    header.top .eyebrow{color:#8a6d0f;} header.top h1,header.top h1 span{color:#000;}
+    header.top p.sub{color:#333;}
+    .xnav{display:none;}
+    body{background:#fff;color:#000;}
+    section{box-shadow:none;border:1px solid #ccc;break-inside:avoid;page-break-inside:avoid;}
+    .kpis,.cards,table,.depbar{break-inside:avoid;page-break-inside:avoid;}
+    a[href^="http"]::after{content:" <" attr(href) ">";font-size:.72em;color:#444;word-break:break-all;}
+  }
+  @media(max-width:540px){header.top h1{font-size:1.25rem;}section{padding:20px 16px;}
+    th,td{padding:7px 7px;font-size:.83rem;overflow-wrap:anywhere;}.depbar .lab{width:96px;}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <p class="eyebrow">TIMOR-LESTE ／ BUSINESS &amp; INVESTMENT BRIEF</p>
+  <h1>東ティモール <span>ビジネス&amp;投資ブリーフ</span></h1>
+  <p class="sub">資源レンティア経済からの多角化に挑むASEAN最新加盟国 ― 市場・機会・リスク・参入制度を、一次統計中心に投資検討向けに凝縮。作成日 2026-07-27。</p>
+  <nav class="xnav" aria-label="関連資料">
+    <a href="20260727_東ティモールまとめ_別版_v10.html">← 詳細版：ナレッジベース（全40セクション・出典56件）</a>
+    <a class="lang" href="20260727_東ティモール_ビジネス投資ブリーフ_EN_v1.html">English version ↗</a>
+    <a href="20260727_東ティモール_プロジェクト索引_v1.html">索引 ↗</a>
+  </nav>
+</header>
+
+<div class="wrap">
+
+  <div class="disclaimer">
+    <strong>免責：</strong>本資料は一般的な国・市場情報を整理したもので、<strong>投資助言・勧誘ではありません</strong>。特定の投資判断は、専門家の助言と一次資料に基づき自己責任で行ってください。数値は出典・時点付きで、推計・見通しはその旨を明示しています（元データは同プロジェクトのナレッジベース版で検証済み）。
+  </div>
+
+  <!-- エグゼクティブサマリー -->
+  <section class="exec">
+    <h2><span class="n">§</span>投資家向け要旨 <span class="en">EXECUTIVE SUMMARY</span></h2>
+    <ul>
+      <li><strong>2002年独立回復・2025年ASEAN第11加盟国</strong>。財政は<strong>約188億US$の石油基金</strong>に大きく依存する資源レンティア経済で、<strong>脱石油の多角化</strong>が最重要の国家課題。</li>
+      <li><strong>米ドル完全化</strong>により対ドルの為替リスクは実質なし。一方で<strong>独自の金融政策を持たない</strong>（金利・通貨での調整不可）。</li>
+      <li>人口約134万・<strong>年齢中央値約21歳</strong>の若年市場だが、<strong>貧困率約42%</strong>・インフォーマル就労中心で、購買力と技能人材に構造的制約。</li>
+      <li>機会は<strong>農業（コーヒー・熱帯作物）／港湾・物流（ティバール湾港）／オエクシ特区(ZEESM)／ASEAN統合</strong>。</li>
+      <li>主要リスクは<strong>石油基金の枯渇見通し（2034〜2038年・推計）</strong>、政情・治安、ガバナンス（CPI 44点・73位）、法制度・土地の重層的権利。</li>
+    </ul>
+  </section>
+
+  <!-- 1. マクロ・スナップショット -->
+  <section>
+    <h2><span class="n">1</span>マクロ・スナップショット <span class="en">MACRO SNAPSHOT</span></h2>
+    <div class="kpis">
+      <div class="kpi"><p class="k">人口</p><p class="v">1,340,434<small>2022国勢調査／約143万(2026推計)</small></p></div>
+      <div class="kpi"><p class="k">年齢中央値</p><p class="v">約21歳<small>若年人口が突出</small></p></div>
+      <div class="kpi"><p class="k">面積</p><p class="v">14,874&nbsp;km²<small>東南アジア最小</small></p></div>
+      <div class="kpi"><p class="k">通貨</p><p class="v">米ドル<small>2000〜完全ドル化／補助硬貨センタボ</small></p></div>
+      <div class="kpi"><p class="k">1人当たりGDP</p><p class="v">約1,300US$<small>名目/2024・約4,900US$(PPP/2025)</small></p></div>
+      <div class="kpi"><p class="k">HDI</p><p class="v">0.634<small>世界142位・中位(2023)</small></p></div>
+      <div class="kpi"><p class="k">石油基金残高</p><p class="v">約188億US$<small>2025-06/BCTL</small></p></div>
+      <div class="kpi"><p class="k">貿易(2023)</p><p class="v">輸出 1.64億<small>輸入 9.09億US$（大幅入超）</small></p></div>
+      <div class="kpi"><p class="k">腐敗認識指数</p><p class="v">44点 / 73位<small>180か国中・2024(TI)</small></p></div>
+      <div class="kpi"><p class="k">報道自由度</p><p class="v">20位<small>180か国中・2024(RSF)</small></p></div>
+      <div class="kpi"><p class="k">デジタル/電力</p><p class="v">ネット約34.5%<small>電力アクセス ほぼ100%</small></p></div>
+      <div class="kpi"><p class="k">ASEAN</p><p class="v">第11加盟国<small>2025-10-26</small></p></div>
+    </div>
+  </section>
+
+  <!-- 2. 経済構造 -->
+  <section>
+    <h2><span class="n">2</span>経済構造 ― 資源依存と多角化 <span class="en">ECONOMY</span></h2>
+    <p class="lead">歳入の大半を<strong>石油・ガス由来の石油基金</strong>に依存。基金は<strong>年間引出し上限ルール（ESI＝資産の原則3%）</strong>で運用されるが、生産源の縮小と非石油部門の小ささが構造的課題です。</p>
+
+    <div class="depbar" role="img" aria-label="歳入・経済の石油依存の高さを示す概念バー">
+      <div class="row"><span class="lab">財政（歳入基盤）</span><div class="track"><div class="fill" style="width:80%;background:var(--red)"></div></div><span>石油基金依存 高</span></div>
+      <div class="row"><span class="lab">外貨獲得</span><div class="track"><div class="fill" style="width:62%;background:var(--gold)"></div></div><span>石油＋送金（第2の外貨源）</span></div>
+      <div class="row"><span class="lab">非石油GDP</span><div class="track"><div class="fill" style="width:28%;background:var(--hi)"></div></div><span>小規模・輸入依存</span></div>
+    </div>
+    <p style="font-size:.78rem;color:var(--muted);margin-top:4px;">※ 依存度の相対イメージ（概念図）。正確な比率は年次・定義により変動。</p>
+
+    <h3>要点</h3>
+    <ul class="check">
+      <li><strong>生産源の見通し：</strong>バユ・ウンダンの生産は縮小局面、<strong>グレーター・サンライズは開発条件が未確定</strong>。新規収入源が乏しい。</li>
+      <li><strong>基金の枯渇見通し：</strong>資料により幅があるが<strong>2034〜2038年頃</strong>との推計（＝確定値ではない）。持続可能性が最大の財政論点。</li>
+      <li><strong>非石油経済：</strong>輸出約1.64億US$に対し輸入約9.09億US$（2023）と<strong>大幅な輸入依存</strong>。国内製造基盤は限定的。</li>
+      <li><strong>送金：</strong>石油に次ぐ外貨源。英・韓・豪との<strong>管理された労働移住</strong>が担い手。</li>
+      <li><strong>雇用：</strong>公式失業率は約1.5%（2023）だが「就業」定義が広く、<strong>自給農業・インフォーマル就労</strong>が中心。若年人口増で雇用創出が急務。</li>
+    </ul>
+  </section>
+
+  <!-- 3. 重点セクターと機会 -->
+  <section>
+    <h2><span class="n">3</span>重点セクターと機会 <span class="en">SECTORS &amp; OPPORTUNITIES</span></h2>
+    <div class="cards">
+      <div class="scard"><h4>農業・食品</h4><p>コーヒー（最大産地エルメラ・<strong>有機</strong>、CCT協同組合は組合員2万人超）。<strong>バニラ・熱帯果実</strong>等の高付加価値作物や、端境期対策・収穫後ロス低減に投資余地。</p></div>
+      <div class="scard"><h4>港湾・物流・インフラ</h4><p><strong>ティバール湾港</strong>（PPPの深水港）を核とする物流・貿易インフラ。<strong>国道1号線</strong>（ディリ〜バウカウ、2022開通・JICA初の円借款）など回廊整備が進行。</p></div>
+      <div class="scard"><h4>経済特区（ZEESM）</h4><p>飛び地<strong>オエクシ特区（RAEOA）</strong>。物流・貿易・観光を軸とする開発の舞台。用地・実装課題も併存するため精査が必要。</p></div>
+      <div class="scard"><h4>観光・ホスピタリティ</h4><p>アタウロ島の<strong>世界屈指のサンゴ礁</strong>・ダイビング、エコ/ネイチャー観光。宿泊・体験・輸送など<strong>観光インフラ</strong>が未成熟＝供給側の余地。</p></div>
+      <div class="scard"><h4>ASEAN統合</h4><p>2025年加盟。<strong>AEC実施ロードマップ2026–2030</strong>に沿った市場アクセス拡大・関税/基準の整合が中期の追い風。</p></div>
+      <div class="scard"><h4>エネルギー・電力</h4><p>電力アクセスはほぼ100%まで拡大。<strong>再エネ・分散型電源</strong>や運用効率化、脱石油の産業電化に関連機会。</p></div>
+    </div>
+    <div class="callout"><strong>着眼点：</strong>いずれも<strong>非石油の外貨獲得・雇用創出</strong>に資する分野が政策的に優先されやすい。小規模市場ゆえ、輸出志向・地域(ASEAN/豪)連携・現地協同組合との組成が鍵。</div>
+  </section>
+
+  <!-- 4. リスク -->
+  <section>
+    <h2><span class="n">4</span>リスク・マトリクス <span class="en">RISKS</span></h2>
+    <table>
+      <caption>主要リスクの整理（重要度は本資料の相対評価）</caption>
+      <tr><th>領域</th><th>内容</th><th>重要度</th></tr>
+      <tr><td><strong>財政・資源</strong></td><td>石油基金への一極依存。生産源縮小と<strong>枯渇見通し（2034〜2038推計）</strong>。単一資源リスク。</td><td><span class="sev h">高</span></td></tr>
+      <tr><td><strong>政情・治安</strong></td><td>2006年危機の記憶。<strong>退役軍人年金の財政負担（約7,200万US$＝予算の約6%）</strong>。武術結社(MAGs)は2013年に非合法化。全般は安定化傾向だが若年失業は火種。</td><td><span class="sev m">中〜高</span></td></tr>
+      <tr><td><strong>ガバナンス</strong></td><td>腐敗認識指数44点・73位/180（2024）。制度の<strong>執行力・予見可能性</strong>に課題。</td><td><span class="sev m">中</span></td></tr>
+      <tr><td><strong>法制度・土地</strong></td><td>土地法（2017）下でも<strong>重層的な権利・土地紛争</strong>が残り、用地取得・担保設定の難度が高い。</td><td><span class="sev m">中</span></td></tr>
+      <tr><td><strong>人材・保健</strong></td><td>成人識字約73%、<strong>発育阻害約46〜47%</strong>、結核高負担。<strong>熟練人材の不足</strong>と育成コスト。</td><td><span class="sev m">中</span></td></tr>
+      <tr><td><strong>市場・物流</strong></td><td>購買力・市場規模が小さく<strong>輸入依存</strong>。インフラ途上でロジ費・リードタイムに影響。</td><td><span class="sev m">中</span></td></tr>
+    </table>
+    <div class="callout warn"><strong>金融政策の非対称性：</strong>米ドル化で為替リスクは小さい反面、<strong>景気・物価の国内金融調整手段を持たない</strong>。外部ショック時の緩衝は財政（石油基金）に依存する構造。</div>
+  </section>
+
+  <!-- 5. 参入・制度チェックリスト -->
+  <section>
+    <h2><span class="n">5</span>参入・制度チェックリスト <span class="en">ENTRY &amp; REGIME</span></h2>
+    <ul class="check">
+      <li><strong>通貨：</strong>米ドル（対ドル為替リスク小／独自金融政策なし）。会計・価格も実質US$建て。</li>
+      <li><strong>入国：</strong>到着ビザ(VOA) $30／30日（延長可）。事業目的の在留・許認可は別途要確認。</li>
+      <li><strong>言語：</strong>公用語はテトゥン語・ポルトガル語。実務では英語・インドネシア語も通用。</li>
+      <li><strong>ASEAN加盟の含意：</strong>統合ロードマップ（2026–2030）に沿い、関税・基準の整合が段階的に進行。</li>
+      <li><strong>主要機関：</strong>BCTL（中央銀行）、TradeInvest Timor-Leste（投資促進）、World Bank／ADB（開発金融）、監視NGO La'o Hamutuk（予算・資源の分析）。</li>
+      <li><strong>デューデリ：</strong>土地権原・許認可・現地パートナーの実在性を一次資料と現地確認で精査。政策・数値は時点依存。</li>
+    </ul>
+    <div class="callout"><strong>次アクション例：</strong>①対象セクターの最新規制・優遇（特区含む）の一次確認 → ②現地機関(TradeInvest/BCTL)・開発金融(ADB/WB)への照会 → ③土地・労務・物流の実地デューデリ → ④ASEAN統合スケジュールを踏まえた市場参入時期の設計。</div>
+  </section>
+
+  <!-- 出典・範囲 -->
+  <section>
+    <h2><span class="n">◎</span>出典と本資料の範囲 <span class="en">SOURCES &amp; SCOPE</span></h2>
+    <p style="font-size:.9rem;">主要数値は一次資料中心：<strong>INETL 2022国勢調査</strong>（人口）、<strong>UNDP HDR 2025</strong>（HDI）、<strong>BCTL 石油基金報告</strong>（基金残高）、<strong>World Bank／OEC・WITS</strong>（GDP・貿易）、<strong>Transparency International CPI 2024</strong>（腐敗）、<strong>RSF 2024</strong>（報道自由度）、<strong>IMF</strong>（ドル化）、<strong>JICA／ADB</strong>（インフラ）。詳細な出典番号・URLは同プロジェクトのナレッジベース版「主な出典・参考資料（56件）」を参照。</p>
+    <div class="done">
+      <h4>やったこと</h4>
+      <ul>
+        <li>ナレッジベース版（検証済み）の数値を、<strong>投資検討の観点（市場・機会・リスク・参入）</strong>で再構成・凝縮した。</li>
+        <li>事実／推計を区別し、<strong>推計・見通し（基金枯渇時期等）はその旨を明示</strong>。</li>
+      </ul>
+      <h4>やっていないこと・留意点</h4>
+      <ul>
+        <li><strong>新規の一次調査・財務モデル・企業別/案件別分析は含まない</strong>（国・市場レベルの概観）。</li>
+        <li>数値は出典時点のもの。規制・優遇・マクロは変動するため、<strong>投資判断時は一次資料と現地デューデリで再確認</strong>が必要。</li>
+        <li>本資料は<strong>投資助言ではない</strong>（冒頭免責を参照）。</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  東ティモール ビジネス&amp;投資ブリーフ v2 ／ 作成日 2026-07-27 ／ 一般情報の整理（投資助言ではありません）。単一HTML・外部依存なし。相互リンク・印刷最適化対応。
+</footer>
+
+</body>
+</html>

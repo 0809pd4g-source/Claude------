@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timor-Leste Travel &amp; Tourism Brief</title>
+<style>
+  :root{
+    --red:#B22222; --gold:#DAA520; --dark:#1A1D20;
+    --bg:#f4f8f8; --card:#ffffff; --text:#20292b; --muted:#566a6d;
+    --border:#d9e6e6; --soft:#eaf4f3;
+    --sea:#0f7b8a; --sea-dark:#0a5763; --leaf:#2e8b57;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.7;}
+  header.top{background:linear-gradient(135deg,#0a3f48,#0f7b8a);color:#fff;padding:32px 26px;position:relative;
+    border-bottom:4px solid var(--gold);}
+  header.top::before{content:"";position:absolute;top:0;left:0;width:100%;height:5px;
+    background:linear-gradient(to right,var(--red) 70%,var(--gold) 70%);}
+  header.top .eyebrow{font-size:.74rem;letter-spacing:.18em;color:#ffe8a8;font-weight:700;margin:0 0 6px;}
+  header.top h1{margin:0;font-size:1.55rem;}
+  header.top h1 span{color:#ffe08a;}
+  header.top p.sub{margin:6px 0 0;color:#d6ecec;font-size:.9rem;max-width:860px;}
+  .wrap{max-width:1040px;margin:0 auto;padding:24px 20px 60px;}
+
+  .langswitch{display:inline-flex;border:1px solid rgba(255,255,255,.45);border-radius:20px;overflow:hidden;
+    font-size:.78rem;font-weight:800;margin-top:14px;}
+  .langswitch a{padding:5px 13px;text-decoration:none;color:#fff;}
+  .langswitch a.on{background:var(--gold);color:#3a2c05;}
+
+  .disclaimer{background:#fff8e6;border:1px solid #ecd48a;border-left:4px solid var(--gold);
+    border-radius:8px;padding:12px 16px;font-size:.83rem;color:#6b5a1e;margin:18px 0 26px;}
+
+  section{background:var(--card);border:1px solid var(--border);border-radius:14px;
+    padding:26px 28px;margin-bottom:22px;box-shadow:0 4px 16px rgba(15,80,90,.05);}
+  h2{font-size:1.24rem;margin:0 0 4px;color:var(--sea-dark);display:flex;align-items:center;gap:12px;}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;flex-shrink:0;
+    border-radius:8px;background:var(--sea);color:#fff;font-weight:800;font-size:1.05rem;}
+  .lead{font-size:1.02rem;margin:14px 0 0;}
+  h3{color:var(--leaf);font-size:1rem;margin:20px 0 8px;}
+  p{margin:0 0 12px;}
+  strong{color:#14201c;}
+
+  .hl{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin-top:8px;}
+  .hcard{border:1px solid var(--border);border-radius:10px;padding:16px 18px;background:#f8fcfc;}
+  .hcard .ic{font-size:1.4rem;}
+  .hcard h4{margin:6px 0 5px;color:var(--sea-dark);font-size:1rem;}
+  .hcard p{margin:0;font-size:.9rem;color:#3a4a4c;}
+
+  table{width:100%;border-collapse:collapse;margin-top:10px;}
+  th,td{border:1px solid var(--border);padding:9px 11px;text-align:left;font-size:.9rem;vertical-align:top;}
+  th{background:var(--soft);color:var(--sea-dark);}
+  caption{caption-side:bottom;text-align:left;font-size:.78rem;color:var(--muted);padding:6px 2px;}
+
+  .callout{border-left:4px solid var(--gold);background:#fffdea;padding:13px 17px;border-radius:0 8px 8px 0;
+    margin:16px 0;font-size:.92rem;}
+  .callout.warn{border-left-color:var(--red);background:#fdeceb;}
+  .callout.sea{border-left-color:var(--sea);background:#eaf6f8;}
+
+  ul.check{list-style:none;margin:0;padding:0;}
+  ul.check li{padding:8px 0 8px 26px;position:relative;border-bottom:1px dashed var(--border);font-size:.93rem;}
+  ul.check li:last-child{border-bottom:none;}
+  ul.check li::before{content:"\2713";position:absolute;left:2px;color:var(--leaf);font-weight:800;}
+
+  .season{display:grid;gap:10px;grid-template-columns:1fr 1fr;margin-top:8px;}
+  .season .s{border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:.9rem;}
+  .season .s h4{margin:0 0 6px;color:var(--sea-dark);}
+
+  .done{font-size:.88rem;}
+  .done h4{margin:12px 0 5px;color:var(--sea-dark);}
+  .done ul{margin:0;padding-left:1.2em;}
+  footer{text-align:center;color:var(--muted);font-size:.82rem;padding:22px;}
+  a{color:var(--sea-dark);}
+
+  .xnav{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+  .xnav a{font-size:.8rem;font-weight:700;text-decoration:none;padding:6px 12px;border-radius:8px;
+    background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.34);color:#fff;white-space:nowrap;}
+  .xnav a:hover{background:rgba(255,255,255,.24);}
+
+  @media print{
+    header.top{background:#fff;color:#000;border-bottom:2px solid #999;}
+    header.top::before{display:none;}
+    header.top .eyebrow{color:#8a6d0f;} header.top h1,header.top h1 span{color:#000;} header.top p.sub{color:#333;}
+    .xnav,.langswitch{display:none;} body{background:#fff;color:#000;}
+    section{box-shadow:none;border:1px solid #ccc;break-inside:avoid;page-break-inside:avoid;}
+    .hl,.season,table{break-inside:avoid;page-break-inside:avoid;}
+    a[href^="http"]::after{content:" <" attr(href) ">";font-size:.72em;color:#444;word-break:break-all;}
+  }
+  @media(max-width:540px){header.top h1{font-size:1.25rem;}section{padding:20px 16px;}.season{grid-template-columns:1fr;}
+    th,td{padding:7px 7px;font-size:.83rem;overflow-wrap:anywhere;}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <p class="eyebrow">TIMOR-LESTE ／ TRAVEL &amp; TOURISM BRIEF</p>
+  <h1>Timor-Leste <span>Travel &amp; Tourism Brief</span></h1>
+  <p class="sub">World-class coral reefs, rugged mountains and a living traditional culture — "Asia's last frontier." Highlights, best season, practical info, safety and cultural etiquette on one page. Prepared 2026-07-27.</p>
+  <div class="langswitch" role="group" aria-label="Language / 言語">
+    <a href="20260727_東ティモール_観光ブリーフ_v2.html">日本語</a>
+    <a class="on" aria-current="true">English</a>
+  </div>
+  <nav class="xnav" aria-label="Related documents">
+    <a href="20260727_東ティモールまとめ_別版_v12.html">← Full Knowledge Base</a>
+    <a href="20260727_東ティモール_ビジネス投資ブリーフ_EN_v3.html">Investment Brief ↗</a>
+    <a href="20260727_東ティモール_プロジェクト索引_v3.html">Index ↗</a>
+  </nav>
+</header>
+
+<div class="wrap">
+
+  <div class="disclaimer">
+    <strong>Before you use this:</strong> this is general travel information. <strong>Always verify visas, entry requirements, security and health (e.g., vaccinations) with official government/embassy sources before travel.</strong> This is not medical advice. Figures are as of their source date (underlying data verified in the companion Knowledge Base edition).
+  </div>
+
+  <section>
+    <h2><span class="n">1</span>Four Highlights</h2>
+    <div class="hl">
+      <div class="hcard"><div class="ic">🐠</div><h4>Atauro Island reefs</h4><p>An island off Dili, with reefs said to hold the <strong>world's highest average reef-fish species count</strong>. A mecca for diving and snorkelling; became its own municipality in 2022.</p></div>
+      <div class="hcard"><div class="ic">⛰️</div><h4>Mt Ramelau (Tatamailau)</h4><p>The <strong>highest peak at 2,963 m</strong>, with a pilgrimage trail and a popular summit sunrise. Nearby <strong>Maubisse</strong> is a cool hill retreat amid coffee country.</p></div>
+      <div class="hcard"><div class="ic">🏝️</div><h4>Jaco Island (Lautém)</h4><p>An uninhabited, sacred island at the eastern tip with crystal-clear water and white sand — part of <strong>Nino Konis Santana National Park</strong>, rich in nature and archaeology.</p></div>
+      <div class="hcard"><div class="ic">🐋</div><h4>Whale &amp; bird watching</h4><p>The <strong>Ombai-Wetar Strait</strong> is a cetacean corridor (best ~Oct–Dec). Many endemic birds also make it prime <strong>birdwatching</strong> territory.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">2</span>Best Season &amp; Climate</h2>
+    <p class="lead">The north coast is relatively dry; the south and highlands are wetter. The <strong>dry season (roughly May–November)</strong> suits diving and trekking.</p>
+    <div class="season">
+      <div class="s"><h4>☀️ Dry season (~May–Nov)</h4>Calmer seas with <strong>high visibility</strong> for diving; good for hiking and touring. Roads are relatively reliable.</div>
+      <div class="s"><h4>🌧️ Wet season (~Dec–Apr)</h4>More rain and squalls; <strong>mountain roads deteriorate</strong>. Greener scenery, fewer crowds — allow extra travel time.</div>
+    </div>
+    <div class="callout sea"><strong>Whale migration:</strong> cetaceans in the Ombai-Wetar Strait are best seen <strong>around Oct–Dec</strong> (please follow sustainable, low-impact viewing practices).</div>
+  </section>
+
+  <section>
+    <h2><span class="n">3</span>Key Destinations</h2>
+    <table>
+      <caption>Representative sights (area / features)</caption>
+      <tr><th>Destination</th><th>Area</th><th>Features / highlights</th></tr>
+      <tr><td><strong>Dili</strong></td><td>North coast / capital</td><td>Cristo Rei (giant statue), Resistance Museum, seafront walks. The main gateway.</td></tr>
+      <tr><td><strong>Atauro Island</strong></td><td>Off Dili</td><td>World-class reef diving, marine ecosystems, simple island life.</td></tr>
+      <tr><td><strong>Baucau</strong></td><td>Eastern north coast</td><td>The second city; Portuguese old town, beaches, limestone caves.</td></tr>
+      <tr><td><strong>Lautém / Jaco Island</strong></td><td>Eastern tip</td><td>Nino Konis Santana NP, Jaco Island, Ili Kere Kere cave. Fataluku cultural area.</td></tr>
+      <tr><td><strong>Maubisse / Mt Ramelau</strong></td><td>South-central highlands</td><td>Cool hill retreat, climbing/pilgrimage to the summit, coffee landscapes.</td></tr>
+      <tr><td><strong>Balibo</strong></td><td>Western border</td><td>Historic Balibo Fort, border town; Marobo hot springs nearby.</td></tr>
+      <tr><td><strong>Oecusse</strong></td><td>Enclave (RAEOA)</td><td>Lifau, the first Portuguese landing (1515); history and quiet coast.</td></tr>
+    </table>
+    <h3>Heritage &amp; historic sites</h3>
+    <p style="font-size:.92rem;">Sites tracing the colonial and resistance past include Lene Hara cave (rock art), <strong>Fort Maubara</strong>, and the former Balide Comarca prison.</p>
+  </section>
+
+  <section>
+    <h2><span class="n">4</span>Practical Information</h2>
+    <ul class="check">
+      <li><strong>Visa:</strong> Visa on Arrival <strong>US$30 / 30 days</strong> (extendable). Requirements can change — verify with immigration/embassy before travel.</li>
+      <li><strong>Currency:</strong> the <strong>US dollar</strong> (centavo coins). Largely <strong>cash-based</strong>; ATMs/cards are limited. Carry small notes.</li>
+      <li><strong>Language:</strong> official Tetun and Portuguese; some English and Indonesian are also understood.</li>
+      <li><strong>Transport:</strong> <strong>left-hand traffic</strong>. Shared <strong>microlets</strong> in town; 4WDs/buses in the regions. Allow extra time on mountain roads.</li>
+      <li><strong>Connectivity:</strong> a local SIM may require <strong>registration</strong>; coverage is centred on towns.</li>
+      <li><strong>Power:</strong> access now reaches most of the country; carry a power bank for outages.</li>
+      <li><strong>Time / codes:</strong> UTC+9 (same as Japan) / dialling +670 / ccTLD .tl.</li>
+    </ul>
+    <div class="callout warn"><strong>Cameras &amp; drones:</strong> bringing in large camera gear or drones may require <strong>customs declaration or prior permits</strong>. Check in advance.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">5</span>Health &amp; Safety</h2>
+    <ul class="check">
+      <li><strong>Disease:</strong> beware <strong>mosquito-borne illness</strong> (malaria, dengue); use bite protection. <strong>TB burden is high.</strong> Consult a travel clinic on vaccinations/prophylaxis beforehand.</li>
+      <li><strong>Medical care:</strong> specialist care is limited. <strong>Travel insurance (including medical evacuation)</strong> is strongly recommended. Bring your own medicines.</li>
+      <li><strong>Water &amp; hygiene:</strong> avoid tap water — use <strong>bottled or boiled water</strong>; sanitation is limited in the regions.</li>
+      <li><strong>Road safety:</strong> beware unpaved mountain roads, rockfall and wet-season conditions; avoid driving at night.</li>
+      <li><strong>Natural hazards:</strong> heavy rain, cyclones (e.g., Seroja 2021) and earthquakes are possible; check weather and local advisories.</li>
+    </ul>
+    <div class="callout"><strong>Pre-departure checklist:</strong> (1) latest government/embassy safety &amp; entry advice → (2) vaccinations &amp; insurance → (3) cash (small USD), medicines, insect protection → (4) plan generous travel time for mountains and islands.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">6</span>Culture &amp; Travel Etiquette</h2>
+    <p class="lead">About <strong>97.6% of people are Catholic</strong>, and Sunday Mass and festivals are central to daily life. A distinctive social order endures around the notion of the sacred, <strong>lulik</strong>.</p>
+    <ul class="check">
+      <li><strong>Sacred sites &amp; taboos:</strong> do not enter or photograph sacred houses (<strong>uma lulik</strong>), ritual grounds or restricted objects without permission.</li>
+      <li><strong>Tara bandu:</strong> community customary rules on <strong>environment and behaviour</strong> — follow posted notices and local guidance.</li>
+      <li><strong>Tais:</strong> traditional woven cloth (<strong>UNESCO intangible heritage, 2021</strong>), important in gifts and rituals — treat it with respect.</li>
+      <li><strong>Churches &amp; dress:</strong> dress modestly at religious sites and villages; ask before photographing people.</li>
+      <li><strong>Language:</strong> a Tetun greeting (e.g., <em>Bondia</em> = good morning) is appreciated.</li>
+    </ul>
+    <div class="callout sea"><strong>Did you know?</strong> Pope Francis visited in 2024, and about <strong>600,000 people (roughly half the population)</strong> gathered for the Mass at Tasi Tolu — faith runs deep here.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">◎</span>Sources &amp; Scope</h2>
+    <p style="font-size:.9rem;">Compiled from primary and secondary sources: <strong>the government tourism site (timorleste.tl) and immigration</strong> (visas, destinations), <strong>UNESCO</strong> (tais / biosphere), <strong>Conservation International / ADB</strong> (Atauro reef fish diversity), the <strong>2022 Census</strong> (religion), and travel/culture guides. For full source numbers and URLs, see "Sources &amp; References (56 items)" in the companion Knowledge Base edition.</p>
+    <div class="done">
+      <h4>What this brief does</h4>
+      <ul><li>Recasts the (verified) Knowledge Base information for <strong>travellers</strong> — highlights, season, destinations, practicalities, safety and culture.</li></ul>
+      <h4>What it does not do / caveats</h4>
+      <ul>
+        <li>No bookings, prices or live schedules. Visa, health and security requirements can change — <strong>always re-verify with official primary sources before travel</strong>.</li>
+        <li>This is general information, <strong>not medical or travel-safety advice</strong> (see the note above).</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  Timor-Leste Travel &amp; Tourism Brief (EN) v1 ／ prepared 2026-07-27 ／ general travel information (re-verify with official primary sources before travel). Single self-contained HTML.
+</footer>
+
+</body>
+</html>

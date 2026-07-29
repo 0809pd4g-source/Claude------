@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>東ティモール 観光ブリーフ ― Timor-Leste Travel Brief</title>
+<style>
+  :root{
+    --red:#B22222; --gold:#DAA520; --dark:#1A1D20;
+    --bg:#f4f8f8; --card:#ffffff; --text:#20292b; --muted:#566a6d;
+    --border:#d9e6e6; --soft:#eaf4f3;
+    --sea:#0f7b8a; --sea-dark:#0a5763; --leaf:#2e8b57;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Segoe UI","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.75;}
+  header.top{background:linear-gradient(135deg,#0a3f48,#0f7b8a);color:#fff;padding:32px 26px;position:relative;
+    border-bottom:4px solid var(--gold);}
+  header.top::before{content:"";position:absolute;top:0;left:0;width:100%;height:5px;
+    background:linear-gradient(to right,var(--red) 70%,var(--gold) 70%);}
+  header.top .eyebrow{font-size:.74rem;letter-spacing:.18em;color:#ffe8a8;font-weight:700;margin:0 0 6px;}
+  header.top h1{margin:0;font-size:1.55rem;}
+  header.top h1 span{color:#ffe08a;}
+  header.top p.sub{margin:6px 0 0;color:#d6ecec;font-size:.9rem;max-width:840px;}
+  .wrap{max-width:1040px;margin:0 auto;padding:24px 20px 60px;}
+
+  .disclaimer{background:#fff8e6;border:1px solid #ecd48a;border-left:4px solid var(--gold);
+    border-radius:8px;padding:12px 16px;font-size:.83rem;color:#6b5a1e;margin:18px 0 26px;}
+
+  section{background:var(--card);border:1px solid var(--border);border-radius:14px;
+    padding:26px 28px;margin-bottom:22px;box-shadow:0 4px 16px rgba(15,80,90,.05);}
+  h2{font-size:1.24rem;margin:0 0 4px;color:var(--sea-dark);display:flex;align-items:center;gap:12px;}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;flex-shrink:0;
+    border-radius:8px;background:var(--sea);color:#fff;font-weight:800;font-size:1.05rem;}
+  .lead{font-size:1.02rem;margin:14px 0 0;}
+  h3{color:var(--leaf);font-size:1rem;margin:20px 0 8px;}
+  p{margin:0 0 12px;}
+  strong{color:#14201c;}
+
+  .hl{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin-top:8px;}
+  .hcard{border:1px solid var(--border);border-radius:10px;padding:16px 18px;background:#f8fcfc;}
+  .hcard .ic{font-size:1.4rem;}
+  .hcard h4{margin:6px 0 5px;color:var(--sea-dark);font-size:1rem;}
+  .hcard p{margin:0;font-size:.9rem;color:#3a4a4c;}
+
+  table{width:100%;border-collapse:collapse;margin-top:10px;}
+  th,td{border:1px solid var(--border);padding:9px 11px;text-align:left;font-size:.9rem;vertical-align:top;}
+  th{background:var(--soft);color:var(--sea-dark);}
+  caption{caption-side:bottom;text-align:left;font-size:.78rem;color:var(--muted);padding:6px 2px;}
+
+  .callout{border-left:4px solid var(--gold);background:#fffdea;padding:13px 17px;border-radius:0 8px 8px 0;
+    margin:16px 0;font-size:.92rem;}
+  .callout.warn{border-left-color:var(--red);background:#fdeceb;}
+  .callout.sea{border-left-color:var(--sea);background:#eaf6f8;}
+
+  ul.check{list-style:none;margin:0;padding:0;}
+  ul.check li{padding:8px 0 8px 26px;position:relative;border-bottom:1px dashed var(--border);font-size:.93rem;}
+  ul.check li:last-child{border-bottom:none;}
+  ul.check li::before{content:"\2713";position:absolute;left:2px;color:var(--leaf);font-weight:800;}
+
+  .season{display:grid;gap:10px;grid-template-columns:1fr 1fr;margin-top:8px;}
+  .season .s{border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:.9rem;}
+  .season .s h4{margin:0 0 6px;color:var(--sea-dark);}
+
+  .done{font-size:.88rem;}
+  .done h4{margin:12px 0 5px;color:var(--sea-dark);}
+  .done ul{margin:0;padding-left:1.2em;}
+  footer{text-align:center;color:var(--muted);font-size:.82rem;padding:22px;}
+  a{color:var(--sea-dark);}
+
+  .xnav{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+  .xnav a{font-size:.8rem;font-weight:700;text-decoration:none;padding:6px 12px;border-radius:8px;
+    background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.34);color:#fff;white-space:nowrap;}
+  .xnav a:hover{background:rgba(255,255,255,.24);}
+
+  @media print{
+    header.top{background:#fff;color:#000;border-bottom:2px solid #999;}
+    header.top::before{display:none;}
+    header.top .eyebrow{color:#8a6d0f;} header.top h1,header.top h1 span{color:#000;} header.top p.sub{color:#333;}
+    .xnav{display:none;} body{background:#fff;color:#000;}
+    section{box-shadow:none;border:1px solid #ccc;break-inside:avoid;page-break-inside:avoid;}
+    .hl,.season,table{break-inside:avoid;page-break-inside:avoid;}
+    a[href^="http"]::after{content:" <" attr(href) ">";font-size:.72em;color:#444;word-break:break-all;}
+  }
+  @media(max-width:540px){header.top h1{font-size:1.25rem;}section{padding:20px 16px;}.season{grid-template-columns:1fr;}
+    th,td{padding:7px 7px;font-size:.83rem;overflow-wrap:anywhere;}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <p class="eyebrow">TIMOR-LESTE ／ TRAVEL &amp; TOURISM BRIEF</p>
+  <h1>東ティモール <span>観光ブリーフ</span></h1>
+  <p class="sub">世界屈指のサンゴ礁と山岳、独自の文化が残る「アジア最後の秘境」。見どころ・ベストシーズン・実用情報・安全と文化マナーを1枚に。作成日 2026-07-27。</p>
+  <nav class="xnav" aria-label="関連資料">
+    <a href="20260727_東ティモールまとめ_別版_v11.html">← 詳細版：ナレッジベース</a>
+    <a href="20260727_東ティモール_ビジネス投資ブリーフ_v3.html">投資ブリーフ ↗</a>
+    <a href="20260727_東ティモール_プロジェクト索引_v2.html">索引 ↗</a>
+  </nav>
+</header>
+
+<div class="wrap">
+
+  <div class="disclaimer">
+    <strong>ご利用にあたって：</strong>本資料は一般的な旅行情報の整理です。<strong>ビザ・入国要件・治安・保健（予防接種等）の最新情報は、渡航前に必ず各国政府・大使館・公的機関の一次情報でご確認ください</strong>。医療上の助言ではありません。数値・記述は出典時点のもの（元データは同プロジェクトのナレッジベース版で検証済み）。
+  </div>
+
+  <!-- 1. ハイライト -->
+  <section>
+    <h2><span class="n">1</span>4つのハイライト</h2>
+    <div class="hl">
+      <div class="hcard"><div class="ic">🐠</div><h4>アタウロ島のサンゴ礁</h4><p>ディリ沖の島。<strong>「世界一のサンゴ礁魚類の平均種数」</strong>とされる海。ダイビング・シュノーケルの聖地。2022年に県として分離。</p></div>
+      <div class="hcard"><div class="ic">⛰️</div><h4>ラメラウ山（タタマイラウ）</h4><p><strong>最高峰2,963m</strong>。巡礼路があり、山頂からの日の出が人気。麓の避暑地<strong>マウベシ</strong>は高原の景観とコーヒー。</p></div>
+      <div class="hcard"><div class="ic">🏝️</div><h4>ジャコ島（ラウテン）</h4><p>東端の無人の聖なる島。透明度の高い海と白砂。<strong>ニノ・コニス・サンタナ国立公園</strong>の一部で自然と考古の宝庫。</p></div>
+      <div class="hcard"><div class="ic">🐋</div><h4>クジラ／野鳥ウォッチング</h4><p><strong>オンバイ・ウェタル海峡</strong>は鯨類の回廊。10〜12月が好機。固有種の野鳥も多く<strong>バードウォッチング</strong>適地。</p></div>
+    </div>
+  </section>
+
+  <!-- 2. ベストシーズン -->
+  <section>
+    <h2><span class="n">2</span>ベストシーズン・気候</h2>
+    <p class="lead">北岸は比較的乾燥し、南部・山岳部は降水が多い傾向。<strong>乾季（おおむね5〜11月）</strong>がダイビング・トレッキングに適します。</p>
+    <div class="season">
+      <div class="s"><h4>☀️ 乾季（約5〜11月）</h4>海が穏やかで<strong>透明度が高く</strong>ダイビング・登山・周遊の適期。道路状況も比較的安定。</div>
+      <div class="s"><h4>🌧️ 雨季（約12〜4月）</h4>降雨・スコールが増え、<strong>山間部の道路が荒れやすい</strong>。緑は濃く人出は少なめ。移動に余裕を。</div>
+    </div>
+    <div class="callout sea"><strong>クジラ回遊：</strong>オンバイ・ウェタル海峡の鯨類は<strong>10〜12月頃</strong>が観察の好機（持続可能な観察マナーに配慮）。</div>
+  </section>
+
+  <!-- 3. 主要な目的地 -->
+  <section>
+    <h2><span class="n">3</span>主要な目的地</h2>
+    <table>
+      <caption>代表的な見どころ（地域・特徴）</caption>
+      <tr><th>目的地</th><th>エリア</th><th>特徴・見どころ</th></tr>
+      <tr><td><strong>ディリ Dili</strong></td><td>北岸・首都</td><td>クリスト・レイ（巨大キリスト像）、抵抗博物館、海岸沿いの散策。旅の起点。</td></tr>
+      <tr><td><strong>アタウロ島 Atauro</strong></td><td>ディリ沖</td><td>世界屈指のサンゴ礁ダイビング、海洋生態系、素朴な島の暮らし。</td></tr>
+      <tr><td><strong>バウカウ Baucau</strong></td><td>北岸東部</td><td>第2の都市。ポルトガル植民地の旧市街・海岸・鍾乳洞。</td></tr>
+      <tr><td><strong>ラウテン／ジャコ島</strong></td><td>東端</td><td>ニノ・コニス・サンタナ国立公園、ジャコ島、イリ・ケレ・ケレ洞窟。ファタルク文化圏。</td></tr>
+      <tr><td><strong>マウベシ／ラメラウ山</strong></td><td>南中部・山岳</td><td>高原の避暑地と最高峰への登山・巡礼、コーヒー景観。</td></tr>
+      <tr><td><strong>バリボ Balibo</strong></td><td>西部国境</td><td>歴史的な砦（バリボ・フォート）、国境の町。マロボ温泉も近い。</td></tr>
+      <tr><td><strong>オエクシ Oecusse</strong></td><td>飛び地（RAEOA）</td><td>1515年ポルトガル最初の上陸地リファウ。歴史と静かな海岸。</td></tr>
+    </table>
+    <h3>遺跡・歴史遺構</h3>
+    <p style="font-size:.92rem;">レネ・ハラ洞窟（岩絵）、<strong>マウバラ砦（Fort Maubara）</strong>、旧刑務所コマルカ（Balide Comarca）など、植民地・抵抗の歴史をたどる史跡も点在します。</p>
+  </section>
+
+  <!-- 4. 実用情報 -->
+  <section>
+    <h2><span class="n">4</span>旅の実用情報</h2>
+    <ul class="check">
+      <li><strong>ビザ：</strong>到着ビザ(VOA) <strong>US$30／30日</strong>（延長可）。※要件は変わり得るため渡航前に移民局・大使館で要確認。</li>
+      <li><strong>通貨：</strong><strong>米ドル</strong>（補助硬貨センタボ）。<strong>現金主体</strong>でATM・カード対応は限定的。小額紙幣を用意。</li>
+      <li><strong>言語：</strong>公用語はテトゥン語・ポルトガル語。英語・インドネシア語も一部通用。</li>
+      <li><strong>交通：</strong><strong>左側通行</strong>。市内は乗合の<strong>ミクロレット</strong>、地方は四駆やバス。山間路は所要時間に余裕を。</li>
+      <li><strong>通信：</strong>現地SIMは<strong>登録が必要</strong>な場合あり。都市部中心のカバレッジ。</li>
+      <li><strong>電力：</strong>アクセスはほぼ全土に拡大。停電に備えモバイルバッテリー等を。</li>
+      <li><strong>時間・コード：</strong>UTC+9（日本と同じ）／国番号 +670／ccTLD .tl。</li>
+    </ul>
+    <div class="callout warn"><strong>撮影機材・ドローン：</strong>大型の撮影機材やドローンの持ち込みは、<strong>税関申告や事前許可</strong>が必要となる場合があります。事前確認を。</div>
+  </section>
+
+  <!-- 5. 健康・安全 -->
+  <section>
+    <h2><span class="n">5</span>健康・安全</h2>
+    <ul class="check">
+      <li><strong>感染症：</strong>マラリア・デング等の<strong>蚊媒介感染症</strong>に注意（防蚊対策）。<strong>結核は高負担国</strong>。渡航前に予防接種・予防内服を医療機関で相談。</li>
+      <li><strong>医療体制：</strong>専門医療は限定的。<strong>海外旅行保険（医療搬送を含む）</strong>への加入を強く推奨。常備薬は持参。</li>
+      <li><strong>水・衛生：</strong>生水は避け<strong>ボトル水・煮沸</strong>を。地方では衛生設備が限られる。</li>
+      <li><strong>交通安全：</strong>山間の未舗装路・落石・雨季の路面悪化に注意。夜間走行は避ける。</li>
+      <li><strong>自然災害：</strong>豪雨・サイクロン（例：2021年セロジャ）・地震のリスク。天候・現地情報を確認。</li>
+    </ul>
+    <div class="callout"><strong>渡航前チェック：</strong>①外務省・大使館の最新の安全/入国情報 → ②予防接種・保険 → ③現金(US$小額)・常備薬・防蚊具の準備 → ④山岳・離島は移動に余裕を持った行程を。</div>
+  </section>
+
+  <!-- 6. 文化とマナー -->
+  <section>
+    <h2><span class="n">6</span>文化と旅のマナー</h2>
+    <p class="lead">人口の<strong>約97.6%がカトリック</strong>で、日曜のミサや祝祭が生活の中心。伝統的な聖性<strong>〈ルリック(lulik)〉</strong>を核とする独自の社会秩序が息づきます。</p>
+    <ul class="check">
+      <li><strong>聖地・タブー：</strong>聖なる家<strong>〈ウマ・ルリック〉</strong>や祭祀の場、禁忌の対象には無断で立ち入り・撮影をしない。</li>
+      <li><strong>タラ・バンドゥ(tara bandu)：</strong>地域の慣習法による<strong>環境・行動の取り決め</strong>。掲示や地元の指示に従う。</li>
+      <li><strong>タイス(tais)：</strong>伝統織物（<strong>UNESCO無形文化遺産・2021</strong>）。土産・儀礼で重要。敬意をもって扱う。</li>
+      <li><strong>教会・服装：</strong>宗教施設・村落訪問では露出を控えた服装を。撮影は一言断って。</li>
+      <li><strong>言葉：</strong>テトゥン語の挨拶（Bondia＝おはよう 等）が喜ばれる。</li>
+    </ul>
+    <div class="callout sea"><strong>豆知識：</strong>2024年にローマ教皇が訪問し、タシ・トルのミサに<strong>約60万人（人口の約半分）</strong>が集いました。信仰が社会に深く根づく国です。</div>
+  </section>
+
+  <!-- 出典・範囲 -->
+  <section>
+    <h2><span class="n">◎</span>出典と本資料の範囲</h2>
+    <p style="font-size:.9rem;">記述は一次・二次資料に基づき整理：<strong>東ティモール政府観光サイト（timorleste.tl）・移民局</strong>（ビザ・観光地）、<strong>UNESCO</strong>（タイス／生物圏）、<strong>Conservation International／ADB</strong>（アタウロ礁の魚類多様性）、<strong>2022国勢調査</strong>（宗教）、各文化・旅行ガイド。詳細な出典番号・URLはナレッジベース版「主な出典（56件）」を参照。</p>
+    <div class="done">
+      <h4>やったこと</h4>
+      <ul>
+        <li>ナレッジベース版（検証済み）の情報を、<strong>旅行者の観点</strong>で見どころ・季節・実用・安全・文化に再構成。</li>
+      </ul>
+      <h4>やっていないこと・留意点</h4>
+      <ul>
+        <li><strong>個別の予約・料金・最新の運行情報は含まない</strong>。ビザ・保健・治安の要件は変わり得るため、<strong>渡航前に公的一次情報で必ず再確認</strong>を。</li>
+        <li>本資料は一般情報であり、<strong>医療・渡航安全上の助言ではありません</strong>（冒頭の注意を参照）。</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  東ティモール 観光ブリーフ v1 ／ 作成日 2026-07-27 ／ 一般的な旅行情報（渡航前に公的一次情報で要確認）。単一HTML・外部依存なし。
+</footer>
+
+</body>
+</html>

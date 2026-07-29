@@ -1,0 +1,2272 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timor-Leste Knowledge Base（東ティモール ナレッジベース）</title>
+<style>
+
+  :root {
+    --primary: #0a7e65;        /* 深みのあるエメラルドグリーン */
+    --primary-dark: #054d3e;
+    --accent: #e67e22;         /* 活気のあるオレンジ・テラコッタ */
+    --accent-dark: #b5611a;
+    --bg: #f5f9f7;
+    --card: #ffffff;
+    --text: #263238;
+    --muted: #5b6b73;
+    --border: #d0e1dc;
+    --soft: #eef8f5;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.85;
+  }
+
+  section {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 28px 30px; margin-bottom: 24px;
+    box-shadow: 0 6px 20px rgba(10,126,101,.06);
+  }
+  h2 {
+    font-size: 1.35rem; margin: 0 0 6px; padding-left: 14px;
+    border-left: 5px solid var(--accent); color: var(--primary-dark);
+  }
+  h2 .kicker { display: block; font-size: .72rem; letter-spacing: .14em; color: var(--accent-dark); font-weight: 700; margin-bottom: 2px; }
+  h3 { color: var(--primary); margin: 24px 0 10px; font-size: 1.08rem; }
+  p { margin: 0 0 12px; }
+  .lead { font-size: 1.05rem; }
+  a { color: var(--primary); }
+
+  /* セクション種別ラベル */
+  .kind { display:inline-block; font-size:.7rem; font-weight:700; letter-spacing:.08em;
+    padding:3px 10px; border-radius:6px; margin: 14px 0 2px; }
+  .kind.academic { background:#e4f0fb; color:#1c5a8f; }
+  .kind.tourism  { background:#fdeede; color:var(--accent-dark); }
+
+  /* 基礎データ：スタットカード */
+  .stats { display:grid; gap:14px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin-top: 6px; }
+  .stat { border:1px solid var(--border); border-radius:10px; padding:14px 16px; background:#fbfdfe; }
+  .stat .k { font-size:.78rem; color:var(--muted); margin:0 0 4px; }
+  .stat .v { font-size:1.15rem; font-weight:700; color:var(--primary-dark); margin:0; line-height:1.35; }
+  .stat .v small { font-weight:500; font-size:.8rem; color:var(--muted); }
+
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .feature { border: 1px solid var(--border); border-radius: 10px; padding: 18px; background: #fbfdfe; }
+  .feature .num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--accent); color: #fff; font-weight: 700; margin-bottom: 8px;
+  }
+  .feature h4 { margin: 0 0 6px; color: var(--primary-dark); font-size: 1rem; }
+  .feature p { margin: 0; font-size: .92rem; color: var(--muted); }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; font-size: .93rem; vertical-align: top; }
+  th { background: var(--soft); color: var(--primary-dark); }
+  caption { text-align:left; font-size:.82rem; color:var(--muted); padding: 6px 2px; caption-side: bottom; }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 10px; }
+  .tag {
+    background: #e4f6f2; color: var(--primary-dark); border: 1px solid var(--primary);
+    border-radius: 8px; padding: 8px 14px; font-size: .9rem; font-weight: 600;
+  }
+  .disc { background:#e4f0fb; color:#1c5a8f; border-color:#1c5a8f; }
+
+  ul.benefits { margin: 0; padding-left: 0; list-style: none; }
+  ul.benefits li { padding: 8px 0 8px 28px; position: relative; border-bottom: 1px dashed var(--border); }
+  ul.benefits li:last-child { border-bottom: none; }
+  ul.benefits li::before { content: "✓"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+
+  .timeline { list-style: none; margin: 0; padding: 0; }
+  .timeline li { position: relative; padding: 0 0 22px 26px; border-left: 2px solid var(--accent); }
+  .timeline li:last-child { border-left: 2px solid transparent; padding-bottom: 0; }
+  .timeline li::before {
+    content: ""; position: absolute; left: -8px; top: 4px; width: 14px; height: 14px;
+    border-radius: 50%; background: var(--accent); border: 3px solid #fff; box-shadow: 0 0 0 1px var(--accent);
+  }
+  .timeline .date { font-weight: 700; color: var(--primary-dark); }
+
+  .note { background: #fffcf4; border: 1px solid #f0d48a; border-radius: 10px; padding: 14px 18px; font-size: .9rem; }
+  .caveat { background:#fdf3f2; border:1px solid #e6b7b0; border-radius:10px; padding:14px 18px; font-size:.9rem; }
+
+  /* 出典（参考文献） */
+  ol.refs { font-size:.85rem; color:var(--muted); line-height:1.6; padding-left:1.4em; }
+  ol.refs li { margin-bottom:7px; }
+  sup.cite { color: var(--accent-dark); font-weight:700; font-size:.72em; }
+
+  .done-list { font-size:.9rem; }
+  .done-list h4 { margin:14px 0 6px; color:var(--primary-dark); font-size:.98rem; }
+  .done-list ul { margin:0; padding-left:1.3em; }
+
+  /* 図表 */
+  /* 目次 */
+  #toc-list { columns: 2; column-gap: 28px; font-size: .92rem; margin: 8px 0 0; }
+  .toc-grp { break-inside: avoid; margin: 0 0 14px; }
+  .toc-grp h4 { margin: 0 0 5px; font-size: .82rem; letter-spacing: .04em; color: var(--accent-dark); border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+  .toc-grp ul { list-style: none; padding-left: 0; margin: 0; }
+  .toc-grp li { margin: 3px 0; padding-left: 14px; position: relative; }
+  .toc-grp li::before { content: "›"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+  .toc-grp a { color: var(--primary-dark); text-decoration: none; }
+  .toc-grp a:hover { text-decoration: underline; color: var(--primary); }
+  @media (max-width: 520px){ #toc-list { columns: 1; } }
+
+  figure.chart { margin: 18px 0 6px; }
+  figure.chart svg { width: 100%; height: auto; display: block; }
+  figure.chart figcaption { font-size: .8rem; color: var(--muted); margin-top: 6px; line-height: 1.55; }
+  .chart-title { font-size: .98rem; font-weight: 700; color: var(--primary-dark); margin: 4px 0 2px; }
+  .legend { display:flex; flex-wrap:wrap; gap:14px; font-size:.82rem; color:var(--muted); margin:8px 0 0; }
+  .legend span { display:inline-flex; align-items:center; gap:6px; }
+  .legend i { width:12px; height:12px; border-radius:3px; display:inline-block; }
+  .svg-bar { fill: var(--primary); }
+  .svg-txt { fill: var(--text); font-family: inherit; }
+  .svg-mut { fill: var(--muted); font-family: inherit; }
+  .svg-grid { stroke: var(--border); stroke-width: 1; }
+
+  footer { text-align: center; color: var(--muted); font-size: .84rem; padding: 24px; }
+  @media (max-width: 520px){
+    header h1{font-size:1.55rem;}
+    section{padding:22px 16px;}
+    th, td { padding: 7px 7px; font-size: .84rem; overflow-wrap: anywhere; word-break: break-word; }
+  }
+
+
+  /* ============ 新UI（ポータル）レイヤ ============ */
+  html { scroll-behavior: smooth; }
+  :root {
+    --tl-red: #B22222;
+    --tl-gold: #DAA520;
+    --tl-dark: #1A1D20;
+    --sidebar-width: 270px;
+    --toc-width: 220px;
+    --hh: 66px;   /* ヘッダー実高（JSで実測して上書き） */
+    --sub: 44px;  /* サブバー実高（JSで実測して上書き） */
+  }
+  /* グローバルヘッダー */
+  header.global-header {
+    background: var(--tl-dark);
+    color: #fff;
+    padding: 12px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 3px solid var(--tl-gold);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px;
+  }
+  header.global-header::before { content: none; }
+  .brand-area h1 { margin: 0; font-size: 1.25rem; font-weight: 700; letter-spacing: .02em; color: #fff; border: 0; padding: 0; }
+  .brand-area h1 span { color: var(--tl-gold); }
+  .brand-area p {
+    margin: 3px 0 0; font-size: .78rem; color: #ADB5BD;
+    max-width: min(60vw, 680px);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .header-controls { display: flex; align-items: center; gap: 12px; }
+  .search-box input {
+    padding: 8px 14px; border-radius: 20px; border: 1px solid #495057;
+    background: #2B3035; color: #fff; font-size: .85rem; width: 260px; outline: none;
+  }
+  .search-box input:focus { border-color: var(--tl-gold); }
+  .lang-picker { font-size: .78rem; background: #2B3035; padding: 6px 12px; border-radius: 6px; border: 1px solid #495057; color: #adb5bd; }
+  .lang-picker b { color: #fff; }
+
+  /* サブバー */
+  .sub-nav {
+    background: #fff; border-bottom: 1px solid var(--border);
+    padding: 9px 24px; display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px; position: sticky; top: var(--hh); z-index: 900;
+  }
+  .breadcrumbs { font-size: .8rem; color: var(--muted); }
+  .persona-filters { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .persona-filters .flabel { font-size: .78rem; font-weight: 700; color: var(--muted); margin-right: 2px; }
+  .filter-btn {
+    border: 1px solid var(--border); background: var(--bg); padding: 4px 13px;
+    border-radius: 16px; font-size: .78rem; cursor: pointer; font-weight: 700; transition: all .2s;
+  }
+  .filter-btn.active, .filter-btn:hover { background: var(--tl-red); color: #fff; border-color: var(--tl-red); }
+
+  /* モバイル用・章ジャンプ（既定は非表示、狭幅で表示） */
+  .mobile-chapter-nav {
+    display: none; font-size: .82rem; font-weight: 700; color: var(--text);
+    padding: 6px 10px; border: 1px solid var(--border); border-radius: 8px;
+    background: #fff; max-width: 60vw;
+  }
+
+  /* 表の横スクロール対応（潰さずスクロール） */
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 8px 0 4px; }
+  .table-wrap > table { margin-top: 0; }
+
+  /* 3カラム */
+  .portal-container { display: flex; max-width: 1500px; margin: 0 auto; align-items: flex-start; }
+  aside.sidebar {
+    width: var(--sidebar-width); background: #fff; border-right: 1px solid var(--border);
+    padding: 20px 14px; position: sticky; top: calc(var(--hh) + var(--sub));
+    height: calc(100vh - var(--hh) - var(--sub)); overflow-y: auto; flex-shrink: 0;
+  }
+  .sidebar h3 { font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 0 0 10px; }
+  .sidebar-nav { list-style: none; padding: 0; margin: 0; }
+  .sidebar-nav li { margin-bottom: 3px; }
+  .sidebar-nav a { display: block; padding: 8px 10px; border-radius: 6px; color: var(--text); text-decoration: none; font-size: .86rem; font-weight: 600; }
+  .sidebar-nav a:hover { background: var(--soft); color: var(--tl-red); }
+  .sidebar-nav a.active {
+    background: #FDECEA; color: var(--tl-red); font-weight: 800;
+    box-shadow: inset 3px 0 0 var(--tl-red);
+  }
+
+  main.content-area { flex: 1; min-width: 0; padding: 26px 34px; max-width: 940px; margin: 0; }
+
+  aside.toc-right {
+    width: var(--toc-width); padding: 20px 14px; position: sticky;
+    top: calc(var(--hh) + var(--sub)); height: calc(100vh - var(--hh) - var(--sub));
+    overflow-y: auto; font-size: .82rem; border-left: 1px solid var(--border); flex-shrink: 0;
+  }
+  .toc-right .toc-head { font-weight: 700; margin-bottom: 8px; color: var(--primary-dark); }
+  .toc-right ul { list-style: none; padding-left: 0; margin: 0; line-height: 1.5; }
+  .toc-right li { margin: 4px 0; }
+  .toc-right a { color: var(--muted); text-decoration: none; display: block; padding: 2px 8px; border-left: 2px solid transparent; }
+  .toc-right a:hover { color: var(--tl-red); }
+  .toc-right a.active { color: var(--tl-red); font-weight: 700; border-left-color: var(--tl-red); }
+
+  /* トップへ戻る */
+  #to-top {
+    position: fixed; right: 22px; bottom: 22px; z-index: 1200;
+    width: 46px; height: 46px; border-radius: 50%; border: 0; cursor: pointer;
+    background: var(--tl-red); color: #fff; font-size: 1.2rem; line-height: 1;
+    box-shadow: 0 4px 14px rgba(0,0,0,.28); opacity: 0; pointer-events: none;
+    transition: opacity .25s, transform .15s;
+  }
+  #to-top:hover { transform: translateY(-2px); }
+  #to-top.show { opacity: 1; pointer-events: auto; }
+
+  /* セクションカード（元 section 規則に付加） */
+  .section-card { scroll-margin-top: calc(var(--hh) + var(--sub) + 14px); transition: opacity .25s; }
+  .section-card.hidden { display: none; }
+
+  /* 章見出し */
+  .chapter-heading {
+    border: 0; border-left: 0; padding: 0; margin: 34px 0 14px;
+    display: flex; align-items: center; gap: 12px;
+    font-size: 1.15rem; color: var(--tl-dark);
+    letter-spacing: .04em; scroll-margin-top: calc(var(--hh) + var(--sub) + 14px);
+  }
+  .chapter-heading:first-child { margin-top: 4px; }
+  .chapter-heading.hidden { display: none; }
+  .chapter-heading .chapter-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 34px; height: 34px; border-radius: 8px; flex-shrink: 0;
+    background: var(--tl-red); color: #fff; font-weight: 800; font-size: 1rem;
+  }
+  .chapter-heading::after { content: ""; flex: 1; height: 3px; border-radius: 2px; background: linear-gradient(to right, var(--tl-gold), transparent); }
+
+  /* ペルソナタグ・バッジ */
+  .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 14px; }
+  .tag-badge { font-size: .68rem; padding: 3px 9px; border-radius: 5px; font-weight: 700; letter-spacing: .02em; }
+  .tag-badge.research { background: #E3F2FD; color: #0D47A1; }
+  .tag-badge.business { background: #E8F5E9; color: #1B5E20; }
+  .tag-badge.living   { background: #FFF3E0; color: #8A3D00; }  /* コントラスト確保（AA） */
+  .tag-badge.nature   { background: #F3E5F5; color: #4A148C; }
+
+  /* コールアウト（注意喚起）＋ 元 note/caveat を同表現に統一 */
+  .callout, .note {
+    border-left: 4px solid var(--tl-gold); background: #FFFDE7;
+    padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 18px 0; font-size: .92rem;
+  }
+  .callout.warning, .caveat {
+    border-left: 4px solid var(--tl-red); background: #FFEBEE;
+    border-top: 0; border-right: 0; border-bottom: 0; border-radius: 0 8px 8px 0;
+  }
+
+  /* 検索ハイライト時の空章の非表示は JS で制御 */
+  .no-result { display: none; padding: 40px; text-align: center; color: var(--muted); }
+  .no-result.show { display: block; }
+
+  /* テーマ切替ボタン */
+  .theme-toggle {
+    background: #2B3035; color: #fff; border: 1px solid #495057;
+    width: 36px; height: 34px; border-radius: 8px; cursor: pointer; font-size: 1rem; line-height: 1;
+  }
+  .theme-toggle:hover { border-color: var(--tl-gold); }
+
+  /* AND/OR 論理トグル */
+  .logic-toggle {
+    border: 1px solid var(--border); background: #fff; color: var(--text);
+    padding: 4px 10px; border-radius: 16px; font-size: .72rem; font-weight: 800; cursor: pointer; letter-spacing: .03em;
+  }
+  .logic-toggle:hover { border-color: var(--tl-red); }
+  .filter-hint { font-size: .72rem; color: var(--muted); }
+
+  /* 検索ハイライト */
+  mark.kb-hl { background: #ffe08a; color: #111; border-radius: 2px; padding: 0 1px; }
+
+  /* ============ ダークモード ============ */
+  html[data-theme="dark"] {
+    --bg: #12171a; --card: #1b2226; --text: #e6edf0; --muted: #9fb2b9;
+    --border: #2c363c; --soft: #212b30;
+    --primary: #3fc0a2; --primary-dark: #86dcc8; --accent: #f0a35a; --accent-dark: #f0a35a;
+  }
+  html[data-theme="dark"] .sub-nav,
+  html[data-theme="dark"] aside.sidebar,
+  html[data-theme="dark"] .filter-btn,
+  html[data-theme="dark"] .logic-toggle,
+  html[data-theme="dark"] .mobile-chapter-nav,
+  html[data-theme="dark"] .stat,
+  html[data-theme="dark"] .feature,
+  html[data-theme="dark"] .muni-card { background: var(--card); color: var(--text); }
+  html[data-theme="dark"] .filter-btn { border-color: var(--border); }
+  html[data-theme="dark"] .chapter-heading { color: var(--text); }
+  html[data-theme="dark"] .callout, html[data-theme="dark"] .note { background: #2a2716; }
+  html[data-theme="dark"] .callout.warning, html[data-theme="dark"] .caveat { background: #2e1c1e; }
+  html[data-theme="dark"] .sidebar-nav a.active { background: #3a1f1c; }
+  html[data-theme="dark"] .tag-badge.research { background: #12385e; color: #a9d3ff; }
+  html[data-theme="dark"] .tag-badge.business { background: #14401f; color: #a9e6bd; }
+  html[data-theme="dark"] .tag-badge.living   { background: #40230a; color: #f3c393; }
+  html[data-theme="dark"] .tag-badge.nature   { background: #331a42; color: #dcb6f0; }
+  html[data-theme="dark"] .kind.academic { background: #14304a; color: #a9d3ff; }
+  html[data-theme="dark"] .kind.tourism  { background: #3a2410; color: #f3c393; }
+  html[data-theme="dark"] mark.kb-hl { background: #ffd54f; color: #111; }  /* AA確保 */
+  html[data-theme="dark"] .theme-toggle { background: var(--soft); }
+
+  /* 相互リンク（ヘッダー内・投資ブリーフへ） */
+  .kb-xlink {
+    font-size: .8rem; font-weight: 700; color: #fff; text-decoration: none;
+    background: var(--tl-red); padding: 6px 12px; border-radius: 8px; white-space: nowrap;
+  }
+  .kb-xlink:hover { background: #8f1b1b; }
+
+  /* ============ 印刷 / PDF 最適化 ============ */
+  @media print {
+    :root, html[data-theme="dark"] {
+      --bg:#fff; --card:#fff; --text:#000; --muted:#333; --border:#bbb; --soft:#f0f0f0;
+      --primary:#0a7e65; --primary-dark:#054d3e; --accent:#b5611a; --accent-dark:#b5611a;
+    }
+    header.global-header, .sub-nav, aside.sidebar, aside.toc-right,
+    #to-top, .theme-toggle, .header-controls, .mobile-chapter-nav, .kb-xlink { display: none !important; }
+    .portal-container { display: block; max-width: 100%; margin: 0; }
+    main.content-area { max-width: 100%; padding: 0; margin: 0; }
+    body { background: #fff; color: #000; }
+    .section-card { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; page-break-inside: avoid; margin-bottom: 14px; }
+    .chapter-heading { break-before: page; page-break-before: always; }
+    .chapter-heading:first-of-type { break-before: auto; page-break-before: auto; }
+    figure.chart, table, .muni-grid, .stats { break-inside: avoid; page-break-inside: avoid; }
+    a[href^="http"]::after { content: " <" attr(href) ">"; font-size: .72em; color: #444; word-break: break-all; }
+    .card-tags { display: none; }  /* 印刷ではペルソナ絞り込みは不要 */
+  }
+
+  @media (max-width: 1180px) {
+    aside.toc-right { display: none; }
+  }
+  @media (max-width: 900px) {
+    aside.sidebar { display: none; }
+    main.content-area { padding: 18px 16px; }
+    .search-box input { width: 150px; }
+    .brand-area p { display: none; }
+    .mobile-chapter-nav { display: inline-block; }
+    .sub-nav { gap: 8px; }
+    .filter-hint { display: none; }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- グローバルヘッダー -->
+<header class="global-header">
+  <div class="brand-area">
+    <h1>Timor-Leste <span>Knowledge Base</span></h1>
+    <p>東ティモール ナレッジベース ― 歴史・政治・経済から独自の生態系、現地生活までを出典付きで紐解く研究者向け総合データベース</p>
+  </div>
+  <div class="header-controls">
+    <div class="search-box">
+      <input type="text" id="live-search" aria-label="本文をキーワード検索" placeholder="キーワード検索（例: Lulik, 石油基金, 固有種, 識字率）...">
+    </div>
+    <a class="kb-xlink" href="20260727_東ティモール_ビジネス投資ブリーフ_v2.html" title="ビジネス投資ブリーフを開く">投資ブリーフ ↗</a>
+    <button id="theme-toggle" class="theme-toggle" aria-label="ダーク/ライト切替" title="ダーク/ライト切替">🌙</button>
+    <div class="lang-picker"><b>JP</b> / EN / TET</div>
+  </div>
+</header>
+
+<!-- サブナビゲーション（フィルター） -->
+<div class="sub-nav">
+  <div class="breadcrumbs">Home &gt; 東ティモール総合統合データベース</div>
+  <select id="mchap" class="mobile-chapter-nav" aria-label="章へ移動">
+    <option value="">章へ移動…</option>
+      <option value="ch1">1. 概要・基礎データ</option>
+      <option value="ch2">2. 自然・地理・環境</option>
+      <option value="ch3">3. 歴史と記憶</option>
+      <option value="ch4">4. 政治・ガバナンス・治安</option>
+      <option value="ch5">5. 経済・産業・ビジネス</option>
+      <option value="ch6">6. 社会・開発・生活ガイド</option>
+      <option value="ch7">7. 言語・文化・アイデンティティ</option>
+      <option value="ch8">8. 観光・遺産・旅の手引き</option>
+      <option value="ch9">9. 研究リファレンス・データ</option>
+  </select>
+  <div class="persona-filters">
+    <span class="flabel">ターゲット絞り込み:</span>
+    <button class="filter-btn active" data-target="all">全対象</button>
+    <button class="filter-btn" data-target="research">研究</button>
+    <button class="filter-btn" data-target="business">ビジネス</button>
+    <button class="filter-btn" data-target="living">移住・生活</button>
+    <button class="filter-btn" data-target="nature">観光・ネイチャー</button>
+    <button id="logic-toggle" class="logic-toggle" title="複数選択時の論理を切替（いずれか/すべて）">いずれか(OR)</button>
+    <span class="filter-hint">複数選択で絞り込み</span>
+  </div>
+</div>
+
+<div class="portal-container">
+
+  <aside class="sidebar">
+    <h3>ナビゲーション</h3>
+    <ul class="sidebar-nav">
+      <li><a href="#ch1">1. 概要・基礎データ</a></li>
+      <li><a href="#ch2">2. 自然・地理・環境</a></li>
+      <li><a href="#ch3">3. 歴史と記憶</a></li>
+      <li><a href="#ch4">4. 政治・ガバナンス・治安</a></li>
+      <li><a href="#ch5">5. 経済・産業・ビジネス</a></li>
+      <li><a href="#ch6">6. 社会・開発・生活ガイド</a></li>
+      <li><a href="#ch7">7. 言語・文化・アイデンティティ</a></li>
+      <li><a href="#ch8">8. 観光・遺産・旅の手引き</a></li>
+      <li><a href="#ch9">9. 研究リファレンス・データ</a></li>
+    </ul>
+  </aside>
+
+  <main class="content-area">
+
+  <h2 class="chapter-heading" id="ch1" data-chapter="1"><span class="chapter-num">1</span>概要・基礎データ</h2>
+
+  <section class="section-card" id="sec-1" data-chapter="1" data-tags="research business living nature">
+    <h2><span class="kicker">EXECUTIVE SUMMARY</span>要旨</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge business">ビジネス</span><span class="tag-badge living">生活</span><span class="tag-badge nature">観光</span></div>
+    <p class="lead">
+      <strong>東ティモール（ティモール・レステ）</strong>は、約400年のポルトガル統治と四半世紀のインドネシア占領を経て<strong>2002年に独立を回復した21世紀最初の独立国</strong>であり、<strong>2025年にはASEANの第11加盟国</strong>となりました。人口約134万の若い社会で、財政は<strong>約188億US$の石油基金</strong>に大きく依存する一方、発育阻害・貧困・教育の質など<strong>「資源の富と人間開発のギャップ」</strong>が根強く残ります。政治は独立闘争を率いた<strong>「1975年世代」</strong>の指導者がなお動かし、文化面では聖性<strong>〈ルリック〉</strong>を核とする独自の社会秩序と世界屈指のカトリック信仰が併存します。本書は、これらを<strong>開発学・政治学・経済学・歴史学・文化人類学</strong>の視点から出典付きで概観する研究者向けの概説です。
+    </p>
+  </section>
+
+  <section class="section-card" id="sec-2" data-chapter="1" data-tags="research business living nature">
+    <h2><span class="kicker">OVERVIEW</span>概要</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge business">ビジネス</span><span class="tag-badge living">生活</span><span class="tag-badge nature">観光</span></div>
+    <p class="lead">
+      <strong>東ティモール（現地呼称：ティモール・レステ／Timor-Leste）</strong>は、ティモール島東半分とオエクシ飛び地・アタウロ島などからなる、東南アジアの島嶼国家です。
+      約400年に及ぶポルトガル統治、1975年以降のインドネシアによる軍事併合（占領）を経て、1999年の住民投票と国連暫定統治を通じて<strong>2002年に独立を回復</strong>しました。
+    </p>
+    <p>
+      研究対象としての東ティモールは、少なくとも次の4つの顔を持ちます ―
+      (1) 国連平和構築の代表的ケースである<strong>ポスト紛争・国家建設国家</strong>、
+      (2) 歳入の大半を石油・ガス基金に依存する<strong>資源レンティア経済</strong>、
+      (3) 脆弱国家グループ <em>g7+</em> の創設・主導国という<strong>開発協力アクター</strong>、
+      (4) 2025年に加盟を果たした<strong>ASEAN最新メンバー</strong>。
+      本ページは観光的魅力に加え、これら学術的論点を出典付きで概観します。
+    </p>
+    <p class="caveat">
+      <strong>本書の扱い方（記述原則）：</strong>数値は原則として出典を明示し、<u>事実</u>と<u>推計・見通し</u>を区別しています。
+      特に石油基金の枯渇時期や生産終了時期は資料により幅があるため、末尾の「未確認・留意事項」も併せて参照してください。
+    </p>
+  </section>
+
+  <section class="section-card" id="sec-3" data-chapter="1" data-tags="research business living nature">
+    <h2><span class="kicker">KEY INDICATORS</span>基礎指標（クイックリファレンス）</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge business">ビジネス</span><span class="tag-badge living">生活</span><span class="tag-badge nature">観光</span></div>
+    <span class="kind academic">学術・統計</span>
+    <div class="stats">
+      <div class="stat"><p class="k">正式名称</p><p class="v">東ティモール民主共和国</p></div>
+      <div class="stat"><p class="k">面積</p><p class="v">約14,874km² <small>(東南アジア最小)<sup class="cite">13</sup></small></p></div>
+      <div class="stat"><p class="k">人口</p><p class="v">1,340,434人 <small>(2022年国勢調査/INETL)<sup class="cite">4</sup>。約143万人(2026推計)<sup class="cite">4</sup></small></p></div>
+      <div class="stat"><p class="k">年齢中央値</p><p class="v">約21歳 <small>(2022国勢調査 約21.7／2024推計 約21.3)<sup class="cite">4</sup></small></p></div>
+      <div class="stat"><p class="k">政体</p><p class="v">半大統領制 <small>共和国<sup class="cite">5</sup></small></p></div>
+      <div class="stat"><p class="k">公用語</p><p class="v">テトゥン語・ポルトガル語<sup class="cite">6</sup></p></div>
+      <div class="stat"><p class="k">通貨</p><p class="v">米ドル <small>(補助硬貨センタボ)</small></p></div>
+      <div class="stat"><p class="k">HDI</p><p class="v">0.634 <small>／ 世界142位・中位。2023年データ＝UNDP HDR 2025<sup class="cite">2</sup></small></p></div>
+      <div class="stat"><p class="k">1人当たりGDP</p><p class="v">約1,300US$ <small>(名目/2024・World Bank)。約4,900US$(PPP/2025推計)<sup class="cite">2</sup></small></p></div>
+      <div class="stat"><p class="k">石油基金残高</p><p class="v">約188億US$ <small>(2025年6月/BCTL。四半期で変動)<sup class="cite">3</sup></small></p></div>
+      <div class="stat"><p class="k">宗教</p><p class="v">カトリック 97.6%<sup class="cite">6</sup></p></div>
+      <div class="stat"><p class="k">標準時・コード</p><p class="v">UTC+9 <small>（日本と同じ）／国番号 +670／ccTLD .tl<sup class="cite">13</sup></small></p></div>
+    </div>
+    <p class="note" style="margin-top:16px;">
+      ※ GDPは名目とPPP、また「石油部門込み／非石油（non-oil）」で大きく異なる点に注意。資源国であるため、国民生活を論じる際は<strong>非石油GDP</strong>や<strong>国民貧困線指標</strong>を併用するのが通例です。
+    </p>
+  </section>
+
+  <section class="section-card" id="sec-4" data-chapter="1" data-tags="research living nature">
+    <h2 id="sym"><span class="kicker">SYMBOLS &amp; HOLIDAYS</span>国の象徴・祝祭日</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge living">生活</span><span class="tag-badge nature">観光</span></div>
+    <span class="kind academic">リファレンス</span>
+    <div class="table-wrap"><table>
+      <tr><th>象徴</th><th>内容</th></tr>
+      <tr><td><strong>国名の由来</strong></td><td>「Timor」はマレー語 <em>timur</em>（東）、「Leste」はポルトガル語で「東」。つまり<strong>「東・東」</strong>という重複表現。テトゥン語では <strong>Timór Lorosa'e</strong>（＝日の昇る所）</td></tr>
+      <tr><td><strong>国旗</strong></td><td>赤地に、黒い三角（乗り越えるべき蒙昧）と黄の三角（植民地主義の残滓）、中央に白い五稜星（導きの光）。赤は独立闘争を表す</td></tr>
+      <tr><td><strong>国章</strong></td><td>2007年制定（法2/2007）。最高峰<strong>ラメラウ山（Tatamailau）</strong>を配し、標語<strong>「Unidade, Acção, Progresso（統一・行動・前進）」</strong></td></tr>
+      <tr><td><strong>国歌</strong></td><td><strong>『Pátria（祖国）』</strong>。1975年に作曲（詞：F. B. da Costa）、2002年の独立回復で採用。歌詞はポルトガル語で「Pátria, Pátria…」と祖国・革命・自由を高らかに歌う（著作権上、全歌詞は割愛）</td></tr>
+    </table></div>
+    <h3>主な祝祭日</h3>
+    <p>
+      信仰と独立史を映す祝日が多いのが特徴です。1/1 元日、<strong>3/3 退役軍人の日</strong>、5/1 労働の日、<strong>5/20 独立回復記念日</strong>、<strong>8/30 住民投票の日</strong>、11/1 諸聖人の日・11/2 死者の日、11/3 女性の日、<strong>11/12 青年の日</strong>（サンタクルス事件の日）、<strong>11/28 独立宣言記念日</strong>、12/25 クリスマス。加えて聖金曜日・聖体祭・イドゥル・フィトリ等の移動祝日があります<sup class="cite">41</sup>。
+    </p>
+  </section>
+
+  <h2 class="chapter-heading" id="ch2" data-chapter="2"><span class="chapter-num">2</span>自然・地理・環境</h2>
+
+  <section class="section-card" id="sec-5" data-chapter="2" data-tags="research nature living">
+    <h2 id="geoenv"><span class="kicker">GEOGRAPHY &amp; ENVIRONMENT</span>地理・環境・気候</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge nature">観光</span><span class="tag-badge living">生活</span></div>
+    <span class="kind academic">地理学・環境学・防災</span>
+    <p>
+      国土面積は<strong>約14,874km²</strong>（東・東南アジアで最小）。ティモール島東半分に加え、島の西側（インドネシア領西ティモール内）に<strong>オエクシ飛び地</strong>、沖合に<strong>アタウロ島</strong>を持ちます。国土は急峻な山岳地形が卓越し、最高峰<strong>ラメラウ山（タタマイラウ／2,963m）</strong>を擁し、海岸線は約706kmに及びます<sup class="cite">13</sup>。
+    </p>
+
+    <h3>地形・地質（自然地理）</h3>
+    <p>
+      <strong>プレートテクトニクス：</strong>ティモール島は<strong>オーストラリア大陸縁とバンダ弧の衝突帯</strong>に位置し、付加体・前弧火山岩・大陸縁物質が入り混じった<strong>若い山地</strong>です。衝突はティモール付近で始まって西へ伝播しており、<strong>急速な隆起</strong>が山がちな地形を生みました。海岸には<strong>隆起サンゴ礁段丘</strong>（例：バウカウの石灰岩台地）が発達し、衝突起源の<strong>メランジュ（ボボナロ・スケイリー・クレイ）</strong>も分布。隆起した海成層からは化石も産し、19世紀以来の地質学研究の対象です<sup class="cite">53</sup>。
+    </p>
+    <p>
+      <strong>山脈・高峰：</strong>島の中央を東西に走る<strong>山脈（コルディレラ）</strong>が背骨で、最高峰<strong>タタマイラウ（ラメラウ、2,963m）</strong>、第3の高峰<strong>マテビアン（2,372m、抵抗の聖地）</strong>などがそびえます<sup class="cite">53</sup>。
+    </p>
+    <p>
+      <strong>海峡・周辺海域：</strong>北は<strong>ウェタル海峡・オンバイ海峡</strong>（バンダ海の一部）、南は<strong>ティモール海</strong>（石油・ガス田）、周囲にサブ海・バンダ海が広がります。とくに<strong>オンバイ・ウェタル海峡は岸近くまで深く</strong>、潜水艦の通航路として戦略的で、クジラの回遊路にもなっています<sup class="cite">53</sup>。
+    </p>
+    <p>
+      <strong>河川・湖・平野：</strong>河川は季節的で急流が多く、最長は<strong>ロエス川</strong>、次いで北ラクロ川（約110km）。首都の<strong>コモロ川</strong>、オエクシの<strong>トノ川</strong>（灌漑）も重要です。最大の湖は東端の<strong>イララロ湖</strong>（約6.5×3km、湿地・国立公園内）。平野は狭い海岸沿いに限られ、内陸には隆起石灰岩の<strong>台地（バウカウ）</strong>や盆地が点在します<sup class="cite">53</sup>。
+    </p>
+    <p>
+      <strong>地震・津波：</strong>収束境界に位置して<strong>中程度の地震活動</strong>があり、1900年以降にM6超が少なくとも19回（概ね5〜10年に1回程度）発生。津波リスクもあり、政府は地震・津波の監視体制を整備しています<sup class="cite">53</sup>。
+    </p>
+    <p>
+      気候は熱帯性で、雨季（概ね11〜5月）と乾季（6〜10月）が明瞭。<strong>ENSO（エルニーニョ／ラニーニャ）</strong>の影響も大きく、<strong>エルニーニョ年は降水減・雨季短縮で干ばつ・火災リスク</strong>（2015〜16年には約40万人に影響）、ラニーニャ年は多雨で洪水リスクが高まります。<strong>気候変動に対して世界有数の脆弱国</strong>とされ、人口の6割超が天水に依存する自給的農業に従事するため、モンスーンの不安定化・海面上昇・極端気象の影響を強く受けます。急峻な地形が鉄砲水・地滑りのリスクを増幅し、政府や国連機関は<strong>早期警戒・事前対応（anticipatory action）</strong>の整備を進めています<sup class="cite">13</sup>。
+    </p>
+    <p class="caveat">
+      <strong>災害事例：</strong>2021年4月のサイクロン<strong>「セロジャ（Seroja）」</strong>は首都ディリ一帯に大規模な洪水・地滑りをもたらし、ディリ周辺だけで40名以上が死亡、4,000戸以上が損壊した（被害は周辺のインドネシアを含め広域に及んだ）。防災・早期警戒能力の脆弱さが露呈した事例として研究対象となっています<sup class="cite">13</sup>。
+    </p>
+    <p>
+      一方、海洋環境は世界的な宝庫です。東ティモールは海洋生物多様性の世界的中心<strong>「サンゴ礁三角地帯（Coral Triangle）」</strong>に位置し、<strong>アタウロ島周辺のサンゴ礁は「世界一のサンゴ礁魚類の平均種数」</strong>と評価されています（Conservation International, 2016）<sup class="cite">13</sup>。海洋保全と生態系サービスに依拠した観光・漁業が、環境経済学・保全生物学の重要な研究フィールドとなっています。
+    </p>
+    <h3>研究上の論点</h3>
+    <ul class="benefits">
+      <li>気候変動への<strong>適応・防災（早期警戒）</strong>の制度構築と、脆弱性の規定要因</li>
+      <li>サンゴ礁（Coral Triangle）の<strong>海洋保全と生態系サービス</strong>・観光・漁業の両立</li>
+      <li>急峻な地形・天水依存の自給農業と<strong>災害リスク</strong>の連関</li>
+    </ul>
+  </section>
+
+  <section class="section-card" id="sec-6" data-chapter="2" data-tags="nature research">
+    <h2><span class="kicker">NATURE &amp; BIODIVERSITY</span>自然環境・生物多様性</h2>
+      <div class="card-tags"><span class="tag-badge nature">観光</span><span class="tag-badge research">研究</span></div>
+    <span class="kind academic">生物地理・保全生物学</span>
+    <p>
+      東ティモールは、アジアとオーストラリア＝オセアニアの生物相が出会う<strong>「ワラセア（Wallacea）」</strong>に位置し、山岳・モンスーン林・サバンナ的低地・マングローブ・サンゴ礁が入り交じる<strong>生物地理学上の要衝</strong>です<sup class="cite">39</sup>。
+    </p>
+    <h3>植物</h3>
+    <p>
+      維管束植物は<strong>1,500種超</strong>とされ、歴史的な交易品の<strong>白檀（Santalum album）</strong>のほか、チーク・ユーカリ・多様なラン類が知られます。白檀の芳香材は古くから香・香料に用いられ、交易の中心でした<sup class="cite">39</sup>。
+    </p>
+    <h3>動物（固有種）</h3>
+    <p>
+      鳥類には<strong>「ティモール固有種」</strong>が多く、<strong>ティモールミドリバト・ティモールスズメ・ティモールノビタキ・ティモールアオヒタキ・ティモールムシクイ・アイリスインコ</strong>などが代表例。コウモリ類も豊富です。哺乳類では<strong>ティモールジカ（Rusa timorensis）</strong>が代表的な大型草食獣で、<strong>ティモールニシキヘビ</strong>なども生息します<sup class="cite">39</sup>。海洋では、サンゴ礁三角地帯の高い魚類多様性とクジラ・イルカ・ウミガメの回遊が特徴です（詳細は<a href="#geoenv">地理・環境節</a>）。イリエワニは創世神話の聖なる存在でもあります。
+    </p>
+    <h3>研究上の論点</h3>
+    <ul class="benefits">
+      <li>ワラセアの<strong>生物地理</strong>と固有種の進化・分布</li>
+      <li>生息地喪失・<strong>森林減少</strong>・違法な野生生物取引と保全</li>
+      <li><strong>エコツーリズム</strong>と生物多様性保全の両立</li>
+    </ul>
+  </section>
+
+  <section class="section-card" id="sec-7" data-chapter="2" data-tags="research business living nature">
+    <h2><span class="kicker">REGIONS &amp; CITIES</span>地域（各行政区）の詳細と主要都市</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge business">ビジネス</span><span class="tag-badge living">生活</span><span class="tag-badge nature">観光</span></div>
+    <span class="kind academic">地誌</span>
+    <p>
+      行政区分は長らく<strong>12の県（municipality）＋オエクシ特別行政区（RAEOA）</strong>の計13区でしたが、<strong>2022年1月にアタウロ島が県として分離</strong>し、区分は14になりました。各県の下は<strong>郡（posto administrativo、約65）→スコ（suco／村、約440超）→アルデイア（aldeia／集落、約2,300）</strong>という階層で、スコはリウライ的な慣習的権威とも結びつく基礎的自治単位です。地形上、北岸は比較的乾燥し、南部・山岳部は降水が多い傾向があります<sup class="cite">38</sup>。以下に各区の面積・人口（2022年国勢調査）と特徴をまとめます。
+    </p>
+    <div class="table-wrap"><table>
+      <caption>各行政区の面積・人口（2022年国勢調査）・特徴。人口降順<sup class="cite">38</sup><sup class="cite">4</sup></caption>
+      <tr><th>行政区（県都）／英名</th><th>面積<br>(km²)</th><th>人口<br>(2022)</th><th>位置・特徴／見どころ</th></tr>
+      <tr><td><strong>ディリ Dili</strong><br><small>県都 ディリ Dili</small></td><td>228</td><td>324,269</td><td>北岸。首都・最大都市。クリスト・レイ、抵抗博物館、政府機能が集中</td></tr>
+      <tr><td><strong>エルメラ Ermera</strong><br><small>県都 グレノ Gleno</small></td><td>771</td><td>138,080</td><td>内陸。国内最大の<strong>コーヒー産地</strong></td></tr>
+      <tr><td><strong>バウカウ Baucau</strong><br><small>県都 バウカウ Baucau</small></td><td>1,508</td><td>133,881</td><td>北岸東部。<strong>第2の都市</strong>。ポルトガル旧市街・海岸・鍾乳洞</td></tr>
+      <tr><td><strong>ボボナロ Bobonaro</strong><br><small>県都 マリアナ Maliana</small></td><td>1,381</td><td>106,543</td><td>西部国境。農業地帯。バリボ（バリボ5事件）、マロボ温泉</td></tr>
+      <tr><td><strong>リキサ Liquiçá</strong><br><small>県都 リキサ Liquiçá</small></td><td>551</td><td>83,689</td><td>北岸西部。海岸・ビーチ、コーヒー</td></tr>
+      <tr><td><strong>オエクシ Oecusse</strong><br><small>県都 パンテ・マカッサル Pante Macassar</small></td><td>817</td><td>80,726</td><td>飛び地（RAEOA）。経済特区ZEESM。リファウ（1515年ポルトガル最初の上陸地）</td></tr>
+      <tr><td><strong>ヴィケケ Viqueque</strong><br><small>県都 ヴィケケ Viqueque</small></td><td>1,880</td><td>80,054</td><td>南東。面積最大級。稲作地帯</td></tr>
+      <tr><td><strong>コバリマ Cova Lima</strong><br><small>県都 スアイ Suai</small></td><td>1,207</td><td>73,909</td><td>南西岸。Tasi Maneスアイ供給基地・国境交易</td></tr>
+      <tr><td><strong>アイナロ Ainaro</strong><br><small>県都 アイナロ Ainaro</small></td><td>870</td><td>72,989</td><td>南中部・山岳。最高峰ラメラウ山、避暑地マウベシ、コーヒー</td></tr>
+      <tr><td><strong>ラウテン Lautém</strong><br><small>県都 ロスパロス Lospalos</small></td><td>1,813</td><td>69,836</td><td>東端。ファタルク文化圏。国立公園・ジャコ島・イリ・ケレ・ケレ洞窟</td></tr>
+      <tr><td><strong>マヌファヒ Manufahi</strong><br><small>県都 サメ Same</small></td><td>1,327</td><td>60,536</td><td>南中部。ベタノ（Tasi Mane計画）、山と海</td></tr>
+      <tr><td><strong>アイレウ Aileu</strong><br><small>県都 アイレウ Aileu</small></td><td>676</td><td>54,631</td><td>内陸（山岳）。首都近郊の高原、農業</td></tr>
+      <tr><td><strong>マナトゥト Manatuto</strong><br><small>県都 マナトゥト Manatuto</small></td><td>1,786</td><td>50,989</td><td>北中部。乾燥した海岸・塩づくり、面積が広い</td></tr>
+      <tr><td><strong>アタウロ Atauro</strong><br><small>県都 ビケリ Biqueli</small></td><td>141</td><td>10,302</td><td>ディリ沖の島。<strong>2022年に県として分離</strong>。世界屈指のサンゴ礁ダイビング</td></tr>
+    </table></div>
+
+    <h3>地域別の詳細</h3>
+    <p>
+      <strong>北岸（ディリ・リキサ・マナトゥト・バウカウ・ラウテン＋アタウロ）</strong> ―
+      ディリは政治・経済の中心で人口が突出。リキサはコーヒーと海岸、マナトゥトは乾燥した海岸で塩づくり、バウカウは高原の第2都市でポルトガル植民地の旧市街・海岸をもちます。東端<strong>ラウテン</strong>はファタルク文化圏で、ニノ・コニス・サンタナ国立公園・ジャコ島・イリ・ケレ・ケレ洞窟を擁する自然と考古の宝庫。沖の<strong>アタウロ島</strong>は2022年に県として分離し、世界屈指のサンゴ礁ダイビングで知られます<sup class="cite">38</sup>。
+    </p>
+    <p>
+      <strong>南部（コバリマ・アイナロ・マヌファヒ・ヴィケケ）</strong> ―
+      南岸〜山岳は北岸より降水が多く農業が盛ん。<strong>ヴィケケ</strong>は面積最大級の稲作地帯、<strong>マヌファヒ</strong>（県都サメ）はベタノで Tasi Mane 計画、<strong>アイナロ</strong>は最高峰ラメラウ山と避暑地マウベシ・コーヒー、<strong>コバリマ</strong>（県都スアイ）はスアイ供給基地と国境交易の拠点です<sup class="cite">38</sup>。
+    </p>
+    <p>
+      <strong>内陸（アイレウ・エルメラ）</strong> ―
+      首都南方の山岳内陸。<strong>アイレウ</strong>は高原の農業地帯、<strong>エルメラ</strong>（県都グレノ）は国内最大のコーヒー産地です<sup class="cite">38</sup>。
+    </p>
+    <p>
+      <strong>西部国境・飛び地（ボボナロ・オエクシ）</strong> ―
+      <strong>ボボナロ</strong>（県都マリアナ）はインドネシア国境の農業地帯で、1975年の<strong>バリボ5事件</strong>の地バリボやマロボ温泉があります。飛び地<strong>オエクシ</strong>（県都パンテ・マカッサル）は特別行政区で ZEESM 開発の舞台。1515年にポルトガルが最初に上陸した<strong>リファウ</strong>を擁します<sup class="cite">38</sup>。
+    </p>
+
+    <h3>地域ごとの文化的特色</h3>
+    <p>
+      文化の地域差は<strong>民族言語集団の分布</strong>と強く結びつきます。家屋様式・タイス（織物）の文様・婚姻規範に、地域色がはっきり表れます<sup class="cite">6</sup>。
+    </p>
+    <ul class="benefits">
+      <li><strong>中央山地（アイレウ・アイナロ等）＝マンバイ：</strong>人口第2の集団。聖なる家<strong>ウマ・ルリック</strong>を核とする祭祀の伝統が色濃い<sup class="cite">6</sup>。</li>
+      <li><strong>東端ラウテン＝ファタルク（パプア系）：</strong>高く尖った茅葺き屋根を高床に載せる独特の<strong>「聖なる家（le ia valu）」</strong>が景観の象徴。タイスは木綿を地機（backstrap loom）で平織と<strong>絣（ikat）</strong>で織る<sup class="cite">17</sup>。</li>
+      <li><strong>東部内陸（バウカウ・ヴィケケ内陸等）＝マカサエ／ブナク（パプア系）：</strong>ブナク等は婚資を伴う<strong>ハフォリ（Hafoli）婚</strong>。抵抗運動の拠点でもあった<sup class="cite">6</sup>。</li>
+      <li><strong>南部スアイ周辺（フェハン・テトゥン／ウェハリ）：</strong>東ティモールでは例外的な<strong>母系社会</strong>で、リウライ／マロマク・オアンの起源とも結びつく<sup class="cite">17</sup>。</li>
+      <li><strong>飛び地オエクシ＝バイケノ：</strong>西ティモールのダワン（アトニ）系と連続する言語・文化。タイスには修道女経由で入った<strong>欧風・宗教モチーフ</strong>も見られる<sup class="cite">6</sup>。</li>
+      <li><strong>タイス全般：</strong>県ごとに文様・色が異なり、<strong>ワニ神話や動植物</strong>をモチーフとするなど「地域アイデンティティの布」となっている<sup class="cite">17</sup>。</li>
+    </ul>
+
+    <h3>主要都市</h3>
+    <p>
+      人口・機能は<strong>首都ディリ（約32万）</strong>に一極集中しています。次いで北岸東部の<strong>バウカウ</strong>（旧市街で知られる第2の都市）、飛び地の中心<strong>パンテ・マカッサル</strong>、西部の<strong>マリアナ</strong>、南西部の<strong>スアイ</strong>、東部の<strong>ロスパロス</strong>などが地方の拠点都市です。都市人口の集中と地方の過疎という<strong>地域間格差</strong>も開発上の論点です<sup class="cite">38</sup>。
+    </p>
+    <h3>都市化とディリ</h3>
+    <p>
+      都市人口は全体の約3割ですが、<strong>ディリは急速に拡大</strong>しています（2010年 約19.4万人 → 2026年推計 約30万人、年約2.8%増）。急増に伴い、市内の複数地区（カイコリ、コルメラ、ヴィラ・ヴェルデ等）で<strong>非正規居住（スラム）</strong>が広がり、上下水道など<strong>都市インフラの整備が追いつかない</strong>ことが課題です（電力は国内で最初に24時間化）。<strong>都市計画と地方開発の両立</strong>が問われています<sup class="cite">49</sup>。
+    </p>
+
+    <h3>スコの自治とルール（草の根ガバナンス）</h3>
+    <p>
+      最基層の<strong>スコ（村）</strong>は、単なる行政区画ではなく「歴史・文化・伝統的な紐帯で結ばれた共同体」と法的に位置づけられ、統治の枠組みは<strong>スコ法（現行は法9/2016）</strong>が定めます<sup class="cite">56</sup>。
+    </p>
+    <p>
+      <strong>スコ長（Xefe de Suku）は住民の直接選挙</strong>で選ばれ、意思決定は<strong>スコ評議会（Konsellu Suku）</strong>が担います。評議会は、スコ長・各アルデイア（集落）長に加え、<strong>各アルデイアの男女代表・青年代表（男女各1）・長老・慣習の守り手「リアナイン（lian-na'in）」</strong>で構成され、<strong>女性と若者の代表を制度的に組み込む</strong>点が特徴です（草の根のジェンダー包摂。女性スコ長も増加傾向）<sup class="cite">56</sup>。
+    </p>
+    <p>
+      スコは<strong>社会的平和の維持・住民の利益擁護・地域開発</strong>を担いますが、<strong>独自の予算・法的権限は限定的</strong>で、国家の地方行政の末端という性格が強いです。一方で、リアナインが担う<strong>慣習（lisan）やタラ・バンドゥ</strong>が実際の秩序維持・紛争解決に機能しており、スコは<strong>国家法と慣習法が併存する「法多元主義」の現場</strong>となっています（<a href="#culture">文化・社会構造節</a>参照）<sup class="cite">56</sup>。
+    </p>
+  </section>
+
+  <h2 class="chapter-heading" id="ch3" data-chapter="3"><span class="chapter-num">3</span>歴史と記憶</h2>
+
+  <section class="section-card" id="sec-8" data-chapter="3" data-tags="research living">
+    <h2 id="hist"><span class="kicker">HISTORY</span>歴史の歩み ― 先史から独立後まで</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge living">生活</span></div>
+    <span class="kind academic">歴史学・移行期正義</span>
+    <p>歴史を<strong>①先史 ②独立前（植民地・占領）③独立遷移期 ④独立後</strong>の4期に分けて概観します。</p>
+
+    <h3>① 先史</h3>
+    <p>数万年前から人類が居住し、海洋民としての深い歴史をもちます。</p>
+    <ul class="timeline">
+      <li><span class="date">約4.2万年前</span> 東端ラウテンの<strong>ジェリマライ洞窟</strong>に、世界最古級の<strong>深海（マグロ等）漁の痕跡と釣り針</strong>。高度な航海・漁労技術を示す<sup class="cite">32</sup>。</li>
+      <li><span class="date">約1.3万年前〜</span> トゥトゥアラの<strong>イリ・ケレ・ケレ洞窟</strong>の岩絵。国内最重要の考古遺跡<sup class="cite">32</sup>。</li>
+      <li><span class="date">先史後期〜</span> オーストロネシア系・パプア系が重層的に定住。13世紀までにジャワ・中国商人が<strong>白檀・蜜蝋</strong>を求めて来航<sup class="cite">32</sup>。</li>
+    </ul>
+
+    <h3>② 独立前 ― 植民地と占領</h3>
+    <p>白檀交易を背景としたポルトガル統治、第二次大戦の惨禍、そしてインドネシア占領へと続きます。</p>
+    <ul class="timeline">
+      <li><span class="date">16世紀〜</span> ポルトガルが進出（1515年来航、1556年ドミニコ会、1702年に植民地宣言）。混血層<strong>「トパセス」</strong>が台頭し、1769年に首府をディリへ移転<sup class="cite">32</sup>。</li>
+      <li><span class="date">1859年</span> <strong>リスボン条約</strong>でオランダ領（西ティモール）と分割し、境界確定へ<sup class="cite">32</sup>。</li>
+      <li><span class="date">1942〜45年</span> 第二次大戦の<strong>日本軍占領</strong>。豪州の「スパロウ・フォース」が抵抗。飢餓・戦禍で<strong>人口の約15%（4〜7万人）</strong>が犠牲に<sup class="cite">32</sup>。</li>
+      <li><span class="date">1974〜75年</span> ポルトガルのカーネーション革命→脱植民地化。UDT・フレティリン・アポデティが結成、短い内戦を経て<strong>フレティリンが1975年11月28日に独立を宣言</strong><sup class="cite">32</sup>。</li>
+      <li><span class="date">1975年12月7日</span> <strong>インドネシアが侵攻</strong>、翌年「27番目の州」として併合（国際的に未承認）。占領下でCAVR報告書『Chega!』推計の<strong>約18〜20万人</strong>が死亡<sup class="cite">8</sup>。</li>
+      <li><span class="date">1991年11月12日</span> <strong>サンタクルス（ディリ）虐殺</strong>。映像が国外に持ち出され国際世論を動かす<sup class="cite">6</sup>。</li>
+      <li><span class="date">1996年</span> ベロ司教とラモス＝ホルタが<strong>ノーベル平和賞</strong>を受賞<sup class="cite">18</sup>。</li>
+    </ul>
+
+    <h3>占領期の抵抗運動と人的被害（深掘り）</h3>
+    <p>
+      抵抗は<strong>3つの戦線</strong>で戦われました ― 山岳ゲリラの<strong>武装戦線（Falintil）</strong>、都市の情報・支援網である<strong>地下（clandestine）戦線</strong>、そしてラモス＝ホルタらが担った<strong>外交戦線</strong>です。Falintilは外部支援を断たれた山岳・密林で、米国の後ろ盾を得たインドネシア軍と対峙し、初代指導者ニコラウ・ロバトの戦死（1978年）後は<strong>シャナナ・グスマン</strong>が抵抗を再統合しました<sup class="cite">8</sup>。
+    </p>
+    <p>
+      被害は甚大でした。インドネシア軍の<strong>「包囲殲滅」作戦と強制移住</strong>は<strong>1977〜79年の大飢饉</strong>を招き、CAVRはこの飢饉・疾病による死者を<strong>最低約8万4千人（最大約18万3千人）</strong>と推計します。占領期（1974〜99年）全体の紛争関連死は<strong>最低約10万2,800人</strong>（暴力による殺害 約1万8,600人＋飢餓・疾病 約8万4,200人）に達し、殺害の<strong>約7割はインドネシア軍とその補助部隊</strong>によるとされます（CAVR報告書『Chega!』、2,500ページ）<sup class="cite">8</sup>。
+    </p>
+
+    <h3>③ 独立遷移期（1999〜2002）</h3>
+    <p>国連監視の住民投票から、国連暫定統治を経て独立を回復した「国家建設」の時期です。</p>
+    <ul class="timeline">
+      <li><span class="date">1999年8月30日</span> 国連監視下の<strong>住民投票で78.5%が独立を選択</strong><sup class="cite">8</sup>。</li>
+      <li><span class="date">1999年9月〜</span> 親インドネシア民兵による<strong>焦土的暴力</strong>（多数の死者、インフラの大半が破壊、大規模避難）。多国籍軍<strong>INTERFET</strong>が介入<sup class="cite">8</sup>。</li>
+      <li><span class="date">1999〜2002年</span> 国連暫定行政機構<strong>UNTAET</strong>が統治し、憲法制定・国家機構をゼロから構築（国連による国家建設の代表例）<sup class="cite">8</sup>。</li>
+      <li><span class="date">2002年5月20日</span> 「東ティモール民主共和国」として<strong>独立を回復</strong>。21世紀最初の独立国となり、国連にも加盟<sup class="cite">8</sup>。</li>
+    </ul>
+
+    <h3>④ 独立後（2002〜）</h3>
+    <p>和解と国家建設、資源経済、そして地域統合へと歩みを進めます。</p>
+    <ul class="timeline">
+      <li><span class="date">2002〜05年</span> 真実和解委員会<strong>CAVR</strong>が1974〜99年の人権侵害を調査し、報告書<strong>『Chega!』</strong>を刊行<sup class="cite">8</sup>。</li>
+      <li><span class="date">2006年</span> 東西対立・国軍待遇に端を発する<strong>治安危機</strong>（100人以上死亡）。国連<strong>UNMIT</strong>が再展開<sup class="cite">8</sup>。</li>
+      <li><span class="date">2008年2月</span> <strong>ラモス＝ホルタ大統領が銃撃され重傷</strong>、グスマン首相の車列も襲撃を受ける<sup class="cite">8</sup>。</li>
+      <li><span class="date">2018年</span> 対オーストラリア<strong>海洋境界条約</strong>に署名（2019年発効）<sup class="cite">12</sup>。</li>
+      <li><span class="date">2023年</span> 総選挙でCNRTが勝利し、<strong>グスマンが首相に復帰</strong>（第9次政府）<sup class="cite">5</sup>。</li>
+      <li><span class="date">2025年10月26日</span> 第47回ASEAN首脳会議で加盟が承認され、<strong>ASEAN第11加盟国</strong>に（1999年以来の拡大）<sup class="cite">1</sup>。</li>
+    </ul>
+
+    <h3>今後の主なマイルストーン（予定・見通し）</h3>
+    <p>以下は<strong>予定・見通し</strong>であり、確定した事実ではありません（時期は変わり得ます）。</p>
+    <ul class="timeline">
+      <li><span class="date">2026〜30年</span> <strong>ASEAN経済共同体（AEC）実施ロードマップ 2026–2030</strong>の遂行。加盟義務の履行と地域統合が本格化<sup class="cite">1</sup>。</li>
+      <li><span class="date">2027年頃</span> <strong>次期大統領選挙</strong>（周期による見込み）。地方（自治体）選挙も2027〜28年に段階的実施が予定<sup class="cite">5</sup>。</li>
+      <li><span class="date">2028年頃</span> <strong>次期国会選挙</strong>（周期による見込み）<sup class="cite">5</sup>。</li>
+      <li><span class="date">2030年</span> <strong>戦略開発計画 2011–2030</strong>の目標年（上位中所得国入りを目標）。SDGs 2030アジェンダ（水・衛生の普遍化等）の期限<sup class="cite">51</sup>。</li>
+      <li><span class="date">2030年代</span> 現行ペースでの<strong>石油基金の枯渇見通し</strong>（財政の分水嶺）。<strong>グレーター・サンライズ</strong>開発の帰趨が鍵<sup class="cite">3</sup>。</li>
+    </ul>
+
+    <p class="note">
+      ※ 現地では独立を「新たな独立」ではなく<strong>「独立回復（restoration of independence）」</strong>と表現する。これは1975年の独立宣言を出発点とみなす歴史認識に基づく。
+    </p>
+  </section>
+
+  <section class="section-card" id="sec-9" data-chapter="3" data-tags="research business">
+    <h2><span class="kicker">POST-2002 POLITICAL STRIFE</span>独立後の政治対立 ― 英雄たちの相克</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge business">ビジネス</span></div>
+    <span class="kind academic">政治学・平和構築</span>
+    <p>
+      独立回復後の政治は、輝かしい「建国の英雄」たちが<strong>権力と路線をめぐって激しく対立</strong>する側面も持ちました。その象徴が<strong>シャナナ・グスマン（大統領）とマリ・アルカティリ（首相・フレティリン）の確執</strong>で、これが2006年危機の底流となります<sup class="cite">5</sup>。
+    </p>
+    <p>
+      <strong>2006年危機：</strong>東西差別を訴えた兵士<strong>「請願者（petitioners）」約591名（後に594名）の解雇</strong>（正当な手続きを欠く、2006年3月）が引き金となり、軍・警察・都市青年を巻き込む暴力に発展。数十人が死亡し約15万人が国内避難民となり、<strong>アルカティリ首相は辞任</strong>、多国籍軍（Operation Astute）と国連（UNMIT）が再展開しました<sup class="cite">8</sup>。
+    </p>
+    <p>
+      離反した憲兵司令官<strong>アルフレド・レイナド</strong>は反乱兵を率い、無法者にして民衆的英雄という両義的存在となりました。<strong>2008年2月の襲撃事件</strong>ではラモス＝ホルタ大統領が銃撃され重傷、グスマン首相の車列も攻撃を受け、レイナド自身は殺害されました<sup class="cite">8</sup>。その後も2017〜18年には少数与党と予算不成立による<strong>政治的膠着</strong>が生じるなど、党派・人物間の対立は続いています<sup class="cite">5</sup>。
+    </p>
+    <h3>研究上の論点</h3>
+    <ul class="benefits">
+      <li>「建国の英雄」による<strong>個人化された政治</strong>と制度化の遅れ</li>
+      <li>治安部門（軍・警察）の<strong>政治化</strong>と2006年危機の教訓</li>
+      <li>和解・恩顧（パトロネジ）で回る<strong>非公式政治</strong>の功罪</li>
+    </ul>
+  </section>
+
+  <h2 class="chapter-heading" id="ch4" data-chapter="4"><span class="chapter-num">4</span>政治・ガバナンス・治安</h2>
+
+  <section class="section-card" id="sec-10" data-chapter="4" data-tags="research business">
+    <h2><span class="kicker">POLITICS &amp; GOVERNANCE</span>政治・ガバナンス</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge business">ビジネス</span></div>
+    <span class="kind academic">政治学・国際関係</span>
+    <p>
+      統治機構は<strong>半大統領制（semi-presidential system）</strong>。直接選挙で選ばれる大統領は法案拒否権や一部任命権を持つ象徴的元首で、実権は議会多数派から選出される<strong>首相（政府首長）</strong>にあります<sup class="cite">5</sup>。
+    </p>
+    <p>
+      二大勢力は独立闘争以来の<strong>フレティリン（FRETILIN）</strong>と、シャナナ・グスマン率いる<strong>CNRT（国家再建会議）</strong>。
+      2023年5月の総選挙でCNRTが第一党（65議席中31）となり民主党（PD）と連立、<strong>第9次立憲政府</strong>を発足させ、独立の英雄<strong>シャナナ・グスマンが首相</strong>に復帰しました<sup class="cite">5</sup>。
+      大統領は2022年の決選投票で返り咲いたノーベル平和賞受賞者<strong>ジョゼ・ラモス＝ホルタ</strong>が務めます<sup class="cite">5</sup>。
+    </p>
+    <h3>主要政党</h3>
+    <div class="table-wrap"><table>
+      <caption>2023年総選挙の結果（国会65議席）<sup class="cite">5</sup></caption>
+      <tr><th>政党</th><th>傾向・特徴</th><th>2023年議席</th></tr>
+      <tr><td><strong>CNRT</strong>（国家再建会議）</td><td>グスマン率いる中道右派。2007年結成、開発・投資志向</td><td>31（第一党）</td></tr>
+      <tr><td><strong>フレティリン（FRETILIN）</strong></td><td>独立闘争以来の左派・社会民主。1974年結成の歴史的政党。アルカティリ</td><td>19</td></tr>
+      <tr><td><strong>PD</strong>（民主党）</td><td>中道。CNRTと連立し第9次政府を構成</td><td>6</td></tr>
+      <tr><td><strong>KHUNTO</strong>（青年系新興政党）</td><td>若者層を基盤とする新興勢力。連立の「キングメーカー」となる</td><td>5</td></tr>
+      <tr><td><strong>PLP</strong>（人民解放党）</td><td>タウル・マタン・ルアクが2015年結成。前政権与党（議席減）</td><td>4</td></tr>
+    </table></div>
+    <p>
+      外部評価では、Transparency Internationalの<strong>腐敗認識指数（CPI）2024で100点満点中44点・180か国中73位</strong>と、東南アジアでは相対的に良好な位置にあります<sup class="cite">10</sup>。Freedom Houseも「自由（Free）」と分類する一方、汚職・司法能力・報道の自立性などの課題を指摘しています<sup class="cite">5</sup>。
+    </p>
+    <p>
+      報道の自由も地域的に高く、RSF「世界報道自由度指数」2024で<strong>180か国中20位（東南アジアで最高水準）</strong>と評価されます（前年10位から後退・スコア78.92）。テトゥン語・ポルトガル語・英語の新聞やRTTL（公共放送）があり<strong>ラジオが主要媒体</strong>ですが、法的手続き・威圧・政治家による中傷といった圧力も指摘されます<sup class="cite">21</sup>。
+    </p>
+    <p>
+      特筆すべきは<strong>女性の政治参画の高さ</strong>です。候補者名簿に「3人に1人は女性」を求めるジェンダー・クオータ制（2011年強化）により、2023年総選挙後は<strong>国会65議席のうち26議席（40%）を女性が占め</strong>、アジア太平洋地域でも有数の水準にあります<sup class="cite">15</sup>。前述のGBVの深刻さ（<a href="#gbv">後述</a>）と対照的な、ジェンダー研究上の重要な論点です。
+    </p>
+    <h3>研究上の論点</h3>
+    <ul class="benefits">
+      <li>独立世代（'75世代）のカリスマ指導者への依存と、政治エリートの世代交代・継承問題</li>
+      <li>半大統領制における大統領・首相・議会の権限配分と政治的安定性</li>
+      <li>国連統治（UNTAET）の遺産と、外部主導の制度移植（institution-building）の持続性</li>
+      <li>クオータ制による女性議席40%と、社会に根強いGBV・慣習規範との<strong>ギャップ</strong></li>
+    </ul>
+  </section>
+
+  <section class="section-card" id="sec-11" data-chapter="4" data-tags="research business">
+    <h2><span class="kicker">KEY FIGURES</span>主要人物 ― 独立世代の指導者たち</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge business">ビジネス</span></div>
+    <span class="kind academic">政治学・エリート研究</span>
+    <p>
+      東ティモール政治の際立った特徴は、独立闘争を率いた<strong>「1975年世代（Jerasaun 75／Geração de 75）」</strong>の指導者たちが、独立後20年以上にわたり大統領・首相の座を占め続けていることです。少数のカリスマが党派を超えて国政を動かす<strong>「人物本位の政治」</strong>が続く一方、<strong>世代交代</strong>（若い世代への継承）が最大の構造的課題となっています<sup class="cite">23</sup>。
+    </p>
+    <div class="table-wrap"><table>
+      <caption>主要な政治指導者（区分・生年〔-没年〕を明記）<sup class="cite">23</sup></caption>
+      <tr><th>人物</th><th>区分</th><th>主な役職</th><th>足跡</th></tr>
+      <tr><td><strong>シャナナ・グスマン</strong><br>Kay Rala Xanana Gusmão（1946-）</td><td>現職</td><td>現・首相（2023-）。初代大統領(2002-07)、首相(2007-15)</td><td>独立闘争の最高指導者でFalintil司令官。1992年に逮捕され終身刑、1999年釈放。CNRT創設者で建国の象徴的存在</td></tr>
+      <tr><td><strong>ジョゼ・ラモス＝ホルタ</strong><br>José Ramos-Horta（1949-）</td><td>現職</td><td>現・大統領（2022-）。大統領(2007-12)、首相(2006-07)、初代外相</td><td>占領期の亡命外交官として国際世論を主導。<strong>1996年ノーベル平和賞</strong>。2008年に武装勢力に襲撃され重傷を負った</td></tr>
+      <tr><td><strong>マリ・アルカティリ</strong><br>Mari Alkatiri（1949-）</td><td>現職</td><td>フレティリン書記長。初代首相(2002-06)、首相(2017-18)</td><td>カトリック国では稀な<strong>ムスリムの指導者</strong>。亡命（モザンビーク）を経て帰国。オエクシ特区(ZEESM)を主導</td></tr>
+      <tr><td><strong>タウル・マタン・ルアク</strong><br>José Maria Vasconcelos（1956-）</td><td>元職</td><td>前・首相(2018-23)。大統領(2012-17)</td><td>「鋭い二つの目」の意の異名。最後のFalintil司令官・初代F-FDTL司令官。PLP（人民解放党）創設者</td></tr>
+      <tr><td><strong>フランシスコ・"ルオロ"・グテレス</strong><br>Francisco Guterres（1954-2026）</td><td>元職</td><td>大統領(2017-22)</td><td>フレティリン所属。元Falintil、制憲議会議長を歴任。2026年6月逝去</td></tr>
+      <tr><td><strong>ニコラウ・ロバト</strong><br>Nicolau dos Reis Lobato（1946-1978）</td><td>歴史的人物</td><td>初代首相(1975)</td><td>フレティリン指導者・<strong>国民的英雄</strong>。1978年にインドネシア軍(Kopassus)に殺害され遺体は未発見。首都の国際空港に名を残す</td></tr>
+      <tr><td><strong>カルロス・ベロ</strong><br>Carlos Filipe Ximenes Belo（1948-）</td><td>歴史的人物</td><td>カトリック司教（ディリ教区 1988-2002）</td><td>占領下で人権を訴え、<strong>1996年ノーベル平和賞</strong>をラモス＝ホルタと共同受賞</td></tr>
+      <tr><td><strong>マリオ・カラスカレン</strong><br>Mário Carrascalão（1937-2017）</td><td>歴史的人物</td><td>インドネシア統治下の知事(1982-92)、のち副首相</td><td>占領期に東ティモール人知事を務めつつ人権状況を批判。独立後は民主社会党(PSD)を創設し野党的立場から国家建設に関与</td></tr>
+    </table></div>
+    <p>
+      この「抵抗の遺産」を制度化したのが<strong>退役軍人（antigos combatentes／ベテラヌス）への年金制度</strong>です。国家的敬意の表明である一方、<strong>財政負担が大きく</strong>（2011年には国家予算の約6%＝約7,200万US$が退役軍人給付）、受給資格をめぐる不公平感や、退役軍人に過大な政治的影響力・治安上の役割を与える圧力が課題として指摘されています（International Crisis Group）<sup class="cite">24</sup>。受給資格の認定は難しく、<strong>年金の不正</strong>（勤続年数の水増し・偽造カード・死者や重複での登録など）も検証で摘発され（88件の疑い）、多額を得る者と待たされる者との間に<strong>新たな社会的分断</strong>も生じています<sup class="cite">24</sup>。
+    </p>
+
+    <h3>女性政治家</h3>
+    <p>
+      女性議席40%（クオータ制）を背景に、女性指導者の存在感も高まっています。<strong>アルマンダ・ベルタ・ドス・サントス</strong>（1974-、KHUNTO党首）は農村・貧困層の出身で副首相(2020-23)・社会連帯相を務め、2022年には大統領選に出馬しました。2023年には<strong>マリア・フェルナンダ・ライが初の女性国会議長</strong>に就任。ほかに反汚職で知られる<strong>フェルナンダ・ボルジェス</strong>、女性運動家で国連常駐代表・大統領候補となった<strong>ミレナ・ピレス</strong>らがいます<sup class="cite">29</sup>。
+    </p>
+
+    <h3>世代交代と若手（Jerasaun Foun）</h3>
+    <p>
+      人口の中央値が約21歳という若い国で、<strong>独立後生まれの「新世代（Jerasaun Foun）」</strong>の政治参加が焦点です。若者層を基盤とする政党<strong>KHUNTO</strong>が連立の「キングメーカー」として台頭する一方、要職はなお1975年世代が握っており、<strong>世代交代の速度と経路</strong>が今後の政治を左右します<sup class="cite">29</sup>。
+    </p>
+
+    <h3>研究上の論点</h3>
+    <ul class="benefits">
+      <li><strong>カリスマ的指導者への依存</strong>と、独立世代からの世代交代・継承</li>
+      <li>党派対立が<strong>個人間の関係・和解</strong>で調整される「非公式政治」のダイナミクス</li>
+      <li>退役軍人の<strong>財政的・政治的比重</strong>と国家財政の持続可能性</li>
+    </ul>
+  </section>
+
+  <section class="section-card" id="sec-12" data-chapter="4" data-tags="research business">
+    <h2><span class="kicker">FOREIGN RELATIONS</span>外交・国際関係</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge business">ビジネス</span></div>
+    <span class="kind academic">国際関係・地政学</span>
+    <p>
+      小国ゆえに、東ティモール外交は<strong>多層的なヘッジング（バランス外交）</strong>を特徴とします。核心的成果が、長年の懸案だった<strong>対オーストラリア海洋境界画定条約</strong>（2018年3月署名・2019年8月発効）で、45年に及ぶ境界紛争に恒久的境界線で決着をつけ、グレーター・サンライズ開発の法的枠組みを整えました<sup class="cite">12</sup>。
+    </p>
+    <p>
+      近年は<strong>中国の存在感が急拡大</strong>しています。中国は東ティモールにとって第2位の貿易相手で、国家送電網・スアイ高速道路・<strong>ティバール湾港</strong>などのインフラを担い、2024年には「一帯一路（BRI）協力計画」に署名、両国関係を<strong>「包括的戦略パートナーシップ」</strong>に格上げしました。西側・日本からの投資が細るなか、実利的な開発ニーズが背景にあります<sup class="cite">12</sup>。
+    </p>
+    <p>
+      同時に、旧宗主国とのつながりから<strong>ポルトガル語圏共同体（CPLP）</strong>に2002年から加盟し（2014〜16年には議長国）、独立支援国の豪州・ポルトガル・米国、和解を進めたインドネシアとも関係を維持。2025年のASEAN正式加盟と併せ、<strong>複数の地域枠組みにまたがる「小国の戦略的自律」</strong>が国際関係研究の焦点となっています<sup class="cite">1,12</sup>。
+    </p>
+    <h3>主な二国間関係</h3>
+    <div class="table-wrap"><table>
+      <caption>主要な相手国と関係の要点<sup class="cite">28</sup></caption>
+      <tr><th>相手国</th><th>関係の要点</th></tr>
+      <tr><td><strong>オーストラリア</strong></td><td>最大の援助国（2000年以降10億豪ドル超）。海洋境界条約(2018/19)で長年の係争を決着。一方、2004年にASISがディリの閣議室を盗聴したとされる<strong>スパイ疑惑（「証人K」事件）</strong>が影を落とす</td></tr>
+      <tr><td><strong>インドネシア</strong></td><td><strong>最大の貿易相手</strong>（約3.9億US$）。占領の過去は真実友好委員会(CTF, 2008)で和解を制度化。ASEAN加盟を後押し。国境貿易・自由貿易圏構想</td></tr>
+      <tr><td><strong>中国</strong></td><td>第2の貿易相手。港湾・道路・送電網などインフラとBRI協力、「包括的戦略パートナーシップ」（前述）</td></tr>
+      <tr><td><strong>ポルトガル</strong></td><td>旧宗主国でCPLPの中核。行政・司法・教育での人材育成・研修を継続</td></tr>
+      <tr><td><strong>日本</strong></td><td>第2階層の主要援助国（ODFの約1割）。F-FDTL（国軍）育成支援、奨学金・インフラ協力</td></tr>
+      <tr><td><strong>米国</strong></td><td>第2階層の援助国。安全保障・民主主義支援</td></tr>
+    </table></div>
+    <p>
+      とりわけ豪州との関係は「近くて複雑」を象徴します。海洋・資源交渉のさなかの2004年、豪情報機関ASISがディリの閣議室に盗聴器を仕掛けたとされる<strong>スパイ疑惑</strong>が、2013年に元職員「証人K」の告発で表面化しました。境界画定条約で関係は修復に向かいましたが、<strong>非対称な隣国関係と資源主権</strong>をめぐる論点として研究され続けています<sup class="cite">28</sup>。
+    </p>
+    <p>
+      <strong>日本</strong>は1999年以来のODA供与国で、2000年3月にJICA事務所を開設し、インフラ・人材育成など幅広く協力してきました。独立前後の<strong>2002〜04年（〜2005年）にはUNTAET／UNMISETへ自衛隊の施設部隊を派遣</strong>し、道路・インフラ整備や元兵士の再統合事業（RESPECT）に協力しました。近年は<strong>F-FDTL（国軍）への災害対応訓練</strong>や、<strong>海洋警察隊への高速警備艇（RHIB）供与・訓練</strong>（JICA、2025年）など海洋安全保障面の協力も進んでいます<sup class="cite">36</sup>。
+    </p>
+    <p>
+      スポーツも独立国家としての<strong>国際的可視性</strong>を示す舞台です。2000年シドニー五輪に「個人参加選手（IOA）」として4名が出場し、2004年アテネ五輪ではマラソンのアギダ・アマラルらが<strong>国として初参加</strong>しました。小さな代表団ながら、国際社会での承認と国民統合の象徴となっています<sup class="cite">27</sup>。
+    </p>
+    <h3>研究上の論点</h3>
+    <ul class="benefits">
+      <li>米中・豪中対立下での<strong>小国の戦略的ヘッジング</strong>と自律の確保</li>
+      <li>資源・インフラ依存と、援助・投資供与国の交代（西側→中国）が持つ含意</li>
+      <li>ASEAN・CPLP・g7+という<strong>重層的な多国間主義</strong>の使い分け</li>
+    </ul>
+  </section>
+
+  <section class="section-card" id="sec-13" data-chapter="4" data-tags="research business living">
+    <h2><span class="kicker">SECURITY &amp; YOUTH</span>治安・若者と武術結社（MAGs）</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge business">ビジネス</span><span class="tag-badge living">生活</span></div>
+    <span class="kind academic">平和構築・治安ガバナンス</span>
+    <p>
+      ポスト紛争国として、<strong>治安部門改革（SSR）と若者問題</strong>は密接に絡みます。その象徴が<strong>武術結社（martial arts groups；MAGs）</strong>で、インドネシアのプンチャック・シラットや中国拳法に由来する会員制の組織です。最大の<strong>KORK（Kmanek Oan Rai Klaran）</strong>は会員2万人超、<strong>Kera Sakti</strong>（1995年設立・会員の約38%が女性）、<strong>PSHT</strong>などが知られます<sup class="cite">22</sup>。
+    </p>
+    <p>
+      高い若年失業を背景に一部が<strong>ストリートギャング化・集団抗争</strong>し、死者を伴う暴力が続いたため、政府は<strong>2013年に主要結社を非合法化（閣僚評議会決議16/2013）</strong>しました。しかしその後も抗争は再発し、選挙では政治勢力が動員に用いたとの指摘もあります（例：PSHTとCNRT/PLPの近さ）。<strong>儀礼的兄弟団・パトロネジ政治・治安</strong>が交差する、脆弱国家研究の重要事例です<sup class="cite">22</sup>。
+    </p>
+    <h3>国防・海洋安全保障</h3>
+    <p>
+      正規の治安機構は<strong>国軍F-FDTL</strong>と<strong>国家警察PNTL</strong>で、2006年危機の教訓から両者の役割分担・文民統制が課題です。海洋境界の画定後は<strong>広大な海域の管理（違法漁業・海洋資源）</strong>が新たな焦点となり、<strong>海洋警察隊</strong>の能力構築が進みます。装備・訓練は日本（JICA）・豪州・米国などのパートナーに大きく依存します<sup class="cite">36</sup>。
+    </p>
+    <h3>研究上の論点</h3>
+    <ul class="benefits">
+      <li>治安部門改革（SSR）と<strong>若者の疎外・失業・武術結社</strong>の連関</li>
+      <li>結社を通じた<strong>動員・パトロネジ政治</strong>と選挙暴力</li>
+      <li>禁止措置の実効性と、儀礼的結社の<strong>社会的機能</strong>（帰属・相互扶助）の両義性</li>
+    </ul>
+  </section>
+
+  <section class="section-card" id="sec-14" data-chapter="4" data-tags="research business living">
+    <h2><span class="kicker">JUSTICE &amp; LAW</span>司法・法制度</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge business">ビジネス</span><span class="tag-badge living">生活</span></div>
+    <span class="kind academic">法学・移行期正義</span>
+    <p>
+      法体系は<strong>ポルトガル法（大陸法）</strong>を基礎とし、ポルトガル期・インドネシア期・国連統治・慣習法が重なる<strong>複層的な法制</strong>です。裁判所は民刑を分けず、<strong>4つの地方裁判所（＋巡回裁判所）から控訴裁判所（Tribunal de Recurso）へ</strong>という構成です。憲法は最上級審として<strong>最高司法裁判所（Supremo Tribunal de Justiça）</strong>の設置を予定していますが未設置で、当面は<strong>控訴裁判所が最高裁の役割を代行</strong>しています。<strong>法曹（裁判官・弁護士）の深刻な不足</strong>と、政治的に微妙な事件での独立性が課題とされます<sup class="cite">33</sup>。
+    </p>
+    <p>
+      移行期正義では、UNTAETが2000年に設けた<strong>「重大犯罪特別法廷」</strong>（東ティモール人1名＋国際判事2名の混成）が1999年の犯罪を裁きました。しかし<strong>発付した303件の逮捕状の75%超が未執行</strong>で、有罪84名の多くは末端。<strong>インドネシア軍・政治指導部の多くは不処罰</strong>のままで、正義と和解（CAVR『Chega!』）の緊張が続きます<sup class="cite">33</sup>。
+    </p>
+    <p>
+      司法アクセス改善のため<strong>巡回裁判所（mobile courts）</strong>も導入されています。国家法と慣習法（tara bandu／lisan）の併存＝<strong>法多元主義</strong>は前述のとおりです。
+    </p>
+    <h3>研究上の論点</h3>
+    <ul class="benefits">
+      <li>占領期犯罪の<strong>不処罰と国際正義</strong>（アドホック法廷 vs 政治的和解）</li>
+      <li>法曹不足・多層的法制のもとでの<strong>法の支配</strong>の定着</li>
+      <li>国家法と慣習法の<strong>法多元主義</strong>の実務</li>
+    </ul>
+  </section>
+
+  <h2 class="chapter-heading" id="ch5" data-chapter="5"><span class="chapter-num">5</span>経済・産業・ビジネス</h2>
+
+  <section class="section-card" id="sec-15" data-chapter="5" data-tags="business research">
+    <h2><span class="kicker">ECONOMY</span>経済 ― 資源レンティア国家の岐路</h2>
+      <div class="card-tags"><span class="tag-badge business">ビジネス</span><span class="tag-badge research">研究</span></div>
+    <span class="kind academic">経済学・資源経済</span>
+    <p>
+      東ティモール経済の最大の特徴は、財政の大部分を石油・ガス収入と、そこから積み立てた<strong>石油基金（Petroleum Fund、中央銀行BCTLが運用）</strong>からの引き出しに依存する<strong>レンティア構造</strong>です。基金残高は2025年6月時点で<strong>約188億US$</strong>（GDPの約10倍、1人当たり約13,400US$相当）に達します<sup class="cite">3</sup>。
+    </p>
+    <p>
+      石油基金法は年間引出しの上限を<strong>ESI（推定持続可能所得＝基金残高＋将来受取見込みの現在価値の3%）</strong>と定めますが、実際の引出しは2009年以降しばしばこの上限を超過してきたと指摘されます<sup class="cite">3</sup>。この「持続可能ルールと実支出の乖離」が枯渇を早める構造的要因です。
+    </p>
+    <p>
+      しかし主力の<strong>バユ・ウンダン（Bayu-Undan）ガス田は枯渇（生産終了）段階</strong>に入り、新規歳入が細るなか国家財政は基金の取り崩しに大きく依存しています。
+      政府自身の見通しでも、支出抑制が進まなければ<strong>基金は2030年代（一部推計で2034〜2038年）に枯渇し得る</strong>とされます<sup class="cite">2,3</sup>。
+      未開発の大型ガス田<strong>グレーター・サンライズ（Greater Sunrise）</strong>は輸出収入500億US$超とも評価され将来の柱と目されますが、対豪州の海洋境界画定・収益配分交渉や開発方式（パイプライン敷設先）を巡り長く停滞してきました<sup class="cite">3</sup>。
+    </p>
+
+    <figure class="chart">
+      <p class="chart-title">図1｜石油基金の残高推移（各年末、単位：10億US$）</p>
+      <svg viewBox="0 0 640 300" role="img" aria-label="石油基金残高の推移を示す棒グラフ">
+        <line class="svg-grid" x1="60" y1="250" x2="620" y2="250"/>
+        <line class="svg-grid" x1="60" y1="192.5" x2="620" y2="192.5"/>
+        <line class="svg-grid" x1="60" y1="135" x2="620" y2="135"/>
+        <line class="svg-grid" x1="60" y1="77.5" x2="620" y2="77.5"/>
+        <line class="svg-grid" x1="60" y1="20" x2="620" y2="20"/>
+        <text class="svg-mut" x="50" y="254" text-anchor="end" font-size="11">0</text>
+        <text class="svg-mut" x="50" y="196.5" text-anchor="end" font-size="11">5</text>
+        <text class="svg-mut" x="50" y="139" text-anchor="end" font-size="11">10</text>
+        <text class="svg-mut" x="50" y="81.5" text-anchor="end" font-size="11">15</text>
+        <text class="svg-mut" x="50" y="24" text-anchor="end" font-size="11">20</text>
+        <rect x="81.7" y="170.6" width="50" height="79.4" fill="#0a7e65"/>
+        <rect x="175" y="60.2" width="50" height="189.8" fill="#0a7e65"/>
+        <rect x="268.3" y="68.3" width="50" height="181.7" fill="#0a7e65"/>
+        <rect x="361.7" y="32.6" width="50" height="217.4" fill="#0a7e65"/>
+        <rect x="455" y="37.25" width="50" height="212.75" fill="#0a7e65"/>
+        <rect x="548.3" y="35" width="50" height="215" fill="#e67e22"/>
+        <text class="svg-txt" x="106.7" y="164" text-anchor="middle" font-size="11.5" font-weight="700">6.9</text>
+        <text class="svg-txt" x="200" y="54" text-anchor="middle" font-size="11.5" font-weight="700">16.5</text>
+        <text class="svg-txt" x="293.3" y="62" text-anchor="middle" font-size="11.5" font-weight="700">15.8</text>
+        <text class="svg-txt" x="386.7" y="26" text-anchor="middle" font-size="11.5" font-weight="700">18.9</text>
+        <text class="svg-txt" x="480" y="31" text-anchor="middle" font-size="11.5" font-weight="700">18.5</text>
+        <text class="svg-txt" x="573.3" y="29" text-anchor="middle" font-size="11.5" font-weight="700">18.7</text>
+        <text class="svg-mut" x="106.7" y="268" text-anchor="middle" font-size="11">2010</text>
+        <text class="svg-mut" x="200" y="268" text-anchor="middle" font-size="11">2014</text>
+        <text class="svg-mut" x="293.3" y="268" text-anchor="middle" font-size="11">2018</text>
+        <text class="svg-mut" x="386.7" y="268" text-anchor="middle" font-size="11">2020</text>
+        <text class="svg-mut" x="480" y="268" text-anchor="middle" font-size="11">2021</text>
+        <text class="svg-mut" x="573.3" y="268" text-anchor="middle" font-size="11">25年6月</text>
+        <line x1="600" y1="46" x2="622" y2="214" stroke="#b5611a" stroke-width="1.6" stroke-dasharray="5 4"/>
+        <text fill="#b5611a" x="626" y="232" text-anchor="middle" font-size="11" font-weight="700">▼推計</text>
+      </svg>
+      <figcaption>
+        各年末残高（2025年は6月時点）。データが確認できた年のみ表示。オレンジは直近値。
+        <strong>現行の支出ペースでは2030年代（一部推計で2034〜2038年）に枯渇し得る</strong>と政府・国際機関は見通す（点線は概念的推計であり実データではない）。出典：BCTL石油基金報告／Wikipedia集計<sup class="cite">3</sup>。
+      </figcaption>
+    </figure>
+
+    <div class="table-wrap"><table>
+      <caption>表：資源依存を示す代表的指標（各種報道・国際機関資料より整理）<sup class="cite">2,3</sup></caption>
+      <tr><th>論点</th><th>内容</th></tr>
+      <tr><td>財政の石油依存</td><td>公的支出の大部分を石油・ガス／基金引出しでファイナンス</td></tr>
+      <tr><td>石油基金</td><td>約188億US$（2025年6月/BCTL）。GDPの約10倍規模</td></tr>
+      <tr><td>持続可能ルール</td><td>ESI＝3%が上限。ただし実際の引出しはしばしば上限超過</td></tr>
+      <tr><td>枯渇リスク</td><td>現行の支出ペースでは2030年代に枯渇し得る（政府・国際機関の見通し）</td></tr>
+      <tr><td>非石油経済</td><td>基盤が薄く、輸入・送金・公的支出に依存。多角化が最大の政策課題</td></tr>
+    </table></div>
+
+    <h3>非石油経済の柱</h3>
+    <p>
+      多角化の萌芽も存在します。第一に<strong>労働移民からの送金</strong>で、いまや<strong>石油に次ぐ外貨獲得源</strong>となり（コーヒーを上回る）、英国に約1.6〜1.9万人がポルトガル旅券で就労するほか、韓国（EPS）・豪州（季節労働）への管理された移住経路が拡大しています<sup class="cite">16</sup>。第二に<strong>コーヒー</strong>で、<strong>Cooperativa Café Timor（CCT、1994年設立）は組合員2万人超の世界最大級の有機コーヒー協同組合</strong>（2001年フェアトレード認証）として、山岳部の主要な現金収入源です<sup class="cite">16</sup>。
+    </p>
+    <p>
+      第三に<strong>水産業・林業</strong>があります。周囲を豊かな海に囲まれる一方、<strong>沿岸漁業</strong>は零細で潜在力が十分に活かされておらず、タンパク源・生計手段として振興が課題です。林業では歴史的交易品の<strong>白檀（サンダルウッド）</strong>が象徴的ですが乱伐で激減し、今は保全・再生の対象です。インフラ面では、国家電化計画により<strong>電力アクセスがほぼ100%（2023〜24年）</strong>に達したことは特筆されます<sup class="cite">16</sup>。ただし送金・コーヒー・電力のいずれも、石油基金に代わる財政規模には遠く、ポスト石油の持続可能性は依然として最大の政策課題です。
+    </p>
+
+    <h3>大型開発と環境 ― Tasi Mane 計画</h3>
+    <p>
+      多角化の目玉が、南岸に石油・ガス産業回廊を築く国家事業<strong>Tasi Mane計画</strong>（スアイ〜ベタノ〜ベアソ〜ナタルボラの約155km）です。供給基地・空港・LNG工場・製油所などを整備し、政府は将来的に大きな収益（2056年までに約520億US$との試算）を見込みます。一方で<strong>環境影響評価の不備・住民の立ち退き・環境規制の執行不足</strong>が批判され、「農業・再生可能エネルギー・観光・人材へ投資すべき」との対案もあります。<strong>資源による国家建設の是非</strong>を象徴する論点です<sup class="cite">35</sup>。加えて、太陽光など<strong>再生可能エネルギーの潜在力</strong>や<strong>森林減少</strong>への対応も環境政策上の課題です<sup class="cite">35</sup>。
+    </p>
+
+    <h3>貿易・雇用の実データ</h3>
+    <p>
+      数字で見ると経済の姿がより明確になります。2023年の輸出は約1.6億US$に対し輸入は約9.1億US$と<strong>大幅な貿易赤字</strong>で、不足は石油収入・援助・送金で埋められています。輸出は今なお石油・ガスが約65%を占め、非石油ではコーヒーが最大です<sup class="cite">42</sup>。
+    </p>
+    <div class="table-wrap"><table>
+      <caption>主要な貿易指標（2023年ごろ）<sup class="cite">42</sup></caption>
+      <tr><th>項目</th><th>内容</th></tr>
+      <tr><td>輸出額／輸入額</td><td>約1.64億US$／約9.09億US$（大幅な入超）</td></tr>
+      <tr><td>主要輸出品</td><td>原油・石油ガス（約65%）、コーヒー（約7.7%）、バニラ、スクラップ鉄</td></tr>
+      <tr><td>主要輸入品</td><td>精製石油、米、自動車、掘削機械、セメント</td></tr>
+      <tr><td>主な輸出先</td><td>中国 約47%、シンガポール 約19%、豪州 約17%、インドネシア 約7%、日本 約3%</td></tr>
+      <tr><td>主な輸入元</td><td>インドネシア 約33%、中国 約14%</td></tr>
+      <tr><td>コーヒーの輸出先</td><td>シンガポール・韓国・日本・カナダ・米国 など</td></tr>
+    </table></div>
+    <p>
+      雇用統計は解釈に注意が必要です。公式の失業率は低い（2023年 約1.5%、若年でも約3%）ものの、これは自給的農業やインフォーマル就労を「就業」に含むためで、実態は<strong>不完全就業とインフォーマル経済</strong>が広範です（2010〜13年の新規雇用5万件超のうちフォーマルは約8千件のみ）<sup class="cite">42</sup>。
+    </p>
+
+    <h3>通貨制度 ― ドル化とその是非</h3>
+    <p>
+      東ティモールは2000年1月に国連暫定統治下で<strong>米ドルを公式通貨に採用（ドル化／dollarization）</strong>し、2003年から補助硬貨<strong>センタボ</strong>（ポルトガル鋳造）を発行、2011年9月に中央銀行<strong>BCTL</strong>を設立しました<sup class="cite">50</sup>。
+    </p>
+    <p>
+      ドル化の<strong>利点</strong>は、米国を名目アンカーとする<strong>物価・為替の安定</strong>、通貨の発行・管理コストの削減、基軸通貨による対外取引の簡便化です。一方の<strong>欠点</strong>は、<strong>独自の金融政策を持てない</strong>（利上げや通貨発行で国内景気に対応できない）ことと、<strong>通貨発行益（シニョリッジ）が得られない</strong>ことです。近年は<strong>自国通貨の導入論</strong>も浮上し、経済的独立・政策自由度・国民アイデンティティを利点とする一方、金融システムの脆弱さゆえの不安定化・インフレを懸念する慎重論もあり、具体的な時期は未定です（IMF等が分析）<sup class="cite">50</sup>。
+    </p>
+
+    <h3>研究上の論点</h3>
+    <ul class="benefits">
+      <li><strong>「資源の呪い」／オランダ病</strong>：石油収入が非石油部門（農業・製造業）の発展を阻害していないか</li>
+      <li>石油基金の<strong>持続可能な引出しルール（ESI：推定持続所得）</strong>と実際の支出乖離</li>
+      <li>ポスト石油の<strong>経済多角化</strong>戦略（コーヒー・観光・水産・南部開発 Tasi Mane 計画の評価）</li>
+    </ul>
+  </section>
+
+  <section class="section-card" id="sec-16" data-chapter="5" data-tags="business living research">
+    <h2><span class="kicker">INFRASTRUCTURE &amp; DIGITAL</span>インフラ・デジタル</h2>
+      <div class="card-tags"><span class="tag-badge business">ビジネス</span><span class="tag-badge living">生活</span><span class="tag-badge research">研究</span></div>
+    <span class="kind academic">開発・インフラ</span>
+    <p>
+      インフラは石油収入を原資に整備が進みました。最大の事業が2022年9月開業の<strong>ティバール湾港</strong>（延長630mの岸壁・水深15m・29haのコンテナヤード、官民連携方式）で、旧ディリ港より大型船に対応します。首都には<strong>プレジデンテ・ニコラウ・ロバト国際空港</strong>があり、国内に複数の空港が点在します<sup class="cite">34</sup>。
+    </p>
+    <p>
+      一方、<strong>デジタル格差</strong>は大きな課題です。インターネット利用率は約34.5%（2025年初）で、固定ブロードバンドは世帯の2%未満とアジア太平洋で最低水準。多くはモバイル経由で速度も遅い（モバイル平均約4.85Mbps）。豪州との<strong>海底ケーブル</strong>（2022年合意・2025年頃運用）で通信費の低下が期待されます<sup class="cite">34</sup>。
+    </p>
+    <p>
+      陸上交通の要が、首都と第2都市を結ぶ<strong>国道1号線（ディリ〜バウカウ、約116km）</strong>です。日本（JICA）の<strong>東ティモール初の円借款事業</strong>としてADBと連携して改修され、幅4m・未舗装区間もあった悪路が6〜7mへ拡幅・舗装され、<strong>所要時間は約5時間から約2.5時間へ半減</strong>しました（2022年8月開通）。首都では<strong>コモロ川の橋梁</strong>（JICA支援）が空港・ティバール港方面を結んでおり、日本の<strong>道路・橋梁協力</strong>が基幹インフラを支えています<sup class="cite">36</sup>。
+    </p>
+    <p>
+      大規模な地域開発として注目されるのが、飛び地<strong>オエクシ（人口約7万）の経済特区「ZEESM」</strong>です。マリ・アルカティリが率いる<strong>オエクシ・アンベノ特別行政区</strong>のもと、空港・港・橋・灌漑ダム（トノ）・ホテル等を整備し、娯楽・デジタル経済のハブを目指します。もっとも<strong>用地収用や住民不在の「メガプロジェクト先行」</strong>と批判され、費用対効果や統治の説明責任が論点です<sup class="cite">37</sup>。
+    </p>
+    <h3>研究上の論点</h3>
+    <ul class="benefits">
+      <li>石油収入による<strong>ハコモノ投資</strong>の費用対効果（Tasi Mane・港湾）</li>
+      <li><strong>デジタルデバイド</strong>と、経済・教育・行政DXへの影響</li>
+    </ul>
+  </section>
+
+  <section class="section-card" id="sec-17" data-chapter="5" data-tags="research business living">
+    <h2><span class="kicker">DIASPORA</span>ディアスポラと送金</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge business">ビジネス</span><span class="tag-badge living">生活</span></div>
+    <span class="kind academic">移民研究・開発経済</span>
+    <p>
+      国外に暮らすティモール人（ディアスポラ）は、<strong>送金を通じて経済を下支えする重要なアクター</strong>です。送金は<strong>石油に次ぐ第2の外貨獲得源</strong>で（コーヒーを上回る）、2017年に約4,000万US$、対GDP比で約8〜9%に達しました。うち最大の担い手が<strong>英国在住者</strong>（同年 約2,700万US$）です<sup class="cite">44</sup>。
+    </p>
+    <p>
+      在外分布（2016年）は<strong>イングランド42%・インドネシア24%・韓国17%・豪州9%・ポルトガル8%・アイルランド6%</strong>（各構成比は概数で合計が約106%となるため、正確な内訳は出典で要確認）。英国には約1.6〜1.9万人が暮らし、<strong>北アイルランドのダンガノン</strong>（食肉工場が起点、約3,000人）やオックスフォード等にコミュニティがあります。英国就労は<strong>ポルトガル旅券（EU市民権）</strong>を活用したもので、Brexit後は不確実性が増しました。<strong>韓国（雇用許可制EPS）・豪州（季節労働）</strong>は政府間の管理された移住プログラムです<sup class="cite">44</sup>。
+    </p>
+    <h3>研究上の論点</h3>
+    <ul class="benefits">
+      <li>送金依存の<strong>持続性</strong>（Brexit・旅券制度・受入国政策の影響）</li>
+      <li>頭脳・労働力流出と<strong>帰還・技能移転</strong>の効果</li>
+      <li>ディアスポラの<strong>政治参加</strong>（在外投票）と国民アイデンティティ</li>
+    </ul>
+  </section>
+
+  <h2 class="chapter-heading" id="ch6" data-chapter="6"><span class="chapter-num">6</span>社会・開発・生活ガイド</h2>
+
+  <section class="section-card" id="sec-18" data-chapter="6" data-tags="research living">
+    <h2><span class="kicker">DEVELOPMENT &amp; SOCIETY</span>開発・社会指標</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge living">生活</span></div>
+    <span class="kind academic">開発学・国際協力</span>
+    <p>
+      巨額の石油基金を持ちながら、社会開発指標には深刻な課題が残ります。人間開発指数（HDI）は<strong>0.634（世界142位・中位、2023年データ／UNDP HDR 2025）</strong><sup class="cite">2</sup>、
+      国民の<strong>約42%が国内貧困線以下</strong>で暮らし、貧困は農村部に偏在します<sup class="cite">4</sup>（ただし包括的な全国家計調査は2014年（TLSLS）が最新で、以降は推計・ナウキャストに依存）<sup class="cite">4</sup>。
+    </p>
+    <p>
+      とりわけ<strong>5歳未満児の発育阻害（stunting）率は約46〜47%</strong>と世界最高水準にあり（アジア平均21.8%）、栄養不良は最重要の開発課題です<sup class="cite">4</sup>（全国調査はDHS 2016が最新の実測、近年値は推計）。
+      一方、合計特殊出生率2.7、年齢中央値は約21歳と<strong>「若い人口構成」</strong>を持ち、人口ボーナスを活かせるかが将来を左右します<sup class="cite">4</sup>。
+      東ティモールは脆弱・紛争影響国の連合体<strong>g7+</strong>の創設・主導国（2010年ディリで発足）でもあり、援助受入国であると同時に「脆弱国家の声」を国際的に発信するアクターという二面性を持ちます<sup class="cite">7</sup>。
+    </p>
+    <p>
+      保健指標も課題が重い。妊産婦死亡率は<strong>出生10万対 約235（2022年・推計）</strong>、そして<strong>結核（TB）は罹患率が10万対約498と世界6位・WHO東南アジア地域で2番目の高負担国</strong>です<sup class="cite">14</sup>。一方、<strong>マラリアは大規模服薬投与などで劇的に減少し、ほぼ排除段階</strong>に達しており、疾病対策の成功例と失敗例が併存する点が保健システム研究の関心を集めています<sup class="cite">14</sup>。
+    </p>
+    <p>
+      供給面では、村落を巡回する<strong>統合コミュニティ保健サービス（SISCa）</strong>が母子保健・栄養・感染症対策を担い、慢性的な医師不足を<strong>キューバの医療協力</strong>が支えてきました（一時は国内医師の約2/3がキューバ人）。<strong>南南協力に依存した保健システム</strong>の持続性・自立が論点です<sup class="cite">26</sup>。
+    </p>
+    <p>
+      見落とされがちな重い課題が<strong>精神保健（メンタルヘルス）</strong>です。占領期（1975–99）と2006年危機の集合的トラウマを背景に、<strong>PTSD有病率は約16.7%（6人に1人）</strong>と世界最高水準（世界平均は約1%）と報告されています。1999年以前は専門サービスが皆無で、体制は今も脆弱。研究では<strong>「不正義への囚われ」</strong>が最大の予測因子とされ、移行期正義の未完と結びつきます<sup class="cite">43</sup>。
+    </p>
+    <p>
+      <strong>COVID-19</strong>への対応は比較的抑制的でした。国境閉鎖など厳格な措置をとり、2020年1月〜2022年6月で<strong>約2.3万例・死亡133人</strong>（死亡の約92%が接種未完了）。Gavi・UNICEF・WHOの支援でワクチンを展開しました。障害者を含む脆弱層への包摂は引き続き政策課題です<sup class="cite">43</sup>。
+    </p>
+    <p>
+      基礎的な<strong>水・衛生（WASH）</strong>も課題です。<strong>約54%が十分な衛生設備を持たず</strong>、農村では安全な水へのアクセスが約6割、衛生的トイレは約3割にとどまり、<strong>約30万人が清潔な水を得られない</strong>とされます。野外排泄も残りますが、コミュニティ主導で「野外排泄フリー」を宣言する村も増え、SDGの2030年目標に向けて改善が進みます<sup class="cite">48</sup>。
+    </p>
+    <p id="gbv">
+      もう一つの深刻な社会課題が<strong>ジェンダーに基づく暴力（GBV）</strong>です。The Asia Foundationの全国代表調査<strong>「Nabilan」（2015/16）</strong>では、パートナー経験のある15〜49歳女性の<strong>59%が親密なパートナーからの身体的・性的暴力を生涯に一度は経験</strong>し、感情的暴力55%・経済的暴力43%に上ると報告されています<sup class="cite">9</sup>。これは政府統計を補う、学術機関・NGOによる代表性のある一次データの好例です。
+    </p>
+    <div class="stats">
+      <div class="stat"><p class="k">貧困率（国内貧困線以下）</p><p class="v">約42% <small>(推計/最新全国調査は2014)<sup class="cite">4</sup></small></p></div>
+      <div class="stat"><p class="k">5歳未満発育阻害率</p><p class="v">約46〜47% <small>(DHS2016基準)<sup class="cite">4</sup></small></p></div>
+      <div class="stat"><p class="k">平均寿命</p><p class="v">約70歳<sup class="cite">4</sup></p></div>
+      <div class="stat"><p class="k">合計特殊出生率</p><p class="v">2.7<sup class="cite">4</sup></p></div>
+    </div>
+
+    <figure class="chart">
+      <p class="chart-title">図2｜年齢構成 ― 「若い人口」の構造（2022年国勢調査）</p>
+      <svg viewBox="0 0 640 120" role="img" aria-label="年齢構成の帯グラフ">
+        <rect x="20" y="40" width="229.74" height="54" rx="3" fill="#e67e22"/>
+        <rect x="249.74" y="40" width="338.28" height="54" fill="#0a7e65"/>
+        <rect x="588.02" y="40" width="31.98" height="54" rx="3" fill="#054d3e"/>
+        <text x="134.9" y="72" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">38.3%</text>
+        <text x="418.9" y="72" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">56.4%</text>
+        <line x1="604" y1="32" x2="604" y2="40" class="svg-grid"/>
+        <text class="svg-mut" x="604" y="26" text-anchor="middle" font-size="11" font-weight="700">5.3%</text>
+      </svg>
+      <div class="legend">
+        <span><i style="background:#e67e22"></i>0〜14歳</span>
+        <span><i style="background:#0a7e65"></i>15〜64歳（生産年齢）</span>
+        <span><i style="background:#054d3e"></i>65歳以上</span>
+      </div>
+      <figcaption>年齢中央値は約21歳（2022国勢調査）。人口の約4割が15歳未満という<strong>裾広がりの若い構造</strong>で、教育・雇用が追いつけば「人口ボーナス」となる一方、失業や栄養不良のリスクも大きい。出典：INETL 2022国勢調査／UNFPA<sup class="cite">4</sup>。</figcaption>
+    </figure>
+
+    <figure class="chart">
+      <p class="chart-title">図3｜5歳未満児の発育阻害（stunting）率の比較</p>
+      <svg viewBox="0 0 640 160" role="img" aria-label="発育阻害率の比較棒グラフ">
+        <text class="svg-txt" x="130" y="60" text-anchor="end" font-size="13" font-weight="700">東ティモール</text>
+        <text class="svg-txt" x="130" y="115" text-anchor="end" font-size="13">アジア平均</text>
+        <rect x="140" y="40" width="214.8" height="34" rx="3" fill="#e67e22"/>
+        <rect x="140" y="95" width="100.3" height="34" rx="3" fill="#0a7e65"/>
+        <text class="svg-txt" x="362" y="62" font-size="13" font-weight="700">46.7%</text>
+        <text class="svg-txt" x="248" y="117" font-size="13" font-weight="700">21.8%</text>
+        <line x1="140" y1="143" x2="620" y2="143" class="svg-grid"/>
+        <text class="svg-mut" x="140" y="156" font-size="10.5">0</text>
+        <text class="svg-mut" x="600" y="156" text-anchor="end" font-size="10.5">100%</text>
+      </svg>
+      <figcaption>東ティモールの発育阻害率は世界最高水準で、アジア平均（約21.8%）の2倍以上。値はDHS 2016を基準とする推計。出典：UNICEF／Global Nutrition Report<sup class="cite">4</sup>。</figcaption>
+    </figure>
+
+    <h3>研究上の論点</h3>
+    <ul class="benefits">
+      <li>資源歳入（マクロの富）と、栄養・保健・教育（ミクロの成果）の<strong>ギャップの原因</strong></li>
+      <li>ODA・国連ミッションからの「卒業」と、援助依存から自立への移行</li>
+      <li>g7+と「脆弱国家のためのニューディール」に見る<strong>南南協力・当事者主導の開発言説</strong></li>
+    </ul>
+  </section>
+
+  <section class="section-card" id="sec-19" data-chapter="6" data-tags="research living">
+    <h2><span class="kicker">SOCIAL CHALLENGES</span>主要な社会課題（俯瞰）</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge living">生活</span></div>
+    <span class="kind academic">総覧・見取り図</span>
+    <p>
+      本書の各所で扱った社会課題を、研究の<strong>「見取り図」</strong>として一覧化します（数値の詳細と出典は各節を参照）。多くの課題は<strong>「巨額の資源基金を持ちながら社会開発が遅れる」というパラドックス</strong>に根ざし、相互に連関しています。
+    </p>
+    <div class="table-wrap"><table>
+      <caption>主要な社会課題の一覧（深刻度・関連SDGは本書内の目安）</caption>
+      <tr><th>領域</th><th>主な課題</th><th>深刻度*</th><th>関連SDG</th><th>詳細節</th></tr>
+      <tr><td><strong>貧困・格差</strong></td><td>国民の約42%が貧困線以下、農村部に偏在</td><td>高</td><td>1・10</td><td>開発・社会指標</td></tr>
+      <tr><td><strong>栄養・保健</strong></td><td>発育阻害46〜47%（世界最高水準）、妊産婦死亡235、結核世界6位</td><td>高</td><td>2・3</td><td>開発・社会指標</td></tr>
+      <tr><td><strong>ジェンダー暴力</strong></td><td>パートナー暴力59%（一方で女性議席は40%）</td><td>高</td><td>5</td><td>開発・社会指標／主要人物</td></tr>
+      <tr><td><strong>教育の質</strong></td><td>学習貧困（小1の約7割が非識字）、教育言語問題</td><td>高</td><td>4</td><td>教育</td></tr>
+      <tr><td><strong>若年失業・治安</strong></td><td>若者の雇用不足、武術結社(MAGs)・ギャング</td><td>中〜高</td><td>8・16</td><td>治安・若者</td></tr>
+      <tr><td><strong>経済の脆弱性</strong></td><td>石油依存・基金枯渇リスク、多角化の遅れ</td><td>高</td><td>8</td><td>経済</td></tr>
+      <tr><td><strong>ガバナンス</strong></td><td>汚職（CPI 44点）、司法能力、退役軍人年金の財政負担</td><td>中</td><td>16</td><td>政治／主要人物</td></tr>
+      <tr><td><strong>気候・防災</strong></td><td>気候変動脆弱性、洪水・干ばつ、海洋保全</td><td>中〜高</td><td>13・14</td><td>地理・環境</td></tr>
+      <tr><td><strong>土地・社会分断</strong></td><td>土地紛争（重層的権利）、東西（ロロサエ／ロロモヌ）対立</td><td>中</td><td>16</td><td>文化／言語・民族・宗教</td></tr>
+    </table></div>
+    <p class="note">
+      * 深刻度は本まとめ内での相対的な目安であり、公式指標ではありません。関連SDGも整理のための参考です。各課題の数値・出典は該当節に記載しています。
+    </p>
+    <h3>研究上の論点</h3>
+    <ul class="benefits">
+      <li>マクロの資源富とミクロの社会課題の<strong>乖離</strong>（資源の呪い×人間開発）</li>
+      <li>課題の<strong>相互連関</strong>（若年失業→治安、教育言語→学習貧困→貧困の再生産）</li>
+      <li>ポスト石油・ポスト援助への移行と、課題解決の<strong>財源</strong>の持続可能性</li>
+    </ul>
+  </section>
+
+  <section class="section-card" id="sec-20" data-chapter="6" data-tags="research business living">
+    <h2><span class="kicker">AGRICULTURE &amp; FOOD SECURITY</span>農業・食料安全保障</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge business">ビジネス</span><span class="tag-badge living">生活</span></div>
+    <span class="kind academic">農業経済・開発</span>
+    <p>
+      農業は暮らしの土台です。<strong>労働力の約70%が農業</strong>に従事し（多くは自給的）、<strong>世帯の約80%</strong>が農業を主な収入・食料源とします。主食はトウモロコシ・米・キャッサバで、なかでもトウモロコシ栽培世帯が最も脆弱です<sup class="cite">46</sup>。
+    </p>
+    <p>
+      しかし食料事情は厳しく、<strong>人口の約2/3が食料不安定</strong>とされます。とくに毎年<strong>11〜3月の「端境期（hungry season）」</strong>には、米やトウモロコシが数か月不足する世帯もあります。<strong>低い生産性・インフラ不足・人口増</strong>に加え、貯蔵トウモロコシの3割超がネズミや虫で失われるなど<strong>収穫後ロス</strong>も大きく、不足分は輸入に依存して国際価格変動に弱い構造です<sup class="cite">46</sup>。
+    </p>
+    <h3>研究上の論点</h3>
+    <ul class="benefits">
+      <li>自給農業の<strong>生産性向上</strong>と端境期・収穫後ロスの削減</li>
+      <li><strong>栄養（発育阻害）</strong>と食料安全保障・輸入依存の連関</li>
+      <li>気候変動下の<strong>作物適応</strong>と、野生食物など在来の対処戦略</li>
+    </ul>
+  </section>
+
+  <section class="section-card" id="sec-21" data-chapter="6" data-tags="research living">
+    <h2><span class="kicker">EDUCATION</span>教育 ― フォーマルとノンフォーマル</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge living">生活</span></div>
+    <span class="kind academic">教育学・開発教育</span>
+    <p>
+      中央年齢は約21歳・15歳未満が人口の約4割という若い国にとって、教育は開発の中核です。独立後に就学は急拡大しましたが、<strong>質・言語・地域格差</strong>という課題が残ります。特徴的なのは、正規学校（フォーマル）と並行して、大規模な<strong>成人識字（ノンフォーマル教育）</strong>が国づくりの柱となった点です。
+    </p>
+
+    <h3>就学と識字 ― 大きな世代・地域ギャップ</h3>
+    <p>
+      成人（15歳以上）の識字率は約73%（2022年）ですが、若者（15〜24歳）は約85%と<strong>独立後世代で大きく改善</strong>しています。ただし若者でも都市94.3%／農村78.5%と<strong>地域格差</strong>が残ります<sup class="cite">19</sup>。就学も、都市の前期中等・中等はほぼ100%に対し農村は約60%にとどまります<sup class="cite">19</sup>。
+    </p>
+    <figure class="chart">
+      <p class="chart-title">図5｜識字率にみる世代・地域ギャップ（%）</p>
+      <svg viewBox="0 0 640 195" role="img" aria-label="識字率の横棒グラフ">
+        <rect x="150" y="15" width="335.8" height="26" rx="3" fill="#e67e22"/>
+        <rect x="150" y="53" width="391" height="26" rx="3" fill="#0a7e65"/>
+        <rect x="150" y="91" width="433.8" height="26" rx="3" fill="#0a7e65"/>
+        <rect x="150" y="129" width="361.1" height="26" rx="3" fill="#0a7e65"/>
+        <g class="svg-txt" font-size="12" font-weight="700">
+          <text x="142" y="33" text-anchor="end">成人 (15歳+)</text>
+          <text x="142" y="71" text-anchor="end">若者 (15–24)</text>
+          <text x="142" y="109" text-anchor="end">若者・都市</text>
+          <text x="142" y="147" text-anchor="end">若者・農村</text>
+        </g>
+        <g class="svg-txt" font-size="12" font-weight="700">
+          <text x="491.8" y="33">73%</text>
+          <text x="547" y="71">85%</text>
+          <text x="589.8" y="109">94.3%</text>
+          <text x="517.1" y="147">78.5%</text>
+        </g>
+        <line x1="150" y1="167" x2="610" y2="167" class="svg-grid"/>
+        <text class="svg-mut" x="150" y="182" font-size="10.5">0</text>
+        <text class="svg-mut" x="610" y="182" text-anchor="end" font-size="10.5">100%</text>
+      </svg>
+      <figcaption>橙＝成人、緑＝若者。若年層で識字は改善するが、農村では依然低い。出典：World Bank／UNESCO 教育統計<sup class="cite">19</sup>。</figcaption>
+    </figure>
+    <p>
+      量的拡大の一方、<strong>学習の質は深刻な課題</strong>です。ある調査では<strong>小学1年生の約7割が、ポルトガル語でもテトゥン語でも1語も読めなかった</strong>とされ、早期学年の「学習貧困（learning poverty）」が指摘されています<sup class="cite">19</sup>。
+    </p>
+
+    <h3>教育言語と母語ベース多言語教育（EMBLI）</h3>
+    <p>
+      質の課題の一因が<strong>教育言語</strong>です。公式にはポルトガル語（＋テトゥン語）で始まりますが、子どもの多くは家庭で別の母語を話すため、学びが妨げられます（<a href="#lang">言語節</a>参照）。これに対し、母語で学び始める<strong>EMBLI（Edukasaun Multilingue Bazia Lian-Inan）</strong>のパイロットが2012年から実施され、算数の成績が通常校の約2.3倍、学習が1.5〜2年分加速したと報告されています<sup class="cite">19</sup>。ポルトガル語重視の国是との緊張が、政策論争の焦点です。
+    </p>
+
+    <h3>高等教育</h3>
+    <p>
+      高等教育は<strong>東ティモール国立大学（UNTL）</strong>を中心に私立大学が担います。特徴的なのが<strong>キューバとの医療協力</strong>で、キューバ医療団がUNTL医学部（SGM-UNTL）で医師を養成し、2003〜2009年に約600名の学生がキューバへ医学留学しました。ポルトガル・インドネシア等への留学とあわせ、<strong>人材育成の国際依存</strong>も研究対象です<sup class="cite">19</sup>。
+    </p>
+
+    <h3>ノンフォーマル教育 ― 大衆識字キャンペーン</h3>
+    <p>
+      東ティモール教育の際立った特徴が、<strong>キューバ発の大衆成人識字モデル「Yo, Sí Puedo（できる）」</strong>の導入です。テトゥン語版<strong>「Los Hau Bele」</strong>として、2005年にキューバ人助言者が着任、2007年に開始。視聴覚教材を用いる「アルファ数字式」で<strong>地元指導者400名超</strong>を養成し、<strong>2010年までに約7万人以上が13週間の基礎識字課程を修了</strong>（当時の非識字人口の1/5超）しました<sup class="cite">19</sup>。パウロ・フレイレ的な<strong>民衆教育（popular education）</strong>の現代的事例として、国際的にも比較研究の対象となっています<sup class="cite">19</sup>。
+    </p>
+
+    <h3>研究上の論点</h3>
+    <ul class="benefits">
+      <li><strong>教育言語政策</strong>：ポルトガル語重視 vs 母語ベース多言語教育（EMBLI）の学習効果</li>
+      <li>量的拡大と<strong>学習貧困</strong>のギャップ、教員養成・質保証</li>
+      <li>キューバ・モデルに見る<strong>南南協力とノンフォーマル教育</strong>／民衆教育論</li>
+      <li>若年人口の教育・技能形成と<strong>雇用・海外労働</strong>の接続（人口ボーナスの活用）</li>
+    </ul>
+  </section>
+
+  <section class="section-card" id="sec-22" data-chapter="6" data-tags="research business">
+    <h2><span class="kicker">COMPARATIVE VIEW</span>国際比較と経年の視点</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge business">ビジネス</span></div>
+    <span class="kind academic">比較政治・比較開発</span>
+    <p>
+      東ティモールの位置づけは、<strong>4つの類型に照らす</strong>と理解しやすくなります ―
+      (1) 小さな（半）島嶼国、(2) 歳入を資源に依存する<strong>レンティア国家</strong>、(3) 国連による国家建設を経た<strong>ポスト紛争国</strong>、(4) <strong>ポルトガル語圏（CPLP）</strong>。
+      いずれの系譜でも「典型」でありつつ、<strong>巨額の石油基金・カトリック国・21世紀最初の独立</strong>という点で特異です。
+    </p>
+
+    <h3>人間開発指数（HDI）の国際比較</h3>
+    <p>
+      東南アジアの中では、東ティモールのHDIは<strong>域内平均を下回り、カンボジア・ラオス・ミャンマーとほぼ同水準</strong>です（下図、2023年・同一版で比較）。
+    </p>
+    <figure class="chart">
+      <p class="chart-title">図6｜HDIの国際比較（2023年・HDR 2025）</p>
+      <svg viewBox="0 0 640 250" role="img" aria-label="HDIの国際比較の横棒グラフ">
+        <line class="svg-grid" x1="150" y1="12" x2="150" y2="222"/>
+        <line class="svg-grid" x1="380" y1="12" x2="380" y2="222"/>
+        <line class="svg-grid" x1="610" y1="12" x2="610" y2="222"/>
+        <text class="svg-mut" x="150" y="238" text-anchor="middle" font-size="10.5">0</text>
+        <text class="svg-mut" x="380" y="238" text-anchor="middle" font-size="10.5">0.5</text>
+        <text class="svg-mut" x="610" y="238" text-anchor="middle" font-size="10.5">1.0</text>
+        <rect x="150" y="15" width="340" height="22" rx="3" fill="#054d3e"/>
+        <rect x="150" y="45" width="335" height="22" rx="3" fill="#0a7e65"/>
+        <rect x="150" y="75" width="331" height="22" rx="3" fill="#0a7e65"/>
+        <rect x="150" y="105" width="292" height="22" rx="3" fill="#e67e22"/>
+        <rect x="150" y="135" width="284" height="22" rx="3" fill="#0a7e65"/>
+        <rect x="150" y="165" width="280" height="22" rx="3" fill="#0a7e65"/>
+        <rect x="150" y="195" width="279" height="22" rx="3" fill="#0a7e65"/>
+        <g class="svg-txt" font-size="12" font-weight="700">
+          <text x="142" y="31" text-anchor="end">東南アジア平均</text>
+          <text x="142" y="61" text-anchor="end">インドネシア</text>
+          <text x="142" y="91" text-anchor="end">フィリピン</text>
+          <text x="142" y="121" text-anchor="end">東ティモール</text>
+          <text x="142" y="151" text-anchor="end">ラオス</text>
+          <text x="142" y="181" text-anchor="end">ミャンマー</text>
+          <text x="142" y="211" text-anchor="end">カンボジア</text>
+        </g>
+        <g class="svg-txt" font-size="11.5" font-weight="700">
+          <text x="496" y="31">0.739</text>
+          <text x="491" y="61">0.728</text>
+          <text x="487" y="91">0.720</text>
+          <text x="448" y="121">0.634</text>
+          <text x="440" y="151">0.617</text>
+          <text x="436" y="181">0.609</text>
+          <text x="435" y="211">0.606</text>
+        </g>
+      </svg>
+      <figcaption>オレンジが東ティモール。値は同一版（HDR 2025／2023年データ）で統一。出典：UNDP／theglobaleconomy 集計<sup class="cite">2</sup>。</figcaption>
+    </figure>
+
+    <h3>経年の見方（時系列の注意）</h3>
+    <p>
+      HDIの<strong>年次推移を1本の折れ線で示すことは避けています</strong>。UNDPは版ごとに算定方法を改定するため、二次情報の年次系列は版が混在し（例：ある集計では2020年0.633→2021年0.574と不自然に急落）、<strong>方法論的に接続できない</strong>ためです。傾向としては、<strong>順位は10年以上ほぼ横ばい（130〜142位前後）</strong>で、HDIを動かす1人当たりGNIは<strong>2011年以降の石油減産で低下</strong>してきました。時系列の実像は、<strong>石油基金残高の推移（図1）</strong>が最も端的に示します<sup class="cite">2,3</sup>。
+    </p>
+
+    <h3>研究上の論点</h3>
+    <ul class="benefits">
+      <li>4類型（島嶼・レンティア・ポスト紛争・ルソフォン）における<strong>典型性と特異性</strong></li>
+      <li>指標の<strong>版・方法論の違い</strong>を踏まえた通時比較の作法</li>
+      <li>「資源はあるが人間開発は中位」という<strong>ギャップ</strong>の比較説明</li>
+    </ul>
+  </section>
+
+  <h2 class="chapter-heading" id="ch7" data-chapter="7"><span class="chapter-num">7</span>言語・文化・アイデンティティ</h2>
+
+  <section class="section-card" id="sec-23" data-chapter="7" data-tags="research business living">
+    <h2><span class="kicker">LANGUAGE, ETHNICITY &amp; RELIGION</span>言語・民族・宗教</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge business">ビジネス</span><span class="tag-badge living">生活</span></div>
+    <span class="kind academic">言語学・民族学・宗教社会学</span>
+
+    <h3 id="lang">言語 ― オーストロネシア／パプアが交差する多言語国家</h3>
+    <p>
+      約<strong>30以上の在来言語</strong>が話され、系統は大きく<strong>オーストロネシア語族</strong>と<strong>パプア諸語（ティモール・アロール・パンタール語族）</strong>に二分されます。パプア系はファタルク・マカサエ・ブナク・マクヴァなど東部・内陸に、その他はオーストロネシア系です。公用語は<strong>テトゥン語とポルトガル語</strong>、憲法上の実務言語（working language）は<strong>インドネシア語と英語</strong>で、4言語が重層する構造をもちます<sup class="cite">6</sup>。
+    </p>
+    <p>
+      共通語のテトゥン語には、ディリを中心に広がりポルトガル語彙を多く取り込んだ<strong>テトゥン・プラサ（Tetun Prasa／Tetun Dili）</strong>と、伝統的な<strong>テトゥン・テリック（Tetun Terik）</strong>があります。母語話者はテトゥン・プラサが約30.6%と最大で、以下のように多様な言語が並存します<sup class="cite">6</sup>。
+    </p>
+
+    <figure class="chart">
+      <p class="chart-title">図4｜母語話者の割合（主要言語）と言語系統</p>
+      <svg viewBox="0 0 640 330" role="img" aria-label="母語話者割合の横棒グラフ">
+        <rect x="150" y="15" width="449.4" height="22" rx="3" fill="#0a7e65"/>
+        <rect x="150" y="45" width="243.8" height="22" rx="3" fill="#0a7e65"/>
+        <rect x="150" y="75" width="154.2" height="22" rx="3" fill="#e67e22"/>
+        <rect x="150" y="105" width="89.6" height="22" rx="3" fill="#0a7e65"/>
+        <rect x="150" y="135" width="86.7" height="22" rx="3" fill="#0a7e65"/>
+        <rect x="150" y="165" width="85.2" height="22" rx="3" fill="#0a7e65"/>
+        <rect x="150" y="195" width="80.8" height="22" rx="3" fill="#e67e22"/>
+        <rect x="150" y="225" width="58.75" height="22" rx="3" fill="#0a7e65"/>
+        <rect x="150" y="255" width="51.4" height="22" rx="3" fill="#e67e22"/>
+        <rect x="150" y="285" width="168.9" height="22" rx="3" fill="#7f8f94"/>
+        <g class="svg-txt" font-size="12" font-weight="700">
+          <text x="142" y="31" text-anchor="end">Tetun Prasa</text>
+          <text x="142" y="61" text-anchor="end">Mambai</text>
+          <text x="142" y="91" text-anchor="end">Makasae</text>
+          <text x="142" y="121" text-anchor="end">Tetun Terik</text>
+          <text x="142" y="151" text-anchor="end">Baikenu</text>
+          <text x="142" y="181" text-anchor="end">Kemak</text>
+          <text x="142" y="211" text-anchor="end">Bunak</text>
+          <text x="142" y="241" text-anchor="end">Tokodede</text>
+          <text x="142" y="271" text-anchor="end">Fataluku</text>
+          <text x="142" y="301" text-anchor="end">その他</text>
+        </g>
+        <g class="svg-mut" font-size="11">
+          <text x="604.4" y="31">30.6%</text>
+          <text x="398.8" y="61">16.6%</text>
+          <text x="309.2" y="91">10.5%</text>
+          <text x="244.6" y="121">6.1%</text>
+          <text x="241.7" y="151">5.9%</text>
+          <text x="240.2" y="181">5.8%</text>
+          <text x="235.8" y="211">5.5%</text>
+          <text x="213.75" y="241">4.0%</text>
+          <text x="206.4" y="271">3.5%</text>
+          <text x="323.9" y="301">約11%</text>
+        </g>
+      </svg>
+      <div class="legend">
+        <span><i style="background:#0a7e65"></i>オーストロネシア語族</span>
+        <span><i style="background:#e67e22"></i>パプア諸語</span>
+        <span><i style="background:#7f8f94"></i>その他</span>
+      </div>
+      <figcaption>母語話者の割合（主要言語、概数）。出典：国勢調査／「Languages of Timor-Leste」<sup class="cite">6</sup>。マカサエ・ブナク・ファタルクがパプア系。</figcaption>
+    </figure>
+
+    <p>
+      言語政策は最大の論点の一つです。ポルトガル語は独立の象徴・司法／行政言語ですが、<strong>流暢な話者は人口の数%程度</strong>（2011年調査で約5%、2004年国勢調査で「ある程度話せる」36.7%）にとどまり、日常のテトゥン語・占領期教育で普及したインドネシア語・経済圏の英語との間で<strong>世代と階層による分断</strong>が生じています。教育言語（母語→テトゥン→ポルトガル）の設計は今も論争が続きます<sup class="cite">6</sup>。
+    </p>
+
+    <h3>民族 ― 約30の民族言語集団と「東西」</h3>
+    <p>
+      民族はおおむね言語集団と重なり、テトゥン・マンバイ・マカサエ・バイケヌ・ケマク・ブナク・トコデデ・ファタルクなど約30集団からなります。テトゥンはディリと北岸、マンバイは中央山地、パプア系のファタルク・マカサエは東端、ブナクは内陸に多く分布します<sup class="cite">6</sup>。加えて、歴史的に商業を担ってきた<strong>華人（客家系）コミュニティ</strong>や、<strong>ポルトガル系・混血（メスティーソ）</strong>の少数住民も存在します（多くは1975年前後の混乱で離散）<sup class="cite">56</sup>。
+    </p>
+    <p>
+      民族間の対立は概して激しくありませんが、社会・政治的に重要なのが<strong>東西の地域的アイデンティティ</strong>です。東部人を<strong>ロロサエ（Lorosae／通称 Firaku）</strong>、西部人を<strong>ロロモヌ（Loromonu／通称 Kaladi）</strong>と呼び、独立抵抗運動での役割や国軍内の処遇をめぐる不満が<strong>2006年の治安危機の一因</strong>となりました。厳密な「民族」対立ではなく、歴史・地域・制度が絡んで<strong>構築された断層</strong>として研究されています<sup class="cite">8</sup>。
+    </p>
+
+    <h3>宗教 ― アジア随一のカトリック国はいかに生まれたか</h3>
+    <p>
+      現在、人口の<strong>約97.6%がカトリック</strong>（プロテスタント約2%、ムスリム約0.2%）で、バチカンに次ぐ世界屈指のカトリック比率をもちます<sup class="cite">6</sup>。しかしこれは<strong>近年に急拡大した現象</strong>です。ポルトガル統治下でも洗礼を受けたカトリックは<strong>1975年時点で人口の2〜3割</strong>にとどまり、多くは在来信仰（アニミズム）でした<sup class="cite">18</sup>。
+    </p>
+    <p>
+      転機はインドネシア占領期でした。<strong>「国民は公認宗教のいずれかに属さねばならない」というパンチャシラ体制</strong>のもと、在来信仰の人々の多くがカトリックを選び、比率は2001年に約85%、1990年代に9割超へ跳ね上がります。イスラムは占領者と結びつく一方、教会は典礼に<strong>インドネシア語ではなくテトゥン語</strong>を用いたため、<strong>教会は避難所であり、占領国と異なる「国民的アイデンティティの核」</strong>となりました。ベロ司教のノーベル平和賞（1996年）に象徴されるように、教会は抵抗と和解に深く関与しました<sup class="cite">18</sup>。
+    </p>
+    <p>
+      教会の重みは現在も健在です。<strong>2024年9月、ローマ教皇フランシスコが東ティモールを訪問</strong>し、首都近郊タシ・トルでのミサには<strong>約60万人（人口の約半分）</strong>が参加しました。独立後最大級の国家的イベントとなり、「バチカンに次ぐカトリック国」としての自己像を再確認する機会となりました<sup class="cite">40</sup>。
+    </p>
+
+    <h3>研究上の論点</h3>
+    <ul class="benefits">
+      <li><strong>多言語政策の緊張</strong>：ポルトガル語（象徴／エリート）・テトゥン語（日常）・インドネシア語（実務）・英語（経済）の使い分けと教育言語問題</li>
+      <li>「東西（ロロサエ／ロロモヌ）」という<strong>構築されたアイデンティティ</strong>と暴力・政治動員</li>
+      <li>在来信仰からカトリックへの<strong>宗教転換</strong>と、教会・ナショナリズム・抵抗の関係</li>
+      <li>危機に瀕する少数言語（パプア系言語等）の記述・保存</li>
+    </ul>
+  </section>
+
+  <section class="section-card" id="sec-24" data-chapter="7" data-tags="research living nature">
+    <h2 id="culture"><span class="kicker">CULTURE &amp; SOCIAL STRUCTURE</span>文化・社会構造 ― ルリックと「家」の世界</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge living">生活</span><span class="tag-badge nature">観光</span></div>
+    <span class="kind academic">文化人類学</span>
+    <p>
+      東ティモールの文化は、単なる「伝統習俗」ではなく、<strong>社会・政治・環境・司法を横断して人々の行動を秩序づける一つの体系</strong>として研究されてきました。その中心にあるのが〈ルリック〉という概念です。以下、文化人類学の主要概念を軸に概観します。
+    </p>
+    <div class="tag-row" style="margin:6px 0 18px;">
+      <span class="tag">lulik（聖なるもの）</span>
+      <span class="tag">uma lulik（聖なる家）</span>
+      <span class="tag">barlake（婚姻交換）</span>
+      <span class="tag">umane / fetosan</span>
+      <span class="tag">liurai（伝統的権威）</span>
+      <span class="tag">tara bandu（慣習法）</span>
+      <span class="tag">tais（織物）</span>
+    </div>
+
+    <h3>1. ルリック（lulik）― 聖なるもの／禁忌</h3>
+    <p>
+      <strong>ルリック</strong>は、景観・祖先・器物・家に宿り<strong>生命を支える「力（potency）」</strong>であると同時に、危険・禁忌・制約とも結びつく両義的な概念です。ポリネシアの<em>mana</em>、東南アジアの<em>semangat</em>、タブー（<em>tapu</em>）と類縁関係にあり、<strong>男女・聖俗などの二元的均衡（dualism）</strong>として世界を秩序づけます。人類学ではタブーか／アニミズムか／「侵犯的聖性」かをめぐって論じられてきました（Bovensiepen 2014 ほか）<sup class="cite">17</sup>。
+    </p>
+
+    <h3>2. ウマ・ルリック（uma lulik）と「家社会」</h3>
+    <p>
+      <strong>ウマ・ルリック（聖なる家／起源の家）</strong>は祖先を祀り、聖なる品 ― タイス、儀礼刀<em>surik</em>、仮面、祖先像、三日月形の頭飾り<em>kaibauk</em> ― を納める祭祀の中心です。家は「政治的な家（男性的・外来）」と「儀礼的な家（女性的・土着）」に分類され、<strong>個人ではなく「家（house）」を社会の基本単位とする〈家社会（société à maison）〉</strong>の典型例とされます。紛争で焼失したウマ・ルリックの<strong>再建は、地域アイデンティティ復興の焦点</strong>となりました<sup class="cite">17</sup>。
+    </p>
+
+    <h3>3. バルラケ（barlake）と婚姻同盟</h3>
+    <p>
+      「婚資（bride price）」と訳されがちですが、実際は<strong><em>fetosan</em>（婿方＝妻をもらう側）と <em>umane</em>（嫁方＝妻／生命を与える側）の間の互酬的な儀礼交換</strong>で、二つの家系を結ぶ<strong>同盟</strong>を形成します。義務は葬儀や家の儀礼にも継続します。相互尊重・相互扶助・相続の明確化という肯定的機能の一方、<strong>女性の地位・精神的負担・GBVとの関連</strong>が学術研究で議論され、都市化のなかで大きく変容しています<sup class="cite">17</sup>。
+    </p>
+
+    <h3>4. 親族の多様性と伝統的権威（liurai）</h3>
+    <p>
+      親族体系は一様でなく、南部テトゥン（ウェハリ）は<strong>母系</strong>、ブナクなどは<strong>父系（Hafoli 婚）</strong>と多様です。伝統的権威<strong>〈リウライ（liurai）〉</strong>はテトゥン語で「大地を超える者」を意味し、古王国<strong>ウェハリ</strong>に由来。儀礼的最高位<strong>マロマク・オアン（Maromak Oan＝「神の子」）</strong>と、執政を担うリウライという<strong>二元的権威構造</strong>を持ちます。ポルトガルはリウライを間接統治の仲介者として利用し、今日も国家法と併存して<strong>法多元主義</strong>を形づくっています<sup class="cite">17</sup>。
+    </p>
+
+    <h3>5. タラ・バンドゥ（tara bandu）― 慣習法と環境ガバナンス</h3>
+    <p>
+      <strong>タラ・バンドゥ</strong>は、ルリックに支えられた共同体の禁令・取り決めで、<strong>人と人・人と動物・人と自然の関係を規律</strong>します。平和・和解や資源管理（漁業・森林）に用いられ、独立後に再活性化。近年は<strong>環境保全・コモンズ管理の在来制度</strong>として国際的にも注目されています<sup class="cite">17</sup>。
+    </p>
+    <p>
+      慣習と近代国家法の接点として重要なのが<strong>土地制度</strong>です。長年の立法の空白を経て<strong>2017年に土地法（No.13/2017）</strong>が制定され、ポルトガル期・インドネシア期・慣習という<strong>重層的な権利</strong>を調停して保有の安定を図ることになりました（憲法・法律に反しない限り慣習的権利も承認）。土地紛争の主因は相続争い・政府による収用・二重請求で、<strong>法多元主義の実務的な試金石</strong>となっています<sup class="cite">25</sup>。
+    </p>
+
+    <h3>6. 物質文化・芸能・宗教習合</h3>
+    <p>
+      手織物<strong>タイス（tais）</strong>は、<strong>2021年12月15日にユネスコ「緊急に保護する必要のある無形文化遺産」に登録</strong>されました。綿を植物染料で染め、主に女性が世代間で技術を継承し、儀礼やバルラケの交換に用いられ社会的地位を表します<sup class="cite">17</sup>。タイスのほか、白檀・チークの<strong>木彫</strong>、手びねりの<strong>土器</strong>、<strong>カゴ編み</strong>などの工芸も各地に伝わります。口承（<em>ai-knanoik</em>）を担う長老の権威や、竹楽器・太鼓・詠唱を伴う舞踊（<em>tebe</em> 等）も、記憶と共同体を維持します。宗教面では、97.6%がカトリックでありながら<strong>ルリック的宇宙観・祖先崇拝が併存する「二重の実践（習合）」</strong>が特徴で、諸聖人の日などにカトリックと土着信仰が融合します<sup class="cite">6,17</sup>。
+    </p>
+
+    <h3>7. 芸能・音楽と食文化</h3>
+    <p>
+      芸能では、腕を組み輪になって足を踏み鳴らし掛け合いの歌を交わす共同体舞踊<strong>テベ・テベ（tebe-tebe／tebedai）</strong>が広く行われ、祝祭・葬儀・和解の場に共通して現れます。女性が戦士の帰還を迎えた<strong>リクライ（likurai）</strong>など地域色豊かな舞踊も残り、音楽は<strong>手太鼓ババドク（babadok）</strong>・ゴング・竹楽器などの打楽器が中心です<sup class="cite">20</sup>。
+    </p>
+    <p>
+      食文化は自給的農業を反映し、主食はトウモロコシ・米・サツマイモ・キャッサバ・タロイモ。農村の国民食<strong>バタール・ダアン（batar da'an）</strong>はトウモロコシを緑豆・カボチャ等と煮込んだ料理で、魚醤<strong>ブドゥ（budu）</strong>やサバのグリル<strong>イカン・サブコ（ikan sabuko）</strong>も知られます。食は<strong>食料安全保障や儀礼交換</strong>とも結びつき、文化・開発双方の論点です<sup class="cite">20</sup>。
+    </p>
+
+    <h3>8. 通過儀礼（冠婚葬祭）</h3>
+    <p>
+      人生の節目の儀礼も社会の要です。<strong>婚礼</strong>は教会式と慣習の<strong>バルラケ（互酬交換）</strong>が組み合わさります（前述）。<strong>葬送</strong>はとりわけ<strong>手厚く共同体的</strong>で、死後1年に黒衣を焼いて服喪を終える<strong>コレ・メタン（kore metan＝喪明け）</strong>などの節目があり、葬儀・記念には <em>umane</em>／<em>fetosan</em> 間の<strong>多額の交換・出費</strong>を伴います（「死者のための支払い」として研究対象）。諸聖人・死者の日（11/1–2）や祖先祭祀も重視され、テベ・テベは葬送の場でも舞われます<sup class="cite">55</sup>。
+    </p>
+
+    <h3>研究上の論点</h3>
+    <ul class="benefits">
+      <li>レヴィ＝ストロースの<strong>〈家社会〉論・アリアンス（同盟）論</strong>が生きて機能する稀有な事例</li>
+      <li>バルラケをめぐる<strong>「文化の擁護」対「ジェンダー正義」</strong>の論争</li>
+      <li>tara bandu・lisan と近代国家法の<strong>法多元主義</strong>、移行期正義における伝統儀礼の役割</li>
+      <li>独立運動・国民国家形成における<strong>ルリック（聖性）の政治的動員</strong></li>
+    </ul>
+  </section>
+
+  <section class="section-card" id="sec-25" data-chapter="7" data-tags="research living nature">
+    <h2><span class="kicker">LITERATURE &amp; FILM</span>文学・映画・現代の文化表現</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge living">生活</span><span class="tag-badge nature">観光</span></div>
+    <span class="kind academic">文化研究・メディア</span>
+    <p>
+      伝統文化に加え、<strong>現代の文化表現</strong>も独立後に育ちつつあります。象徴が2013年の<strong>『Beatriz's War（A Guerra da Beatriz）』</strong> ― <strong>東ティモール初の長編映画</strong>で、テトゥン語・インドネシア語を用い、占領期を舞台にした女性の物語です（マルタン・ゲール伝説を翻案）。監督 Luigi Acquisto ＆ Bety Reis、脚本は作家 Irim Tolentino。屋外上映などで<strong>10万人超</strong>が鑑賞し、インド国際映画祭で最優秀作品賞（金孔雀賞）を受賞しました<sup class="cite">47</sup>。
+    </p>
+    <p>
+      文学では、ディアスポラの作家<strong>ルイス・カルドーゾ（Luís Cardoso）</strong>らがポルトガル語で作品を発表するほか、独立指導者<strong>シャナナ・グスマンの詩</strong>も知られます。音楽では、<strong>抵抗期のプロテストソング</strong>が独立運動の記憶と結びつき、現代ではヒップホップやポップスなど<strong>若者のポピュラー音楽</strong>も育っています。映画・文学・音楽は<strong>占領の記憶と移行期正義を語り継ぐ表現</strong>として、研究上も注目されています<sup class="cite">47</sup>。
+    </p>
+    <h3>研究上の論点</h3>
+    <ul class="benefits">
+      <li>映画・文学による<strong>記憶の継承</strong>と移行期正義の語り</li>
+      <li>多言語（テトゥン・ポルトガル語）での<strong>文化生産</strong>と国民アイデンティティ</li>
+    </ul>
+  </section>
+
+  <section class="section-card" id="sec-26" data-chapter="7" data-tags="research living">
+    <h2><span class="kicker">NATIONAL IDENTITY</span>国民性・国民アイデンティティ</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge living">生活</span></div>
+    <span class="kind academic">ナショナリズム論・文化研究</span>
+    <p>
+      各所で触れた要素を束ねると、東ティモールの「まとまり」は、<strong>抵抗の記憶・信仰・言語・共同体</strong>という複数の層でできていることが見えてきます。
+    </p>
+    <h3>マウベレ（Maubere）― 国民の自称</h3>
+    <p>
+      「マウベレ」は元来、貧しく後れた農民を指すポルトガル語の<strong>蔑称</strong>でしたが、フレティリンがこれを反転させ、<strong>「普通のティモール人」を表す誇りの語＝国民的アイデンティティの象徴</strong>として掲げました。抵抗の統一組織も当初「<strong>マウベレ民族抵抗評議会（CNRM, 1988–）</strong>」を名乗り、1998/99年に党派を超える「<strong>ティモール民族抵抗評議会（CNRT）</strong>」へ改称 ― この改称自体が、単一党派から包摂的な「ティモール人」意識への広がりを象徴します。ただし「マウベレ」は今もフレティリンと強く結びつく<strong>党派的な語</strong>でもあります<sup class="cite">52</sup>。
+    </p>
+    <h3>闘争（funu）と「独立回復」の歴史意識</h3>
+    <p>
+      24年に及ぶ抵抗と甚大な犠牲（<a href="#hist">歴史節</a>参照）は、国民の物語の核です。独立を「新たな独立」ではなく<strong>「回復」</strong>と捉える歴史意識や、殉難者の記憶（『Chega!』）が、<strong>レジリエンスと結束の源泉</strong>となっています<sup class="cite">8</sup>。
+    </p>
+    <h3>統合の核と亀裂</h3>
+    <p>
+      統合の核は<strong>カトリック（97.6%）とテトゥン語</strong>です。一方で<strong>東西（ロロサエ／ロロモヌ）の地域差</strong>や<strong>党派（フレティリン対CNRT）</strong>の亀裂もあり、国民統合は「完成」ではなく<strong>進行形の課題</strong>です。慣習（lulik／uma lulik）に根ざす<strong>共同体主義・相互扶助</strong>も社会の基層をなします<sup class="cite">6,17</sup>。
+    </p>
+    <h3>二重の帰属と対外像</h3>
+    <p>
+      <strong>ポルトガル語圏（CPLP）</strong>とアジア／ASEANという<strong>二重の帰属</strong>、そして国旗・国歌『Pátria』（<a href="#sym">国の象徴節</a>参照）が identity marker です。対外的には、温厚なホスピタリティと親日的な国民性でも知られます。
+    </p>
+    <h3>研究上の論点</h3>
+    <ul class="benefits">
+      <li>競合するナショナリズム（"nations-of-intent"）と、占領下での<strong>世代的変容</strong></li>
+      <li>「マウベレ」の<strong>党派性</strong>と、包摂的な国民アイデンティティの緊張</li>
+      <li>信仰・言語・慣習を横断する<strong>統合と亀裂</strong>の力学</li>
+    </ul>
+  </section>
+
+  <h2 class="chapter-heading" id="ch8" data-chapter="8"><span class="chapter-num">8</span>観光・遺産・旅の手引き</h2>
+
+  <section class="section-card" id="sec-27" data-chapter="8" data-tags="nature living">
+    <h2><span class="kicker">HIGHLIGHTS</span>東ティモールの4つの魅力</h2>
+      <div class="card-tags"><span class="tag-badge nature">観光</span><span class="tag-badge living">生活</span></div>
+    <span class="kind tourism">観光・一般</span>
+    <div class="grid">
+      <div class="feature">
+        <span class="num">1</span>
+        <h4>世界最高峰の海（ダイビング）</h4>
+        <p>アタウロ島周辺の海は世界有数の生物多様性を誇り、クジラやイルカの通り道でもあります。</p>
+      </div>
+      <div class="feature">
+        <span class="num">2</span>
+        <h4>高品質な有機栽培コーヒー</h4>
+        <p>山岳地帯の気候を活かした無農薬のコーヒー栽培が盛んで、主要な非石油輸出品となっています。</p>
+      </div>
+      <div class="feature">
+        <span class="num">3</span>
+        <h4>伝統織物「タイス」</h4>
+        <p>地域ごとに異なる幾何学模様が特徴の手織り物。2021年にユネスコ無形文化遺産（緊急保護リスト）に登録。</p>
+      </div>
+      <div class="feature">
+        <span class="num">4</span>
+        <h4>多様な文化の融合</h4>
+        <p>アジアでありながら、ポルトガル統治の影響でキリスト教（カトリック）が深く根付いています。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-card" id="sec-28" data-chapter="8" data-tags="living nature business">
+    <h2><span class="kicker">PRACTICAL DATA</span>基本データ（実用・観光）</h2>
+      <div class="card-tags"><span class="tag-badge living">生活</span><span class="tag-badge nature">観光</span><span class="tag-badge business">ビジネス</span></div>
+    <span class="kind tourism">観光・一般</span>
+    <h3>一般情報</h3>
+    <div class="table-wrap"><table>
+      <tr><th>項目</th><th>内容</th></tr>
+      <tr><td>言語</td><td>テトゥン語、ポルトガル語（インドネシア語・英語も広く通じる）</td></tr>
+      <tr><td>通貨</td><td>米ドル（補助通貨として独自の「センタボ」硬貨を使用）</td></tr>
+      <tr><td>気候</td><td>熱帯気候（5月〜11月が乾季、12月〜4月が雨季）</td></tr>
+    </table></div>
+    <h3>主要な街・観光地</h3>
+    <div class="tag-row">
+      <span class="tag">首都 ディリ（Dili）</span>
+      <span class="tag">アタウロ島（Atauro Island）</span>
+      <span class="tag">最高峰 ラメラウ山（Mt. Ramelau）</span>
+      <span class="tag">第二の都市 バウカウ（Baucau）</span>
+      <span class="tag">コーヒーの郷 マウベシ（Maubisse）</span>
+      <span class="tag">飛び地 オエクシ（Oecusse）</span>
+    </div>
+  </section>
+
+  <section class="section-card" id="sec-29" data-chapter="8" data-tags="nature living">
+    <h2><span class="kicker">DESTINATIONS</span>主要な観光スポット</h2>
+      <div class="card-tags"><span class="tag-badge nature">観光</span><span class="tag-badge living">生活</span></div>
+    <span class="kind tourism">観光・一般</span>
+    <p>手つかずの自然と歴史遺産が魅力です。エリア別に主なスポットを整理します。</p>
+    <div class="table-wrap"><table>
+      <caption>エリア別の主要スポット<sup class="cite">31</sup></caption>
+      <tr><th>スポット（英名）</th><th>場所</th><th>見どころ</th></tr>
+      <tr><td><strong>クリスト・レイ</strong><br><small>Cristo Rei</small></td><td>ディリ Dili</td><td>丘に立つ高さ約27mのキリスト像（1996年にインドネシアが寄贈）。582段の階段と湾の絶景</td></tr>
+      <tr><td><strong>抵抗博物館／サンタクルス墓地</strong><br><small>Resistance Museum／Santa Cruz</small></td><td>ディリ Dili</td><td>独立闘争を伝える博物館と、1991年サンタクルス虐殺の現場。平和学習・ダークツーリズムの拠点</td></tr>
+      <tr><td><strong>アタウロ島</strong><br><small>Atauro Island</small></td><td>ディリ沖（船で約1時間）</td><td>世界屈指の生物多様性を誇るサンゴ礁でのダイビング。イルカの群れ、ホエール・ヘリテージ・サイト</td></tr>
+      <tr><td><strong>ラメラウ山（タタマイラウ）</strong><br><small>Mt. Ramelau／Tatamailau</small></td><td>アイナロ Ainaro</td><td>最高峰（約2,963m）。山頂の聖母マリア像（1997年）への巡礼地。ご来光トレッキング（年約2.5万人、3月・10月が最盛）</td></tr>
+      <tr><td><strong>ジャコ島</strong><br><small>Jaco Island</small></td><td>東端トゥトゥアラ沖</td><td>無人の<strong>聖なる島</strong>（宿泊禁止）。透明度の高い海へ日帰りボートで</td></tr>
+      <tr><td><strong>ニノ・コニス・サンタナ国立公園</strong><br><small>Nino Konis Santana N.P.</small></td><td>ラウテン（東部）</td><td>初の国立公園(2007)にして<strong>初のユネスコ生物圏保存地域</strong>。原生林・イララロ湖・サンゴ礁</td></tr>
+      <tr><td><strong>バウカウ旧市街</strong><br><small>Baucau Old Town</small></td><td>バウカウ Baucau</td><td>海を望む高原の第2都市。ポルトガル植民地時代の街並みとプザダ（旧宿）</td></tr>
+      <tr><td><strong>イリ・ケレ・ケレ洞窟</strong><br><small>Ili Kére Kére</small></td><td>トゥトゥアラ Tutuala</td><td><strong>1万3千年以上前の岩絵</strong>。国内最重要の考古遺跡。ファタルク文化圏</td></tr>
+      <tr><td><strong>マウベシ</strong><br><small>Maubisse</small></td><td>アイナロ Ainaro</td><td>コーヒーの郷、山岳の避暑地、植民地時代のプザダ</td></tr>
+    </table></div>
+    <p class="note">
+      <strong>ホエールウォッチング：</strong>北岸沖の<strong>オンバイ・ウェタル海峡</strong>は幅約35kmで岸近くまで深く、9〜12月（ピークは10月半ば〜11月）に<strong>ピグミーシロナガスクジラ</strong>（体長最大約24m）などが回遊します。世界でも有数のアクセスの良いクジラ観察地ですが、無秩序な観光が回遊を乱すリスクも指摘され、持続可能な運用が課題です<sup class="cite">31</sup>。
+    </p>
+  </section>
+
+  <section class="section-card" id="sec-30" data-chapter="8" data-tags="nature living research">
+    <h2><span class="kicker">HERITAGE &amp; RUINS</span>遺跡・歴史遺構</h2>
+      <div class="card-tags"><span class="tag-badge nature">観光</span><span class="tag-badge living">生活</span><span class="tag-badge research">研究</span></div>
+    <span class="kind academic">考古学・遺産</span>
+    <p>先史から植民地、そして占領・独立闘争まで、各時代の遺構が残ります。</p>
+    <div class="table-wrap"><table>
+      <caption>主な遺跡・歴史遺構<sup class="cite">45</sup></caption>
+      <tr><th>遺構（英名）</th><th>時代</th><th>内容</th></tr>
+      <tr><td><strong>ジェリマライ洞窟</strong><br><small>Jerimalai</small></td><td>先史</td><td>約4.2万年前の深海漁の痕跡・世界最古級の釣り針（ラウテン）</td></tr>
+      <tr><td><strong>レネ・ハラ洞窟</strong><br><small>Lene Hara</small></td><td>先史</td><td>3.5万年前〜の居住。手形（ハンドステンシル）・舟・動物の岩絵、「太陽光線の顔」（約1〜1.2万年前）。ワラセア横断の証拠</td></tr>
+      <tr><td><strong>イリ・ケレ・ケレ洞窟</strong><br><small>Ili Kére Kére</small></td><td>先史</td><td>トゥトゥアラの著名な岩絵群</td></tr>
+      <tr><td><strong>リファウ記念碑・聖アントニオ砦</strong><br><small>Lifau／Forte de S. António</small></td><td>植民地</td><td>1515年ポルトガル最初の上陸・カトリック伝来の地（オエクシ）</td></tr>
+      <tr><td><strong>マウバラ砦</strong><br><small>Forte de Maubara</small></td><td>植民地</td><td>1758年完成の沿岸要塞（オランダ／ポルトガルの角逐を伝える）</td></tr>
+      <tr><td><strong>バリボ砦</strong><br><small>Balibo Fort</small></td><td>植民地／占領</td><td>1975年<strong>バリボ5事件</strong>の地。修復され博物館・宿泊施設に</td></tr>
+      <tr><td><strong>コマルカ・バリデ監獄</strong><br><small>Balide Comarca</small></td><td>占領</td><td>1963年建設のポルトガル植民地監獄→現<strong>Centro Nacional Chega!</strong>（CAVR記録保管・博物館）。ダークツーリズムの中心</td></tr>
+      <tr><td><strong>サンタクルス墓地</strong><br><small>Santa Cruz Cemetery</small></td><td>占領</td><td>1991年サンタクルス虐殺の現場（ディリ）</td></tr>
+    </table></div>
+    <p class="note">
+      ※ レネ・ハラやジェリマライの岩絵・遺物は、<strong>人類の海洋渡航（スンダ→サフル）</strong>や豪州先住民の起源を探る国際的な考古研究の対象でもあります<sup class="cite">45</sup>。
+    </p>
+  </section>
+
+  <section class="section-card" id="sec-31" data-chapter="8" data-tags="nature living">
+    <h2><span class="kicker">WHY VISIT</span>訪れるべき理由</h2>
+      <div class="card-tags"><span class="tag-badge nature">観光</span><span class="tag-badge living">生活</span></div>
+    <span class="kind tourism">観光・一般</span>
+    <ul class="benefits">
+      <li>観光地化されていない「ありのままの素朴なアジア」を体感できる</li>
+      <li>人々が非常にフレンドリーで親日家が多く、治安も近年は比較的安定している</li>
+      <li>フェアトレードなどを通じた伝統的なコーヒー農園の生活を垣間見られる</li>
+      <li>世界中のダイバー憧れの、手つかずの極上サンゴ礁エリアへアクセスできる</li>
+      <li>独自の歴史を乗り越えてきた力強いエネルギーと平和の尊さを学べる（ダークツーリズム／平和学習の対象地としても注目）</li>
+    </ul>
+    <p class="note">
+      ※ 日本からのアクセスは、インドネシア（バリ島）、シンガポール、オーストラリア（ダーウィン）を経由して首都ディリに入るのが一般的。渡航前に最新のビザ・査証情報を確認のこと。
+    </p>
+  </section>
+
+  <section class="section-card" id="sec-32" data-chapter="8" data-tags="living nature research">
+    <h2><span class="kicker">DID YOU KNOW?</span>コラム：知っておくと面白い豆知識</h2>
+      <div class="card-tags"><span class="tag-badge living">生活</span><span class="tag-badge nature">観光</span><span class="tag-badge research">研究</span></div>
+    <span class="kind tourism">コラム</span>
+    <ul class="benefits">
+      <li><strong>国土は「眠るワニ」の形</strong>：少年に助けられたワニが島に姿を変えたという創世神話（<em>Lafaek Diak</em>）があり、ワニは<strong>「アヴォ・ラファエク（ワニのおじいさん）」</strong>として聖なる存在（lulik）とされます<sup class="cite">30</sup>。</li>
+      <li><strong>通貨は米ドル</strong>。ただし1・5・10…センタボの<strong>独自硬貨</strong>を併用します（1センタボ＝1米セント）<sup class="cite">30</sup>。</li>
+      <li><strong>車は左側通行</strong>。インドネシア統治期の名残で、独立後も維持されています<sup class="cite">30</sup>。</li>
+      <li><strong>アジアでポルトガル語を公用語とする数少ない主権国家</strong>で、テトゥン語と並ぶ公用語です<sup class="cite">6</sup>。</li>
+      <li>バチカンに次ぐ<strong>世界屈指のカトリック比率</strong>（97.6%）。首都には巨大なキリスト像<strong>クリスト・レイ</strong>が立ちます<sup class="cite">6</sup>。</li>
+      <li><strong>21世紀最初の独立国</strong>（2002年）にして、<strong>ASEAN最新（第11）加盟国</strong>（2025年）という新旧の「最初／最新」を併せ持ちます<sup class="cite">1</sup>。</li>
+    </ul>
+  </section>
+
+  <section class="section-card" id="sec-33" data-chapter="8" data-tags="living nature business">
+    <h2><span class="kicker">TRAVEL &amp; PRACTICAL INFO</span>旅行・滞在の実用情報</h2>
+      <div class="card-tags"><span class="tag-badge living">生活</span><span class="tag-badge nature">観光</span><span class="tag-badge business">ビジネス</span></div>
+    <span class="kind tourism">実用・滞在</span>
+    <p>訪問・滞在に役立つ基本情報です（渡航前に最新の公式情報を確認してください）。</p>
+    <div class="table-wrap"><table>
+      <tr><th>項目</th><th>要点</th></tr>
+      <tr><td><strong>国外からのアクセス</strong></td><td>空路は<strong>バリ島（インドネシア）・シンガポール・ダーウィン（豪州）経由</strong>でディリの<strong>ニコラウ・ロバト国際空港</strong>へ。日本からの直行便はない</td></tr>
+      <tr><td><strong>ビザ・入国</strong></td><td>多くの国籍はディリ空港で<strong>到着ビザ（VOA）US$30・30日・単一入国</strong>。旅券残存6か月以上＋復路/onward航空券・資金・宿泊が条件。<strong>e-Visaなし・現金必須</strong>。ディリの移民局で<strong>最大90日まで延長可</strong>（陸路国境は条件が異なる）</td></tr>
+      <tr><td><strong>お金・物価</strong></td><td>通貨は<strong>米ドル</strong>で<strong>現金主体</strong>。ATM・両替・カード対応は限られ、<strong>小額紙幣（$1/5/10/20）が有用</strong>。輸入依存でディリは物価が相対的に高め</td></tr>
+      <tr><td><strong>国内交通</strong></td><td>市内は番号制の乗合ミニバス<strong>ミクロレット（mikrolet）</strong>、都市間は<strong>バス</strong>（時刻表なし・釣銭なし・要小銭）。タクシー・レンタカー、アタウロ島へはフェリー/ボート。<strong>左側通行</strong>、山道・未整備区間に注意</td></tr>
+      <tr><td><strong>通信</strong></td><td>携帯は Timor Telecom・Telkomcel 等。<strong>SIM購入は旅券登録が必須</strong>。ネット普及率は約34.5%で速度は遅め</td></tr>
+      <tr><td><strong>電気・水・ガス</strong></td><td>電力はほぼ全土に普及（停電もあり）。<strong>水道水は飲用を避ける</strong>のが無難。都市ガス網はなく、調理は<strong>LPG（ボンベ）や薪</strong>が中心</td></tr>
+      <tr><td><strong>医療・安全</strong></td><td>医療体制は限定的（重症は<strong>ダーウィン等へ搬送</strong>）。治安は概ね安定だが、夜間や<strong>武術結社（MAGs）</strong>関連の局地的トラブルに留意。海外旅行保険を推奨</td></tr>
+      <tr><td><strong>マナー・タブー</strong></td><td>聖なる家<strong>ウマ・ルリック</strong>や聖地（lulik）は<strong>撮影・立入に許可と配慮</strong>を。教会・村では控えめな服装、年長者と慣習への敬意を</td></tr>
+      <tr><td><strong>ベストシーズン</strong></td><td>乾季（およそ5〜11月）が過ごしやすくトレッキング向き。クジラ観察は9〜12月</td></tr>
+    </table></div>
+    <p class="note">※ ビザ・入国条件・料金は変更され得ます。渡航前に東ティモール移民局や在外公館の最新情報を確認してください<sup class="cite">54</sup>。</p>
+  </section>
+
+  <h2 class="chapter-heading" id="ch9" data-chapter="9"><span class="chapter-num">9</span>研究リファレンス・データ</h2>
+
+  <section class="section-card" id="sec-34" data-chapter="9" data-tags="research business">
+    <h2><span class="kicker">INSTITUTIONS &amp; DATA</span>主要な研究機関・NGOとデータソース</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge business">ビジネス</span></div>
+    <span class="kind academic">研究インフラ</span>
+    <p>
+      東ティモール研究では、政府統計に加え、<strong>国内NGOと国際的な学術機関が独自の一次データ・継続的モニタリング</strong>を蓄積しています。研究で使える主なアクターとデータ源を整理します。
+    </p>
+    <h3>国内の主要NGO・研究機関</h3>
+    <div class="table-wrap"><table>
+      <caption>各組織の公式サイト・刊行物より整理<sup class="cite">11</sup></caption>
+      <tr><th>組織</th><th>持っている情報・専門分野</th></tr>
+      <tr><td><strong>La'o Hamutuk</strong>（開発モニタリング分析研究所）</td><td>石油基金・国家予算・大型開発（Tasi Mane計画等）の独立分析、石油・法制度の一次資料アーカイブ</td></tr>
+      <tr><td><strong>Belun</strong></td><td>紛争早期警戒・早期対応（EWER）、社会的結束・地域紛争のデータ</td></tr>
+      <tr><td><strong>JSMP</strong>（司法制度監視プログラム）</td><td>裁判・司法セクターの継続的モニタリング報告、ジェンダー正義</td></tr>
+      <tr><td><strong>Fundasaun Mahein</strong></td><td>治安部門（警察PNTL・国軍F-FDTL）ガバナンスの監視・分析</td></tr>
+      <tr><td><strong>UNTL</strong>（東ティモール国立大学）</td><td>国内の主要な学術研究拠点（現地語一次資料を含む）</td></tr>
+    </table></div>
+    <h3>国際的な学術・調査データ</h3>
+    <div class="table-wrap"><table>
+      <tr><th>データ源</th><th>内容</th></tr>
+      <tr><td>The Asia Foundation「Nabilan」調査</td><td>ジェンダー暴力の全国代表調査（女性1,426名・男性839名）<sup class="cite">9</sup></td></tr>
+      <tr><td>ANU 太平洋問題学部（Dept. of Pacific Affairs）</td><td>政治・社会に関する継続的な学術研究・分析</td></tr>
+      <tr><td>国勢調査（INETL）／DHS（人口保健調査）</td><td>人口・保健の基幹統計（DHSは2016が最新の実測）<sup class="cite">4</sup></td></tr>
+      <tr><td>Transparency International CPI／Freedom House／BTI</td><td>汚職・自由度・体制移行のガバナンス国際比較指標<sup class="cite">10</sup></td></tr>
+    </table></div>
+    <p class="note">
+      ※ 現地語（テトゥン語・ポルトガル語）の一次資料も多い一方、La'o HamutukやJSMP、The Asia Foundationは英語資料も公開しており、海外研究者のアクセスが比較的容易です。
+    </p>
+  </section>
+
+  <section class="section-card" id="sec-35" data-chapter="9" data-tags="research">
+    <h2><span class="kicker">RESEARCH ANGLES</span>分野別の研究の切り口</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span></div>
+    <span class="kind academic">学術ナビ</span>
+    <p>東ティモールは小国ながら、複数分野で「教科書的な事例」を提供します。主なアプローチを整理します。</p>
+    <div class="tag-row" style="margin-bottom:14px;">
+      <span class="tag disc">平和構築・国連PKO論</span>
+      <span class="tag disc">資源の呪い・レンティア国家論</span>
+      <span class="tag disc">移行期正義・和解</span>
+      <span class="tag disc">脆弱国家・g7+</span>
+      <span class="tag disc">言語政策・多言語主義</span>
+      <span class="tag disc">法多元主義（慣習法）</span>
+      <span class="tag disc">ASEAN地域統合・小国外交</span>
+      <span class="tag disc">米中豪の地政学・ヘッジング</span>
+      <span class="tag disc">栄養・母子保健・結核</span>
+      <span class="tag disc">ジェンダー・クオータとGBV</span>
+      <span class="tag disc">気候変動・防災・海洋保全</span>
+      <span class="tag disc">家社会・アリアンス論</span>
+      <span class="tag disc">聖性（lulik）と政治</span>
+      <span class="tag disc">教育言語・学習貧困</span>
+      <span class="tag disc">ノンフォーマル教育・民衆教育</span>
+      <span class="tag disc">武術結社・SSR・若者</span>
+      <span class="tag disc">報道の自由・メディア</span>
+      <span class="tag disc">独立世代エリート・世代交代</span>
+      <span class="tag disc">退役軍人政治</span>
+      <span class="tag disc">土地制度・法多元主義</span>
+      <span class="tag disc">二国間関係・資源主権</span>
+      <span class="tag disc">女性の政治参画・若手世代</span>
+      <span class="tag disc">不処罰・移行期正義・司法</span>
+      <span class="tag disc">大型開発（Tasi Mane）と環境</span>
+      <span class="tag disc">デジタル格差・海洋安全保障</span>
+      <span class="tag disc">特区開発（ZEESM）・幹線インフラ</span>
+      <span class="tag disc">国際比較・国家類型論</span>
+      <span class="tag disc">地誌・地域間格差</span>
+      <span class="tag disc">ワラセア生物地理・固有種保全</span>
+      <span class="tag disc">抵抗運動・ゲリラ戦・大飢饉</span>
+      <span class="tag disc">英雄の相克・治安部門の政治化</span>
+      <span class="tag disc">退役軍人の財政・不正</span>
+      <span class="tag disc">貿易・インフォーマル経済</span>
+      <span class="tag disc">精神保健・トラウマ</span>
+      <span class="tag disc">移民・送金・ディアスポラ</span>
+      <span class="tag disc">考古・遺産・記憶の場</span>
+      <span class="tag disc">農業・食料安全保障</span>
+      <span class="tag disc">水・衛生（WASH）</span>
+      <span class="tag disc">都市化・非正規居住</span>
+      <span class="tag disc">映画・文学と記憶</span>
+      <span class="tag disc">ドル化・通貨政策</span>
+      <span class="tag disc">マウベレ・ナショナリズム</span>
+      <span class="tag disc">プレート衝突・隆起・地震</span>
+      <span class="tag disc">通過儀礼・葬送（冠婚葬祭）</span>
+      <span class="tag disc">渡航・滞在の実務</span>
+      <span class="tag disc">スコ自治・草の根ガバナンス</span>
+    </div>
+    <div class="table-wrap"><table>
+      <tr><th>分野</th><th>代表的な問い（例）</th></tr>
+      <tr><td>国際関係・平和構築</td><td>UNTAETによる国家建設は持続的な制度を残したか。対豪・対中・対インドネシア関係とASEAN加盟の戦略的意味。</td></tr>
+      <tr><td>経済学</td><td>石油基金の運用は「資源の呪い」を回避できているか。ポスト石油の多角化は可能か。</td></tr>
+      <tr><td>開発学</td><td>マクロの富とミクロの貧困・栄養不良の乖離をどう説明するか。</td></tr>
+      <tr><td>歴史・人類学</td><td>占領期の記憶と『Chega!』の受容、慣習儀礼を通じた草の根の和解。</td></tr>
+    </table></div>
+  </section>
+
+  <section class="section-card" id="sec-36" data-chapter="9" data-tags="research business">
+    <h2><span class="kicker">DATA APPENDIX</span>統計付録（主要指標一覧）</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge business">ビジネス</span></div>
+    <span class="kind academic">リファレンス</span>
+    <p>本書で扱った主要指標を一覧化します。各値の詳細・注記は該当節を、出典番号は末尾「主な出典」を参照してください。</p>
+    <div class="table-wrap"><table>
+      <caption>主要指標のまとめ（出典番号は本文の上付き数字に対応）</caption>
+      <tr><th>指標</th><th>値</th><th>出典</th></tr>
+      <tr><td>正式名称／首都</td><td>東ティモール民主共和国／ディリ</td><td>—</td></tr>
+      <tr><td>独立回復</td><td>2002年5月20日（ASEAN加盟 2025年10月26日）</td><td>1</td></tr>
+      <tr><td>面積</td><td>約14,874km²（東南アジア最小）</td><td>13</td></tr>
+      <tr><td>人口</td><td>1,340,434人（2022年国勢調査）</td><td>4</td></tr>
+      <tr><td>年齢中央値</td><td>約21歳</td><td>4</td></tr>
+      <tr><td>都市人口比</td><td>約30%（ディリに集中）</td><td>49</td></tr>
+      <tr><td>政体</td><td>半大統領制</td><td>5</td></tr>
+      <tr><td>公用語</td><td>テトゥン語・ポルトガル語</td><td>6</td></tr>
+      <tr><td>宗教</td><td>カトリック 97.6%</td><td>6</td></tr>
+      <tr><td>通貨</td><td>米ドル（＋補助硬貨センタボ）</td><td>50</td></tr>
+      <tr><td>HDI</td><td>0.634／世界142位・中位（2023）</td><td>2</td></tr>
+      <tr><td>1人当たりGDP</td><td>約1,300US$（名目/2024）・約4,900US$（PPP/2025）</td><td>2</td></tr>
+      <tr><td>石油基金残高</td><td>約188億US$（2025年6月）</td><td>3</td></tr>
+      <tr><td>輸出／輸入</td><td>約1.64億US$／約9.09億US$（2023）</td><td>42</td></tr>
+      <tr><td>貧困率</td><td>約42%（国内貧困線）</td><td>4</td></tr>
+      <tr><td>5歳未満発育阻害率</td><td>約46〜47%（世界最高水準）</td><td>4</td></tr>
+      <tr><td>平均寿命／合計特殊出生率</td><td>約70歳／2.7</td><td>4</td></tr>
+      <tr><td>妊産婦死亡率／結核罹患率</td><td>出生10万対 約235／10万対 約498（世界6位）</td><td>14</td></tr>
+      <tr><td>成人識字率</td><td>約73%（若者 約85%）</td><td>19</td></tr>
+      <tr><td>女性国会議席</td><td>40%（65議席中26、2023年）</td><td>15</td></tr>
+      <tr><td>腐敗認識指数（CPI）</td><td>44点／180か国中73位（2024）</td><td>10</td></tr>
+      <tr><td>報道自由度（RSF）</td><td>180か国中20位（2024）</td><td>21</td></tr>
+      <tr><td>ネット利用率／電力アクセス</td><td>約34.5%（2025初）／ほぼ100%（2023–24）</td><td>34,16</td></tr>
+    </table></div>
+  </section>
+
+  <section class="section-card" id="sec-37" data-chapter="9" data-tags="research business living nature">
+    <h2><span class="kicker">GLOSSARY</span>用語集</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge business">ビジネス</span><span class="tag-badge living">生活</span><span class="tag-badge nature">観光</span></div>
+    <span class="kind academic">リファレンス</span>
+    <p>本書に登場する現地語・略語を一括で整理します。</p>
+    <div class="table-wrap"><table>
+      <tr><th>用語（原語・正式名称）</th><th>意味</th></tr>
+      <tr><td><strong>ルリック</strong>（lulik）</td><td>聖なるもの／禁忌。景観・祖先・器物・家に宿り生命を支える力。文化の中核概念</td></tr>
+      <tr><td><strong>ウマ・ルリック</strong>（uma lulik）</td><td>聖なる家／起源の家。祖先を祀る祭祀の中心で「家社会」の単位</td></tr>
+      <tr><td><strong>バルラケ</strong>（barlake）</td><td>婚姻に伴う互酬的な儀礼交換。二つの家系の同盟を形成</td></tr>
+      <tr><td><strong>ウマネ／フェトサン</strong>（umane／fetosan）</td><td>嫁方（妻＝生命を与える側）／婿方（妻をもらう側）の同盟関係</td></tr>
+      <tr><td><strong>リウライ</strong>（liurai）</td><td>伝統的権威・首長。テトゥン語で「大地を超える者」</td></tr>
+      <tr><td><strong>マロマク・オアン</strong>（Maromak Oan）</td><td>古王国ウェハリの儀礼的最高位「神の子」（リウライと二元的権威）</td></tr>
+      <tr><td><strong>タラ・バンドゥ</strong>（tara bandu）</td><td>共同体の禁令・慣習法。人・動物・自然の関係を規律し和解・環境管理に用いる</td></tr>
+      <tr><td><strong>タイス</strong>（tais）</td><td>手織物。2021年ユネスコ無形文化遺産（緊急保護）に登録</td></tr>
+      <tr><td><strong>テトゥン・プラサ／テリック</strong>（Tetun Prasa／Terik）</td><td>共通語テトゥンの都市クレオール型／伝統型</td></tr>
+      <tr><td><strong>ジェラサウン・フォウン</strong>（Jerasaun Foun）</td><td>独立後生まれの「新世代」</td></tr>
+      <tr><td><strong>ファリンティル</strong>（Falintil）</td><td>独立抵抗の武装組織。現在の国軍F-FDTLの源流</td></tr>
+      <tr><td><strong>ロロサエ／ロロモヌ</strong>（Lorosae／Loromonu）</td><td>東部人（Firaku）／西部人（Kaladi）の地域的アイデンティティ</td></tr>
+      <tr><td><strong>F-FDTL／PNTL</strong>（国防軍／国家警察）</td><td>ティモール・レステ国防軍と国家警察。正規の治安機構</td></tr>
+      <tr><td><strong>INTERFET／UNTAET</strong>（多国籍軍／国連暫定行政機構）</td><td>1999年の多国籍軍／1999–2002年の国連統治</td></tr>
+      <tr><td><strong>CAVR</strong>（真実和解委員会）</td><td>1974–99年の人権侵害を調査。最終報告書が『Chega!』</td></tr>
+      <tr><td><strong>ESI</strong>（推定持続可能所得）</td><td>石油基金の年間引出し上限ルール（原則3%）</td></tr>
+      <tr><td><strong>ZEESM</strong>（社会的市場経済特別区）</td><td>オエクシの経済特区</td></tr>
+      <tr><td><strong>CPLP／g7+</strong>（ポルトガル語圏共同体／脆弱国家連合）</td><td>加盟する多国間枠組み（g7+は東ティモール主導）</td></tr>
+      <tr><td><strong>MAGs</strong>（武術結社）</td><td>martial arts groups。KORK・Kera Sakti・PSHT等。2013年に主要結社を非合法化</td></tr>
+    </table></div>
+  </section>
+
+  <section class="section-card" id="sec-38" data-chapter="9" data-tags="research">
+    <h2><span class="kicker">FURTHER READING</span>文献ガイド（研究者向け）</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span></div>
+    <span class="kind academic">リファレンス</span>
+    <p>本格的に学ぶための主要な学術文献・研究者を分野別に挙げます（末尾の「主な出典」とは別に、通読向けの基本書を中心に選定）。</p>
+    <ul class="benefits">
+      <li><strong>総合：</strong> A. McWilliam &amp; M. Leach (eds), <em>Routledge Handbook of Contemporary Timor-Leste</em> (2018) ― 最良の総合入口</li>
+      <li><strong>歴史・占領・1999年：</strong> Geoffrey Robinson, <em>"If You Leave Us Here, We Will Die": How Genocide Was Stopped in East Timor</em> (Princeton UP, 2010)</li>
+      <li><strong>長期の暴力と地域政治：</strong> Douglas Kammen, <em>Three Centuries of Conflict in East Timor</em> (Rutgers UP, 2015)</li>
+      <li><strong>政治・国民形成：</strong> Michael Leach, <em>Nation-Building and National Identity in Timor-Leste</em> (Routledge, 2017)／ M. Leach &amp; D. Kingsbury (eds), <em>The Politics of Timor-Leste</em></li>
+      <li><strong>文化人類学：</strong> Judith Bovensiepen, <em>The Land of Gold</em> (2015)・"Lulik" <em>Oceania</em> (2014)／ A. McWilliam &amp; E. Traube (eds), <em>Land and Life in Timor-Leste</em> (ANU Press)</li>
+      <li><strong>移行期正義（一次資料）：</strong> CAVR, <em>Chega!</em> Final Report (2005)</li>
+      <li><strong>石油・予算のモニタリング：</strong> La'o Hamutuk（開発モニタリング分析研究所）の刊行物・データ</li>
+    </ul>
+    <p class="note">※ 現地機関（INETL・BCTL・政府省庁）およびUNDP／World Bank／UNICEF等の一次統計は、末尾の「主な出典」を参照。</p>
+  </section>
+
+  <section class="section-card" id="sec-39" data-chapter="9" data-tags="research">
+    <h2><span class="kicker">REFERENCES</span>主な出典・参考資料</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span></div>
+    <p style="font-size:.9rem;">
+      本ページの数値・記述は以下に基づき整理（2025年10月〜2026年7月時点で参照）。
+      <strong>◎＝一次資料（国際機関・政府統計）／○＝二次資料</strong>で区別。番号は本文中の上付き数字に対応します。厳密な学術引用時は各◎資料の原典での確認を推奨します。
+    </p>
+    <ol class="refs">
+      <li><strong>［1］ASEAN加盟：</strong> ◎ ASEAN Main Portal「Forging a New Era: Timor-Leste Admitted into ASEAN」(2025-10) ／ ○ The Diplomat「Timor-Leste Becomes ASEAN's 11th Member」。<br>
+        <a href="https://asean.org/forging-a-new-era-timor-leste-admitted-into-asean/">asean.org</a> ／ <a href="https://thediplomat.com/2025/10/history-is-made-timor-leste-becomes-aseans-11th-member/">thediplomat.com</a></li>
+      <li><strong>［2］GDP・HDI（経済／人間開発）：</strong> ◎ UNDP <em>Human Development Report 2025</em> 統計付表（HDI＝0.634・142位、2023年データ）／ ◎ World Bank Open Data・Macro Poverty Outlook（GDP）。<br>
+        <a href="https://hdr.undp.org/data-center/country-insights">hdr.undp.org</a> ／ <a href="https://data.worldbank.org/country/timor-leste">data.worldbank.org</a></li>
+      <li><strong>［3］石油・ガス・石油基金：</strong> ◎ Banco Central de Timor-Leste（BCTL）石油基金四半期報告（残高・約188億US$/2025-06）／ ○ La'o Hamutuk（ESI・引出し分析）／ ○ ASEAN Briefing・East Asia Forum・UNESCAP（バユウンダン・グレーターサンライズ・枯渇見通し）。<br>
+        <a href="https://www.bancocentral.tl/en/go/petroleum-fund">bancocentral.tl</a> ／ <a href="https://www.laohamutuk.org/">laohamutuk.org</a> ／ <a href="https://eastasiaforum.org/2026/02/26/timor-lestes-search-for-growth-beyond-oil/">eastasiaforum.org</a></li>
+      <li><strong>［4］人口・保健・貧困・栄養：</strong> ◎ INETL, I.P.『2022 Population and Housing Census, Main Report』(総人口 1,340,434)／ ◎ UNFPA 人口統計・年齢中央値／ ◎ World Bank Poverty &amp; Inequality Platform（貧困、最新全国調査は2014 TLSLS）／ ○ UNICEF「Timor-Leste at a Glance 2024」・Global Nutrition Report（発育阻害、DHS2016基準）。<br>
+        <a href="https://timor-leste.unfpa.org/sites/default/files/pub-pdf/final-main-report_tlphc-census_2022.pdf">census 2022 (PDF)</a> ／ <a href="https://pip.worldbank.org/country-profiles/TLS">pip.worldbank.org</a> ／ <a href="https://globalnutritionreport.org/resources/nutrition-profiles/asia/south-eastern-asia/timor-leste/">globalnutritionreport.org</a></li>
+      <li><strong>［5］政治・政府：</strong> ○ Wikipedia「IX Constitutional Government of Timor-Leste」／ ○ Freedom House「Freedom in the World 2024」・BTI 2026 国別報告。<br>
+        <a href="https://en.wikipedia.org/wiki/IX_Constitutional_Government_of_Timor-Leste">en.wikipedia.org</a> ／ <a href="https://freedomhouse.org/country/timor-leste/freedom-world/2024">freedomhouse.org</a></li>
+      <li><strong>［6］言語・民族・宗教・サンタクルス事件：</strong> ◎ 2022国勢調査（宗教97.6%カトリック等）／ ○ Wikipedia「Languages of Timor-Leste」「Santa Cruz massacre」・Minority Rights Group。<br>
+        <a href="https://en.wikipedia.org/wiki/Languages_of_Timor-Leste">en.wikipedia.org</a> ／ <a href="https://minorityrights.org/country/timor-leste/">minorityrights.org</a></li>
+      <li><strong>［7］g7+・脆弱国家：</strong> ◎ g7+ 事務局（ディリ、2010年発足）／ ○ ODI「A New Deal for fragile states」。<br>
+        <a href="https://www.g7plus.org/">g7plus.org</a> ／ <a href="https://odi.org/en/press/a-new-deal-for-fragile-states/">odi.org</a></li>
+      <li><strong>［8］独立過程・移行期正義：</strong> ◎ CAVR『Chega!』報告書（ReliefWeb収録）／ ○ Wikipedia「1999 East Timorese referendum」（独立賛成78.5%）「2006 crisis in Timor-Leste」「CAVR」。<br>
+        <a href="https://reliefweb.int/report/timor-leste/chega-report-commission-reception-truth-and-reconciliation-timor-leste">reliefweb.int（Chega!）</a> ／ <a href="https://en.wikipedia.org/wiki/1999_East_Timorese_independence_referendum">en.wikipedia.org</a></li>
+      <li><strong>［9］ジェンダー暴力（GBV）：</strong> ◎ The Asia Foundation『Understanding Violence against Women and Children in Timor-Leste（Nabilan Baseline Study）』(2016)。パートナーからの身体的/性的暴力59%等（女性1,426名・男性839名の全国代表調査）。<br>
+        <a href="https://asiafoundation.org/wp-content/uploads/2016/05/UnderstandingVAWTL_main.pdf">asiafoundation.org（報告書PDF）</a> ／ <a href="https://asiafoundation.org/where-we-work/timor-leste/">asiafoundation.org/timor-leste</a></li>
+      <li><strong>［10］ガバナンス指標：</strong> ◎ Transparency International「Corruption Perceptions Index 2024」（44点・73位）／ ○ Freedom House「Freedom in the World」・BTI 国別報告。<br>
+        <a href="https://www.transparency.org/en/countries/timor-leste">transparency.org</a> ／ <a href="https://freedomhouse.org/country/timor-leste/freedom-world/2024">freedomhouse.org</a></li>
+      <li><strong>［11］国内研究機関・NGO：</strong> ◎ 各組織の公式サイト・刊行物 ― La'o Hamutuk（開発・予算監視）、JSMP（司法監視）、Fundasaun Mahein（治安部門）、Belun（紛争早期警戒）、UNTL（国立大学）、ANU 太平洋問題学部（学術研究）。<br>
+        <a href="https://www.laohamutuk.org/">laohamutuk.org</a> ／ <a href="https://jsmp.tl/">jsmp.tl</a> ／ <a href="https://www.fundasaunmahein.org/">fundasaunmahein.org</a> ／ <a href="https://dpa.bellschool.anu.edu.au/">dpa.bellschool.anu.edu.au</a></li>
+      <li><strong>［12］外交・国際関係：</strong> ◎ 豪州DFAT「Australia and Timor-Leste sign historic maritime boundary treaty」（2018署名/2019発効）／ ◎ 中国外交部「Comprehensive Strategic Partnership」共同声明(2024)・在東ティモール中国大使館／ ○ RSIS・AIIA（China–Timor-Leste関係分析）／ ◎ 東ティモール外務省 CPLP ページ。<br>
+        <a href="https://www.dfat.gov.au/geo/timor-leste/australias-maritime-arrangements-with-timor-leste">dfat.gov.au</a> ／ <a href="https://rsis.edu.sg/rsis-publication/rsis/china-timor-leste-relations-seeing-recent-developments-in-perspective/">rsis.edu.sg</a> ／ <a href="https://mnec.gov.tl/node/34">mnec.gov.tl（CPLP）</a></li>
+      <li><strong>［13］地理・環境・防災：</strong> ◎ CIA World Factbook（面積14,874km²・地形）／ ○ Wikipedia「Geography of Timor-Leste」／ ◎ ADB『State of the Coral Triangle: Timor-Leste』・Conservation International（アタウロ礁の魚類多様性2016）／ ○ 報道・ReliefWeb（サイクロン・セロジャ2021）。<br>
+        <a href="https://theworldfactbook.org/country/timor-leste.html">worldfactbook</a> ／ <a href="https://www.adb.org/sites/default/files/publication/42394/state-coral-triangle-timor-leste.pdf">adb.org（Coral Triangle PDF）</a></li>
+      <li><strong>［14］保健医療：</strong> ◎ World Bank Open Data（妊産婦死亡率・結核罹患率）／ ◎ WHO 東ティモール（TB高負担・国別協力戦略）。TB罹患率 約498/10万は世界6位・WHO SEARO第2位。<br>
+        <a href="https://data.worldbank.org/indicator/SH.STA.MMRT?locations=TL">data.worldbank.org（MMR）</a> ／ <a href="https://data.worldbank.org/indicator/SH.TBS.INCD?locations=TL">worldbank（TB）</a> ／ <a href="https://www.who.int/timorleste">who.int/timorleste</a></li>
+      <li><strong>［15］女性の政治参画：</strong> ◎ IPU Parline（国会の女性データ：2023年選挙後 26/65＝40%）／ ○ International IDEA・IWDA（ジェンダー・クオータ制）。<br>
+        <a href="https://data.ipu.org/parliament/TL/TL-LC01/data-on-women/">data.ipu.org</a> ／ <a href="https://iwda.org.au/timor-leste/">iwda.org.au</a></li>
+      <li><strong>［16］非石油経済（送金・コーヒー・電力）：</strong> ○ Development Policy Centre（送金＝石油に次ぐ外貨源、UK就労者数）／ ◎ CCT・Hamutuk 組織プロフィール（有機コーヒー協同組合、組合員2万人超）／ ◎ World Bank（電力アクセス）。<br>
+        <a href="https://devpolicy.org/remittances-biggest-export-earner-for-timor-leste-after-oil-20180322/">devpolicy.org</a> ／ <a href="https://hamutuk.tl/en/profiles/organisation/CCT/">hamutuk.tl（CCT）</a> ／ <a href="https://data.worldbank.org/indicator/EG.ELC.ACCS.ZS?locations=TL">worldbank（電力）</a></li>
+      <li><strong>［17］文化・社会構造（文化人類学）：</strong> ○ J. Bovensiepen「Lulik: Taboo, Animism, or Transgressive Sacred?」<em>Oceania</em> (2014)／ ○ 「Lulik: Core Values of Timor-Leste」等の学術論文／ ◎ UNESCO 無形文化遺産「Tais, traditional textile」(2021登録)／ ○ Wikipedia「Uma Lulik」「Liurai」「Wehali」／ ○ Niner/Fundasaun Mahein（barlake）・PMC 研究（婚資と女性）。<br>
+        <a href="https://ich.unesco.org/en/USL/tais-traditional-textile-01688">ich.unesco.org（Tais）</a> ／ <a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/ocea.5049">Bovensiepen 2014（Oceania）</a> ／ <a href="https://en.wikipedia.org/wiki/Uma_Lulik">en.wikipedia.org（Uma Lulik）</a></li>
+      <li><strong>［18］宗教史・カトリック教会：</strong> ○ South East Asia Research「The Catholic Church in Timor-Leste and the Indonesian Occupation」(2013)／ ○ America Magazine・RVA（占領期のカトリック急拡大、1975年2〜3割→現在97%超）／ ◎ 国勢調査（宗派内訳）。<br>
+        <a href="https://www.tandfonline.com/doi/abs/10.5367/sear.2013.0134">tandfonline.com</a> ／ <a href="https://www.americamagazine.org/politics-society/2024/09/09/pope-francis-timor-leste-catholic-church-248756/">americamagazine.org</a></li>
+      <li><strong>［19］教育（フォーマル・ノンフォーマル）：</strong> ◎ World Bank／UNESCO 教育統計（識字率・就学率）／ ◎ 東ティモール・ユネスコ国内委員会「EMBLI（母語ベース多言語教育）」評価／ ○ <em>International Review of Education</em>（キューバ式識字「Yes I Can」比較研究, 2014）・関連学術論文／ ○ Springer/GHTM（キューバ医療教育）。<br>
+        <a href="https://data.worldbank.org/indicator/SE.ADT.LITR.ZS?locations=TL">data.worldbank.org（識字率）</a> ／ <a href="https://natcomunesco.gov.tl/wp-content/uploads/2021/08/Eng-Executive-Summary-for-EMBLI-Endline-Assessment-V4.pdf">natcomunesco.gov.tl（EMBLI）</a> ／ <a href="https://link.springer.com/article/10.1007/s11159-014-9421-5">Springer（Yes I Can 比較研究）</a></li>
+      <li><strong>［20］芸能・音楽・食文化：</strong> ○ Wikipedia「Music of Timor-Leste」「Tebe dance」「Cuisine of Timor-Leste」／ ○ ichLinks（無形文化遺産アーカイブ）・料理ガイド類。<br>
+        <a href="https://en.wikipedia.org/wiki/Music_of_Timor-Leste">en.wikipedia.org（Music）</a> ／ <a href="https://en.wikipedia.org/wiki/Cuisine_of_Timor-Leste">en.wikipedia.org（Cuisine）</a></li>
+      <li><strong>［21］メディア・報道の自由：</strong> ◎ Reporters Without Borders（RSF）「World Press Freedom Index 2024」＝20位/180・スコア78.92／ ○ CIVICUS Monitor・Tatoli（メディア状況）。<br>
+        <a href="https://rsf.org/en/country/timor-leste">rsf.org</a> ／ <a href="https://monitor.civicus.org/explore/timor-leste-press-freedom-rankings-drop-protesters-detained-while-martial-arts-ban-extended/">monitor.civicus.org</a></li>
+      <li><strong>［22］治安・武術結社（MAGs）：</strong> ○ J. Pawelz「Security, Violence, and Outlawed Martial Arts Groups in Timor-Leste」(2015)／ ○ Belun 政策ブリーフ・Fundasaun Mahein／ ◎ 閣僚評議会決議 No.16/2013（主要結社の非合法化）。<br>
+        <a href="https://www.researchgate.net/publication/277584588_Security_Violence_and_Outlawed_Martial_Arts_Groups_in_Timor-Leste">Pawelz 2015</a> ／ <a href="https://belun.tl/wp-content/uploads/2014/06/Policy-Brief_MA_24-June-2014_FINAL.pdf">belun.tl（政策ブリーフ）</a></li>
+      <li><strong>［23］主要人物・政治指導者：</strong> ○ Britannica・Wikipedia の人物項目（Xanana Gusmão／José Ramos-Horta／Mari Alkatiri／Taur Matan Ruak／Francisco Guterres／Nicolau Lobato）。役職・在任年・経歴。<br>
+        <a href="https://www.britannica.com/biography/Xanana-Gusmao">britannica.com（Gusmão）</a> ／ <a href="https://en.wikipedia.org/wiki/Jos%C3%A9_Ramos-Horta">en.wikipedia.org（Ramos-Horta）</a> ／ <a href="https://en.wikipedia.org/wiki/Nicolau_Lobato">en.wikipedia.org（N. Lobato）</a></li>
+      <li><strong>［24］退役軍人（antigos combatentes）：</strong> ○ International Crisis Group「Timor-Leste's Veterans: An Unfinished Struggle?」。年金制度の財政・政治的影響。<br>
+        <a href="https://www.crisisgroup.org/asia/south-east-asia/indonesia/timor-leste-s-veterans-unfinished-struggle">crisisgroup.org</a></li>
+      <li><strong>［25］土地制度：</strong> ◎ 土地法 No.13/2017／ ○ Land Portal「Timor-Leste: Context and Land Governance」。重層的権利の調停・土地紛争の要因。<br>
+        <a href="https://landportal.org/book/narratives/2021/timor-leste">landportal.org</a></li>
+      <li><strong>［26］保健の担い手（SISCa・キューバ協力）：</strong> ◎ 東ティモール政府「National Health System」（SISCa）／ ○ T. Anderson「The Cuba–Timor-Leste Health Program」・PMC（医師の約2/3がキューバ人）。<br>
+        <a href="https://timor-leste.gov.tl/?lang=en&n=1&p=3374">timor-leste.gov.tl（保健制度）</a> ／ <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6734948/">pmc.ncbi.nlm.nih.gov</a></li>
+      <li><strong>［27］スポーツ・国際的プレゼンス：</strong> ○ Wikipedia「Sport in Timor-Leste」「Timor-Leste at the 2004 Summer Olympics」（シドニー2000＝個人参加、アテネ2004＝国として初参加）。<br>
+        <a href="https://en.wikipedia.org/wiki/Timor-Leste_at_the_2004_Summer_Olympics">en.wikipedia.org（Athens 2004）</a></li>
+      <li><strong>［28］二国間関係：</strong> ○ Wikipedia「Australia–Timor-Leste relations」・The Conversation（スパイ疑惑/証人K）／ ○ Antara News（対インドネシア貿易・CTF）／ ◎ 日本外務省・在東ティモール日本大使館（対日協力）／ ○ Lowy Institute Southeast Asia Aid Map（援助）。<br>
+        <a href="https://theconversation.com/after-a-border-dispute-and-spying-scandal-can-australia-and-timor-leste-be-good-neighbours-121553">theconversation.com</a> ／ <a href="https://seamap.lowyinstitute.org/country/timor-leste/">lowyinstitute.org（援助）</a> ／ <a href="https://www.timor-leste.emb-japan.go.jp/itpr_en/11_000001_1107.html">日本大使館</a></li>
+      <li><strong>［29］女性政治家・若手世代：</strong> ○ Wikipedia の人物項目（Armanda Berta dos Santos／Maria Fernanda Lay〔初の女性国会議長〕／Fernanda Borges／Milena Pires）・KHUNTO。<br>
+        <a href="https://en.wikipedia.org/wiki/Armanda_Berta_dos_Santos">en.wikipedia.org（A.B. dos Santos）</a> ／ <a href="https://en.wikipedia.org/wiki/Milena_Pires">en.wikipedia.org（M. Pires）</a></li>
+      <li><strong>［30］豆知識（神話・通貨・交通）：</strong> ○ Wikipedia「Lafaek Diak」（ワニ起源神話）・Human Dimensions of Wildlife (2019)／ ○ Wikipedia「Timor-Leste centavo coins」「Transport in Timor-Leste」（左側通行）。<br>
+        <a href="https://en.wikipedia.org/wiki/Lafaek_Diak">en.wikipedia.org（Lafaek Diak）</a> ／ <a href="https://en.wikipedia.org/wiki/Timor-Leste_centavo_coins">centavo coins</a></li>
+      <li><strong>［31］観光スポット：</strong> ○ 政府観光サイト timorleste.tl／ ○ Wikipedia「Nino Konis Santana National Park」「Jaco Island」「Tatamailau」「Baucau」／ ◎ UNESCO（生物圏保存地域）／ ○ Mongabay（ホエールウォッチングの持続可能性）。<br>
+        <a href="https://www.timorleste.tl/destinations/national-park/">timorleste.tl</a> ／ <a href="https://en.wikipedia.org/wiki/Nino_Konis_Santana_National_Park">en.wikipedia.org（NP）</a> ／ <a href="https://news.mongabay.com/2025/12/unregulated-tourism-risks-disrupting-timor-lestes-whale-migration/">mongabay.com（クジラ）</a></li>
+      <li><strong>［32］通史・先史・植民地・大戦：</strong> ○ Wikipedia「History of East Timor」「Jerimalai (cave)」「Battle of Timor」「Treaty of Lisbon (1859)」「Portuguese Timor」／ ○ sci.news 等（ジェリマライの4.2万年前の深海漁）。<br>
+        <a href="https://en.wikipedia.org/wiki/History_of_East_Timor">en.wikipedia.org（通史）</a> ／ <a href="https://en.wikipedia.org/wiki/Jerimalai_(cave)">en.wikipedia.org（Jerimalai）</a> ／ <a href="https://en.wikipedia.org/wiki/Battle_of_Timor">en.wikipedia.org（Battle of Timor）</a></li>
+      <li><strong>［33］司法・法制度：</strong> ◎ UNDP「Justice reform 報告」／ ○ Stanford Law「Legal History and the Rule of Law in Timor-Leste」・US State Dept 人権報告／ ○ ICTJ・CJA（重大犯罪特別法廷）。<br>
+        <a href="https://www.undp.org/sites/g/files/zskgke326/files/2024-12/justicereform_report_en_digital_0.pdf">undp.org（司法改革）</a> ／ <a href="https://www.ictj.org/where-we-work/timor-leste">ictj.org</a></li>
+      <li><strong>［34］インフラ・デジタル：</strong> ○ Wikipedia／Global Infrastructure Hub「Tibar Bay Port」／ ○ Lowy Institute（海底ケーブル）／ ○ DataReportal・ts2（ネット普及34.5%）。<br>
+        <a href="https://en.wikipedia.org/wiki/Tibar_Bay_Port">en.wikipedia.org（Tibar Bay）</a> ／ <a href="https://www.lowyinstitute.org/the-interpreter/cable-connect-timor-leste-can-it-bridge-digital-divide">lowyinstitute.org（ケーブル）</a></li>
+      <li><strong>［35］環境・エネルギー（Tasi Mane）：</strong> ○ EJAtlas（Suai Supply Base）・New Security Beat（環境法の執行）／ ○ Macao News・east-timor.org（Tasi Mane計画）／ ○ La'o Hamutuk。<br>
+        <a href="https://ejatlas.org/conflict/suai-supply-base">ejatlas.org</a> ／ <a href="https://www.newsecuritybeat.org/2019/12/enforcement-environmental-laws-petroleum-infrastructure-projects-timor-leste-cost/">newsecuritybeat.org</a></li>
+      <li><strong>［36］日本協力（道路・橋・国防・海洋安全保障）：</strong> ◎ JICA「国道1号線（ディリ〜バウカウ）＝東ティモール初の円借款事業」(2022開通)・在東ティモール日本大使館／ ◎ ADB（Dili–Baucau Highway）／ ◎ JICA・TATOLI（PNTL海洋警察2025）／ ◎ 日本国防省（F-FDTL訓練）。<br>
+        <a href="https://www.jica.go.jp/english/news/press/2022/20220829_21_en.html">jica.go.jp（国道1号線）</a> ／ <a href="https://www.adb.org/projects/50211-001/main">adb.org（Dili-Baucau）</a> ／ <a href="https://www.mod.go.jp/en/timor-leste/">mod.go.jp</a></li>
+      <li><strong>［37］オエクシ特区（ZEESM）：</strong> ◎ 東ティモール政府・TradeInvest／ ◎ World Bank「Oecusse Economic and Trade Potential」／ ○ Devpolicy・学術論文（メガプロジェクト批判、用地収用）。<br>
+        <a href="https://tradeinvest.tl/node/16">tradeinvest.tl</a> ／ <a href="https://devpolicy.org/megaprojects-before-people-in-oecussi-20191119/">devpolicy.org</a></li>
+      <li><strong>［38］行政区分・地域：</strong> ◎ 東ティモール政府「Administrative Division」（12県＋RAEOA）／ ○ 政府観光サイト timorleste.tl（各行政区）／ ○ Wikipedia 各Municipality項目。<br>
+        <a href="https://timor-leste.gov.tl/?p=91&lang=en">timor-leste.gov.tl（行政区分）</a> ／ <a href="https://www.timorleste.tl/destinations/municipalities/">timorleste.tl（各地域）</a></li>
+      <li><strong>［39］自然環境・生物多様性：</strong> ○ Wikipedia「List of birds of Timor-Leste」／ ○ 政府観光サイト（Nature &amp; Wildlife）・A-Z Animals・earth-site（維管束植物1,500種超、固有鳥類、ティモールジカ等）。<br>
+        <a href="https://en.wikipedia.org/wiki/List_of_birds_of_Timor-Leste">en.wikipedia.org（鳥類）</a> ／ <a href="https://www.timorleste.tl/east-timor/about/nature-wildlife/">timorleste.tl（自然）</a></li>
+      <li><strong>［40］教皇訪問（2024）：</strong> ◎ Vatican News・Vatican.va（使徒的訪問, 2024-09）／ ○ CNN・America Magazine（タシ・トルのミサに約60万人＝人口の約半分）。<br>
+        <a href="https://www.vaticannews.va/en/pope/news/2024-09/pope-francis-conclusion-apostolic-visit-timor-leste.html">vaticannews.va</a> ／ <a href="https://www.cnn.com/2024/09/09/asia/pope-francis-east-timor-intl-hnk">cnn.com</a></li>
+      <li><strong>［41］国の象徴・祝祭日：</strong> ◎ 東ティモール政府「National Symbols」「National holidays」／ ○ Wikipedia「National emblem of Timor-Leste」・国名の由来。<br>
+        <a href="https://timor-leste.gov.tl/?p=34&lang=en">timor-leste.gov.tl（国の象徴）</a> ／ <a href="https://en.wikipedia.org/wiki/National_emblem_of_Timor-Leste">en.wikipedia.org（国章）</a></li>
+      <li><strong>［42］貿易・雇用の実データ：</strong> ○ OEC（輸出入・貿易相手）／ ◎ World Bank WITS・WTO（貿易統計）／ ◎ World Bank・政府「National Employment Strategy」（雇用・インフォーマル）。<br>
+        <a href="https://oec.world/en/profile/country/tls">oec.world</a> ／ <a href="https://data.worldbank.org/indicator/SL.UEM.TOTL.NE.ZS?locations=TL">worldbank（失業率）</a></li>
+      <li><strong>［43］精神保健・COVID-19：</strong> ○ Cambridge/PMC（ポスト紛争PTSD＝約16.7%）／ ○ Wikipedia・PMC（COVID-19の疫学）／ ○ Gavi/UNICEF/WHO（ワクチン支援）。<br>
+        <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5441051/">pmc（PTSD）</a> ／ <a href="https://en.wikipedia.org/wiki/COVID-19_pandemic_in_East_Timor">en.wikipedia.org（COVID）</a></li>
+      <li><strong>［44］ディアスポラと送金：</strong> ○ Development Policy Centre（英国のティモール人・送金）／ ◎ Diaspora for Development（在外分布・送金対GDP比）。<br>
+        <a href="https://devpolicy.org/identity-and-opportunity-for-timorese-migrant-workers-in-the-uk-20181101/">devpolicy.org</a> ／ <a href="https://diasporafordevelopment.eu/wp-content/uploads/2021/02/CF_TIMOR-LESTE.pdf">diasporafordevelopment.eu</a></li>
+      <li><strong>［45］遺跡・歴史遺構：</strong> ○ Wikipedia「Lene Hara cave」「Fort Maubara」「Balide Comarca」／ ○ 学術（レネ・ハラの岩絵年代）・Centro Nacional Chega!／ ○ 報道・遺産ガイド。<br>
+        <a href="https://en.wikipedia.org/wiki/Lene_Hara_cave">en.wikipedia.org（Lene Hara）</a> ／ <a href="https://en.wikipedia.org/wiki/Balide_Comarca">en.wikipedia.org（Comarca）</a></li>
+      <li><strong>［46］農業・食料安全保障：</strong> ○ IFAD・ACIAR・Future Directions International（自給農業70%・端境期・収穫後ロス）／ ○ 学術（世帯食料不安・野生食物）。<br>
+        <a href="https://www.ifad.org/en/web/latest/-/news/improving-food-security-in-timor-leste-to-end-hungry-season-">ifad.org</a> ／ <a href="https://www.aciar.gov.au/sites/default/files/2022-02/pr146-food_security_in_timor-leste_through_crop_production.pdf">aciar.gov.au</a></li>
+      <li><strong>［47］文学・映画：</strong> ○ Wikipedia「Beatriz's War」・Dili Film Works（初の長編映画2013）／ ○ 学術・文芸（Luís Cardoso 等）。<br>
+        <a href="https://en.wikipedia.org/wiki/Beatriz's_War">en.wikipedia.org（Beatriz's War）</a></li>
+      <li><strong>［48］水・衛生（WASH）：</strong> ◎ UNICEF Timor-Leste・Sanitation and Water for All／ ○ JMP・報道（衛生設備・清潔な水のアクセス）。<br>
+        <a href="https://www.unicef.org/timorleste/topics/water-sanitation-and-hygiene">unicef.org/timorleste（WASH）</a></li>
+      <li><strong>［49］都市化・ディリ：</strong> ○ World Population Review（ディリ人口）／ ○ Lowy Institute・学術（都市計画・非正規居住）。<br>
+        <a href="https://worldpopulationreview.com/cities/timor-leste/dili">worldpopulationreview.com</a> ／ <a href="https://www.lowyinstitute.org/the-interpreter/planning-progress-timor-leste">lowyinstitute.org</a></li>
+      <li><strong>［50］通貨制度（ドル化）：</strong> ◎ IMF「How Has Dollarization Served Timor-Leste So Far?」(2024)／ ○ Seasia 等（ドル化の経緯・自国通貨導入論）。米ドル採用2000、センタボ2003、BCTL 2011。<br>
+        <a href="https://www.imf.org/-/media/Files/Publications/Selected-Issues-Papers/2024/English/SIPEA2024042.ashx">imf.org（Dollarization）</a></li>
+      <li><strong>［51］将来計画・マイルストーン：</strong> ◎ ADB／EEAS（ASEAN経済共同体AEC実施ロードマップ2026–2030）／ ◎ 政府・ADB（戦略開発計画2011–2030・SDGs 2030）／ ○ BTI（選挙周期）。※将来の予定・見通し。<br>
+        <a href="https://aric.adb.org/blog/preparing-the-nation-for-integration:-timor-lestes-path-to-asean">adb.org（ASEAN統合）</a> ／ <a href="https://www.adb.org/sites/default/files/linked-documents/51063-001-sd-02.pdf">adb.org（SDGsロードマップ）</a></li>
+      <li><strong>［52］国民性・国民アイデンティティ：</strong> ○ Springer/Cambridge/Wiley（マウベレ、"nations-of-intent"、占領下ナショナリズムの世代的変容）／ ○ M. Leach『Nation-Building and National Identity in Timor-Leste』。CNRM(1988)→CNRT(1998/99)。<br>
+        <a href="https://link.springer.com/chapter/10.1007/978-3-319-98782-8_1">springer（Nationalism/Identity）</a> ／ <a href="https://en.wikipedia.org/wiki/Fretilin">en.wikipedia.org（Maubere/Fretilin）</a></li>
+      <li><strong>［53］地形・地質・地震（自然地理）：</strong> ○ Banda弧–大陸衝突の学術文献（ScienceDirect/Springer）／ ○ Wikipedia「Geography of Timor-Leste」「List of earthquakes in Timor-Leste」「Matebian」「Ombai-Wetar Strait」「Loes/Laclo River」。<br>
+        <a href="https://en.wikipedia.org/wiki/Geography_of_Timor-Leste">en.wikipedia.org（地理）</a> ／ <a href="https://link.springer.com/chapter/10.1007/978-3-540-88558-0_7">springer（Banda弧衝突）</a> ／ <a href="https://en.wikipedia.org/wiki/List_of_earthquakes_in_Timor-Leste">en.wikipedia.org（地震）</a></li>
+      <li><strong>［54］旅行・滞在の実用情報：</strong> ◎ 東ティモール移民局（到着ビザVOA $30/30日・延長）／ ○ 政府観光サイト timorleste.tl・Wikipedia「Transport in Timor-Leste」（ミクロレット・道路）／ ○ 旅行ガイド（現金・SIM登録）。<br>
+        <a href="https://www.migracao.gov.tl/html/sub0301.php">migracao.gov.tl（ビザ）</a> ／ <a href="https://www.timorleste.tl/plan-your-trip/transport/">timorleste.tl（交通）</a></li>
+      <li><strong>［55］通過儀礼・葬送：</strong> ○ 学術「Paying for the Dead: On the Politics of Death in Independent Timor-Leste」／ ○ Local-Global・文化ガイド（コレ・メタン＝喪明け、umane/fetosanの交換）。<br>
+        <a href="https://www.tandfonline.com/doi/full/10.1080/14442213.2014.892528">tandfonline（Paying for the Dead）</a></li>
+      <li><strong>［56］追補（下位行政・スコ自治・自衛隊PKO・ENSO・少数民族・工芸ほか）：</strong> ○ Wikipedia「Administrative posts of Timor-Leste」「Sucos of Timor-Leste」（郡・スコ・アルデイア）／ ◎ スコ法（Lei dos Sucos, 法9/2016）・IFES/政府（スコ長選挙・スコ評議会の構成）／ ◎ 日本外務省・防衛省（UNTAET/UNMISETへの自衛隊施設部隊、2002–05）／ ○ UNDP・FAO（エルニーニョ/干ばつ、2015–16で約40万人）／ ○ Minority Rights・報道（華人・ポルトガル系）／ ○ 工芸ガイド（木彫・土器）。<br>
+        <a href="https://en.wikipedia.org/wiki/Administrative_posts_of_Timor-Leste">en.wikipedia.org（行政ポスト）</a> ／ <a href="https://www.mofa.go.jp/policy/un/pko/index.html">mofa.go.jp（PKO）</a> ／ <a href="https://www.undp.org/timor-leste/news/drought-and-fire-risk-timor-leste-what-el-nino-means-our-communities">undp.org（エルニーニョ）</a></li>
+    </ol>
+  </section>
+
+  <section class="section-card" id="sec-40" data-chapter="9" data-tags="research">
+    <h2><span class="kicker">SCOPE &amp; CAVEATS</span>本書の範囲と未確認・留意事項</h2>
+      <div class="card-tags"><span class="tag-badge research">研究</span></div>
+    <div class="done-list">
+      <h4>本書の範囲・方法</h4>
+      <ul>
+        <li>東ティモールを<strong>開発学・政治学/国際関係・経済学・歴史学・文化人類学・地理/環境</strong>など複数分野から横断的に概観する研究者向けの概説。<strong>全40セクション（用語集・文献ガイド・統計付録を含む）＋図表6点</strong>を備える。</li>
+        <li><strong>主要数値は可能な限り一次資料で検証</strong>し、出典56件を<strong>◎一次／○二次で区別</strong>して明示（人口＝INETL 2022国勢調査、HDI＝UNDP HDR 2025、石油基金＝BCTL、貿易＝OEC/World Bank 等）。</li>
+        <li><strong>最新動向</strong>を反映：2025年ASEAN加盟、2024年ローマ教皇訪問、2022年アタウロ県分離、国道1号線開通(2022) 等。</li>
+        <li>図表はすべて<strong>自己完結SVG（オフライン可）</strong>。確認できた実数値のみを用い、推計・見通しはその旨を明示。</li>
+        <li>収録範囲は地理・環境（地形・地質・地震含む）・政治・外交・治安・司法・経済（通貨制度含む）・インフラ・開発・農業/食料・保健・教育・歴史（今後の見通し含む）・言語民族宗教・文化・文学映画・国民性/アイデンティティ・観光・遺跡・旅行実用情報・地域（各行政区）など<strong>多分野を横断</strong>。左右のナビゲーション（9章の索引）で全体を辿れ、末尾に<strong>統計付録</strong>・用語集・文献ガイドを備える。</li>
+      </ul>
+      <h4>やっていないこと・留意点</h4>
+      <ul>
+        <li><strong>HDIは版により大きく異なる</strong>：本書はHDR 2025（2023年データ）の0.634・142位を採用。旧報告や国家人間開発報告（NHDR）では別の値・順位（例：132位）が示されるため、比較時は<u>同一版</u>で行うこと。</li>
+        <li><strong>貧困率</strong>（約42%）は包括的全国調査が2014年（TLSLS）で以降は推計・ナウキャスト、<strong>発育阻害率</strong>（約46〜47%）はDHS 2016が最新の実測値。いずれも最新の直接調査ではない点に留意。</li>
+        <li><strong>石油基金の枯渇時期</strong>（2034年頃〜2038年など）や<strong>バユ・ウンダンの生産終了時期</strong>は資料により幅がある推計・見通しであり確定値ではない。</li>
+        <li>一部の政治・言語・歴史記述はWikipedia等の○二次情報に依拠。厳密な学術引用時は各◎一次資料（政府統計・一次文献）で再確認が必要。</li>
+        <li><strong>公式の失業率</strong>（約1.5%）は「就業」の定義が広く、自給農業・インフォーマル就労を含むため、不完全就業の実態を過小評価している点に注意。</li>
+        <li>年齢中央値は本書では原則「約21歳」と表記（2022年国勢調査は約21.7歳、2024年推計は約21.3歳）。</li>
+        <li>『Chega!』の死者推計（約18〜20万人）は委員会推計であり、研究者間で議論がある。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section-card" id="sec-uinote" data-chapter="9" data-tags="research business living nature">
+    <h2><span class="kicker">ABOUT THIS EDITION</span>本UI版について（統合メモ）</h2>
+    <div class="card-tags"><span class="tag-badge research">研究</span><span class="tag-badge business">ビジネス</span><span class="tag-badge living">生活</span><span class="tag-badge nature">観光</span></div>
+    <div class="callout">
+      <strong>やったこと：</strong>元版（v1＝旧v19）の全40セクション・図表6点（図1〜6）・表・出典56件を<strong>テキスト/数値を一切変更せず</strong>そのまま収録し、UIのみ「3カラム・ポータル」に差し替えました。40セクションを9章へ再編し、各カードに読者ペルソナ（研究／ビジネス／生活／観光）タグを付与。上部ボタンでの絞り込み（<strong>複数選択・AND/OR切替</strong>対応）、本文全体のライブ検索（<strong>検索語ハイライト</strong>付き）、<strong>ダークモード</strong>（設定を保存）、左右ナビのアンカー移動（<strong>スクロール連動の現在地ハイライト</strong>・スムーススクロール・「トップへ戻る」・モバイル用の章ジャンプ・表の横スクロール対応付き）を実装しています。<strong>章・タグを見直し</strong>、「農業・食料安全保障」を第6章（社会・開発）へ移動し、治安・司法・政治対立・言語などに生活／ビジネスの観点のタグを補って絞り込みの実用性を高めました。
+    </div>
+    <div class="callout warning">
+      <strong>やっていないこと・留意点：</strong>本文の加筆・削除は行っていません。ただし内容QAで検出した軽微な不整合のみ補正しました（「本書の範囲」節のセクション数35→40・出典数45→56の陳腐化是正、年齢中央値カードの表記を統一表記「約21歳」に、退役軍人給付の金額単位を「万ドル」→「万US$」に統一、ディアスポラ構成比〈合計約106%〉は数値を保持したまま「概数・要出典確認」の注記を追加、旧「冒頭にカテゴリ別の目次」の記述を左右ナビ前提に是正）。数値そのものの妥当性・出典の扱いは元版「本書の範囲と未確認・留意事項」を参照。専門用語（Lulik／Barlake／MAGs 等）の定義は本文中の記述および「用語集」節に従います。注意喚起の枠は元版の note/caveat スタイルを新コールアウト表現に統一しました。章・タグの割り当ては編集上の便宜的分類であり、学術的な唯一の分類ではありません。
+    </div>
+  </section>
+
+  <div id="no-result" class="no-result">該当する項目が見つかりませんでした。検索語や絞り込みを変更してください。</div>
+
+  </main>
+
+  <aside class="toc-right">
+    <div class="toc-head">章もくじ</div>
+    <ul>
+      <li><a href="#ch1">1. 概要・基礎データ</a></li>
+      <li><a href="#ch2">2. 自然・地理・環境</a></li>
+      <li><a href="#ch3">3. 歴史と記憶</a></li>
+      <li><a href="#ch4">4. 政治・ガバナンス・治安</a></li>
+      <li><a href="#ch5">5. 経済・産業・ビジネス</a></li>
+      <li><a href="#ch6">6. 社会・開発・生活ガイド</a></li>
+      <li><a href="#ch7">7. 言語・文化・アイデンティティ</a></li>
+      <li><a href="#ch8">8. 観光・遺産・旅の手引き</a></li>
+      <li><a href="#ch9">9. 研究リファレンス・データ</a></li>
+    </ul>
+  </aside>
+
+</div>
+
+<button id="to-top" aria-label="トップへ戻る" title="トップへ戻る">↑</button>
+
+<footer>
+  Timor-Leste Knowledge Base（東ティモール ナレッジベース・別版）｜ 元版 v19 の全内容を保持し3カラム・ポータルUIに再構成 ／ 情報は自由にアップデートしてご活用ください。
+</footer>
+
+<script>
+
+(function () {
+  var filterBtns = Array.prototype.slice.call(document.querySelectorAll('.filter-btn'));
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.section-card'));
+  var headings = Array.prototype.slice.call(document.querySelectorAll('.chapter-heading'));
+  var searchInput = document.getElementById('live-search');
+  var noResult = document.getElementById('no-result');
+  var state = { personas: [], logic: 'OR', q: '' };
+
+  // ヘッダー/サブバーの実高を測り、スティッキー位置とアンカー着地に反映
+  function setOffsets() {
+    var h = document.querySelector('header.global-header');
+    var s = document.querySelector('.sub-nav');
+    if (h) document.documentElement.style.setProperty('--hh', h.offsetHeight + 'px');
+    if (s) document.documentElement.style.setProperty('--sub', s.offsetHeight + 'px');
+  }
+  setOffsets();
+  window.addEventListener('resize', setOffsets);
+  window.addEventListener('load', setOffsets);
+
+  function personaMatch(tags) {
+    if (!state.personas.length) return true;
+    if (state.logic === 'AND') {
+      return state.personas.every(function (p) { return tags.indexOf(p) >= 0; });
+    }
+    return state.personas.some(function (p) { return tags.indexOf(p) >= 0; });
+  }
+
+  function apply() {
+    var q = state.q.trim().toLowerCase();
+    var anyVisible = false;
+    cards.forEach(function (card) {
+      var tags = (card.getAttribute('data-tags') || '').split(/\s+/);
+      var personaOk = personaMatch(tags);
+      var textOk = (q === '') || (card.textContent.toLowerCase().indexOf(q) >= 0);
+      var show = personaOk && textOk;
+      card.classList.toggle('hidden', !show);
+      if (show) anyVisible = true;
+    });
+    // 章見出し：その章に可視カードが1つも無ければ隠す
+    headings.forEach(function (h) {
+      var ch = h.getAttribute('data-chapter');
+      var hasVisible = cards.some(function (c) {
+        return c.getAttribute('data-chapter') === ch && !c.classList.contains('hidden');
+      });
+      h.classList.toggle('hidden', !hasVisible);
+    });
+    if (noResult) noResult.classList.toggle('show', !anyVisible);
+  }
+
+  var allBtn = document.querySelector('.filter-btn[data-target="all"]');
+  function syncFilterButtons() {
+    filterBtns.forEach(function (b) {
+      var t = b.getAttribute('data-target');
+      if (t === 'all') b.classList.toggle('active', state.personas.length === 0);
+      else b.classList.toggle('active', state.personas.indexOf(t) >= 0);
+    });
+  }
+  filterBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var t = btn.getAttribute('data-target');
+      if (t === 'all') {
+        state.personas = [];
+      } else {
+        var i = state.personas.indexOf(t);
+        if (i >= 0) state.personas.splice(i, 1); else state.personas.push(t);
+      }
+      syncFilterButtons();
+      apply(); updateActive();
+    });
+  });
+
+  var logicToggle = document.getElementById('logic-toggle');
+  if (logicToggle) {
+    logicToggle.addEventListener('click', function () {
+      state.logic = (state.logic === 'OR') ? 'AND' : 'OR';
+      logicToggle.textContent = (state.logic === 'OR') ? 'いずれか(OR)' : 'すべて(AND)';
+      apply(); updateActive();
+    });
+  }
+
+  // ---- 検索語ハイライト ----
+  function clearHighlights() {
+    var marks = document.querySelectorAll('mark.kb-hl');
+    marks.forEach(function (mk) {
+      var parent = mk.parentNode;
+      parent.replaceChild(document.createTextNode(mk.textContent), mk);
+      parent.normalize();
+    });
+  }
+  function highlight(q) {
+    if (!q) return;
+    var ql = q.toLowerCase();
+    cards.forEach(function (card) {
+      if (card.classList.contains('hidden')) return;
+      var walker = document.createTreeWalker(card, NodeFilter.SHOW_TEXT, {
+        acceptNode: function (node) {
+          if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+          var p = node.parentNode.nodeName;
+          if (p === 'SCRIPT' || p === 'STYLE' || p === 'MARK') return NodeFilter.FILTER_REJECT;
+          return node.nodeValue.toLowerCase().indexOf(ql) >= 0 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+        }
+      });
+      var targets = [];
+      while (walker.nextNode()) targets.push(walker.currentNode);
+      targets.forEach(function (node) {
+        var text = node.nodeValue, low = text.toLowerCase(), frag = document.createDocumentFragment();
+        var idx = 0, pos;
+        while ((pos = low.indexOf(ql, idx)) >= 0) {
+          if (pos > idx) frag.appendChild(document.createTextNode(text.slice(idx, pos)));
+          var mk = document.createElement('mark');
+          mk.className = 'kb-hl';
+          mk.textContent = text.slice(pos, pos + ql.length);
+          frag.appendChild(mk);
+          idx = pos + ql.length;
+        }
+        if (idx < text.length) frag.appendChild(document.createTextNode(text.slice(idx)));
+        node.parentNode.replaceChild(frag, node);
+      });
+    });
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('input', function (e) {
+      state.q = e.target.value || '';
+      clearHighlights();
+      apply();
+      highlight(state.q.trim());
+      updateActive();
+    });
+  }
+
+  // ---- テーマ（ダーク/ライト）切替・永続化 ----
+  var themeBtn = document.getElementById('theme-toggle');
+  function applyTheme(t) {
+    if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    else document.documentElement.removeAttribute('data-theme');
+    if (themeBtn) themeBtn.textContent = (t === 'dark') ? '☀️' : '🌙';
+  }
+  var savedTheme;
+  try { savedTheme = localStorage.getItem('tl-kb-theme'); } catch (e) {}
+  applyTheme(savedTheme || 'light');
+  if (themeBtn) {
+    themeBtn.addEventListener('click', function () {
+      var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+      try { localStorage.setItem('tl-kb-theme', next); } catch (e) {}
+      setOffsets();
+    });
+  }
+
+  // ---- スクロール連動：現在の章を左ナビ・右目次でハイライト ----
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.sidebar-nav a'));
+  var tocLinks = Array.prototype.slice.call(document.querySelectorAll('.toc-right a'));
+  var allNavLinks = navLinks.concat(tocLinks);
+
+  function currentChapterId() {
+    var line = (parseInt(getComputedStyle(document.documentElement).getPropertyValue('--hh')) || 66)
+             + (parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sub')) || 44) + 24;
+    var cur = null;
+    headings.forEach(function (h) {
+      if (h.classList.contains('hidden')) return;
+      if (h.getBoundingClientRect().top <= line) cur = h.id;
+    });
+    // まだ最初の章に達していない場合は最初の可視章を現在地とする
+    if (!cur) {
+      for (var i = 0; i < headings.length; i++) {
+        if (!headings[i].classList.contains('hidden')) { cur = headings[i].id; break; }
+      }
+    }
+    return cur;
+  }
+
+  function updateActive() {
+    var id = currentChapterId();
+    allNavLinks.forEach(function (a) {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+    });
+    var mc = document.getElementById('mchap');
+    if (mc && id && mc.value !== id) mc.value = id;
+  }
+
+  // ---- モバイル用・章ジャンプ ----
+  var mchap = document.getElementById('mchap');
+  if (mchap) {
+    mchap.addEventListener('change', function () {
+      var el = this.value && document.getElementById(this.value);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+
+  // ---- トップへ戻る ----
+  var toTop = document.getElementById('to-top');
+  function onScroll() {
+    updateActive();
+    if (toTop) toTop.classList.toggle('show', window.pageYOffset > 400);
+  }
+  if (toTop) {
+    toTop.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  // rAF でスクロールをスロットル
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (!ticking) {
+      window.requestAnimationFrame(function () { onScroll(); ticking = false; });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  apply();
+  updateActive();
+  onScroll();
+})();
+
+</script>
+
+</body>
+</html>

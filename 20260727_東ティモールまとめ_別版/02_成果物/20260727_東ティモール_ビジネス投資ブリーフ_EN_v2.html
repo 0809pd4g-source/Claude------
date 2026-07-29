@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Timor-Leste Business &amp; Investment Brief</title>
+<style>
+  :root{
+    --red:#B22222; --gold:#DAA520; --dark:#1A1D20;
+    --bg:#f6f7f9; --card:#ffffff; --text:#20262b; --muted:#5c6b73;
+    --border:#e4e8ec; --soft:#f0f3f5;
+    --hi:#0f7b63; --hi-dark:#0a5a48;
+    --sev-h:#c0392b; --sev-m:#c77b13; --sev-l:#3f8f3f;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.7;}
+  header.top{background:linear-gradient(135deg,#111417,#23282d);color:#fff;padding:30px 26px;position:relative;
+    border-bottom:4px solid var(--gold);}
+  header.top::before{content:"";position:absolute;top:0;left:0;width:100%;height:5px;
+    background:linear-gradient(to right,var(--red) 70%,var(--gold) 70%);}
+  header.top .eyebrow{font-size:.74rem;letter-spacing:.18em;color:var(--gold);font-weight:700;margin:0 0 6px;}
+  header.top h1{margin:0;font-size:1.55rem;letter-spacing:.01em;}
+  header.top h1 span{color:var(--gold);}
+  header.top p.sub{margin:6px 0 0;color:#b9c2c8;font-size:.9rem;max-width:860px;}
+  .wrap{max-width:1040px;margin:0 auto;padding:24px 20px 60px;}
+
+  .disclaimer{background:#fff8e6;border:1px solid #ecd48a;border-left:4px solid var(--gold);
+    border-radius:8px;padding:12px 16px;font-size:.83rem;color:#6b5a1e;margin:18px 0 26px;}
+
+  section{background:var(--card);border:1px solid var(--border);border-radius:14px;
+    padding:26px 28px;margin-bottom:22px;box-shadow:0 4px 16px rgba(20,30,40,.04);}
+  h2{font-size:1.22rem;margin:0 0 4px;color:var(--dark);display:flex;align-items:center;gap:12px;}
+  h2 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;flex-shrink:0;
+    border-radius:8px;background:var(--red);color:#fff;font-weight:800;font-size:.95rem;}
+  .lead{font-size:1.02rem;margin:14px 0 0;}
+  h3{color:var(--hi-dark);font-size:1rem;margin:20px 0 8px;}
+  p{margin:0 0 12px;}
+  strong{color:#14181c;}
+
+  .exec{background:linear-gradient(180deg,#ffffff,#fbfdfe);border-left:5px solid var(--red);}
+  .exec ul{margin:12px 0 0;padding-left:1.2em;}
+  .exec li{margin:6px 0;}
+
+  .kpis{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin-top:8px;}
+  .kpi{border:1px solid var(--border);border-radius:10px;padding:13px 15px;background:#fbfdfe;}
+  .kpi .k{font-size:.75rem;color:var(--muted);margin:0 0 3px;}
+  .kpi .v{font-size:1.1rem;font-weight:800;color:var(--dark);margin:0;line-height:1.3;}
+  .kpi .v small{font-weight:600;font-size:.72rem;color:var(--muted);display:block;margin-top:2px;}
+
+  table{width:100%;border-collapse:collapse;margin-top:10px;}
+  th,td{border:1px solid var(--border);padding:9px 11px;text-align:left;font-size:.9rem;vertical-align:top;}
+  th{background:var(--soft);color:var(--dark);}
+  caption{caption-side:bottom;text-align:left;font-size:.78rem;color:var(--muted);padding:6px 2px;}
+
+  .cards{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin-top:6px;}
+  .scard{border:1px solid var(--border);border-radius:10px;padding:16px 18px;background:#fbfdfe;}
+  .scard h4{margin:0 0 6px;color:var(--red);font-size:1rem;}
+  .scard p{margin:0;font-size:.9rem;color:#3a464c;}
+
+  .callout{border-left:4px solid var(--gold);background:#fffdea;padding:13px 17px;border-radius:0 8px 8px 0;
+    margin:16px 0;font-size:.92rem;}
+  .callout.warn{border-left-color:var(--red);background:#fdeceb;}
+
+  .sev{display:inline-block;font-size:.72rem;font-weight:800;padding:2px 9px;border-radius:20px;color:#fff;white-space:nowrap;}
+  .sev.h{background:var(--sev-h);} .sev.m{background:var(--sev-m);} .sev.l{background:var(--sev-l);}
+
+  .depbar{margin:14px 0 2px;}
+  .depbar .row{display:flex;align-items:center;gap:10px;margin:7px 0;font-size:.85rem;}
+  .depbar .lab{width:150px;flex-shrink:0;color:var(--muted);}
+  .depbar .track{flex:1;height:16px;background:var(--soft);border-radius:8px;overflow:hidden;border:1px solid var(--border);}
+  .depbar .fill{height:100%;border-radius:8px 0 0 8px;}
+
+  ul.check{list-style:none;margin:0;padding:0;}
+  ul.check li{padding:8px 0 8px 28px;position:relative;border-bottom:1px dashed var(--border);font-size:.93rem;}
+  ul.check li:last-child{border-bottom:none;}
+  ul.check li::before{content:"\25B8";position:absolute;left:4px;color:var(--red);font-weight:800;}
+
+  .done{font-size:.88rem;}
+  .done h4{margin:12px 0 5px;color:var(--dark);}
+  .done ul{margin:0;padding-left:1.2em;}
+  footer{text-align:center;color:var(--muted);font-size:.82rem;padding:22px;}
+  a{color:var(--hi-dark);}
+
+  .xnav{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+  .xnav a{font-size:.8rem;font-weight:700;text-decoration:none;padding:6px 12px;border-radius:8px;
+    background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.32);color:#fff;white-space:nowrap;}
+  .xnav a:hover{background:rgba(255,255,255,.22);}
+  .xnav a.lang{background:var(--gold);border-color:var(--gold);color:#3a2c05;}
+
+  @media print{
+    header.top{background:#fff;color:#000;border-bottom:2px solid #999;}
+    header.top::before{display:none;}
+    header.top .eyebrow{color:#8a6d0f;} header.top h1,header.top h1 span{color:#000;}
+    header.top p.sub{color:#333;} .xnav{display:none;}
+    body{background:#fff;color:#000;}
+    section{box-shadow:none;border:1px solid #ccc;break-inside:avoid;page-break-inside:avoid;}
+    .kpis,.cards,table,.depbar{break-inside:avoid;page-break-inside:avoid;}
+    a[href^="http"]::after{content:" <" attr(href) ">";font-size:.72em;color:#444;word-break:break-all;}
+  }
+  @media(max-width:540px){header.top h1{font-size:1.25rem;}section{padding:20px 16px;}
+    th,td{padding:7px 7px;font-size:.83rem;overflow-wrap:anywhere;}.depbar .lab{width:96px;}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <p class="eyebrow">TIMOR-LESTE ／ BUSINESS &amp; INVESTMENT BRIEF</p>
+  <h1>Timor-Leste <span>Business &amp; Investment Brief</span></h1>
+  <p class="sub">ASEAN's newest member, diversifying away from a petroleum-rentier economy — market, opportunities, risks and entry regime, distilled for investment screening from primary statistics. Prepared 2026-07-27.</p>
+  <nav class="xnav" aria-label="Related documents">
+    <a href="20260727_東ティモールまとめ_別版_v11.html">← Full Knowledge Base (40 sections, 56 sources)</a>
+    <a href="20260727_東ティモール_観光ブリーフ_v1.html">Tourism Brief (JP) ↗</a>
+    <a class="lang" href="20260727_東ティモール_ビジネス投資ブリーフ_v3.html">日本語版 ↗</a>
+    <a href="20260727_東ティモール_プロジェクト索引_v2.html">Index ↗</a>
+  </nav>
+</header>
+
+<div class="wrap">
+
+  <div class="disclaimer">
+    <strong>Disclaimer:</strong> This document organizes general country/market information and is <strong>not investment advice or solicitation</strong>. Make any investment decision at your own responsibility, based on professional advice and primary sources. Figures are dated and sourced; estimates and outlooks are labelled as such (underlying data verified in the companion Knowledge Base edition).
+  </div>
+
+  <section class="exec">
+    <h2><span class="n">§</span>Executive Summary</h2>
+    <ul>
+      <li><strong>Restored independence in 2002; became ASEAN's 11th member in 2025.</strong> Public finance depends heavily on an <strong>~US$18.8bn Petroleum Fund</strong>; <strong>diversification beyond oil</strong> is the paramount national challenge.</li>
+      <li><strong>Full dollarization</strong> removes USD exchange-rate risk, but leaves the country with <strong>no independent monetary policy</strong> (no rate/currency levers).</li>
+      <li>A young market (population ~1.34m, <strong>median age ~21</strong>), yet a <strong>~42% poverty rate</strong> and a largely informal workforce impose structural limits on purchasing power and skilled labour.</li>
+      <li>Opportunities span <strong>agriculture (coffee, tropical crops), ports &amp; logistics (Tibar Bay), the Oecusse special zone (ZEESM), and ASEAN integration</strong>.</li>
+      <li>Key risks: the <strong>Petroleum Fund depletion outlook (est. 2034–2038)</strong>, political/security dynamics, governance (CPI 44/100, 73rd), and legal/land tenure complexity.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="n">1</span>Macro Snapshot</h2>
+    <div class="kpis">
+      <div class="kpi"><p class="k">Population</p><p class="v">1,340,434<small>2022 census / ~1.43m (2026 est.)</small></p></div>
+      <div class="kpi"><p class="k">Median age</p><p class="v">~21 yrs<small>very young population</small></p></div>
+      <div class="kpi"><p class="k">Area</p><p class="v">14,874 km²<small>smallest in Southeast Asia</small></p></div>
+      <div class="kpi"><p class="k">Currency</p><p class="v">US dollar<small>fully dollarized since 2000 (centavo coins)</small></p></div>
+      <div class="kpi"><p class="k">GDP per capita</p><p class="v">~US$1,300<small>nominal 2024 / ~US$4,900 PPP 2025</small></p></div>
+      <div class="kpi"><p class="k">HDI</p><p class="v">0.634<small>142nd, medium (2023)</small></p></div>
+      <div class="kpi"><p class="k">Petroleum Fund</p><p class="v">~US$18.8bn<small>Jun 2025 / BCTL</small></p></div>
+      <div class="kpi"><p class="k">Trade (2023)</p><p class="v">Exp US$164m<small>Imp US$909m (large deficit)</small></p></div>
+      <div class="kpi"><p class="k">Corruption (CPI)</p><p class="v">44 / 73rd<small>of 180 · 2024 (TI)</small></p></div>
+      <div class="kpi"><p class="k">Press Freedom</p><p class="v">20th<small>of 180 · 2024 (RSF)</small></p></div>
+      <div class="kpi"><p class="k">Digital / Power</p><p class="v">Internet ~34.5%<small>electricity access ~100%</small></p></div>
+      <div class="kpi"><p class="k">ASEAN</p><p class="v">11th member<small>26 Oct 2025</small></p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">2</span>Economy — Resource Dependence &amp; Diversification</h2>
+    <p class="lead">Most public revenue derives from an oil-and-gas-funded <strong>Petroleum Fund</strong>, governed by an <strong>annual withdrawal rule (ESI = 3% of wealth)</strong>. Declining production sources and a small non-oil base are the structural constraints.</p>
+
+    <div class="depbar" role="img" aria-label="Conceptual bars showing the economy's high petroleum dependence">
+      <div class="row"><span class="lab">Fiscal (revenue base)</span><div class="track"><div class="fill" style="width:80%;background:var(--red)"></div></div><span>High Petroleum-Fund reliance</span></div>
+      <div class="row"><span class="lab">FX earnings</span><div class="track"><div class="fill" style="width:62%;background:var(--gold)"></div></div><span>Oil + remittances (2nd source)</span></div>
+      <div class="row"><span class="lab">Non-oil GDP</span><div class="track"><div class="fill" style="width:28%;background:var(--hi)"></div></div><span>Small, import-dependent</span></div>
+    </div>
+    <p style="font-size:.78rem;color:var(--muted);margin-top:4px;">Relative, conceptual illustration; exact ratios vary by year and definition.</p>
+
+    <h3>Key points</h3>
+    <ul class="check">
+      <li><strong>Production outlook:</strong> Bayu-Undan output is winding down; <strong>Greater Sunrise development terms remain unsettled</strong>. New revenue sources are scarce.</li>
+      <li><strong>Fund depletion:</strong> sources vary, but estimates cluster around <strong>2034–2038</strong> (not a fixed figure). Sustainability is the central fiscal issue.</li>
+      <li><strong>Non-oil economy:</strong> exports ~US$164m vs imports ~US$909m (2023) — a <strong>heavy import dependence</strong>; domestic manufacturing is limited.</li>
+      <li><strong>Remittances:</strong> the second-largest FX source, driven by <strong>managed labour migration</strong> to the UK, Korea and Australia.</li>
+      <li><strong>Employment:</strong> official unemployment ~1.5% (2023), but with a broad "employment" definition; <strong>subsistence farming and informal work</strong> dominate. Job creation for a growing young population is urgent.</li>
+    </ul>
+
+    <h3>Illustrative: Petroleum Fund depletion scenarios (sensitivity)</h3>
+    <p style="font-size:.9rem;">The fund's longevity is highly sensitive to the <strong>annual withdrawal</strong> and the <strong>real rate of return</strong>. The table below is a <strong>simplified illustration</strong> (base balance ~US$18.8bn; no major new petroleum revenue; constant withdrawal and return) and is <strong>not a forecast</strong>.</p>
+    <table>
+      <caption>Approximate depletion year (illustrative, base year 2025). Independent analyses (e.g., La'o Hamutuk) and government outlooks, factoring current spending and declining oil revenue, indicate <strong>~2034–2038</strong>.</caption>
+      <tr><th>Annual withdrawal ＼ Real return</th><th>3%</th><th>5%</th></tr>
+      <tr><td><strong>~US$1.3bn</strong></td><td>~2044</td><td>~2051</td></tr>
+      <tr><td><strong>~US$1.6bn</strong></td><td>~2040</td><td>~2043</td></tr>
+      <tr><td><strong>~US$1.9bn</strong></td><td>~2037</td><td>~2039</td></tr>
+    </table>
+    <div class="callout warn"><strong>How to read it:</strong> restraining withdrawals and securing returns extends longevity substantially; <strong>high spending plus low returns</strong> can exhaust the fund in the late 2030s. Published projections, which also factor declining oil revenue, may indicate <strong>earlier depletion (~2034)</strong>. <strong>Greater Sunrise</strong> and similar new revenue are upside. This is a simple sensitivity illustration — <strong>not advice or a forecast</strong> — and should be re-verified against primary sources.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">3</span>Sectors &amp; Opportunities</h2>
+    <div class="cards">
+      <div class="scard"><h4>Agriculture &amp; Food</h4><p>Coffee (largest region Ermera, <strong>organic</strong>; the CCT co-op has 20,000+ members). Potential in <strong>vanilla and tropical fruit</strong> and in tackling the lean season and post-harvest losses.</p></div>
+      <div class="scard"><h4>Ports, Logistics &amp; Infra</h4><p><strong>Tibar Bay Port</strong> (a PPP deep-water port) anchors logistics and trade. Corridors such as <strong>National Road No.1</strong> (Dili–Baucau, opened 2022, first JICA yen loan) are advancing.</p></div>
+      <div class="scard"><h4>Special Zone (ZEESM)</h4><p>The <strong>Oecusse special zone (RAEOA)</strong> enclave, a stage for logistics, trade and tourism development — though land and delivery challenges warrant scrutiny.</p></div>
+      <div class="scard"><h4>Tourism &amp; Hospitality</h4><p>Atauro Island's <strong>world-class coral reefs</strong> and diving; eco/nature tourism. Under-developed <strong>tourism infrastructure</strong> (lodging, experiences, transport) leaves supply-side room.</p></div>
+      <div class="scard"><h4>ASEAN Integration</h4><p>Member since 2025. The <strong>AEC implementation roadmap 2026–2030</strong> should widen market access and align tariffs/standards over the medium term.</p></div>
+      <div class="scard"><h4>Energy &amp; Power</h4><p>Electricity access has reached ~100%. Related opportunities in <strong>renewables/distributed generation</strong>, efficiency, and electrification for a post-oil economy.</p></div>
+    </div>
+    <div class="callout"><strong>Angle:</strong> policy favours areas that generate <strong>non-oil FX and jobs</strong>. Given the small market, export orientation, ASEAN/Australia linkages, and partnering with local co-ops are key.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">4</span>Risk Matrix</h2>
+    <table>
+      <caption>Summary of key risks (severity is this brief's relative assessment)</caption>
+      <tr><th>Area</th><th>Description</th><th>Severity</th></tr>
+      <tr><td><strong>Fiscal / Resource</strong></td><td>Single-resource reliance on the Petroleum Fund; shrinking production and a <strong>depletion outlook (est. 2034–2038)</strong>.</td><td><span class="sev h">High</span></td></tr>
+      <tr><td><strong>Political / Security</strong></td><td>Memory of the 2006 crisis; <strong>veterans' pension burden (~US$72m ≈ 6% of budget)</strong>; martial-arts groups (MAGs) outlawed in 2013. Broadly stabilising, but youth unemployment is a flashpoint.</td><td><span class="sev m">Med–High</span></td></tr>
+      <tr><td><strong>Governance</strong></td><td>Corruption Perceptions Index 44/100, 73rd of 180 (2024). Challenges in <strong>enforcement and predictability</strong>.</td><td><span class="sev m">Medium</span></td></tr>
+      <tr><td><strong>Legal / Land</strong></td><td>Even under the 2017 Land Law, <strong>overlapping rights and land disputes</strong> persist, making site acquisition and collateral difficult.</td><td><span class="sev m">Medium</span></td></tr>
+      <tr><td><strong>Human capital / Health</strong></td><td>Adult literacy ~73%, <strong>stunting ~46–47%</strong>, high TB burden. <strong>Shortage of skilled labour</strong> and training costs.</td><td><span class="sev m">Medium</span></td></tr>
+      <tr><td><strong>Market / Logistics</strong></td><td>Small market and purchasing power; <strong>import dependence</strong>; developing infrastructure affects logistics cost and lead time.</td><td><span class="sev m">Medium</span></td></tr>
+    </table>
+    <div class="callout warn"><strong>Monetary asymmetry:</strong> dollarization keeps FX risk low, but there are <strong>no domestic monetary tools</strong> for the business cycle or prices; the buffer against external shocks rests on fiscal capacity (the Petroleum Fund).</div>
+  </section>
+
+  <section>
+    <h2><span class="n">5</span>Entry &amp; Regulatory Checklist</h2>
+    <ul class="check">
+      <li><strong>Currency:</strong> US dollar (low FX risk vs USD / no independent monetary policy). Accounting and prices are effectively USD-denominated.</li>
+      <li><strong>Entry:</strong> Visa on Arrival US$30 / 30 days (extendable). Business residency and licensing are separate — verify.</li>
+      <li><strong>Language:</strong> official Tetun and Portuguese; English and Indonesian are also used in practice.</li>
+      <li><strong>ASEAN implications:</strong> under the integration roadmap (2026–2030), tariff and standards alignment proceeds in stages.</li>
+      <li><strong>Key institutions:</strong> BCTL (central bank), TradeInvest Timor-Leste (investment promotion), World Bank / ADB (development finance), and the watchdog NGO La'o Hamutuk (budget/resource analysis).</li>
+      <li><strong>Due diligence:</strong> verify land title, permits and partner bona fides against primary sources and on-the-ground checks. Policies and figures are time-dependent.</li>
+    </ul>
+    <div class="callout"><strong>Suggested next steps:</strong> (1) confirm latest sector regulations/incentives (incl. special zones) from primary sources → (2) engage local bodies (TradeInvest/BCTL) and development finance (ADB/WB) → (3) field due diligence on land, labour and logistics → (4) design market-entry timing around the ASEAN integration schedule.</div>
+  </section>
+
+  <section>
+    <h2><span class="n">◎</span>Sources &amp; Scope</h2>
+    <p style="font-size:.9rem;">Primary sources predominate: <strong>INETL 2022 Census</strong> (population), <strong>UNDP HDR 2025</strong> (HDI), <strong>BCTL Petroleum Fund reports</strong> (fund balance), <strong>World Bank / OEC · WITS</strong> (GDP, trade), <strong>Transparency International CPI 2024</strong> (corruption), <strong>RSF 2024</strong> (press freedom), <strong>IMF</strong> (dollarization), <strong>JICA / ADB</strong> (infrastructure). For full source numbers and URLs, see "Sources &amp; References (56 items)" in the companion Knowledge Base edition.</p>
+    <div class="done">
+      <h4>What this brief does</h4>
+      <ul>
+        <li>Recasts the (verified) Knowledge Base figures for <strong>investment screening</strong> (market, opportunity, risk, entry).</li>
+        <li>Distinguishes fact from estimate; <strong>estimates/outlooks (e.g., fund depletion) are labelled</strong>.</li>
+      </ul>
+      <h4>What it does not do / caveats</h4>
+      <ul>
+        <li>No new primary research, financial modelling, or company/deal-level analysis (country/market overview only).</li>
+        <li>Figures are as of their source date; regulations, incentives and macro conditions change — <strong>re-verify with primary sources and field due diligence</strong> before deciding.</li>
+        <li>This is <strong>not investment advice</strong> (see the disclaimer above).</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  Timor-Leste Business &amp; Investment Brief (EN) v2 ／ prepared 2026-07-27 ／ general information, not investment advice. Adds a Petroleum-Fund depletion sensitivity table. Single self-contained HTML.
+</footer>
+
+</body>
+</html>
