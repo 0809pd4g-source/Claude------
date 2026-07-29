@@ -14,6 +14,13 @@
       "runtimeArgs": ["-m", "http.server", "7432", "--directory", "C:\\Users\\masato.nakazawa\\Downloads\\Claudeプロジェクト\\20260723_個人サイト\\02_成果物\\v1"],
       "port": 7432,
       "url": "http://localhost:7432/"
+    },
+    {
+      "name": "東ティモールまとめ",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "7433", "--directory", "C:\\Users\\masato.nakazawa\\Downloads\\Claudeプロジェクト\\20260618_東ティモールまとめ\\02_成果物"],
+      "port": 7433,
+      "url": "http://localhost:7433/"
     }
   ]
 }
