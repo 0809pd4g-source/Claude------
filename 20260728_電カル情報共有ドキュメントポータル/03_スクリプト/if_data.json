@@ -1,0 +1,2794 @@
+[
+  {
+    "page": 28,
+    "if_id": "OQS-IF-001",
+    "if_name": "資格確認要求",
+    "api_id": "OQSsiquc01req",
+    "file_ex": "OQSsiquc01req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "資格確認日 [QualificationConfirmationDate]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "資格確認照会用情報 [QualificationConfirmSearchInfo]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者証記号 [InsuredCardSymbol]",
+      "被保険者証番号 [InsuredIdentificationNumber]",
+      "被保険者証枝番 [InsuredBranchNumber]",
+      "生年月日 [Birthdate]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryIdentifier]",
+      "処方箋発行形態 [PrescriptionIssueSelect]"
+    ]
+  },
+  {
+    "page": 29,
+    "if_id": "OQS-IF-002",
+    "if_name": "資格確認結果",
+    "api_id": "OQSsiquc01res",
+    "file_ex": "OQSsiquc01res_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "資格確認日 [QualificationConfirmationDate]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "照会区分 [ReferenceClassification]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]"
+    ]
+  },
+  {
+    "page": 41,
+    "if_id": "OQS-IF-003",
+    "if_name": "照会番号登録要求",
+    "api_id": "OQSsiimm01req",
+    "file_ex": "OQSsiimm01req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "照会番号登録情報 [ReferenceNumberRegistrationInfo]",
+      "照会番号 [ReferenceNumber]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者証記号 [InsuredCardSymbol]",
+      "被保険者証番号 [InsuredIdentificationNumber]",
+      "被保険者証枝番 [InsuredBranchNumber]"
+    ]
+  },
+  {
+    "page": 42,
+    "if_id": "OQS-IF-004",
+    "if_name": "照会番号登録結果",
+    "api_id": "OQSsiimm01res",
+    "file_ex": "OQSsiimm01res_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "照会番号登録情報 [ReferenceNumberRegistrationInfo]",
+      "照会番号 [ReferenceNumber]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者証記号 [InsuredCardSymbol]",
+      "被保険者証番号 [InsuredIdentificationNumber]"
+    ]
+  },
+  {
+    "page": 43,
+    "if_id": "OQS-IF-005",
+    "if_name": "資格確認一括照会要求",
+    "api_id": "",
+    "file_ex": "OQSmuquc01req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "資格確認日 [QualificationConfirmationDate]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "資格確認照会用情報 [QualificationConfirmSearchInfo]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者証記号 [InsuredCardSymbol]",
+      "被保険者証番号 [InsuredIdentificationNumber]",
+      "被保険者証枝番 [InsuredBranchNumber]",
+      "生年月日 [Birthdate]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryIdentifier]",
+      "処方箋発行形態 [PrescriptionIssueSelect]"
+    ]
+  },
+  {
+    "page": 44,
+    "if_id": "OQS-IF-006",
+    "if_name": "資格確認一括照会アップロード結果",
+    "api_id": "",
+    "file_ex": "OQSmuquc01res_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "受付番号 [ReceptionNumber]",
+      "受付日時 [ReceptionDateTime]"
+    ]
+  },
+  {
+    "page": 45,
+    "if_id": "OQS-IF-007",
+    "if_name": "資格確認一括照会ダウンロード要求",
+    "api_id": "",
+    "file_ex": "OQSmuquc02req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "受付番号 [ReceptionNumber]"
+    ]
+  },
+  {
+    "page": 46,
+    "if_id": "OQS-IF-008",
+    "if_name": "資格確認一括照会結果",
+    "api_id": "",
+    "file_ex": "OQSmuquc02res_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "資格確認日 [QualificationConfirmationDate]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "受付番号 [ReceptionNumber]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "総処理件数 [NumberOfProcessingResult]",
+      "処理件数（正常） [NumberOfNormalProcessing]",
+      "処理件数（エラー） [NumberOfError]",
+      "文字コード識別 [CharacterCodeIdentifier]"
+    ]
+  },
+  {
+    "page": 51,
+    "if_id": "OQS-IF-009",
+    "if_name": "照会番号一括登録要求",
+    "api_id": "",
+    "file_ex": "OQSmuimm01req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "照会番号登録情報 [ReferenceNumberRegistrationInfo]",
+      "照会番号 [ReferenceNumber]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者証記号 [InsuredCardSymbol]",
+      "被保険者証番号 [InsuredIdentificationNumber]",
+      "被保険者証枝番 [InsuredBranchNumber]"
+    ]
+  },
+  {
+    "page": 52,
+    "if_id": "OQS-IF-010",
+    "if_name": "照会番号一括登録アップロード結果",
+    "api_id": "",
+    "file_ex": "OQSmuimm01res_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "受付番号 [ReceptionNumber]",
+      "受付日時 [ReceptionDateTime]"
+    ]
+  },
+  {
+    "page": 53,
+    "if_id": "OQS-IF-011",
+    "if_name": "照会番号一括登録ダウンロード要求",
+    "api_id": "",
+    "file_ex": "OQSmuimm02req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "受付番号 [ReceptionNumber]"
+    ]
+  },
+  {
+    "page": 54,
+    "if_id": "OQS-IF-012",
+    "if_name": "照会番号一括登録結果",
+    "api_id": "",
+    "file_ex": "OQSmuimm02res_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "受付番号 [ReceptionNumber]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "総処理件数 [NumberOfProcessingResult]",
+      "処理件数（正常） [NumberOfNormalProcessing]",
+      "処理件数（エラー） [NumberOfError]",
+      "文字コード識別 [CharacterCodeIdentifier]"
+    ]
+  },
+  {
+    "page": 56,
+    "if_id": "OQS-IF-013",
+    "if_name": "委託先資格情報の一括取得要求",
+    "api_id": "",
+    "file_ex": "OQSmutic01req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "資格確認照会用情報 [QualificationConfirmSearchInfo]",
+      "診療年月 [MedicalTreatmentMonth]"
+    ]
+  },
+  {
+    "page": 57,
+    "if_id": "OQS-IF-014",
+    "if_name": "委託先資格情報の一括取得アップロード結果",
+    "api_id": "",
+    "file_ex": "OQSmutic01res_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "受付番号 [ReceptionNumber]",
+      "受付日時 [ReceptionDateTime]"
+    ]
+  },
+  {
+    "page": 58,
+    "if_id": "OQS-IF-015",
+    "if_name": "委託先資格情報の一括取得ダウンロード要求",
+    "api_id": "",
+    "file_ex": "OQSmutic02req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "受付番号 [ReceptionNumber]"
+    ]
+  },
+  {
+    "page": 59,
+    "if_id": "OQS-IF-016",
+    "if_name": "委託先資格情報の一括取得結果",
+    "api_id": "",
+    "file_ex": "OQSmutic02res_00000.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "受付番号 [ReceptionNumber]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "総処理件数 [NumberOfProcessingResult]",
+      "文字コード識別 [CharacterCodeIdentifier]"
+    ]
+  },
+  {
+    "page": 64,
+    "if_id": "OQS-IF-017",
+    "if_name": "同意済資格情報一括取得要求（訪問診療等）",
+    "api_id": "",
+    "file_ex": "OQSmuhvq01req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "資格確認照会用情報 [QualificationConfirmSearchInfo]",
+      "同意年月日（自） [ConsentDateFrom]",
+      "同意年月日（至） [ConsentDateTo]",
+      "診療区分 [MedicalTreatmentFlag]"
+    ]
+  },
+  {
+    "page": 65,
+    "if_id": "OQS-IF-018",
+    "if_name": "同意済資格情報一括取得アップロード結果（訪問診療等）",
+    "api_id": "",
+    "file_ex": "OQSmuhvq01res_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "受付番号 [ReceptionNumber]",
+      "受付日時 [ReceptionDateTime]"
+    ]
+  },
+  {
+    "page": 66,
+    "if_id": "OQS-IF-019",
+    "if_name": "同意済資格情報一括取得ダウンロード要求（訪問診療等）",
+    "api_id": "",
+    "file_ex": "OQSmuhvq02req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "受付番号 [ReceptionNumber]"
+    ]
+  },
+  {
+    "page": 67,
+    "if_id": "OQS-IF-020",
+    "if_name": "同意済資格情報一括取得結果（訪問診療等）",
+    "api_id": "",
+    "file_ex": "OQSmuhvq02res_00000.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "受付番号 [ReceptionNumber]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "処理件数 [NumberOfNormalProcessing]",
+      "文字コード識別 [CharacterCodeIdentifier]"
+    ]
+  },
+  {
+    "page": 79,
+    "if_id": "OQS-IF-021",
+    "if_name": "同意済資格情報一括取得要求（オンライン診療等）",
+    "api_id": "",
+    "file_ex": "OQSmuonq01req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "資格確認照会用情報 [QualificationConfirmSearchInfo]",
+      "同意年月日（自）   ※１ [ConsentDateFrom]",
+      "同意年月日（至）   ※１ [ConsentDateTo]",
+      "受診年月日（自）   ※１ [ExaminationDateFrom]",
+      "受診年月日（至）   ※１ [ExaminationDateTo]",
+      "診療区分 [MedicalTreatmentFlag]"
+    ]
+  },
+  {
+    "page": 80,
+    "if_id": "OQS-IF-022",
+    "if_name": "同意済資格情報一括取得アップロード結果（オンライン診療等）",
+    "api_id": "",
+    "file_ex": "OQSmuonq01res_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "受付番号 [ReceptionNumber]",
+      "受付日時 [ReceptionDateTime]"
+    ]
+  },
+  {
+    "page": 81,
+    "if_id": "OQS-IF-023",
+    "if_name": "同意済資格情報一括取得ダウンロード要求（オンライン診療等）",
+    "api_id": "",
+    "file_ex": "OQSmuonq02req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "受付番号 [ReceptionNumber]"
+    ]
+  },
+  {
+    "page": 82,
+    "if_id": "OQS-IF-024",
+    "if_name": "同意済資格情報一括取得結果（オンライン診療等）",
+    "api_id": "",
+    "file_ex": "OQSmuonq02res_00000.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "受付番号 [ReceptionNumber]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "処理件数 [NumberOfNormalProcessing]",
+      "文字コード識別 [CharacterCodeIdentifier]"
+    ]
+  },
+  {
+    "page": 95,
+    "if_id": "OQS-IF-025",
+    "if_name": "資格確認要求（訪問診療等）",
+    "api_id": "OQSsihvq01req",
+    "file_ex": "OQSsihvq01req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "資格確認日 [QualificationConfirmationDate]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]"
+    ]
+  },
+  {
+    "page": 98,
+    "if_id": "OQS-IF-026",
+    "if_name": "資格確認結果（訪問診療等）",
+    "api_id": "OQSsihvq01res",
+    "file_ex": "OQSsihvq01res_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "資格確認日 [QualificationConfirmationDate]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]"
+    ]
+  },
+  {
+    "page": 113,
+    "if_id": "OQS-IF-027",
+    "if_name": "資格確認要求（オンライン診療等）",
+    "api_id": "OQSsionq01req",
+    "file_ex": "OQSsionq01req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "資格確認日 [QualificationConfirmationDate]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "資格確認照会用情報 [QualificationConfirmSearchInfo]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者証記号 [InsuredCardSymbol]",
+      "被保険者証番号 [InsuredIdentificationNumber]",
+      "被保険者証枝番 [InsuredBranchNumber]",
+      "生年月日 [Birthdate]",
+      "医療費助成情報取得フラグ [IrjDisplayFlg]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryIdentifier]",
+      "診療区分 [MedicalTreatmentFlag]"
+    ]
+  },
+  {
+    "page": 114,
+    "if_id": "OQS-IF-028",
+    "if_name": "資格確認結果（オンライン診療等）",
+    "api_id": "OQSsionq01res",
+    "file_ex": "OQSsionq01res_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "資格確認日 [QualificationConfirmationDate]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]"
+    ]
+  },
+  {
+    "page": 128,
+    "if_id": "OQS-IF-029",
+    "if_name": "資格確認一括照会要求（訪問診療等）",
+    "api_id": "",
+    "file_ex": "OQSmuhvq03req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "資格確認日 [QualificationConfirmationDate]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "資格確認照会用情報 [QualificationConfirmSearchInfo]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者証記号 [InsuredCardSymbol]",
+      "被保険者証番号 [InsuredIdentificationNumber]",
+      "被保険者証枝番 [InsuredBranchNumber]",
+      "生年月日 [Birthdate]",
+      "医療費助成情報取得フラグ [IrjDisplayFlg]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryIdentifier]"
+    ]
+  },
+  {
+    "page": 130,
+    "if_id": "OQS-IF-030",
+    "if_name": "資格確認一括照会アップロード結果（訪問診療等）",
+    "api_id": "",
+    "file_ex": "OQSmuhvq03res_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "受付番号 [ReceptionNumber]",
+      "受付日時 [ReceptionDateTime]"
+    ]
+  },
+  {
+    "page": 131,
+    "if_id": "OQS-IF-031",
+    "if_name": "資格確認一括照会ダウンロード要求（訪問診療等）",
+    "api_id": "",
+    "file_ex": "OQSmuhvq04req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "受付番号 [ReceptionNumber]"
+    ]
+  },
+  {
+    "page": 132,
+    "if_id": "OQS-IF-032",
+    "if_name": "資格確認一括照会結果（訪問診療等）",
+    "api_id": "",
+    "file_ex": "OQSmuhvq04res_XXXXX.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "資格確認日 [QualificationConfirmationDate]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "受付番号 [ReceptionNumber]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "総処理件数 [NumberOfProcessingResult]",
+      "処理件数（正常） [NumberOfNormalProcessing]",
+      "処理件数（エラー） [NumberOfError]"
+    ]
+  },
+  {
+    "page": 146,
+    "if_id": "OQS-IF-033",
+    "if_name": "資格確認一括照会要求（オンライン診療等）",
+    "api_id": "",
+    "file_ex": "OQSmuonq03req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "資格確認日 [QualificationConfirmationDate]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "資格確認照会用情報 [QualificationConfirmSearchInfo]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者証記号 [InsuredCardSymbol]",
+      "被保険者証番号 [InsuredIdentificationNumber]",
+      "被保険者証枝番 [InsuredBranchNumber]",
+      "生年月日 [Birthdate]",
+      "医療費助成情報取得フラグ [IrjDisplayFlg]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryIdentifier]",
+      "診療区分 [MedicalTreatmentFlag]"
+    ]
+  },
+  {
+    "page": 147,
+    "if_id": "OQS-IF-034",
+    "if_name": "資格確認一括照会アップロード結果（オンライン診療等）",
+    "api_id": "",
+    "file_ex": "OQSmuonq03req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "受付番号 [ReceptionNumber]",
+      "受付日時 [ReceptionDateTime]"
+    ]
+  },
+  {
+    "page": 148,
+    "if_id": "OQS-IF-035",
+    "if_name": "資格確認一括照会ダウンロード要求（オンライン診療等）",
+    "api_id": "",
+    "file_ex": "OQSmuonq04req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "受付番号 [ReceptionNumber]"
+    ]
+  },
+  {
+    "page": 149,
+    "if_id": "OQS-IF-036",
+    "if_name": "資格確認一括照会結果（オンライン診療等）",
+    "api_id": "",
+    "file_ex": "OQSmuonq04res_XXX.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "資格確認日 [QualificationConfirmationDate]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "受付番号 [ReceptionNumber]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "総処理件数 [NumberOfProcessingResult]",
+      "処理件数（正常） [NumberOfNormalProcessing]",
+      "処理件数（エラー） [NumberOfError]",
+      "文字コード識別 [CharacterCodeIdentifier]"
+    ]
+  },
+  {
+    "page": 163,
+    "if_id": "OQS-IF-037",
+    "if_name": "閲覧同意取り消し要求（訪問診療等）",
+    "api_id": "OQSsihvd01req",
+    "file_ex": "OQSsihvd01req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "同意取り消し用情報 [ConsentCancelInfo]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者証記号 [InsuredCardSymbol]",
+      "被保険者証番号 [InsuredIdentificationNumber]",
+      "被保険者証枝番 [InsuredBranchNumber]",
+      "生年月日 [Birthdate]",
+      "診療区分 [MedicalTreatmentFlag]"
+    ]
+  },
+  {
+    "page": 164,
+    "if_id": "OQS-IF-038",
+    "if_name": "閲覧同意取り消し結果（訪問診療等）",
+    "api_id": "OQSsihvd01res",
+    "file_ex": "OQSsihvd01res_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "同意取り消し用情報 [ConsentCancelInfo]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者証記号 [InsuredCardSymbol]",
+      "被保険者証番号 [InsuredIdentificationNumber]",
+      "被保険者証枝番 [InsuredBranchNumber]"
+    ]
+  },
+  {
+    "page": 166,
+    "if_id": "OQS-IF-039",
+    "if_name": "医療機関アクセスURL取得要求",
+    "api_id": "OQSsiurl01req",
+    "file_ex": "OQSsiurl01req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "URL取得要求 [URLIssueRequest]",
+      "URL取得区分 [URLIssueFlag]",
+      "二次元バーコード出力形式区分 [BarcodeCategory]",
+      "URL変更区分 [URLUpdateFlag]"
+    ]
+  },
+  {
+    "page": 167,
+    "if_id": "OQS-IF-040",
+    "if_name": "医療機関アクセスURL取得結果",
+    "api_id": "OQSsiurl01res",
+    "file_ex": "OQSsiurl01res_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "URL取得要求 [URLIssueRequest]",
+      "URL取得区分 [URLIssueFlag]",
+      "二次元バーコード出力形式区分 [BarcodeCategory]",
+      "URL変更区分 [URLUpdateFlag]",
+      "処理結果状況 [ProcessingResultStatus]"
+    ]
+  },
+  {
+    "page": 169,
+    "if_id": "OQS-IF-041",
+    "if_name": "医療機関環境設定情報照会要求",
+    "api_id": "OQSsiinq01req",
+    "file_ex": "OQSsiinq01req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "照会区分 [InquiryFlag]"
+    ]
+  },
+  {
+    "page": 170,
+    "if_id": "OQS-IF-042",
+    "if_name": "医療機関環境設定情報照会結果",
+    "api_id": "OQSsiinq01res",
+    "file_ex": "OQSsiinq01res_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "照会区分 [InquiryFlag]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]",
+      "環境設定情報照会結果情報 [EnvironmentSettingSearchResultInfo]"
+    ]
+  },
+  {
+    "page": 174,
+    "if_id": "OQS-IF-043",
+    "if_name": "医療機関環境設定情報更新要求",
+    "api_id": "OQSsiupd01req",
+    "file_ex": "OQSsiupd01req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "環境依存項目更新要求 [EnvironmentDependentUpdateRequest]",
+      "利用文字コード [CharacterCodeIdentifier]",
+      "閲覧同意利用有無更新要求リスト [ConsUsageUpdateRequestList]",
+      "閲覧同意利用有無更新要求 [ConsUsageUpdateRequest]",
+      "閲覧同意情報種別 [ConsInfoType]",
+      "同意情報種別利用設定 [ConsUsageSetting]",
+      "電子処方箋管理サービス更新要求 [PrescriptionServiceUpdateRequest]"
+    ]
+  },
+  {
+    "page": 177,
+    "if_id": "OQS-IF-044",
+    "if_name": "医療機関環境設定情報更新結果",
+    "api_id": "OQSsiupd01res",
+    "file_ex": "OQSsiupd01res_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "環境依存項目更新要求 [EnvironmentDependentUpdateRequest]",
+      "利用文字コード [CharacterCodeIdentifier]",
+      "閲覧同意利用有無更新要求リスト [ConsUsageUpdateRequestList]"
+    ]
+  },
+  {
+    "page": 181,
+    "if_id": "OQS-IF-045",
+    "if_name": "電子カルテ情報共有サービス施設利用状況回答要求",
+    "api_id": "OQSsiimm02req",
+    "file_ex": "OQSsiimm02req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "医療機関照会情報 [MedicalInstitutionSearchInfo]",
+      "都道府県コード [PrefectureCode]",
+      "医療機関コード [MedicalInstitutionCodeSrch]",
+      "医療機関名 [MedicalInstitutionName]",
+      "医療機関名（カナ） [MedicalInstitutionNameKana]",
+      "電話番号 [TelNumber]",
+      "郵便番号 [ZipCode]",
+      "所在地 [Location]"
+    ]
+  },
+  {
+    "page": 182,
+    "if_id": "OQS-IF-046",
+    "if_name": "電子カルテ情報共有サービス施設利用状況回答結果",
+    "api_id": "OQSsiimm02res",
+    "file_ex": "OQSsiimm02res_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]",
+      "医療機関情報リスト [MedicalInstitutionInfoList]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "医療機関名 [MedicalInstitutionName]"
+    ]
+  },
+  {
+    "page": 184,
+    "if_id": "OQS-IF-047",
+    "if_name": "資格確認要求（救急時医療情報閲覧）",
+    "api_id": "OQSsiems01req",
+    "file_ex": "OQSsiems01req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "患者ID [PatientId]"
+    ]
+  },
+  {
+    "page": 188,
+    "if_id": "OQS-IF-048",
+    "if_name": "資格確認結果（救急時医療情報閲覧）",
+    "api_id": "OQSsiems01res",
+    "file_ex": "OQSsiems01res_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "患者ID [PatientId]",
+      "照会区分 [ReferenceClassification]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]"
+    ]
+  },
+  {
+    "page": 198,
+    "if_id": "OQS-IF-049",
+    "if_name": "目視確認用パスコード取得要求",
+    "api_id": "OQSsipai01req",
+    "file_ex": "OQSsipai01req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "ユーザID [UserId]"
+    ]
+  },
+  {
+    "page": 199,
+    "if_id": "OQS-IF-050",
+    "if_name": "目視確認用パスコード取得結果",
+    "api_id": "OQSsipai01res",
+    "file_ex": "OQSsipai01res_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]",
+      "目視確認用パスコード [VisualInspectionPassCode]"
+    ]
+  },
+  {
+    "page": 200,
+    "if_id": "OQS-IF-051",
+    "if_name": "アクティベーションコード照会要求",
+    "api_id": "OQSsiacm01req",
+    "file_ex": "OQSsiacm01req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意の識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "アクティベーションコード照会要求 [ActivationCodeSearchRequest]",
+      "登録状況 [DeviceRegisterStatus]",
+      "無効化取得 [DisableAcquisition]"
+    ]
+  },
+  {
+    "page": 201,
+    "if_id": "OQS-IF-052",
+    "if_name": "アクティベーションコード照会結果",
+    "api_id": "OQSsiacm01res",
+    "file_ex": "OQSsiacm01res_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意の識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]"
+    ]
+  },
+  {
+    "page": 204,
+    "if_id": "OQS-IF-053",
+    "if_name": "アクティベーションコード発行要求",
+    "api_id": "OQSsiacm02req",
+    "file_ex": "OQSsiacm02req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意の識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "アクティベーションコード発行要求 [ActivationCodeRegistrationRequest]",
+      "端末識別メモ情報 [DeviceName]"
+    ]
+  },
+  {
+    "page": 205,
+    "if_id": "OQS-IF-054",
+    "if_name": "アクティベーションコード発行結果",
+    "api_id": "OQSsiacm02res",
+    "file_ex": "OQSsiacm02res_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意の識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]"
+    ]
+  },
+  {
+    "page": 208,
+    "if_id": "OQS-IF-055",
+    "if_name": "アクティベーションコード無効化要求",
+    "api_id": "OQSsiacm03req",
+    "file_ex": "OQSsiacm03req_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意の識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "アクティベーションコード無効化要求 [ActivationCodeDisableRequest]",
+      "アクティベーションコード [ActivationCode]"
+    ]
+  },
+  {
+    "page": 209,
+    "if_id": "OQS-IF-056",
+    "if_name": "アクティベーションコード無効化結果",
+    "api_id": "OQSsiacm03res",
+    "file_ex": "OQSsiacm03res_xxxxxxxxxxxx.xml",
+    "prefix": "OQS",
+    "tags": [
+      "処理実行日時 [ProcessExecutionTime]",
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意の識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]"
+    ]
+  },
+  {
+    "page": 212,
+    "if_id": "EPS-IF-201",
+    "if_name": "処方箋登録要求",
+    "api_id": "EPSsiPIR01req",
+    "file_ex": "EPSsiPIR01req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処方箋情報 [PrescriptionInfo]",
+      "処方箋発行形態 [IssueType]"
+    ]
+  },
+  {
+    "page": 213,
+    "if_id": "EPS-IF-202",
+    "if_name": "処方箋登録結果",
+    "api_id": "EPSsiPIR01res",
+    "file_ex": "EPSsiPIR01res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]",
+      "処方箋ID [PrescriptionId]",
+      "引換番号 [AccessCode]",
+      "XML形式チェック結果 [XmlCheckResultList]"
+    ]
+  },
+  {
+    "page": 216,
+    "if_id": "EPS-IF-203",
+    "if_name": "処方箋取消要求",
+    "api_id": "EPSsiPIR02req",
+    "file_ex": "EPSsiPIR02req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処方箋ID [PrescriptionId]"
+    ]
+  },
+  {
+    "page": 217,
+    "if_id": "EPS-IF-204",
+    "if_name": "処方箋取消結果",
+    "api_id": "EPSsiPIR02res",
+    "file_ex": "EPSsiPIR02res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]"
+    ]
+  },
+  {
+    "page": 218,
+    "if_id": "EPS-IF-205",
+    "if_name": "処方箋変更要求",
+    "api_id": "EPSsiPIR03req",
+    "file_ex": "EPSsiPIR03req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処方箋ID [PrescriptionId]",
+      "処方箋情報 [PrescriptionInfo]",
+      "処方箋発行形態 [IssueType]"
+    ]
+  },
+  {
+    "page": 219,
+    "if_id": "EPS-IF-206",
+    "if_name": "処方箋変更結果",
+    "api_id": "EPSsiPIR03res",
+    "file_ex": "EPSsiPIR03res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]",
+      "処方箋ID [PrescriptionId]",
+      "引換番号 [AccessCode]",
+      "XML形式チェック結果 [XmlCheckResultList]",
+      "結果コード [ResultCode]"
+    ]
+  },
+  {
+    "page": 221,
+    "if_id": "EPS-IF-207",
+    "if_name": "処方箋取消UNDO要求",
+    "api_id": "EPSsiPIR04req",
+    "file_ex": "EPSsiPIR04req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処方箋ID [PrescriptionId]"
+    ]
+  },
+  {
+    "page": 222,
+    "if_id": "EPS-IF-208",
+    "if_name": "処方箋取消UNDO結果",
+    "api_id": "EPSsiPIR04res",
+    "file_ex": "EPSsiPIR04res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]"
+    ]
+  },
+  {
+    "page": 223,
+    "if_id": "EPS-IF-209",
+    "if_name": "処方箋変更UNDO要求",
+    "api_id": "EPSsiPIR05req",
+    "file_ex": "EPSsiPIR05req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処方箋ID（変更前） [BeforePrescriptionId]",
+      "処方箋ID（変更後） [AfterPrescriptionId]"
+    ]
+  },
+  {
+    "page": 224,
+    "if_id": "EPS-IF-210",
+    "if_name": "処方箋変更UNDO結果",
+    "api_id": "EPSsiPIR05res",
+    "file_ex": "EPSsiPIR05res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]",
+      "処方箋ID [PrescriptionId]"
+    ]
+  },
+  {
+    "page": 225,
+    "if_id": "EPS-IF-211",
+    "if_name": "処方内容（控え）取得要求",
+    "api_id": "EPSsiPIR06req",
+    "file_ex": "EPSsiPIR06req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処方箋ID [PrescriptionId]"
+    ]
+  },
+  {
+    "page": 226,
+    "if_id": "EPS-IF-212",
+    "if_name": "処方内容（控え）取得結果",
+    "api_id": "EPSsiPIR06res",
+    "file_ex": "EPSsiPIR06res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]"
+    ]
+  },
+  {
+    "page": 227,
+    "if_id": "EPS-IF-301",
+    "if_name": "処方箋受付要求（引換番号）",
+    "api_id": "EPSsiPIR07req",
+    "file_ex": "EPSsiPIR07req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者資格に係る記号 [InsuredCardSymbol]",
+      "被保険者資格に係る番号 [InsuredIdentificationNumber]",
+      "被保険者資格に係る枝番 [InsuredBranchNumber]",
+      "引換番号 [AccessCode]",
+      "リフィル対応済みフラグ [RefillSupported]"
+    ]
+  },
+  {
+    "page": 228,
+    "if_id": "EPS-IF-302",
+    "if_name": "処方箋受付結果",
+    "api_id": "EPSsiPIR07res",
+    "file_ex": "EPSsiPIR07res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]",
+      "処方箋ID [PrescriptionId]",
+      "処方箋情報 [PrescriptionInfo]",
+      "処方箋発行形態 [IssueType]"
+    ]
+  },
+  {
+    "page": 233,
+    "if_id": "EPS-IF-303",
+    "if_name": "処方箋受付取消要求",
+    "api_id": "EPSsiPIR09req",
+    "file_ex": "EPSsiPIR09req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処方箋ID [PrescriptionId]"
+    ]
+  },
+  {
+    "page": 234,
+    "if_id": "EPS-IF-304",
+    "if_name": "処方箋受付取消結果",
+    "api_id": "EPSsiPIR09res",
+    "file_ex": "EPSsiPIR09res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]"
+    ]
+  },
+  {
+    "page": 235,
+    "if_id": "EPS-IF-305",
+    "if_name": "処方箋回収要求",
+    "api_id": "EPSsiPIR10req",
+    "file_ex": "EPSsiPIR10req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処方箋ID [PrescriptionId]",
+      "回収理由 [CancelReason]"
+    ]
+  },
+  {
+    "page": 236,
+    "if_id": "EPS-IF-306",
+    "if_name": "処方箋回収結果",
+    "api_id": "EPSsiPIR10res",
+    "file_ex": "EPSsiPIR10res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]"
+    ]
+  },
+  {
+    "page": 237,
+    "if_id": "EPS-IF-307",
+    "if_name": "調剤結果登録要求",
+    "api_id": "EPSsiDIM01req",
+    "file_ex": "EPSsiDIM01req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "調剤結果 [DispensingResult]",
+      "保管対象フラグ [StorageTarget]"
+    ]
+  },
+  {
+    "page": 238,
+    "if_id": "EPS-IF-308",
+    "if_name": "調剤結果登録結果",
+    "api_id": "EPSsiDIM01res",
+    "file_ex": "EPSsiDIM01res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "総処理件数 [NumberOfProcessingResult]",
+      "処理件数（正常） [NumberOfNormalProcessing]",
+      "処理件数（エラー） [NumberOfError]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "調剤結果単位 [DispensingResultUnit]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]"
+    ]
+  },
+  {
+    "page": 241,
+    "if_id": "EPS-IF-309",
+    "if_name": "調剤結果取消要求",
+    "api_id": "EPSsiDIM02req",
+    "file_ex": "EPSsiDIM02req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "調剤結果ID [DispensingResultId]"
+    ]
+  },
+  {
+    "page": 242,
+    "if_id": "EPS-IF-310",
+    "if_name": "調剤結果取消結果",
+    "api_id": "EPSsiDIM02res",
+    "file_ex": "EPSsiDIM02res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]"
+    ]
+  },
+  {
+    "page": 243,
+    "if_id": "EPS-IF-311",
+    "if_name": "調剤結果変更要求",
+    "api_id": "EPSsiDIM03req",
+    "file_ex": "EPSsiDIM03req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "調剤結果ID [DispensingResultId]",
+      "調剤結果 [DispensingResult]",
+      "保管対象フラグ [StorageTarget]"
+    ]
+  },
+  {
+    "page": 244,
+    "if_id": "EPS-IF-312",
+    "if_name": "調剤結果変更結果",
+    "api_id": "EPSsiDIM03res",
+    "file_ex": "EPSsiDIM03res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]",
+      "調剤結果 [DispensingResult]",
+      "XML形式チェック結果 [XmlCheckResultList]",
+      "結果コード [ResultCode]",
+      "結果メッセージ [ResultMessage]"
+    ]
+  },
+  {
+    "page": 246,
+    "if_id": "EPS-IF-213",
+    "if_name": "処方箋状況及び調剤結果リスト要求",
+    "api_id": "EPSsiDIM04req",
+    "file_ex": "EPSsiDIM04req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "調剤結果リスト取得開始日時 [DispensingResultListStartDate]",
+      "調剤結果リスト取得終了日時 [DispensingResultListEndDate]"
+    ]
+  },
+  {
+    "page": 247,
+    "if_id": "EPS-IF-214",
+    "if_name": "処方箋状況及び調剤結果リスト",
+    "api_id": "EPSsiDIM04res",
+    "file_ex": "EPSsiDIM04res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]",
+      "調剤結果リスト [DispensingResultList]",
+      "調剤結果リスト種別 [DispensingResultListType]",
+      "調剤結果ID [DispensingResultId]"
+    ]
+  },
+  {
+    "page": 249,
+    "if_id": "EPS-IF-215",
+    "if_name": "調剤結果要求（調剤結果ID）",
+    "api_id": "EPSsiDIM05req",
+    "file_ex": "EPSsiDIM05req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "調剤結果ID [DispensingResultId]"
+    ]
+  },
+  {
+    "page": 250,
+    "if_id": "EPS-IF-216",
+    "if_name": "調剤結果",
+    "api_id": "EPSsiDIM05res",
+    "file_ex": "EPSsiDIM05res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]",
+      "調剤結果 [DispensingResult]"
+    ]
+  },
+  {
+    "page": 251,
+    "if_id": "EPS-IF-217",
+    "if_name": "処方箋状況及び調剤結果要求（処方箋ID）",
+    "api_id": "EPSsiDIM06req",
+    "file_ex": "EPSsiDIM06req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処方箋ID [PrescriptionId]",
+      "リフィル対応済みフラグ [RefillSupported]"
+    ]
+  },
+  {
+    "page": 252,
+    "if_id": "EPS-IF-218",
+    "if_name": "処方箋状況及び調剤結果（処方箋単位）",
+    "api_id": "EPSsiDIM06res",
+    "file_ex": "EPSsiDIM06res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]",
+      "電子処方箋管理サービスステータス [PrescriptionStatus]",
+      "受付薬局コード [ReceptionPharmacyCode]",
+      "受付薬局名称 [ReceptionPharmacyName]",
+      "伝達事項フラグ [MessageFlg]"
+    ]
+  },
+  {
+    "page": 253,
+    "if_id": "EPS-IF-218",
+    "if_name": "処方箋状況及び調剤結果（処方箋単位）",
+    "api_id": "EPSsiDIM06res",
+    "file_ex": "EPSsiDIM06res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]",
+      "電子処方箋管理サービスステータス [PrescriptionStatus]",
+      "受付薬局コード [ReceptionPharmacyCode]",
+      "受付薬局名称 [ReceptionPharmacyName]",
+      "調剤結果リスト [DispensingResultList]"
+    ]
+  },
+  {
+    "page": 254,
+    "if_id": "EPS-IF-313",
+    "if_name": "調剤済み電子処方箋リスト要求",
+    "api_id": "EPSsiDIM07req",
+    "file_ex": "EPSsiDIM07req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "調剤結果リスト取得開始日時 [DispensingResultListStartDate]",
+      "調剤結果リスト取得終了日時 [DispensingResultListEndDate]"
+    ]
+  },
+  {
+    "page": 255,
+    "if_id": "EPS-IF-314",
+    "if_name": "調剤済み電子処方箋リスト",
+    "api_id": "EPSsiDIM07res",
+    "file_ex": "EPSsiDIM07res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]",
+      "調剤結果リスト [DispensingResultList]",
+      "調剤結果ID [DispensingResultId]"
+    ]
+  },
+  {
+    "page": 256,
+    "if_id": "EPS-IF-101",
+    "if_name": "重複投薬等チェック事前処理要求",
+    "api_id": "EPSsiDMP01req",
+    "file_ex": "EPSsiDMP01req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者資格に係る記号 [InsuredCardSymbol]",
+      "被保険者資格に係る番号 [InsuredIdentificationNumber]",
+      "被保険者資格に係る枝番 [InsuredBranchNumber]"
+    ]
+  },
+  {
+    "page": 257,
+    "if_id": "EPS-IF-102",
+    "if_name": "重複投薬等チェック事前処理結果",
+    "api_id": "EPSsiDMP01res",
+    "file_ex": "EPSsiDMP01res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]"
+    ]
+  },
+  {
+    "page": 258,
+    "if_id": "EPS-IF-219",
+    "if_name": "重複投薬等チェック要求（確定前処方箋情報）",
+    "api_id": "EPSsiDMP02req",
+    "file_ex": "EPSsiDMP02req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "確定前処方箋情報 [PrescriptionInfo]",
+      "同一処方箋発行医療機関チェックフラグ [SameMedicalInstitutionAlertFlg]",
+      "口頭同意区分 [OralBrowsingConsent]"
+    ]
+  },
+  {
+    "page": 259,
+    "if_id": "EPS-IF-315",
+    "if_name": "重複投薬等チェック要求（確定前調剤結果情報）",
+    "api_id": "EPSsiDMP03req",
+    "file_ex": "EPSsiDMP03req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "確定前調剤結果情報 [DispensingResultInfo]",
+      "同一処方箋発行医療機関チェックフラグ [SameMedicalInstitutionAlertFlg]",
+      "口頭同意区分 [OralBrowsingConsent]"
+    ]
+  },
+  {
+    "page": 260,
+    "if_id": "EPS-IF-409",
+    "if_name": "重複投薬等チェック要求（確定前院内処方等情報）",
+    "api_id": "EPSsiDMP04req",
+    "file_ex": "EPSsiDMP04req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "確定前院内処方等情報 [InPrescriptionInfo]",
+      "同一処方箋発行医療機関チェックフラグ [SameMedicalInstitutionAlertFlg]",
+      "口頭同意区分 [OralBrowsingConsent]"
+    ]
+  },
+  {
+    "page": 261,
+    "if_id": "EPS-IF-316",
+    "if_name": "調剤済み電子処方箋要求（調剤結果ID）",
+    "api_id": "EPSsiDIM08req",
+    "file_ex": "EPSsiDIM08req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "調剤結果ID [DispensingResultId]"
+    ]
+  },
+  {
+    "page": 262,
+    "if_id": "EPS-IF-103",
+    "if_name": "重複投薬等チェック結果",
+    "api_id": "EPSsiDMP02res",
+    "file_ex": "EPSsiDMP02res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]",
+      "重複投薬等チェック結果情報 [CheckResultBody]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者番号 [InsuredIdentificationNumber]"
+    ]
+  },
+  {
+    "page": 264,
+    "if_id": "EPS-IF-317",
+    "if_name": "調剤済み電子処方箋",
+    "api_id": "EPSsiDIM08res",
+    "file_ex": "EPSsiDIM08res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]",
+      "調剤済み電子処方箋 [DispensedPrescription]"
+    ]
+  },
+  {
+    "page": 265,
+    "if_id": "EPS-IF-318",
+    "if_name": "処方箋回収UNDO要求",
+    "api_id": "EPSsiPIR11req",
+    "file_ex": "EPSsiPIR11res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処方箋ID [PrescriptionId]"
+    ]
+  },
+  {
+    "page": 266,
+    "if_id": "EPS-IF-319",
+    "if_name": "処方箋回収UNDO結果",
+    "api_id": "EPSsiPIR11res",
+    "file_ex": "EPSsiPIR11res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]"
+    ]
+  },
+  {
+    "page": 267,
+    "if_id": "EPS-IF-220",
+    "if_name": "処方箋ID検索要求（医療機関）",
+    "api_id": "EPSsiPIR12req",
+    "file_ex": "EPSsiPIR12req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者資格に係る記号 [InsuredCardSymbol]",
+      "被保険者資格に係る番号 [InsuredIdentificationNumber]",
+      "被保険者資格に係る枝番 [InsuredBranchNumber]",
+      "処方箋交付年月日（FROM） [IssueDateFrom]",
+      "処方箋交付年月日（TO） [IssueDateTo]"
+    ]
+  },
+  {
+    "page": 268,
+    "if_id": "EPS-IF-221",
+    "if_name": "処方箋ID検索結果（医療機関）",
+    "api_id": "EPSsiPIR12res",
+    "file_ex": "EPSsiPIR12res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]",
+      "処方箋IDリスト [PrescriptionIdList]",
+      "処方箋ID [PrescriptionId]",
+      "引換番号 [AccessCode]",
+      "処方箋登録日時 [CreateDateTime]"
+    ]
+  },
+  {
+    "page": 269,
+    "if_id": "EPS-IF-320",
+    "if_name": "処方箋ID検索要求（薬局）",
+    "api_id": "EPSsiPIR13req",
+    "file_ex": "EPSsiPIR13req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者資格に係る記号 [InsuredCardSymbol]",
+      "被保険者資格に係る番号 [InsuredIdentificationNumber]",
+      "被保険者資格に係る枝番 [InsuredBranchNumber]",
+      "処方箋交付年月日（FROM） [IssueDateFrom]",
+      "処方箋交付年月日（TO） [IssueDateTo]"
+    ]
+  },
+  {
+    "page": 270,
+    "if_id": "EPS-IF-321",
+    "if_name": "処方箋ID検索結果（薬局）",
+    "api_id": "EPSsiPIR13res",
+    "file_ex": "EPSsiPIR13res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]",
+      "受付中処方箋IDリスト [ReceptionPrescriptionIdList]",
+      "処方箋発行医療機関コード [IssueMedicalInstitutionCode]",
+      "処方箋発行医療機関名称 [IssueMedicalInstitutionName]",
+      "処方箋ID [PrescriptionId]"
+    ]
+  },
+  {
+    "page": 271,
+    "if_id": "EPS-IF-322",
+    "if_name": "調剤結果ID検索要求",
+    "api_id": "EPSsiDIM09req",
+    "file_ex": "EPSsiDIM09req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者資格に係る記号 [InsuredCardSymbol]",
+      "被保険者資格に係る番号 [InsuredIdentificationNumber]",
+      "被保険者資格に係る枝番 [InsuredBranchNumber]",
+      "調剤年月日（FROM） [DispensingDateFrom]",
+      "調剤年月日（TO） [DispensingDateTo]"
+    ]
+  },
+  {
+    "page": 272,
+    "if_id": "EPS-IF-323",
+    "if_name": "調剤結果ID検索結果",
+    "api_id": "EPSsiDIM09res",
+    "file_ex": "EPSsiDIM09res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]",
+      "調剤結果IDリスト [DispensingResultIdList]",
+      "調剤結果ID [DispensingResultId]",
+      "処方箋発行医療機関コード [IssueMedicalInstitutionCode]",
+      "処方箋発行医療機関名称 [IssueMedicalInstitutionName]"
+    ]
+  },
+  {
+    "page": 273,
+    "if_id": "EPS-IF-324",
+    "if_name": "保管調剤結果登録要求",
+    "api_id": "EPSsiDIM10req",
+    "file_ex": "EPSsiDIM10req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "保管調剤結果ID [StorageDispensingResultId]"
+    ]
+  },
+  {
+    "page": 274,
+    "if_id": "EPS-IF-325",
+    "if_name": "保管調剤結果登録結果",
+    "api_id": "EPSsiDIM10res",
+    "file_ex": "EPSsiDIM10res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "総処理件数 [NumberOfProcessingResult]",
+      "処理件数（正常） [NumberOfNormalProcessing]",
+      "処理件数（エラー） [NumberOfError]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "保管調剤結果ID単位 [StorageDispensingResultIdUnit]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]"
+    ]
+  },
+  {
+    "page": 275,
+    "if_id": "EPS-IF-328",
+    "if_name": "保管調剤結果取得（単件）要求",
+    "api_id": "EPSsiDIM12req",
+    "file_ex": "EPSsiDIM12req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "保管調剤結果ID [StorageDispensingResultId]"
+    ]
+  },
+  {
+    "page": 276,
+    "if_id": "EPS-IF-329",
+    "if_name": "保管調剤結果取得（単件）結果",
+    "api_id": "EPSsiDIM12res",
+    "file_ex": "EPSsiDIM12res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]",
+      "保管調剤結果 [StorageDispensingResult]"
+    ]
+  },
+  {
+    "page": 277,
+    "if_id": "EPS-IF-330",
+    "if_name": "保管調剤結果登録要求（調剤済み電子処方箋）",
+    "api_id": "EPSsiDIM13req",
+    "file_ex": "EPSsiDIM13req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "調剤済み電子処方箋 [DispensedPrescription]"
+    ]
+  },
+  {
+    "page": 278,
+    "if_id": "EPS-IF-331",
+    "if_name": "保管調剤結果登録結果（調剤済み電子処方箋）",
+    "api_id": "EPSsiDIM13res",
+    "file_ex": "EPSsiDIM13res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]",
+      "保管調剤結果ID [StorageDispensingResultId]",
+      "XML形式チェック結果 [XmlCheckResultList]",
+      "結果コード [ResultCode]",
+      "結果メッセージ [ResultMessage]"
+    ]
+  },
+  {
+    "page": 280,
+    "if_id": "EPS-IF-401",
+    "if_name": "院内処方等登録要求",
+    "api_id": "EPSsiPIR14req",
+    "file_ex": "EPSsiPIR14req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理単位 [ProcessingUnit]",
+      "識別番号 [IdentificationNumber]",
+      "院内処方等情報 [InPrescriptionInfo]"
+    ]
+  },
+  {
+    "page": 281,
+    "if_id": "EPS-IF-402",
+    "if_name": "院内処方等登録結果",
+    "api_id": "EPSsiPIR14res",
+    "file_ex": "EPSsiPIR14res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "総処理件数 [NumberOfProcessingResult]",
+      "処理件数（正常） [NumberOfNormalProcessing]",
+      "処理件数（エラー） [NumberOfError]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "院内処方等登録単位 [ProcessingResultUnit]",
+      "識別番号 [IdentificationNumber]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]"
+    ]
+  },
+  {
+    "page": 283,
+    "if_id": "EPS-IF-403",
+    "if_name": "院内処方等取消要求",
+    "api_id": "EPSsiPIR15req",
+    "file_ex": "EPSsiPIR15req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意の識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "院内処方等ID [InPrescriptionId]"
+    ]
+  },
+  {
+    "page": 284,
+    "if_id": "EPS-IF-404",
+    "if_name": "院内処方等取消結果",
+    "api_id": "EPSsiPIR15res",
+    "file_ex": "EPSsiPIR15res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]"
+    ]
+  },
+  {
+    "page": 285,
+    "if_id": "EPS-IF-405",
+    "if_name": "院内処方等変更要求",
+    "api_id": "EPSsiPIR16req",
+    "file_ex": "EPSsiPIR16req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意の識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "院内処方等ID [InPrescriptionId]",
+      "院内処方等情報 [InPrescriptionInfo]"
+    ]
+  },
+  {
+    "page": 286,
+    "if_id": "EPS-IF-406",
+    "if_name": "院内処方等変更結果",
+    "api_id": "EPSsiPIR16res",
+    "file_ex": "EPSsiPIR16res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]",
+      "院内処方等ID [InPrescriptionId]",
+      "院内処方等情報 [InPrescriptionInfo]",
+      "XML形式チェック結果 [XmlCheckResultList]",
+      "結果コード [ResultCode]"
+    ]
+  },
+  {
+    "page": 288,
+    "if_id": "EPS-IF-407",
+    "if_name": "院内処方等ID検索要求",
+    "api_id": "EPSsiPIR17req",
+    "file_ex": "EPSsiPIR17req_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者資格に係る記号 [InsuredCardSymbol]",
+      "被保険者資格に係る番号 [InsuredIdentificationNumber]",
+      "被保険者資格に係る枝番 [InsuredBranchNumber]",
+      "登録日（FROM） [CreateDateFrom]",
+      "登録日（TO） [CreateDateTo]"
+    ]
+  },
+  {
+    "page": 289,
+    "if_id": "EPS-IF-408",
+    "if_name": "院内処方等ID検索結果",
+    "api_id": "EPSsiPIR17res",
+    "file_ex": "EPSsiPIR17res_xxxxxxxxxxxx.xml",
+    "prefix": "EPS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "エラーコード [ErrorCode]",
+      "エラーメッセージ [ErrorMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]",
+      "院内処方等IDリスト [InPrescriptionIdList]",
+      "院内処方等ID [InPrescriptionId]",
+      "院内処方等登録日時 [CreateDateTime]"
+    ]
+  },
+  {
+    "page": 290,
+    "if_id": "CIS-IF-101",
+    "if_name": "文書情報登録要求",
+    "api_id": "CISsiMRD01req",
+    "file_ex": "CISsiMRD01req_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "医療機関等システム情報 [MedicalInstitutionSystemInfo]",
+      "ソフトウェア名称 [SoftwareName]",
+      "ソフトウェアバージョン [SoftwareVersion]",
+      "ソフトウェア開発元 [SoftwareDeveloper]",
+      "文書情報 [MedicalReferralDocument]",
+      "診療情報提供書閲覧同意区分 [BrowsingConsent]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者資格に係る記号 [InsuredCardSymbol]",
+      "被保険者資格に係る番号 [InsuredIdentificationNumber]",
+      "被保険者資格に係る枝番 [InsuredBranchNumber]",
+      "生年月日 [Birthdate]"
+    ]
+  },
+  {
+    "page": 291,
+    "if_id": "CIS-IF-102",
+    "if_name": "文書情報登録結果",
+    "api_id": "CISsiMRD01res",
+    "file_ex": "CISsiMRD01res_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "処理結果リスト [ResultList]",
+      "処理結果コード [ResultCode]",
+      "処理結果メッセージ [ResultMessage]",
+      "詳細メッセージ [DetailMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "署名検証結果リスト [VerifyResultList]",
+      "ステータス [Status]",
+      "メッセージ [Message]",
+      "署名検証失敗理由リスト [FailureReasons]",
+      "メッセージキー [MessageKey]"
+    ]
+  },
+  {
+    "page": 293,
+    "if_id": "CIS-IF-103",
+    "if_name": "文書情報取消要求",
+    "api_id": "CISsiMRD02req",
+    "file_ex": "CISsiMRD02req_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "文書情報ID [MedicalReferralDocumentId]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者資格に係る記号 [InsuredCardSymbol]",
+      "被保険者資格に係る番号 [InsuredIdentificationNumber]",
+      "被保険者資格に係る枝番 [InsuredBranchNumber]",
+      "生年月日 [Birthdate]",
+      "臨床情報のみ取消フラグ [ClinicalinfoCancelFlg]"
+    ]
+  },
+  {
+    "page": 294,
+    "if_id": "CIS-IF-104",
+    "if_name": "文書情報取消結果",
+    "api_id": "CISsiMRD02res",
+    "file_ex": "CISsiMRD02res_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "処理結果リスト [ResultList]",
+      "処理結果コード [ResultCode]",
+      "処理結果メッセージ [ResultMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]"
+    ]
+  },
+  {
+    "page": 295,
+    "if_id": "CIS-IF-107",
+    "if_name": "文書情報変更要求",
+    "api_id": "CISsiMRD04req",
+    "file_ex": "CISsiMRD04req_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "文書情報 [MedicalReferralDocument]",
+      "診療情報提供書閲覧同意区分 [BrowsingConsent]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者資格に係る記号 [InsuredCardSymbol]",
+      "被保険者資格に係る番号 [InsuredIdentificationNumber]",
+      "被保険者資格に係る枝番 [InsuredBranchNumber]",
+      "生年月日 [Birthdate]"
+    ]
+  },
+  {
+    "page": 296,
+    "if_id": "CIS-IF-108",
+    "if_name": "文書情報変更結果",
+    "api_id": "CISsiMRD04res",
+    "file_ex": "CISsiMRD04res_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "処理結果リスト [ResultList]",
+      "処理結果コード [ResultCode]",
+      "処理結果メッセージ [ResultMessage]",
+      "詳細メッセージ [DetailMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "署名検証結果リスト [VerifyResultList]",
+      "ステータス [Status]",
+      "メッセージ [Message]",
+      "署名検証失敗理由リスト [FailureReasons]",
+      "メッセージキー [MessageKey]"
+    ]
+  },
+  {
+    "page": 298,
+    "if_id": "CIS-IF-109",
+    "if_name": "文書情報状況照会要求",
+    "api_id": "CISsiMRD05req",
+    "file_ex": "CISsiMRD05req_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "文書情報ID [MedicalReferralDocumentId]"
+    ]
+  },
+  {
+    "page": 299,
+    "if_id": "CIS-IF-110",
+    "if_name": "文書情報状況照会結果",
+    "api_id": "CISsiMRD05res",
+    "file_ex": "CISsiMRD05res_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "処理結果リスト [ResultList]",
+      "処理結果コード [ResultCode]",
+      "処理結果メッセージ [ResultMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "文書情報リスト [MedicalReferralDocumentList]",
+      "文書情報ID [MedicalReferralDocumentId]",
+      "文書情報状況照会結果 [InquiryResult]",
+      "文書情報ステータス [MedicalReferralDocumentStatus]",
+      "診療情報提供書閲覧同意区分 [BrowsingConsent]",
+      "文書情報登録日時 [CreateDateTime]"
+    ]
+  },
+  {
+    "page": 301,
+    "if_id": "CIS-IF-111",
+    "if_name": "自施設宛文書情報一覧取得要求",
+    "api_id": "CISsiMRD06req",
+    "file_ex": "CISsiMRD06req_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "文書情報登録年月日（FROM） [CreateDateFrom]",
+      "文書情報登録年月日（TO） [CreateDateTo]"
+    ]
+  },
+  {
+    "page": 302,
+    "if_id": "CIS-IF-112",
+    "if_name": "自施設宛文書情報一覧取得結果",
+    "api_id": "CISsiMRD06res",
+    "file_ex": "CISsiMRD06res_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "処理結果リスト [ResultList]",
+      "処理結果コード [ResultCode]",
+      "処理結果メッセージ [ResultMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "文書情報リスト [MedicalReferralDocumentList]",
+      "紹介元医療機関コード [ReferralMedicalInstitutionCode]",
+      "紹介元医療機関名称 [ReferralMedicalInstitutionName]",
+      "紹介元診療科名称 [ReferralClinicalDepartmentName]",
+      "紹介先診療科名称 [ReferralToDepartmentName]",
+      "紹介先医師名 [ReferralToDoctorName]"
+    ]
+  },
+  {
+    "page": 304,
+    "if_id": "CIS-IF-113",
+    "if_name": "文書情報取得要求",
+    "api_id": "CISsiMRD07req",
+    "file_ex": "CISsiMRD07req_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "文書情報ID [MedicalReferralDocumentId]"
+    ]
+  },
+  {
+    "page": 305,
+    "if_id": "CIS-IF-114",
+    "if_name": "文書情報取得結果",
+    "api_id": "CISsiMRD07res",
+    "file_ex": "CISsiMRD07res_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "処理結果区分 [SegmentOfResult]",
+      "処理結果リスト [ResultList]",
+      "処理結果コード [ResultCode]",
+      "処理結果メッセージ [ResultMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "文書情報 [MedicalReferralDocument]"
+    ]
+  },
+  {
+    "page": 306,
+    "if_id": "CIS-IF-115",
+    "if_name": "添付情報登録要求",
+    "api_id": "CISsiMRD08req",
+    "file_ex": "CISsiMRD08req_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "文書情報ID [MedicalReferralDocumentId]",
+      "添付情報リスト [AttachmentInfoList]",
+      "ファイル名 [FileName]",
+      "添付情報ファイル [AttachmentInfoFile]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者資格に係る記号 [InsuredCardSymbol]",
+      "被保険者資格に係る番号 [InsuredIdentificationNumber]",
+      "被保険者資格に係る枝番 [InsuredBranchNumber]"
+    ]
+  },
+  {
+    "page": 308,
+    "if_id": "CIS-IF-116",
+    "if_name": "添付情報登録結果",
+    "api_id": "CISsiMRD08res",
+    "file_ex": "CISsiMRD08res_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "処理結果リスト [ResultList]",
+      "処理結果コード [ResultCode]",
+      "処理結果メッセージ [ResultMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]"
+    ]
+  },
+  {
+    "page": 309,
+    "if_id": "CIS-IF-117",
+    "if_name": "添付情報取得要求",
+    "api_id": "CISsiMRD09req",
+    "file_ex": "CISsiMRD09req_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "文書情報ID [MedicalReferralDocumentId]"
+    ]
+  },
+  {
+    "page": 310,
+    "if_id": "CIS-IF-118",
+    "if_name": "添付情報取得結果",
+    "api_id": "CISsiMRD09res",
+    "file_ex": "CISsiMRD09res_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "処理結果リスト [ResultList]",
+      "処理結果コード [ResultCode]",
+      "処理結果メッセージ [ResultMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "添付情報リスト [AttachmentInfoList]",
+      "ファイル名 [FileName]",
+      "添付情報 [AttachmentInfoFile]",
+      "文書情報ID [MedicalReferralDocumentId]"
+    ]
+  },
+  {
+    "page": 311,
+    "if_id": "CIS-IF-119",
+    "if_name": "設宛文書情報閲覧同意登録時の結",
+    "api_id": "CISsiMRD10res",
+    "file_ex": "CISsiMRD10res_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "依頼番号 [ReqNo]",
+      "処理結果区分 [SegmentOfResult]",
+      "処理結果リスト [ResultList]",
+      "処理結果コード [ResultCode]",
+      "処理結果メッセージ [ResultMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "文書情報ID [MedicalReferralDocumentId]"
+    ]
+  },
+  {
+    "page": 312,
+    "if_id": "CIS-IF-120",
+    "if_name": "健診文書登録要求",
+    "api_id": "CISsiMRD11req",
+    "file_ex": "CISsiMRD11req_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "医療機関等システム情報 [MedicalInstitutionSystemInfo]",
+      "ソフトウェア名称 [SoftwareName]",
+      "ソフトウェアバージョン [SoftwareVersion]",
+      "ソフトウェア開発元 [SoftwareDeveloper]",
+      "健診文書 [HealthCheckupResultReport]",
+      "提供の同意 [RegistrationConsent]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者資格に係る記号 [InsuredCardSymbol]",
+      "被保険者資格に係る番号 [InsuredIdentificationNumber]",
+      "被保険者資格に係る枝番 [InsuredBranchNumber]",
+      "生年月日 [Birthdate]"
+    ]
+  },
+  {
+    "page": 313,
+    "if_id": "CIS-IF-121",
+    "if_name": "健診文書登録結果",
+    "api_id": "CISsiMRD11res",
+    "file_ex": "CISsiMRD11res_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "処理結果リスト [ResultList]",
+      "処理結果コード [ResultCode]",
+      "処理結果メッセージ [ResultMessage]",
+      "詳細メッセージ [DetailMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]"
+    ]
+  },
+  {
+    "page": 314,
+    "if_id": "CIS-IF-122",
+    "if_name": "健診文書取消要求",
+    "api_id": "CISsiMRD12req",
+    "file_ex": "CISsiMRD12req_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "健診文書ID [HealthCheckupResultReportId]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者資格に係る記号 [InsuredCardSymbol]",
+      "被保険者資格に係る番号 [InsuredIdentificationNumber]",
+      "被保険者資格に係る枝番 [InsuredBranchNumber]",
+      "生年月日 [Birthdate]"
+    ]
+  },
+  {
+    "page": 315,
+    "if_id": "CIS-IF-123",
+    "if_name": "健診文書取消結果",
+    "api_id": "CISsiMRD12res",
+    "file_ex": "CISsiMRD12res_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "処理結果リスト [ResultList]",
+      "処理結果コード [ResultCode]",
+      "処理結果メッセージ [ResultMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]"
+    ]
+  },
+  {
+    "page": 316,
+    "if_id": "CIS-IF-124",
+    "if_name": "健診文書変更要求",
+    "api_id": "CISsiMRD13req",
+    "file_ex": "CISsiMRD13req_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "健診文書 [HealthCheckupResultReport]",
+      "提供の同意 [RegistrationConsent]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者資格に係る記号 [InsuredCardSymbol]",
+      "被保険者資格に係る番号 [InsuredIdentificationNumber]",
+      "被保険者資格に係る枝番 [InsuredBranchNumber]",
+      "生年月日 [Birthdate]"
+    ]
+  },
+  {
+    "page": 317,
+    "if_id": "CIS-IF-125",
+    "if_name": "健診文書変更結果",
+    "api_id": "CISsiMRD13res",
+    "file_ex": "CISsiMRD13res_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "処理結果リスト [ResultList]",
+      "処理結果コード [ResultCode]",
+      "処理結果メッセージ [ResultMessage]",
+      "詳細メッセージ [DetailMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]"
+    ]
+  },
+  {
+    "page": 318,
+    "if_id": "CIS-IF-126",
+    "if_name": "患者サマリー登録要求",
+    "api_id": "CISsiCPD01req",
+    "file_ex": "CISsiCPD01req_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "医療機関等システム情報 [MedicalInstitutionSystemInfo]",
+      "ソフトウェア名称 [SoftwareName]",
+      "ソフトウェアバージョン [SoftwareVersion]",
+      "ソフトウェア開発元 [SoftwareDeveloper]",
+      "療養計画書 [CarePlan]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者資格に係る記号 [InsuredCardSymbol]",
+      "被保険者資格に係る番号 [InsuredIdentificationNumber]",
+      "被保険者資格に係る枝番 [InsuredBranchNumber]",
+      "生年月日 [Birthdate]"
+    ]
+  },
+  {
+    "page": 319,
+    "if_id": "CIS-IF-127",
+    "if_name": "患者サマリー登録結果",
+    "api_id": "CISsiCPD01res",
+    "file_ex": "CISsiCPD01res_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "処理結果リスト [ResultList]",
+      "処理結果コード [ResultCode]",
+      "処理結果メッセージ [ResultMessage]",
+      "詳細メッセージ [DetailMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "署名検証結果リスト [VerifyResultList]",
+      "ステータス [Status]",
+      "メッセージ [Message]"
+    ]
+  },
+  {
+    "page": 321,
+    "if_id": "CIS-IF-128",
+    "if_name": "患者サマリー取消要求",
+    "api_id": "CISsiCPD02req",
+    "file_ex": "CISsiCPD02req_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "療養計画書ID [CarePlanId]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者資格に係る記号 [InsuredCardSymbol]",
+      "被保険者資格に係る番号 [InsuredIdentificationNumber]",
+      "被保険者資格に係る枝番 [InsuredBranchNumber]",
+      "生年月日 [Birthdate]"
+    ]
+  },
+  {
+    "page": 322,
+    "if_id": "CIS-IF-129",
+    "if_name": "患者サマリー取消結果",
+    "api_id": "CISsiCPD02res",
+    "file_ex": "CISsiCPD02res_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "処理結果リスト [ResultList]",
+      "処理結果コード [ResultCode]",
+      "処理結果メッセージ [ResultMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]"
+    ]
+  },
+  {
+    "page": 323,
+    "if_id": "CIS-IF-130",
+    "if_name": "患者サマリー変更要求",
+    "api_id": "CISsiCPD03req",
+    "file_ex": "CISsiCPD03req_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "療養計画書 [CarePlan]",
+      "保険者番号 [InsurerNumber]",
+      "被保険者資格に係る記号 [InsuredCardSymbol]",
+      "被保険者資格に係る番号 [InsuredIdentificationNumber]",
+      "被保険者資格に係る枝番 [InsuredBranchNumber]",
+      "生年月日 [Birthdate]"
+    ]
+  },
+  {
+    "page": 324,
+    "if_id": "CIS-IF-131",
+    "if_name": "患者サマリー変更結果",
+    "api_id": "CISsiCPD03res",
+    "file_ex": "CISsiCPD03res_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "処理結果リスト [ResultList]",
+      "処理結果コード [ResultCode]",
+      "処理結果メッセージ [ResultMessage]",
+      "詳細メッセージ [DetailMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "署名検証結果リスト [VerifyResultList]",
+      "ステータス [Status]"
+    ]
+  },
+  {
+    "page": 326,
+    "if_id": "CIS-IF-201",
+    "if_name": "カルテ臨床情報登録要求",
+    "api_id": "CISsiKCI01req",
+    "file_ex": "CISsiKCI01req_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "医療機関等システム情報 [MedicalInstitutionSystemInfo]",
+      "ソフトウェア名称 [SoftwareName]",
+      "ソフトウェアバージョン [SoftwareVersion]",
+      "ソフトウェア開発元 [SoftwareDeveloper]",
+      "被保険者個人識別子 [PatientCredentialsInfo]",
+      "生年月日 [Birthdate]",
+      "Bundleリソースのidentifierのsystem [IdentifierSystem]",
+      "カルテ臨床情報 [Clinicalinfo]"
+    ]
+  },
+  {
+    "page": 327,
+    "if_id": "CIS-IF-202",
+    "if_name": "カルテ臨床情報登録結果",
+    "api_id": "CISsiKCI01res",
+    "file_ex": "CISsiKCI01res_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "処理結果リスト [ResultList]",
+      "処理結果コード [ResultCode]",
+      "処理結果メッセージ [ResultMessage]",
+      "FHIRバリデーションチェック結果メッセージ [FHIRCheckResultMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]"
+    ]
+  },
+  {
+    "page": 328,
+    "if_id": "CIS-IF-203",
+    "if_name": "カルテ臨床情報取消要求",
+    "api_id": "CISsiKCI02req",
+    "file_ex": "CISsiKCI02req_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "被保険者個人識別子 [PatientCredentialsInfo]",
+      "生年月日 [Birthdate]",
+      "Bundleリソースのidentifierのsystem [IdentifierSystem]",
+      "Bundleリソースのidentifierのvalue [IdentifierValue]"
+    ]
+  },
+  {
+    "page": 329,
+    "if_id": "CIS-IF-204",
+    "if_name": "カルテ臨床情報取消結果",
+    "api_id": "CISsiKCI02res",
+    "file_ex": "CISsiKCI02res_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "処理結果リスト [ResultList]",
+      "処理結果コード [ResultCode]",
+      "処理結果メッセージ [ResultMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]"
+    ]
+  },
+  {
+    "page": 330,
+    "if_id": "CIS-IF-207",
+    "if_name": "カルテ臨床情報変更要求",
+    "api_id": "CISsiKCI04req",
+    "file_ex": "CISsiKCI04req_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "被保険者個人識別子 [PatientCredentialsInfo]",
+      "生年月日 [Birthdate]",
+      "Bundleリソースのidentifierのsystem [IdentifierSystem]",
+      "Bundleリソースのidentifierのvalue [IdentifierValue]",
+      "カルテ臨床情報 [Clinicalinfo]"
+    ]
+  },
+  {
+    "page": 331,
+    "if_id": "CIS-IF-208",
+    "if_name": "カルテ臨床情報変更結果",
+    "api_id": "CISsiKCI04res",
+    "file_ex": "CISsiKCI04res_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "処理結果リスト [ResultList]",
+      "処理結果コード [ResultCode]",
+      "処理結果メッセージ [ResultMessage]",
+      "FHIRバリデーションチェック結果メッセージ [FHIRCheckResultMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]"
+    ]
+  },
+  {
+    "page": 332,
+    "if_id": "CIS-IF-301",
+    "if_name": "マスタファイル取得要求",
+    "api_id": "CISsiDMI01req",
+    "file_ex": "CISsiDMI01req_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "マスタ区分 [MasterKbn]",
+      "マスタバージョン [OwnMasterVer]"
+    ]
+  },
+  {
+    "page": 333,
+    "if_id": "CIS-IF-302",
+    "if_name": "マスタファイル取得結果",
+    "api_id": "CISsiDMI01res",
+    "file_ex": "CISsiDMI01res_xxxxxxxxxxxx.xml",
+    "prefix": "CIS",
+    "tags": [
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "処理結果区分 [SegmentOfResult]",
+      "処理結果リスト [ResultList]",
+      "処理結果コード [ResultCode]",
+      "処理結果メッセージ [ResultMessage]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "マスタ区分 [MasterKbn]",
+      "マスタのバージョンリスト [MasterVerList]",
+      "マスタバージョン [MasterVer]",
+      "マスタバージョン（日付） [MasterVerdate]",
+      "マスタ情報ファイル名 [MasterInfoFileName]",
+      "マスタ情報 [MasterInfoFile]"
+    ]
+  },
+  {
+    "page": 334,
+    "if_id": "PMH-IF-001",
+    "if_name": "医療費助成情報要求",
+    "api_id": "PMHsimsm01req",
+    "file_ex": "PMHsimsm01req_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx_face.xml",
+    "prefix": "PMH",
+    "tags": [
+      "医療機関コード [MedicalInstitutionCode]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "連携キー [LinkageKey]",
+      "初期化ベクトル [InitializationVector]",
+      "受給者証ID [CertificationId]",
+      "シーケンスNo [SequenceNumber]"
+    ]
+  },
+  {
+    "page": 335,
+    "if_id": "PMH-IF-002",
+    "if_name": "医療費助成情報結果",
+    "api_id": "PMHsimsm01res",
+    "file_ex": "PMHsimsm01res_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx_face.xml",
+    "prefix": "PMH",
+    "tags": [
+      "処理結果区分 [OQSsiquc01req]",
+      "医療費助成資格 [MedicalSubsidies]",
+      "公費負担者番号 [MedicalSubsidyInsurerNumber]",
+      "証発行地方公共団体コード [IssuerLocalGovCode]",
+      "受給者証名 [CertificationName]"
+    ]
+  },
+  {
+    "page": 336,
+    "if_id": "PMH-IF-201",
+    "if_name": "PMH情報要求",
+    "api_id": "PMHsigfi01req",
+    "file_ex": "PMHsigfi01req_xxxxxxxxxxxx.xml",
+    "prefix": "PMH",
+    "tags": [
+      "PMH処理名 [PmhFunction]",
+      "機関コード [InstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "シーケンスNo [SequenceNumber]",
+      "情報 [InputData]",
+      "キー１ [PmhFunctionKey1]",
+      "キー２ [PmhFunctionKey2]"
+    ]
+  },
+  {
+    "page": 337,
+    "if_id": "PMH-IF-202",
+    "if_name": "PMH情報結果",
+    "api_id": "PMHsigfi01res",
+    "file_ex": "PMHsigfi01res_xxxxxxxxxxxx.xml",
+    "prefix": "PMH",
+    "tags": [
+      "PMH処理名 [PmhFunction]",
+      "機関コード [InstitutionCode]",
+      "任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]",
+      "文字コード識別 [CharacterCodeIdentifier]",
+      "処理結果状況 [ProcessingResultStatus]",
+      "処理結果コード [ProcessingResultCode]",
+      "処理結果メッセージ [ProcessingResultMessage]",
+      "処理結果 [OutputData]"
+    ]
+  }
+]

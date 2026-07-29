@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>電子カルテ情報共有サービス 技術解説書 v2.1.0</title>
+<style>
+  :root {
+    --bg: #f0f4f8;
+    --surface: #ffffff;
+    --surface2: #f7f9fc;
+    --border: #dde3ec;
+    --accent: #1a4fa0;
+    --accent2: #2563eb;
+    --accent-light: #e8effc;
+    --text: #1a2332;
+    --text2: #4a5568;
+    --text3: #718096;
+    --green: #0f7250;
+    --green-bg: #e6f4ef;
+    --orange: #b45309;
+    --orange-bg: #fef3c7;
+    --red: #991b1b;
+    --red-bg: #fee2e2;
+    --tag-bg: #edf2fb;
+    --tag-text: #2553a0;
+    --highlight: #fef9c3;
+    --radius: 8px;
+    --shadow: 0 1px 4px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', Meiryo, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* Header */
+  .header {
+    background: var(--accent);
+    color: white;
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  }
+  .header-title {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .header-title .badge {
+    font-size: 11px;
+    background: rgba(255,255,255,0.2);
+    padding: 2px 8px;
+    border-radius: 99px;
+    display: inline-block;
+    width: fit-content;
+    letter-spacing: 0.04em;
+  }
+  .header-title h1 {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .header-meta {
+    font-size: 12px;
+    opacity: 0.75;
+    white-space: nowrap;
+  }
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 8px;
+    padding: 8px 14px;
+    min-width: 280px;
+    transition: background 0.2s;
+  }
+  .search-bar:focus-within {
+    background: rgba(255,255,255,0.22);
+    border-color: rgba(255,255,255,0.5);
+  }
+  .search-bar svg { opacity: 0.7; flex-shrink: 0; }
+  .search-bar input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 14px;
+    width: 100%;
+    font-family: inherit;
+  }
+  .search-bar input::placeholder { color: rgba(255,255,255,0.55); }
+  #search-count {
+    font-size: 12px;
+    opacity: 0.75;
+    white-space: nowrap;
+    padding-right: 4px;
+  }
+
+  /* Layout */
+  .layout {
+    display: flex;
+    min-height: calc(100vh - 72px);
+  }
+
+  /* Sidebar */
+  .sidebar {
+    width: 280px;
+    flex-shrink: 0;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    position: sticky;
+    top: 72px;
+    height: calc(100vh - 72px);
+  }
+  .sidebar-section {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-section:last-child { border-bottom: none; }
+  .sidebar-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text3);
+    padding: 0 16px 8px;
+  }
+  .nav-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 0;
+    transition: background 0.15s;
+    text-decoration: none;
+    color: var(--text2);
+    font-size: 13px;
+    line-height: 1.4;
+    border-left: 3px solid transparent;
+  }
+  .nav-item:hover { background: var(--accent-light); color: var(--accent); }
+  .nav-item.active {
+    background: var(--accent-light);
+    color: var(--accent);
+    border-left-color: var(--accent);
+    font-weight: 600;
+  }
+  .nav-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text3);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    min-width: 22px;
+    text-align: center;
+  }
+  .nav-item.active .nav-num {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .tag-filter { padding: 0 12px; }
+  .tag-btn {
+    display: inline-block;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    border: 1px solid #c5d5f5;
+    border-radius: 99px;
+    padding: 4px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    margin: 3px 2px;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .tag-btn:hover, .tag-btn.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  /* Main */
+  .main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 28px 36px 60px;
+    max-width: 860px;
+  }
+
+  /* Alert banner */
+  .alert {
+    background: var(--orange-bg);
+    border: 1px solid #fcd34d;
+    border-left: 4px solid #d97706;
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin-bottom: 24px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .alert svg { flex-shrink: 0; margin-top: 2px; }
+  .alert-text { font-size: 13px; line-height: 1.6; color: #78350f; }
+  .alert-text strong { display: block; margin-bottom: 2px; font-size: 14px; }
+
+  /* Section card */
+  .section-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .section-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.1), 0 8px 24px rgba(0,0,0,0.06); }
+  .section-header {
+    background: var(--surface2);
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .section-header:hover { background: var(--accent-light); }
+  .section-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+    flex-shrink: 0;
+    letter-spacing: -0.02em;
+  }
+  .section-title-wrap { flex: 1; }
+  .section-title-wrap h2 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .section-title-wrap .section-subtitle {
+    font-size: 12px;
+    color: var(--text3);
+    margin-top: 1px;
+  }
+  .section-toggle {
+    color: var(--text3);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  .section-card.collapsed .section-toggle { transform: rotate(-90deg); }
+  .section-body {
+    padding: 20px;
+  }
+  .section-card.collapsed .section-body { display: none; }
+
+  /* Subsection */
+  .subsection {
+    margin-bottom: 20px;
+  }
+  .subsection:last-child { margin-bottom: 0; }
+  .subsection-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--accent-light);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .subsection-title::before {
+    content: '';
+    width: 3px;
+    height: 14px;
+    background: var(--accent);
+    border-radius: 2px;
+    display: inline-block;
+  }
+
+  /* Content blocks */
+  .content-text {
+    color: var(--text2);
+    font-size: 13.5px;
+    line-height: 1.75;
+    margin-bottom: 12px;
+  }
+  .content-text:last-child { margin-bottom: 0; }
+
+  /* Info table */
+  .info-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 10px;
+    margin-bottom: 4px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .info-table th {
+    background: var(--accent);
+    color: white;
+    padding: 9px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+  .info-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.6;
+  }
+  .info-table tr:last-child td { border-bottom: none; }
+  .info-table tr:nth-child(even) td { background: var(--surface2); }
+  .info-table td:first-child { font-weight: 600; color: var(--text); white-space: nowrap; }
+
+  /* Cards grid */
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .card p {
+    font-size: 12.5px;
+    color: var(--text2);
+    line-height: 1.6;
+  }
+
+  /* Badge */
+  .badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  .badge-required { background: var(--red-bg); color: var(--red); }
+  .badge-optional { background: #ede9fe; color: #5b21b6; }
+  .badge-important { background: var(--orange-bg); color: var(--orange); }
+  .badge-info { background: var(--accent-light); color: var(--accent); }
+  .badge-ok { background: var(--green-bg); color: var(--green); }
+
+  /* Steps */
+  .steps { margin: 12px 0; }
+  .step {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 12px;
+    align-items: flex-start;
+  }
+  .step:last-child { margin-bottom: 0; }
+  .step-num {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .step-content { flex: 1; }
+  .step-content strong { font-size: 13px; display: block; margin-bottom: 3px; }
+  .step-content p { font-size: 12.5px; color: var(--text2); line-height: 1.6; }
+
+  /* Notice box */
+  .notice {
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin: 10px 0;
+    font-size: 13px;
+    line-height: 1.65;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .notice svg { flex-shrink: 0; margin-top: 2px; }
+  .notice-warn { background: var(--orange-bg); color: #78350f; border: 1px solid #fcd34d; }
+  .notice-info { background: var(--accent-light); color: #1e3a6e; border: 1px solid #bfdbfe; }
+  .notice-ok { background: var(--green-bg); color: #064e3b; border: 1px solid #6ee7b7; }
+
+  /* Tag chips */
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+  .tag {
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    border: 1px solid #c5d5f5;
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  /* Glossary */
+  .glossary-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .glossary-item {
+    display: flex;
+    gap: 0;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: box-shadow 0.15s;
+  }
+  .glossary-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .glossary-term {
+    min-width: 160px;
+    max-width: 200px;
+    padding: 10px 14px;
+    font-weight: 700;
+    font-size: 13px;
+    background: var(--accent-light);
+    color: var(--accent);
+    border-right: 1px solid #c5d5f5;
+    display: flex;
+    align-items: flex-start;
+  }
+  .glossary-def {
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  /* Search highlight */
+  mark {
+    background: var(--highlight);
+    color: var(--text);
+    border-radius: 2px;
+    padding: 0 1px;
+  }
+
+  /* Hidden */
+  .hidden { display: none !important; }
+
+  /* Search overlay message */
+  .search-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text3);
+    font-size: 14px;
+  }
+  .search-empty svg { margin-bottom: 10px; opacity: 0.4; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .sidebar { width: 220px; }
+    .main { padding: 20px 20px 40px; }
+    .cards { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 680px) {
+    .header { flex-wrap: wrap; }
+    .search-bar { min-width: 100%; }
+    .layout { flex-direction: column; }
+    .sidebar { width: 100%; height: auto; position: static; }
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #c9d5e8; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #9baece; }
+
+  /* Anchor offset for sticky header */
+  .section-anchor { scroll-margin-top: 90px; }
+
+  /* Version box */
+  .version-box {
+    background: var(--accent);
+    color: white;
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .version-box .v-num {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    opacity: 0.9;
+  }
+  .version-box .v-info {
+    font-size: 13px;
+    opacity: 0.85;
+    line-height: 1.5;
+  }
+
+  /* Flow diagram */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+    margin: 12px 0;
+  }
+  .flow-box {
+    background: var(--accent-light);
+    border: 1.5px solid #93b4ef;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--accent);
+    text-align: center;
+  }
+  .flow-arrow {
+    padding: 0 8px;
+    color: var(--text3);
+    font-size: 18px;
+    font-weight: 300;
+  }
+
+  /* Section colors */
+  .icon-1 { background: #1a4fa0; }
+  .icon-2 { background: #0f7250; }
+  .icon-3 { background: #7c3aed; }
+  .icon-4 { background: #b45309; }
+  .icon-5 { background: #0369a1; }
+  .icon-6 { background: #be123c; }
+  .icon-7 { background: #0f766e; }
+  .icon-8 { background: #7c2d12; }
+  .icon-9 { background: #4338ca; }
+  .icon-10 { background: #0f7250; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-title">
+    <span class="badge">厚生労働省医政局 ／ システムベンダ向け技術解説書</span>
+    <h1>電子カルテ情報共有サービス</h1>
+  </div>
+  <div class="search-bar">
+    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/></svg>
+    <input type="text" id="search-input" placeholder="キーワードで検索… (例: FHIR, 傷病名, 通信方式)" oninput="handleSearch(this.value)" autocomplete="off">
+    <span id="search-count"></span>
+  </div>
+  <div class="header-meta">v2.1.0 ／ 令和8年6月 ／ 217頁</div>
+</header>
+
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">章一覧</div>
+      <a class="nav-item active" href="#sec1" onclick="navClick(this, 'sec1')">
+        <span class="nav-num">1</span>はじめに
+      </a>
+      <a class="nav-item" href="#sec2" onclick="navClick(this, 'sec2')">
+        <span class="nav-num">2</span>サービス概要
+      </a>
+      <a class="nav-item" href="#sec3" onclick="navClick(this, 'sec3')">
+        <span class="nav-num">3</span>HL7 FHIR の概要
+      </a>
+      <a class="nav-item" href="#sec4" onclick="navClick(this, 'sec4')">
+        <span class="nav-num">4</span>標準マスタ
+      </a>
+      <a class="nav-item" href="#sec5" onclick="navClick(this, 'sec5')">
+        <span class="nav-num">5</span>各種サービスの概要
+      </a>
+      <a class="nav-item" href="#sec6" onclick="navClick(this, 'sec6')">
+        <span class="nav-num">6</span>システムフロー・機能改修
+      </a>
+      <a class="nav-item" href="#sec7" onclick="navClick(this, 'sec7')">
+        <span class="nav-num">7</span>機能実装の要否
+      </a>
+      <a class="nav-item" href="#sec8" onclick="navClick(this, 'sec8')">
+        <span class="nav-num">8</span>通信・システム構成
+      </a>
+      <a class="nav-item" href="#sec9" onclick="navClick(this, 'sec9')">
+        <span class="nav-num">9</span>後方互換性・FHIR更新
+      </a>
+      <a class="nav-item" href="#sec10" onclick="navClick(this, 'sec10')">
+        <span class="nav-num">10</span>導入に向けた作業
+      </a>
+      <a class="nav-item" href="#if-ref" onclick="navClick(this, 'if-ref')">
+        <span class="nav-num" style="background:#0f766e;color:white;border-color:#0f766e">IF</span>外部I/F仕様書
+      </a>
+      <a class="nav-item" href="#xml-ref" onclick="navClick(this, 'xml-ref')">
+        <span class="nav-num" style="background:#7c3aed;color:white;border-color:#7c3aed">XML</span>XMLレイアウト一覧
+      </a>
+      <a class="nav-item" href="#glossary" onclick="navClick(this, 'glossary')">
+        <span class="nav-num">用</span>用語定義
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">カテゴリで絞り込み</div>
+      <div class="tag-filter">
+        <span class="tag-btn" onclick="filterTag(this, 'fhir')">FHIR</span>
+        <span class="tag-btn" onclick="filterTag(this, 'security')">セキュリティ</span>
+        <span class="tag-btn" onclick="filterTag(this, 'api')">API・通信</span>
+        <span class="tag-btn" onclick="filterTag(this, 'master')">標準マスタ</span>
+        <span class="tag-btn" onclick="filterTag(this, 'clinical')">臨床情報</span>
+        <span class="tag-btn" onclick="filterTag(this, 'kenshin')">健診</span>
+        <span class="tag-btn" onclick="filterTag(this, 'impl')">実装要否</span>
+        <span class="tag-btn" onclick="filterTag(this, 'compat')">互換性</span>
+        <span class="tag-btn" onclick="filterTag(this, 'if')">I/F仕様</span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main" id="main-content">
+
+    <!-- Alert -->
+    <div class="alert">
+      <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#d97706"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+      <div class="alert-text">
+        <strong>⚠ 実装・導入に関する重要な留意事項</strong>
+        本書の内容は現時点で最終確定ではありません。次版（令和8年度冬頃公表予定）が公表されるまでの間は、<strong>モデル事業を除き、本書に基づく実装・導入は控えてください。</strong>
+      </div>
+    </div>
+
+    <!-- Section 1 -->
+    <div class="section-card section-anchor" id="sec1" data-tags="intro">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon icon-1">1</div>
+        <div class="section-title-wrap">
+          <h2>はじめに</h2>
+          <div class="section-subtitle">本書の趣旨・前提・関連ソース・用語定義</div>
+        </div>
+        <svg class="section-toggle" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+      </div>
+      <div class="section-body">
+        <div class="subsection">
+          <div class="subsection-title">1.1 本書の趣旨</div>
+          <p class="content-text">
+            本書は、医療機関等が電子カルテ情報共有サービスを導入するにあたり、<strong>システムベンダ</strong>が以下を理解するための技術解説書（記録条件仕様書を含む）です。
+          </p>
+          <div class="cards">
+            <div class="card">
+              <div class="card-title"><span class="card-dot" style="background:#1a4fa0"></span>対象読者</div>
+              <p>医療機関等システム（電子カルテ、レセコン、文書作成、検査、健診等）の開発ベンダ</p>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="card-dot" style="background:#0f7250"></span>対象リリース</div>
+              <p>令和8年9月末予定の本サービスリリース（FHIR実装ガイド v1.13.0）</p>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">1.2 本書のFHIR実装ガイドバージョン</div>
+          <table class="info-table">
+            <thead><tr><th>対象</th><th>Version</th></tr></thead>
+            <tbody>
+              <tr><td>電子カルテ情報共有サービス（2文書・5情報＋患者サマリー）FHIR実装ガイド</td><td>1.13.0</td></tr>
+              <tr><td>健診結果報告 FHIR記述仕様・実装ガイド</td><td>1.7.0</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">2.1.0版 主な変更点（前版からの更新内容）</div>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <strong>傷病名の登録基準見直し</strong>
+                <p>電子カルテ内の病名リストのすべての傷病名を原則として登録。医師判断で共有対象を選択。</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <strong>感染症情報の登録タイミング見直し</strong>
+                <p>電子カルテ登録タイミングで本サービスへ登録。患者への表示は医師の判断で患者共有フラグを付与してから。</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <strong>アレルギー等情報の登録範囲見直し</strong>
+                <p>「重篤なアレルギー等」（アナフィラキシー等）を登録対象とする。</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <strong>診療情報提供書の同意区分「閲覧保留」を削除</strong>
+                <p>同意区分は「同意あり」のみとする。</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">5</div>
+              <div class="step-content">
+                <strong>検査単位統一方針の見直し</strong>
+                <p>医療機関で使用している検査試薬・機器に応じた単位をそのまま登録できる方式へ変更。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2 -->
+    <div class="section-card section-anchor" id="sec2" data-tags="intro">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon icon-2">2</div>
+        <div class="section-title-wrap">
+          <h2>電子カルテ情報共有サービスの概要</h2>
+          <div class="section-subtitle">全体像・共有情報・利用施設</div>
+        </div>
+        <svg class="section-toggle" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+      </div>
+      <div class="section-body">
+        <div class="subsection">
+          <div class="subsection-title">本サービスが提供する主な機能</div>
+          <div class="cards">
+            <div class="card">
+              <div class="card-title"><span class="card-dot" style="background:#1a4fa0"></span>文書送受信</div>
+              <p>診療情報提供書・退院時サマリーを電子的に送受信。紙・FAXの手間を削減。</p>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="card-dot" style="background:#0f7250"></span>健診結果共有</div>
+              <p>健診結果報告書を医療保険者と共有。</p>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="card-dot" style="background:#7c3aed"></span>臨床情報の共有</div>
+              <p>患者同意のもと、傷病名・薬剤アレルギー・感染症・検査結果等を全国の医療機関等で閲覧可能。</p>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="card-dot" style="background:#b45309"></span>マイナポータル連携</div>
+              <p>国民等がマイナポータルで自らの医療情報を確認可能。</p>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">取り扱う情報の範囲</div>
+          <p class="content-text">原則として医療保険適用の診療等で生じた情報。有効な被保険者個人識別子または生活保護受給者識別子が付与されている場合に限り、医療保険適用外診療の情報も登録可。運用開始後に発生した情報が対象（識別子・整合性確保できる場合は過去情報も可）。</p>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">利用可能な施設（当面の間）</div>
+          <div class="notice notice-warn">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#d97706"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+            <span>健診センター（単独型）、職域診療所、訪問看護ステーション、介護事業所は<strong>当面の間、対象外</strong>（将来的に拡大予定）。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3 -->
+    <div class="section-card section-anchor" id="sec3" data-tags="fhir">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon icon-3">3</div>
+        <div class="section-title-wrap">
+          <h2>HL7 FHIR の概要と適用方針</h2>
+          <div class="section-subtitle">FHIR標準化の意義・データ特徴・Narrative・本サービスの位置づけ</div>
+        </div>
+        <svg class="section-toggle" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+      </div>
+      <div class="section-body">
+        <div class="subsection">
+          <div class="subsection-title">3.1 FHIRによる標準化の意義</div>
+          <p class="content-text">
+            HL7 FHIR（Fast Healthcare Interoperability Resources）は、医療情報の構造と交換方式を定義する国際標準規格。日本の医療情報は紙媒体が多く、異なるシステム間の連携が困難だったが、FHIRにより以下が実現可能に：
+          </p>
+          <div class="cards">
+            <div class="card">
+              <div class="card-title"><span class="card-dot" style="background:#1a4fa0"></span>受け手主導の活用</div>
+              <p>送信側の元データを可能な限り加工せず提供し、受信側が抽出・分析・可視化できる。</p>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="card-dot" style="background:#0f7250"></span>システムベンダのメリット</div>
+              <p>オープンソースのFHIR関連資産を活用し、低コスト・高品質な開発が可能。</p>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">3.2 FHIR形式で記述するデータの特徴</div>
+          <table class="info-table">
+            <thead><tr><th>要素</th><th>説明</th></tr></thead>
+            <tbody>
+              <tr><td>構造化データ</td><td>FHIR リソース内でコード体系・データ型・階層構造に基づいて機械可読な形式で定義</td></tr>
+              <tr><td>Narrative（ナラティブ）</td><td>人が読める形式の要約情報。XHTML形式でリソースの主要内容を記述</td></tr>
+              <tr><td>FHIRPath</td><td>リソース内の特定要素を指定・参照する式言語（例：Observation.valueQuantity.value）</td></tr>
+              <tr><td>Bundle</td><td>複数リソースをひとまとまりにしたコンテナ。本サービスではDocumentタイプを使用</td></tr>
+              <tr><td>Bundle.identifier</td><td>登録データを一意に識別する識別子。施設全体で一貫した命名規則が必要</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">3.3 Narrative（ナラティブ）の特徴</div>
+          <p class="content-text">FHIRリソース内の「人が読める形式の要約情報」。XHTML形式で記述。PDF帳票またはNarrativeデータのいずれか一方が表示実装されていれば、もう一方の画面実装は省略可。</p>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">バリデーションチェックの種類</div>
+          <table class="info-table">
+            <thead><tr><th>種別</th><th>内容</th></tr></thead>
+            <tbody>
+              <tr><td>ベースチェック</td><td>FHIRプロファイルに基づく標準的なバリデーション（データ構造・必須要素・データ型・コード体系）</td></tr>
+              <tr><td>アドオンチェック</td><td>本サービス独自の運用要件に基づく追加チェック。FHIRプロファイル上は許容でも本サービスの方針に反するものを検出</td></tr>
+            </tbody>
+          </table>
+          <div class="notice notice-info">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#2563eb"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20A10 10 0 0012 2z"/></svg>
+            <span>バリデーションチェックは<strong>本サービス側</strong>で実施するため、電子カルテシステム等ベンダ側のバリデーション機能実装は省略可。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 4 -->
+    <div class="section-card section-anchor" id="sec4" data-tags="master fhir">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon icon-4">4</div>
+        <div class="section-title-wrap">
+          <h2>標準マスタの概要と適用方針</h2>
+          <div class="section-subtitle">標準マスタの意義・一覧・ダミーコードの取扱い</div>
+        </div>
+        <svg class="section-toggle" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+      </div>
+      <div class="section-body">
+        <div class="subsection">
+          <div class="subsection-title">4.1 標準マスタの意義</div>
+          <p class="content-text">異なる医療機関・システム間で同一の概念を一致させ、表記ゆれや略称の差異に依存しない正確な情報連携を実現するための共通コード体系。例：病名管理番号「20103019」→「肺炎」として全施設で統一認識。</p>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">4.2 主な標準マスタ一覧</div>
+          <table class="info-table">
+            <thead><tr><th>情報種別</th><th>標準マスタ名称</th><th>コード名称</th></tr></thead>
+            <tbody>
+              <tr><td>傷病名</td><td>標準病名履歴マスタ</td><td>病名管理番号</td></tr>
+              <tr><td>薬剤</td><td>医薬品マスタ（HOT9/HOT13等）</td><td>HOTコード</td></tr>
+              <tr><td>検査</td><td>JLAC10マスタ</td><td>JLAC10コード</td></tr>
+              <tr><td>医療機関</td><td>医療機関マスタ</td><td>保険医療機関番号</td></tr>
+              <tr><td>検査単位</td><td>UCUMコード体系</td><td>UCUM単位コード</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">4.3 ダミーコードの取扱い</div>
+          <p class="content-text">標準マスタに収載されていない情報を一時的に登録する際に使用する仮のコード。</p>
+          <div class="notice notice-warn">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#d97706"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+            <span>ダミーコード使用時は、対応するテキスト要素（text値）に実際に表現したい内容を<strong>必ず記述</strong>すること。ダミーコード自体には固有の意味はない。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 5 -->
+    <div class="section-card section-anchor" id="sec5" data-tags="fhir clinical kenshin api">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon icon-5">5</div>
+        <div class="section-title-wrap">
+          <h2>各種サービスの概要と適用方針</h2>
+          <div class="section-subtitle">文書送受信／健診文書登録・閲覧／臨床情報登録・閲覧／患者サマリー</div>
+        </div>
+        <svg class="section-toggle" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+      </div>
+      <div class="section-body">
+        <div class="subsection">
+          <div class="subsection-title">5.1 文書送受信サービス</div>
+          <table class="info-table">
+            <thead><tr><th>項目</th><th>内容</th></tr></thead>
+            <tbody>
+              <tr><td>対象文書</td><td>診療情報提供書・退院時サマリー（2文書）</td></tr>
+              <tr><td>PDF添付</td><td>必須。PNG/JPEG/TIFF形式のキー画像や各種検査レポートも添付可</td></tr>
+              <tr><td>同意区分</td><td>「同意あり」のみ（「閲覧保留」は削除）</td></tr>
+              <tr><td>電子署名</td><td>任意（改ざん防止・なりすまし防止の観点で有用）</td></tr>
+              <tr><td>データ保存期間</td><td>登録後5年間</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">5.2 健診文書登録・閲覧サービス</div>
+          <table class="info-table">
+            <thead><tr><th>項目</th><th>内容</th></tr></thead>
+            <tbody>
+              <tr><td>対象健診</td><td>特定健診・後期高齢者健診・事業者健診・保険者実施健診等（計5種別）</td></tr>
+              <tr><td>対象外健診</td><td>がん検診・母子保健法に基づく健診・高齢者被保護者への健康診査など</td></tr>
+              <tr><td>新規追加項目</td><td>業務歴・視力・聴力・胸部エックス線検査・喀痰検査（計5項目追加）</td></tr>
+              <tr><td>患者同意</td><td>登録前に「保健事業への活用のため本サービスを利用して保険者へ提供する」旨の同意取得が必要</td></tr>
+              <tr><td>データ保存期間</td><td>登録後5年間</td></tr>
+            </tbody>
+          </table>
+          <div class="notice notice-info" style="margin-top:10px">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#2563eb"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20A10 10 0 0012 2z"/></svg>
+            <span>医療機関登録と保険者登録が重複した場合、本サービスが<strong>自動的にデータ統合（マージ）</strong>処理を行う。</span>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">5.3 臨床情報登録・閲覧サービス（5情報）</div>
+          <table class="info-table">
+            <thead><tr><th>情報区分</th><th>登録対象</th><th>保存期間（通常）</th><th>長期保存</th></tr></thead>
+            <tbody>
+              <tr><td>傷病名</td><td>診断をつけた傷病名</td><td>登録日から5年間</td><td>対象</td></tr>
+              <tr><td>感染症</td><td>梅毒STS/TP抗体・HBs・HCV・HIVの5項目</td><td>登録日から5年間</td><td>対象</td></tr>
+              <tr><td>検査</td><td>救急・生活習慣病関連43項目</td><td>登録日から1年間 or 直近3回分</td><td>対象外</td></tr>
+              <tr><td>薬剤アレルギー等</td><td>薬剤アレルギー等</td><td>登録日から5年間</td><td>対象</td></tr>
+              <tr><td>その他アレルギー等</td><td>食品・飲料・環境等のアレルギー</td><td>登録日から5年間</td><td>対象</td></tr>
+            </tbody>
+          </table>
+          <div class="cards" style="margin-top:12px">
+            <div class="card">
+              <div class="card-title"><span class="card-dot" style="background:#991b1b"></span>未告知フラグ</div>
+              <p>患者に十分に説明していない傷病名を他医療機関のみに共有する場合に設定。マイナポータルには非表示。</p>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="card-dot" style="background:#b45309"></span>患者共有フラグ</div>
+              <p>感染症検査結果について、医師による説明後に設定。設定されるまでマイナポータルには非表示。</p>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="card-dot" style="background:#0f7250"></span>長期保存フラグ</div>
+              <p>遺伝性疾患・慢性疾患等の長期管理に有用な情報に付与。医師等の判断が前提。</p>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="card-dot" style="background:#4338ca"></span>登録タイミング</div>
+              <p>外来：リアルタイム処理を推奨。入院中の臨床情報：退院日当日中（夜間可）に登録。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 6 -->
+    <div class="section-card section-anchor" id="sec6" data-tags="api fhir impl">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon icon-6">6</div>
+        <div class="section-title-wrap">
+          <h2>システムフロー・機能・画面改修事項</h2>
+          <div class="section-subtitle">各サービスの基本フロー・各機能の説明・画面</div>
+        </div>
+        <svg class="section-toggle" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+      </div>
+      <div class="section-body">
+        <div class="subsection">
+          <div class="subsection-title">6.1 サービス別基本フロー</div>
+          <table class="info-table">
+            <thead><tr><th>サービス種別</th><th>基本的なフロー</th></tr></thead>
+            <tbody>
+              <tr><td>文書送受信</td><td>文書情報の登録 → 登録履歴照会・編集（削除・更新） → 文書情報の取得・閲覧・保存</td></tr>
+              <tr><td>健診文書登録・閲覧</td><td>健診結果報告書の登録 → 登録履歴照会・編集（削除・更新） → 健診結果報告書の取得・閲覧・保存</td></tr>
+              <tr><td>臨床情報登録・閲覧</td><td>臨床情報の登録 → 登録履歴照会・編集（削除・更新） → 臨床情報一覧の取得・閲覧・保存</td></tr>
+              <tr><td>その他</td><td>標準マスタファイルの取得</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">6.2 各機能のI/F番号体系</div>
+          <table class="info-table">
+            <thead><tr><th>プレフィックス</th><th>対象システム</th></tr></thead>
+            <tbody>
+              <tr><td>OQS-IF-XXX</td><td>オンライン資格確認等システム関連</td></tr>
+              <tr><td>CIP-IF-XXX</td><td>CIP（電子カルテ情報共有サービス関連プラットフォーム）</td></tr>
+              <tr><td>CIS-IF-XXX</td><td>電子カルテ情報共有サービス本体</td></tr>
+              <tr><td>TKK-IF-XXX</td><td>特定健診関連</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">主要I/Fの例</div>
+          <table class="info-table">
+            <thead><tr><th>I/F番号</th><th>内容</th></tr></thead>
+            <tbody>
+              <tr><td>CIS-IF-101/102</td><td>文書情報登録要求・結果</td></tr>
+              <tr><td>CIS-IF-103/104</td><td>文書情報取消要求・結果</td></tr>
+              <tr><td>CIS-IF-107/108</td><td>文書情報変更要求・結果</td></tr>
+              <tr><td>CIS-IF-109/110</td><td>文書情報状況照会要求・結果</td></tr>
+              <tr><td>CIS-IF-111/112</td><td>自施設宛文書情報一覧取得要求・結果</td></tr>
+              <tr><td>CIS-IF-113/114</td><td>文書情報取得要求・結果</td></tr>
+              <tr><td>CIS-IF-115/116</td><td>添付情報登録要求・結果</td></tr>
+              <tr><td>CIS-IF-120/121</td><td>健診文書登録要求・結果</td></tr>
+              <tr><td>CIS-IF-301/302</td><td>マスタファイル取得要求・結果</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 7 -->
+    <div class="section-card section-anchor" id="sec7" data-tags="impl">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon icon-7">7</div>
+        <div class="section-title-wrap">
+          <h2>各機能の実装要否</h2>
+          <div class="section-subtitle">施設種別ごとの導入要否・システムベンダの機能実装の考え方</div>
+        </div>
+        <svg class="section-toggle" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+      </div>
+      <div class="section-body">
+        <div class="subsection">
+          <div class="subsection-title">7.1 導入要否の区分</div>
+          <div class="cards">
+            <div class="card">
+              <div class="card-title"><span class="badge-pill badge-required">導入必須</span></div>
+              <p>本サービス利用に必要不可欠な機能群。未実装の場合、サービス利用要件を満たさない可能性がある。</p>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="badge-pill badge-important">原則必須</span></div>
+              <p>「健診結果報告書の登録・照会・編集」のみ。健診を実施していない医療機関等は未導入を許容。</p>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="badge-pill badge-optional">導入任意</span></div>
+              <p>①退院時サマリーの登録・照会・編集（入院機能なし施設は不要）②電子署名・署名検証</p>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">7.2 文書送受信サービス：主な実装省略可能項目</div>
+          <table class="info-table">
+            <thead><tr><th>機能番号</th><th>機能項目</th><th>実装省略の条件</th></tr></thead>
+            <tbody>
+              <tr><td>No.5</td><td>未告知・患者共有・長期保存フラグの付与</td><td>文書送受信サービスでは対象外</td></tr>
+              <tr><td>No.10</td><td>電子署名の付与</td><td>任意扱いのため省略可</td></tr>
+              <tr><td>No.12</td><td>バリデーションチェック</td><td>サービス側で実施するため省略可</td></tr>
+              <tr><td>No.18</td><td>文書情報の表示</td><td>PDF帳票またはNarrativeのいずれか一方の実装で可</td></tr>
+              <tr><td>No.21</td><td>標準マスタファイルダウンロード</td><td>任意運用のため省略可</td></tr>
+              <tr><td>CIS-IF-107</td><td>文書情報変更要求</td><td>取消→新規登録の代替処理で対応可</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">7.3 【重要】本書に記載されている仕様の扱い</div>
+          <div class="notice notice-warn">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#d97706"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+            <span>本書の仕様はモデル事業検証用。次版公表（令和8年度冬頃）まで、モデル事業以外での実装・導入は控えること。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 8 -->
+    <div class="section-card section-anchor" id="sec8" data-tags="api security">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon icon-8">8</div>
+        <div class="section-title-wrap">
+          <h2>通信・データ連携のシステム構成とセキュリティ対策</h2>
+          <div class="section-subtitle">通信方式3種・院内システム構成・責任分界</div>
+        </div>
+        <svg class="section-toggle" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+      </div>
+      <div class="section-body">
+        <div class="subsection">
+          <div class="subsection-title">8.1 通信方式の選択肢（3種類）</div>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">A</div>
+              <div class="step-content">
+                <strong>ファイル連携方式（クライアントOS対応連携ソフト構成）</strong>
+                <p>資格確認端末にインストールされた連携ソフトを利用。電子カルテ側の改修が最小限で済む。<br>
+                <span class="badge-pill badge-important" style="margin-top:4px;display:inline-flex">注意</span> Windowsの制約で同時接続セッション最大20。大規模病院や複数部門同時送信では待機が発生する可能性あり。</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">B</div>
+              <div class="step-content">
+                <strong>ファイル連携方式（サーバーOS対応連携ソフト構成）</strong>
+                <p>電子カルテサーバー上に連携ソフトを導入。資格確認端末を経由せず直接通信。セッション上限なし。大規模施設向け。</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">C</div>
+              <div class="step-content">
+                <strong>Web API通信方式</strong>
+                <p>電子カルテシステムからHTTPS経由で直接APIを呼び出す方式。最も柔軟だが、セキュリティURLアクセス許可設定が必要。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">8.2 院内システム間の主な調整ポイント</div>
+          <table class="info-table">
+            <thead><tr><th>調整事項</th><th>内容</th></tr></thead>
+            <tbody>
+              <tr><td>FHIRプロファイル整合性</td><td>複数システムがFHIRリソースを組み合わせる場合、プロファイルバージョンを統一すること</td></tr>
+              <tr><td>Bundle.identifier一意性</td><td>施設全体で重複しない命名規則・発番ルールを事前に取り決め</td></tr>
+              <tr><td>被保険者番号等の取得精度</td><td>枝番を含む完全な番号情報を使用。レセコン等から正確な情報を取得できるよう整備</td></tr>
+              <tr><td>標準マスタコードのマッピング</td><td>施設内JLACコードと本サービス標準JLACコードが不一致の場合、どのシステムが対応管理するかを明確化</td></tr>
+              <tr><td>エラー対応の責任分担</td><td>通信エラー・バリデーションエラー発生時の保持・通知・再送処理の担当システムを明確化</td></tr>
+              <tr><td>結果ファイル取り込みの識別</td><td>ファイル連携方式では、API識別IDに続く任意文字列（12〜20桁）まで含めて照合し、自アプリの結果ファイルのみ取り込むこと</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">8.2 院内ソフトウェア構成の3要素</div>
+          <div class="cards">
+            <div class="card">
+              <div class="card-title"><span class="card-dot" style="background:#1a4fa0"></span>FHIRデータ変換等アプリケーション</div>
+              <p>電子カルテの情報をFHIR形式に変換するアプリ。独自開発・外部モジュール・外部サービス利用のいずれも可。</p>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="card-dot" style="background:#991b1b"></span>電子署名・署名検証用アプリ</div>
+              <p>ローカル署名（独自実装 or 署名共通モジュール購入）またはカードレス署名（MEDIS仕様）の2方式。</p>
+            </div>
+            <div class="card" style="grid-column: 1/-1;">
+              <div class="card-title"><span class="card-dot" style="background:#0f7250"></span>オンライン資格確認等連携ソフト</div>
+              <p>支払基金が提供するアプリ。ファイル連携方式でのデータ送受信に使用。セキュリティアセスメント結果・安全管理ガイドライン6.0版への準拠が必要。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 9 -->
+    <div class="section-card section-anchor" id="sec9" data-tags="compat fhir">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon icon-9">9</div>
+        <div class="section-title-wrap">
+          <h2>後方互換性とFHIRプロファイル更新の方針</h2>
+          <div class="section-subtitle">後方互換性の基本方針・バージョン併存サポート・初期バージョン</div>
+        </div>
+        <svg class="section-toggle" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+      </div>
+      <div class="section-body">
+        <div class="subsection">
+          <div class="subsection-title">9.1 基本的な考え方</div>
+          <p class="content-text">システム改修やFHIRプロファイル更新を行っても、過去バージョンを使用している電子カルテシステム等が継続して本サービスを利用できることが基本方針。医療機関のシステム改修負荷を最小化。</p>
+          <table class="info-table" style="margin-top:10px">
+            <thead><tr><th>対象</th><th>後方互換性の方針</th></tr></thead>
+            <tbody>
+              <tr><td>FHIRプロファイル</td><td>原則として後方互換性を確保できる範囲で更新。やむを得ない場合は過去バージョン併存サポート期間を確保。</td></tr>
+              <tr><td>アドオンチェック</td><td>追加タイミング以降にサポートを開始したプロファイルバージョンに対して適用。過去バージョンには適用しない。</td></tr>
+              <tr><td>外部I/F仕様（XMLレイアウト等）</td><td>後方互換性を確保して更新。</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">9.2 プロファイルバージョン併存サポート</div>
+          <p class="content-text">後方互換性を損なう修正が必要な場合、旧バージョンの併存サポート期間を確保し、十分な周知期間を設けた上でスムーズな移行を図る。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 10 -->
+    <div class="section-card section-anchor" id="sec10" data-tags="impl">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon icon-10">10</div>
+        <div class="section-title-wrap">
+          <h2>本サービス導入に向けた医療機関等の作業</h2>
+          <div class="section-subtitle">機能改修・環境設定・運用見直し・テスト</div>
+        </div>
+        <svg class="section-toggle" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+      </div>
+      <div class="section-body">
+        <div class="subsection">
+          <div class="subsection-title">導入作業の4ステップ</div>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <strong>機能改修</strong>
+                <p>第6章「各機能の説明」を基に必要な機能を改修し、既存の電子カルテシステム等に適用。</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <strong>環境設定</strong>
+                <p>本サービスのIPアドレス設定等、ネットワーク機器（ルータ等）の設定作業。Web API通信方式の場合は所定URLへのアクセス許可設定も必要。</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <strong>運用見直し</strong>
+                <p>本サービスの利用に向けた医療機関内の業務プロセス・運用フローの整備。</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <strong>テスト</strong>
+                <p>本番導入前に動作確認テストを実施。接続テスト・FHIRバリデーション・フローの動作確認。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">主なネットワーク設定の対応</div>
+          <table class="info-table">
+            <thead><tr><th>対応項目</th><th>補足</th></tr></thead>
+            <tbody>
+              <tr><td>本サービスとの接続設定</td><td>本サービスのIPアドレスを利用し、ルータ等の設定を行う</td></tr>
+              <tr><td>セキュリティ機器のURL接続制限解除</td><td>Web API通信時に所定URLへの接続許可設定（必要に応じて）</td></tr>
+              <tr><td>電子カルテと資格確認端末/連携サーバーとの接続設定</td><td>オンライン資格確認等システム対応済みでも、端末間接続が未完了の場合に必要</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- IF Reference Section -->
+    <div class="section-card section-anchor" id="if-ref" data-tags="if api">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:#0f766e">IF</div>
+        <div class="section-title-wrap">
+          <h2>外部インターフェイス仕様書 概要</h2>
+          <div class="section-subtitle">処理方式・ファイル名規約・文字コード・暗号化 ／ v8.12（2026年7月10日）</div>
+        </div>
+        <svg class="section-toggle" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+      </div>
+      <div class="section-body">
+        <div class="subsection">
+          <div class="subsection-title">連携方式の概要（3種類）</div>
+          <div class="cards">
+            <div class="card">
+              <div class="card-title"><span class="card-dot" style="background:#1a4fa0"></span>① 連携アプリケーション</div>
+              <p>既存システムからオンライン資格確認端末の共用フォルダへXMLファイルを転送。タスクスケジューラで定期起動し、WebAPIを呼び出す方式。単件・一括の2種。</p>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="card-dot" style="background:#0f7250"></span>② Webアプリケーション連携</div>
+              <p>オンライン資格確認端末のWeb画面を使って情報の受け渡しを行う方式。単件・一括の2種。電カル情報共有サービスからのI/F提供なし。</p>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="card-dot" style="background:#b45309"></span>③ 顔認証連携</div>
+              <p>顔認証付カードリーダを使いマイナンバーカードによる資格確認を自動化する方式。電カル情報共有サービスからは閲覧同意登録結果（CIS-IF-119）のみ提供。</p>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">処理フロー（連携アプリケーション 単件）</div>
+          <div class="flow">
+            <div class="flow-box">①要求ファイル作成</div><div class="flow-arrow">→</div>
+            <div class="flow-box">②共用フォルダへ転送</div><div class="flow-arrow">→</div>
+            <div class="flow-box">③連携アプリ起動（タスクスケジューラ）</div><div class="flow-arrow">→</div>
+            <div class="flow-box">④WebAPI呼び出し</div><div class="flow-arrow">→</div>
+            <div class="flow-box">⑤結果ファイル出力</div><div class="flow-arrow">→</div>
+            <div class="flow-box">⑥既存システムへ取込・削除</div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">ファイル名規約（連携アプリケーション）</div>
+          <table class="info-table">
+            <thead><tr><th>項番</th><th>項目</th><th>桁数</th><th>説明・例</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>API識別ID</td><td>13桁</td><td>例：<code>CISsiMRD01req</code>（別紙1-1参照）</td></tr>
+              <tr><td>2</td><td>区切り文字</td><td>1桁</td><td><code>_</code>（アンダーバー）固定</td></tr>
+              <tr><td>3</td><td>医療機関・薬局等管理コード</td><td>12〜20桁</td><td>施設内で一意な英数字。例：<code>201910150001</code>（西暦年月日＋連番）</td></tr>
+              <tr><td>4</td><td>拡張子</td><td>4桁</td><td><code>.xml</code>（通常）／<code>.zip</code>（暗号化時または複数ファイル）／<code>.pdf</code>（救急PDF要求時）</td></tr>
+            </tbody>
+          </table>
+          <div class="notice notice-info" style="margin-top:10px">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#2563eb"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20A10 10 0 0012 2z"/></svg>
+            <span>接続検証環境専用連携アプリは管理コードの後に <code>_ST</code>（または <code>_ST2</code>）を付加。例：<code>CISsiMRD01req_201910150001_ST.xml</code></span>
+          </div>
+          <div class="notice notice-warn" style="margin-top:8px">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#d97706"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+            <span>複数ベンダが同一施設で混在する場合、管理コード（12〜20桁）をアプリ固有の文字列を含めて一意になるよう設計すること。同種リクエストの結果ファイル誤取込を防ぐため、API識別IDに続く任意文字列まで含めて照合すること。</span>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">文字コード</div>
+          <table class="info-table">
+            <thead><tr><th>対象</th><th>要求ファイル</th><th>結果ファイル</th><th>備考</th></tr></thead>
+            <tbody>
+              <tr><td>オンライン資格確認システム・PMH</td><td>UTF-8 または Shift_JIS</td><td>個別設定マスタの文字コード識別に従う</td><td>Shift_JIS時はJIS第1・第2水準のみ。範囲外は変換表で変換、未定義は●に変換</td></tr>
+              <tr><td>電子処方箋管理サービス・電カル情報共有</td><td>UTF-8 のみ</td><td>UTF-8 固定</td><td>encodingタグ省略不可。大文字小文字不問</td></tr>
+              <tr><td>顔認証連携（結果）</td><td>—（要求ファイル不使用）</td><td>個別設定マスタに従う</td><td>電カル/電子処方箋由来はUTF-8固定</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">暗号化方式（任意）</div>
+          <div class="cards">
+            <div class="card">
+              <div class="card-title"><span class="card-dot" style="background:#1a4fa0"></span>アルゴリズム</div>
+              <p>ZipCrypto。パスワードは端末の資格情報マネージャに設定（半角英数字1〜12桁）。または要求ファイルにパスワードファイルを同梱。</p>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="card-dot" style="background:#0f7250"></span>Web連携</div>
+              <p>Webアプリケーション連携では暗号化非対応。</p>
+            </div>
+            <div class="card">
+              <div class="card-title"><span class="card-dot" style="background:#b45309"></span>個別暗号化</div>
+              <p>ZipCryptと排他。連携アプリと顔認証連携で同一設定必須。複数モジュール不可。</p>
+            </div>
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="subsection-title">消し忘れファイル削除機能（任意）</div>
+          <p class="content-text">共用フォルダ内の要求・結果ファイルを一定時間ごと（設定可能）および電源オン・オフのタイミングで自動削除する機能。削除時はDelFile_yyyyMMddHHmmss.txtを出力。削除対象拡張子：<code>.xml</code>　<code>.zip</code>　<code>.pdf</code>　<code>.err</code></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- XML Layout Reference Section -->
+    <div class="section-card section-anchor" id="xml-ref" data-tags="if api fhir">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:#7c3aed">XML</div>
+        <div class="section-title-wrap">
+          <h2>外部I/F・XMLレイアウト 一覧</h2>
+          <div class="section-subtitle">OQS（オン資格）56件 ／ EPS（電子処方箋）63件 ／ CIS（電カル情報共有）37件 ／ PMH 4件 ／ 計160件</div>
+        </div>
+        <svg class="section-toggle" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+      </div>
+      <div class="section-body">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center">
+          <span style="font-size:12px;color:var(--text3);font-weight:600;letter-spacing:0.05em">絞り込み：</span>
+          <button class="tag-btn active" onclick="filterIF('ALL',this)">すべて</button>
+          <button class="tag-btn" onclick="filterIF('OQS',this)">OQS（オン資格）</button>
+          <button class="tag-btn" onclick="filterIF('EPS',this)">EPS（電子処方箋）</button>
+          <button class="tag-btn" onclick="filterIF('CIS',this)">CIS（電カル情報共有）</button>
+          <button class="tag-btn" onclick="filterIF('PMH',this)">PMH</button>
+          <span style="margin-left:auto;font-size:12px;color:var(--text3)" id="if-count"></span>
+        </div>
+        <div id="if-table-container">
+          <table class="info-table" id="if-table" style="font-size:12.5px">
+            <thead>
+              <tr>
+                <th style="width:130px">外部IF_ID</th>
+                <th style="width:90px">API識別ID</th>
+                <th>インターフェイス名</th>
+                <th style="width:200px">ファイル名の例</th>
+                <th>主要タグ（XMLレイアウト）</th>
+              </tr>
+            </thead>
+            <tbody id="if-tbody"></tbody>
+          </table>
+        </div>
+        <div class="notice notice-info" style="margin-top:12px">
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#2563eb"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20A10 10 0 0012 2z"/></svg>
+          <span>タグ情報は別紙3-1 XMLレイアウト（v8.17）から抽出した主要項目のサマリーです。完全な定義（階層・桁数・必須/任意・備考）は元ドキュメントを参照してください。</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Glossary -->
+    <div class="section-card section-anchor" id="glossary" data-tags="glossary">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="section-icon" style="background:#374151;font-size:11px">用語</div>
+        <div class="section-title-wrap">
+          <h2>主要用語定義</h2>
+          <div class="section-subtitle">本書で使用する主な用語の定義一覧</div>
+        </div>
+        <svg class="section-toggle" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+      </div>
+      <div class="section-body">
+        <div class="glossary-grid">
+          <div class="glossary-item"><div class="glossary-term">医師等</div><div class="glossary-def">医療機関の職員で、本サービスを利用するエンドユーザの総称。</div></div>
+          <div class="glossary-item"><div class="glossary-term">医療機関等</div><div class="glossary-def">保険医療機関・保険薬局の総称。</div></div>
+          <div class="glossary-item"><div class="glossary-term">システムベンダ</div><div class="glossary-def">医療機関等システム（電子カルテ・レセコン・文書作成・検査・健診等）の開発ベンダの総称。</div></div>
+          <div class="glossary-item"><div class="glossary-term">支払基金</div><div class="glossary-def">社会保険診療報酬支払基金の略称。診療報酬等の審査支払を行う専門機関。</div></div>
+          <div class="glossary-item"><div class="glossary-term">FHIR</div><div class="glossary-def">HL7 FHIR（Fast Healthcare Interoperability Resources）の略。HL7-Internationalが作成した医療情報交換の国際標準規格。</div></div>
+          <div class="glossary-item"><div class="glossary-term">JP-Core</div><div class="glossary-def">日本国内でFHIR R4を用いて医療情報を交換する際に最低限満たすべき構造・用語・ルールを定めた日本版標準プロファイル群。</div></div>
+          <div class="glossary-item"><div class="glossary-term">Bundle.identifier</div><div class="glossary-def">本サービスに登録するデータを一意に識別する識別子。施設全体で重複しない命名規則が必要。</div></div>
+          <div class="glossary-item"><div class="glossary-term">バリデーションチェック</div><div class="glossary-def">登録データがFHIRプロファイルおよび仕様に従って正しく構成されているかをデータ登録時に自動検証する仕組み（ベースチェック＋アドオンチェック）。</div></div>
+          <div class="glossary-item"><div class="glossary-term">Narrative（ナラティブ）</div><div class="glossary-def">FHIRリソースに含まれる「人が読める形式の要約情報」。XHTML形式で記述。</div></div>
+          <div class="glossary-item"><div class="glossary-term">標準マスタ</div><div class="glossary-def">傷病名・検査・医薬品・アレルギー物質等に対して全国共通のコードと名称を定義した参照リスト。</div></div>
+          <div class="glossary-item"><div class="glossary-term">ダミーコード</div><div class="glossary-def">標準マスタ未収載の情報を一時的に登録する際の仮コード。対応するtext値に実際の内容を必ず記述する必要がある。</div></div>
+          <div class="glossary-item"><div class="glossary-term">ローカルコード</div><div class="glossary-def">医療機関等が自施設内システムで独自管理する内部専用コード体系。標準マスタとは対応していない場合が多い。</div></div>
+          <div class="glossary-item"><div class="glossary-term">UCUM単位コード</div><div class="glossary-def">計量単位を機械可読かつ一貫して表現するための国際コード体系。Observation.valueQuantity.codeで使用。</div></div>
+          <div class="glossary-item"><div class="glossary-term">被保険者個人識別子</div><div class="glossary-def">保険者番号・記号・番号・枝番を組み合わせた文字列で個人を一意に識別する符号。</div></div>
+          <div class="glossary-item"><div class="glossary-term">生活保護受給者識別子</div><div class="glossary-def">公費負担番号・受給者番号を組み合わせた文字列。医療扶助受給者を一意に識別する。</div></div>
+          <div class="glossary-item"><div class="glossary-term">オンライン資格確認ネットワーク</div><div class="glossary-def">インターネットから分離された閉域網。保険医療機関・薬局・保険者等を接続し、本サービス等との情報連携に使用。</div></div>
+          <div class="glossary-item"><div class="glossary-term">資格確認端末</div><div class="glossary-def">医療機関等からオンライン資格確認ネットワーク経由で各種サービスに接続する専用端末。</div></div>
+          <div class="glossary-item"><div class="glossary-term">未告知フラグ</div><div class="glossary-def">患者に十分説明していない傷病名に設定。マイナポータルには非表示となる。</div></div>
+          <div class="glossary-item"><div class="glossary-term">患者共有フラグ</div><div class="glossary-def">感染症検査結果について医師説明後に設定。設定されるまでマイナポータルには非表示。</div></div>
+          <div class="glossary-item"><div class="glossary-term">長期保存フラグ</div><div class="glossary-def">遺伝性疾患・慢性疾患等に医師等が付与することで5年を超えた長期保存を可能にするフラグ。</div></div>
+          <div class="glossary-item"><div class="glossary-term">FHIRPath</div><div class="glossary-def">FHIRリソース内の特定要素を指定・参照する式言語（例：Observation.valueQuantity.value）。</div></div>
+          <div class="glossary-item"><div class="glossary-term">UUID</div><div class="glossary-def">全世界で一意な36文字の識別子。FHIRでのリソース間参照の整合性確保・一意性担保に使用。</div></div>
+          <div class="glossary-item"><div class="glossary-term">OID</div><div class="glossary-def">ISO/IEC 9834で定義された階層構造を持つ識別子。FHIRではurn:oid:接頭辞で表現。</div></div>
+          <div class="glossary-item"><div class="glossary-term">CDA</div><div class="glossary-def">Clinical Document Architecture。FHIRの前身にあたるHL7の医療文書交換国際標準規格。特定健診で採用。</div></div>
+          <div class="glossary-item"><div class="glossary-term">マイナポータル</div><div class="glossary-def">マイナンバーカードによる本人認証を通じ、個人が自らの医療・健診等データを閲覧・取得できる国運営のオンラインサービス。</div></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  // Toggle section collapse
+  function toggleSection(header) {
+    const card = header.closest('.section-card');
+    card.classList.toggle('collapsed');
+  }
+
+  // Nav click
+  function navClick(el, id) {
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  // Tag filter
+  let activeTag = null;
+  function filterTag(btn, tag) {
+    if (activeTag === tag) {
+      activeTag = null;
+      btn.classList.remove('active');
+      document.querySelectorAll('.section-card').forEach(c => c.classList.remove('hidden'));
+    } else {
+      activeTag = tag;
+      document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.section-card').forEach(c => {
+        const tags = (c.dataset.tags || '').split(' ');
+        if (tags.includes(tag)) {
+          c.classList.remove('hidden');
+        } else {
+          c.classList.add('hidden');
+        }
+      });
+    }
+  }
+
+  // Search
+  let searchTimeout = null;
+  function handleSearch(query) {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => doSearch(query), 200);
+  }
+
+  function doSearch(query) {
+    const q = query.trim().toLowerCase();
+    const countEl = document.getElementById('search-count');
+
+    // Clear all highlights first
+    document.querySelectorAll('mark').forEach(m => {
+      const parent = m.parentNode;
+      parent.replaceChild(document.createTextNode(m.textContent), m);
+      parent.normalize();
+    });
+
+    if (!q) {
+      countEl.textContent = '';
+      document.querySelectorAll('.section-card').forEach(c => {
+        c.classList.remove('hidden');
+        if (activeTag) {
+          const tags = (c.dataset.tags || '').split(' ');
+          if (!tags.includes(activeTag)) c.classList.add('hidden');
+        }
+      });
+      return;
+    }
+
+    let totalMatches = 0;
+    let sectionsWithMatches = 0;
+
+    document.querySelectorAll('.section-card').forEach(card => {
+      const body = card.querySelector('.section-body');
+      if (!body) return;
+
+      const count = highlightInElement(body, q);
+      if (count > 0) {
+        card.classList.remove('hidden');
+        card.classList.remove('collapsed'); // expand matched sections
+        sectionsWithMatches++;
+        totalMatches += count;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+
+    countEl.textContent = totalMatches > 0 ? `${totalMatches}件` : '';
+  }
+
+  function highlightInElement(el, query) {
+    let count = 0;
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
+    const nodes = [];
+    let node;
+    while (node = walker.nextNode()) {
+      if (node.parentNode.tagName === 'MARK') continue;
+      nodes.push(node);
+    }
+    nodes.forEach(textNode => {
+      const text = textNode.textContent;
+      const lower = text.toLowerCase();
+      if (lower.includes(query)) {
+        const frag = document.createDocumentFragment();
+        let lastIdx = 0;
+        let idx;
+        const lq = query.toLowerCase();
+        while ((idx = lower.indexOf(lq, lastIdx)) !== -1) {
+          frag.appendChild(document.createTextNode(text.slice(lastIdx, idx)));
+          const mark = document.createElement('mark');
+          mark.textContent = text.slice(idx, idx + query.length);
+          frag.appendChild(mark);
+          lastIdx = idx + query.length;
+          count++;
+        }
+        frag.appendChild(document.createTextNode(text.slice(lastIdx)));
+        textNode.parentNode.replaceChild(frag, textNode);
+      }
+    });
+    return count;
+  }
+
+
+  // ===== IF DATA =====
+  const IF_DATA = [{"id":"OQS-IF-001","name":"資格確認要求","api":"OQSsiquc01req","file":"OQSsiquc01req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["資格確認日 [QualificationConfirmationDate]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","資格確認照会用情報 [QualificationConfirmSearchInfo]","保険者番号 [InsurerNumber]","被保険者証記号 [InsuredCardSymbol]","被保険者証番号 [InsuredIdentificationNumber]","被保険者証枝番 [InsuredBranchNumber]"]},{"id":"OQS-IF-002","name":"資格確認結果","api":"OQSsiquc01res","file":"OQSsiquc01res_xxxxxxxxxxxx.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","資格確認日 [QualificationConfirmationDate]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","照会区分 [ReferenceClassification]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]"]},{"id":"OQS-IF-003","name":"照会番号登録要求","api":"OQSsiimm01req","file":"OQSsiimm01req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","照会番号登録情報 [ReferenceNumberRegistrationInfo]","照会番号 [ReferenceNumber]","保険者番号 [InsurerNumber]","被保険者証記号 [InsuredCardSymbol]","被保険者証番号 [InsuredIdentificationNumber]","被保険者証枝番 [InsuredBranchNumber]"]},{"id":"OQS-IF-004","name":"照会番号登録結果","api":"OQSsiimm01res","file":"OQSsiimm01res_xxxxxxxxxxxx.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","照会番号登録情報 [ReferenceNumberRegistrationInfo]"]},{"id":"OQS-IF-005","name":"資格確認一括照会要求","api":"","file":"OQSmuquc01req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["資格確認日 [QualificationConfirmationDate]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","資格確認照会用情報 [QualificationConfirmSearchInfo]","保険者番号 [InsurerNumber]","被保険者証記号 [InsuredCardSymbol]","被保険者証番号 [InsuredIdentificationNumber]","被保険者証枝番 [InsuredBranchNumber]"]},{"id":"OQS-IF-006","name":"資格確認一括照会アップロード結果","api":"","file":"OQSmuquc01res_xxxxxxxxxxxx.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","文字コード識別 [CharacterCodeIdentifier]","受付番号 [ReceptionNumber]","受付日時 [ReceptionDateTime]"]},{"id":"OQS-IF-007","name":"資格確認一括照会ダウンロード要求","api":"","file":"OQSmuquc02req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["医療機関コード [MedicalInstitutionCode]","受付番号 [ReceptionNumber]"]},{"id":"OQS-IF-008","name":"資格確認一括照会結果","api":"","file":"OQSmuquc02res_xxxxxxxxxxxx.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","資格確認日 [QualificationConfirmationDate]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","受付番号 [ReceptionNumber]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]"]},{"id":"OQS-IF-009","name":"照会番号一括登録要求","api":"","file":"OQSmuimm01req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","照会番号登録情報 [ReferenceNumberRegistrationInfo]","照会番号 [ReferenceNumber]","保険者番号 [InsurerNumber]","被保険者証記号 [InsuredCardSymbol]","被保険者証番号 [InsuredIdentificationNumber]","被保険者証枝番 [InsuredBranchNumber]"]},{"id":"OQS-IF-010","name":"照会番号一括登録アップロード結果","api":"","file":"OQSmuimm01res_xxxxxxxxxxxx.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","文字コード識別 [CharacterCodeIdentifier]","受付番号 [ReceptionNumber]","受付日時 [ReceptionDateTime]"]},{"id":"OQS-IF-011","name":"照会番号一括登録ダウンロード要求","api":"","file":"OQSmuimm02req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["医療機関コード [MedicalInstitutionCode]","受付番号 [ReceptionNumber]"]},{"id":"OQS-IF-012","name":"照会番号一括登録結果","api":"","file":"OQSmuimm02res_xxxxxxxxxxxx.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","受付番号 [ReceptionNumber]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","総処理件数 [NumberOfProcessingResult]"]},{"id":"OQS-IF-013","name":"委託先資格情報の一括取得要求","api":"","file":"OQSmutic01req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","資格確認照会用情報 [QualificationConfirmSearchInfo]","診療年月 [MedicalTreatmentMonth]"]},{"id":"OQS-IF-014","name":"委託先資格情報の一括取得アップロード結果","api":"","file":"OQSmutic01res_xxxxxxxxxxxx.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","文字コード識別 [CharacterCodeIdentifier]","受付番号 [ReceptionNumber]","受付日時 [ReceptionDateTime]"]},{"id":"OQS-IF-015","name":"委託先資格情報の一括取得ダウンロード要求","api":"","file":"OQSmutic02req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["医療機関コード [MedicalInstitutionCode]","受付番号 [ReceptionNumber]"]},{"id":"OQS-IF-016","name":"委託先資格情報の一括取得結果","api":"","file":"OQSmutic02res_00000.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","受付番号 [ReceptionNumber]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","総処理件数 [NumberOfProcessingResult]"]},{"id":"OQS-IF-017","name":"同意済資格情報一括取得要求（訪問診療等）","api":"","file":"OQSmuhvq01req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","資格確認照会用情報 [QualificationConfirmSearchInfo]","同意年月日（自） [ConsentDateFrom]","同意年月日（至） [ConsentDateTo]","診療区分 [MedicalTreatmentFlag]"]},{"id":"OQS-IF-018","name":"同意済資格情報一括取得アップロード結果（訪問診療等）","api":"","file":"OQSmuhvq01res_xxxxxxxxxxxx.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","文字コード識別 [CharacterCodeIdentifier]","受付番号 [ReceptionNumber]","受付日時 [ReceptionDateTime]"]},{"id":"OQS-IF-019","name":"同意済資格情報一括取得ダウンロード要求（訪問診療等）","api":"","file":"OQSmuhvq02req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["医療機関コード [MedicalInstitutionCode]","受付番号 [ReceptionNumber]"]},{"id":"OQS-IF-020","name":"同意済資格情報一括取得結果（訪問診療等）","api":"","file":"OQSmuhvq02res_00000.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","受付番号 [ReceptionNumber]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","処理件数 [NumberOfNormalProcessing]"]},{"id":"OQS-IF-021","name":"同意済資格情報一括取得要求（オンライン診療等）","api":"","file":"OQSmuonq01req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","資格確認照会用情報 [QualificationConfirmSearchInfo]","同意年月日（自）   ※１ [ConsentDateFrom]","同意年月日（至）   ※１ [ConsentDateTo]","受診年月日（自）   ※１ [ExaminationDateFrom]","受診年月日（至）   ※１ [ExaminationDateTo]","診療区分 [MedicalTreatmentFlag]"]},{"id":"OQS-IF-022","name":"同意済資格情報一括取得アップロード結果（オンライン診療等）","api":"","file":"OQSmuonq01res_xxxxxxxxxxxx.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","文字コード識別 [CharacterCodeIdentifier]","受付番号 [ReceptionNumber]","受付日時 [ReceptionDateTime]"]},{"id":"OQS-IF-023","name":"同意済資格情報一括取得ダウンロード要求（オンライン診療等）","api":"","file":"OQSmuonq02req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["医療機関コード [MedicalInstitutionCode]","受付番号 [ReceptionNumber]"]},{"id":"OQS-IF-024","name":"同意済資格情報一括取得結果（オンライン診療等）","api":"","file":"OQSmuonq02res_00000.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","受付番号 [ReceptionNumber]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","処理件数 [NumberOfNormalProcessing]"]},{"id":"OQS-IF-025","name":"資格確認要求（訪問診療等）","api":"OQSsihvq01req","file":"OQSsihvq01req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["資格確認日 [QualificationConfirmationDate]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]"]},{"id":"OQS-IF-026","name":"資格確認結果（訪問診療等）","api":"OQSsihvq01res","file":"OQSsihvq01res_xxxxxxxxxxxx.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","資格確認日 [QualificationConfirmationDate]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]"]},{"id":"OQS-IF-027","name":"資格確認要求（オンライン診療等）","api":"OQSsionq01req","file":"OQSsionq01req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["資格確認日 [QualificationConfirmationDate]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","資格確認照会用情報 [QualificationConfirmSearchInfo]","保険者番号 [InsurerNumber]","被保険者証記号 [InsuredCardSymbol]","被保険者証番号 [InsuredIdentificationNumber]","被保険者証枝番 [InsuredBranchNumber]"]},{"id":"OQS-IF-028","name":"資格確認結果（オンライン診療等）","api":"OQSsionq01res","file":"OQSsionq01res_xxxxxxxxxxxx.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","資格確認日 [QualificationConfirmationDate]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]"]},{"id":"OQS-IF-029","name":"資格確認一括照会要求（訪問診療等）","api":"","file":"OQSmuhvq03req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["資格確認日 [QualificationConfirmationDate]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","資格確認照会用情報 [QualificationConfirmSearchInfo]","保険者番号 [InsurerNumber]","被保険者証記号 [InsuredCardSymbol]","被保険者証番号 [InsuredIdentificationNumber]","被保険者証枝番 [InsuredBranchNumber]"]},{"id":"OQS-IF-030","name":"資格確認一括照会アップロード結果（訪問診療等）","api":"","file":"OQSmuhvq03res_xxxxxxxxxxxx.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","文字コード識別 [CharacterCodeIdentifier]","受付番号 [ReceptionNumber]","受付日時 [ReceptionDateTime]"]},{"id":"OQS-IF-031","name":"資格確認一括照会ダウンロード要求（訪問診療等）","api":"","file":"OQSmuhvq04req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["医療機関コード [MedicalInstitutionCode]","受付番号 [ReceptionNumber]"]},{"id":"OQS-IF-032","name":"資格確認一括照会結果（訪問診療等）","api":"","file":"OQSmuhvq04res_XXXXX.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","資格確認日 [QualificationConfirmationDate]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","受付番号 [ReceptionNumber]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]"]},{"id":"OQS-IF-033","name":"資格確認一括照会要求（オンライン診療等）","api":"","file":"OQSmuonq03req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["資格確認日 [QualificationConfirmationDate]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","資格確認照会用情報 [QualificationConfirmSearchInfo]","保険者番号 [InsurerNumber]","被保険者証記号 [InsuredCardSymbol]","被保険者証番号 [InsuredIdentificationNumber]","被保険者証枝番 [InsuredBranchNumber]"]},{"id":"OQS-IF-034","name":"資格確認一括照会アップロード結果（オンライン診療等）","api":"","file":"OQSmuonq03req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","文字コード識別 [CharacterCodeIdentifier]","受付番号 [ReceptionNumber]","受付日時 [ReceptionDateTime]"]},{"id":"OQS-IF-035","name":"資格確認一括照会ダウンロード要求（オンライン診療等）","api":"","file":"OQSmuonq04req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["医療機関コード [MedicalInstitutionCode]","受付番号 [ReceptionNumber]"]},{"id":"OQS-IF-036","name":"資格確認一括照会結果（オンライン診療等）","api":"","file":"OQSmuonq04res_XXX.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","資格確認日 [QualificationConfirmationDate]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","受付番号 [ReceptionNumber]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]"]},{"id":"OQS-IF-037","name":"閲覧同意取り消し要求（訪問診療等）","api":"OQSsihvd01req","file":"OQSsihvd01req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","同意取り消し用情報 [ConsentCancelInfo]","保険者番号 [InsurerNumber]","被保険者証記号 [InsuredCardSymbol]","被保険者証番号 [InsuredIdentificationNumber]","被保険者証枝番 [InsuredBranchNumber]","生年月日 [Birthdate]"]},{"id":"OQS-IF-038","name":"閲覧同意取り消し結果（訪問診療等）","api":"OQSsihvd01res","file":"OQSsihvd01res_xxxxxxxxxxxx.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","同意取り消し用情報 [ConsentCancelInfo]"]},{"id":"OQS-IF-039","name":"医療機関アクセスURL取得要求","api":"OQSsiurl01req","file":"OQSsiurl01req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","URL取得要求 [URLIssueRequest]","URL取得区分 [URLIssueFlag]","二次元バーコード出力形式区分 [BarcodeCategory]","URL変更区分 [URLUpdateFlag]"]},{"id":"OQS-IF-040","name":"医療機関アクセスURL取得結果","api":"OQSsiurl01res","file":"OQSsiurl01res_xxxxxxxxxxxx.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","URL取得要求 [URLIssueRequest]"]},{"id":"OQS-IF-041","name":"医療機関環境設定情報照会要求","api":"OQSsiinq01req","file":"OQSsiinq01req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","照会区分 [InquiryFlag]"]},{"id":"OQS-IF-042","name":"医療機関環境設定情報照会結果","api":"OQSsiinq01res","file":"OQSsiinq01res_xxxxxxxxxxxx.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","照会区分 [InquiryFlag]"]},{"id":"OQS-IF-043","name":"医療機関環境設定情報更新要求","api":"OQSsiupd01req","file":"OQSsiupd01req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","環境依存項目更新要求 [EnvironmentDependentUpdateRequest]","利用文字コード [CharacterCodeIdentifier]","閲覧同意利用有無更新要求リスト [ConsUsageUpdateRequestList]","閲覧同意利用有無更新要求 [ConsUsageUpdateRequest]","閲覧同意情報種別 [ConsInfoType]","同意情報種別利用設定 [ConsUsageSetting]"]},{"id":"OQS-IF-044","name":"医療機関環境設定情報更新結果","api":"OQSsiupd01res","file":"OQSsiupd01res_xxxxxxxxxxxx.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","環境依存項目更新要求 [EnvironmentDependentUpdateRequest]"]},{"id":"OQS-IF-045","name":"電子カルテ情報共有サービス施設利用状況回答要求","api":"OQSsiimm02req","file":"OQSsiimm02req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","医療機関照会情報 [MedicalInstitutionSearchInfo]","都道府県コード [PrefectureCode]","医療機関コード [MedicalInstitutionCodeSrch]","医療機関名 [MedicalInstitutionName]","医療機関名（カナ） [MedicalInstitutionNameKana]","電話番号 [TelNumber]"]},{"id":"OQS-IF-046","name":"電子カルテ情報共有サービス施設利用状況回答結果","api":"OQSsiimm02res","file":"OQSsiimm02res_xxxxxxxxxxxx.xml","sys":"OQS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"OQS-IF-047","name":"資格確認要求（救急時医療情報閲覧）","api":"OQSsiems01req","file":"OQSsiems01req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","患者ID [PatientId]"]},{"id":"OQS-IF-048","name":"資格確認結果（救急時医療情報閲覧）","api":"OQSsiems01res","file":"OQSsiems01res_xxxxxxxxxxxx.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","患者ID [PatientId]","照会区分 [ReferenceClassification]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]"]},{"id":"OQS-IF-049","name":"目視確認用パスコード取得要求","api":"OQSsipai01req","file":"OQSsipai01req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","ユーザID [UserId]"]},{"id":"OQS-IF-050","name":"目視確認用パスコード取得結果","api":"OQSsipai01res","file":"OQSsipai01res_xxxxxxxxxxxx.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]"]},{"id":"OQS-IF-051","name":"アクティベーションコード照会要求","api":"OQSsiacm01req","file":"OQSsiacm01req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["医療機関コード [MedicalInstitutionCode]","任意の識別子（医療機関固有項目） [ArbitraryFileIdentifier]","アクティベーションコード照会要求 [ActivationCodeSearchRequest]","登録状況 [DeviceRegisterStatus]","無効化取得 [DisableAcquisition]"]},{"id":"OQS-IF-052","name":"アクティベーションコード照会結果","api":"OQSsiacm01res","file":"OQSsiacm01res_xxxxxxxxxxxx.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","医療機関コード [MedicalInstitutionCode]","任意の識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]"]},{"id":"OQS-IF-053","name":"アクティベーションコード発行要求","api":"OQSsiacm02req","file":"OQSsiacm02req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["医療機関コード [MedicalInstitutionCode]","任意の識別子（医療機関固有項目） [ArbitraryFileIdentifier]","アクティベーションコード発行要求 [ActivationCodeRegistrationRequest]","端末識別メモ情報 [DeviceName]"]},{"id":"OQS-IF-054","name":"アクティベーションコード発行結果","api":"OQSsiacm02res","file":"OQSsiacm02res_xxxxxxxxxxxx.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","医療機関コード [MedicalInstitutionCode]","任意の識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]"]},{"id":"OQS-IF-055","name":"アクティベーションコード無効化要求","api":"OQSsiacm03req","file":"OQSsiacm03req_xxxxxxxxxxxx.xml","sys":"OQS","tags":["医療機関コード [MedicalInstitutionCode]","任意の識別子（医療機関固有項目） [ArbitraryFileIdentifier]","アクティベーションコード無効化要求 [ActivationCodeDisableRequest]","アクティベーションコード [ActivationCode]"]},{"id":"OQS-IF-056","name":"アクティベーションコード無効化結果","api":"OQSsiacm03res","file":"OQSsiacm03res_xxxxxxxxxxxx.xml","sys":"OQS","tags":["処理実行日時 [ProcessExecutionTime]","医療機関コード [MedicalInstitutionCode]","任意の識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]"]},{"id":"EPS-IF-201","name":"処方箋登録要求","api":"EPSsiPIR01req","file":"EPSsiPIR01req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処方箋情報 [PrescriptionInfo]","処方箋発行形態 [IssueType]"]},{"id":"EPS-IF-202","name":"処方箋登録結果","api":"EPSsiPIR01res","file":"EPSsiPIR01res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"EPS-IF-203","name":"処方箋取消要求","api":"EPSsiPIR02req","file":"EPSsiPIR02req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処方箋ID [PrescriptionId]"]},{"id":"EPS-IF-204","name":"処方箋取消結果","api":"EPSsiPIR02res","file":"EPSsiPIR02res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"EPS-IF-205","name":"処方箋変更要求","api":"EPSsiPIR03req","file":"EPSsiPIR03req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処方箋ID [PrescriptionId]","処方箋情報 [PrescriptionInfo]","処方箋発行形態 [IssueType]"]},{"id":"EPS-IF-206","name":"処方箋変更結果","api":"EPSsiPIR03res","file":"EPSsiPIR03res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"EPS-IF-207","name":"処方箋取消UNDO要求","api":"EPSsiPIR04req","file":"EPSsiPIR04req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処方箋ID [PrescriptionId]"]},{"id":"EPS-IF-208","name":"処方箋取消UNDO結果","api":"EPSsiPIR04res","file":"EPSsiPIR04res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"EPS-IF-209","name":"処方箋変更UNDO要求","api":"EPSsiPIR05req","file":"EPSsiPIR05req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処方箋ID（変更前） [BeforePrescriptionId]","処方箋ID（変更後） [AfterPrescriptionId]"]},{"id":"EPS-IF-210","name":"処方箋変更UNDO結果","api":"EPSsiPIR05res","file":"EPSsiPIR05res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"EPS-IF-211","name":"処方内容（控え）取得要求","api":"EPSsiPIR06req","file":"EPSsiPIR06req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処方箋ID [PrescriptionId]"]},{"id":"EPS-IF-212","name":"処方内容（控え）取得結果","api":"EPSsiPIR06res","file":"EPSsiPIR06res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"EPS-IF-301","name":"処方箋受付要求（引換番号）","api":"EPSsiPIR07req","file":"EPSsiPIR07req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","保険者番号 [InsurerNumber]","被保険者資格に係る記号 [InsuredCardSymbol]","被保険者資格に係る番号 [InsuredIdentificationNumber]","被保険者資格に係る枝番 [InsuredBranchNumber]","引換番号 [AccessCode]","リフィル対応済みフラグ [RefillSupported]"]},{"id":"EPS-IF-302","name":"処方箋受付結果","api":"EPSsiPIR07res","file":"EPSsiPIR07res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"EPS-IF-303","name":"処方箋受付取消要求","api":"EPSsiPIR09req","file":"EPSsiPIR09req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処方箋ID [PrescriptionId]"]},{"id":"EPS-IF-304","name":"処方箋受付取消結果","api":"EPSsiPIR09res","file":"EPSsiPIR09res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"EPS-IF-305","name":"処方箋回収要求","api":"EPSsiPIR10req","file":"EPSsiPIR10req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処方箋ID [PrescriptionId]","回収理由 [CancelReason]"]},{"id":"EPS-IF-306","name":"処方箋回収結果","api":"EPSsiPIR10res","file":"EPSsiPIR10res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"EPS-IF-307","name":"調剤結果登録要求","api":"EPSsiDIM01req","file":"EPSsiDIM01req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","調剤結果 [DispensingResult]","保管対象フラグ [StorageTarget]"]},{"id":"EPS-IF-308","name":"調剤結果登録結果","api":"EPSsiDIM01res","file":"EPSsiDIM01res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","総処理件数 [NumberOfProcessingResult]","処理件数（正常） [NumberOfNormalProcessing]","処理件数（エラー） [NumberOfError]","文字コード識別 [CharacterCodeIdentifier]"]},{"id":"EPS-IF-309","name":"調剤結果取消要求","api":"EPSsiDIM02req","file":"EPSsiDIM02req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","調剤結果ID [DispensingResultId]"]},{"id":"EPS-IF-310","name":"調剤結果取消結果","api":"EPSsiDIM02res","file":"EPSsiDIM02res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"EPS-IF-311","name":"調剤結果変更要求","api":"EPSsiDIM03req","file":"EPSsiDIM03req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","調剤結果ID [DispensingResultId]","調剤結果 [DispensingResult]","保管対象フラグ [StorageTarget]"]},{"id":"EPS-IF-312","name":"調剤結果変更結果","api":"EPSsiDIM03res","file":"EPSsiDIM03res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"EPS-IF-213","name":"処方箋状況及び調剤結果リスト要求","api":"EPSsiDIM04req","file":"EPSsiDIM04req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","調剤結果リスト取得開始日時 [DispensingResultListStartDate]","調剤結果リスト取得終了日時 [DispensingResultListEndDate]"]},{"id":"EPS-IF-214","name":"処方箋状況及び調剤結果リスト","api":"EPSsiDIM04res","file":"EPSsiDIM04res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"EPS-IF-215","name":"調剤結果要求（調剤結果ID）","api":"EPSsiDIM05req","file":"EPSsiDIM05req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","調剤結果ID [DispensingResultId]"]},{"id":"EPS-IF-216","name":"調剤結果","api":"EPSsiDIM05res","file":"EPSsiDIM05res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"EPS-IF-217","name":"処方箋状況及び調剤結果要求（処方箋ID）","api":"EPSsiDIM06req","file":"EPSsiDIM06req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処方箋ID [PrescriptionId]","リフィル対応済みフラグ [RefillSupported]"]},{"id":"EPS-IF-218","name":"処方箋状況及び調剤結果（処方箋単位）","api":"EPSsiDIM06res","file":"EPSsiDIM06res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"EPS-IF-218","name":"処方箋状況及び調剤結果（処方箋単位）","api":"EPSsiDIM06res","file":"EPSsiDIM06res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"EPS-IF-313","name":"調剤済み電子処方箋リスト要求","api":"EPSsiDIM07req","file":"EPSsiDIM07req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","調剤結果リスト取得開始日時 [DispensingResultListStartDate]","調剤結果リスト取得終了日時 [DispensingResultListEndDate]"]},{"id":"EPS-IF-314","name":"調剤済み電子処方箋リスト","api":"EPSsiDIM07res","file":"EPSsiDIM07res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"EPS-IF-101","name":"重複投薬等チェック事前処理要求","api":"EPSsiDMP01req","file":"EPSsiDMP01req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","保険者番号 [InsurerNumber]","被保険者資格に係る記号 [InsuredCardSymbol]","被保険者資格に係る番号 [InsuredIdentificationNumber]","被保険者資格に係る枝番 [InsuredBranchNumber]"]},{"id":"EPS-IF-102","name":"重複投薬等チェック事前処理結果","api":"EPSsiDMP01res","file":"EPSsiDMP01res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","文字コード識別 [CharacterCodeIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]"]},{"id":"EPS-IF-219","name":"重複投薬等チェック要求（確定前処方箋情報）","api":"EPSsiDMP02req","file":"EPSsiDMP02req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","確定前処方箋情報 [PrescriptionInfo]","同一処方箋発行医療機関チェックフラグ [SameMedicalInstitutionAlertFlg]","口頭同意区分 [OralBrowsingConsent]"]},{"id":"EPS-IF-315","name":"重複投薬等チェック要求（確定前調剤結果情報）","api":"EPSsiDMP03req","file":"EPSsiDMP03req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","確定前調剤結果情報 [DispensingResultInfo]","同一処方箋発行医療機関チェックフラグ [SameMedicalInstitutionAlertFlg]","口頭同意区分 [OralBrowsingConsent]"]},{"id":"EPS-IF-409","name":"重複投薬等チェック要求（確定前院内処方等情報）","api":"EPSsiDMP04req","file":"EPSsiDMP04req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","確定前院内処方等情報 [InPrescriptionInfo]","同一処方箋発行医療機関チェックフラグ [SameMedicalInstitutionAlertFlg]","口頭同意区分 [OralBrowsingConsent]"]},{"id":"EPS-IF-316","name":"調剤済み電子処方箋要求（調剤結果ID）","api":"EPSsiDIM08req","file":"EPSsiDIM08req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","調剤結果ID [DispensingResultId]"]},{"id":"EPS-IF-103","name":"重複投薬等チェック結果","api":"EPSsiDMP02res","file":"EPSsiDMP02res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","文字コード識別 [CharacterCodeIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]"]},{"id":"EPS-IF-317","name":"調剤済み電子処方箋","api":"EPSsiDIM08res","file":"EPSsiDIM08res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"EPS-IF-318","name":"処方箋回収UNDO要求","api":"EPSsiPIR11req","file":"EPSsiPIR11res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処方箋ID [PrescriptionId]"]},{"id":"EPS-IF-319","name":"処方箋回収UNDO結果","api":"EPSsiPIR11res","file":"EPSsiPIR11res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"EPS-IF-220","name":"処方箋ID検索要求（医療機関）","api":"EPSsiPIR12req","file":"EPSsiPIR12req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","保険者番号 [InsurerNumber]","被保険者資格に係る記号 [InsuredCardSymbol]","被保険者資格に係る番号 [InsuredIdentificationNumber]","被保険者資格に係る枝番 [InsuredBranchNumber]","処方箋交付年月日（FROM） [IssueDateFrom]","処方箋交付年月日（TO） [IssueDateTo]"]},{"id":"EPS-IF-221","name":"処方箋ID検索結果（医療機関）","api":"EPSsiPIR12res","file":"EPSsiPIR12res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"EPS-IF-320","name":"処方箋ID検索要求（薬局）","api":"EPSsiPIR13req","file":"EPSsiPIR13req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","保険者番号 [InsurerNumber]","被保険者資格に係る記号 [InsuredCardSymbol]","被保険者資格に係る番号 [InsuredIdentificationNumber]","被保険者資格に係る枝番 [InsuredBranchNumber]","処方箋交付年月日（FROM） [IssueDateFrom]","処方箋交付年月日（TO） [IssueDateTo]"]},{"id":"EPS-IF-321","name":"処方箋ID検索結果（薬局）","api":"EPSsiPIR13res","file":"EPSsiPIR13res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"EPS-IF-322","name":"調剤結果ID検索要求","api":"EPSsiDIM09req","file":"EPSsiDIM09req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","保険者番号 [InsurerNumber]","被保険者資格に係る記号 [InsuredCardSymbol]","被保険者資格に係る番号 [InsuredIdentificationNumber]","被保険者資格に係る枝番 [InsuredBranchNumber]","調剤年月日（FROM） [DispensingDateFrom]","調剤年月日（TO） [DispensingDateTo]"]},{"id":"EPS-IF-323","name":"調剤結果ID検索結果","api":"EPSsiDIM09res","file":"EPSsiDIM09res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"EPS-IF-324","name":"保管調剤結果登録要求","api":"EPSsiDIM10req","file":"EPSsiDIM10req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","保管調剤結果ID [StorageDispensingResultId]"]},{"id":"EPS-IF-325","name":"保管調剤結果登録結果","api":"EPSsiDIM10res","file":"EPSsiDIM10res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","総処理件数 [NumberOfProcessingResult]","処理件数（正常） [NumberOfNormalProcessing]","処理件数（エラー） [NumberOfError]","文字コード識別 [CharacterCodeIdentifier]"]},{"id":"EPS-IF-328","name":"保管調剤結果取得（単件）要求","api":"EPSsiDIM12req","file":"EPSsiDIM12req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","保管調剤結果ID [StorageDispensingResultId]"]},{"id":"EPS-IF-329","name":"保管調剤結果取得（単件）結果","api":"EPSsiDIM12res","file":"EPSsiDIM12res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"EPS-IF-330","name":"保管調剤結果登録要求（調剤済み電子処方箋）","api":"EPSsiDIM13req","file":"EPSsiDIM13req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","調剤済み電子処方箋 [DispensedPrescription]"]},{"id":"EPS-IF-331","name":"保管調剤結果登録結果（調剤済み電子処方箋）","api":"EPSsiDIM13res","file":"EPSsiDIM13res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"EPS-IF-401","name":"院内処方等登録要求","api":"EPSsiPIR14req","file":"EPSsiPIR14req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理単位 [ProcessingUnit]","識別番号 [IdentificationNumber]","院内処方等情報 [InPrescriptionInfo]"]},{"id":"EPS-IF-402","name":"院内処方等登録結果","api":"EPSsiPIR14res","file":"EPSsiPIR14res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","総処理件数 [NumberOfProcessingResult]","処理件数（正常） [NumberOfNormalProcessing]","処理件数（エラー） [NumberOfError]","文字コード識別 [CharacterCodeIdentifier]"]},{"id":"EPS-IF-403","name":"院内処方等取消要求","api":"EPSsiPIR15req","file":"EPSsiPIR15req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意の識別子（医療機関固有項目） [ArbitraryFileIdentifier]","院内処方等ID [InPrescriptionId]"]},{"id":"EPS-IF-404","name":"院内処方等取消結果","api":"EPSsiPIR15res","file":"EPSsiPIR15res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"EPS-IF-405","name":"院内処方等変更要求","api":"EPSsiPIR16req","file":"EPSsiPIR16req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意の識別子（医療機関固有項目） [ArbitraryFileIdentifier]","院内処方等ID [InPrescriptionId]","院内処方等情報 [InPrescriptionInfo]"]},{"id":"EPS-IF-406","name":"院内処方等変更結果","api":"EPSsiPIR16res","file":"EPSsiPIR16res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"EPS-IF-407","name":"院内処方等ID検索要求","api":"EPSsiPIR17req","file":"EPSsiPIR17req_xxxxxxxxxxxx.xml","sys":"EPS","tags":["医療機関コード [MedicalInstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","保険者番号 [InsurerNumber]","被保険者資格に係る記号 [InsuredCardSymbol]","被保険者資格に係る番号 [InsuredIdentificationNumber]","被保険者資格に係る枝番 [InsuredBranchNumber]","登録日（FROM） [CreateDateFrom]","登録日（TO） [CreateDateTo]"]},{"id":"EPS-IF-408","name":"院内処方等ID検索結果","api":"EPSsiPIR17res","file":"EPSsiPIR17res_xxxxxxxxxxxx.xml","sys":"EPS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","エラーコード [ErrorCode]","エラーメッセージ [ErrorMessage]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]"]},{"id":"CIS-IF-101","name":"文書情報登録要求","api":"CISsiMRD01req","file":"CISsiMRD01req_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","医療機関等システム情報 [MedicalInstitutionSystemInfo]","ソフトウェア名称 [SoftwareName]","ソフトウェアバージョン [SoftwareVersion]","ソフトウェア開発元 [SoftwareDeveloper]","文書情報 [MedicalReferralDocument]","診療情報提供書閲覧同意区分 [BrowsingConsent]","保険者番号 [InsurerNumber]"]},{"id":"CIS-IF-102","name":"文書情報登録結果","api":"CISsiMRD01res","file":"CISsiMRD01res_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","処理結果リスト [ResultList]","処理結果コード [ResultCode]","処理結果メッセージ [ResultMessage]","詳細メッセージ [DetailMessage]","文字コード識別 [CharacterCodeIdentifier]","署名検証結果リスト [VerifyResultList]"]},{"id":"CIS-IF-103","name":"文書情報取消要求","api":"CISsiMRD02req","file":"CISsiMRD02req_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","文書情報ID [MedicalReferralDocumentId]","保険者番号 [InsurerNumber]","被保険者資格に係る記号 [InsuredCardSymbol]","被保険者資格に係る番号 [InsuredIdentificationNumber]","被保険者資格に係る枝番 [InsuredBranchNumber]","生年月日 [Birthdate]","臨床情報のみ取消フラグ [ClinicalinfoCancelFlg]"]},{"id":"CIS-IF-104","name":"文書情報取消結果","api":"CISsiMRD02res","file":"CISsiMRD02res_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","処理結果リスト [ResultList]","処理結果コード [ResultCode]","処理結果メッセージ [ResultMessage]","文字コード識別 [CharacterCodeIdentifier]"]},{"id":"CIS-IF-107","name":"文書情報変更要求","api":"CISsiMRD04req","file":"CISsiMRD04req_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","文書情報 [MedicalReferralDocument]","診療情報提供書閲覧同意区分 [BrowsingConsent]","保険者番号 [InsurerNumber]","被保険者資格に係る記号 [InsuredCardSymbol]","被保険者資格に係る番号 [InsuredIdentificationNumber]","被保険者資格に係る枝番 [InsuredBranchNumber]","生年月日 [Birthdate]"]},{"id":"CIS-IF-108","name":"文書情報変更結果","api":"CISsiMRD04res","file":"CISsiMRD04res_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","処理結果リスト [ResultList]","処理結果コード [ResultCode]","処理結果メッセージ [ResultMessage]","詳細メッセージ [DetailMessage]","文字コード識別 [CharacterCodeIdentifier]","署名検証結果リスト [VerifyResultList]"]},{"id":"CIS-IF-109","name":"文書情報状況照会要求","api":"CISsiMRD05req","file":"CISsiMRD05req_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","文書情報ID [MedicalReferralDocumentId]"]},{"id":"CIS-IF-110","name":"文書情報状況照会結果","api":"CISsiMRD05res","file":"CISsiMRD05res_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","処理結果リスト [ResultList]","処理結果コード [ResultCode]","処理結果メッセージ [ResultMessage]","文字コード識別 [CharacterCodeIdentifier]","文書情報リスト [MedicalReferralDocumentList]","文書情報ID [MedicalReferralDocumentId]"]},{"id":"CIS-IF-111","name":"自施設宛文書情報一覧取得要求","api":"CISsiMRD06req","file":"CISsiMRD06req_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","文書情報登録年月日（FROM） [CreateDateFrom]","文書情報登録年月日（TO） [CreateDateTo]"]},{"id":"CIS-IF-112","name":"自施設宛文書情報一覧取得結果","api":"CISsiMRD06res","file":"CISsiMRD06res_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","処理結果リスト [ResultList]","処理結果コード [ResultCode]","処理結果メッセージ [ResultMessage]","文字コード識別 [CharacterCodeIdentifier]","文書情報リスト [MedicalReferralDocumentList]","紹介元医療機関コード [ReferralMedicalInstitutionCode]"]},{"id":"CIS-IF-113","name":"文書情報取得要求","api":"CISsiMRD07req","file":"CISsiMRD07req_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","文書情報ID [MedicalReferralDocumentId]"]},{"id":"CIS-IF-114","name":"文書情報取得結果","api":"CISsiMRD07res","file":"CISsiMRD07res_xxxxxxxxxxxx.xml","sys":"CIS","tags":["処理結果区分 [SegmentOfResult]","処理結果リスト [ResultList]","処理結果コード [ResultCode]","処理結果メッセージ [ResultMessage]","文字コード識別 [CharacterCodeIdentifier]","文書情報 [MedicalReferralDocument]"]},{"id":"CIS-IF-115","name":"添付情報登録要求","api":"CISsiMRD08req","file":"CISsiMRD08req_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","文書情報ID [MedicalReferralDocumentId]","添付情報リスト [AttachmentInfoList]","ファイル名 [FileName]","添付情報ファイル [AttachmentInfoFile]","保険者番号 [InsurerNumber]","被保険者資格に係る記号 [InsuredCardSymbol]","被保険者資格に係る番号 [InsuredIdentificationNumber]"]},{"id":"CIS-IF-116","name":"添付情報登録結果","api":"CISsiMRD08res","file":"CISsiMRD08res_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","処理結果リスト [ResultList]","処理結果コード [ResultCode]","処理結果メッセージ [ResultMessage]","文字コード識別 [CharacterCodeIdentifier]"]},{"id":"CIS-IF-117","name":"添付情報取得要求","api":"CISsiMRD09req","file":"CISsiMRD09req_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","文書情報ID [MedicalReferralDocumentId]"]},{"id":"CIS-IF-118","name":"添付情報取得結果","api":"CISsiMRD09res","file":"CISsiMRD09res_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","処理結果リスト [ResultList]","処理結果コード [ResultCode]","処理結果メッセージ [ResultMessage]","文字コード識別 [CharacterCodeIdentifier]","添付情報リスト [AttachmentInfoList]","ファイル名 [FileName]"]},{"id":"CIS-IF-119","name":"自施設宛文書情報閲覧同意登録結果","api":"CISsiMRD10res","file":"CISsiMRD10res_xxxxxxxxxxxx.xml","sys":"CIS","tags":["依頼番号 [ReqNo]","処理結果区分 [SegmentOfResult]","処理結果リスト [ResultList]","処理結果コード [ResultCode]","処理結果メッセージ [ResultMessage]","文字コード識別 [CharacterCodeIdentifier]","文書情報ID [MedicalReferralDocumentId]"]},{"id":"CIS-IF-120","name":"健診文書登録要求","api":"CISsiMRD11req","file":"CISsiMRD11req_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","医療機関等システム情報 [MedicalInstitutionSystemInfo]","ソフトウェア名称 [SoftwareName]","ソフトウェアバージョン [SoftwareVersion]","ソフトウェア開発元 [SoftwareDeveloper]","健診文書 [HealthCheckupResultReport]","提供の同意 [RegistrationConsent]","保険者番号 [InsurerNumber]"]},{"id":"CIS-IF-121","name":"健診文書登録結果","api":"CISsiMRD11res","file":"CISsiMRD11res_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","処理結果リスト [ResultList]","処理結果コード [ResultCode]","処理結果メッセージ [ResultMessage]","詳細メッセージ [DetailMessage]","文字コード識別 [CharacterCodeIdentifier]"]},{"id":"CIS-IF-122","name":"健診文書取消要求","api":"CISsiMRD12req","file":"CISsiMRD12req_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","健診文書ID [HealthCheckupResultReportId]","保険者番号 [InsurerNumber]","被保険者資格に係る記号 [InsuredCardSymbol]","被保険者資格に係る番号 [InsuredIdentificationNumber]","被保険者資格に係る枝番 [InsuredBranchNumber]","生年月日 [Birthdate]"]},{"id":"CIS-IF-123","name":"健診文書取消結果","api":"CISsiMRD12res","file":"CISsiMRD12res_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","処理結果リスト [ResultList]","処理結果コード [ResultCode]","処理結果メッセージ [ResultMessage]","文字コード識別 [CharacterCodeIdentifier]"]},{"id":"CIS-IF-124","name":"健診文書変更要求","api":"CISsiMRD13req","file":"CISsiMRD13req_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","健診文書 [HealthCheckupResultReport]","提供の同意 [RegistrationConsent]","保険者番号 [InsurerNumber]","被保険者資格に係る記号 [InsuredCardSymbol]","被保険者資格に係る番号 [InsuredIdentificationNumber]","被保険者資格に係る枝番 [InsuredBranchNumber]","生年月日 [Birthdate]"]},{"id":"CIS-IF-125","name":"健診文書変更結果","api":"CISsiMRD13res","file":"CISsiMRD13res_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","処理結果リスト [ResultList]","処理結果コード [ResultCode]","処理結果メッセージ [ResultMessage]","詳細メッセージ [DetailMessage]","文字コード識別 [CharacterCodeIdentifier]"]},{"id":"CIS-IF-126","name":"患者サマリー登録要求","api":"CISsiCPD01req","file":"CISsiCPD01req_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","医療機関等システム情報 [MedicalInstitutionSystemInfo]","ソフトウェア名称 [SoftwareName]","ソフトウェアバージョン [SoftwareVersion]","ソフトウェア開発元 [SoftwareDeveloper]","療養計画書 [CarePlan]","保険者番号 [InsurerNumber]","被保険者資格に係る記号 [InsuredCardSymbol]"]},{"id":"CIS-IF-127","name":"患者サマリー登録結果","api":"CISsiCPD01res","file":"CISsiCPD01res_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","処理結果リスト [ResultList]","処理結果コード [ResultCode]","処理結果メッセージ [ResultMessage]","詳細メッセージ [DetailMessage]","文字コード識別 [CharacterCodeIdentifier]","署名検証結果リスト [VerifyResultList]"]},{"id":"CIS-IF-128","name":"患者サマリー取消要求","api":"CISsiCPD02req","file":"CISsiCPD02req_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","療養計画書ID [CarePlanId]","保険者番号 [InsurerNumber]","被保険者資格に係る記号 [InsuredCardSymbol]","被保険者資格に係る番号 [InsuredIdentificationNumber]","被保険者資格に係る枝番 [InsuredBranchNumber]","生年月日 [Birthdate]"]},{"id":"CIS-IF-129","name":"患者サマリー取消結果","api":"CISsiCPD02res","file":"CISsiCPD02res_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","処理結果リスト [ResultList]","処理結果コード [ResultCode]","処理結果メッセージ [ResultMessage]","文字コード識別 [CharacterCodeIdentifier]"]},{"id":"CIS-IF-130","name":"患者サマリー変更要求","api":"CISsiCPD03req","file":"CISsiCPD03req_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","療養計画書 [CarePlan]","保険者番号 [InsurerNumber]","被保険者資格に係る記号 [InsuredCardSymbol]","被保険者資格に係る番号 [InsuredIdentificationNumber]","被保険者資格に係る枝番 [InsuredBranchNumber]","生年月日 [Birthdate]"]},{"id":"CIS-IF-131","name":"患者サマリー変更結果","api":"CISsiCPD03res","file":"CISsiCPD03res_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","処理結果リスト [ResultList]","処理結果コード [ResultCode]","処理結果メッセージ [ResultMessage]","詳細メッセージ [DetailMessage]","文字コード識別 [CharacterCodeIdentifier]","署名検証結果リスト [VerifyResultList]"]},{"id":"CIS-IF-201","name":"カルテ臨床情報登録要求","api":"CISsiKCI01req","file":"CISsiKCI01req_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","医療機関等システム情報 [MedicalInstitutionSystemInfo]","ソフトウェア名称 [SoftwareName]","ソフトウェアバージョン [SoftwareVersion]","ソフトウェア開発元 [SoftwareDeveloper]","被保険者個人識別子 [PatientCredentialsInfo]","生年月日 [Birthdate]","Bundleリソースのidentifierのsystem [IdentifierSystem]"]},{"id":"CIS-IF-202","name":"カルテ臨床情報登録結果","api":"CISsiKCI01res","file":"CISsiKCI01res_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","処理結果リスト [ResultList]","処理結果コード [ResultCode]","処理結果メッセージ [ResultMessage]","FHIRバリデーションチェック結果メッセージ [FHIRCheckResultMessage]","文字コード識別 [CharacterCodeIdentifier]"]},{"id":"CIS-IF-203","name":"カルテ臨床情報取消要求","api":"CISsiKCI02req","file":"CISsiKCI02req_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","被保険者個人識別子 [PatientCredentialsInfo]","生年月日 [Birthdate]","Bundleリソースのidentifierのsystem [IdentifierSystem]","Bundleリソースのidentifierのvalue [IdentifierValue]"]},{"id":"CIS-IF-204","name":"カルテ臨床情報取消結果","api":"CISsiKCI02res","file":"CISsiKCI02res_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","処理結果リスト [ResultList]","処理結果コード [ResultCode]","処理結果メッセージ [ResultMessage]","文字コード識別 [CharacterCodeIdentifier]"]},{"id":"CIS-IF-207","name":"カルテ臨床情報変更要求","api":"CISsiKCI04req","file":"CISsiKCI04req_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","被保険者個人識別子 [PatientCredentialsInfo]","生年月日 [Birthdate]","Bundleリソースのidentifierのsystem [IdentifierSystem]","Bundleリソースのidentifierのvalue [IdentifierValue]","カルテ臨床情報 [Clinicalinfo]"]},{"id":"CIS-IF-208","name":"カルテ臨床情報変更結果","api":"CISsiKCI04res","file":"CISsiKCI04res_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","処理結果リスト [ResultList]","処理結果コード [ResultCode]","処理結果メッセージ [ResultMessage]","FHIRバリデーションチェック結果メッセージ [FHIRCheckResultMessage]","文字コード識別 [CharacterCodeIdentifier]"]},{"id":"CIS-IF-301","name":"マスタファイル取得要求","api":"CISsiDMI01req","file":"CISsiDMI01req_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","マスタ区分 [MasterKbn]","マスタバージョン [OwnMasterVer]"]},{"id":"CIS-IF-302","name":"マスタファイル取得結果","api":"CISsiDMI01res","file":"CISsiDMI01res_xxxxxxxxxxxx.xml","sys":"CIS","tags":["任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","処理結果区分 [SegmentOfResult]","処理結果リスト [ResultList]","処理結果コード [ResultCode]","処理結果メッセージ [ResultMessage]","文字コード識別 [CharacterCodeIdentifier]","マスタ区分 [MasterKbn]","マスタのバージョンリスト [MasterVerList]"]},{"id":"PMH-IF-001","name":"医療費助成情報要求","api":"PMHsimsm01req","file":"PMHsimsm01req_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx_face.xml","sys":"PMH","tags":["医療機関コード [MedicalInstitutionCode]","文字コード識別 [CharacterCodeIdentifier]","連携キー [LinkageKey]","初期化ベクトル [InitializationVector]","受給者証ID [CertificationId]","シーケンスNo [SequenceNumber]"]},{"id":"PMH-IF-002","name":"医療費助成情報結果","api":"PMHsimsm01res","file":"PMHsimsm01res_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx_face.xml","sys":"PMH","tags":["処理結果区分 [OQSsiquc01req]","医療費助成資格 [MedicalSubsidies]","公費負担者番号 [MedicalSubsidyInsurerNumber]","証発行地方公共団体コード [IssuerLocalGovCode]","受給者証名 [CertificationName]"]},{"id":"PMH-IF-201","name":"PMH情報要求","api":"PMHsigfi01req","file":"PMHsigfi01req_xxxxxxxxxxxx.xml","sys":"PMH","tags":["PMH処理名 [PmhFunction]","機関コード [InstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","シーケンスNo [SequenceNumber]","情報 [InputData]","キー１ [PmhFunctionKey1]","キー２ [PmhFunctionKey2]"]},{"id":"PMH-IF-202","name":"PMH情報結果","api":"PMHsigfi01res","file":"PMHsigfi01res_xxxxxxxxxxxx.xml","sys":"PMH","tags":["PMH処理名 [PmhFunction]","機関コード [InstitutionCode]","任意のファイル識別子（医療機関固有項目） [ArbitraryFileIdentifier]","文字コード識別 [CharacterCodeIdentifier]","処理結果状況 [ProcessingResultStatus]","処理結果コード [ProcessingResultCode]","処理結果メッセージ [ProcessingResultMessage]","処理結果 [OutputData]"]}];
+
+  const SYS_COLORS = {
+    OQS: {bg:'#e8effc', color:'#1a4fa0', border:'#93b4ef'},
+    EPS: {bg:'#f0fdf4', color:'#0f7250', border:'#6ee7b7'},
+    CIS: {bg:'#fef3c7', color:'#b45309', border:'#fcd34d'},
+    PMH: {bg:'#f5f3ff', color:'#7c3aed', border:'#c4b5fd'},
+  };
+
+  let currentIFFilter = 'ALL';
+
+  function renderIFTable(filter, searchQ) {
+    const tbody = document.getElementById('if-tbody');
+    const countEl = document.getElementById('if-count');
+    if (!tbody) return;
+
+    const q = (searchQ || '').toLowerCase();
+    let rows = IF_DATA;
+
+    if (filter && filter !== 'ALL') {
+      rows = rows.filter(r => r.sys === filter);
+    }
+    if (q) {
+      rows = rows.filter(r =>
+        r.id.toLowerCase().includes(q) ||
+        r.name.toLowerCase().includes(q) ||
+        r.api.toLowerCase().includes(q) ||
+        (r.tags && r.tags.some(t => t.toLowerCase().includes(q)))
+      );
+    }
+
+    countEl.textContent = rows.length + '件';
+
+    tbody.innerHTML = rows.map(r => {
+      const c = SYS_COLORS[r.sys] || SYS_COLORS.OQS;
+      const sysLabel = `<span style="background:${c.bg};color:${c.color};border:1px solid ${c.border};border-radius:4px;padding:2px 6px;font-size:11px;font-weight:700;white-space:nowrap">${r.sys}</span>`;
+      const ifId = r.id;
+      const tagHtml = r.tags && r.tags.length
+        ? r.tags.slice(0,6).map(t => {
+            const m = t.match(/^(.+?)\s*\[(.+)\]$/);
+            if (m) return `<span style="display:inline-block;background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:1px 5px;font-size:11px;margin:1px 2px 1px 0;white-space:nowrap"><span style="color:var(--text3)">${m[1].trim()}</span> <code style="color:var(--accent);font-size:10px">${m[2]}</code></span>`;
+            return `<span style="font-size:11px;color:var(--text3)">${t}</span>`;
+          }).join('') : '<span style="color:var(--text3);font-size:11px">—</span>';
+      const fileDisp = r.file ? `<code style="font-size:10.5px;color:var(--text2);word-break:break-all">${r.file}</code>` : '—';
+      const apiDisp = r.api ? `<code style="font-size:11px;color:var(--accent)">${r.api}</code>` : '—';
+
+      return `<tr id="if-row-${ifId.replace(/-/g,'_')}">
+        <td style="white-space:nowrap">${sysLabel} <strong style="font-size:12px">${ifId}</strong></td>
+        <td>${apiDisp}</td>
+        <td style="font-weight:600">${r.name}</td>
+        <td>${fileDisp}</td>
+        <td>${tagHtml}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  function filterIF(sys, btn) {
+    currentIFFilter = sys;
+    document.querySelectorAll('#xml-ref .tag-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const q = document.getElementById('search-input').value;
+    renderIFTable(sys, q);
+  }
+
+  // Initialize IF table on load
+  document.addEventListener('DOMContentLoaded', () => {
+    renderIFTable('ALL', '');
+  });
+
+  // Extend search to also highlight in IF table
+  const _origDoSearch = doSearch;
+  doSearch = function(query) {
+    _origDoSearch(query);
+    renderIFTable(currentIFFilter, query);
+  };
+
+  // Intersection observer for nav highlighting
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        document.querySelectorAll('.nav-item').forEach(item => {
+          item.classList.toggle('active', item.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { threshold: 0.2, rootMargin: '-80px 0px -60% 0px' });
+
+  document.querySelectorAll('.section-anchor').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
