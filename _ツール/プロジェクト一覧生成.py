@@ -35,7 +35,9 @@ def latest_version(rireki_md):
         rows.append(cells)
     if not rows:
         return ("—", "—", "—")
-    pick = next((r for r in rows if "最新" in r[1]), rows[-1])
+    # 「（最新）」マーカーは変更内容セルに入る運用なので行内の全セルを対象に探す。
+    # 見つからない場合は、最新版を先頭行に置く運用に合わせて rows[0] を採用する。
+    pick = next((r for r in rows if any("最新" in c for c in r)), rows[0])
     ver = pick[1].replace("**", "").replace("（最新）", "").strip()
     return (pick[0], ver, pick[2])
 
