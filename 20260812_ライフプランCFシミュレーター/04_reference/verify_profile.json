@@ -1,0 +1,1208 @@
+{
+ "name": "参照PDFの世帯（検証専用）",
+ "note": "参照PDF 4本の前提を再現するプロフィール。汎用版のエンジンをPDFと突き合わせるためだけに使う。配布するHTMLには含めない。",
+ "source": "20260819_ライフプランCFシミュレーター_v11.html",
+ "params": {
+  "meta": {
+   "planName": "参照PDF ① 7,500万円（検証用）",
+   "preset": "p1",
+   "wScenario": "custom",
+   "region": "manual",
+   "hIncome": "custom",
+   "memo": "検証専用のプロフィール。参照PDFの世帯を再現する。",
+   "baseYear": 2026,
+   "endAge": 104
+  },
+  "family": {
+   "ageH": 33,
+   "ageW": 31,
+   "hasSpouse": true,
+   "children": [
+    {
+     "name": "第一子",
+     "birthYear": 2028
+    },
+    {
+     "name": "第二子",
+     "birthYear": 2030
+    }
+   ]
+  },
+  "income": {
+   "hTable": [
+    {
+     "age": 33,
+     "amount": 7995000,
+     "rate": 2
+    },
+    {
+     "age": 55,
+     "amount": 12120000,
+     "rate": 0
+    },
+    {
+     "age": 60,
+     "amount": 9690000,
+     "rate": 0
+    },
+    {
+     "age": 65,
+     "amount": 0,
+     "rate": 0
+    }
+   ],
+   "wTable": [
+    {
+     "age": 31,
+     "amount": 8840000,
+     "rate": 0
+    },
+    {
+     "age": 33,
+     "amount": 3460000,
+     "rate": 0
+    },
+    {
+     "age": 34,
+     "amount": 3400000,
+     "rate": 0
+    },
+    {
+     "age": 35,
+     "amount": 1430000,
+     "rate": 0
+    },
+    {
+     "age": 36,
+     "amount": 3400000,
+     "rate": 0
+    },
+    {
+     "age": 39,
+     "amount": 8840000,
+     "rate": 0
+    },
+    {
+     "age": 60,
+     "amount": 8000000,
+     "rate": 0
+    },
+    {
+     "age": 65,
+     "amount": 0,
+     "rate": 0
+    }
+   ],
+   "childBenefit": true
+  },
+  "living": {
+   "table": [
+    {
+     "age": 33,
+     "amount": 4200000,
+     "rate": 0
+    },
+    {
+     "age": 35,
+     "amount": 4440000,
+     "rate": 0
+    },
+    {
+     "age": 37,
+     "amount": 4680000,
+     "rate": 0
+    },
+    {
+     "age": 45,
+     "amount": 5040000,
+     "rate": 0
+    },
+    {
+     "age": 47,
+     "amount": 5400000,
+     "rate": 0
+    },
+    {
+     "age": 60,
+     "amount": 5040000,
+     "rate": 0
+    },
+    {
+     "age": 62,
+     "amount": 4200000,
+     "rate": 0
+    }
+   ],
+   "insurance": 10000,
+   "insuranceAfter": 60000,
+   "insMode": "simple",
+   "insTable": [
+    {
+     "age": 33,
+     "amount": 10000,
+     "rate": 0
+    }
+   ],
+   "insLife": 60000,
+   "insFireBase": 45000,
+   "insFlood": 12000,
+   "insQuake": 40000,
+   "insGrowth": 1,
+   "otherLoan": 0,
+   "otherLoanEndAge": 0
+  },
+  "house": {
+   "buy": true,
+   "floodZone": 3,
+   "buyAge": 34,
+   "price": 75000000,
+   "fees": 5500000,
+   "feeMode": "simple",
+   "feeBrokerageAuto": true,
+   "feeBrokerage": 0,
+   "feeRegistration": 700000,
+   "feeAcquisitionTax": 0,
+   "feeStamp": 30000,
+   "feeLoanRate": 2.2,
+   "feeLoanFixed": 0,
+   "feeInsurance": 400000,
+   "feeSettlement": 250000,
+   "feeOther": 100000,
+   "selfFund": 9000000,
+   "gift": 0,
+   "autoFitLoans": true,
+   "moveCost": 3000000,
+   "rentNow": 1800000,
+   "holdMethod": "simple",
+   "holdCost": 230000,
+   "holdCostRate": 0.306,
+   "landAssessRate": 70,
+   "bldgAssessRate": 40,
+   "landArea": 70,
+   "floorArea": 75,
+   "taxRateFixed": 1.4,
+   "taxRateCity": 0.3,
+   "newBuildYears": 5,
+   "bldgDeclineYears": 25,
+   "bldgFloorRate": 20,
+   "mgmtFee": 180000,
+   "repairFund": 180000,
+   "parkingFee": 0,
+   "maintGrowth": 0,
+   "selfRepairFund": 0,
+   "bigRepair": 0,
+   "bigRepairCycle": 0,
+   "loans": [
+    {
+     "name": "世帯主",
+     "amount": 36500000,
+     "years": 35,
+     "steps": [
+      {
+       "y": 1,
+       "rate": 1.3
+      },
+      {
+       "y": 11,
+       "rate": 1.6
+      },
+      {
+       "y": 21,
+       "rate": 1.9
+      },
+      {
+       "y": 31,
+       "rate": 2.2
+      }
+     ]
+    },
+    {
+     "name": "配偶者",
+     "amount": 35000000,
+     "years": 35,
+     "steps": [
+      {
+       "y": 1,
+       "rate": 1.3
+      },
+      {
+       "y": 11,
+       "rate": 1.6
+      },
+      {
+       "y": 21,
+       "rate": 1.9
+      },
+      {
+       "y": 31,
+       "rate": 2.2
+      }
+     ]
+    }
+   ],
+   "loanDeduction": true,
+   "ldHousingType": "shoene",
+   "ldKidsBonus": false,
+   "ldLimit": 30000000,
+   "ldRate": 0.7,
+   "ldYears": 13,
+   "ldMinYears": 10,
+   "ldMoveInLimit": 2030,
+   "ldIncomeLimit": 20000000,
+   "ldSmallAreaOK": false
+  },
+  "estate": {
+   "type": "mansion",
+   "track": true,
+   "method": "split",
+   "rate": -1,
+   "landRatio": 35,
+   "landRate": 0,
+   "buildingLife": 47,
+   "residual": 10,
+   "appraisalYear": 20,
+   "appraisalValue": 50000000,
+   "appraisalNote": "",
+   "appraisalDate": "",
+   "sellTaxManual": false,
+   "sellTaxAmount": 0,
+   "sell": false,
+   "sellAgeH": 70,
+   "sellFeeRate": 3.5,
+   "nextPrice": 20000000,
+   "nextFees": 1500000,
+   "nextRent": 0,
+   "nextHoldRate": 0.306,
+   "nextRepair": 120000
+  },
+  "retire": {
+   "retireAgeH": 65,
+   "retireAgeW": 65,
+   "lumpH": 15000000,
+   "lumpW": 24000000,
+   "pensionAuto": false,
+   "basicFullPension": 831700,
+   "bonusRate": 20,
+   "workStartH": 22,
+   "workStartW": 22,
+   "youngerRate": 70,
+   "otherPensionH": 0,
+   "otherPensionW": 0,
+   "pensionH": 2820000,
+   "pensionW": 2540000,
+   "pensionStartH": 65,
+   "pensionStartW": 65,
+   "addPensionH": 430000,
+   "addPensionUntilAgeW": 65,
+   "workYearsH": 43,
+   "workYearsW": 43,
+   "livingAfter": 0
+  },
+  "edu": {
+   "rate": 0.5,
+   "stages": {
+    "nursery": {
+     "label": "保育園(0-2歳)",
+     "years": 3,
+     "first": 180000,
+     "rest": 180000
+    },
+    "kinder": {
+     "label": "幼稚園(3-5歳)",
+     "years": 3,
+     "first": 180000,
+     "rest": 180000
+    },
+    "elem": {
+     "label": "小学校",
+     "years": 6,
+     "first": 330000,
+     "rest": 330000
+    },
+    "junior": {
+     "label": "中学校",
+     "years": 3,
+     "first": 540000,
+     "rest": 540000
+    },
+    "high": {
+     "label": "高校",
+     "years": 3,
+     "first": 910000,
+     "rest": 1310000
+    },
+    "univ": {
+     "label": "大学",
+     "years": 6,
+     "first": 2430000,
+     "rest": 1750000
+    }
+   },
+   "startAge": {
+    "nursery": 1,
+    "kinder": 4,
+    "elem": 7,
+    "junior": 13,
+    "high": 16,
+    "univ": 19
+   },
+   "mode": "pdf",
+   "nursery2nd": 180000,
+   "nurseryExtra": 0,
+   "otherPerChild": 800000,
+   "otherAgeH": 35
+  },
+  "other": {
+   "items": [
+    {
+     "name": "火災保険更新",
+     "cat": "housing",
+     "kind": "every",
+     "from": 39,
+     "to": 100,
+     "amount": 300000,
+     "every": 5
+    },
+    {
+     "name": "水回り修繕費",
+     "cat": "housing",
+     "kind": "once",
+     "from": 54,
+     "to": 54,
+     "amount": 4000000,
+     "every": 0
+    },
+    {
+     "name": "家具家電買い替え",
+     "cat": "misc",
+     "kind": "every",
+     "from": 44,
+     "to": 100,
+     "amount": 800000,
+     "every": 10
+    },
+    {
+     "name": "レジャー費",
+     "cat": "misc",
+     "kind": "yearly",
+     "from": 33,
+     "to": 75,
+     "amount": 800000,
+     "every": 0
+    },
+    {
+     "name": "お子様準備資金②",
+     "cat": "housing",
+     "kind": "once",
+     "from": 37,
+     "to": 37,
+     "amount": 500000,
+     "every": 0
+    },
+    {
+     "name": "結婚資金",
+     "cat": "misc",
+     "kind": "once",
+     "from": 33,
+     "to": 33,
+     "amount": 4000000,
+     "every": 0
+    },
+    {
+     "name": "奨学金返済",
+     "cat": "loan",
+     "kind": "yearly",
+     "from": 33,
+     "to": 38,
+     "amount": 120000,
+     "every": 0
+    },
+    {
+     "name": "ペット飼育費",
+     "cat": "misc",
+     "kind": "yearly",
+     "from": 34,
+     "to": 50,
+     "amount": 400000,
+     "every": 0
+    },
+    {
+     "name": "海外旅行",
+     "cat": "misc",
+     "kind": "every",
+     "from": 40,
+     "to": 75,
+     "amount": 1000000,
+     "every": 3
+    },
+    {
+     "name": "自動車維持費",
+     "cat": "loan",
+     "kind": "yearly",
+     "from": 33,
+     "to": 75,
+     "amount": 200000,
+     "every": 0
+    },
+    {
+     "name": "自動車購入費",
+     "cat": "loan",
+     "kind": "every",
+     "from": 40,
+     "to": 75,
+     "amount": 1000000,
+     "every": 10
+    }
+   ],
+   "incomes": []
+  },
+  "econ": {
+   "inflation": 1.3,
+   "depositRate": 0,
+   "investRate": 3,
+   "deposit": 9000000,
+   "invest": 18000000,
+   "inflateOther": false,
+   "investShare": 0,
+   "debtRate": 3
+  },
+  "saving": {
+   "dcModeH": false,
+   "dcModeW": false,
+   "dcBalanceH": 0,
+   "dcBalanceW": 0,
+   "dcMonthlyH": 0,
+   "dcMonthlyW": 0,
+   "dcStartAgeH": 33,
+   "dcEndAgeH": 65,
+   "dcStartAgeW": 31,
+   "dcEndAgeW": 65,
+   "dcRate": 3,
+   "dcMatchH": 0,
+   "dcMatchW": 0,
+   "dcReceiveAgeH": 65,
+   "dcReceiveAgeW": 65,
+   "nisaBal0": 0,
+   "nisaUsed0": 0,
+   "nisaGrowthUsed0": 0,
+   "stockBal0": 0,
+   "nisaMonthlyH": 0,
+   "nisaMonthlyW": 0,
+   "nisaStartAge": 33,
+   "nisaEndAge": 65,
+   "nisaRate": 3,
+   "nisaLimitTotal": 18000000,
+   "nisaLimitGrowth": 12000000,
+   "nisaLimitYear": 3600000,
+   "nisaLimitYearGrowth": 2400000,
+   "nisaFrame": "auto",
+   "mode": "simple",
+   "schedule": [],
+   "plan": "keep",
+   "adjustTable": [
+    {
+     "age": 33,
+     "rate": 100
+    }
+   ],
+   "stockMonthlyH": 0,
+   "stockMonthlyW": 0,
+   "stockBonus": 15,
+   "stockStartAge": 33,
+   "stockEndAge": 65,
+   "stockRate": 3,
+   "taxableRate": 20.315
+  },
+  "care": {
+   "medOn": false,
+   "medStartAge": 70,
+   "medMonthly": 15000,
+   "careOn": false,
+   "careStartAgeH": 85,
+   "careYearsH": 5,
+   "careMonthlyH": 100000,
+   "careStartAgeW": 87,
+   "careYearsW": 5,
+   "careMonthlyW": 100000,
+   "careOneTime": 500000
+  },
+  "survivor": {
+   "show": true,
+   "deathAgeH": 40,
+   "deathAgeW": 38,
+   "livingRate": 70,
+   "insuranceH": 0,
+   "insuranceW": 0,
+   "danshin": true,
+   "basicSurvivor": 816000,
+   "childAdd": 234800,
+   "childAdd3": 78300,
+   "widowAdd": 612000,
+   "survivorWorkRate": 100
+  },
+  "verify": {
+   "bankLoan": 0,
+   "bankMonthly": 0,
+   "bankTotal": 0,
+   "tolLoan": 100000,
+   "tolMonthly": 3000,
+   "tolTotal": 500000
+  },
+  "inherit": {
+   "show": true,
+   "atAgeH": 90,
+   "spouseShare": 50,
+   "landTaxRate": 80,
+   "bldgUseFixed": true,
+   "useSmallLot": true,
+   "lifeInsurance": 0
+  },
+  "goal": {
+   "monthlySurplus": 5,
+   "burdenLimit": 30,
+   "cashMonths": 6,
+   "retireTargetReal": 3000,
+   "floorReal": 1000,
+   "checkAge": 100
+  },
+  "tax": {
+   "hokenRate": 10.306,
+   "kaigoRate": 1.59,
+   "nenkinRate": 18.3,
+   "koyoRate": 0.55,
+   "depEndAge": 0,
+   "basicIT": 620000,
+   "basicRT": 430000,
+   "lifeInsDedH": 12000,
+   "lifeInsDedW": 0,
+   "dcH": 0,
+   "dcW": 60000,
+   "kintouwari": 5000,
+   "forestTax": 1000,
+   "pensionSocialRate": 10
+  }
+ },
+ "presets": {
+  "p1": {
+   "short": "FP案①7,500万",
+   "label": "① 7,500万円・段階金利・頭金900万",
+   "note": "物件7,500万＋諸費用550万。自己資金900万、借入7,150万（世帯主3,650／配偶者3,500）。",
+   "house": {
+    "buy": true,
+    "floodZone": 3,
+    "buyAge": 34,
+    "price": 75000000,
+    "fees": 5500000,
+    "feeMode": "simple",
+    "feeBrokerageAuto": true,
+    "feeBrokerage": 0,
+    "feeRegistration": 700000,
+    "feeAcquisitionTax": 0,
+    "feeStamp": 30000,
+    "feeLoanRate": 2.2,
+    "feeLoanFixed": 0,
+    "feeInsurance": 400000,
+    "feeSettlement": 250000,
+    "feeOther": 100000,
+    "selfFund": 9000000,
+    "gift": 0,
+    "autoFitLoans": true,
+    "moveCost": 3000000,
+    "rentNow": 1800000,
+    "holdMethod": "simple",
+    "holdCost": 230000,
+    "holdCostRate": 0.306,
+    "landAssessRate": 70,
+    "bldgAssessRate": 40,
+    "landArea": 70,
+    "floorArea": 75,
+    "taxRateFixed": 1.4,
+    "taxRateCity": 0.3,
+    "newBuildYears": 5,
+    "bldgDeclineYears": 25,
+    "bldgFloorRate": 20,
+    "mgmtFee": 180000,
+    "repairFund": 180000,
+    "parkingFee": 0,
+    "maintGrowth": 0,
+    "selfRepairFund": 0,
+    "bigRepair": 0,
+    "bigRepairCycle": 0,
+    "loans": [
+     {
+      "name": "世帯主",
+      "amount": 36500000,
+      "years": 35,
+      "steps": [
+       {
+        "y": 1,
+        "rate": 1.3
+       },
+       {
+        "y": 11,
+        "rate": 1.6
+       },
+       {
+        "y": 21,
+        "rate": 1.9
+       },
+       {
+        "y": 31,
+        "rate": 2.2
+       }
+      ]
+     },
+     {
+      "name": "配偶者",
+      "amount": 35000000,
+      "years": 35,
+      "steps": [
+       {
+        "y": 1,
+        "rate": 1.3
+       },
+       {
+        "y": 11,
+        "rate": 1.6
+       },
+       {
+        "y": 21,
+        "rate": 1.9
+       },
+       {
+        "y": 31,
+        "rate": 2.2
+       }
+      ]
+     }
+    ],
+    "loanDeduction": true,
+    "ldHousingType": "shoene",
+    "ldKidsBonus": false,
+    "ldLimit": 30000000,
+    "ldRate": 0.7,
+    "ldYears": 13,
+    "ldMinYears": 10,
+    "ldMoveInLimit": 2030,
+    "ldIncomeLimit": 20000000,
+    "ldSmallAreaOK": false
+   },
+   "estate": {
+    "type": "mansion",
+    "track": true,
+    "method": "split",
+    "rate": -1,
+    "landRatio": 35,
+    "landRate": 0,
+    "buildingLife": 47,
+    "residual": 10,
+    "appraisalYear": 20,
+    "appraisalValue": 50000000,
+    "appraisalNote": "",
+    "appraisalDate": "",
+    "sellTaxManual": false,
+    "sellTaxAmount": 0,
+    "sell": false,
+    "sellAgeH": 70,
+    "sellFeeRate": 3.5,
+    "nextPrice": 20000000,
+    "nextFees": 1500000,
+    "nextRent": 0,
+    "nextHoldRate": 0.306,
+    "nextRepair": 120000
+   }
+  },
+  "p2": {
+   "short": "FP案②8,000万",
+   "label": "② 8,000万円・段階金利・頭金900万",
+   "note": "物件8,000万＋諸費用600万。自己資金900万、借入7,700万（世帯主4,000／配偶者3,700）。",
+   "house": {
+    "buy": true,
+    "floodZone": 3,
+    "buyAge": 34,
+    "price": 80000000,
+    "fees": 6000000,
+    "feeMode": "simple",
+    "feeBrokerageAuto": true,
+    "feeBrokerage": 0,
+    "feeRegistration": 700000,
+    "feeAcquisitionTax": 0,
+    "feeStamp": 30000,
+    "feeLoanRate": 2.2,
+    "feeLoanFixed": 0,
+    "feeInsurance": 400000,
+    "feeSettlement": 250000,
+    "feeOther": 100000,
+    "selfFund": 9000000,
+    "gift": 0,
+    "autoFitLoans": true,
+    "moveCost": 3000000,
+    "rentNow": 1800000,
+    "holdMethod": "simple",
+    "holdCost": 230000,
+    "holdCostRate": 0.306,
+    "landAssessRate": 70,
+    "bldgAssessRate": 40,
+    "landArea": 70,
+    "floorArea": 75,
+    "taxRateFixed": 1.4,
+    "taxRateCity": 0.3,
+    "newBuildYears": 5,
+    "bldgDeclineYears": 25,
+    "bldgFloorRate": 20,
+    "mgmtFee": 180000,
+    "repairFund": 180000,
+    "parkingFee": 0,
+    "maintGrowth": 0,
+    "selfRepairFund": 0,
+    "bigRepair": 0,
+    "bigRepairCycle": 0,
+    "loans": [
+     {
+      "name": "世帯主",
+      "amount": 40000000,
+      "years": 35,
+      "steps": [
+       {
+        "y": 1,
+        "rate": 1.3
+       },
+       {
+        "y": 11,
+        "rate": 1.6
+       },
+       {
+        "y": 21,
+        "rate": 1.9
+       },
+       {
+        "y": 31,
+        "rate": 2.2
+       }
+      ]
+     },
+     {
+      "name": "配偶者",
+      "amount": 37000000,
+      "years": 35,
+      "steps": [
+       {
+        "y": 1,
+        "rate": 1.3
+       },
+       {
+        "y": 11,
+        "rate": 1.6
+       },
+       {
+        "y": 21,
+        "rate": 1.9
+       },
+       {
+        "y": 31,
+        "rate": 2.2
+       }
+      ]
+     }
+    ],
+    "loanDeduction": true,
+    "ldHousingType": "shoene",
+    "ldKidsBonus": false,
+    "ldLimit": 30000000,
+    "ldRate": 0.7,
+    "ldYears": 13,
+    "ldMinYears": 10,
+    "ldMoveInLimit": 2030,
+    "ldIncomeLimit": 20000000,
+    "ldSmallAreaOK": false
+   },
+   "estate": {
+    "type": "mansion",
+    "track": true,
+    "method": "split",
+    "rate": -1,
+    "landRatio": 35,
+    "landRate": 0,
+    "buildingLife": 47,
+    "residual": 10,
+    "appraisalYear": 20,
+    "appraisalValue": 50000000,
+    "appraisalNote": "",
+    "appraisalDate": "",
+    "sellTaxManual": false,
+    "sellTaxAmount": 0,
+    "sell": false,
+    "sellAgeH": 70,
+    "sellFeeRate": 3.5,
+    "nextPrice": 20000000,
+    "nextFees": 1500000,
+    "nextRent": 0,
+    "nextHoldRate": 0.306,
+    "nextRepair": 120000
+   }
+  },
+  "p3": {
+   "short": "FP案③8,000万フル",
+   "label": "③ 8,000万円・段階金利・フルローン",
+   "note": "物件8,000万＋諸費用600万。自己資金0、借入8,600万（世帯主4,300／配偶者4,300）。",
+   "house": {
+    "buy": true,
+    "floodZone": 3,
+    "buyAge": 34,
+    "price": 80000000,
+    "fees": 6000000,
+    "feeMode": "simple",
+    "feeBrokerageAuto": true,
+    "feeBrokerage": 0,
+    "feeRegistration": 700000,
+    "feeAcquisitionTax": 0,
+    "feeStamp": 30000,
+    "feeLoanRate": 2.2,
+    "feeLoanFixed": 0,
+    "feeInsurance": 400000,
+    "feeSettlement": 250000,
+    "feeOther": 100000,
+    "selfFund": 0,
+    "gift": 0,
+    "autoFitLoans": true,
+    "moveCost": 3000000,
+    "rentNow": 1800000,
+    "holdMethod": "simple",
+    "holdCost": 230000,
+    "holdCostRate": 0.306,
+    "landAssessRate": 70,
+    "bldgAssessRate": 40,
+    "landArea": 70,
+    "floorArea": 75,
+    "taxRateFixed": 1.4,
+    "taxRateCity": 0.3,
+    "newBuildYears": 5,
+    "bldgDeclineYears": 25,
+    "bldgFloorRate": 20,
+    "mgmtFee": 180000,
+    "repairFund": 180000,
+    "parkingFee": 0,
+    "maintGrowth": 0,
+    "selfRepairFund": 0,
+    "bigRepair": 0,
+    "bigRepairCycle": 0,
+    "loans": [
+     {
+      "name": "世帯主",
+      "amount": 43000000,
+      "years": 35,
+      "steps": [
+       {
+        "y": 1,
+        "rate": 1.3
+       },
+       {
+        "y": 11,
+        "rate": 1.6
+       },
+       {
+        "y": 21,
+        "rate": 1.9
+       },
+       {
+        "y": 31,
+        "rate": 2.2
+       }
+      ]
+     },
+     {
+      "name": "配偶者",
+      "amount": 43000000,
+      "years": 35,
+      "steps": [
+       {
+        "y": 1,
+        "rate": 1.3
+       },
+       {
+        "y": 11,
+        "rate": 1.6
+       },
+       {
+        "y": 21,
+        "rate": 1.9
+       },
+       {
+        "y": 31,
+        "rate": 2.2
+       }
+      ]
+     }
+    ],
+    "loanDeduction": true,
+    "ldHousingType": "shoene",
+    "ldKidsBonus": false,
+    "ldLimit": 30000000,
+    "ldRate": 0.7,
+    "ldYears": 13,
+    "ldMinYears": 10,
+    "ldMoveInLimit": 2030,
+    "ldIncomeLimit": 20000000,
+    "ldSmallAreaOK": false
+   },
+   "estate": {
+    "type": "mansion",
+    "track": true,
+    "method": "split",
+    "rate": -1,
+    "landRatio": 35,
+    "landRate": 0,
+    "buildingLife": 47,
+    "residual": 10,
+    "appraisalYear": 20,
+    "appraisalValue": 50000000,
+    "appraisalNote": "",
+    "appraisalDate": "",
+    "sellTaxManual": false,
+    "sellTaxAmount": 0,
+    "sell": false,
+    "sellAgeH": 70,
+    "sellFeeRate": 3.5,
+    "nextPrice": 20000000,
+    "nextFees": 1500000,
+    "nextRent": 0,
+    "nextHoldRate": 0.306,
+    "nextRepair": 120000
+   }
+  },
+  "p4": {
+   "short": "FP案④8,000万固定",
+   "label": "④ 8,000万円・固定金利2.8%・フルローン",
+   "note": "③と同じ借入額で、全期間固定金利2.800%。金利上昇リスクがない代わりに当初返済が重い。",
+   "house": {
+    "buy": true,
+    "floodZone": 3,
+    "buyAge": 34,
+    "price": 80000000,
+    "fees": 6000000,
+    "feeMode": "simple",
+    "feeBrokerageAuto": true,
+    "feeBrokerage": 0,
+    "feeRegistration": 700000,
+    "feeAcquisitionTax": 0,
+    "feeStamp": 30000,
+    "feeLoanRate": 2.2,
+    "feeLoanFixed": 0,
+    "feeInsurance": 400000,
+    "feeSettlement": 250000,
+    "feeOther": 100000,
+    "selfFund": 0,
+    "gift": 0,
+    "autoFitLoans": true,
+    "moveCost": 3000000,
+    "rentNow": 1800000,
+    "holdMethod": "simple",
+    "holdCost": 230000,
+    "holdCostRate": 0.306,
+    "landAssessRate": 70,
+    "bldgAssessRate": 40,
+    "landArea": 70,
+    "floorArea": 75,
+    "taxRateFixed": 1.4,
+    "taxRateCity": 0.3,
+    "newBuildYears": 5,
+    "bldgDeclineYears": 25,
+    "bldgFloorRate": 20,
+    "mgmtFee": 180000,
+    "repairFund": 180000,
+    "parkingFee": 0,
+    "maintGrowth": 0,
+    "selfRepairFund": 0,
+    "bigRepair": 0,
+    "bigRepairCycle": 0,
+    "loans": [
+     {
+      "name": "世帯主",
+      "amount": 43000000,
+      "years": 35,
+      "steps": [
+       {
+        "y": 1,
+        "rate": 2.8
+       }
+      ]
+     },
+     {
+      "name": "配偶者",
+      "amount": 43000000,
+      "years": 35,
+      "steps": [
+       {
+        "y": 1,
+        "rate": 2.8
+       }
+      ]
+     }
+    ],
+    "loanDeduction": true,
+    "ldHousingType": "shoene",
+    "ldKidsBonus": false,
+    "ldLimit": 30000000,
+    "ldRate": 0.7,
+    "ldYears": 13,
+    "ldMinYears": 10,
+    "ldMoveInLimit": 2030,
+    "ldIncomeLimit": 20000000,
+    "ldSmallAreaOK": false
+   },
+   "estate": {
+    "type": "mansion",
+    "track": true,
+    "method": "split",
+    "rate": -1,
+    "landRatio": 35,
+    "landRate": 0,
+    "buildingLife": 47,
+    "residual": 10,
+    "appraisalYear": 20,
+    "appraisalValue": 50000000,
+    "appraisalNote": "",
+    "appraisalDate": "",
+    "sellTaxManual": false,
+    "sellTaxAmount": 0,
+    "sell": false,
+    "sellAgeH": 70,
+    "sellFeeRate": 3.5,
+    "nextPrice": 20000000,
+    "nextFees": 1500000,
+    "nextRent": 0,
+    "nextHoldRate": 0.306,
+    "nextRepair": 120000
+   }
+  },
+  "rent": {
+   "short": "賃貸のまま",
+   "label": "⑤ 賃貸を継続（参考・PDFにない比較用）",
+   "note": "住宅を取得せず、現在の住宅関連費180万円/年を家賃変動率0%で継続した場合。",
+   "house": {
+    "buy": false,
+    "floodZone": 3,
+    "buyAge": 34,
+    "price": 75000000,
+    "fees": 5500000,
+    "feeMode": "simple",
+    "feeBrokerageAuto": true,
+    "feeBrokerage": 0,
+    "feeRegistration": 700000,
+    "feeAcquisitionTax": 0,
+    "feeStamp": 30000,
+    "feeLoanRate": 2.2,
+    "feeLoanFixed": 0,
+    "feeInsurance": 400000,
+    "feeSettlement": 250000,
+    "feeOther": 100000,
+    "selfFund": 9000000,
+    "gift": 0,
+    "autoFitLoans": true,
+    "moveCost": 3000000,
+    "rentNow": 1800000,
+    "holdMethod": "simple",
+    "holdCost": 230000,
+    "holdCostRate": 0.306,
+    "landAssessRate": 70,
+    "bldgAssessRate": 40,
+    "landArea": 70,
+    "floorArea": 75,
+    "taxRateFixed": 1.4,
+    "taxRateCity": 0.3,
+    "newBuildYears": 5,
+    "bldgDeclineYears": 25,
+    "bldgFloorRate": 20,
+    "mgmtFee": 180000,
+    "repairFund": 180000,
+    "parkingFee": 0,
+    "maintGrowth": 0,
+    "selfRepairFund": 0,
+    "bigRepair": 0,
+    "bigRepairCycle": 0,
+    "loans": [
+     {
+      "name": "世帯主",
+      "amount": 36500000,
+      "years": 35,
+      "steps": [
+       {
+        "y": 1,
+        "rate": 1.3
+       },
+       {
+        "y": 11,
+        "rate": 1.6
+       },
+       {
+        "y": 21,
+        "rate": 1.9
+       },
+       {
+        "y": 31,
+        "rate": 2.2
+       }
+      ]
+     },
+     {
+      "name": "配偶者",
+      "amount": 35000000,
+      "years": 35,
+      "steps": [
+       {
+        "y": 1,
+        "rate": 1.3
+       },
+       {
+        "y": 11,
+        "rate": 1.6
+       },
+       {
+        "y": 21,
+        "rate": 1.9
+       },
+       {
+        "y": 31,
+        "rate": 2.2
+       }
+      ]
+     }
+    ],
+    "loanDeduction": true,
+    "ldHousingType": "shoene",
+    "ldKidsBonus": false,
+    "ldLimit": 30000000,
+    "ldRate": 0.7,
+    "ldYears": 13,
+    "ldMinYears": 10,
+    "ldMoveInLimit": 2030,
+    "ldIncomeLimit": 20000000,
+    "ldSmallAreaOK": false
+   },
+   "estate": {
+    "type": "mansion",
+    "track": true,
+    "method": "split",
+    "rate": -1,
+    "landRatio": 35,
+    "landRate": 0,
+    "buildingLife": 47,
+    "residual": 10,
+    "appraisalYear": 20,
+    "appraisalValue": 50000000,
+    "appraisalNote": "",
+    "appraisalDate": "",
+    "sellTaxManual": false,
+    "sellTaxAmount": 0,
+    "sell": false,
+    "sellAgeH": 70,
+    "sellFeeRate": 3.5,
+    "nextPrice": 20000000,
+    "nextFees": 1500000,
+    "nextRent": 0,
+    "nextHoldRate": 0.306,
+    "nextRepair": 120000
+   }
+  }
+ }
+}

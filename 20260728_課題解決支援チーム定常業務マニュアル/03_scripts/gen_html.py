@@ -5,8 +5,8 @@ from pathlib import Path
 from datetime import date
 
 BASE = Path(__file__).parent
-OUT_NAME = f"20260728_課題解決支援チーム_定常業務マニュアル_v9.html"
-OUT  = BASE.parent / "02_成果物" / OUT_NAME
+OUT_NAME = f"20260728_課題解決支援チーム_定常業務マニュアル_v27.html"
+OUT  = BASE.parent / "02_output" / OUT_NAME
 
 TITLE      = "課題解決支援チーム 定常業務マニュアル"
 TEAM_LABEL = "課題解決支援チーム"
@@ -14,35 +14,30 @@ TEAM_LABEL = "課題解決支援チーム"
 # ── セクション定義 ────────────────────────────────────────────────────────────
 # (sid, type, title, target_meeting, search_key, cadence, cat_id)
 SECTIONS = [
+    # ─ 共通
+    ("s0",  "参考", "全マニュアル共通ルール",
+     "全セクション共通",
+     "共通", "-", "m_cat0", "t_cat0"),
     # ─ 進捗連絡会議・課題検討会
     ("s1",  "手順", "会議参加・ロジ対応",
      "進捗連絡会議（月 13:30）／課題検討会（月 14:00）",
      "会議参加・ロジ対応", "週次", "m_cat1", "t_cat1"),
-    ("s2",  "手順", "開催時間変更時の対応",
+    ("s3",  "手順", "週次運営：課題検討会・進捗連絡会議（火〜月）",
      "進捗連絡会議（月 13:30）／課題検討会（月 14:00）",
-     "開催時間変更", "随時", "m_cat1", "t_cat6"),
-    ("s3",  "手順", "資料作成・基金RV（火〜金）",
-     "課題検討会（月 14:00）",
-     "資料作成・基金RV", "週次", "m_cat1", "t_cat2"),
-    ("s4",  "手順", "厚労省資料連携（金〜月）",
-     "進捗連絡会議（月 13:30）／課題検討会（月 14:00）",
-     "資料連携_厚労", "週次", "m_cat1", "t_cat2"),
-    ("s5",  "手順", "開催連絡（金）",
-     "進捗連絡会議（月 13:30）",
-     "開催連絡（金）", "週次", "m_cat1", "t_cat2"),
+     "週次運営", "週次", "m_cat1", "t_cat2"),
     ("s7",  "手順", "議事要旨：作成フロー（木〜火）",
      "進捗連絡会議（月 13:30）／課題検討会（月 14:00）",
-     "作成フロー（金〜月）", "週次", "m_cat1", "t_cat3"),
+     "作成フロー（木〜火）", "週次", "m_cat1", "t_cat3"),
     ("s8",  "手順", "議事要旨：承認フロー（火〜金）",
      "進捗連絡会議（月 13:30）／課題検討会（月 14:00）",
-     "承認フロー（月〜木）", "週次", "m_cat1", "t_cat3"),
+     "承認フロー（火〜金）", "週次", "m_cat1", "t_cat3"),
     ("s10", "手順", "議事要旨：事業者送付（火）",
      "進捗連絡会議（月 13:30）",
      "事業者送付（火）", "週次", "m_cat1", "t_cat3"),
     # ─ 個別検討会
     ("s11", "手順", "会議参加・議事メモ・報告",
      "個別検討会（火 15:30／水 10:00）",
-     "参加〜報告", "週次", "m_cat2", "t_cat1"),
+     "議事メモ・報告", "週次", "m_cat2", "t_cat1"),
     # ─ 基金定例
     ("s12", "手順", "議事メモ・ToDo起票",
      "基金定例（水 16:00）",
@@ -53,21 +48,21 @@ SECTIONS = [
     # ─ 三者定例
     ("s13", "手順", "会議運営・議事要旨確定",
      "三者定例（金 13:00）",
-     "三者定例（金）", "週次", "m_cat4", "t_cat4"),
+     "会議運営・議事要旨確定", "週次", "m_cat4", "t_cat4"),
     ("s15", "手順", "議事要旨・資料更新（木〜金）",
      "三者定例（金 13:00）",
      "議事要旨・資料更新", "週次", "m_cat4", "t_cat4"),
     # ─ 月次
-    ("s16", "手順", "月次報告会・ステコミ",
-     "月次報告会・ステアリングコミッティ",
-     "月次報告会", "月次", "m_cat5", "t_cat5"),
+    ("s16", "手順", "ステコミ：議事録作成",
+     "ステアリングコミッティ",
+     "ステコミ：議事録作成", "月次", "m_cat5", "t_cat5"),
     ("s17", "手順", "納品（月次）",
      "月次納品",
      "納品（月次）", "月次", "m_cat5", "t_cat5"),
     # ─ 台帳・参考
     ("s6",  "メモ",  "議事要旨：作成メモ",
      "進捗連絡会議 ／ 課題検討会",
-     "作成作業メモ", "-", "m_cat6", "t_cat3"),
+     "作成メモ", "-", "m_cat6", "t_cat3"),
     ("s9",  "手順", "課題・ToDo台帳 更新・整理",
      "〔原本〕課題・ToDo管理台帳.xlsx",
      "課題・ToDo台帳", "-", "m_cat6", "t_cat6"),
@@ -77,10 +72,15 @@ SECTIONS = [
     ("s19", "参考", "会議調整・Inv更新",
      "",
      "会議調整・Inv更新", "随時", "m_cat6", "t_cat6"),
+    ("s20", "参考", "用語集",
+     "",
+     "用語集", "-", "m_cat6", "t_cat6"),
 ]
 
 # ── カテゴリ定義（会議別） ────────────────────────────────────────────────────
 CATS_MEETING = [
+    {"id": "m_cat0", "label": "共通ルール",               "cadence": "-",
+     "color": "#1a2e4a"},
     {"id": "m_cat1", "label": "進捗連絡会議・課題検討会", "cadence": "週次",
      "color": "#3b82f6"},
     {"id": "m_cat2", "label": "個別検討会",               "cadence": "週次",
@@ -89,7 +89,7 @@ CATS_MEETING = [
      "color": "#059669"},
     {"id": "m_cat4", "label": "三者定例（金）",            "cadence": "週次",
      "color": "#0d9488"},
-    {"id": "m_cat5", "label": "月次報告会・ステコミ・納品","cadence": "月次",
+    {"id": "m_cat5", "label": "ステコミ・納品",            "cadence": "月次",
      "color": "#d97706"},
     {"id": "m_cat6", "label": "台帳・随時対応",            "cadence": "-",
      "color": "#6b7280"},
@@ -97,6 +97,8 @@ CATS_MEETING = [
 
 # ── カテゴリ定義（作業別） ────────────────────────────────────────────────────
 CATS_TASK = [
+    {"id": "t_cat0", "label": "共通ルール",               "cadence": "-",
+     "color": "#1a2e4a"},
     {"id": "t_cat1", "label": "会議参加・議事メモ作成",   "cadence": "週次",
      "color": "#3b82f6"},
     {"id": "t_cat2", "label": "資料作成・連携",            "cadence": "週次",
@@ -243,6 +245,10 @@ body{font-family:'Hiragino Sans','Yu Gothic',Meiryo,sans-serif;font-size:14px;co
 .nt{color:var(--mu);font-size:12px;padding:2px 0 2px 10px;border-left:2px solid var(--bd);margin:3px 0;line-height:1.6}
 .fr{font-size:12px;background:#eff6ff;color:#1e40af;padding:1px 4px;border-radius:3px;font-family:monospace}
 .bun{background:#f8fafc;border:1px solid var(--bd);border-left:3px solid #94a3b8;border-radius:5px;padding:10px 12px;margin:8px 0;font-size:12.5px;line-height:1.85;white-space:pre-wrap}
+.bl{color:var(--acc);text-decoration:underline;text-underline-offset:2px;cursor:pointer;font-weight:600}
+.bl:hover{color:#1e40af}
+.bun-h{scroll-margin-top:10px}
+.bun-h.bun-hl{background:#fde68a!important;border-left-color:#d97706!important;transition:background .3s}
 .empty-sec{color:var(--mu);font-size:13px;padding:12px;border:1px dashed var(--bd);border-radius:5px;text-align:center}
 /* ─ Welcome / Search */
 #welcome{padding:40px 32px;color:var(--mu)}
@@ -271,11 +277,22 @@ let chkState = JSON.parse(localStorage.getItem('chkState')||'{}');
 
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 
+const BUN_NUM={'①':'1','②':'2','③':'3','④':'4','⑤':'5'};
 function inlineProcess(t){
   let r = esc(t);
   r = r.replace(/(📁)([^\\s,。、<\\n（）]+)/g,'$1<span class="fr">$2</span>');
   r = r.replace(/(📄)([^\\s,。、<\\n（）]+)/g,'$1<span class="fr">$2</span>');
+  r = r.replace(/文案([A-C])([①②③④⑤])(・([A-C])([①②③④⑤]))?/g,function(m,l1,d1,rest,l2,d2){
+    let o='<a class="bl" href="#" onclick="jumpBun(event,\\''+l1+BUN_NUM[d1]+'\\')">文案'+l1+d1+'</a>';
+    if(rest){ o+='・<a class="bl" href="#" onclick="jumpBun(event,\\''+l2+BUN_NUM[d2]+'\\')">'+l2+d2+'</a>'; }
+    return o;
+  });
   return r;
+}
+function jumpBun(ev, code){
+  ev.preventDefault();
+  const t=document.getElementById('bun-'+code);
+  if(t){ t.scrollIntoView({behavior:'smooth',block:'start'}); t.classList.add('bun-hl'); setTimeout(()=>t.classList.remove('bun-hl'),1600); }
 }
 
 function renderContent(raw, secId){
@@ -307,7 +324,10 @@ function renderContent(raw, secId){
       html += '<h2>'+esc(h)+'</h2>';
     } else if(l.startsWith('### ')){
       const h = l.slice(4);
-      if(inBun){ flushBun(); html+='<h3>'+esc(h)+'</h3>'; }
+      if(inBun){ flushBun();
+        const mm=h.match(/文案([A-C])([①②③④⑤])/);
+        const idA = mm? ' id="bun-'+mm[1]+BUN_NUM[mm[2]]+'"':'';
+        html+='<h3'+idA+' class="bun-h">'+esc(h)+'</h3>'; }
       else { flushBuf(); html+='<h3>'+esc(h)+'</h3>'; }
     } else if(l.startsWith('☐ ')){
       flushBuf(); flushBun();

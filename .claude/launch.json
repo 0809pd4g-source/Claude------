@@ -4,28 +4,65 @@
     {
       "name": "患者サマリー可視化",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "7431", "--directory", "C:\\Users\\masato.nakazawa\\Downloads\\Claudeプロジェクト\\20260716_マイナポ患者サマリー可視化\\02_成果物"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "7431",
+        "--directory",
+        "C:\\Users\\masato.nakazawa\\Downloads\\Claudeプロジェクト\\20260716_マイナポ患者サマリー可視化\\02_成果物"
+      ],
       "port": 7431,
       "url": "http://localhost:7431"
     },
     {
       "name": "個人サイト",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "7432", "--directory", "C:\\Users\\masato.nakazawa\\Downloads\\Claudeプロジェクト\\20260723_個人サイト\\02_成果物\\v1"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "7432",
+        "--directory",
+        "C:\\Users\\masato.nakazawa\\Downloads\\Claudeプロジェクト\\20260723_個人サイト\\02_成果物\\v1"
+      ],
       "port": 7432,
       "url": "http://localhost:7432/"
     },
     {
       "name": "東ティモールまとめ",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "7433", "--directory", "C:\\Users\\masato.nakazawa\\Downloads\\Claudeプロジェクト\\20260618_東ティモールまとめ\\02_成果物"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "7433",
+        "--directory",
+        "C:\\Users\\masato.nakazawa\\Downloads\\Claudeプロジェクト\\20260618_東ティモールまとめ\\02_成果物"
+      ],
       "port": 7433,
       "url": "http://localhost:7433/"
     },
     {
+      "name": "ライフプランCF",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "7435",
+        "--directory",
+        "C:\\Users\\masato.nakazawa\\Downloads\\Claudeプロジェクト\\20260812_ライフプランCFシミュレーター\\02_output"
+      ],
+      "port": 7435,
+      "url": "http://localhost:7435/"
+    },
+    {
       "name": "東ティモールKB",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "7434", "--directory", "C:\\Users\\masato.nakazawa\\Downloads\\Claudeプロジェクト\\20260729_東ティモールナレッジベース\\02_output"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "7434",
+        "--directory",
+        "C:\\Users\\masato.nakazawa\\Downloads\\Claudeプロジェクト\\20260729_東ティモールナレッジベース\\02_output"
+      ],
       "port": 7434,
       "url": "http://localhost:7434/"
     }

@@ -1,0 +1,1957 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>マイナポータル 患者サマリー 医療機関承継・表示条件シミュレーター v19</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Meiryo UI','メイリオ',sans-serif; background: #d8dfe9; color: #222; font-size: 13px; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+
+.app-header { background: #1a2e50; color: #fff; padding: 7px 16px; display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.app-header .title { font-size: 13px; font-weight: bold; }
+.app-header .sub { font-size: 10px; opacity: .6; }
+.sim-badge { margin-left: auto; background: #e65c00; padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: bold; }
+
+.layout { display: flex; flex: 1; overflow: hidden; }
+
+/* ===== 左パネル ===== */
+.sidebar { width: 360px; min-width: 360px; background: #fff; border-right: 1px solid #c4cdd8; overflow-y: auto; padding: 12px 10px; display: flex; flex-direction: column; gap: 14px; }
+.sb-label { font-size: 10px; font-weight: bold; color: #1a2e50; border-bottom: 1.5px solid #1a2e50; padding-bottom: 2px; margin-bottom: 6px; }
+
+.persona-box { background: #eef3fc; border: 1.5px solid #b0c4e8; border-radius: 7px; padding: 9px 11px; }
+.pbox-name { font-size: 13px; font-weight: bold; }
+.pbox-meta { font-size: 10px; color: #555; margin-top: 2px; }
+.pbox-tag  { display: inline-block; background: #d0e4ff; color: #1a2e50; font-size: 9px; padding: 1px 5px; border-radius: 5px; margin: 3px 1px 0; }
+
+select.sc-sel {
+  width: 100%; padding: 6px 26px 6px 8px; border: 1.5px solid #b8c8e0; border-radius: 5px;
+  font-family: inherit; font-size: 11px; color: #222; background: #fff; cursor: pointer;
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='%231a2e50' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: calc(100% - 8px) center;
+}
+select.sc-sel:focus { outline: none; border-color: #1a2e50; }
+
+.sc-desc { margin-top: 6px; padding: 8px 10px; border-radius: 5px; font-size: 10px; line-height: 1.8; border-left: 3px solid; }
+.sc-desc.A { background: #e8f5e9; border-color: #43a047; color: #1b5e20; }
+.sc-desc.B { background: #e3f2fd; border-color: #1e88e5; color: #0d3c61; }
+.sc-desc.C { background: #fce4ec; border-color: #e91e63; color: #4a0020; }
+.sc-desc.D { background: #eceff1; border-color: #78909c; color: #37474f; }
+.sc-desc.E { background: #fce4ec; border-color: #e91e63; color: #4a0020; }
+.sc-desc.G { background: #e8f5e9; border-color: #43a047; color: #1b5e20; }
+.sc-desc.p2 { background: #fff3e0; border-color: #fb8c00; color: #663c00; }
+
+/* タイムライン */
+.tl { position: relative; padding-left: 14px; }
+.tl::before { content:''; position:absolute; left:4px; top:6px; bottom:6px; width:1px; background:#ccd3df; }
+.tl-item { display: flex; gap: 7px; margin-bottom: 8px; font-size: 10px; }
+.tl-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; margin-top: 2px; }
+.tl-dot.shido { background: #1a2e50; }
+.tl-dot.labrx { background: #00897b; }
+.tl-dot.rx    { background: #d81b60; box-shadow: 0 0 0 2px #f8bbd0; }
+.tl-dot.reg   { background: #3949ab; }
+.tl-dot.upd   { background: #3949ab; box-shadow: 0 0 0 2px #c5cae9; }
+.tl-dot.suc   { background: #7b1fa2; box-shadow: 0 0 0 2px #e1bee7; }
+.tl-dot.view  { background: #f57c00; box-shadow: 0 0 0 2px #ffe0b2; }
+.tl-date { font-weight: bold; color: #333; min-width: 64px; }
+.tl-desc { color: #555; line-height: 1.4; }
+.tl-desc.hl { color: #7b1fa2; font-weight: bold; }
+
+/* 結果サマリー */
+.res-box { background: #fffde7; border: 1px solid #fdd835; border-radius: 6px; padding: 8px 10px; font-size: 10px; line-height: 1.7; }
+.res-box .rb-title { font-weight: bold; color: #e65100; margin-bottom: 5px; font-size: 11px; }
+.res-tbl { width: 100%; border-collapse: collapse; font-size: 9px; }
+.res-tbl th, .res-tbl td { border: 1px solid #e6ddb0; padding: 3px 4px; text-align: center; }
+.res-tbl th { background: #fff8e1; color: #7a5800; }
+.res-tbl td.rk { text-align: left; background: #fffdf3; color: #555; font-weight: bold; white-space: nowrap; }
+.res-tbl td.sec { background: #fce9d6; color: #8a4b00; font-weight: bold; text-align: left; }
+.v-old { color: #b71c1c; font-weight: bold; }
+.v-new { color: #1b5e20; font-weight: bold; }
+.v-ok  { color: #1b5e20; font-weight: bold; }
+.v-ng  { color: #b71c1c; font-weight: bold; }
+.v-unc { color: #8a4b00; font-weight: bold; }
+
+/* ルール */
+.rule-box { background: #f0f4fc; border: 1px solid #c8d4ee; border-radius: 5px; padding: 7px 9px; font-size: 10px; color: #444; line-height: 1.8; }
+.rule-box strong { color: #1a2e50; }
+.rule-important { background: #fff3e0; border: 1px solid #ffb74d; border-radius: 5px; padding: 7px 9px; font-size: 10px; color: #4e2600; line-height: 1.7; margin-top: 6px; }
+.rule-important strong { color: #e65100; }
+.rule-unconf { background: #f3e5f5; border: 1px solid #ce93d8; border-radius: 5px; padding: 7px 9px; font-size: 10px; color: #4a148c; line-height: 1.7; margin-top: 6px; }
+.rule-unconf strong { color: #6a1b9a; }
+
+/* 非表示理由リスト */
+.reason-list { margin: 4px 0 0; padding: 6px 8px; background: #fff8f2; border: 1px solid #ffcc80; border-radius: 5px; font-size: 9px; color: #8a4b00; line-height: 1.6; }
+.reason-list .rl-t { font-weight: bold; color: #e65100; }
+.reason-list .rl-i { display: block; }
+
+/* ===== 比較エリア ===== */
+.compare-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.compare-labels { display: flex; flex-shrink: 0; overflow-x: auto; padding: 0 16px; gap: 14px; }
+.cl { text-align: center; padding: 6px 8px; font-size: 11px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 6px; flex-shrink: 0; border-radius: 0 0 4px 4px; line-height: 1.4; }
+.cl.before { background: #b71c1c; color: #fff; }
+.cl.after  { background: #1b5e20; color: #fff; }
+
+.phones-row { flex: 1; display: flex; align-items: flex-start; justify-content: flex-start; overflow: auto; padding: 12px 16px; gap: 14px; }
+
+.phone-wrap { display: flex; flex-direction: column; gap: 4px; align-items: center; flex-shrink: 0; }
+.phone-badge { font-size: 11px; font-weight: bold; padding: 3px 14px; border-radius: 10px; text-align: center; line-height: 1.4; }
+.phone-badge.before { background: #ffcdd2; color: #b71c1c; }
+.phone-badge.after  { background: #c8e6c9; color: #1b5e20; }
+.phone { background: #fff; border-radius: 28px; border: 8px solid #111; box-shadow: 0 6px 24px rgba(0,0,0,.3); overflow: hidden; height: 646px; display: flex; flex-direction: column; }
+.phone-notch { background: #111; height: 22px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.np { background: #333; width: 64px; height: 10px; border-radius: 5px; }
+.phone-status { background: #fff; padding: 3px 14px; display: flex; justify-content: space-between; font-size: 9px; color: #333; font-weight: bold; flex-shrink: 0; }
+.phone-screen { flex: 1; overflow-y: auto; }
+
+/* ===== マイナポータル UI ===== */
+.mp-nav { background: #fff; border-bottom: 1px solid #e8e8e8; padding: 8px 12px; display: flex; align-items: center; gap: 8px; position: sticky; top: 0; z-index: 10; }
+.mp-logo { font-size: 12px; font-weight: bold; color: #003f8a; flex: 1; }
+
+.hero { background: linear-gradient(135deg, #003f8a 0%, #0057c8 100%); color: #fff; padding: 14px 12px 12px; }
+.hero-label { font-size: 9px; opacity: .8; }
+.hero-title { font-size: 18px; font-weight: bold; line-height: 1.2; margin-top: 2px; }
+.hero-desc  { font-size: 9px; opacity: .7; margin-top: 5px; line-height: 1.5; }
+
+.visit-list { padding: 0 10px; margin-top: 10px; }
+.vc { border: 1px solid #dde4ef; border-radius: 8px; padding: 9px 10px; margin-bottom: 7px; background: #fff; cursor: pointer; display: flex; align-items: center; gap: 7px; box-shadow: 0 1px 4px rgba(0,0,0,.05); transition: all .15s; }
+.vc:hover { box-shadow: 0 2px 8px rgba(0,63,138,.15); border-color: #7090c0; }
+.vc-date { font-size: 9px; color: #888; margin-bottom: 3px; }
+.vc-info { flex: 1; }
+.vc-hosp { font-size: 11px; font-weight: bold; color: #222; }
+.vc-dept { font-size: 9px; color: #666; margin-top: 1px; }
+.vc-code { font-size: 8px; margin-top: 3px; }
+.code-chip { display: inline-block; padding: 1px 6px; border-radius: 8px; font-weight: bold; }
+.code-chip.old { background: #ffebee; color: #b71c1c; border: 1px solid #ef9a9a; }
+.code-chip.new { background: #e8f5e9; color: #1b5e20; border: 1px solid #a5d6a7; }
+.vc-arrow { color: #bbb; font-size: 13px; }
+
+.list-note { padding: 14px 12px; font-size: 10px; color: #555; background: #f5f7fa; border: 1px dashed #c0c8d4; border-radius: 8px; margin: 6px 0; line-height: 1.7; }
+.list-note.unc { background: #f3e5f5; border-color: #ce93d8; color: #4a148c; }
+
+.profile-sec { padding: 8px 10px 0; }
+.ps-title { font-size: 11px; font-weight: bold; color: #333; display: flex; justify-content: space-between; cursor: pointer; padding: 6px 0; border-bottom: 1px solid #eee; }
+.ps-body { padding: 6px 0 4px; display: flex; flex-wrap: wrap; gap: 3px; }
+
+.acc-sec { padding: 0 10px 8px; }
+.acc-hd { background: #f4f6fc; border: 1px solid #dde4f0; border-radius: 6px; padding: 7px 10px; display: flex; align-items: center; cursor: pointer; margin-top: 6px; }
+.acc-lbl { font-size: 11px; font-weight: bold; flex: 1; }
+.acc-cnt { background: #003f8a; color: #fff; font-size: 9px; padding: 1px 6px; border-radius: 6px; margin-right: 5px; }
+.acc-chev { color: #aaa; font-size: 11px; }
+.acc-body { border: 1px solid #dde4f0; border-top: none; border-radius: 0 0 6px 6px; display: none; }
+.acc-body.open { display: block; }
+
+.back-bar { padding: 7px 12px; display: flex; align-items: center; gap: 5px; cursor: pointer; color: #003f8a; font-size: 11px; font-weight: bold; border-bottom: 1px solid #eee; background: #fafbfc; }
+.detail-body { padding: 12px; }
+.detail-date { font-size: 19px; font-weight: bold; }
+.detail-hosp { font-size: 11px; color: #555; margin-top: 4px; }
+.detail-dr   { font-size: 10px; color: #888; margin-top: 2px; margin-bottom: 4px; }
+.ds-title { font-size: 12px; font-weight: bold; color: #333; margin: 12px 0 5px; padding-top: 10px; border-top: 1px solid #eee; }
+.disease-row { margin-bottom: 5px; }
+.d-role { font-size: 9px; color: #888; }
+.d-main { font-size: 13px; font-weight: bold; }
+.d-sub  { font-size: 11px; color: #555; }
+.advice-box { font-size: 11px; line-height: 1.7; white-space: pre-wrap; background: #fffde7; border-left: 3px solid #ffc107; padding: 8px 10px; border-radius: 0 5px 5px 0; color: #333; }
+
+.goto-links { padding: 8px 10px; display: flex; gap: 6px; flex-direction: column; }
+.gb { background: #fff; border: 1.5px solid #003f8a; border-radius: 8px; padding: 10px 12px; display: flex; align-items: center; gap: 8px; cursor: pointer; color: #003f8a; font-size: 11px; font-weight: bold; transition: background .15s; }
+.gb:hover { background: #eef3fc; }
+.gb-ico { font-size: 16px; }
+.gb-cnt { margin-left: auto; background: #003f8a; color: #fff; font-size: 9px; padding: 1px 6px; border-radius: 6px; }
+
+.sc-bar { background: #fff; border-bottom: 1px solid #eee; padding: 8px 12px; display: flex; align-items: center; gap: 6px; position: sticky; top: 0; z-index: 10; }
+.sc-back { color: #003f8a; cursor: pointer; font-size: 16px; font-weight: bold; }
+.sc-name { font-size: 12px; font-weight: bold; }
+.sc-cnt  { background: #003f8a; color: #fff; font-size: 9px; padding: 1px 6px; border-radius: 6px; margin-left: 3px; }
+.sc-head { font-size: 11px; color: #555; font-weight: bold; padding: 8px 12px 3px; }
+
+.rx-card { margin: 0 10px 6px; border: 1px solid #c8dff5; border-radius: 7px; overflow: hidden; }
+.rx-hd { background: #e8f0fb; padding: 7px 10px; font-size: 10px; color: #003f8a; font-weight: bold; display: flex; justify-content: space-between; cursor: pointer; }
+.rx-bd { padding: 8px 10px; font-size: 10px; display: none; }
+.rx-name   { font-weight: bold; color: #003f8a; }
+.rx-detail { color: #444; font-size: 9px; margin-top: 1px; }
+
+.lab-tbl { width: 100%; border-collapse: collapse; font-size: 10px; }
+.lab-tbl th { background: #f0f4fc; color: #334; padding: 4px 8px; text-align: left; border-bottom: 1px solid #dde; }
+.lab-tbl tr { border-bottom: 1px solid #f0f2f7; }
+.lab-tbl td { padding: 6px 8px; vertical-align: top; }
+.lv { font-size: 12px; font-weight: bold; }
+.lv-H { color: #c0392b; } .lv-L { color: #2471a3; } .lv-n { color: #229954; }
+.flag { font-size: 8px; padding: 1px 3px; border-radius: 2px; }
+.flag.H { background: #fde8e8; color: #c00; } .flag.L { background: #e8f0fe; color: #1a5276; }
+
+.blocked-ph { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; color: #b71c1c; gap: 10px; text-align: center; }
+.blocked-ph.unc { color: #6a1b9a; }
+.blocked-ph .bi { font-size: 32px; }
+.blocked-ph .bt { font-size: 12px; font-weight: bold; }
+.blocked-ph .bd { font-size: 10px; color: #a05050; line-height: 1.7; }
+.blocked-ph.unc .bd { color: #7a4a95; }
+
+/* 解説トグル */
+.co-toggle { display: flex; align-items: flex-start; gap: 6px; font-size: 10px; color: #4a148c; line-height: 1.5; cursor: pointer; }
+.co-toggle input { margin-top: 1px; accent-color: #7b1fa2; }
+.co-note { font-size: 9px; color: #888; margin-top: 4px; line-height: 1.5; }
+
+/* 吹き出し（実画面には出ない解説） */
+.callout { margin: 6px 10px; background: #f3e5f5; border: 1.5px dashed #ba68c8; border-radius: 8px; padding: 7px 9px; font-size: 9px; color: #4a148c; line-height: 1.6; display: flex; gap: 6px; }
+.callout.warn { background: #fff3e0; border-color: #ffb74d; color: #663c00; }
+.callout .co-ico { flex-shrink: 0; font-size: 12px; }
+.callout .co-tag { font-weight: bold; font-size: 8px; color: #7b1fa2; display: block; margin-bottom: 2px; }
+.callout b { color: #6a1b9a; }
+
+/* プロファイル情報 タブ */
+.prof-tabs { display: flex; gap: 6px; padding: 6px 0 2px; }
+.pt { font-size: 10px; padding: 3px 12px; border-radius: 12px; background: #eef1f6; color: #667; }
+.pt.on { background: #003f8a; color: #fff; font-weight: bold; }
+.al-row { padding: 8px 10px; border: 1px solid #eee; border-radius: 6px; margin: 5px 0; font-size: 10px; display: flex; justify-content: space-between; align-items: center; }
+.al-row .an { font-weight: bold; color: #333; }
+.al-row .ac { color: #bbb; font-size: 11px; }
+
+/* 差分バナー */
+.diff-banner { padding: 5px 14px; border-radius: 5px; font-size: 11px; font-weight: bold; }
+.diff-banner.diff-warn { background: #fff3e0; color: #e65100; border: 1px solid #ffcc80; }
+.diff-banner.diff-info { background: #e3f2fd; color: #0d3c61; border: 1px solid #90caf9; }
+.diff-banner.diff-ok   { background: #e8f5e9; color: #1b5e20; border: 1px solid #a5d6a7; }
+.diff-banner.diff-unc  { background: #f3e5f5; color: #6a1b9a; border: 1px solid #ce93d8; }
+
+/* ===== 第3段階：target レーン ／ 比較モード ===== */
+.cl.target { background: #0d47a1; color: #fff; }
+.phone-badge.target { background: #bbdefb; color: #0d47a1; white-space: pre-line; }
+.mode-bar { display: flex; gap: 6px; padding: 6px 16px 2px; flex-shrink: 0; flex-wrap: wrap; align-items: center; }
+.mode-btn { font-size: 10px; font-weight: bold; padding: 4px 10px; border-radius: 14px; border: 1.5px solid #b8c8e0; background: #fff; color: #33507a; cursor: pointer; }
+.mode-btn.on { background: #1a2e50; color: #fff; border-color: #1a2e50; }
+.target-notice { margin: 4px 16px 0; padding: 6px 10px; background: #e3f2fd; border: 1.5px solid #1565c0; border-left: 5px solid #0d47a1; border-radius: 5px; font-size: 10px; color: #0d3c61; line-height: 1.6; }
+.target-notice b { color: #0d47a1; }
+.rule-target { background: #e3f2fd; border: 1px solid #90caf9; border-radius: 5px; padding: 7px 9px; font-size: 10px; color: #0d3c61; line-height: 1.7; }
+.rule-target strong { color: #0d47a1; }
+
+
+/* ===== パラメータ操作 ===== */
+.preset-toolbar { display:flex; align-items:center; gap:6px; margin-top:6px; }
+.preset-state { flex:1; font-size:9px; color:#556; line-height:1.5; }
+.preset-state strong { color:#1a2e50; }
+.mini-btn { border:1px solid #b8c8e0; background:#fff; color:#33507a; border-radius:5px; padding:4px 7px; font-family:inherit; font-size:9px; font-weight:bold; cursor:pointer; white-space:nowrap; }
+.mini-btn:hover { background:#eef3fc; }
+.sc-desc.custom { background:#e8f4ff; border-color:#1565c0; color:#0d3c61; }
+.param-panel { display:flex; flex-direction:column; gap:8px; }
+.param-group { border:1px solid #d7dfeb; border-radius:7px; background:#fafbfd; padding:7px 8px; }
+.param-group-title { font-size:10px; font-weight:bold; color:#1a2e50; margin-bottom:6px; display:flex; align-items:center; justify-content:space-between; }
+.param-help { font-size:8px; color:#7a8494; font-weight:normal; }
+.param-row { display:grid; grid-template-columns:112px minmax(0,1fr); gap:7px; align-items:start; margin:6px 0; }
+.param-label { font-size:9px; color:#3f4b5f; line-height:1.4; padding-top:4px; font-weight:bold; }
+.param-control { min-width:0; }
+.param-control input[type="date"], .param-control select { width:100%; border:1px solid #b8c8e0; border-radius:4px; background:#fff; padding:4px 5px; font-family:inherit; font-size:9px; color:#222; }
+.param-control input:disabled, .param-control select:disabled { background:#edf0f4; color:#99a0aa; cursor:not-allowed; }
+.param-note { margin-top:3px; font-size:8px; color:#7a8494; line-height:1.45; }
+.date-nudges { display:grid; grid-template-columns:repeat(4,1fr); gap:3px; margin-top:3px; }
+.nudge-btn { border:1px solid #cad3e1; background:#fff; color:#3c5578; border-radius:3px; padding:2px 0; font-family:inherit; font-size:8px; cursor:pointer; }
+.nudge-btn:hover { background:#eaf1fb; }
+.nudge-btn:disabled { opacity:.45; cursor:not-allowed; }
+.switch-line { display:flex; align-items:center; gap:6px; font-size:9px; color:#334; line-height:1.4; cursor:pointer; }
+.switch-line input { accent-color:#1a2e50; }
+.code-preview { display:flex; flex-wrap:wrap; gap:4px; margin-top:5px; }
+.preview-chip { font-size:8px; border-radius:8px; padding:2px 6px; background:#eef3fc; color:#294c7a; border:1px solid #c6d4e8; }
+.validation-box { margin-top:7px; border-radius:6px; padding:7px 8px; font-size:9px; line-height:1.55; }
+.validation-box.ok { background:#e8f5e9; border:1px solid #a5d6a7; color:#1b5e20; }
+.validation-box.warn { background:#fff8e1; border:1px solid #ffcc80; color:#7a4a00; }
+.validation-box.error { background:#ffebee; border:1px solid #ef9a9a; color:#9a1b1b; }
+.validation-box span { display:block; }
+.tl-dot.avail { background:#546e7a; box-shadow:0 0 0 2px #cfd8dc; }
+
+
+/* ===== v19：パラメータ中心・ドラッグ操作対応タイムライン ===== */
+.tl { padding-left:0; }
+.tl::before { display:none; }
+.timeline-help { margin-bottom:7px; padding:7px 8px; border:1px solid #bbdefb; border-radius:6px; background:#eef7ff; color:#244b73; font-size:8px; line-height:1.55; }
+.timeline-help strong { color:#0d47a1; }
+.timeline-axis, .timeline-drag-row { display:grid; grid-template-columns:82px minmax(0,1fr); column-gap:7px; align-items:center; }
+.timeline-axis { margin-bottom:2px; }
+.timeline-axis-label { font-size:8px; color:#7a8494; text-align:right; padding-right:2px; }
+.timeline-axis-track { position:relative; height:24px; min-width:0; }
+.timeline-axis-track::after { content:''; position:absolute; left:0; right:0; bottom:3px; height:1px; background:#aebbd0; }
+.timeline-axis-tick { position:absolute; bottom:0; width:1px; height:7px; background:#8ea0bb; transform:translateX(-50%); }
+.timeline-axis-tick span { position:absolute; bottom:9px; left:0; transform:translateX(-50%); white-space:nowrap; font-size:7px; color:#66758b; }
+.timeline-axis-tick.edge-start span { transform:none; }
+.timeline-axis-tick.edge-end span { transform:translateX(-100%); }
+.timeline-drag-row { min-height:36px; border-top:1px solid #eef1f6; }
+.timeline-drag-row:last-of-type { border-bottom:1px solid #eef1f6; }
+.timeline-event-name { display:flex; align-items:center; gap:5px; min-width:0; font-size:8px; color:#3d4a5e; font-weight:bold; line-height:1.25; }
+.timeline-key-dot { width:8px; height:8px; border-radius:50%; flex:0 0 auto; box-shadow:0 0 0 2px rgba(0,0,0,.07); }
+.timeline-key-dot.shido, .timeline-marker.shido .timeline-marker-dot { background:#1a2e50; }
+.timeline-key-dot.labrx, .timeline-marker.labrx .timeline-marker-dot { background:#00897b; }
+.timeline-key-dot.rx, .timeline-marker.rx .timeline-marker-dot { background:#d81b60; }
+.timeline-key-dot.reg, .timeline-marker.reg .timeline-marker-dot { background:#3949ab; }
+.timeline-key-dot.upd, .timeline-marker.upd .timeline-marker-dot { background:#5e35b1; }
+.timeline-key-dot.suc, .timeline-marker.suc .timeline-marker-dot { background:#7b1fa2; }
+.timeline-key-dot.view, .timeline-marker.view .timeline-marker-dot { background:#f57c00; }
+.timeline-key-dot.avail, .timeline-marker.avail .timeline-marker-dot { background:#546e7a; }
+.timeline-track { position:relative; height:34px; min-width:0; overflow:visible; }
+.timeline-track::before { content:''; position:absolute; left:0; right:0; top:11px; height:2px; border-radius:2px; background:#d8e0ec; }
+.timeline-grid-line { position:absolute; top:5px; bottom:6px; width:1px; background:#edf1f6; pointer-events:none; }
+.timeline-marker { position:absolute; top:0; width:18px; height:32px; transform:translateX(-50%); border:0; padding:0; margin:0; background:transparent; cursor:grab; touch-action:none; z-index:3; outline:none; }
+.timeline-marker:hover .timeline-marker-dot { transform:translate(-50%,-50%) scale(1.18); box-shadow:0 0 0 4px rgba(21,101,192,.14); }
+.timeline-marker:focus-visible .timeline-marker-dot { box-shadow:0 0 0 4px rgba(21,101,192,.25), 0 0 0 6px #fff; }
+.timeline-marker.dragging { cursor:grabbing; z-index:20; }
+.timeline-marker.dragging .timeline-marker-dot { transform:translate(-50%,-50%) scale(1.28); box-shadow:0 0 0 5px rgba(21,101,192,.2); }
+.timeline-marker-dot { position:absolute; left:50%; top:12px; width:14px; height:14px; border:2px solid #fff; border-radius:50%; transform:translate(-50%,-50%); box-shadow:0 1px 4px rgba(0,0,0,.28); transition:transform .12s, box-shadow .12s; }
+.timeline-marker-date { position:absolute; top:22px; left:50%; transform:translateX(-50%); min-width:31px; padding:1px 4px; border:1px solid #c9d4e4; border-radius:7px; background:#fff; color:#33455e; font-size:7px; line-height:1.2; font-weight:bold; white-space:nowrap; box-shadow:0 1px 2px rgba(0,0,0,.08); }
+.timeline-marker.edge-start .timeline-marker-date { transform:translateX(-10%); }
+.timeline-marker.edge-end .timeline-marker-date { transform:translateX(-90%); }
+.timeline-marker.dragging .timeline-marker-date { border-color:#1565c0; background:#e3f2fd; color:#0d47a1; }
+.timeline-range-note { margin-top:6px; display:flex; justify-content:space-between; gap:8px; color:#7a8494; font-size:7px; line-height:1.4; }
+.timeline-live { margin-top:5px; min-height:14px; padding:3px 6px; border-radius:4px; background:#f5f8fc; color:#4c607a; font-size:8px; line-height:1.4; }
+.timeline-live.active { background:#e3f2fd; color:#0d47a1; font-weight:bold; }
+body.timeline-dragging { user-select:none; cursor:grabbing; }
+
+/* レーン見出し・バッジ・端末を同じ列で管理して上端を固定 */
+.compare-labels { display:none; }
+.phones-row { padding-top:8px; }
+.phone-wrap { width:320px; display:grid; grid-template-rows:34px 38px auto; gap:4px; align-items:start; justify-items:stretch; flex-shrink:0; }
+.phone-wrap > .cl { width:100%; min-width:0; min-height:34px; border-radius:5px; padding:5px 8px; }
+.phone-badge { width:100%; min-height:38px; padding:3px 12px; display:flex; align-items:center; justify-content:center; border-radius:10px; white-space:normal; }
+.phone-badge.target { white-space:normal; }
+.phone { grid-row:3; }
+
+
+/* ===== v19：パラメータ中心の導線・ルールチェック ===== */
+.operation-guide { border:1px solid #c8d4e8; border-radius:7px; background:#f7f9fc; padding:7px 8px; font-size:8px; color:#526176; line-height:1.55; }
+.operation-guide strong { color:#1a2e50; }
+.operation-guide .guide-steps { display:flex; flex-wrap:wrap; gap:4px; margin-top:5px; }
+.operation-guide .guide-step { background:#fff; border:1px solid #d6deea; border-radius:10px; padding:2px 6px; color:#3e5472; font-weight:bold; }
+.step-label { display:flex; align-items:center; gap:6px; }
+.step-number { width:18px; height:18px; border-radius:50%; background:#1a2e50; color:#fff; display:inline-flex; align-items:center; justify-content:center; font-size:9px; flex:0 0 auto; }
+.step-subtext { margin:0 0 6px; padding:6px 8px; border-radius:5px; background:#f4f7fb; color:#5f6e82; font-size:8px; line-height:1.5; }
+.preset-hint { margin-top:5px; color:#607086; font-size:8px; line-height:1.5; }
+.preset-hint strong { color:#1a2e50; }
+.param-map-note { padding:7px 8px; border:1px solid #b9d4ef; border-left:4px solid #1565c0; border-radius:6px; background:#eef7ff; color:#234e78; font-size:8px; line-height:1.55; }
+.param-details { border:1px solid #d7dfeb; border-radius:7px; background:#fafbfd; overflow:hidden; }
+.param-details > summary { list-style:none; cursor:pointer; padding:8px 9px; color:#1a2e50; font-size:9px; font-weight:bold; display:flex; align-items:center; justify-content:space-between; }
+.param-details > summary::-webkit-details-marker { display:none; }
+.param-details > summary::after { content:'▼'; font-size:8px; color:#6a7890; }
+.param-details[open] > summary::after { content:'▲'; }
+.param-details[open] > summary { border-bottom:1px solid #e1e6ef; background:#f3f6fa; }
+.param-details-body { padding:6px 8px 8px; }
+.param-subtitle { margin:6px 0 2px; color:#52617a; font-size:8px; font-weight:bold; }
+.param-group.conditions { background:#fff; }
+.param-group.advanced { background:#f7fbff; border-color:#c9daee; }
+.param-control input.input-invalid, .param-control select.input-invalid { border-color:#d32f2f !important; background:#fff4f4 !important; box-shadow:0 0 0 1px rgba(211,47,47,.15); }
+.param-control input.input-warning, .param-control select.input-warning { border-color:#ef9f17 !important; background:#fffaf0 !important; }
+.param-control input[type="checkbox"].input-invalid { outline:2px solid #d32f2f; outline-offset:2px; }
+.param-control input[type="checkbox"].input-warning { outline:2px solid #ef9f17; outline-offset:2px; }
+.validation-stack { display:flex; flex-direction:column; gap:5px; margin-top:7px; }
+.validation-box.info { background:#f3e5f5; border:1px solid #ce93d8; color:#5f2579; }
+.validation-box .validation-title { display:block; font-weight:bold; margin-bottom:2px; }
+.validation-box.error .validation-title::before { content:'⛔ '; }
+.validation-box.warn .validation-title::before { content:'⚠ '; }
+.validation-box.info .validation-title::before { content:'ℹ '; }
+.timeline-drag-row.rule-error { margin:0 -4px; padding:0 4px; background:#fff1f1; border-left:3px solid #d32f2f; }
+.timeline-drag-row.rule-warning { margin:0 -4px; padding:0 4px; background:#fffaf0; border-left:3px solid #ef9f17; }
+.timeline-drag-row.rule-error .timeline-event-name { color:#a51f1f; }
+.timeline-drag-row.rule-warning .timeline-event-name { color:#8a5b00; }
+.sidebar-details { border:1px solid #d7dfeb; border-radius:7px; background:#fafbfd; overflow:hidden; }
+.sidebar-details > summary { cursor:pointer; list-style:none; padding:8px 9px; color:#1a2e50; font-size:9px; font-weight:bold; }
+.sidebar-details > summary::-webkit-details-marker { display:none; }
+.sidebar-details > summary::after { content:'▼'; float:right; color:#6a7890; font-size:8px; }
+.sidebar-details[open] > summary::after { content:'▲'; }
+.sidebar-details-body { padding:0 8px 8px; }
+@keyframes presetParameterFlash { 0% { box-shadow:0 0 0 0 rgba(21,101,192,.35); background-color:#e3f2fd; } 100% { box-shadow:0 0 0 8px rgba(21,101,192,0); background-color:transparent; } }
+.preset-flash { animation:presetParameterFlash .8s ease-out; border-radius:7px; }
+
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <div>
+    <div class="title">🏥 マイナポータル 患者サマリー 医療機関承継・表示条件シミュレーター</div>
+    <div class="sub">①代表パターンを選ぶ → ②時系列を動かす → ③条件を調整 / 入力と同時に表示結果を再計算します</div>
+  </div>
+  <div class="sim-badge">⚙ パラメータ中心</div>
+</div>
+
+<div class="layout">
+
+  <!-- ===== 左パネル ===== -->
+  <div class="sidebar">
+
+    <div>
+      <div class="sb-label">ペルソナ</div>
+      <div class="persona-box">
+        <div class="pbox-name">👨 田中 健一</div>
+        <div class="pbox-meta">62歳・男性 ／ たなか けんいち</div>
+        <div>
+          <span class="pbox-tag">2型糖尿病</span>
+          <span class="pbox-tag">高血圧症</span>
+          <span class="pbox-tag">脂質異常症</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="operation-guide">
+      <strong>操作の流れ</strong>
+      <div class="guide-steps">
+        <span class="guide-step">1 代表パターン</span>
+        <span class="guide-step">2 時系列</span>
+        <span class="guide-step">3 条件</span>
+        <span class="guide-step">4 結果</span>
+      </div>
+    </div>
+
+    <div>
+      <div class="sb-label step-label"><span class="step-number">1</span><span>代表パターンを選ぶ</span></div>
+      <div class="step-subtext">代表例を読み込むと、下の<strong>タイムライン・日付入力・条件</strong>がまとめて切り替わります。その後は自由に変更できます。</div>
+      <select class="sc-sel" id="preset-sel" onchange="loadPresetFromSelect()">
+        <option value="custom" disabled>カスタム設定（パラメータ編集中）</option>
+        <option value="D">基準：承継なし（全情報を表示）</option>
+        <option value="A">登録後に承継（表示差なし）</option>
+        <option value="B">指導後・登録前に承継（処方のみ非表示）</option>
+        <option value="C">初回登録後・再登録前に承継（検査・処方が非表示）</option>
+        <option value="E">サマリ登録後・検査登録前に承継（検査のみ非表示）</option>
+      </select>
+      <div class="preset-hint"><strong>表示期間・未登録・院内処方・改善案</strong>は、下のパラメータで直接確認できます。</div>
+      <div class="preset-toolbar">
+        <div class="preset-state" id="preset-state"></div>
+        <button class="mini-btn" type="button" onclick="resetToBasePreset()">代表パターンに戻す</button>
+      </div>
+      <div id="sc-desc"></div>
+    </div>
+
+    <div>
+      <div class="sb-label step-label"><span class="step-number">2</span><span>マイルストーンを動かす（日付パラメータ）</span></div>
+      <div class="step-subtext">タイムライン上の点が日付パラメータです。左右ドラッグで変更すると、下の入力値と右側の表示結果も同時に更新されます。</div>
+      <div class="tl" id="timeline"></div>
+      <div id="param-validation"></div>
+    </div>
+
+    <div>
+      <div class="sb-label step-label"><span class="step-number">3</span><span>条件を調整する</span></div>
+      <div id="parameter-panel" class="param-panel"></div>
+    </div>
+
+    <div>
+      <div class="sb-label step-label"><span class="step-number">4</span><span>表示結果を確認する</span></div>
+      <div class="res-box" id="res-box"></div>
+    </div>
+
+    <div>
+      <div class="sb-label">💬 解説の吹き出し</div>
+      <label class="co-toggle"><input type="checkbox" id="co-chk" checked onchange="toggleCallouts()"> 実画面に出ない情報を吹き出しで表示する</label>
+      <div class="co-note">OFFにすると解説吹き出しを非表示にします。期間外・仕様確認中の案内は、シミュレーター上の補足表示です。</div>
+    </div>
+
+    <details class="sidebar-details">
+      <summary>判定ルールを確認する</summary>
+      <div class="sidebar-details-body">
+        <div class="rule-box">
+          <strong>表示期間</strong>：患者サマリー一覧＝閲覧日から過去<strong>180日</strong>／検査・処方＝指導日から過去<strong>30日</strong>。<br>
+          <strong>登録済み</strong>：閲覧日時点で登録されていること（検査＝検査登録日）。<strong>院外処方</strong>のみ患者サマリーの対象。
+        </div>
+        <div class="rule-box" style="margin-top:6px">
+          <strong>非表示理由</strong>：未登録、対象期間外、医療機関コード不一致、院内処方、対象情報なしを検査・処方ごとに判定します。
+        </div>
+        <div class="rule-unconf">
+          <strong>未確定仕様</strong><br>
+          ・30日／180日の境界当日の包含<br>
+          ・処方の取得可能日を用いた判定<br>
+          ・非表示理由の表示優先順位<br>
+          ・患者サマリ180日判定の日付項目（指導日として暫定）<br>
+          ・処方30日判定の日付項目（処方日として暫定）
+        </div>
+      </div>
+    </details>
+
+    <details class="sidebar-details">
+      <summary>改善案の前提を確認する</summary>
+      <div class="sidebar-details-body">
+        <div class="rule-target">
+          🔵 <strong>あるべき姿は改善案であり、確定仕様ではありません</strong>。<br>
+          ・各情報の原コードは上書きしない<br>
+          ・確認済み承継関係だけを照合に使用<br>
+          ・解消できるのはコード不一致だけ<br>
+          ・旧・新双方で取得した同一情報はrecordIdで重複排除
+        </div>
+        <div class="rule-unconf" style="margin-top:6px">
+          <strong>複数回承継は未実装</strong><br>
+          本シミュレーターは直接の1回承継のみを対象とします。
+        </div>
+      </div>
+    </details>
+
+  </div>
+
+  <!-- ===== 比較エリア ===== -->
+  <div class="compare-area">
+    <div class="mode-bar" id="mode-bar"></div>
+    <div class="target-notice" id="target-notice" style="display:none"></div>
+    <div class="compare-labels" id="compare-labels"></div>
+    <div id="diff-banner" style="flex-shrink:0;padding:4px 16px;"></div>
+    <div class="phones-row" id="phones-row"></div>
+  </div>
+
+</div>
+
+<script>
+// ===================================================================
+//  定数
+// ===================================================================
+const SUC = { date: '2026-04-01', old: '古い病院', new: '新しい病院' };
+const DEFAULT_VIEW_DATE = '2026-07-16'; // プリセットの既定閲覧日
+
+// 薬剤アレルギー等情報／その他アレルギー等情報：コード抽出の対象外・常に表示。
+// （処方情報・薬剤情報とは同一視しない）
+const PERSONA_ALLERGY = {
+  drug:  ['ペニシリン系抗菌薬（発疹）', 'アスピリン（喘息発作）'],
+  other: ['そば（蕁麻疹）', '甲殻類（口腔内の違和感）'],
+};
+
+// 共通の臨床内容（各パターンで使い回す）
+const CLINICAL = {
+  dept: '内科', doctor: '青木 誠', type: '外来',
+  diseases: [
+    { name: '2型糖尿病', primary: true },
+    { name: '高血圧症',  primary: false },
+  ],
+  advice:
+`【内服継続】
+・メトホルミン 朝夕食後
+・アムロジピン 夕食後
+
+【生活習慣】
+1日30分のウォーキングを目標に。
+塩分は1日7g未満。
+
+次回：3ヶ月後に採血予定。`,
+  labs: [
+    { recordId: 'LAB-001', name: 'HbA1c(NGSP)', value: '7.4', unit: '%',     ref: '4.6〜6.2', flag: 'H' },
+    { recordId: 'LAB-002', name: '空腹時血糖',   value: '145', unit: 'mg/dL', ref: '70〜109',  flag: 'H' },
+    { recordId: 'LAB-003', name: 'eGFR',         value: '68',  unit: 'mL/min/1.73m²', ref: '60以上', flag: '' },
+  ],
+  prescriptions: [
+    { recordId: 'RX-001', name: 'メトホルミン塩酸塩錠 500mg', detail: '2錠 分2 朝夕食後 / 60日分' },
+    { recordId: 'RX-002', name: 'アムロジピン錠 5mg',         detail: '1錠 分1 夕食後 / 60日分'  },
+  ],
+};
+
+// ===================================================================
+//  シナリオ（2グループ）
+//   group:'succession' … 第1段階のコード判定シナリオ（A〜G・結果凍結）
+//   group:'phase2'     … 第2段階の表示期間・登録・院外・複数理由・境界（T1〜T12）
+//  各コードは独立管理：shido / fhirReg / fhirUpd / labDo / labReg /
+//    prescriptionDate（処方日） / prescriptionCode（紐づけ対象外・明示保持）
+//    prescriptionAvailableDate（取得可能日・判定仕様未確定・本版では表示可否に不使用）
+// ===================================================================
+const PATTERNS = {
+  // ---- グループ1：医療機関承継（第1段階・確定・結果不変） ----
+  A: { group:'succession', label:'A：承継が「登録の後」',
+    desc:'承継（4/1）が<strong>患者サマリー登録の後</strong>。紐づけ条件を満たさず<strong>改修前後で差なし</strong>。',
+    shido:'2026-03-10', labDo:'2026-03-10', fhirReg:'2026-03-15', labReg:'2026-03-15', fhirUpd:null,
+    prescriptionDate:'2026-03-10', prescriptionCode:'old' },
+  B: { group:'succession', label:'B：承継が「登録の前」',
+    desc:'指導（3/25）の後、登録より前に承継（4/1）。改修後は患者サマリー・検査が新コードに。<strong>処方は旧のまま</strong>で改修後に処方が非表示。',
+    shido:'2026-03-25', labDo:'2026-03-25', fhirReg:'2026-04-10', labReg:'2026-04-10', fhirUpd:null,
+    prescriptionDate:'2026-03-25', prescriptionCode:'old' },
+  C: { group:'succession', label:'C：登録後・更新前に承継',
+    desc:'登録（3/15）は承継前、<strong>FHIR更新（4/10）</strong>が承継後。改修後は検査・処方がともに非表示。',
+    shido:'2026-03-10', labDo:'2026-03-10', fhirReg:'2026-03-15', labReg:'2026-03-15', fhirUpd:'2026-04-10',
+    prescriptionDate:'2026-03-10', prescriptionCode:'old' },
+  D: { group:'succession', label:'D：承継なし（基準）',
+    desc:'承継なし。医療機関名は変わらず検査・処方も表示。改修前後で差なし。',
+    shido:'2026-03-10', labDo:'2026-03-10', fhirReg:'2026-03-15', labReg:'2026-03-15', fhirUpd:null,
+    prescriptionDate:'2026-03-10', prescriptionCode:'old', noSuc:true },
+  E: { group:'succession', label:'E：患者サマリー登録後、検査登録前に承継',
+    desc:'患者サマリーは承継前に登録（旧）、検査登録が承継後にずれ込み新に。改修後は<strong>検査のみ非表示</strong>、処方は表示。',
+    shido:'2026-03-10', labDo:'2026-03-10', fhirReg:'2026-03-15', labReg:'2026-04-10', fhirUpd:null,
+    prescriptionDate:'2026-03-10', prescriptionCode:'old' },
+  G: { group:'succession', label:'G：すべて承継後（新医療機関で完結）',
+    desc:'すべて承継後（新医療機関）で完結。改修前後とも新医療機関名で表示、検査・処方も表示。',
+    shido:'2026-04-05', labDo:'2026-04-05', fhirReg:'2026-04-10', labReg:'2026-04-10', fhirUpd:null,
+    prescriptionDate:'2026-04-05', prescriptionCode:'new' },
+
+  // ---- グループ2：表示期間・登録状況・処方種別（第2段階） ----
+  //  承継混在を避けるため noSuc を基本とし、検証したい1条件のみを崩す。
+  T1: { group:'phase2', label:'T1：受診が閲覧日の179日前',
+    desc:'受診（指導日）が閲覧日の<strong>179日前</strong>＝180日範囲内。<strong>患者サマリー一覧に表示</strong>。',
+    shido:'2026-01-18', labDo:'2026-01-18', fhirReg:'2026-01-20', labReg:'2026-01-20', fhirUpd:null,
+    prescriptionDate:'2026-01-18', prescriptionCode:'old', noSuc:true },
+  T2: { group:'phase2', label:'T2：受診が閲覧日の181日前',
+    desc:'受診（指導日）が閲覧日の<strong>181日前</strong>＝180日範囲外。<strong>患者サマリー一覧に非表示</strong>（データは存在）。',
+    shido:'2026-01-16', labDo:'2026-01-16', fhirReg:'2026-01-18', labReg:'2026-01-18', fhirUpd:null,
+    prescriptionDate:'2026-01-16', prescriptionCode:'old', noSuc:true },
+  T3: { group:'phase2', label:'T3：検査 指導日の29日前',
+    desc:'検査実施が指導日の<strong>29日前</strong>＝期間内、コード一致・登録済み。<strong>検査は患者サマリー上に表示</strong>。',
+    shido:'2026-06-01', labDo:'2026-05-03', fhirReg:'2026-06-01', labReg:'2026-05-05', fhirUpd:null,
+    prescriptionDate:'2026-06-01', prescriptionCode:'old', noSuc:true },
+  T4: { group:'phase2', label:'T4：検査 指導日の31日前',
+    desc:'検査実施が指導日の<strong>31日前</strong>＝期間外。visibleOnPatientSummary=false、reasonsに<strong>OUT_OF_PERIOD</strong>。個別画面では閲覧可（存在）。',
+    shido:'2026-06-01', labDo:'2026-05-01', fhirReg:'2026-06-01', labReg:'2026-05-03', fhirUpd:null,
+    prescriptionDate:'2026-06-01', prescriptionCode:'old', noSuc:true },
+  T5: { group:'phase2', label:'T5：処方 指導日の29日前・院外',
+    desc:'処方日が指導日の<strong>29日前</strong>＝期間内、コード一致・院外処方。<strong>処方は患者サマリー上に表示</strong>。',
+    shido:'2026-06-01', labDo:'2026-06-01', fhirReg:'2026-06-01', labReg:'2026-06-03', fhirUpd:null,
+    prescriptionDate:'2026-05-03', prescriptionCode:'old', prescriptionSetting:'院外', noSuc:true },
+  T6: { group:'phase2', label:'T6：処方 指導日の31日前・院外',
+    desc:'処方日が指導日の<strong>31日前</strong>＝期間外。visibleOnPatientSummary=false、reasonsに<strong>OUT_OF_PERIOD</strong>。',
+    shido:'2026-06-01', labDo:'2026-06-01', fhirReg:'2026-06-01', labReg:'2026-06-03', fhirUpd:null,
+    prescriptionDate:'2026-05-01', prescriptionCode:'old', prescriptionSetting:'院外', noSuc:true },
+  T7: { group:'phase2', label:'T7：処方 29日前・院内処方',
+    desc:'処方日が指導日の29日前・コード一致だが<strong>院内処方</strong>。visibleOnPatientSummary=false、reasonsに<strong>IN_HOSPITAL_PRESCRIPTION</strong>。個別画面での存在は<strong>仕様未確定（UNCONFIRMED）</strong>。',
+    shido:'2026-06-01', labDo:'2026-06-01', fhirReg:'2026-06-01', labReg:'2026-06-03', fhirUpd:null,
+    prescriptionDate:'2026-05-03', prescriptionCode:'old', prescriptionSetting:'院内', noSuc:true },
+  T8: { group:'phase2', label:'T8：検査 登録が閲覧日より後',
+    desc:'検査は期間内・コード一致だが<strong>検査登録日が閲覧日（7/16）より後（8/1）</strong>。visibleOnPatientSummary=false、reasonsに<strong>NOT_REGISTERED</strong>、existsInRecord=false。',
+    shido:'2026-06-01', labDo:'2026-06-01', fhirReg:'2026-06-01', labReg:'2026-08-01', fhirUpd:null,
+    prescriptionDate:'2026-06-01', prescriptionCode:'old', noSuc:true },
+  T9: { group:'phase2', label:'T9：期間内だがコード不一致',
+    desc:'検査は期間内・登録済みだが、改修後に患者サマリー（旧）と検査（新）が不一致。visibleOnPatientSummary=false、reasonsに<strong>CODE_MISMATCH</strong>、existsInRecord=true（個別画面では閲覧可）。',
+    shido:'2026-03-10', labDo:'2026-03-10', fhirReg:'2026-03-15', labReg:'2026-04-10', fhirUpd:null,
+    prescriptionDate:'2026-03-10', prescriptionCode:'old' },
+  T10: { group:'phase2', label:'T10：期間外＋コード不一致',
+    desc:'検査が期間外（60日前）かつ改修後にコード不一致。reasonsに<strong>OUT_OF_PERIOD と CODE_MISMATCH の両方</strong>。existsInRecord=true。',
+    shido:'2026-03-10', labDo:'2026-01-09', fhirReg:'2026-03-15', labReg:'2026-04-10', fhirUpd:null,
+    prescriptionDate:'2026-03-10', prescriptionCode:'old' },
+  T11: { group:'phase2', label:'T11：検査 指導日の30日ちょうど（境界）',
+    desc:'検査実施が指導日の<strong>ちょうど30日前</strong>。境界当日の包含は<strong>仕様確認中</strong>のため表示結果を確定しない（BOUNDARY_UNCONFIRMED）。',
+    shido:'2026-06-01', labDo:'2026-05-02', fhirReg:'2026-06-01', labReg:'2026-05-04', fhirUpd:null,
+    prescriptionDate:'2026-06-01', prescriptionCode:'old', noSuc:true },
+  T12: { group:'phase2', label:'T12：受診 閲覧日の180日ちょうど（境界）',
+    desc:'受診（指導日）が閲覧日の<strong>ちょうど180日前</strong>。境界当日の包含は<strong>仕様確認中</strong>のため一覧表示を確定しない（BOUNDARY_UNCONFIRMED）。',
+    shido:'2026-01-17', labDo:'2026-01-17', fhirReg:'2026-01-19', labReg:'2026-01-19', fhirUpd:null,
+    prescriptionDate:'2026-01-17', prescriptionCode:'old', noSuc:true },
+
+  // ---- グループ3：あるべき姿の検証（第3段階・改善案） ----
+  W1: { group:'phase3', label:'W1：承継マッピングなし',
+    desc:'患者サマリ（旧）と検査（新）でコードが異なるが、<strong>確認済みの承継関係が無い</strong>。あるべき姿でも同一扱いにせず<strong>CODE_MISMATCHのまま非表示</strong>（matchMethod=NONE）。個別画面には存在。',
+    shido:'2026-03-10', labDo:'2026-03-10', fhirReg:'2026-03-15', labReg:'2026-04-10', fhirUpd:null,
+    prescriptionDate:'2026-03-10', prescriptionCode:'old',
+    targetRelationships: [] },  // このシナリオだけ承継関係を無効化（W1）
+  W2: { group:'phase3', label:'W2：旧・新双方で同一ID取得',
+    desc:'あるべき姿で旧コード・新コード双方から同一recordIdの情報を取得。<strong>recordIdで重複排除</strong>し、検査3件・処方2件を1件ずつ表示。',
+    shido:'2026-06-01', labDo:'2026-06-01', fhirReg:'2026-06-01', labReg:'2026-06-03', fhirUpd:null,
+    prescriptionDate:'2026-06-01', prescriptionCode:'old', noSuc:true,
+    duplicateRetrieval: true },  // 旧・新双方検索で同一recordIdが重複取得される状況（W2）
+};
+
+// 表示に影響しない既定値を補完（A〜G・T群とも、明示のない項目のみ）
+Object.values(PATTERNS).forEach(p => {
+  if (p.labExists === undefined) p.labExists = true;
+  if (p.prescriptionExists === undefined) p.prescriptionExists = true;
+  if (p.prescriptionSetting === undefined) p.prescriptionSetting = '院外';
+  if (p.prescriptionAvailableDate === undefined) p.prescriptionAvailableDate = null; // 判定未確定・不使用
+});
+
+// 利用者向けに表示する代表パターン。詳細検証用のT/Wパターンは内部データとして保持し、
+// 画面上では日付・条件パラメータを直接動かして確認する。
+const REPRESENTATIVE_PRESETS = {
+  D: {
+    label: '基準：承継なし（全情報を表示）',
+    description: '承継がない基準ケースです。患者サマリ・検査・処方のコードが一致し、全情報が表示されます。'
+  },
+  A: {
+    label: '登録後に承継（表示差なし）',
+    description: '患者サマリと検査の登録後に承継します。登録済みコードは閲覧時に変わらないため、表示結果は維持されます。'
+  },
+  B: {
+    label: '指導後・登録前に承継（処方のみ非表示）',
+    description: '指導・処方後、患者サマリと検査の登録前に承継します。9月後は患者サマリと検査が新コード、処方は旧コードとなり、処方だけが非表示になります。'
+  },
+  C: {
+    label: '初回登録後・再登録前に承継（検査・処方が非表示）',
+    description: '初回登録後に承継し、患者サマリを再登録します。患者サマリだけが新コードになり、旧コードの検査・処方が非表示になります。'
+  },
+  E: {
+    label: 'サマリ登録後・検査登録前に承継（検査のみ非表示）',
+    description: '患者サマリは旧コードで登録済みですが、検査登録前に承継します。検査だけが新コードとなり、検査のみ非表示になります。'
+  },
+};
+
+
+// ===================================================================
+//  プリセットを初期値として読み込み、画面上のパラメータで自由に変更
+// ===================================================================
+function cloneData(v) { return JSON.parse(JSON.stringify(v)); }
+function shiftIsoDate(dateStr, days) {
+  if (!dateStr) return '';
+  const d = pd(dateStr); d.setDate(d.getDate() + days);
+  const y = d.getFullYear(), m = String(d.getMonth()+1).padStart(2,'0'), day = String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+function parametersFromPreset(key) {
+  const src = cloneData(PATTERNS[key] || PATTERNS.B);
+  const hasSuccession = !src.noSuc;
+  const relationshipDisabled = Array.isArray(src.targetRelationships) && src.targetRelationships.length === 0;
+  return {
+    ...src,
+    viewDate: DEFAULT_VIEW_DATE,
+    hasSuccession,
+    sucDate: hasSuccession ? (src.sucDate || SUC.date) : SUC.date,
+    hasUpdate: !!src.fhirUpd,
+    fhirUpd: src.fhirUpd || shiftIsoDate(src.fhirReg, 1),
+    prescriptionCodeMode: 'auto',
+    targetRelationshipVerified: !relationshipDisabled,
+    duplicateRetrieval: !!src.duplicateRetrieval,
+  };
+}
+function normalizeParameters(raw) {
+  const p = cloneData(raw || parametersFromPreset('B'));
+  p.viewDate = p.viewDate || DEFAULT_VIEW_DATE;
+  p.noSuc = !p.hasSuccession;
+  p.sucDate = p.hasSuccession ? (p.sucDate || SUC.date) : null;
+  p.fhirUpd = p.hasUpdate ? (p.fhirUpd || p.fhirReg) : null;
+  p.labExists = p.labExists !== false;
+  p.prescriptionExists = p.prescriptionExists !== false;
+  p.prescriptionSetting = p.prescriptionSetting || '院外';
+  p.prescriptionAvailableDate = p.prescriptionAvailableDate || null;
+  const mode = p.prescriptionCodeMode || 'auto';
+  if (mode === 'new') p.prescriptionCode = 'new';
+  else if (mode === 'old') p.prescriptionCode = 'old';
+  else {
+    const suc = p.noSuc ? null : p.sucDate;
+    p.prescriptionCode = (suc && p.prescriptionDate && pd(p.prescriptionDate) >= pd(suc)) ? 'new' : 'old';
+  }
+  if (p.targetRelationshipVerified === false) p.targetRelationships = [];
+  else delete p.targetRelationships;
+  p.duplicateRetrieval = !!p.duplicateRetrieval;
+  return p;
+}
+function currentPattern() { return normalizeParameters(S.params || parametersFromPreset(S.basePreset || 'B')); }
+
+// ===================================================================
+//  ユーティリティ
+// ===================================================================
+function pd(s) { return s ? new Date(s + 'T00:00:00') : null; }
+function fmtD(s) { if (!s) return ''; const d = pd(s); return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`; }
+
+// ===================================================================
+//  第1段階のコード判定（凍結：返り値・A〜G結果を変更しない）
+// ===================================================================
+function sucDateOf(p) { return p.noSuc ? null : (p.sucDate || SUC.date); }
+function codeIsNew(p, doStr, regStr, lane) {
+  const suc = sucDateOf(p);
+  if (!suc) return false;
+  const doD = pd(doStr), reg = pd(regStr), sd = pd(suc);
+  if (doD >= sd) return true;                       // 実施時点で既に新医療機関
+  if (lane === 'before') return false;              // 改修前＝紐づけ未実装
+  return sd <= reg;                                 // 改修後：登録日までに承継していれば新
+}
+function summaryRegistrationDateAtView(p) {
+  if (p.fhirUpd && (!p.viewDate || pd(p.fhirUpd) <= pd(p.viewDate))) return p.fhirUpd;
+  return p.fhirReg;
+}
+function summaryCodeIsNew(p, lane) { return codeIsNew(p, p.shido, summaryRegistrationDateAtView(p), lane); }
+function labCodeIsNew(p, lane) { return codeIsNew(p, p.labDo, p.labReg, lane); }
+function prescriptionCodeIsNew(p) { return p.prescriptionCode === 'new'; }
+function hospName(p, lane) { return summaryCodeIsNew(p, lane) ? SUC.new : SUC.old; }
+// コード一致（＝CODE_MISMATCHでない）判定。第1段階の関数を再利用。
+function labCodeMatches(p, lane) { return summaryCodeIsNew(p, lane) === labCodeIsNew(p, lane); }
+function prescriptionCodeMatches(p, lane) { return summaryCodeIsNew(p, lane) === prescriptionCodeIsNew(p); }
+
+function codeChip(isNew) {
+  return isNew ? `<span class="code-chip new">新コード</span>` : `<span class="code-chip old">旧コード</span>`;
+}
+
+// ===================================================================
+//  第3段階：あるべき姿（target・改善案／確定仕様ではない）
+//   ・原コードは書き換えない（after基準の記録状態を読み取るだけ）。
+//   ・確認済み承継関係(verified)のみ同一機関として照合。推移的判定は未実装。
+//   ・matchMethod は reasons に入れない（SUCCESSION_MAPPINGは非表示理由ではない）。
+//   ・凍結関数（evaluateLab等）は変更せず 'after' で呼び出すだけ。
+// ===================================================================
+const INST = { OLD: '46108-OLD', NEW: '46108-NEW' };
+// 確認済み承継関係（配列＝将来の複数関係に拡張可能。本版は直接1回のみ照合）
+const INSTITUTION_RELATIONSHIPS = [
+  { predecessorCode: INST.OLD, successorCode: INST.NEW, effectiveDate: '2026-04-01', verified: true },
+];
+// 原コード（after基準・読み取り導出。データは書き換えない）
+function patientSummarySourceCode(p) { return summaryCodeIsNew(p, 'after') ? INST.NEW : INST.OLD; }
+function labSourceCode(p) { return (p.labSourceCode !== undefined) ? p.labSourceCode : (labCodeIsNew(p, 'after') ? INST.NEW : INST.OLD); }
+function prescriptionSourceCode(p) { return (p.prescriptionSourceCode !== undefined) ? p.prescriptionSourceCode : (prescriptionCodeIsNew(p) ? INST.NEW : INST.OLD); }
+// シナリオ単位の承継関係（W1で無効化可能）
+function relationshipsForPattern(p) {
+  if (Array.isArray(p.targetRelationships)) return p.targetRelationships;
+  if (p.targetRelationshipVerified === false) return [];
+  return INSTITUTION_RELATIONSHIPS;
+}
+// target専用：同一医療機関判定（完全一致 or 確認済み直接承継のみ。推移は不可）
+function targetInstitutionMatch(codeA, codeB, relationships) {
+  if (codeA === codeB) return { matched: true, matchMethod: 'EXACT' };
+  const rel = (relationships || []).find(r => r.verified &&
+    ((r.predecessorCode === codeA && r.successorCode === codeB) ||
+     (r.predecessorCode === codeB && r.successorCode === codeA)));
+  if (rel) return { matched: true, matchMethod: 'SUCCESSION_MAPPING' };
+  return { matched: false, matchMethod: 'NONE' };
+}
+// CODE_MISMATCH のみを承継照合で再評価（他理由・境界は base を尊重）
+function applyTargetMatch(base, summaryCode, itemCode, p) {
+  const m = targetInstitutionMatch(summaryCode, itemCode, relationshipsForPattern(p));
+  const hadMismatch = base.reasons.includes('CODE_MISMATCH');
+  const reasons = base.reasons.filter(r => r !== 'CODE_MISMATCH');
+  if (hadMismatch && !m.matched) reasons.push('CODE_MISMATCH'); // NONE のとき残す
+  let visible;
+  if (reasons.length > 0) visible = false;
+  else if (base.periodBoundary) visible = 'BOUNDARY_UNCONFIRMED';
+  else visible = true;
+  return {
+    visibleOnPatientSummary: visible,
+    reasons,
+    periodBoundary: base.periodBoundary,
+    existsInRecord: base.existsInRecord,
+    matchMethod: m.matchMethod,
+    sourceCode: itemCode,
+    patientSummarySourceCode: summaryCode,
+    displayInstitutionCode: summaryCode,
+  };
+}
+// target評価（検査・処方で別関数。基礎は evaluate*(p,'after')）
+function evaluateLabTarget(p) {
+  return applyTargetMatch(evaluateLab(p, 'after'), patientSummarySourceCode(p), labSourceCode(p), p);
+}
+function evaluatePrescriptionTarget(p) {
+  return applyTargetMatch(evaluatePrescription(p, 'after'), patientSummarySourceCode(p), prescriptionSourceCode(p), p);
+}
+// target医療機関名（現行名＋受診時名。同一なら1つだけ）
+function targetInstitutionName(p) {
+  const suc = sucDateOf(p);
+  const current = (suc && pd(suc) <= pd(p.viewDate)) ? SUC.new : SUC.old;
+  const atVisit = (suc && pd(p.shido) >= pd(suc)) ? SUC.new : SUC.old;
+  return current === atVisit ? current : `${current}（受診時：${atVisit}）`;
+}
+// 重複排除（recordId）
+function dedupeByRecordId(records) {
+  const m = new Map();
+  records.forEach(r => { if (!m.has(r.recordId)) m.set(r.recordId, r); });
+  return [...m.values()];
+}
+// target検索：旧・新コード双方の結果を結合し recordId で重複排除
+function targetSearchRecords(p, items) {
+  let combined = items.slice();
+  if (p.duplicateRetrieval) combined = combined.concat(items.slice()); // W2：双方検索で重複取得
+  return dedupeByRecordId(combined);
+}
+function methodLabel(m) {
+  return m === 'EXACT' ? '完全一致'
+    : m === 'SUCCESSION_MAPPING' ? '確認済み承継マッピング'
+    : m === 'UNCONFIRMED' ? '未確定' : '一致なし';
+}
+// ---- レーン横断ラッパー（before/after は v14 結果、target のみ専用関数） ----
+function evaluationForLane(p, lane, kind) {
+  if (lane === 'target') return kind === 'lab' ? evaluateLabTarget(p) : evaluatePrescriptionTarget(p);
+  return kind === 'lab' ? evaluateLab(p, lane) : evaluatePrescription(p, lane);
+}
+function finalForLane(p, lane, kind) { return finalDisplayStatusOnPatientSummary(p, evaluationForLane(p, lane, kind)); }
+function institutionNameForLane(p, lane) { return lane === 'target' ? targetInstitutionName(p) : hospName(p, lane); }
+function recordsForLane(p, lane, kind) {
+  const items = kind === 'lab' ? CLINICAL.labs : CLINICAL.prescriptions;
+  return lane === 'target' ? targetSearchRecords(p, items) : items;
+}
+
+// ===================================================================
+//  第2段階：表示期間・登録・院外・非表示理由の構造化
+// ===================================================================
+const REASON = {
+  NOT_REGISTERED:           '閲覧日時点で未登録',
+  OUT_OF_PERIOD:            '指導日から過去30日の対象期間外',
+  CODE_MISMATCH:            '患者サマリーと医療機関コードが不一致',
+  IN_HOSPITAL_PRESCRIPTION: '院内処方のため対象外',
+  NO_DATA:                  '対象情報なし',
+};
+
+// 境界当日（ちょうど30日/180日）の包含規則は未確定。確定後にここを true/false に設定。
+const PERIOD_BOUNDARY_INCLUSIVE = null; // null = 未確定
+
+function daysAgo(targetStr, anchorStr) { return Math.round((pd(anchorStr) - pd(targetStr)) / 86400000); }
+// target が [anchor - days, anchor] に入るか。
+//  true=範囲内 / false=範囲外 / 'BOUNDARY_UNCONFIRMED'=境界当日（ちょうど days 日前）。
+//  ※差0日（当日）は範囲内（true）で扱い、UNCONFIRMEDにしない。
+function inRecentWindow(targetStr, anchorStr, days) {
+  if (!targetStr) return false;
+  const diff = daysAgo(targetStr, anchorStr);
+  if (diff < 0)     return false;                 // anchorより未来
+  if (diff < days)  return true;                  // 明確に範囲内（当日=0を含む）
+  if (diff > days)  return false;                 // 明確に範囲外
+  if (PERIOD_BOUNDARY_INCLUSIVE === null) return 'BOUNDARY_UNCONFIRMED'; // ちょうど days 日
+  return PERIOD_BOUNDARY_INCLUSIVE;
+}
+
+// 患者サマリー自体が一覧に表示されるか（閲覧日から180日）
+function patientSummaryVisible(p) { return inRecentWindow(p.shido, p.viewDate, 180); }
+
+// 検査：指導日から過去30日の対象か
+function labInPeriod(p) { return inRecentWindow(p.labDo, p.shido, 30); }
+// 検査：閲覧日時点で登録済みか
+function labRegistered(p) { return pd(p.labReg) <= pd(p.viewDate); }
+// 処方：処方日を用いた30日判定（処方日＝prescriptionDate）
+function prescriptionInPeriod(p) { return inRecentWindow(p.prescriptionDate, p.shido, 30); }
+
+// 個別情報としての存在（true / false / 'UNCONFIRMED'）。非表示理由からは自動推測しない。
+function labExistsInRecord(p) {
+  if (p.labExistsInRecord !== undefined) return p.labExistsInRecord; // シナリオ明示を優先
+  if (!p.labExists) return false;         // データなし
+  if (!labRegistered(p)) return false;    // 未登録＝個別画面にもまだ存在しない
+  return true;
+}
+function prescriptionExistsInRecord(p) {
+  if (p.prescriptionExistsInRecord !== undefined) return p.prescriptionExistsInRecord;
+  if (!p.prescriptionExists) return false;
+  if (p.prescriptionSetting === '院内') return 'UNCONFIRMED'; // 個別画面での存在は仕様未確定
+  // ※ prescriptionAvailableDate は判定に使用しない（仕様未確定）
+  return true;
+}
+
+// 検査の評価（検査専用）
+function evaluateLab(p, lane) {
+  const reasons = [];
+  let periodBoundary = false;
+  if (!p.labExists) {
+    reasons.push('NO_DATA');
+  } else {
+    if (!labRegistered(p)) reasons.push('NOT_REGISTERED');
+    const inP = labInPeriod(p);
+    if (inP === false) reasons.push('OUT_OF_PERIOD');
+    else if (inP === 'BOUNDARY_UNCONFIRMED') periodBoundary = true;
+    if (!labCodeMatches(p, lane)) reasons.push('CODE_MISMATCH');
+  }
+  let visible;
+  if (reasons.length > 0) visible = false;
+  else if (periodBoundary) visible = 'BOUNDARY_UNCONFIRMED';
+  else visible = true;
+  return { visibleOnPatientSummary: visible, reasons, periodBoundary, existsInRecord: labExistsInRecord(p) };
+}
+
+// 処方の評価（処方専用。検査と共通化しない）
+function evaluatePrescription(p, lane) {
+  const reasons = [];
+  let periodBoundary = false;
+  if (!p.prescriptionExists) {
+    reasons.push('NO_DATA');
+  } else {
+    // ※ prescriptionAvailableDate による NOT_REGISTERED は付与しない（判定仕様未確定）
+    const inP = prescriptionInPeriod(p);
+    if (inP === false) reasons.push('OUT_OF_PERIOD');
+    else if (inP === 'BOUNDARY_UNCONFIRMED') periodBoundary = true;
+    if (p.prescriptionSetting === '院内') reasons.push('IN_HOSPITAL_PRESCRIPTION');
+    if (!prescriptionCodeMatches(p, lane)) reasons.push('CODE_MISMATCH');
+  }
+  let visible;
+  if (reasons.length > 0) visible = false;
+  else if (periodBoundary) visible = 'BOUNDARY_UNCONFIRMED';
+  else visible = true;
+  return { visibleOnPatientSummary: visible, reasons, periodBoundary, existsInRecord: prescriptionExistsInRecord(p) };
+}
+
+// 患者サマリ自体の表示状態を加味した「最終表示状態」。
+//  ※ evaluateLab/evaluatePrescription の単体条件判定はそのまま維持し、
+//    ここで親（患者サマリ一覧）の状態と合成する（単体と最終を混同しない）。
+//  戻り値：'NOT_APPLICABLE'（親が180日範囲外）
+//        / 'PARENT_BOUNDARY_UNCONFIRMED'（親の180日境界が未確定）
+//        / それ以外は itemStatus.visibleOnPatientSummary（true/false/'BOUNDARY_UNCONFIRMED'）
+function finalDisplayStatusOnPatientSummary(p, itemStatus) {
+  const summaryStatus = patientSummaryVisible(p);
+  if (summaryStatus === false) return 'NOT_APPLICABLE';
+  if (summaryStatus === 'BOUNDARY_UNCONFIRMED') return 'PARENT_BOUNDARY_UNCONFIRMED';
+  return itemStatus.visibleOnPatientSummary;
+}
+
+// 表示用ヘルパー
+function reasonText(code, p, lane, kind) {
+  if (code === 'CODE_MISMATCH') {
+    const s = summaryCodeIsNew(p, lane) ? '新コード' : '旧コード';
+    const t = (kind === 'lab' ? labCodeIsNew(p, lane) : prescriptionCodeIsNew(p)) ? '新コード' : '旧コード';
+    return `${REASON.CODE_MISMATCH}（患者サマリー＝${s}／${kind==='lab'?'検査':'処方'}＝${t}）`;
+  }
+  return REASON[code] || code;
+}
+function reasonsToHtml(st, p, lane, kind) {
+  if (!st.reasons.length) return '';
+  return st.reasons.map(c => `・${reasonText(c, p, lane, kind)}`).join('<br>');
+}
+function reasonsShort(st) { return st.reasons.map(c => REASON[c] || c).join('／'); }
+
+// ===================================================================
+//  State
+// ===================================================================
+const S = {
+  preset: 'B',
+  basePreset: 'B',
+  params: null,
+  screen: 'A',
+  showCallouts: true,
+  compareMode: 'after-target',
+  timelineRefreshFrame: null,
+  dateDetailsOpen: false,
+  advancedDetailsOpen: false
+};
+
+function dateControl(label, key, value, disabled, note) {
+  const dis = disabled ? 'disabled' : '';
+  return `<div class="param-row">
+    <label class="param-label" for="param-${key}">${label}</label>
+    <div class="param-control">
+      <input type="date" id="param-${key}" value="${value || ''}" ${dis} onchange="parameterChanged()">
+      <div class="date-nudges">
+        ${[-7,-1,1,7].map(d=>`<button type="button" class="nudge-btn" ${dis} onclick="shiftParameterDate('${key}',${d})">${d>0?'+':''}${d}日</button>`).join('')}
+      </div>
+      ${note ? `<div class="param-note">${note}</div>` : ''}
+    </div>
+  </div>`;
+}
+function rememberDateDetailsState(open) { S.dateDetailsOpen = !!open; }
+function rememberAdvancedDetailsState(open) { S.advancedDetailsOpen = !!open; }
+function renderParameterPanel() {
+  const el = document.getElementById('parameter-panel'); if (!el || !S.params) return;
+  const p = S.params;
+  el.innerHTML = `
+    <div class="param-map-note"><strong>タイムラインと日付入力は同じパラメータです。</strong><br>普段は上の点をドラッグし、正確な日付が必要なときだけ「日付を直接入力」を開いてください。</div>
+
+    <details class="param-details" id="date-param-details" ${S.dateDetailsOpen?'open':''} ontoggle="rememberDateDetailsState(this.open)">
+      <summary>日付を直接入力・±1日／±7日で微調整</summary>
+      <div class="param-details-body">
+        <div class="param-subtitle">共通</div>
+        ${dateControl('閲覧日','viewDate',p.viewDate,false,'患者サマリ一覧の180日判定の基準日')}
+        <div class="param-subtitle">患者サマリ</div>
+        ${dateControl('指導日','shido',p.shido,false,'患者サマリの180日判定、検査・処方の30日判定の基準')}
+        ${dateControl('初回登録日','fhirReg',p.fhirReg,false,'初回登録時点の医療機関コードを判定')}
+        ${dateControl('更新・再登録日','fhirUpd',p.fhirUpd,!p.hasUpdate,'更新時点のコードで患者サマリを再登録')}
+        <div class="param-subtitle">検査・処方</div>
+        ${dateControl('検査実施日','labDo',p.labDo,p.labExists===false,'指導日から過去30日の対象かを判定')}
+        ${dateControl('検査登録日','labReg',p.labReg,p.labExists===false,'登録済み判定と新旧コード判定に使用')}
+        ${dateControl('処方日','prescriptionDate',p.prescriptionDate,p.prescriptionExists===false,'指導日から過去30日の対象かを判定')}
+        ${dateControl('処方取得可能日','prescriptionAvailableDate',p.prescriptionAvailableDate,p.prescriptionExists===false,'仕様確認中のため表示判定には使用しません')}
+        <div class="param-subtitle">医療機関承継</div>
+        ${dateControl('承継日','sucDate',p.sucDate,!p.hasSuccession,'旧病院から新病院へ切り替わる日')}
+      </div>
+    </details>
+
+    <div class="param-group conditions">
+      <div class="param-group-title">データ・表示条件 <span class="param-help">ON/OFFでタイムラインも変化</span></div>
+      <div class="param-row"><div class="param-label">患者サマリ</div><div class="param-control">
+        <label class="switch-line"><input type="checkbox" id="param-hasUpdate" ${p.hasUpdate?'checked':''} onchange="parameterChanged()"> 更新・再登録あり</label>
+        <div class="param-note">ONにすると「再登録」の点がタイムラインに追加されます。</div>
+      </div></div>
+      <div class="param-row"><div class="param-label">検査情報</div><div class="param-control">
+        <label class="switch-line"><input type="checkbox" id="param-labExists" ${p.labExists!==false?'checked':''} onchange="parameterChanged()"> 検査情報あり</label>
+      </div></div>
+      <div class="param-row"><div class="param-label">処方情報</div><div class="param-control">
+        <label class="switch-line"><input type="checkbox" id="param-prescriptionExists" ${p.prescriptionExists!==false?'checked':''} onchange="parameterChanged()"> 処方情報あり</label>
+      </div></div>
+      <div class="param-row"><label class="param-label" for="param-prescriptionSetting">処方種別</label><div class="param-control">
+        <select id="param-prescriptionSetting" ${p.prescriptionExists===false?'disabled':''} onchange="parameterChanged()">
+          <option value="院外" ${p.prescriptionSetting==='院外'?'selected':''}>院外処方</option>
+          <option value="院内" ${p.prescriptionSetting==='院内'?'selected':''}>院内処方</option>
+        </select>
+      </div></div>
+      <div class="param-row"><label class="param-label" for="param-prescriptionCodeMode">処方コード</label><div class="param-control">
+        <select id="param-prescriptionCodeMode" ${p.prescriptionExists===false?'disabled':''} onchange="parameterChanged()">
+          <option value="auto" ${p.prescriptionCodeMode==='auto'?'selected':''}>自動（処方日時点）</option>
+          <option value="old" ${p.prescriptionCodeMode==='old'?'selected':''}>旧コード固定（例外検証）</option>
+          <option value="new" ${p.prescriptionCodeMode==='new'?'selected':''}>新コード固定（例外検証）</option>
+        </select>
+        <div class="param-note">処方は9月改修の紐づけ対象外です。通常は「自動」を使用します。</div>
+      </div></div>
+      <div class="param-row"><div class="param-label">医療機関承継</div><div class="param-control">
+        <label class="switch-line"><input type="checkbox" id="param-hasSuccession" ${p.hasSuccession?'checked':''} onchange="parameterChanged()"> 承継あり</label>
+        <div class="param-note">ONにすると「承継日」の点がタイムラインに追加されます。</div>
+      </div></div>
+    </div>
+
+    <details class="param-details" id="advanced-param-details" ${S.advancedDetailsOpen?'open':''} ontoggle="rememberAdvancedDetailsState(this.open)">
+      <summary>改善案の詳細条件（通常は変更不要）</summary>
+      <div class="param-details-body">
+        <div class="param-row"><div class="param-label">承継マッピング</div><div class="param-control">
+          <label class="switch-line"><input type="checkbox" id="param-targetRelationshipVerified" ${p.targetRelationshipVerified!==false?'checked':''} ${!p.hasSuccession?'disabled':''} onchange="parameterChanged()"> 改善案で確認済み関係を使用</label>
+          <div class="param-note">9月仕様ではなく「あるべき姿」レーンだけに適用します。</div>
+        </div></div>
+        <div class="param-row"><div class="param-label">重複取得</div><div class="param-control">
+          <label class="switch-line"><input type="checkbox" id="param-duplicateRetrieval" ${p.duplicateRetrieval?'checked':''} onchange="parameterChanged()"> 旧・新双方で同一IDを取得</label>
+          <div class="param-note">recordIdによる重複排除の確認用です。</div>
+        </div></div>
+      </div>
+    </details>
+
+    <div class="code-preview" id="code-preview"></div>`;
+}
+function valueOf(id) { const el = document.getElementById(id); return el ? el.value : ''; }
+function checkedOf(id) { const el = document.getElementById(id); return !!(el && el.checked); }
+function readParameterPanel() {
+  return {
+    ...S.params,
+    viewDate: valueOf('param-viewDate'),
+    shido: valueOf('param-shido'),
+    fhirReg: valueOf('param-fhirReg'),
+    hasUpdate: checkedOf('param-hasUpdate'),
+    fhirUpd: valueOf('param-fhirUpd'),
+    labExists: checkedOf('param-labExists'),
+    labDo: valueOf('param-labDo'),
+    labReg: valueOf('param-labReg'),
+    prescriptionExists: checkedOf('param-prescriptionExists'),
+    prescriptionDate: valueOf('param-prescriptionDate'),
+    prescriptionSetting: valueOf('param-prescriptionSetting') || '院外',
+    prescriptionCodeMode: valueOf('param-prescriptionCodeMode') || 'auto',
+    prescriptionAvailableDate: valueOf('param-prescriptionAvailableDate') || null,
+    hasSuccession: checkedOf('param-hasSuccession'),
+    sucDate: valueOf('param-sucDate'),
+    targetRelationshipVerified: checkedOf('param-targetRelationshipVerified'),
+    duplicateRetrieval: checkedOf('param-duplicateRetrieval'),
+  };
+}
+function presetLabel(key) {
+  return (REPRESENTATIVE_PRESETS[key] && REPRESENTATIVE_PRESETS[key].label)
+    || (PATTERNS[key] && PATTERNS[key].label) || key || 'カスタム設定';
+}
+function presetDescription(key, p) {
+  return (REPRESENTATIVE_PRESETS[key] && REPRESENTATIVE_PRESETS[key].description) || p.desc;
+}
+function customDescription(p) {
+  const suc = sucDateOf(p);
+  const sucText = suc ? `承継日：<strong>${fmtD(suc)}</strong>` : '<strong>承継なし</strong>';
+  return `代表パターンを基にパラメータを編集しています。${sucText}。タイムライン・日付入力・条件はすべて同じ設定値を参照し、変更のたびに表示結果を再計算します。`;
+}
+function validateParameters(p) {
+  const errors = [], warnings = [], infos = [];
+  const invalidKeys = [], warningKeys = [];
+  const addError = (msg, keys=[]) => { errors.push(msg); invalidKeys.push(...keys); };
+  const addWarning = (msg, keys=[]) => { warnings.push(msg); warningKeys.push(...keys); };
+  const addInfo = (msg) => infos.push(msg);
+  const required = [['閲覧日',p.viewDate,'viewDate'],['指導日',p.shido,'shido'],['患者サマリ初回登録日',p.fhirReg,'fhirReg']];
+  if (p.labExists) required.push(['検査実施日',p.labDo,'labDo'],['検査登録日',p.labReg,'labReg']);
+  if (p.prescriptionExists) required.push(['処方日',p.prescriptionDate,'prescriptionDate']);
+  if (p.hasSuccession) required.push(['承継日',p.sucDate,'sucDate']);
+  if (p.hasUpdate) required.push(['更新・再登録日',p.fhirUpd,'fhirUpd']);
+  required.forEach(([label,v,key])=>{ if(!v) addError(`${label}を入力してください。`, [key]); });
+  const before = (a,b) => a && b && pd(a) < pd(b);
+  const after = (a,b) => a && b && pd(a) > pd(b);
+
+  // 仕様上成立しない、またはこのシミュレーターの前提外となる組み合わせ
+  if (before(p.viewDate,p.shido)) addError('閲覧日が指導日より前です。この患者サマリはまだ作成されていないため、この組み合わせは仕様上成立しません。', ['viewDate','shido']);
+  if (before(p.fhirReg,p.shido)) addError('患者サマリ初回登録日が指導日より前です。この組み合わせは仕様上ありません。', ['fhirReg','shido']);
+  if (p.hasUpdate && before(p.fhirUpd,p.fhirReg)) addError('更新・再登録日が初回登録日より前です。この組み合わせは仕様上ありません。', ['fhirUpd','fhirReg']);
+  if (p.labExists && before(p.labReg,p.labDo)) addError('検査登録日が検査実施日より前です。この組み合わせは仕様上ありません。', ['labReg','labDo']);
+  if (after(p.fhirReg,p.viewDate)) addError('閲覧日時点で患者サマリが未登録です。この画面で患者サマリを表示する前提を満たしません。', ['fhirReg','viewDate']);
+
+  // 仕様上は起こり得るが、この患者サマリでは非表示・未反映となる条件
+  if (p.hasUpdate && after(p.fhirUpd,p.viewDate)) addWarning('更新・再登録日は閲覧日より後です。今回の閲覧結果には再登録内容を反映しません。', ['fhirUpd','viewDate']);
+  if (p.labExists && after(p.labDo,p.shido)) addWarning('検査実施日が指導日より後です。この患者サマリの「指導日から過去30日」には含まれません。', ['labDo','shido']);
+  if (p.prescriptionExists && after(p.prescriptionDate,p.shido)) addWarning('処方日が指導日より後です。この患者サマリの「指導日から過去30日」には含まれません。', ['prescriptionDate','shido']);
+  if (p.labExists && p.labDo && p.shido) {
+    const d = daysAgo(p.labDo,p.shido);
+    if (d > 30) addWarning(`検査実施日は指導日の${d}日前で、30日の表示対象期間外です。`, ['labDo']);
+    else if (d === 30) addInfo('検査実施日が指導日のちょうど30日前です。境界日の包含は仕様確認中です。');
+  }
+  if (p.prescriptionExists && p.prescriptionDate && p.shido) {
+    const d = daysAgo(p.prescriptionDate,p.shido);
+    if (d > 30) addWarning(`処方日は指導日の${d}日前で、30日の表示対象期間外です。`, ['prescriptionDate']);
+    else if (d === 30) addInfo('処方日が指導日のちょうど30日前です。境界日の包含は仕様確認中です。');
+  }
+  if (p.shido && p.viewDate) {
+    const d = daysAgo(p.shido,p.viewDate);
+    if (d > 180) addWarning(`指導日は閲覧日の${d}日前で、患者サマリ一覧の180日範囲外です。`, ['shido']);
+    else if (d === 180) addInfo('指導日が閲覧日のちょうど180日前です。境界日の包含は仕様確認中です。');
+  }
+  if (p.labExists && after(p.labReg,p.viewDate)) addWarning('検査登録日が閲覧日より後です。閲覧日時点では未登録のため患者サマリに表示されません。', ['labReg','viewDate']);
+  if (p.prescriptionExists && p.prescriptionSetting === '院内') addWarning('院内処方は患者サマリの表示対象外です。', ['prescriptionSetting']);
+  if (p.hasSuccession && !p.targetRelationshipVerified) addWarning('改善案でも承継マッピングを使用しないため、コード不一致は解消されません。', ['targetRelationshipVerified']);
+  if (p.prescriptionCodeMode && p.prescriptionCodeMode !== 'auto') addWarning('処方コードを手動固定しています。通常仕様ではなく、例外検証用の設定です。', ['prescriptionCodeMode']);
+  if (p.prescriptionAvailableDate) {
+    addInfo('処方の取得可能日は仕様確認中のため、表示判定には使用していません。');
+    if (p.prescriptionDate && before(p.prescriptionAvailableDate,p.prescriptionDate)) addInfo('取得可能日が処方日より前ですが、この項目自体が仕様確認中です。');
+  }
+  if (p.duplicateRetrieval) addInfo('改善案で旧・新双方から同一IDを取得し、recordIdで重複排除する設定です。');
+
+  return {
+    errors, warnings, infos,
+    invalidKeys:[...new Set(invalidKeys)],
+    warningKeys:[...new Set(warningKeys.filter(k=>!invalidKeys.includes(k)))]
+  };
+}
+function renderParameterMeta() {
+  const state = document.getElementById('preset-state');
+  if (state) state.innerHTML = S.preset === 'custom'
+    ? '<strong>カスタム設定</strong><br>代表パターンの値を編集しています'
+    : `<strong>${presetLabel(S.basePreset)}</strong><br>下の時系列・日付・条件を読み込み済み`;
+  const sel = document.getElementById('preset-sel'); if (sel) sel.value = S.preset === 'custom' ? 'custom' : S.basePreset;
+  const p = currentPattern();
+  const preview = document.getElementById('code-preview');
+  if (preview) preview.innerHTML = `
+    <span class="preview-chip">9月後 患者サマリ：${summaryCodeIsNew(p,'after')?'新':'旧'}</span>
+    <span class="preview-chip">9月後 検査：${labCodeIsNew(p,'after')?'新':'旧'}</span>
+    <span class="preview-chip">処方：${prescriptionCodeIsNew(p)?'新':'旧'}</span>`;
+
+  const v = validateParameters(p), box = document.getElementById('param-validation');
+  if (box) {
+    const chunks = [];
+    if (v.errors.length) chunks.push(`<div class="validation-box error"><span class="validation-title">仕様上成立しない／前提外の設定</span>${v.errors.map(x=>`<span>・${x}</span>`).join('')}<span style="margin-top:3px;font-weight:bold">この状態の表示結果は参考値です。</span></div>`);
+    if (v.warnings.length) chunks.push(`<div class="validation-box warn"><span class="validation-title">表示結果に影響する設定</span>${v.warnings.map(x=>`<span>・${x}</span>`).join('')}</div>`);
+    if (v.infos.length) chunks.push(`<div class="validation-box info"><span class="validation-title">仕様確認中・補足</span>${v.infos.map(x=>`<span>・${x}</span>`).join('')}</div>`);
+    if (!chunks.length) chunks.push('<div class="validation-box ok">✓ 入力値は仕様上の前後関係を満たしています</div>');
+    box.innerHTML = `<div class="validation-stack">${chunks.join('')}</div>`;
+  }
+
+  // 関連する入力欄を色で示す
+  document.querySelectorAll('#parameter-panel input, #parameter-panel select').forEach(el=>el.classList.remove('input-invalid','input-warning'));
+  v.invalidKeys.forEach(key=>{ const el=document.getElementById(`param-${key}`); if(el) el.classList.add('input-invalid'); });
+  v.warningKeys.forEach(key=>{ const el=document.getElementById(`param-${key}`); if(el) el.classList.add('input-warning'); });
+}
+function flashPresetParameters() {
+  requestAnimationFrame(()=>{
+    ['timeline','parameter-panel'].forEach(id=>{
+      const el=document.getElementById(id); if(!el) return;
+      el.classList.remove('preset-flash'); void el.offsetWidth; el.classList.add('preset-flash');
+      setTimeout(()=>el.classList.remove('preset-flash'),850);
+    });
+  });
+}
+function loadPreset(key) {
+  if (!REPRESENTATIVE_PRESETS[key]) key = 'B';
+  S.basePreset = key;
+  S.preset = key;
+  S.params = parametersFromPreset(key);
+  S.screen = 'A';
+  renderSidebar();
+  renderAll();
+  flashPresetParameters();
+}
+function loadPresetFromSelect() {
+  const key = valueOf('preset-sel');
+  if (key === 'custom') return;
+  loadPreset(key);
+}
+function resetToBasePreset() { loadPreset(REPRESENTATIVE_PRESETS[S.basePreset] ? S.basePreset : 'B'); }
+function parameterChanged() {
+  S.params = readParameterPanel();
+  S.preset = 'custom';
+  S.screen = 'A';
+  renderSidebar();
+  renderAll();
+}
+function shiftParameterDate(key, days) {
+  if (!S.params || !S.params[key]) return;
+  S.params[key] = shiftIsoDate(S.params[key], days);
+  S.preset = 'custom';
+  S.screen = 'A';
+  renderSidebar();
+  renderAll();
+}
+
+
+// ===================================================================
+//  v19：タイムライン上の点を直接ドラッグして日付を変更
+// ===================================================================
+const TIMELINE_EVENT_DEFS = [
+  { key:'shido', label:'指導日', fullLabel:'指導実施日', cls:'shido', visible:p=>!!p.shido },
+  { key:'labDo', label:'検査実施', fullLabel:'検査実施日', cls:'labrx', visible:p=>p.labExists!==false && !!p.labDo },
+  { key:'prescriptionDate', label:'処方日', fullLabel:'処方日', cls:'rx', visible:p=>p.prescriptionExists!==false && !!p.prescriptionDate },
+  { key:'sucDate', label:'承継日', fullLabel:'医療機関承継日', cls:'suc', visible:p=>p.hasSuccession && !!p.sucDate },
+  { key:'fhirReg', label:'サマリ登録', fullLabel:'患者サマリ初回登録日', cls:'reg', visible:p=>!!p.fhirReg },
+  { key:'fhirUpd', label:'再登録', fullLabel:'患者サマリ更新・再登録日', cls:'upd', visible:p=>p.hasUpdate && !!p.fhirUpd },
+  { key:'labReg', label:'検査登録', fullLabel:'検査情報登録日', cls:'reg', visible:p=>p.labExists!==false && !!p.labReg },
+  { key:'prescriptionAvailableDate', label:'処方取得', fullLabel:'処方情報取得可能日（判定未使用）', cls:'avail', visible:p=>p.prescriptionExists!==false && !!p.prescriptionAvailableDate },
+  { key:'viewDate', label:'閲覧日', fullLabel:'マイナポータル閲覧日', cls:'view', visible:p=>!!p.viewDate },
+];
+let timelineDragState = null;
+
+function isoDateFromDate(d) {
+  const y = d.getFullYear(), m = String(d.getMonth()+1).padStart(2,'0'), day = String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+function fmtMD(s) {
+  if (!s) return '';
+  const d = pd(s);
+  return `${d.getMonth()+1}/${d.getDate()}`;
+}
+function timelineEvents(p) {
+  return TIMELINE_EVENT_DEFS.filter(def => def.visible(p)).map(def => ({ ...def, date:p[def.key] }));
+}
+function timelineRange(events) {
+  const dates = events.map(e=>pd(e.date)).filter(Boolean).sort((a,b)=>a-b);
+  const fallback = pd(DEFAULT_VIEW_DATE);
+  let min = dates[0] || fallback, max = dates[dates.length-1] || fallback;
+  let span = Math.max(0, Math.round((max-min)/86400000));
+  const minimumSpan = 42;
+  if (span < minimumSpan) {
+    const extra = Math.ceil((minimumSpan-span)/2);
+    min = pd(shiftIsoDate(isoDateFromDate(min), -extra));
+    max = pd(shiftIsoDate(isoDateFromDate(max), extra));
+    span = Math.max(1, Math.round((max-min)/86400000));
+  }
+  const pad = Math.max(7, Math.min(30, Math.ceil(span*0.08)));
+  const minIso = shiftIsoDate(isoDateFromDate(min), -pad);
+  const maxIso = shiftIsoDate(isoDateFromDate(max), pad);
+  return { min:minIso, max:maxIso, span:Math.max(1, daysAgo(minIso,maxIso)) };
+}
+function timelinePercent(dateStr, range) {
+  const n = daysAgo(range.min, dateStr);
+  return Math.max(0, Math.min(100, (n/range.span)*100));
+}
+function timelineEdgeClass(percent) { return percent < 8 ? 'edge-start' : percent > 92 ? 'edge-end' : ''; }
+function timelineTicks(range) {
+  return [0,25,50,75,100].map((pct,index)=>{
+    const date = shiftIsoDate(range.min, Math.round(range.span*(pct/100)));
+    const edge = index===0 ? 'edge-start' : index===4 ? 'edge-end' : '';
+    return `<span class="timeline-axis-tick ${edge}" style="left:${pct}%"><span>${fmtMD(date)}</span></span>`;
+  }).join('');
+}
+function timelineGridLines() {
+  return [0,25,50,75,100].map(pct=>`<span class="timeline-grid-line" style="left:${pct}%"></span>`).join('');
+}
+function renderDraggableTimeline(p) {
+  const el = document.getElementById('timeline'); if (!el) return;
+  const events = timelineEvents(p), range = timelineRange(events);
+  const ruleCheck = validateParameters(p);
+  el.innerHTML = `
+    <div class="timeline-help"><strong>点を左右にドラッグ</strong>すると、日付を1日単位で変更できます。赤は仕様上成立しない前後関係、黄は表示結果に影響する条件です。正確な日付は下の『日付を直接入力』でも調整できます。</div>
+    <div class="drag-timeline" data-min="${range.min}" data-max="${range.max}">
+      <div class="timeline-axis">
+        <div class="timeline-axis-label">表示範囲</div>
+        <div class="timeline-axis-track">${timelineTicks(range)}</div>
+      </div>
+      ${events.map(e=>{
+        const pct = timelinePercent(e.date,range), edge = timelineEdgeClass(pct);
+        const offset = Math.max(0, Math.min(range.span, daysAgo(range.min,e.date)));
+        const ruleClass = ruleCheck.invalidKeys.includes(e.key) ? 'rule-error' : (ruleCheck.warningKeys.includes(e.key) ? 'rule-warning' : '');
+        return `<div class="timeline-drag-row ${ruleClass}" data-event-key="${e.key}">
+          <div class="timeline-event-name" title="${e.fullLabel}"><span class="timeline-key-dot ${e.cls}"></span><span>${e.label}</span></div>
+          <div class="timeline-track" data-key="${e.key}">
+            ${timelineGridLines()}
+            <button type="button" class="timeline-marker ${e.cls} ${edge}" style="left:${pct}%"
+              data-key="${e.key}" data-min="${range.min}" data-max="${range.max}" data-date="${e.date}"
+              role="slider" aria-label="${e.fullLabel}" aria-valuemin="0" aria-valuemax="${range.span}" aria-valuenow="${offset}" aria-valuetext="${fmtD(e.date)}"
+              title="${e.fullLabel}：${fmtD(e.date)}（ドラッグまたは矢印キーで変更）"
+              onpointerdown="startTimelineDrag(event,'${e.key}')" onpointermove="moveTimelineDrag(event)" onpointerup="endTimelineDrag(event)" onpointercancel="endTimelineDrag(event)"
+              onkeydown="timelineMarkerKeydown(event,'${e.key}')">
+              <span class="timeline-marker-dot"></span><span class="timeline-marker-date">${fmtMD(e.date)}</span>
+            </button>
+          </div>
+        </div>`;
+      }).join('')}
+      <div class="timeline-range-note"><span>${fmtD(range.min)}</span><span>ドラッグ後に範囲を自動調整</span><span>${fmtD(range.max)}</span></div>
+      <div class="timeline-live" id="timeline-live" aria-live="polite">点を選択してドラッグしてください。</div>
+    </div>`;
+}
+function timelineDateAtClientX(clientX, track, minDate, maxDate) {
+  const rect = track.getBoundingClientRect();
+  const ratio = Math.max(0, Math.min(1, (clientX-rect.left)/Math.max(1,rect.width)));
+  const span = Math.max(1, daysAgo(minDate,maxDate));
+  return shiftIsoDate(minDate, Math.round(span*ratio));
+}
+function updateTimelineMarkerVisual(marker,date,minDate,maxDate) {
+  const range = { min:minDate, max:maxDate, span:Math.max(1,daysAgo(minDate,maxDate)) };
+  const pct = timelinePercent(date,range);
+  marker.style.left = `${pct}%`;
+  marker.dataset.date = date;
+  marker.classList.remove('edge-start','edge-end');
+  const edge = timelineEdgeClass(pct); if (edge) marker.classList.add(edge);
+  const lbl = marker.querySelector('.timeline-marker-date'); if (lbl) lbl.textContent = fmtMD(date);
+  marker.setAttribute('aria-valuenow', String(Math.max(0,Math.min(range.span,daysAgo(minDate,date)))));
+  marker.setAttribute('aria-valuetext', fmtD(date));
+  marker.title = `${marker.getAttribute('aria-label')}：${fmtD(date)}（ドラッグまたは矢印キーで変更）`;
+}
+function syncTimelineDateInput(key,date) {
+  const input = document.getElementById(`param-${key}`); if (input) input.value = date;
+}
+function scheduleTimelineLiveRefresh() {
+  if (S.timelineRefreshFrame !== null) return;
+  S.timelineRefreshFrame = requestAnimationFrame(()=>{
+    S.timelineRefreshFrame = null;
+    renderSidebar({ preserveTimeline:true, preserveParameters:true });
+    renderAll();
+  });
+}
+function startTimelineDrag(event,key) {
+  if (event.pointerType === 'mouse' && event.button !== 0) return;
+  const marker = event.currentTarget, track = marker.closest('.timeline-track');
+  if (!track || !S.params || !S.params[key]) return;
+  event.preventDefault();
+  marker.setPointerCapture(event.pointerId);
+  timelineDragState = {
+    pointerId:event.pointerId, key, marker, track,
+    minDate:marker.dataset.min, maxDate:marker.dataset.max,
+    lastDate:S.params[key], moved:false
+  };
+  marker.classList.add('dragging');
+  document.body.classList.add('timeline-dragging');
+  S.preset = 'custom';
+  S.screen = 'A';
+  const live = document.getElementById('timeline-live');
+  if (live) { live.classList.add('active'); live.textContent = `${marker.getAttribute('aria-label')}：${fmtD(S.params[key])}`; }
+}
+function moveTimelineDrag(event) {
+  const st = timelineDragState;
+  if (!st || st.pointerId !== event.pointerId) return;
+  event.preventDefault();
+  const date = timelineDateAtClientX(event.clientX,st.track,st.minDate,st.maxDate);
+  if (!date || date === st.lastDate) return;
+  st.lastDate = date; st.moved = true;
+  S.params[st.key] = date;
+  S.preset = 'custom';
+  updateTimelineMarkerVisual(st.marker,date,st.minDate,st.maxDate);
+  syncTimelineDateInput(st.key,date);
+  const live = document.getElementById('timeline-live');
+  if (live) { live.classList.add('active'); live.textContent = `${st.marker.getAttribute('aria-label')}：${fmtD(date)} に変更中`; }
+  scheduleTimelineLiveRefresh();
+}
+function endTimelineDrag(event) {
+  const st = timelineDragState;
+  if (!st || st.pointerId !== event.pointerId) return;
+  event.preventDefault();
+  try { if (st.marker.hasPointerCapture(event.pointerId)) st.marker.releasePointerCapture(event.pointerId); } catch (_) {}
+  const focusKey = st.key;
+  st.marker.classList.remove('dragging');
+  document.body.classList.remove('timeline-dragging');
+  timelineDragState = null;
+  if (S.timelineRefreshFrame !== null) { cancelAnimationFrame(S.timelineRefreshFrame); S.timelineRefreshFrame = null; }
+  renderSidebar();
+  renderAll();
+  requestAnimationFrame(()=>{ const next = document.querySelector(`.timeline-marker[data-key="${focusKey}"]`); if (next) next.focus(); });
+}
+function setTimelineDateFromKeyboard(key,date) {
+  if (!S.params || !date) return;
+  S.params[key] = date;
+  S.preset = 'custom';
+  S.screen = 'A';
+  renderSidebar();
+  renderAll();
+  requestAnimationFrame(()=>{ const next = document.querySelector(`.timeline-marker[data-key="${key}"]`); if (next) next.focus(); });
+}
+function timelineMarkerKeydown(event,key) {
+  let next = null;
+  const current = (S.params && S.params[key]) || event.currentTarget.dataset.date;
+  const step = event.shiftKey ? 7 : 1;
+  if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') next = shiftIsoDate(current,-step);
+  else if (event.key === 'ArrowRight' || event.key === 'ArrowUp') next = shiftIsoDate(current,step);
+  else if (event.key === 'Home') next = event.currentTarget.dataset.min;
+  else if (event.key === 'End') next = event.currentTarget.dataset.max;
+  else return;
+  event.preventDefault();
+  setTimelineDateFromKeyboard(key,next);
+}
+
+function callout(html, cls) {
+  if (!S.showCallouts) return '';
+  return `<div class="callout ${cls||''}"><span class="co-ico">💬</span><div><span class="co-tag">シミュレーター解説（実画面には表示されません）</span>${html}</div></div>`;
+}
+
+// ===================================================================
+//  差分バナー
+// ===================================================================
+function renderDiffBanner() {
+  const el = document.getElementById('diff-banner');
+  if (!el) return;
+  const p = currentPattern();
+  const ruleCheck = validateParameters(p);
+  if (ruleCheck.errors.length) {
+    el.innerHTML = `<div class="diff-banner diff-warn">⛔ 入力ルールを満たしていないため、右側の表示結果は参考値です。左の『仕様上成立しない／前提外の設定』を確認してください。</div>`;
+    return;
+  }
+  const psv = patientSummaryVisible(p);
+  const mode = S.compareMode;
+  const reasonLabels = {
+    OUT_OF_PERIOD: '対象期間外',
+    NOT_REGISTERED: '閲覧日時点で未登録',
+    IN_HOSPITAL_PRESCRIPTION: '院内処方',
+    NO_DATA: '対象情報なし',
+  };
+  const nonCodeReasons = (st) => st.reasons.filter(r => r !== 'CODE_MISMATCH');
+  const reasonSummary = (st) => nonCodeReasons(st).map(r => reasonLabels[r] || r).join('・');
+  const targetDisclaimer = '（改善案・確定仕様ではありません）';
+  let msg, cls;
+
+  if (psv === 'BOUNDARY_UNCONFIRMED') {
+    msg = '🟡 受診日が閲覧日の<strong>ちょうど180日前</strong>。境界日の包含は仕様確認中のため一覧表示を確定していません';
+    cls = 'diff-unc';
+  } else if (psv === false) {
+    msg = '📅 この受診は<strong>180日を超過</strong>し患者サマリー一覧に表示されません（データは存在）';
+    cls = 'diff-info';
+  } else if (mode === 'before-after') {
+    const labA = evaluateLab(p, 'after'), rxA = evaluatePrescription(p, 'after');
+    const labB = evaluateLab(p, 'before'), rxB = evaluatePrescription(p, 'before');
+    if (labA.visibleOnPatientSummary === 'BOUNDARY_UNCONFIRMED' || rxA.visibleOnPatientSummary === 'BOUNDARY_UNCONFIRMED') {
+      msg = '🟡 30日境界（ちょうど30日前）に該当。表示結果は仕様確認中で確定していません'; cls = 'diff-unc';
+    } else {
+      const labWorse = labB.visibleOnPatientSummary === true && labA.visibleOnPatientSummary === false;
+      const rxWorse  = rxB.visibleOnPatientSummary === true && rxA.visibleOnPatientSummary === false;
+      const hiddenA = [labA.visibleOnPatientSummary===false?'検査':null, rxA.visibleOnPatientSummary===false?'処方':null].filter(Boolean);
+      if (labWorse || rxWorse) {
+        const it = [labWorse?'検査情報':null, rxWorse?'処方情報':null].filter(Boolean).join('・');
+        msg = `⚠ 改修後、<strong>${it}</strong>が患者サマリーに表示されなくなります`; cls = 'diff-warn';
+      } else if (hiddenA.length) {
+        msg = `⚠ ${hiddenA.join('・')}は患者サマリー上に表示されません（改修前後で差なし。下記理由）`; cls = 'diff-warn';
+      } else if (hospName(p,'before') !== hospName(p,'after')) {
+        msg = '🔄 改修後は医療機関名が<strong>新しく</strong>なります'; cls = 'diff-info';
+      } else {
+        msg = '✅ このシナリオでは改修前後の表示に差異はありません'; cls = 'diff-ok';
+      }
+    }
+  } else if (mode === 'after-target') {
+    const items = [
+      { label: '検査情報', after: evaluateLab(p, 'after'), target: evaluateLabTarget(p) },
+      { label: '処方情報', after: evaluatePrescription(p, 'after'), target: evaluatePrescriptionTarget(p) },
+    ];
+    const hasBoundary = items.some(i =>
+      i.after.visibleOnPatientSummary === 'BOUNDARY_UNCONFIRMED' ||
+      i.target.visibleOnPatientSummary === 'BOUNDARY_UNCONFIRMED');
+    if (hasBoundary) {
+      msg = '🟡 30日境界（ちょうど30日前）に該当。表示結果は仕様確認中で確定していません';
+      cls = 'diff-unc';
+    } else {
+      const clauses = [];
+      let hasWarning = false;
+      const recovered = items.filter(i => i.after.visibleOnPatientSummary === false && i.target.visibleOnPatientSummary === true);
+      if (recovered.length) {
+        clauses.push(`改善案では確認済みの承継関係を用いることで、9月リリース後に表示されない<strong>${recovered.map(i=>i.label).join('・')}</strong>を関連表示できます`);
+      }
+
+      items.filter(i => i.target.reasons.includes('CODE_MISMATCH')).forEach(i => {
+        hasWarning = true;
+        const extra = reasonSummary(i.target);
+        clauses.push(`確認済みの承継関係がないため、<strong>${i.label}</strong>のコード不一致は解消されません${extra ? `。また、${extra}の条件にも該当します` : ''}`);
+      });
+
+      items.filter(i =>
+        i.after.reasons.includes('CODE_MISMATCH') &&
+        !i.target.reasons.includes('CODE_MISMATCH') &&
+        i.target.visibleOnPatientSummary === false
+      ).forEach(i => {
+        hasWarning = true;
+        clauses.push(`<strong>${i.label}</strong>のコード不一致は改善案で解消しますが、${reasonSummary(i.target) || '別の表示条件'}のため引き続き対象外です`);
+      });
+
+      items.filter(i =>
+        i.target.visibleOnPatientSummary === false &&
+        !i.target.reasons.includes('CODE_MISMATCH') &&
+        !i.after.reasons.includes('CODE_MISMATCH')
+      ).forEach(i => {
+        hasWarning = true;
+        clauses.push(`承継マッピングで解消できるのはコード不一致だけです。<strong>${i.label}</strong>は${reasonSummary(i.target) || '別の表示条件'}のため引き続き対象外です`);
+      });
+
+      if (institutionNameForLane(p, 'after') !== institutionNameForLane(p, 'target')) {
+        clauses.push('あるべき姿では、現行名称と受診時名称を併記します');
+      }
+
+      if (!clauses.length) {
+        msg = '✅ 9月リリース後とあるべき姿で、表示結果・医療機関名ともに差異はありません';
+        cls = 'diff-ok';
+      } else {
+        msg = `${clauses.join('。')}。${targetDisclaimer}`;
+        cls = hasWarning ? 'diff-warn' : 'diff-info';
+      }
+    }
+  } else { // all
+    const items = [
+      { label: '検査情報', before: evaluateLab(p, 'before'), after: evaluateLab(p, 'after'), target: evaluateLabTarget(p) },
+      { label: '処方情報', before: evaluatePrescription(p, 'before'), after: evaluatePrescription(p, 'after'), target: evaluatePrescriptionTarget(p) },
+    ];
+    const hasBoundary = items.some(i =>
+      i.before.visibleOnPatientSummary === 'BOUNDARY_UNCONFIRMED' ||
+      i.after.visibleOnPatientSummary === 'BOUNDARY_UNCONFIRMED' ||
+      i.target.visibleOnPatientSummary === 'BOUNDARY_UNCONFIRMED');
+    if (hasBoundary) {
+      msg = '🟡 30日境界（ちょうど30日前）に該当。3レーンの表示結果は仕様確認中で確定していません';
+      cls = 'diff-unc';
+    } else {
+      const clauses = [];
+      let hasWarning = false;
+
+      items.forEach(i => {
+        const worsenedAfter = i.before.visibleOnPatientSummary === true && i.after.visibleOnPatientSummary === false;
+        const recoveredTarget = i.after.visibleOnPatientSummary === false && i.target.visibleOnPatientSummary === true;
+        const unresolvedMismatch = i.target.reasons.includes('CODE_MISMATCH');
+        const mismatchResolvedButHidden = i.after.reasons.includes('CODE_MISMATCH') &&
+          !i.target.reasons.includes('CODE_MISMATCH') && i.target.visibleOnPatientSummary === false;
+        const hiddenAll = i.before.visibleOnPatientSummary === false &&
+          i.after.visibleOnPatientSummary === false && i.target.visibleOnPatientSummary === false;
+
+        if (worsenedAfter && recoveredTarget) {
+          clauses.push(`9月リリース後に<strong>${i.label}</strong>が非表示となりますが、改善案では確認済み承継マッピングにより関連表示できます`);
+        } else if (worsenedAfter && unresolvedMismatch) {
+          hasWarning = true;
+          clauses.push(`9月リリース後に<strong>${i.label}</strong>がコード不一致で非表示となり、確認済み承継関係がないため改善案でも解消されません`);
+        } else if (mismatchResolvedButHidden) {
+          hasWarning = true;
+          clauses.push(`<strong>${i.label}</strong>のコード不一致は改善案で解消しますが、${reasonSummary(i.target) || '別の表示条件'}のため引き続き対象外です`);
+        } else if (hiddenAll && !unresolvedMismatch) {
+          hasWarning = true;
+          clauses.push(`<strong>${i.label}</strong>は${reasonSummary(i.target) || '別の表示条件'}のため3レーンとも対象外です。承継マッピングでは解消しません`);
+        }
+      });
+
+      if (institutionNameForLane(p, 'after') !== institutionNameForLane(p, 'target')) {
+        clauses.push('あるべき姿では、現行名称と受診時名称を併記します');
+      }
+
+      if (!clauses.length) {
+        msg = '✅ 3レーンで表示結果・医療機関名に差異はありません';
+        cls = 'diff-ok';
+      } else {
+        msg = `${clauses.join('。')}。${targetDisclaimer}`;
+        cls = hasWarning ? 'diff-warn' : 'diff-info';
+      }
+    }
+  }
+  el.innerHTML = `<div class="diff-banner ${cls}">${msg}</div>`;
+}
+function renderPhones() { activeLanes().forEach(v => renderPhone(v.lane)); renderDiffBanner(); }
+
+// ===================================================================
+//  サイドバー
+// ===================================================================
+function renderSidebar(options = {}) {
+  const preserveTimeline = options.preserveTimeline === true;
+  const preserveParameters = options.preserveParameters === true;
+  if (!S.params) S.params = parametersFromPreset(S.basePreset || 'B');
+  if (!preserveParameters) renderParameterPanel();
+  const p = currentPattern();
+  const descCls = S.preset === 'custom' ? 'custom' : S.basePreset;
+  const desc = S.preset === 'custom' ? customDescription(p) : presetDescription(S.basePreset, p);
+  document.getElementById('sc-desc').innerHTML = `<div class="sc-desc ${descCls}">${desc}</div>`;
+  renderParameterMeta();
+
+  // マイルストーン：各点を左右にドラッグして日付を変更
+  if (!preserveTimeline) renderDraggableTimeline(p);
+
+  // 結果サマリー（比較モードの表示レーンに応じた列）
+  const psv = patientSummaryVisible(p);
+  const lanes = activeLanes();
+  const nCols = lanes.length;
+  const laneHeadName = (l) => l==='before' ? '🔴改修前' : l==='after' ? '🟢9月後' : '🔵あるべき姿';
+  const codeLane = (l) => l==='target' ? 'after' : l; // targetのコードはafter基準
+  const cCode = (n) => n ? `<span class="v-new">新</span>` : `<span class="v-old">旧</span>`;
+  const cVis  = (v) => v===true ? `<span class="v-ok">✅表示</span>` : v==='BOUNDARY_UNCONFIRMED' ? `<span class="v-unc">🟡確認中</span>` : `<span class="v-ng">❌非表示</span>`;
+  const cExist= (v) => v===true ? `<span class="v-ok">存在</span>` : v==='UNCONFIRMED' ? `<span class="v-unc">未確定</span>` : `<span class="v-ng">なし</span>`;
+  const cList = (v) => v===true ? `<span class="v-ok">✅表示</span>` : v==='BOUNDARY_UNCONFIRMED' ? `<span class="v-unc">🟡確認中</span>` : `<span class="v-ng">❌非表示</span>`;
+  const cFinal = (v) => v===true ? `<span class="v-ok">✅表示</span>`
+    : v==='NOT_APPLICABLE' ? `<span class="v-unc">⊘対象外</span>`
+    : (v==='PARENT_BOUNDARY_UNCONFIRMED' || v==='BOUNDARY_UNCONFIRMED') ? `<span class="v-unc">🟡確認中</span>`
+    : `<span class="v-ng">❌非表示</span>`;
+  const row  = (label, cellFn) => `<tr><td class="rk">${label}</td>${lanes.map(v=>`<td>${cellFn(v.lane)}</td>`).join('')}</tr>`;
+  const secR = (t) => `<tr><td class="sec" colspan="${nCols+1}">${t}</td></tr>`;
+  const spanR= (label, html) => `<tr><td class="rk">${label}</td><td colspan="${nCols}">${html}</td></tr>`;
+
+  // 理由注記（親状態を優先。親が表示のときは各レーンの理由を列挙。matchMethodは入れない）
+  let reasonNote = '';
+  if (psv === false) {
+    reasonNote = `<span class="rl-i"><span class="rl-t">検査・処方</span>：対象外（患者サマリ自体が180日範囲外）</span>`;
+  } else if (psv === 'BOUNDARY_UNCONFIRMED') {
+    reasonNote = `<span class="rl-i"><span class="rl-t">検査・処方</span>：確認中（患者サマリの180日境界が仕様確認中）</span>`;
+  } else {
+    lanes.filter(v=>v.lane!=='before').forEach(v=>{
+      const nm = laneHeadName(v.lane);
+      const lab = evaluationForLane(p, v.lane, 'lab'), rx = evaluationForLane(p, v.lane, 'rx');
+      if (lab.reasons.length) reasonNote += `<span class="rl-i"><span class="rl-t">${nm} 検査</span>：${reasonsShort(lab)}</span>`;
+      if (rx.reasons.length)  reasonNote += `<span class="rl-i"><span class="rl-t">${nm} 処方</span>：${reasonsShort(rx)}</span>`;
+    });
+  }
+  const reasonBox = reasonNote ? `<div class="reason-list">${reasonNote}</div>` : '';
+
+  document.getElementById('res-box').innerHTML = `
+    <div class="rb-title">レーン比較（${S.compareMode==='before-after'?'改修前 vs 9月後':S.compareMode==='after-target'?'9月後 vs あるべき姿':'3レーンすべて'}）</div>
+    <table class="res-tbl">
+      <tr><th></th>${lanes.map(v=>`<th>${laneHeadName(v.lane)}</th>`).join('')}</tr>
+      ${spanR('患者サマリ一覧表示（180日）', cList(psv))}
+      ${row('患者サマリ 医療機関名', v => institutionNameForLane(p, v))}
+      ${row('患者サマリ コード', v => cCode(summaryCodeIsNew(p, codeLane(v))))}
+      ${row('検査情報のコード', v => cCode(labCodeIsNew(p, codeLane(v))))}
+      ${row('処方情報のコード', v => cCode(prescriptionCodeIsNew(p)))}
+      ${secR('患者サマリ詳細での最終表示（一覧表示を加味）')}
+      ${row('検査情報', v => cFinal(finalForLane(p, v, 'lab')))}
+      ${row('処方情報', v => cFinal(finalForLane(p, v, 'rx')))}
+      ${secR('（参考）単体の条件判定（visibleOnPatientSummary）')}
+      ${row('検査情報', v => cVis(evaluationForLane(p, v, 'lab').visibleOnPatientSummary))}
+      ${row('処方情報', v => cVis(evaluationForLane(p, v, 'rx').visibleOnPatientSummary))}
+      ${secR('個別情報としての存在（existsInRecord）')}
+      ${row('検査情報', v => cExist(evaluationForLane(p, v, 'lab').existsInRecord))}
+      ${row('処方情報', v => cExist(evaluationForLane(p, v, 'rx').existsInRecord))}
+      ${spanR('プロフィール情報', '<span class="v-ok">✅表示</span>')}
+    </table>
+    ${reasonBox}`;
+}
+
+// ===================================================================
+//  レーン定義
+// ===================================================================
+const LANE_DEF = {
+  before: { badge: '🔴 改修前（現状）',   badgeCls: 'before', headerLabel: '🔴 改修前（現状）— 新旧紐づけ未実装' },
+  after:  { badge: '🟢 改修後（9月〜）', badgeCls: 'after',  headerLabel: '🟢 改修後（9月リリース）— 新旧紐づけ実装' },
+  target: { badge: '🔵 あるべき姿（改善案）', badgeCls: 'target', headerLabel: '🔵 あるべき姿（改善案・確定仕様ではありません）' },
+};
+const COMPARE_MODES = {
+  'before-after': ['before', 'after'],
+  'after-target': ['after', 'target'],
+  'all':          ['before', 'after', 'target'],
+};
+function activeLanes() {
+  return (COMPARE_MODES[S.compareMode] || COMPARE_MODES['after-target']).map(l => ({ lane: l, ...LANE_DEF[l] }));
+}
+function targetInActiveLanes() { return activeLanes().some(v => v.lane === 'target'); }
+
+function renderModeBar() {
+  const el = document.getElementById('mode-bar'); if (!el) return;
+  const modes = [['before-after', '改修前 vs 9月後'], ['after-target', '9月後 vs あるべき姿'], ['all', '3レーンすべて']];
+  el.innerHTML = '<span style="font-size:10px;color:#556;font-weight:bold;margin-right:2px">比較モード：</span>' +
+    modes.map(([m, label]) => `<button class="mode-btn ${S.compareMode === m ? 'on' : ''}" onclick="setCompareMode('${m}')">${label}</button>`).join('');
+}
+function renderTargetNotice() {
+  const el = document.getElementById('target-notice'); if (!el) return;
+  if (targetInActiveLanes()) {
+    el.style.display = 'block';
+    el.innerHTML = `<b>「あるべき姿」は、情報欠落を防ぐための改善案です。</b>確定仕様ではなく、2026年9月リリースの実装内容とは異なります。`;
+  } else { el.style.display = 'none'; el.innerHTML = ''; }
+}
+function setCompareMode(m) { S.compareMode = m; S.screen = 'A'; renderSidebar(); renderAll(); }
+
+function buildLayout() {
+  const pw = 320;
+  const lanes = activeLanes();
+  renderModeBar();
+  renderTargetNotice();
+  const labels = document.getElementById('compare-labels'); if (labels) labels.innerHTML = '';
+  document.getElementById('phones-row').innerHTML = lanes.map(v => `
+    <div class="phone-wrap">
+      <div class="cl ${v.lane}">${v.headerLabel}</div>
+      <div class="phone-badge ${v.badgeCls}">${v.badge}</div>
+      <div class="phone" style="width:${pw}px;min-width:${pw}px">
+        <div class="phone-notch"><div class="np"></div></div>
+        <div class="phone-status"><span>12:34</span><span>📶 🔋</span></div>
+        <div class="phone-screen" id="screen-${v.lane}"></div>
+      </div>
+    </div>`).join('');
+}
+
+// ===================================================================
+//  スマホ描画
+// ===================================================================
+function renderAll() { buildLayout(); renderPhones(); }
+function renderPhone(lane) {
+  const el = document.getElementById('screen-' + lane);
+  if (!el) return;
+  const p = currentPattern();
+  if (S.screen === 'A') renderA(el, p, lane);
+  else if (S.screen === 'B') renderB(el, p, lane);
+  else if (S.screen === 'C') renderC(el, p, lane);
+  else if (S.screen === 'D') renderD(el, p, lane);
+}
+
+// ===== 画面A：一覧 =====
+function renderA(el, p, lane) {
+  const drug = PERSONA_ALLERGY.drug, other = PERSONA_ALLERGY.other;
+  const psv = patientSummaryVisible(p);
+  const cl = lane === 'target' ? 'after' : lane;          // targetのコードはafter基準
+  const isNew = summaryCodeIsNew(p, cl);
+  const hName = institutionNameForLane(p, lane);          // targetは履歴併記名
+  const targetNote = lane === 'target'
+    ? `<br>（あるべき姿：<b>原コードは書き換えず</b>、確認済み承継関係で照合する改善案。確定仕様ではありません）` : '';
+  let visitBlock;
+  if (psv === true) {
+    visitBlock = `
+      <div class="vc" onclick="goDetail()">
+        <div class="vc-info">
+          <div class="vc-date">受診日：${fmtD(p.shido)}</div>
+          <div class="vc-hosp">${hName}</div>
+          <div class="vc-dept">${CLINICAL.dept}｜${CLINICAL.doctor}</div>
+          ${S.showCallouts ? `<div class="vc-code">患者サマリーコード：${codeChip(isNew)}</div>` : ''}
+        </div>
+        <div class="vc-arrow">›</div>
+      </div>
+      ${callout(`この受診は閲覧日から<b>180日以内</b>のため一覧に表示されます。医療機関名は内部的に<b>${isNew?'新':'旧'}コード</b>で管理（検査は詳細でこのコードをキーに抽出、処方は電子処方箋の記録コードで判定）。${targetNote}`)}`;
+  } else if (psv === 'BOUNDARY_UNCONFIRMED') {
+    // 解説OFF時は補足を出さず、カードが無い状態（境界の実表示は未確定）を表現
+    visitBlock = S.showCallouts
+      ? `<div class="list-note unc">📅 この受診日は閲覧日から<b>ちょうど180日前</b>です。<br>境界日の包含関係は仕様確認中のため、一覧表示を確定していません（<b>BOUNDARY_UNCONFIRMED</b>）。</div>
+         ${callout(`180日<b>ちょうど</b>を含むか否かは未確定仕様のため、表示／非表示を断定していません。`, 'warn')}`
+      : '';
+  } else {
+    // 解説OFF時は期間外説明を出さず、患者サマリのカードが存在しない状態を表現
+    visitBlock = S.showCallouts
+      ? `<div class="list-note">📅 この受診は閲覧日から<b>180日を超えている</b>ため、患者サマリー一覧に表示されません。<br><span style="color:#888">（患者サマリーに表示されないだけで、データが削除・消失したわけではありません）</span></div>`
+      : '';
+  }
+  el.innerHTML = `
+    <div class="mp-nav"><span style="font-size:15px;color:#003f8a">☰</span><span class="mp-logo">マイナポータル</span><span style="font-size:15px;color:#555">🔔</span></div>
+    <div class="hero">
+      <div class="hero-label">患者サマリー</div>
+      <div class="hero-title">療養上のアドバイス</div>
+      <div class="hero-desc">医療機関に診断された傷病名とそれに関わる療養上の計画・アドバイスおよび臨床情報（処方、検査等）の要約</div>
+    </div>
+    <div class="visit-list">${visitBlock}</div>
+    <div class="profile-sec">
+      <div class="ps-title" onclick="togAcc('${lane}-prof')">プロファイル情報（コード抽出の対象外・常に表示） <span id="${lane}-prof-chev">▲</span></div>
+      <div class="ps-body" id="${lane}-prof-body" style="display:block">
+        <div class="prof-tabs"><span class="pt on">アレルギー等</span><span class="pt">感染症</span></div>
+      </div>
+    </div>
+    <div class="acc-sec">
+      <div class="acc-hd" onclick="togAcc('${lane}-drug')">
+        <span style="font-size:13px;margin-right:5px">💊</span><span class="acc-lbl">薬剤</span>
+        <span class="acc-cnt">${drug.length}件</span><span class="acc-chev" id="${lane}-drug-chev">▲</span>
+      </div>
+      <div class="acc-body" id="${lane}-drug-body" style="display:block">
+        ${drug.map(a=>`<div class="al-row"><span class="an">${a}</span><span class="ac">⌄</span></div>`).join('')}
+      </div>
+      <div class="acc-hd" onclick="togAcc('${lane}-other')">
+        <span style="font-size:13px;margin-right:5px">⚠</span><span class="acc-lbl">その他</span>
+        <span class="acc-cnt">${other.length}件</span><span class="acc-chev" id="${lane}-other-chev">▲</span>
+      </div>
+      <div class="acc-body" id="${lane}-other-body" style="display:block">
+        ${other.map(a=>`<div class="al-row"><span class="an">${a}</span><span class="ac">⌄</span></div>`).join('')}
+      </div>
+      ${callout(`<b>薬剤アレルギー等・その他アレルギー等</b>はコード抽出・期間の対象外で常に表示されます（処方情報・薬剤情報とは区別）。`)}
+    </div>`;
+}
+
+// ===== 画面B：詳細 =====
+function renderB(el, p, lane) {
+  const cl = lane === 'target' ? 'after' : lane;
+  const lab = evaluationForLane(p, lane, 'lab');
+  const rx  = evaluationForLane(p, lane, 'rx');
+  const labCnt = recordsForLane(p, lane, 'lab').length, rxCnt = recordsForLane(p, lane, 'rx').length;
+  const existNote = (v) => v===true ? '個別画面では閲覧できる場合があります（データは存在します）。'
+                    : v==='UNCONFIRMED' ? '個別画面での存在は<b>仕様未確定（UNCONFIRMED）</b>です。'
+                    : '個別画面にもデータは存在しません。';
+  const links = [];
+  const notes = [];
+  // 処方
+  if (rx.visibleOnPatientSummary === true) {
+    links.push(`<div class="gb" onclick="goC()"><span class="gb-ico">💊</span><span>処方情報</span><span class="gb-cnt">${rxCnt}件</span></div>`);
+  } else if (rx.visibleOnPatientSummary === 'BOUNDARY_UNCONFIRMED') {
+    notes.push(callout(`<b>処方情報</b>：処方日が指導日の<b>ちょうど30日前</b>。境界日の包含は仕様確認中のため、表示結果を確定していません（BOUNDARY_UNCONFIRMED）。`, 'warn'));
+  } else {
+    notes.push(callout(`<b>処方情報</b>は患者サマリー詳細に表示されません（導線自体が出ません）。<br><span class="co-tag">非表示理由</span>${reasonsToHtml(rx,p,cl,'rx')}<br>${existNote(rx.existsInRecord)}`));
+  }
+  // 検査
+  if (lab.visibleOnPatientSummary === true) {
+    links.push(`<div class="gb" onclick="goD()"><span class="gb-ico">🔬</span><span>検査結果</span><span class="gb-cnt">${labCnt}件</span></div>`);
+  } else if (lab.visibleOnPatientSummary === 'BOUNDARY_UNCONFIRMED') {
+    notes.push(callout(`<b>検査結果</b>：検査実施が指導日の<b>ちょうど30日前</b>。境界日の包含は仕様確認中のため、表示結果を確定していません（BOUNDARY_UNCONFIRMED）。`, 'warn'));
+  } else {
+    notes.push(callout(`<b>検査結果</b>は患者サマリー詳細に表示されません（導線自体が出ません）。<br><span class="co-tag">非表示理由</span>${reasonsToHtml(lab,p,cl,'lab')}<br>${existNote(lab.existsInRecord)}`));
+  }
+  // target：照合方法の解説（吹き出しONのときのみ・実画面には出さない）
+  const targetMatchNote = lane === 'target'
+    ? callout(`<b>あるべき姿（改善案・確定仕様ではありません）</b><br>照合方法：検査＝${methodLabel(lab.matchMethod)}／処方＝${methodLabel(rx.matchMethod)}。各情報に記録された原コードは、<b>旧・新のいずれであっても変換・上書きせず保持</b>します。確認済み承継関係を閲覧時の照合に用いる改善案で、処方箋サービス側のコードは変更しません。`)
+    : '';
+  el.innerHTML = `
+    <div class="mp-nav"><span style="font-size:15px;color:#003f8a">☰</span><span class="mp-logo">マイナポータル</span><span style="font-size:15px;color:#555">🔔</span></div>
+    <div class="back-bar" onclick="goA()">‹ 療養上のアドバイス（患者サマリー）</div>
+    <div class="detail-body">
+      <div class="detail-date">${fmtD(p.shido)}</div>
+      <div class="detail-hosp">医療機関名：${institutionNameForLane(p, lane)}・${CLINICAL.dept}</div>
+      <div class="detail-dr">医師氏名：${CLINICAL.doctor}</div>
+      <div class="ds-title">傷病名</div>
+      ${CLINICAL.diseases.map(d=>`<div class="disease-row"><div class="d-role">${d.primary?'主病':'副病'}</div><span class="${d.primary?'d-main':'d-sub'}">${d.name}</span></div>`).join('')}
+      <div class="ds-title">療養上の計画・アドバイス</div>
+      <div class="advice-box">${CLINICAL.advice}</div>
+    </div>
+    ${callout(`患者サマリーの医療機関コードは<b>${summaryCodeIsNew(p, cl)?'新':'旧'}コード</b>。検査結果はこのコードと検査データのコードが一致し、対象期間内・登録済みの場合に患者サマリ詳細に表示されます。<br>処方情報は、電子処方箋管理サービスに記録された医療機関コードが患者サマリのコードと一致し、院外処方かつ対象期間内の場合に患者サマリ詳細に表示されます。処方情報の取得可能日を用いた判定は仕様確認中です。`)}
+    ${targetMatchNote}
+    ${links.length ? `<div class="goto-links">${links.join('')}</div>` : ''}
+    ${notes.join('')}`;
+}
+
+// ===== 画面C：処方情報（個別画面＝existsInRecordで制御） =====
+function renderC(el, p, lane) {
+  const cl = lane === 'target' ? 'after' : lane;
+  const rx = evaluationForLane(p, lane, 'rx');
+  if (rx.existsInRecord === false) { renderBlocked(el, '処方情報', reasonsToHtml(rx,p,cl,'rx')); return; }
+  if (rx.existsInRecord === 'UNCONFIRMED') { renderUnconfirmed(el, '処方情報', '院内処方が個別画面（電子処方箋）に存在するかは仕様確認中です。'); return; }
+  const list = recordsForLane(p, lane, 'rx');
+  const dedupeNote = (lane === 'target' && p.duplicateRetrieval)
+    ? callout(`旧・新コードの双方で検索した結果、同一IDの処方を<b>重複取得（${CLINICAL.prescriptions.length*2}件）</b>しました。<b>recordIdで重複排除</b>し、<b>${list.length}件</b>を表示しています。`)
+    : '';
+  const notOnSummary = rx.visibleOnPatientSummary !== true
+    ? callout(`この処方情報は<b>患者サマリー上には表示されていません</b>が、個別画面では閲覧できます（情報は削除されていません）。<br><span class="co-tag">患者サマリー非表示の理由</span>${reasonsToHtml(rx,p,cl,'rx') || '（境界日・確認中）'}`)
+    : '';
+  el.innerHTML = `
+    <div class="mp-nav"><span style="font-size:15px;color:#003f8a">☰</span><span class="mp-logo">マイナポータル</span></div>
+    <div class="sc-bar"><span class="sc-back" onclick="goB()">‹</span><span class="sc-name">処方情報</span><span class="sc-cnt">${list.length}件</span></div>
+    <div class="sc-head">${fmtD(p.prescriptionDate)}</div>
+    <div style="font-size:9px;color:#888;padding:0 12px 8px">処方医師 ${CLINICAL.doctor}（${p.prescriptionSetting}）</div>
+    ${dedupeNote}
+    ${notOnSummary}
+    ${list.map((rxi,i)=>`
+      <div class="rx-card">
+        <div class="rx-hd" onclick="togRx('${lane}',${i})">${rxi.name}<span id="${lane}-rc-${i}">▼</span></div>
+        <div class="rx-bd" id="${lane}-rb-${i}"><div class="rx-name">${rxi.name}</div><div class="rx-detail">用法：${rxi.detail}</div></div>
+      </div>`).join('')}`;
+}
+
+// ===== 画面D：検査結果（個別画面＝existsInRecordで制御） =====
+function renderD(el, p, lane) {
+  const cl = lane === 'target' ? 'after' : lane;
+  const lab = evaluationForLane(p, lane, 'lab');
+  if (lab.existsInRecord === false) { renderBlocked(el, '検査結果', reasonsToHtml(lab,p,cl,'lab')); return; }
+  if (lab.existsInRecord === 'UNCONFIRMED') { renderUnconfirmed(el, '検査結果', '個別画面での存在は仕様確認中です。'); return; }
+  const list = recordsForLane(p, lane, 'lab');
+  const dedupeNote = (lane === 'target' && p.duplicateRetrieval)
+    ? callout(`旧・新コードの双方で検索した結果、同一IDの検査を<b>重複取得（${CLINICAL.labs.length*2}件）</b>しました。<b>recordIdで重複排除</b>し、<b>${list.length}件</b>を表示しています。`)
+    : '';
+  const notOnSummary = lab.visibleOnPatientSummary !== true
+    ? callout(`この検査結果は<b>患者サマリー上には表示されていません</b>が、個別画面では閲覧できます（情報は削除されていません）。<br><span class="co-tag">患者サマリー非表示の理由</span>${reasonsToHtml(lab,p,cl,'lab') || '（境界日・確認中）'}`)
+    : '';
+  el.innerHTML = `
+    <div class="mp-nav"><span style="font-size:15px;color:#003f8a">☰</span><span class="mp-logo">マイナポータル</span></div>
+    <div class="sc-bar"><span class="sc-back" onclick="goB()">‹</span><span class="sc-name">検査結果</span><span class="sc-cnt">${list.length}件</span></div>
+    <div class="sc-head">${fmtD(p.labDo)} 12:30</div>
+    ${dedupeNote}
+    ${notOnSummary}
+    <table class="lab-tbl">
+      <tr><th style="width:120px">検査項目</th><th>結果</th><th style="width:66px">基準値</th></tr>
+      ${list.map(l=>{
+        const cls = l.flag==='H'?'lv-H':l.flag==='L'?'lv-L':'lv-n';
+        const badge = l.flag ? `<span class="flag ${l.flag}">${l.flag}</span>` : '';
+        return `<tr><td>${l.name} ${badge}</td><td><div class="lv ${cls}">${l.value}</div><div style="font-size:8px;color:#666">${l.unit}</div></td><td style="font-size:9px;color:#888">${l.ref}</td></tr>`;
+      }).join('')}
+    </table>`;
+}
+
+// ===== 0件（データ非存在）画面 =====
+function renderBlocked(el, title, reasonHtml) {
+  el.innerHTML = `
+    <div class="mp-nav"><span style="font-size:15px;color:#003f8a">☰</span><span class="mp-logo">マイナポータル</span></div>
+    <div class="sc-bar"><span class="sc-back" onclick="goB()">‹</span><span class="sc-name">${title}</span><span class="sc-cnt" style="background:#c62828">0件</span></div>
+    <div class="blocked-ph">
+      <div class="bi">🗒️</div>
+      <div class="bt">${title}はありません</div>
+      <div class="bd">この受診の${title}は、未登録または対象データが存在しないため表示されていません（情報が削除されたわけではありません）。</div>
+    </div>
+    ${callout(`<b>${title}</b>が表示されない理由：<br>${reasonHtml || '対象情報なし'}`)}`;
+}
+
+// ===== 個別存在が未確定の画面 =====
+function renderUnconfirmed(el, title, msg) {
+  el.innerHTML = `
+    <div class="mp-nav"><span style="font-size:15px;color:#003f8a">☰</span><span class="mp-logo">マイナポータル</span></div>
+    <div class="sc-bar"><span class="sc-back" onclick="goB()">‹</span><span class="sc-name">${title}</span><span class="sc-cnt" style="background:#7b1fa2">確認中</span></div>
+    <div class="blocked-ph unc">
+      <div class="bi">❓</div>
+      <div class="bt">${title}の個別情報の存在は仕様未確定です</div>
+      <div class="bd">${msg}<br>表示結果を確定していません（UNCONFIRMED）。</div>
+    </div>
+    ${callout(`個別画面での存在は<b>仕様確認中（UNCONFIRMED）</b>のため、存在／非存在を断定していません。`, 'warn')}`;
+}
+
+// ===================================================================
+//  アコーディオン・遷移
+// ===================================================================
+function togAcc(id) {
+  const body = document.getElementById(id+'-body'), chev = document.getElementById(id+'-chev');
+  if (!body) return;
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  if (chev) chev.textContent = open ? '▼' : '▲';
+}
+function togRx(lane, i) {
+  const body = document.getElementById(`${lane}-rb-${i}`), chev = document.getElementById(`${lane}-rc-${i}`);
+  if (!body) return;
+  body.style.display = body.style.display !== 'none' ? 'none' : 'block';
+  if (chev) chev.textContent = body.style.display !== 'none' ? '▲' : '▼';
+}
+function scrollTop() { activeLanes().forEach(v => { const el = document.getElementById('screen-' + v.lane); if (el) el.scrollTop = 0; }); }
+function goDetail() { S.screen='B'; renderPhones(); scrollTop(); }
+function goA() { S.screen='A'; renderPhones(); scrollTop(); }
+function goB() { S.screen='B'; renderPhones(); scrollTop(); }
+function goC() { S.screen='C'; renderPhones(); scrollTop(); }
+function goD() { S.screen='D'; renderPhones(); scrollTop(); }
+
+function toggleCallouts() { S.showCallouts = document.getElementById('co-chk').checked; renderPhones(); }
+window.onload = () => { loadPreset('B'); };
+</script>
+</body>
+</html>

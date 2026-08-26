@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>マイナポータル 患者サマリー 新旧紐づけ シミュレーター v10</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Meiryo UI','メイリオ',sans-serif; background: #d8dfe9; color: #222; font-size: 13px; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+
+.app-header { background: #1a2e50; color: #fff; padding: 7px 16px; display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.app-header .title { font-size: 13px; font-weight: bold; }
+.app-header .sub { font-size: 10px; opacity: .6; }
+.sim-badge { margin-left: auto; background: #e65c00; padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: bold; }
+
+.layout { display: flex; flex: 1; overflow: hidden; }
+
+/* ===== 左パネル ===== */
+.sidebar { width: 262px; min-width: 262px; background: #fff; border-right: 1px solid #c4cdd8; overflow-y: auto; padding: 12px 10px; display: flex; flex-direction: column; gap: 14px; }
+.sb-label { font-size: 10px; font-weight: bold; color: #1a2e50; border-bottom: 1.5px solid #1a2e50; padding-bottom: 2px; margin-bottom: 6px; }
+
+.persona-box { background: #eef3fc; border: 1.5px solid #b0c4e8; border-radius: 7px; padding: 9px 11px; }
+.pbox-name { font-size: 13px; font-weight: bold; }
+.pbox-meta { font-size: 10px; color: #555; margin-top: 2px; }
+.pbox-tag  { display: inline-block; background: #d0e4ff; color: #1a2e50; font-size: 9px; padding: 1px 5px; border-radius: 5px; margin: 3px 1px 0; }
+
+select.sc-sel {
+  width: 100%; padding: 6px 26px 6px 8px; border: 1.5px solid #b8c8e0; border-radius: 5px;
+  font-family: inherit; font-size: 11px; color: #222; background: #fff; cursor: pointer;
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='%231a2e50' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: calc(100% - 8px) center;
+}
+select.sc-sel:focus { outline: none; border-color: #1a2e50; }
+
+.sc-desc { margin-top: 6px; padding: 8px 10px; border-radius: 5px; font-size: 10px; line-height: 1.8; border-left: 3px solid; }
+.sc-desc.A { background: #e8f5e9; border-color: #43a047; color: #1b5e20; }
+.sc-desc.B { background: #e3f2fd; border-color: #1e88e5; color: #0d3c61; }
+.sc-desc.C { background: #fce4ec; border-color: #e91e63; color: #4a0020; }
+.sc-desc.D { background: #eceff1; border-color: #78909c; color: #37474f; }
+.sc-desc.E { background: #fce4ec; border-color: #e91e63; color: #4a0020; }
+.sc-desc.G { background: #e8f5e9; border-color: #43a047; color: #1b5e20; }
+
+/* タイムライン */
+.tl { position: relative; padding-left: 14px; }
+.tl::before { content:''; position:absolute; left:4px; top:6px; bottom:6px; width:1px; background:#ccd3df; }
+.tl-item { display: flex; gap: 7px; margin-bottom: 8px; font-size: 10px; }
+.tl-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; margin-top: 2px; }
+.tl-dot.shido { background: #1a2e50; }
+.tl-dot.labrx { background: #00897b; }
+.tl-dot.reg   { background: #3949ab; }
+.tl-dot.upd   { background: #3949ab; box-shadow: 0 0 0 2px #c5cae9; }
+.tl-dot.suc   { background: #7b1fa2; box-shadow: 0 0 0 2px #e1bee7; }
+.tl-dot.view  { background: #f57c00; box-shadow: 0 0 0 2px #ffe0b2; }
+.tl-date { font-weight: bold; color: #333; min-width: 64px; }
+.tl-desc { color: #555; line-height: 1.4; }
+.tl-desc.hl { color: #7b1fa2; font-weight: bold; }
+
+/* 結果サマリー */
+.res-box { background: #fffde7; border: 1px solid #fdd835; border-radius: 6px; padding: 8px 10px; font-size: 10px; line-height: 1.7; }
+.res-box .rb-title { font-weight: bold; color: #e65100; margin-bottom: 5px; font-size: 11px; }
+.res-tbl { width: 100%; border-collapse: collapse; font-size: 9px; }
+.res-tbl th, .res-tbl td { border: 1px solid #e6ddb0; padding: 3px 4px; text-align: center; }
+.res-tbl th { background: #fff8e1; color: #7a5800; }
+.res-tbl td.rk { text-align: left; background: #fffdf3; color: #555; font-weight: bold; white-space: nowrap; }
+.v-old { color: #b71c1c; font-weight: bold; }
+.v-new { color: #1b5e20; font-weight: bold; }
+.v-ok  { color: #1b5e20; font-weight: bold; }
+.v-ng  { color: #b71c1c; font-weight: bold; }
+
+/* ルール */
+.rule-box { background: #f0f4fc; border: 1px solid #c8d4ee; border-radius: 5px; padding: 7px 9px; font-size: 10px; color: #444; line-height: 1.8; }
+.rule-box strong { color: #1a2e50; }
+.rule-important { background: #fff3e0; border: 1px solid #ffb74d; border-radius: 5px; padding: 7px 9px; font-size: 10px; color: #4e2600; line-height: 1.7; margin-top: 6px; }
+.rule-important strong { color: #e65100; }
+
+/* ===== 比較エリア ===== */
+.compare-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.compare-labels { display: flex; flex-shrink: 0; overflow-x: auto; padding: 0 16px; gap: 14px; }
+.cl { text-align: center; padding: 6px 8px; font-size: 11px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 6px; flex-shrink: 0; border-radius: 0 0 4px 4px; line-height: 1.4; }
+.cl.before { background: #b71c1c; color: #fff; }
+.cl.after  { background: #1b5e20; color: #fff; }
+
+.phones-row { flex: 1; display: flex; align-items: flex-start; justify-content: flex-start; overflow: auto; padding: 12px 16px; gap: 14px; }
+
+.phone-wrap { display: flex; flex-direction: column; gap: 4px; align-items: center; flex-shrink: 0; }
+.phone-badge { font-size: 11px; font-weight: bold; padding: 3px 14px; border-radius: 10px; text-align: center; line-height: 1.4; }
+.phone-badge.before { background: #ffcdd2; color: #b71c1c; }
+.phone-badge.after  { background: #c8e6c9; color: #1b5e20; }
+.phone { background: #fff; border-radius: 28px; border: 8px solid #111; box-shadow: 0 6px 24px rgba(0,0,0,.3); overflow: hidden; height: 646px; display: flex; flex-direction: column; }
+.phone-notch { background: #111; height: 22px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.np { background: #333; width: 64px; height: 10px; border-radius: 5px; }
+.phone-status { background: #fff; padding: 3px 14px; display: flex; justify-content: space-between; font-size: 9px; color: #333; font-weight: bold; flex-shrink: 0; }
+.phone-screen { flex: 1; overflow-y: auto; }
+
+/* ===== マイナポータル UI ===== */
+.mp-nav { background: #fff; border-bottom: 1px solid #e8e8e8; padding: 8px 12px; display: flex; align-items: center; gap: 8px; position: sticky; top: 0; z-index: 10; }
+.mp-logo { font-size: 12px; font-weight: bold; color: #003f8a; flex: 1; }
+
+.hero { background: linear-gradient(135deg, #003f8a 0%, #0057c8 100%); color: #fff; padding: 14px 12px 12px; }
+.hero-label { font-size: 9px; opacity: .8; }
+.hero-title { font-size: 18px; font-weight: bold; line-height: 1.2; margin-top: 2px; }
+.hero-desc  { font-size: 9px; opacity: .7; margin-top: 5px; line-height: 1.5; }
+
+.visit-list { padding: 0 10px; margin-top: 10px; }
+.vc { border: 1px solid #dde4ef; border-radius: 8px; padding: 9px 10px; margin-bottom: 7px; background: #fff; cursor: pointer; display: flex; align-items: center; gap: 7px; box-shadow: 0 1px 4px rgba(0,0,0,.05); transition: all .15s; }
+.vc:hover { box-shadow: 0 2px 8px rgba(0,63,138,.15); border-color: #7090c0; }
+.vc-date { font-size: 9px; color: #888; margin-bottom: 3px; }
+.vc-info { flex: 1; }
+.vc-hosp { font-size: 11px; font-weight: bold; color: #222; }
+.vc-dept { font-size: 9px; color: #666; margin-top: 1px; }
+.vc-code { font-size: 8px; margin-top: 3px; }
+.code-chip { display: inline-block; padding: 1px 6px; border-radius: 8px; font-weight: bold; }
+.code-chip.old { background: #ffebee; color: #b71c1c; border: 1px solid #ef9a9a; }
+.code-chip.new { background: #e8f5e9; color: #1b5e20; border: 1px solid #a5d6a7; }
+.vc-arrow { color: #bbb; font-size: 13px; }
+
+.profile-sec { padding: 8px 10px 0; }
+.ps-title { font-size: 11px; font-weight: bold; color: #333; display: flex; justify-content: space-between; cursor: pointer; padding: 6px 0; border-bottom: 1px solid #eee; }
+.ps-body { padding: 6px 0 4px; display: flex; flex-wrap: wrap; gap: 3px; }
+.at { font-size: 9px; padding: 2px 8px; border-radius: 8px; }
+.at.drug  { background: #ffebee; color: #c00; border: 1px solid #ef9a9a; }
+.at.other { background: #fff8e1; color: #7a5800; border: 1px solid #ffc107; }
+
+.acc-sec { padding: 0 10px 8px; }
+.acc-hd { background: #f4f6fc; border: 1px solid #dde4f0; border-radius: 6px; padding: 7px 10px; display: flex; align-items: center; cursor: pointer; margin-top: 6px; }
+.acc-lbl { font-size: 11px; font-weight: bold; flex: 1; }
+.acc-cnt { background: #003f8a; color: #fff; font-size: 9px; padding: 1px 6px; border-radius: 6px; margin-right: 5px; }
+.acc-cnt.zero { background: #c62828; }
+.acc-chev { color: #aaa; font-size: 11px; }
+.acc-body { border: 1px solid #dde4f0; border-top: none; border-radius: 0 0 6px 6px; display: none; }
+.acc-body.open { display: block; }
+.acc-row { padding: 6px 10px; border-bottom: 1px solid #f0f0f0; font-size: 10px; }
+.acc-row:last-child { border-bottom: none; }
+
+.back-bar { padding: 7px 12px; display: flex; align-items: center; gap: 5px; cursor: pointer; color: #003f8a; font-size: 11px; font-weight: bold; border-bottom: 1px solid #eee; background: #fafbfc; }
+.detail-body { padding: 12px; }
+.detail-date { font-size: 19px; font-weight: bold; }
+.detail-hosp { font-size: 11px; color: #555; margin-top: 4px; }
+.detail-dr   { font-size: 10px; color: #888; margin-top: 2px; margin-bottom: 4px; }
+.ds-title { font-size: 12px; font-weight: bold; color: #333; margin: 12px 0 5px; padding-top: 10px; border-top: 1px solid #eee; }
+.disease-row { margin-bottom: 5px; }
+.d-role { font-size: 9px; color: #888; }
+.d-main { font-size: 13px; font-weight: bold; }
+.d-sub  { font-size: 11px; color: #555; }
+.advice-box { font-size: 11px; line-height: 1.7; white-space: pre-wrap; background: #fffde7; border-left: 3px solid #ffc107; padding: 8px 10px; border-radius: 0 5px 5px 0; color: #333; }
+
+.goto-links { padding: 8px 10px; display: flex; gap: 6px; flex-direction: column; }
+.gb { background: #fff; border: 1.5px solid #003f8a; border-radius: 8px; padding: 10px 12px; display: flex; align-items: center; gap: 8px; cursor: pointer; color: #003f8a; font-size: 11px; font-weight: bold; transition: background .15s; }
+.gb:hover { background: #eef3fc; }
+.gb-ico { font-size: 16px; }
+.gb-cnt { margin-left: auto; background: #003f8a; color: #fff; font-size: 9px; padding: 1px 6px; border-radius: 6px; }
+.gb.disabled { border-color: #e0a0a0; color: #b71c1c; cursor: default; background: #fff5f5; }
+.gb.disabled .gb-ico { opacity: .5; }
+.gb-reason { font-size: 8px; color: #b71c1c; margin-left: auto; text-align: right; line-height: 1.4; max-width: 130px; }
+
+.sc-bar { background: #fff; border-bottom: 1px solid #eee; padding: 8px 12px; display: flex; align-items: center; gap: 6px; position: sticky; top: 0; z-index: 10; }
+.sc-back { color: #003f8a; cursor: pointer; font-size: 16px; font-weight: bold; }
+.sc-name { font-size: 12px; font-weight: bold; }
+.sc-cnt  { background: #003f8a; color: #fff; font-size: 9px; padding: 1px 6px; border-radius: 6px; margin-left: 3px; }
+.sc-head { font-size: 11px; color: #555; font-weight: bold; padding: 8px 12px 3px; }
+
+.rx-card { margin: 0 10px 6px; border: 1px solid #c8dff5; border-radius: 7px; overflow: hidden; }
+.rx-hd { background: #e8f0fb; padding: 7px 10px; font-size: 10px; color: #003f8a; font-weight: bold; display: flex; justify-content: space-between; cursor: pointer; }
+.rx-bd { padding: 8px 10px; font-size: 10px; display: none; }
+.rx-name   { font-weight: bold; color: #003f8a; }
+.rx-detail { color: #444; font-size: 9px; margin-top: 1px; }
+.rx-pharm  { color: #888; font-size: 9px; margin-top: 2px; }
+
+.lab-tbl { width: 100%; border-collapse: collapse; font-size: 10px; }
+.lab-tbl th { background: #f0f4fc; color: #334; padding: 4px 8px; text-align: left; border-bottom: 1px solid #dde; }
+.lab-tbl tr { border-bottom: 1px solid #f0f2f7; }
+.lab-tbl td { padding: 6px 8px; vertical-align: top; }
+.lv { font-size: 12px; font-weight: bold; }
+.lv-H { color: #c0392b; } .lv-L { color: #2471a3; } .lv-n { color: #229954; }
+.flag { font-size: 8px; padding: 1px 3px; border-radius: 2px; }
+.flag.H { background: #fde8e8; color: #c00; } .flag.L { background: #e8f0fe; color: #1a5276; }
+
+.blocked-ph { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; color: #b71c1c; gap: 10px; text-align: center; }
+.blocked-ph .bi { font-size: 32px; }
+.blocked-ph .bt { font-size: 12px; font-weight: bold; }
+.blocked-ph .bd { font-size: 10px; color: #a05050; line-height: 1.7; }
+.empty-ph { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 80%; color: #ccc; gap: 8px; }
+.empty-ph .ei { font-size: 32px; }
+.empty-ph p { font-size: 11px; text-align: center; line-height: 1.6; }
+
+/* 解説トグル */
+.co-toggle { display: flex; align-items: flex-start; gap: 6px; font-size: 10px; color: #4a148c; line-height: 1.5; cursor: pointer; }
+.co-toggle input { margin-top: 1px; accent-color: #7b1fa2; }
+.co-note { font-size: 9px; color: #888; margin-top: 4px; line-height: 1.5; }
+
+/* 吹き出し（実画面には出ない解説） */
+.callout { margin: 6px 10px; background: #f3e5f5; border: 1.5px dashed #ba68c8; border-radius: 8px; padding: 7px 9px; font-size: 9px; color: #4a148c; line-height: 1.6; display: flex; gap: 6px; }
+.callout .co-ico { flex-shrink: 0; font-size: 12px; }
+.callout .co-tag { font-weight: bold; font-size: 8px; color: #7b1fa2; display: block; margin-bottom: 2px; }
+.callout b { color: #6a1b9a; }
+
+/* プロファイル情報 タブ */
+.prof-tabs { display: flex; gap: 6px; padding: 6px 0 2px; }
+.pt { font-size: 10px; padding: 3px 12px; border-radius: 12px; background: #eef1f6; color: #667; }
+.pt.on { background: #003f8a; color: #fff; font-weight: bold; }
+.al-row { padding: 8px 10px; border: 1px solid #eee; border-radius: 6px; margin: 5px 0; font-size: 10px; display: flex; justify-content: space-between; align-items: center; }
+.al-row .an { font-weight: bold; color: #333; }
+.al-row .ac { color: #bbb; font-size: 11px; }
+
+/* 差分バナー */
+.diff-banner { padding: 5px 14px; border-radius: 5px; font-size: 11px; font-weight: bold; }
+.diff-banner.diff-warn { background: #fff3e0; color: #e65100; border: 1px solid #ffcc80; }
+.diff-banner.diff-info { background: #e3f2fd; color: #0d3c61; border: 1px solid #90caf9; }
+.diff-banner.diff-ok   { background: #e8f5e9; color: #1b5e20; border: 1px solid #a5d6a7; }
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <div>
+    <div class="title">🏥 マイナポータル 患者サマリー 新旧紐づけ シミュレーター</div>
+    <div class="sub">電子カルテ情報共有サービス（患者サマリー（FHIR）登録・閲覧サービス編）/ 承継時の新旧医療機関コード紐づけ / ⚠ 模擬表示</div>
+  </div>
+  <div class="sim-badge">🔀 改修前 vs 改修後</div>
+</div>
+
+<div class="layout">
+
+  <!-- ===== 左パネル ===== -->
+  <div class="sidebar">
+
+    <div>
+      <div class="sb-label">ペルソナ</div>
+      <div class="persona-box">
+        <div class="pbox-name">👨 田中 健一</div>
+        <div class="pbox-meta">62歳・男性 ／ たなか けんいち</div>
+        <div>
+          <span class="pbox-tag">2型糖尿病</span>
+          <span class="pbox-tag">高血圧症</span>
+          <span class="pbox-tag">脂質異常症</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sb-label">シナリオ（承継のタイミング）</div>
+      <select class="sc-sel" id="sc-sel" onchange="update()">
+        <option value="A">パターンA：承継が「登録の後」</option>
+        <option value="B">パターンB：承継が「登録の前」</option>
+        <option value="C">パターンC：登録後・更新前に承継</option>
+        <option value="D">パターンD：承継なし（基準）</option>
+        <option value="E">パターンE：患者サマリー登録後、検査登録前に承継</option>
+        <option value="G">パターンG：すべて承継後（新医療機関で完結）</option>
+      </select>
+      <div id="sc-desc"></div>
+    </div>
+
+    <div>
+      <div class="sb-label">💬 解説の吹き出し</div>
+      <label class="co-toggle"><input type="checkbox" id="co-chk" checked onchange="toggleCallouts()"> 実画面に出ない情報を吹き出しで表示する</label>
+      <div class="co-note">OFFにすると、技術解説書 図3 と同じ実画面表示になります。</div>
+    </div>
+
+    <div>
+      <div class="sb-label">マイルストーン（時系列）</div>
+      <div class="tl" id="timeline"></div>
+    </div>
+
+    <div>
+      <div class="sb-label">👀 このシナリオの結果</div>
+      <div class="res-box" id="res-box"></div>
+    </div>
+
+    <div>
+      <div class="sb-label">新旧紐づけ 仕様（9月リリース）</div>
+      <div class="rule-box">
+        <strong>新旧紐づけの条件</strong>：<strong>指導実施日〜登録日（更新日）</strong>の間に、指導実施医療機関で承継が発生した場合、患者サマリー（FHIR）を電カル共有システムに登録する際に、旧コードを<strong>新医療機関コードに置換</strong>して登録する。<br>
+        <strong>検査情報</strong>も同様に、検査実施日〜登録日の間に承継が発生した場合、登録時に新医療機関コードで登録される（紐づけ対象）。
+      </div>
+      <div class="rule-important">
+        <strong>⚠ 抽出のしくみ</strong><br>
+        患者サマリー出力時、検査情報・処方情報は<strong>患者サマリーの医療機関コードをキー</strong>に抽出される。コードが食い違うと、その情報は患者サマリー上に<strong>表示されない</strong>（データが消えるわけではない）。
+      </div>
+      <div class="rule-box" style="margin-top:6px">
+        <strong>処方情報</strong>は電子処方箋管理サービスが扱う情報で、9月リリースの新旧紐づけの<strong>対象外</strong>。記録済みの医療機関コードをそのまま使用する（レーンによって自動変換しない）。<br>
+        <strong>薬剤アレルギー等・その他アレルギー等</strong>はコード抽出の対象外で、全期間分が常に表示される（処方情報・薬剤情報とは区別する）。
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== 比較エリア ===== -->
+  <div class="compare-area">
+    <div class="compare-labels" id="compare-labels"></div>
+    <div id="diff-banner" style="flex-shrink:0;padding:4px 16px;"></div>
+    <div class="phones-row" id="phones-row"></div>
+  </div>
+
+</div>
+
+<script>
+// ===================================================================
+//  定数
+// ===================================================================
+const SUC = { date: '2026-04-01', old: '古い病院', new: '新しい病院' };
+const VIEW_DATE = '2026-07-16'; // 閲覧日（患者がマイナポータルで見る日）
+
+// 薬剤アレルギー等情報／その他アレルギー等情報：紐づけ対象外・常に表示。
+// （処方情報・薬剤情報とは同一視しない）
+const PERSONA_ALLERGY = {
+  drug:  ['ペニシリン系抗菌薬（発疹）', 'アスピリン（喘息発作）'],
+  other: ['そば（蕁麻疹）', '甲殻類（口腔内の違和感）'],
+};
+
+// 共通の臨床内容（各パターンで使い回す。承継のタイミングだけが異なる）
+const CLINICAL = {
+  dept: '内科', doctor: '青木 誠', type: '外来',
+  diseases: [
+    { name: '2型糖尿病', primary: true },
+    { name: '高血圧症',  primary: false },
+  ],
+  advice:
+`【内服継続】
+・メトホルミン 朝夕食後
+・アムロジピン 夕食後
+
+【生活習慣】
+1日30分のウォーキングを目標に。
+塩分は1日7g未満。
+
+次回：3ヶ月後に採血予定。`,
+  labs: [
+    { name: 'HbA1c(NGSP)', value: '7.4', unit: '%',     ref: '4.6〜6.2', flag: 'H' },
+    { name: '空腹時血糖',   value: '145', unit: 'mg/dL', ref: '70〜109',  flag: 'H' },
+    { name: 'eGFR',         value: '68',  unit: 'mL/min/1.73m²', ref: '60以上', flag: '' },
+  ],
+  prescriptions: [
+    { name: 'メトホルミン塩酸塩錠 500mg', detail: '2錠 分2 朝夕食後 / 60日分' },
+    { name: 'アムロジピン錠 5mg',         detail: '1錠 分1 夕食後 / 60日分'  },
+  ],
+};
+
+// ===================================================================
+//  6パターン（承継のタイミング）
+//  ・患者サマリー（FHIR）／検査／処方は、それぞれ独立した医療機関コードで管理する。
+//  ・患者サマリーと検査は「実施日〜登録日の承継」で新旧紐づけの対象（改修後のみ）。
+//  ・処方は新旧紐づけの対象外。prescriptionCode に記録済みコード（'old'/'new'）を
+//    明示的に保持する（改修前後・レーンから計算しない）。prescriptionDate は処方日。
+// ===================================================================
+const PATTERNS = {
+  A: {
+    label: 'パターンA：承継が「登録の後」',
+    desc: '承継（4/1）が<strong>患者サマリー（FHIR）登録の後</strong>に起きる。紐づけ条件（指導〜登録の間に承継）を満たさないため紐づけは発生せず、<strong>改修前後で差が出ない</strong>。',
+    shido:  '2026-03-10',           // 指導実施
+    labDo:  '2026-03-10',           // 検査実施
+    fhirReg:'2026-03-15',           // 患者サマリー（FHIR）登録
+    labReg: '2026-03-15',           // 検査登録
+    fhirUpd: null,                  // FHIR更新（なし）
+    prescriptionDate: '2026-03-10', // 処方日
+    prescriptionCode: 'old',        // 処方コード（旧医療機関が発行・明示保持）
+  },
+  B: {
+    label: 'パターンB：承継が「登録の前」',
+    desc: '指導（3/25）の後、<strong>登録より前</strong>に承継（4/1）が起きる。登録（4/10）時に条件を満たし患者サマリー・検査は新旧紐づけで<strong>新医療機関名</strong>に。一方、<strong>処方情報は旧コードのまま</strong>のため、改修後は患者サマリーと処方でコードが食い違い、<strong>処方情報が患者サマリー上に表示されなくなる</strong>（検査は表示維持）。',
+    shido:  '2026-03-25',
+    labDo:  '2026-03-25',
+    fhirReg:'2026-04-10',           // 承継後に登録
+    labReg: '2026-04-10',
+    fhirUpd: null,
+    prescriptionDate: '2026-03-25', // 承継前（旧医療機関）に処方
+    prescriptionCode: 'old',        // 処方は承継前（旧医療機関）に発行
+  },
+  C: {
+    label: 'パターンC：登録後・更新前に承継',
+    desc: '患者サマリー（FHIR）登録（3/15）は承継前。その後 承継（4/1）が起き、<strong>FHIR更新（4/10）</strong>が承継後に行われる。更新時に条件を満たしFHIRだけ新コード化されるが、<strong>検査・処方は旧コードのまま取り残される</strong>ため、改修後に検査情報・処方情報がともに非表示となる（薬剤アレルギー等は影響なし）。',
+    shido:  '2026-03-10',
+    labDo:  '2026-03-10',
+    fhirReg:'2026-03-15',           // 承継前に登録
+    labReg: '2026-03-15',           // 承継前に登録（以後更新されない）
+    fhirUpd: '2026-04-10',          // 承継後に更新（＝登録扱い）
+    prescriptionDate: '2026-03-10',
+    prescriptionCode: 'old',
+  },
+  D: {
+    label: 'パターンD：承継なし（基準）',
+    desc: '承継が発生しない通常ケース。医療機関名は変わらず、検査・処方も表示される。<strong>改修前後で差はなく</strong>、比較のベースラインとなる。',
+    shido:  '2026-03-10',
+    labDo:  '2026-03-10',
+    fhirReg:'2026-03-15',
+    labReg: '2026-03-15',
+    fhirUpd: null,
+    prescriptionDate: '2026-03-10',
+    prescriptionCode: 'old',
+    noSuc: true,                    // 承継なし
+  },
+  E: {
+    label: 'パターンE：患者サマリー登録後、検査登録前に承継',
+    desc: '患者サマリー（FHIR）は承継前に登録（旧コードのまま・更新なし）。一方、検査の登録が<strong>承継後にずれ込み</strong>、紐づけで新コードになる。改修後はFHIR（旧）と検査（新）が<strong>不一致</strong>となり、<strong>検査情報のみ</strong>患者サマリー上に表示されなくなる。処方は旧コードのままで患者サマリー（旧）と一致するため<strong>引き続き表示</strong>される（薬剤アレルギー等は影響なし）。',
+    shido:  '2026-03-10',
+    labDo:  '2026-03-10',
+    fhirReg:'2026-03-15',           // 承継前に登録（更新なし）
+    labReg: '2026-04-10',           // 承継後にずれ込んで登録
+    fhirUpd: null,
+    prescriptionDate: '2026-03-10', // 承継前（旧医療機関）に処方
+    prescriptionCode: 'old',        // 処方は承継前（旧医療機関）に発行
+  },
+  G: {
+    label: 'パターンG：すべて承継後（新医療機関で完結）',
+    desc: '指導・検査・処方・登録がすべて<strong>承継後（新医療機関）</strong>で完結。すべて新コードのため、改修前後とも新医療機関名で表示され、検査・処方も表示される。承継後に完結した受診は改修の影響を受けない。',
+    shido:  '2026-04-05',
+    labDo:  '2026-04-05',
+    fhirReg:'2026-04-10',
+    labReg: '2026-04-10',
+    fhirUpd: null,
+    prescriptionDate: '2026-04-05', // 承継後（新医療機関）に処方
+    prescriptionCode: 'new',        // 処方も新医療機関が発行
+  },
+};
+
+// ===================================================================
+//  ユーティリティ
+// ===================================================================
+function pd(s) { return s ? new Date(s + 'T00:00:00') : null; }
+function fmtD(s) {
+  if (!s) return '';
+  const d = pd(s);
+  return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+}
+function fmtMD(s) {
+  if (!s) return '';
+  const d = pd(s);
+  return `${d.getMonth()+1}/${d.getDate()}`;
+}
+
+// 承継日（承継なしパターンは null）
+function sucDateOf(p) { return p.noSuc ? null : (p.sucDate || SUC.date); }
+
+// 実施→登録の関係から、登録されるコードが新か旧かを判定する
+//  ・承継なし              → 旧
+//  ・実施時点で承継済み     → 新（新医療機関でネイティブに登録）
+//  ・旧医療機関で実施       → 改修前は旧のまま／改修後は登録日までに承継していれば新（紐づけ）
+function codeIsNew(p, doStr, regStr, lane) {
+  const suc = sucDateOf(p);
+  if (!suc) return false;
+  const doD = pd(doStr), reg = pd(regStr), sd = pd(suc);
+  if (doD >= sd) return true;                       // 実施時点で既に新医療機関
+  if (lane === 'before') return false;              // 改修前＝紐づけ未実装
+  return sd <= reg;                                 // 改修後：登録日までに承継していれば新
+}
+
+// 患者サマリーの医療機関コードは新か？（更新があれば更新日が登録扱い）
+function summaryCodeIsNew(p, lane) {
+  return codeIsNew(p, p.shido, (p.fhirUpd || p.fhirReg), lane);
+}
+
+// 検査情報の登録コードは新か？（紐づけ対象）
+function labCodeIsNew(p, lane) {
+  return codeIsNew(p, p.labDo, p.labReg, lane);
+}
+
+// 処方情報のコードは新か？
+//  処方は新旧紐づけの対象外。レーンに依存せず、記録済みコード（prescriptionCode）を返す。
+function prescriptionCodeIsNew(p) {
+  return p.prescriptionCode === 'new';
+}
+
+// 患者サマリーに表示される医療機関名
+function hospName(p, lane) { return summaryCodeIsNew(p, lane) ? SUC.new : SUC.old; }
+
+// 検査情報が患者サマリー上に表示されるか（患者サマリーのコードと検査のコードが一致するか）
+function labVisible(p, lane) {
+  return summaryCodeIsNew(p, lane) === labCodeIsNew(p, lane);
+}
+// 処方情報が患者サマリー上に表示されるか（患者サマリーのコードと処方のコードが一致するか）
+function prescriptionVisible(p, lane) {
+  return summaryCodeIsNew(p, lane) === prescriptionCodeIsNew(p);
+}
+
+// 検査が非表示となる理由
+function labReason(p, lane) {
+  if (labVisible(p, lane)) return '';
+  const s = summaryCodeIsNew(p, lane) ? '新コード' : '旧コード';
+  const l = labCodeIsNew(p, lane) ? '新コード' : '旧コード';
+  return `患者サマリーは${s}／検査情報は${l}のため、抽出キー不一致で患者サマリー上に表示されません`;
+}
+// 処方が非表示となる理由
+function prescriptionReason(p, lane) {
+  if (prescriptionVisible(p, lane)) return '';
+  const s = summaryCodeIsNew(p, lane) ? '新コード' : '旧コード';
+  const r = prescriptionCodeIsNew(p) ? '新コード' : '旧コード';
+  return `患者サマリーは${s}／処方情報は${r}のため、抽出キー不一致で患者サマリー上に表示されません`;
+}
+function codeChip(isNew) {
+  return isNew
+    ? `<span class="code-chip new">新コード</span>`
+    : `<span class="code-chip old">旧コード</span>`;
+}
+
+// ===================================================================
+//  State
+// ===================================================================
+const S = { pattern: 'A', screen: 'A', showCallouts: true };
+
+// 吹き出し（実画面には出ない解説）。showCallouts=false のとき何も出さない＝実画面と同一表示
+function callout(html) {
+  if (!S.showCallouts) return '';
+  return `<div class="callout"><span class="co-ico">💬</span><div><span class="co-tag">シミュレーター解説（実画面には表示されません）</span>${html}</div></div>`;
+}
+
+// 差分バナー（比較エリアのヘッダー直下）
+function renderDiffBanner() {
+  const el = document.getElementById('diff-banner');
+  if (!el) return;
+  const p = PATTERNS[S.pattern];
+  const nameBefore = hospName(p, 'before'), nameAfter = hospName(p, 'after');
+  const labWorse = labVisible(p, 'before') && !labVisible(p, 'after');
+  const rxWorse  = prescriptionVisible(p, 'before') && !prescriptionVisible(p, 'after');
+  let msg, cls;
+  if (labWorse && rxWorse) {
+    msg = '⚠ 改修後、<strong>検査情報・処方情報</strong>が患者サマリーに表示されなくなります（コード不一致）';
+    cls = 'diff-warn';
+  } else if (labWorse) {
+    msg = '⚠ 改修後、<strong>検査情報</strong>が患者サマリーに表示されなくなります（患者サマリーと検査でコード不一致）';
+    cls = 'diff-warn';
+  } else if (rxWorse) {
+    msg = '⚠ 改修後、<strong>処方情報</strong>が患者サマリーに表示されなくなります（患者サマリーと処方でコード不一致）';
+    cls = 'diff-warn';
+  } else if (nameBefore !== nameAfter) {
+    msg = '🔄 改修後は医療機関名が<strong>新しく</strong>なります';
+    cls = 'diff-info';
+  } else {
+    msg = '✅ このシナリオでは改修前後の表示に差異はありません';
+    cls = 'diff-ok';
+  }
+  el.innerHTML = `<div class="diff-banner ${cls}">${msg}</div>`;
+}
+
+// スマホ画面のみを再描画（レイアウト枠は維持）
+function renderPhones() {
+  LANES.forEach(v => renderPhone(v.lane));
+  renderDiffBanner();
+}
+
+// ===================================================================
+//  サイドバー
+// ===================================================================
+function renderSidebar() {
+  const p = PATTERNS[S.pattern];
+
+  // シナリオ説明
+  document.getElementById('sc-desc').innerHTML =
+    `<div class="sc-desc ${S.pattern}">${p.desc}</div>`;
+
+  // マイルストーン
+  const suc = sucDateOf(p);
+  const shidoInst = suc ? `（${pd(p.shido) >= pd(suc) ? '新' : '旧'}医療機関）` : '';
+  const evs = [
+    { date: p.shido,   cls: 'shido', label: '指導実施' + shidoInst },
+    { date: p.labDo,   cls: 'labrx', label: '検査 実施' },
+    { date: p.fhirReg, cls: 'reg',   label: '患者サマリー（FHIR）登録' },
+    { date: p.labReg,  cls: 'reg',   label: '検査 登録' },
+    { date: VIEW_DATE, cls: 'view',  label: '📍 閲覧（マイナポータル）' },
+  ];
+  if (p.fhirUpd) evs.push({ date: p.fhirUpd, cls: 'upd', label: '患者サマリー（FHIR）更新（＝登録扱い）' });
+  if (suc)       evs.push({ date: suc, cls: 'suc', label: `承継：${SUC.old} → ${SUC.new}`, hl: true });
+  evs.sort((a, b) => a.date.localeCompare(b.date));
+  document.getElementById('timeline').innerHTML = evs.map(e => `
+    <div class="tl-item">
+      <div class="tl-dot ${e.cls}"></div>
+      <div><div class="tl-date">${fmtD(e.date)}</div><div class="tl-desc ${e.hl?'hl':''}">${e.label}</div></div>
+    </div>`).join('');
+
+  // 結果サマリー
+  const nameBefore = hospName(p, 'before'),  nameAfter = hospName(p, 'after');
+  const labBefore  = labVisible(p, 'before'), labAfter  = labVisible(p, 'after');
+  const rxBefore   = prescriptionVisible(p, 'before'), rxAfter = prescriptionVisible(p, 'after');
+  const cName = (v) => v === SUC.new ? `<span class="v-new">新</span>` : `<span class="v-old">旧</span>`;
+  const cShow = (b) => b ? `<span class="v-ok">✅表示</span>` : `<span class="v-ng">❌非表示</span>`;
+  const labWorse = labBefore && !labAfter;
+  const rxWorse  = rxBefore && !rxAfter;
+  let concl;
+  if (labWorse || rxWorse) {
+    const items = [labWorse ? '検査情報' : null, rxWorse ? '処方情報' : null].filter(Boolean).join('・');
+    concl = `<span class="v-ng">⚠ 改修後、患者サマリーとのコード不一致により<strong>${items}</strong>が患者サマリー上に表示されなくなります（懸念）。薬剤アレルギー等は影響を受けません。</span>`;
+  } else if (nameBefore !== nameAfter) {
+    concl = '改修後は<span class="v-new">新医療機関名</span>で表示され、検査情報・処方情報も維持されます。';
+  } else {
+    concl = '改修前後で<strong>差はありません</strong>。';
+  }
+  document.getElementById('res-box').innerHTML = `
+    <div class="rb-title">改修前 と 改修後 の比較</div>
+    <table class="res-tbl">
+      <tr><th></th><th>🔴改修前</th><th>🟢改修後</th></tr>
+      <tr><td class="rk">医療機関名</td><td>${cName(nameBefore)}</td><td>${cName(nameAfter)}</td></tr>
+      <tr><td class="rk">検査情報</td><td>${cShow(labBefore)}</td><td>${cShow(labAfter)}</td></tr>
+      <tr><td class="rk">処方情報</td><td>${cShow(rxBefore)}</td><td>${cShow(rxAfter)}</td></tr>
+      <tr><td class="rk">薬剤アレルギー等</td><td><span class="v-ok">✅表示</span></td><td><span class="v-ok">✅表示</span></td></tr>
+    </table>
+    <div style="margin-top:6px">${concl}</div>`;
+}
+
+// ===================================================================
+//  レーン定義（2レーン）
+// ===================================================================
+const LANES = [
+  { lane: 'before', badge: '🔴 改修前（現状）',   badgeCls: 'before', headerCls: 'before', headerLabel: '🔴 改修前（現状）— 新旧紐づけ未実装' },
+  { lane: 'after',  badge: '🟢 改修後（9月〜）', badgeCls: 'after',  headerCls: 'after',  headerLabel: '🟢 改修後（9月リリース）— 新旧紐づけ実装' },
+];
+
+function buildLayout() {
+  const pw = 320;
+  document.getElementById('compare-labels').innerHTML = LANES.map(v =>
+    `<div class="cl ${v.headerCls}" style="width:${pw}px;min-width:${pw}px">${v.headerLabel}</div>`
+  ).join('');
+  document.getElementById('phones-row').innerHTML = LANES.map(v => `
+    <div class="phone-wrap">
+      <div class="phone-badge ${v.badgeCls}">${v.badge}</div>
+      <div class="phone" style="width:${pw}px;min-width:${pw}px">
+        <div class="phone-notch"><div class="np"></div></div>
+        <div class="phone-status"><span>12:34</span><span>📶 🔋</span></div>
+        <div class="phone-screen" id="screen-${v.lane}"></div>
+      </div>
+    </div>`).join('');
+}
+
+// ===================================================================
+//  スマホ描画
+// ===================================================================
+// buildLayout は初期化・パターン切替時のみ呼び出す。
+// 画面遷移・トグルでは renderPhones() のみ呼び出してフレームを再利用する。
+function renderAll() {
+  buildLayout();
+  renderPhones();
+}
+
+function renderPhone(lane) {
+  const el = document.getElementById('screen-' + lane);
+  if (!el) return;
+  const p = PATTERNS[S.pattern];
+  if (S.screen === 'A') renderA(el, p, lane);
+  else if (S.screen === 'B') renderB(el, p, lane);
+  else if (S.screen === 'C') renderC(el, p, lane);
+  else if (S.screen === 'D') renderD(el, p, lane);
+}
+
+// ===== 画面A：一覧（技術解説書 図3 の実画面に準拠） =====
+function renderA(el, p, lane) {
+  const drug = PERSONA_ALLERGY.drug, other = PERSONA_ALLERGY.other;
+  el.innerHTML = `
+    <div class="mp-nav"><span style="font-size:15px;color:#003f8a">☰</span><span class="mp-logo">マイナポータル</span><span style="font-size:15px;color:#555">🔔</span></div>
+    <div class="hero">
+      <div class="hero-label">患者サマリー</div>
+      <div class="hero-title">療養上のアドバイス</div>
+      <div class="hero-desc">医療機関に診断された傷病名とそれに関わる療養上の計画・アドバイスおよび臨床情報（処方、検査等）の要約</div>
+    </div>
+    <div class="visit-list">
+      <div class="vc" onclick="goDetail()">
+        <div class="vc-info">
+          <div class="vc-date">受診日：${fmtD(p.shido)}</div>
+          <div class="vc-hosp">${hospName(p, lane)}</div>
+          <div class="vc-dept">${CLINICAL.dept}｜${CLINICAL.doctor}</div>
+          ${S.showCallouts ? `<div class="vc-code">患者サマリーコード：${codeChip(summaryCodeIsNew(p, lane))}</div>` : ''}
+        </div>
+        <div class="vc-arrow">›</div>
+      </div>
+      ${callout(`この受診の医療機関名（${hospName(p, lane)}）は、内部的に<b>${summaryCodeIsNew(p, lane)?'新':'旧'}医療機関コード</b>で管理されます（コード自体は実画面に表示されません）。検査情報は詳細画面でこのコードをキーに抽出されます（処方情報は電子処方箋管理サービスの記録コードで別途判定）。`)}
+    </div>
+    <div class="profile-sec">
+      <div class="ps-title" onclick="togAcc('${lane}-prof')">プロファイル情報 <span id="${lane}-prof-chev">▲</span></div>
+      <div class="ps-body" id="${lane}-prof-body" style="display:block">
+        <div class="prof-tabs"><span class="pt on">アレルギー等</span><span class="pt">感染症</span></div>
+      </div>
+    </div>
+    <div class="acc-sec">
+      <div class="acc-hd" onclick="togAcc('${lane}-drug')">
+        <span style="font-size:13px;margin-right:5px">💊</span>
+        <span class="acc-lbl">薬剤</span>
+        <span class="acc-cnt">${drug.length}件</span>
+        <span class="acc-chev" id="${lane}-drug-chev">▲</span>
+      </div>
+      <div class="acc-body" id="${lane}-drug-body" style="display:block">
+        ${drug.map(a=>`<div class="al-row"><span class="an">${a}</span><span class="ac">⌄</span></div>`).join('')}
+      </div>
+      <div class="acc-hd" onclick="togAcc('${lane}-other')">
+        <span style="font-size:13px;margin-right:5px">⚠</span>
+        <span class="acc-lbl">その他</span>
+        <span class="acc-cnt">${other.length}件</span>
+        <span class="acc-chev" id="${lane}-other-chev">▲</span>
+      </div>
+      <div class="acc-body" id="${lane}-other-body" style="display:block">
+        ${other.map(a=>`<div class="al-row"><span class="an">${a}</span><span class="ac">⌄</span></div>`).join('')}
+      </div>
+      ${callout(`<b>薬剤アレルギー等情報</b>と<b>その他アレルギー等情報</b>は新旧紐づけの<b>対象外</b>で、承継の有無に関わらず全期間・全機関ぶんが常に表示されます（処方情報・薬剤情報とは区別されます）。`)}
+    </div>`;
+}
+
+// ===== 画面B：詳細 =====
+function renderB(el, p, lane) {
+  const showLab = labVisible(p, lane);           // 検査：患者サマリーとの紐づけ判定
+  const showRx  = prescriptionVisible(p, lane);  // 処方：患者サマリーとのコード一致判定（紐づけ対象外）
+  const links = [];
+  if (showRx) links.push(`
+      <div class="gb" onclick="goC()">
+        <span class="gb-ico">💊</span><span>処方情報</span>
+        <span class="gb-cnt">${CLINICAL.prescriptions.length}件</span>
+      </div>`);
+  if (showLab) links.push(`
+      <div class="gb" onclick="goD()">
+        <span class="gb-ico">🔬</span><span>検査結果</span>
+        <span class="gb-cnt">${CLINICAL.labs.length}件</span>
+      </div>`);
+  el.innerHTML = `
+    <div class="mp-nav"><span style="font-size:15px;color:#003f8a">☰</span><span class="mp-logo">マイナポータル</span><span style="font-size:15px;color:#555">🔔</span></div>
+    <div class="back-bar" onclick="goA()">‹ 療養上のアドバイス（患者サマリー）</div>
+    <div class="detail-body">
+      <div class="detail-date">${fmtD(p.shido)}</div>
+      <div class="detail-hosp">医療機関名：${hospName(p, lane)}・${CLINICAL.dept}</div>
+      <div class="detail-dr">医師氏名：${CLINICAL.doctor}</div>
+      <div class="ds-title">傷病名</div>
+      ${CLINICAL.diseases.map(d=>`
+        <div class="disease-row">
+          <div class="d-role">${d.primary?'主病':'副病'}</div>
+          <span class="${d.primary?'d-main':'d-sub'}">${d.name}</span>
+        </div>`).join('')}
+      <div class="ds-title">療養上の計画・アドバイス</div>
+      <div class="advice-box">${CLINICAL.advice}</div>
+    </div>
+    ${callout(`患者サマリーの医療機関コードは<b>${summaryCodeIsNew(p, lane)?'新':'旧'}コード</b>。<b>検査結果</b>はこのコードと検査データのコードが一致した場合に表示されます。<b>処方情報</b>は新旧紐づけの対象外で、電子処方箋管理サービスの記録コードが患者サマリーのコードと一致した場合に表示されます。`)}
+    ${links.length ? `<div class="goto-links">${links.join('')}</div>` : ''}
+    ${!showRx ? callout(`このシナリオでは <b>${prescriptionReason(p, lane)}</b>。抽出結果が0件のため、実画面ではこの詳細に<b>「処方情報」への導線自体が表示されません</b>（本来は表示されます）。`) : ''}
+    ${!showLab ? callout(`このシナリオでは <b>${labReason(p, lane)}</b>。抽出結果が0件のため、実画面ではこの詳細に<b>「検査結果」への導線自体が表示されません</b>（本来は表示されます）。`) : ''}`;
+}
+
+// ===== 画面C：処方情報（処方は新旧紐づけの対象外／コード一致で表示） =====
+function renderC(el, p, lane) {
+  if (!prescriptionVisible(p, lane)) { renderBlocked(el, p, lane, '処方情報', prescriptionReason(p, lane)); return; }
+  el.innerHTML = `
+    <div class="mp-nav"><span style="font-size:15px;color:#003f8a">☰</span><span class="mp-logo">マイナポータル</span></div>
+    <div class="sc-bar"><span class="sc-back" onclick="goB()">‹</span><span class="sc-name">処方情報</span><span class="sc-cnt">${CLINICAL.prescriptions.length}件</span></div>
+    <div class="sc-head">${fmtD(p.shido)}</div>
+    <div style="font-size:9px;color:#888;padding:0 12px 8px">処方医師 ${CLINICAL.doctor}</div>
+    ${CLINICAL.prescriptions.map((rx,i)=>`
+      <div class="rx-card">
+        <div class="rx-hd" onclick="togRx('${lane}',${i})">
+          ${rx.name}<span id="${lane}-rc-${i}">▼</span>
+        </div>
+        <div class="rx-bd" id="${lane}-rb-${i}">
+          <div class="rx-name">${rx.name}</div>
+          <div class="rx-detail">用法：${rx.detail}</div>
+        </div>
+      </div>`).join('')}`;
+}
+
+// ===== 画面D：検査結果（検査は紐づけ対象／コード一致で表示） =====
+function renderD(el, p, lane) {
+  if (!labVisible(p, lane)) { renderBlocked(el, p, lane, '検査結果', labReason(p, lane)); return; }
+  el.innerHTML = `
+    <div class="mp-nav"><span style="font-size:15px;color:#003f8a">☰</span><span class="mp-logo">マイナポータル</span></div>
+    <div class="sc-bar"><span class="sc-back" onclick="goB()">‹</span><span class="sc-name">検査結果</span><span class="sc-cnt">${CLINICAL.labs.length}件</span></div>
+    <div class="sc-head">${fmtD(p.shido)} 12:30</div>
+    <table class="lab-tbl">
+      <tr><th style="width:120px">検査項目</th><th>結果</th><th style="width:66px">基準値</th></tr>
+      ${CLINICAL.labs.map(l=>{
+        const cls = l.flag==='H'?'lv-H':l.flag==='L'?'lv-L':'lv-n';
+        const badge = l.flag ? `<span class="flag ${l.flag}">${l.flag}</span>` : '';
+        return `<tr>
+          <td>${l.name} ${badge}</td>
+          <td><div class="lv ${cls}">${l.value}</div><div style="font-size:8px;color:#666">${l.unit}</div></td>
+          <td style="font-size:9px;color:#888">${l.ref}</td>
+        </tr>`;
+      }).join('')}
+    </table>`;
+}
+
+// ===== 非表示（0件）画面 =====
+//  実画面では「該当情報なし（0件）」として表示される想定。理由は吹き出しで補足。
+function renderBlocked(el, p, lane, title, reason) {
+  el.innerHTML = `
+    <div class="mp-nav"><span style="font-size:15px;color:#003f8a">☰</span><span class="mp-logo">マイナポータル</span></div>
+    <div class="sc-bar"><span class="sc-back" onclick="goB()">‹</span><span class="sc-name">${title}</span><span class="sc-cnt" style="background:#c62828">0件</span></div>
+    <div class="blocked-ph">
+      <div class="bi">🗒️</div>
+      <div class="bt">${title}はありません</div>
+      <div class="bd">この受診の${title}は患者サマリー上に出力されていません（データが削除されたわけではありません）。</div>
+    </div>
+    ${callout(`本来はここに${title}が表示されますが、<b>${reason}</b>。改修後の新旧紐づけにより患者サマリーのコードが変化し、抽出キーが食い違うことが原因です。`)}`;
+}
+
+// ===================================================================
+//  アコーディオン・遷移
+// ===================================================================
+function togAcc(id) {
+  const body = document.getElementById(id+'-body');
+  const chev = document.getElementById(id+'-chev');
+  if (!body) return;
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  if (chev) chev.textContent = open ? '▼' : '▲';
+}
+function togRx(lane, i) {
+  const body = document.getElementById(`${lane}-rb-${i}`);
+  const chev = document.getElementById(`${lane}-rc-${i}`);
+  if (!body) return;
+  body.style.display = body.style.display !== 'none' ? 'none' : 'block';
+  if (chev) chev.textContent = body.style.display !== 'none' ? '▲' : '▼';
+}
+function scrollTop() {
+  LANES.forEach(v => {
+    const el = document.getElementById('screen-' + v.lane);
+    if (el) el.scrollTop = 0;
+  });
+}
+function goDetail() { S.screen='B'; renderPhones(); scrollTop(); }
+function goA() { S.screen='A'; renderPhones(); scrollTop(); }
+function goB() { S.screen='B'; renderPhones(); scrollTop(); }
+function goC() { S.screen='C'; renderPhones(); scrollTop(); }
+function goD() { S.screen='D'; renderPhones(); scrollTop(); }
+
+function update() {
+  S.pattern = document.getElementById('sc-sel').value;
+  S.screen = 'A';
+  renderSidebar(); renderAll();
+}
+function toggleCallouts() {
+  S.showCallouts = document.getElementById('co-chk').checked;
+  renderPhones();
+}
+window.onload = () => { renderSidebar(); renderAll(); };
+</script>
+</body>
+</html>

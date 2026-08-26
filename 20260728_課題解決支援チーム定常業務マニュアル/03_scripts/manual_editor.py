@@ -197,6 +197,79 @@ def cmd_replace(old: str, new: str, section_name: str = None):
     save_doc(tree)
 
 
+def cmd_insert_after(section_name: str, anchor_text: str, new_text: str, color: str = "888888"):
+    """特定セクション内で、anchor_textを含む段落の直後に新しい段落を挿入する（対象会議・最終更新など欠落メタ行の補完用）"""
+    tree = load_doc()
+    root = tree.getroot()
+    body = root.find(f"{{{W}}}body")
+    sections = find_sections(body)
+
+    matched = [s for s in sections if section_name in s["title"]]
+    if not matched:
+        print(f"❌ セクションが見つかりません: '{section_name}'")
+        shutil.rmtree(TMP_DIR)
+        return
+
+    target = matched[0]
+    anchor_el = None
+    for el in target["elements"]:
+        tag = el.tag.split("}")[1] if "}" in el.tag else el.tag
+        if tag == "p" and anchor_text in get_text(el):
+            anchor_el = el
+            break
+
+    if anchor_el is None:
+        print(f"❌ アンカーテキストが見つかりません: '{anchor_text}'")
+        shutil.rmtree(TMP_DIR)
+        return
+
+    new_p = etree.Element(f"{{{W}}}p")
+    pPr = etree.SubElement(new_p, f"{{{W}}}pPr")
+    spacing = etree.SubElement(pPr, f"{{{W}}}spacing")
+    spacing.set(f"{{{W}}}after", "60")
+    r = etree.SubElement(new_p, f"{{{W}}}r")
+    rPr = etree.SubElement(r, f"{{{W}}}rPr")
+    color_el = etree.SubElement(rPr, f"{{{W}}}color")
+    color_el.set(f"{{{W}}}val", color)
+    sz = etree.SubElement(rPr, f"{{{W}}}sz")
+    sz.set(f"{{{W}}}val", "20")
+    szCs = etree.SubElement(rPr, f"{{{W}}}szCs")
+    szCs.set(f"{{{W}}}val", "20")
+    t_el = etree.SubElement(r, f"{{{W}}}t")
+    t_el.text = new_text
+    t_el.set("{http://www.w3.org/XML/1998/namespace}space", "preserve")
+
+    parent = anchor_el.getparent()
+    idx = list(parent).index(anchor_el)
+    parent.insert(idx + 1, new_p)
+
+    print(f"✅ '{anchor_text}' の直後に挿入しました: '{new_text}'")
+    save_doc(tree)
+
+
+def cmd_delete_section(section_name: str):
+    """セクションをH1見出しごと完全に削除する（他セクションへの統合・整理用）"""
+    tree = load_doc()
+    root = tree.getroot()
+    body = root.find(f"{{{W}}}body")
+    sections = find_sections(body)
+
+    matched = [s for s in sections if section_name in s["title"]]
+    if not matched:
+        print(f"❌ セクションが見つかりません: '{section_name}'")
+        shutil.rmtree(TMP_DIR)
+        return
+
+    target = matched[0]
+    for el in target["elements"]:
+        parent = el.getparent()
+        if parent is not None:
+            parent.remove(el)
+
+    print(f"✅ セクションを削除しました: '{target['title']}'")
+    save_doc(tree)
+
+
 def cmd_set_date(author: str):
     """全ページの最終更新日を今日・指定担当者に更新"""
     today = datetime.date.today()
@@ -451,6 +524,15 @@ def main():
     p_add = sub.add_parser("add-section", help="JSONからセクションを追加")
     p_add.add_argument("jsonfile", help="セクション定義JSONファイルのパス")
 
+    p_ins = sub.add_parser("insert-after", help="特定セクション内の指定段落の直後に新しい段落を挿入")
+    p_ins.add_argument("section", help="セクション名（部分一致）")
+    p_ins.add_argument("anchor", help="挿入位置の目印となる既存テキスト（部分一致）")
+    p_ins.add_argument("text", help="挿入する新しいテキスト")
+    p_ins.add_argument("--color", default="888888", help="文字色（16進、既定888888）")
+
+    p_del = sub.add_parser("delete-section", help="セクションをH1見出しごと完全に削除")
+    p_del.add_argument("section", help="セクション名（部分一致）")
+
     args = parser.parse_args()
 
     if args.command == "list":
@@ -465,6 +547,10 @@ def main():
         cmd_set_date(args.author)
     elif args.command == "add-section":
         cmd_add_section(args.jsonfile)
+    elif args.command == "insert-after":
+        cmd_insert_after(args.section, args.anchor, args.text, color=args.color)
+    elif args.command == "delete-section":
+        cmd_delete_section(args.section)
     else:
         parser.print_help()
 

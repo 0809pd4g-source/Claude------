@@ -1,0 +1,39 @@
+{
+ "at": "2026-08-25 14:51",
+ "file": "20260825_ライフプランCFシミュレーター_v27.html",
+ "version": "v27",
+ "checks": [
+  {
+   "name": "スモークテスト",
+   "script": "smoke_test.py",
+   "what": "全画面の描画・制度の検算・恒等式・古い保存データからの復旧",
+   "ok": null,
+   "known": null,
+   "ng": null,
+   "verdict": "異常なし",
+   "exit": 0
+  },
+  {
+   "name": "参照PDFの4パターン照合",
+   "script": "verify_4patterns.py",
+   "what": "FP資料の①〜④について、各年の収支・資産・ローン残高を突き合わせ",
+   "ok": 56,
+   "known": 12,
+   "ng": 0,
+   "verdict": null,
+   "exit": 0
+  },
+  {
+   "name": "参照PDF①の詳細照合",
+   "script": "verify_against_pdf.py",
+   "what": "償還表・給与推計・収入・子ども関連費・税額まで細かく突き合わせ",
+   "ok": 77,
+   "known": 4,
+   "ng": 0,
+   "verdict": null,
+   "exit": 0
+  }
+ ],
+ "baselineSha": "e12094f992556adb",
+ "engineSha": "c7338a8dafdc175e"
+}

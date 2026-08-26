@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>補足・説明の見せ方 仮案（3案の比較）</title>
+<style>
+:root{
+  --bg:#f5f8fc; --panel:#ffffff; --panel2:#eef3f9; --line:#dce4ee;
+  --fg:#1e2733; --fg2:#4d5b6b; --fg3:#7d8b99;
+  --accent:#2b7de9; --accent2:#1f66c2;
+  --ok:#159356; --warn:#c47f0a; --bad:#d93b3b;
+  --radius:10px; --shadow:0 1px 2px rgba(20,40,70,.06);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--bg); color:var(--fg);
+  font-family:"Yu Gothic UI","Hiragino Kaku Gothic ProN","Meiryo",system-ui,sans-serif;
+  font-size:13.5px; line-height:1.75; -webkit-font-smoothing:antialiased;}
+.wrap{max-width:1240px; margin:0 auto; padding:16px}
+h1{font-size:18px; margin:0 0 4px}
+.lead{color:var(--fg2); font-size:12.5px; margin:0 0 18px; line-height:1.85}
+.lead b{color:var(--fg)}
+
+/* 3案を横に並べる（スマホでは縦） */
+.cols{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; align-items:start}
+@media(max-width:900px){ .cols{grid-template-columns:1fr} }
+.col{background:var(--panel); border:1px solid var(--line);
+     border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden}
+.col>.hd{padding:11px 14px; background:var(--panel2); border-bottom:1px solid var(--line);
+   font-size:13px; font-weight:700}
+.col>.hd .tag{font-weight:400; font-size:11px; color:var(--fg3); display:block; margin-top:2px}
+.col>.bd{padding:13px 14px}
+.col.rec>.hd{background:#e8f2ff; border-bottom-color:#bcd8fb}
+.col.rec>.hd .tag{color:var(--accent2)}
+
+/* 入力欄（本体と同じ見た目） */
+.f{display:flex; align-items:center; gap:8px; margin:0 0 13px; flex-wrap:wrap}
+.f label{flex:1 1 100%; font-size:12.5px; color:var(--fg2)}
+.f input{width:110px; padding:6px 8px; font-size:13.5px; text-align:right;
+  border:1px solid var(--line); border-radius:6px; background:#fff; color:var(--fg)}
+.f .u{font-size:11.5px; color:var(--fg3)}
+.hint{font-size:11.5px; color:var(--fg3); margin:5px 0 0; line-height:1.7}
+.note{font-size:11.5px; color:var(--fg3); margin-top:14px; line-height:1.7;
+  border-top:1px solid var(--line); padding-top:11px}
+.note b{color:var(--fg2)}
+.inactive{margin:-6px 0 13px; font-size:11.5px; color:var(--fg3); line-height:1.7}
+.inactivetag{display:inline-block; background:#fdf3e0; color:var(--warn);
+  border:1px solid #f0dcb4; border-radius:4px; padding:0 5px; font-size:10.5px; margin-right:5px}
+hr.sep{border:0; border-top:1px dashed var(--line); margin:16px 0}
+
+/* ===== 案B：吹き出し ===== */
+.bub{position:relative; background:var(--panel2); border:1px solid var(--line);
+  border-radius:9px; padding:8px 11px; margin:9px 0 0; font-size:11.5px;
+  color:var(--fg2); line-height:1.7}
+.bub::before{content:""; position:absolute; top:-7px; left:16px;
+  border-left:7px solid transparent; border-right:7px solid transparent;
+  border-bottom:7px solid var(--line)}
+.bub::after{content:""; position:absolute; top:-6px; left:17px;
+  border-left:6px solid transparent; border-right:6px solid transparent;
+  border-bottom:6px solid var(--panel2)}
+.bub.warnb{background:#fdf3e0; border-color:#f0dcb4; color:#8a5d05}
+.bub.warnb::before{border-bottom-color:#f0dcb4}
+.bub.warnb::after{border-bottom-color:#fdf3e0}
+
+/* ===== 案C：畳む＋図 ===== */
+.lbl{display:flex; align-items:baseline; gap:6px; flex:1 1 100%}
+.lbl .t{font-size:12.5px; color:var(--fg2)}
+.q{flex:0 0 auto; width:17px; height:17px; line-height:15px; text-align:center;
+  border:1px solid var(--line); background:var(--panel2); color:var(--fg3);
+  border-radius:50%; font-size:11px; cursor:pointer; padding:0; font-family:inherit}
+.q:hover{border-color:var(--accent); color:var(--accent)}
+.q[aria-expanded="true"]{background:var(--accent); border-color:var(--accent); color:#fff}
+.pop{display:none; position:relative; background:var(--panel2); border:1px solid var(--line);
+  border-radius:9px; padding:9px 11px; margin:8px 0 0; font-size:11.5px;
+  color:var(--fg2); line-height:1.75; flex:1 1 100%}
+.pop.open{display:block}
+.pop::before{content:""; position:absolute; top:-7px; left:16px;
+  border-left:7px solid transparent; border-right:7px solid transparent;
+  border-bottom:7px solid var(--line)}
+.pop::after{content:""; position:absolute; top:-6px; left:17px;
+  border-left:6px solid transparent; border-right:6px solid transparent;
+  border-bottom:6px solid var(--panel2)}
+.pop .src{display:block; margin-top:6px; padding-top:6px; font-size:10.5px;
+  color:var(--fg3); border-top:1px dotted var(--line)}
+
+/* 目安バー（文字で書かず位置で見せる） */
+.gauge{flex:1 1 100%; margin:7px 0 0}
+.gauge .bar{position:relative; height:6px; border-radius:3px;
+  background:linear-gradient(90deg,#e6ebf2 0%,#e6ebf2 100%)}
+.gauge .band{position:absolute; top:0; height:6px; border-radius:3px; background:#bcdcff}
+.gauge .pin{position:absolute; top:-4px; width:2px; height:14px; background:var(--fg);
+  border-radius:1px}
+.gauge .pin.hi{background:var(--warn)}
+.gauge .cap{display:flex; justify-content:space-between; font-size:10.5px;
+  color:var(--fg3); margin-top:4px}
+.gauge .cap b{color:var(--fg2); font-weight:600}
+
+/* 常時見せるもの（畳まない） */
+.keep{background:#fdf3e0; border:1px solid #f0dcb4; border-radius:7px;
+  padding:7px 10px; margin:-4px 0 13px; font-size:11.5px; color:#8a5d05; line-height:1.7}
+
+/* 高さの計測 */
+.meter{margin-top:12px; padding:9px 11px; background:var(--panel2);
+  border:1px dashed var(--line); border-radius:8px; font-size:11.5px; color:var(--fg2)}
+.meter b{font-size:15px; color:var(--fg)}
+.verdict{margin:20px 0 0; padding:13px 15px; background:var(--panel);
+  border:1px solid var(--line); border-left:4px solid var(--accent);
+  border-radius:var(--radius); font-size:12.5px; line-height:1.9}
+.verdict h2{font-size:14px; margin:0 0 7px}
+.verdict ul{margin:6px 0 0; padding-left:1.2em}
+.verdict li{margin:4px 0}
+.pill{display:inline-block; background:var(--panel2); border:1px solid var(--line);
+  border-radius:20px; padding:1px 9px; font-size:11px; color:var(--fg2); margin-right:5px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>補足・説明の見せ方 ― 仮案の比較</h1>
+<p class="lead">
+本体にある補足文は <b>hint 158か所・note 27か所</b>（本文の中央値80字、100字超が63か所、200字超が27か所）。
+下は<b>まったく同じ中身</b>を3通りで出したものです。各列の下に、その列が実際に使った高さを出しています。
+<b>スマホで見るときは縦に並びます。</b>
+</p>
+
+<div class="cols">
+
+<!-- ==================== A 現状 ==================== -->
+<div class="col" id="colA">
+  <div class="hd">A ｜ 現状<span class="tag">補足を小さな文字でそのまま出す</span></div>
+  <div class="bd">
+
+    <div class="f"><label>毎月の生活費（住居費をのぞく）<br>
+      <span class="hint">食費・水道光熱・通信・日用品・被服・交際費など</span></label>
+      <input type="number" value="36"><span class="u">万円</span></div>
+
+    <div class="f"><label>修繕積立金（月）<br>
+      <span class="hint">目安 月1〜3万円／いまは 月1.5万円 → 目安の範囲内です。
+      修繕積立金は月1〜3万円。築年数とともに上がることが多い。
+      出典：国土交通省 マンションの修繕積立金に関するガイドライン</span></label>
+      <input type="number" value="15000"><span class="u">円</span></div>
+
+    <div class="f"><label>敷地面積</label>
+      <input type="number" value="66.34"><span class="u">㎡</span></div>
+    <div class="inactive"><span class="inactivetag">いまは効きません</span>
+      <span>土地が200㎡以下なので、全体が小規模住宅用地の特例（1/6）の対象です。200㎡を超えるまで税額は変わりません。</span></div>
+
+    <div class="note">
+      <b>いつ時点の数字か</b><br>
+      ・<b>収入・支出・年間収支</b>＝その年の<b>1年間の合計</b>（1月〜12月）。<br>
+      ・<b>預金・運用資産・NISA・住宅ローン残高・不動産の価値</b>＝その年の<b>12月末時点</b>の残高。<br>
+      　つまり「その年の収支を反映したあとの残高」です。<br><br>
+      <b>住宅を取得する年（2027年）の見方</b><br>
+      ・「住宅の取得・住み替え」の行に、<b>手付金424万円＋引っ越し・家具代300万円</b>が入っています。
+      この年だけ支出が大きく増えるのはこのためです。<br>
+      ・<b>諸費用625万円は借入に含めている</b>ので、支出には出てきません（借入額＝物件価格＋諸費用−手付金）。<br>
+      ・借入金そのものは収入にも支出にも入れず、「住宅ローン残高」として持ちます。
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== B 全部吹き出し ==================== -->
+<div class="col" id="colB">
+  <div class="hd">B ｜ 全部を吹き出しに<span class="tag">ご提案どおり、補足をすべて吹き出しで出す</span></div>
+  <div class="bd">
+
+    <div class="f"><label>毎月の生活費（住居費をのぞく）</label>
+      <input type="number" value="36"><span class="u">万円</span>
+      <div class="bub">食費・水道光熱・通信・日用品・被服・交際費など</div></div>
+
+    <div class="f"><label>修繕積立金（月）</label>
+      <input type="number" value="15000"><span class="u">円</span>
+      <div class="bub">目安 月1〜3万円／いまは 月1.5万円 → 目安の範囲内です。
+      修繕積立金は月1〜3万円。築年数とともに上がることが多い。<br>
+      出典：国土交通省 マンションの修繕積立金に関するガイドライン</div></div>
+
+    <div class="f"><label>敷地面積</label>
+      <input type="number" value="66.34"><span class="u">㎡</span>
+      <div class="bub warnb"><b>いまは効きません。</b>
+      土地が200㎡以下なので、全体が小規模住宅用地の特例（1/6）の対象です。200㎡を超えるまで税額は変わりません。</div></div>
+
+    <div class="bub" style="margin-top:14px">
+      <b>いつ時点の数字か</b><br>
+      ・<b>収入・支出・年間収支</b>＝その年の<b>1年間の合計</b>（1月〜12月）。<br>
+      ・<b>預金・運用資産・NISA・住宅ローン残高・不動産の価値</b>＝その年の<b>12月末時点</b>の残高。<br>
+      　つまり「その年の収支を反映したあとの残高」です。
+    </div>
+    <div class="bub">
+      <b>住宅を取得する年（2027年）の見方</b><br>
+      ・「住宅の取得・住み替え」の行に、<b>手付金424万円＋引っ越し・家具代300万円</b>が入っています。
+      この年だけ支出が大きく増えるのはこのためです。<br>
+      ・<b>諸費用625万円は借入に含めている</b>ので、支出には出てきません（借入額＝物件価格＋諸費用−手付金）。<br>
+      ・借入金そのものは収入にも支出にも入れず、「住宅ローン残高」として持ちます。
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== C 畳む＋図 ==================== -->
+<div class="col rec" id="colC">
+  <div class="hd">C ｜ 畳む＋目安は図に<span class="tag">短い補足は残す／長い補足は「？」で開く吹き出し／目安はバー</span></div>
+  <div class="bd">
+
+    <div class="f">
+      <span class="lbl"><span class="t">毎月の生活費（住居費をのぞく）</span></span>
+      <input type="number" value="36"><span class="u">万円</span>
+      <div class="hint" style="flex:1 1 100%">食費・水道光熱・通信・日用品・被服・交際費など</div>
+    </div>
+
+    <div class="f">
+      <span class="lbl"><span class="t">修繕積立金（月）</span>
+        <button class="q" aria-expanded="false" onclick="pop(this)">？</button></span>
+      <input type="number" value="15000"><span class="u">円</span>
+      <div class="gauge">
+        <div class="bar"><div class="band" style="left:20%; width:60%"></div>
+          <div class="pin" style="left:40%"></div></div>
+        <div class="cap"><span>0</span><span><b>目安 月1〜3万円</b>／いまは月1.5万円</span><span>5万</span></div>
+      </div>
+      <div class="pop">修繕積立金は月1〜3万円。築年数とともに上がることが多い。
+        <span class="src">出典：国土交通省 マンションの修繕積立金に関するガイドライン</span></div>
+    </div>
+
+    <div class="f">
+      <span class="lbl"><span class="t">敷地面積</span></span>
+      <input type="number" value="66.34"><span class="u">㎡</span>
+    </div>
+    <div class="keep"><b>いまは効きません。</b>
+      土地が200㎡以下なので、全体が小規模住宅用地の特例（1/6）の対象です。200㎡を超えるまで税額は変わりません。</div>
+
+    <div style="margin-top:14px">
+      <div class="f" style="margin-bottom:6px">
+        <span class="lbl"><span class="t" style="font-weight:700; color:var(--fg)">この表の見方</span>
+        <button class="q" aria-expanded="false" onclick="pop(this)">？</button></span>
+        <div class="pop">
+          <b>いつ時点の数字か</b><br>
+          ・<b>収入・支出・年間収支</b>＝その年の<b>1年間の合計</b>（1月〜12月）。<br>
+          ・<b>預金・運用資産・NISA・住宅ローン残高・不動産の価値</b>＝その年の<b>12月末時点</b>の残高。<br>
+          　つまり「その年の収支を反映したあとの残高」です。<br><br>
+          <b>住宅を取得する年（2027年）の見方</b><br>
+          ・「住宅の取得・住み替え」の行に、<b>手付金424万円＋引っ越し・家具代300万円</b>が入っています。<br>
+          ・<b>諸費用625万円は借入に含めている</b>ので、支出には出てきません。<br>
+          ・借入金そのものは収入にも支出にも入れず、「住宅ローン残高」として持ちます。
+        </div>
+      </div>
+      <div class="hint">住宅取得の年（2027年）は、その年だけ支出が大きく増えます。</div>
+    </div>
+
+  </div>
+</div>
+
+</div><!-- /cols -->
+
+<div class="meter" id="meter">高さを測っています…</div>
+
+<div class="verdict">
+  <h2>この仮案についての意見</h2>
+  <p style="margin:0 0 8px">
+  <b>吹き出しにすること自体は、文字を減らしません。</b>
+  枠線・余白・しっぽが付くぶん、同じ文章でも縦に長くなります。
+  158か所すべてを案Bにすると、いまより「文字文字して」見えるおそれがあります。
+  上の高さの数字がその実測です。</p>
+
+  <p style="margin:0 0 8px"><b>効くのは「畳む」ほうで、吹き出しはその器として優秀です。</b>
+  ふだんは「？」だけが見えていて、押したときだけ吹き出しで出る。
+  この形なら、<span class="pill">読む人</span>と<span class="pill">読まない人</span>の両方に対応できます。</p>
+
+  <p style="margin:0 0 8px"><b>畳んではいけないものがあります。</b>
+  「いまは効きません」は<b>気づかせるため</b>に出しているので、畳むと入れた意味がなくなります。
+  警告・入力の不整合も同じです。案Cではこれらだけ常時表示にしています。</p>
+
+  <p style="margin:0"><b>いちばん文字が減るのは、文字をやめること。</b>
+  「目安 月1〜3万円／いまは月1.5万円 → 範囲内です」は、
+  バー1本と印1つで<b>読まずに</b>分かります（案Cの2つめ）。
+  相場観を示すBENCHは15か所あり、ここは図にする効果が大きいところです。</p>
+
+  <ul style="margin-top:10px">
+    <li><b>短い補足（〜40字・約95か所）</b>… そのまま。畳むほうがかえって手間。</li>
+    <li><b>長い補足（100字超・63か所）</b>… 「？」＋吹き出しで畳む。</li>
+    <li><b>目安（15か所）</b>… バーに置き換える。</li>
+    <li><b>警告・「いまは効きません」（30か所）</b>… 畳まない。</li>
+    <li><b>ページ冒頭の説明（27か所の note）</b>… 見出しだけ出して畳む。</li>
+  </ul>
+</div>
+
+</div>
+
+<script>
+function pop(btn){
+  var f = btn.closest(".f") || btn.parentNode.parentNode;
+  var p = f.querySelector(".pop");
+  if(!p) return;
+  var open = p.classList.toggle("open");
+  btn.setAttribute("aria-expanded", open ? "true" : "false");
+  measure();
+}
+/* 3案が実際に使った高さを測って出す。見た目の印象だけで決めないため。 */
+function measure(){
+  var a = document.getElementById("colA").offsetHeight;
+  var b = document.getElementById("colB").offsetHeight;
+  var c = document.getElementById("colC").offsetHeight;
+  var pct = function(x){ return Math.round(x / a * 100); };
+  document.getElementById("meter").innerHTML =
+    "同じ中身を出すのに使った高さ（この画面幅での実測）：" +
+    "　A 現状 <b>" + a + "px</b>（100%）" +
+    "　／　B 全部吹き出し <b>" + b + "px</b>（" + pct(b) + "%）" +
+    "　／　C 畳む <b>" + c + "px</b>（" + pct(c) + "%）" +
+    '<br><span style="color:var(--fg3)">※ Cは「？」を押して開くと伸びます。押して確かめてください。</span>';
+}
+window.addEventListener("load", measure);
+window.addEventListener("resize", measure);
+</script>
+</body>
+</html>
