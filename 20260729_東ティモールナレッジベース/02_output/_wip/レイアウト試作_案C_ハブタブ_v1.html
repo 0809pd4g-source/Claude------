@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>東ティモールKB レイアウト試作（案C：ハブ＋タブ）v1</title>
+<style>
+:root{
+  --red:#b22222; --gold:#b8860b; --green:#0a7e65;
+  --bg:#f6f4ef; --surface:#ffffff; --ink:#2b2320; --muted:#6b625c;
+  --border:#e3ddd3; --chip:#efe9df; --accent-bg:#fbeee0;
+  --shadow:0 1px 3px rgba(0,0,0,.06);
+}
+html[data-theme="dark"]{
+  --bg:#17130f; --surface:#211b16; --ink:#ece5dd; --muted:#a89e94;
+  --border:#3a3129; --chip:#2a231d; --accent-bg:#33251a; --shadow:none;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+a{color:inherit}
+.site-header{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid var(--border);box-shadow:var(--shadow)}
+.hbar{display:flex;align-items:center;gap:12px;padding:8px 14px;max-width:1080px;margin:0 auto}
+.brand{font-weight:800;color:var(--red);white-space:nowrap;font-size:1.02rem}
+.brand small{display:block;font-weight:600;color:var(--muted);font-size:.62rem;letter-spacing:.02em}
+.search{flex:1;min-width:80px;display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:999px;padding:6px 12px}
+.search input{flex:1;border:0;background:transparent;color:var(--ink);font-size:.92rem;outline:none}
+.themebtn{border:1px solid var(--border);background:var(--surface);color:var(--muted);border-radius:8px;padding:6px 9px;cursor:pointer;font-size:.8rem}
+.tabs{display:flex;gap:4px;overflow-x:auto;padding:0 10px 8px;max-width:1080px;margin:0 auto;-webkit-overflow-scrolling:touch}
+.tab{flex:0 0 auto;border:1px solid var(--border);background:var(--surface);color:var(--muted);border-radius:999px;padding:6px 14px;font-size:.86rem;cursor:pointer;white-space:nowrap;font-weight:600}
+.tab:hover{border-color:var(--gold)}
+.tab.active{background:var(--red);border-color:var(--red);color:#fff}
+.tab.search-tab.active{background:var(--gold);border-color:var(--gold)}
+main{max-width:1080px;margin:0 auto;padding:14px 14px 60px}
+.crumb{font-size:.8rem;color:var(--muted);margin:4px 2px 14px}
+.crumb b{color:var(--ink)}
+.hero{background:linear-gradient(0deg,var(--surface),var(--surface));border:1px solid var(--border);border-radius:16px;padding:20px 18px;margin-bottom:18px;box-shadow:var(--shadow)}
+.hero h1{margin:.1em 0 .2em;font-size:1.28rem}
+.hero p{margin:.2em 0 1em;color:var(--muted);font-size:.92rem}
+.bigsearch{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:10px 14px}
+.bigsearch input{flex:1;border:0;background:transparent;color:var(--ink);font-size:1rem;outline:none}
+.section-title{font-size:1.02rem;margin:22px 2px 10px;display:flex;align-items:center;gap:8px}
+.section-title .dot{width:9px;height:9px;border-radius:50%;background:var(--gold)}
+.personas{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.persona{text-align:left;border:1px solid var(--border);background:var(--surface);border-radius:14px;padding:14px;cursor:pointer;box-shadow:var(--shadow);transition:transform .08s}
+.persona:hover{transform:translateY(-2px);border-color:var(--gold)}
+.persona .ic{width:38px;height:38px;border-radius:10px;background:var(--accent-bg);color:var(--red);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;margin-bottom:8px}
+.persona strong{display:block;font-size:.98rem}
+.persona small{color:var(--muted);font-size:.78rem}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px}
+.kpi .v{font-size:1.24rem;font-weight:800;color:var(--red)}
+.kpi .l{font-size:.74rem;color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.card{border:1px solid var(--border);background:var(--surface);border-radius:12px;padding:14px;box-shadow:var(--shadow)}
+.card h3{margin:0 0 .3em;font-size:1rem}
+.card p{margin:0 0 .6em;color:var(--muted);font-size:.86rem}
+.card .tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{font-size:.7rem;background:var(--chip);color:var(--muted);border-radius:999px;padding:2px 8px}
+.tag.cat{color:var(--green);font-weight:700}
+mark{background:#ffe9a8;color:inherit;border-radius:3px;padding:0 2px}
+html[data-theme="dark"] mark{background:#5b4a1a;color:#ffe9a8}
+.count{font-size:.82rem;color:var(--muted);margin:2px 2px 12px}
+.empty{color:var(--muted);padding:24px;text-align:center;border:1px dashed var(--border);border-radius:12px}
+.note{font-size:.78rem;color:var(--muted);background:var(--accent-bg);border-radius:10px;padding:8px 12px;margin-top:16px}
+@media(max-width:560px){.hbar{flex-wrap:wrap}.brand{font-size:.95rem}.hero h1{font-size:1.12rem}}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="hbar">
+    <div class="brand">Timor-Leste KB<small>レイアウト試作・案C（ハブ＋タブ）</small></div>
+    <label class="search" aria-label="全文検索">
+      <span aria-hidden="true">🔍</span>
+      <input id="q" type="search" placeholder="全体を検索（例：会社設立、ビザ、コーヒー）" autocomplete="off">
+    </label>
+    <button class="themebtn" id="theme" type="button">🌓 表示</button>
+  </div>
+  <nav class="tabs" id="tabs" aria-label="カテゴリ"></nav>
+</header>
+<main>
+  <div class="crumb" id="crumb"></div>
+  <div id="view"></div>
+  <div class="note">これは<strong>ナビゲーションの試作（案C）</strong>です。少量サンプルで、タブ＝1カテゴリ表示・ハブ＝目的別入口＋主要指標＋検索・「すべて/検索」＝横断検索、という動きを確認できます。本体KB（全97セクション）とは別ファイルです。</div>
+</main>
+
+<script>
+const TABS=[
+  {key:'hub',   label:'ハブ'},
+  {key:'learn', label:'知る',      persona:true, icon:'知', desc:'国の全体像・歴史・政治・経済・統計'},
+  {key:'travel',label:'行く・観光', persona:true, icon:'行', desc:'モデルコース・入国・交通・医療・安全'},
+  {key:'living',label:'暮らす',    persona:true, icon:'暮', desc:'在留・住宅・通信・家族・生活費'},
+  {key:'biz',   label:'働く・事業', persona:true, icon:'働', desc:'会社設立・税務・雇用・投資・通関'},
+  {key:'research',label:'研究',    persona:true, icon:'研', desc:'統計出典・研究機関・倫理・文献・用語'},
+  {key:'all',   label:'すべて/検索', search:true}
+];
+const KPIS=[
+  {v:'1,341,737',l:'人口（2022年国勢調査）'},
+  {v:'0.634',l:'HDI（2023・世界142位）'},
+  {v:'約185億US$',l:'石油基金残高（2026-04）'},
+  {v:'約42%',l:'貧困率（国内貧困線）'},
+  {v:'21.3歳',l:'年齢中央値'},
+];
+const SECTIONS=[
+  {cat:'learn',title:'概要・基礎データ',sum:'国家像・主要指標・国の象徴を最初に把握する入口。',tags:['基礎','指標']},
+  {cat:'learn',title:'歴史の歩み',sum:'独立宣言→国連統治→独立回復→2025年ASEAN加盟までの流れ。',tags:['歴史','ASEAN']},
+  {cat:'learn',title:'政治・ガバナンス',sum:'半大統領制、2023年総選挙（CNRT31・FRETILIN19…）、国会構成。',tags:['政治','議席']},
+  {cat:'learn',title:'経済 ― 資源レンティア国家',sum:'石油基金依存の財政、非石油GDP、枯渇見通しと多角化。',tags:['経済','石油基金']},
+  {cat:'learn',title:'統計データナビゲーター',sum:'分野別の主要指標と出典。国際比較（ASEANのHDI）も。',tags:['統計','比較']},
+  {cat:'travel',title:'観光モデルコース',sum:'アタウロ4日・ディリ〜バウカウ2日・ラメラウ3日ほか。',tags:['観光','旅程']},
+  {cat:'travel',title:'主要な観光スポット',sum:'クリスト・レイ像、ジャコ島、アタウロの海。',tags:['観光']},
+  {cat:'travel',title:'入国・在留・就労の手続',sum:'査証区分、在留、就労、必要書類の実務。',tags:['ビザ','手続']},
+  {cat:'travel',title:'交通・移動・物流',sum:'国際線・空港・陸路国境・船便・市内交通。',tags:['交通']},
+  {cat:'travel',title:'医療・安全・緊急対応',sum:'重症度別の受診・搬送フロー（MEDEVAC）、感染症、保険。',tags:['医療','安全']},
+  {cat:'living',title:'移住・駐在生活の立ち上げ',sum:'渡航前〜着任1か月の段階別タスク（書類・水・通信・現金）。',tags:['移住','準備']},
+  {cat:'living',title:'住宅・地域選び',sum:'ディリの居住地域、賃貸契約、雨季の道路・冠水。',tags:['住宅']},
+  {cat:'living',title:'銀行・送金・通信・公共サービス',sum:'口座、送金、通信、電力・水、買い物。',tags:['生活基盤']},
+  {cat:'living',title:'家族帯同・学校・保育・ペット',sum:'学校選び、保育、ペット持込。',tags:['家族']},
+  {cat:'living',title:'生活費プランナー',sum:'費目別の目安と実績置き換え。',tags:['生活費']},
+  {cat:'biz',title:'事業立上げの8工程',sum:'事業モデル→在留→法人形態→SERVE登録→…→継続管理。',tags:['会社設立','フロー']},
+  {cat:'biz',title:'税務の種類・期限・証憑管理',sum:'TIN、国内税、月次・四半期・年次期限、e-Tax。',tags:['税務']},
+  {cat:'biz',title:'雇用契約・給与・社会保障',sum:'契約、労働時間、給与税、INSS、退職手続。',tags:['雇用','INSS']},
+  {cat:'biz',title:'投資優遇・制限業種・土地・法人口座',sum:'TradeInvest、制限業種、土地権利、KYC。',tags:['投資','土地']},
+  {cat:'biz',title:'輸出入・通関・政府調達',sum:'HS、ASYCUDA、税関ブローカー、eProcurement。',tags:['通関','入札']},
+  {cat:'research',title:'統計出典ディレクトリ',sum:'分野別の一次データ源（INETL・BCTL・World Bank等）。',tags:['出典']},
+  {cat:'research',title:'主要学術機関・研究ネットワーク',sum:'国内外の研究機関と論文の探し方。',tags:['機関']},
+  {cat:'research',title:'フィールドワーク・許可・倫理',sum:'調査許可、研究倫理、地域同意。',tags:['倫理']},
+  {cat:'research',title:'先行研究の探し方・文献ナビ',sum:'データベース、呼称の揺れ（East Timor/Timor-Leste）。',tags:['文献']},
+  {cat:'research',title:'略語・用語集',sum:'BCTL・INETL・HDI・MPI…とルリック等の現地語。',tags:['用語']},
+];
+const catLabel=k=>(TABS.find(t=>t.key===k)||{}).label||k;
+let current='hub';
+const $=id=>document.getElementById(id);
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+
+function renderTabs(){
+  $('tabs').innerHTML=TABS.map(t=>`<button class="tab${t.search?' search-tab':''}${t.key===current?' active':''}" data-tab="${t.key}" type="button">${t.label}</button>`).join('');
+}
+function cardHTML(s,q){
+  const hl=txt=>{if(!q)return esc(txt);const i=txt.toLowerCase().indexOf(q.toLowerCase());if(i<0)return esc(txt);return esc(txt.slice(0,i))+'<mark>'+esc(txt.slice(i,i+q.length))+'</mark>'+esc(txt.slice(i+q.length));};
+  return `<article class="card"><h3>${hl(s.title)}</h3><p>${hl(s.sum)}</p><div class="tags"><span class="tag cat">${catLabel(s.cat)}</span>${s.tags.map(x=>`<span class="tag">${esc(x)}</span>`).join('')}</div></article>`;
+}
+function renderHub(){
+  $('crumb').innerHTML='<b>ハブ</b>（目的別の入口）';
+  const personas=TABS.filter(t=>t.persona);
+  $('view').innerHTML=`
+   <section class="hero">
+     <h1>東ティモール ナレッジベース</h1>
+     <p>目的から入るか、全体を検索してください。</p>
+     <label class="bigsearch" aria-label="全体を検索"><span aria-hidden="true">🔍</span><input id="q2" type="search" placeholder="キーワードで全体を検索（例：ビザ、会社設立、コーヒー、統計）" autocomplete="off"></label>
+   </section>
+   <div class="section-title"><span class="dot"></span>目的別に入る</div>
+   <div class="personas">${personas.map(p=>`<button class="persona" data-go="${p.key}" type="button"><span class="ic">${p.icon}</span><strong>${p.label}</strong><small>${p.desc}</small></button>`).join('')}</div>
+   <div class="section-title"><span class="dot"></span>主要指標</div>
+   <div class="kpis">${KPIS.map(k=>`<div class="kpi"><div class="v">${k.v}</div><div class="l">${k.l}</div></div>`).join('')}</div>`;
+  $('q2').addEventListener('input',e=>{$('q').value=e.target.value;doSearch(e.target.value);});
+}
+function renderCategory(key){
+  const items=SECTIONS.filter(s=>s.cat===key);
+  $('crumb').innerHTML=`<b>${catLabel(key)}</b> ・ ${items.length}セクション`;
+  $('view').innerHTML=`<div class="section-title"><span class="dot"></span>${catLabel(key)}</div><div class="cards">${items.map(s=>cardHTML(s,'')).join('')}</div>`;
+}
+function renderAll(q){
+  const query=(q||'').trim();
+  const items=query?SECTIONS.filter(s=>(s.title+s.sum+s.tags.join('')+catLabel(s.cat)).toLowerCase().includes(query.toLowerCase())):SECTIONS;
+  $('crumb').innerHTML= query? `検索：<b>「${esc(query)}」</b>` : '<b>すべて</b>（横断表示・検索）';
+  $('view').innerHTML=`<div class="count">${query?`「${esc(query)}」に一致：${items.length}件（全カテゴリ横断）`:`全${items.length}セクションを表示`}</div>`+
+    (items.length?`<div class="cards">${items.map(s=>cardHTML(s,query)).join('')}</div>`:`<div class="empty">一致するセクションがありません。別のキーワードでお試しください。</div>`);
+}
+function setTab(key,opts){
+  current=key; renderTabs();
+  if(key==='hub')renderHub();
+  else if(key==='all')renderAll((opts&&opts.q)||$('q').value);
+  else renderCategory(key);
+  if(!(opts&&opts.keepScroll))window.scrollTo({top:0,behavior:'smooth'});
+}
+function doSearch(q){
+  if(q&&q.trim()){ current='all'; renderTabs(); renderAll(q); }
+  else if(current==='all'){ renderAll(''); }
+}
+document.addEventListener('click',e=>{
+  const tab=e.target.closest('[data-tab]'); if(tab){setTab(tab.dataset.tab);return;}
+  const go=e.target.closest('[data-go]'); if(go){$('q').value='';setTab(go.dataset.go);return;}
+});
+$('q').addEventListener('input',e=>doSearch(e.target.value));
+$('theme').addEventListener('click',()=>{const h=document.documentElement;h.dataset.theme=h.dataset.theme==='dark'?'light':'dark';});
+setTab('hub',{keepScroll:true});
+</script>
+</body>
+</html>
