@@ -65,6 +65,45 @@
       ],
       "port": 7434,
       "url": "http://localhost:7434/"
+    },
+    {
+      "name": "新婚旅行しおり",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "7437",
+        "--directory",
+        "C:\\Users\\masato.nakazawa\\Downloads\\Claudeプロジェクト\\20260901_新婚旅行しおり\\02_output"
+      ],
+      "port": 7437,
+      "url": "http://localhost:7437/20260901_新婚旅行しおり_v2.html"
+    },
+    {
+      "name": "東ティモールビジネスKB",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "7438",
+        "--directory",
+        "C:\\Users\\masato.nakazawa\\Downloads\\Claudeプロジェクト\\20260903_東ティモールビジネス実務ガイド\\02_output"
+      ],
+      "port": 7438,
+      "url": "http://localhost:7438/"
+    },
+    {
+      "name": "他ツール査読",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "7436",
+        "--directory",
+        "C:\\Users\\masato.nakazawa\\Downloads"
+      ],
+      "port": 7436,
+      "url": "http://localhost:7436/"
     }
   ]
 }
