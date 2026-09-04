@@ -1,0 +1,32 @@
+{
+  "folders": [
+    {
+      "name": "🤖 エージェント設定",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/.git": true,
+      "_archive": true,
+      "00_プロジェクトテンプレート": true,
+      "20260618_*": true,
+      "20260716_*": true,
+      "20260723_*": true,
+      "20260724_*": true,
+      "20260727_*": true,
+      "20260728_*": true,
+      "20260729_*": true,
+      "20260812_*": true,
+      "20260831_*": true,
+      "20260901_*": true,
+      "20260903_*": true,
+      "プロジェクト一覧.md": true
+    },
+    "workbench.colorCustomizations": {
+      "activityBar.background": "#1a2a3a",
+      "titleBar.activeBackground": "#1a3a5a",
+      "titleBar.activeForeground": "#ffffff"
+    }
+  }
+}

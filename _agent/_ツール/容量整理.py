@@ -17,8 +17,17 @@ ROOT はこのスクリプトの2つ上（コンテナ直下）を自動採用�
 """
 import os, re, io, sys, subprocess
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-EXCLUDE_TOP = {'00_プロジェクトテンプレート', '_ツール', '.git'}
+def _find_container(start):
+    """コンテナ（00_プロジェクトテンプレート を持つ階層）まで親を遡る。配置場所に依存しない。"""
+    d = start
+    while d != os.path.dirname(d):
+        if os.path.isdir(os.path.join(d, '00_プロジェクトテンプレート')):
+            return d
+        d = os.path.dirname(d)
+    return os.path.dirname(os.path.dirname(start))  # フォールバック
+
+ROOT = _find_container(os.path.dirname(os.path.abspath(__file__)))
+EXCLUDE_TOP = {'00_プロジェクトテンプレート', '_ツール', '_agent', '.git'}
 TRAILER = 'Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>'
 APPLY = '--apply' in sys.argv
 

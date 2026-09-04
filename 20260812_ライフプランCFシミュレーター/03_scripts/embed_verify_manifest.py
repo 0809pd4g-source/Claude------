@@ -101,8 +101,13 @@ def sha(b):
 
 
 def engine_hash(html_text):
-    """エンジン（<script>の中身）のハッシュ。
-    埋め込んだ VERIFY 自体は除く（埋め込むたびに値が変わってしまうため）。"""
+    """**`<script>` ブロック全体**のハッシュ（計算エンジン部分だけではない）。
+    埋め込んだ VERIFY 自体は除く（埋め込むたびに値が変わってしまうため）。
+
+    ★名前が `engineSha` なので「計算エンジンの指紋」と読めるが、実際は画面側も含む。
+      画面だけを直しても値が変わる。2026-09-01に、読み上げ名の修正（UIのみ）で
+      値が変わったのを見て**計算を壊したかと疑った**（PDF照合は56・12・0で不変だった）。
+      名前と中身が違うほうが、値がずれていることより危ない。"""
     js = re.search(r"<script>(.*?)</script>", html_text, re.S).group(1)
     js = re.sub(r"const VERIFY = \{.*?\};\n", "", js, flags=re.S)
     return sha(js.encode("utf-8"))
@@ -146,6 +151,12 @@ def main():
     (ref / "verify_manifest.json").write_text(
         json.dumps(manifest, ensure_ascii=False, indent=1), encoding="utf-8")
 
+    # ★`VERSION.file` を実物のファイル名へ書き戻す。
+    #   手で書くと必ずずれる（v27はv26のまま2版ずれていた）。
+    text, n_file = re.subn(r'(file:")[^"]*(")', r'\g<1>' + html_path.name + r'\g<2>', text, count=1)
+    if n_file:
+        print(f"  VERSION.file を {html_path.name} に同期しました")
+
     # HTMLへ埋め込む（既にあれば差し替える）
     block = "const VERIFY = " + json.dumps(manifest, ensure_ascii=False) + ";\n"
     if re.search(r"const VERIFY = \{.*?\};\n", text, re.S):
@@ -162,7 +173,7 @@ def main():
     bad = [c for c in checks if c["exit"] != 0]
     print(f"\n埋め込み{how}: {html_path.name}")
     print(f"  検証日時 {manifest['at']} ／ 基準データ {manifest['baselineSha']}"
-          f" ／ エンジン {manifest['engineSha']}")
+          f" ／ スクリプト全体 {manifest['engineSha']}（画面の修正でも変わります）")
     print(f"  不一致の合計 {tot_ng} 件"
           + (f" ／ 異常終了 {len(bad)} 件" if bad else ""))
     print("\n" + ("OK すべて通りました" if tot_ng == 0 and not bad

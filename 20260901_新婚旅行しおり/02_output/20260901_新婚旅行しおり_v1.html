@@ -1,0 +1,2868 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>エジプト・ギリシャ新婚旅行のしおり [完全決定版]</title>
+  
+  <!-- iPhone ホーム画面追加用（PWA/アプリ化設定） -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="新婚旅行しおり">
+  <link rel="apple-touch-icon" href="https://placehold.co/180x180/92400e/ffffff?text=💍">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      -webkit-font-smoothing: antialiased;
+      word-break: normal;
+      overflow-wrap: break-word;
+    }
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .tab-content.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .font-arabic {
+      font-family: 'Amiri', 'Traditional Arabic', serif;
+    }
+    /* チェック時のインタラクションスタイル */
+    .item-checked {
+      opacity: 0.5;
+      text-decoration: line-through;
+    }
+    .card-checked {
+      background-color: #f1f5f9 !important;
+      border-color: #cbd5e1 !important;
+    }
+    /* スクロールバーの非表示（ナビゲーション用） */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    /* 印刷スタイル */
+    @media print {
+      header, nav, .no-print, button {
+        display: none !important;
+      }
+      .tab-content {
+        display: block !important;
+        page-break-after: always;
+      }
+      body {
+        background-color: #fff !important;
+        color: #000 !important;
+      }
+    }
+  </style>
+
+  <!-- タブ切り替え関数 -->
+  <script>
+    window.switchTab = function(tabId) {
+      document.querySelectorAll('.tab-content').forEach(function(el) {
+        el.classList.remove('active');
+      });
+      document.querySelectorAll('.nav-btn').forEach(function(btn) {
+        btn.classList.remove('bg-amber-800', 'text-white', 'shadow-md', 'border-amber-900', 'font-bold', 'ring-2', 'ring-white/50');
+        btn.classList.add('bg-white', 'text-slate-700', 'border-slate-300', 'hover:bg-amber-50');
+      });
+
+      var targetContent = document.getElementById(tabId);
+      var targetBtn = document.getElementById('btn-' + tabId);
+
+      if (targetContent) targetContent.classList.add('active');
+      if (targetBtn) {
+        targetBtn.classList.remove('bg-white', 'text-slate-700', 'border-slate-300', 'hover:bg-amber-50');
+        targetBtn.classList.add('bg-amber-800', 'text-white', 'shadow-md', 'border-amber-900', 'font-bold', 'ring-2', 'ring-white/50');
+      }
+      if (history.pushState) {
+        history.pushState(null, null, '#' + tabId);
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.addEventListener('popstate', function() {
+      var hash = window.location.hash.replace('#', '');
+      if (hash && document.getElementById(hash)) {
+        window.switchTab(hash);
+      }
+    });
+  </script>
+</head>
+<body class="pb-24 text-slate-800 bg-slate-50 min-h-screen">
+
+  <!-- ヘッダーバナー -->
+  <header class="bg-gradient-to-r from-amber-800 via-amber-700 to-sky-800 text-white shadow-lg sticky top-0 z-50">
+    <div class="max-w-4xl mx-auto px-3.5 py-3">
+      <div class="flex items-center justify-between gap-2">
+        <div class="flex items-center space-x-2.5 min-w-0">
+          <div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-xl shadow-inner shrink-0 ring-1 ring-white/30">
+            💍
+          </div>
+          <div class="min-w-0">
+            <div class="text-[10px] sm:text-[11px] uppercase tracking-widest text-amber-200 font-bold flex items-center gap-1.5 flex-wrap">
+              <span>Honeymoon 2026</span>
+              <span class="bg-emerald-600 text-white px-1.5 py-0.2 rounded text-[9px] font-semibold whitespace-nowrap">All Confirmed</span>
+            </div>
+            <h1 class="text-sm sm:text-base font-bold tracking-tight truncate">エジプト・ギリシャ新婚旅行のしおり</h1>
+          </div>
+        </div>
+
+        <!-- 日程・都市サマリー ＆ 印刷ボタン -->
+        <div class="text-right text-xs text-amber-100 shrink-0 flex flex-col items-end">
+          <div class="flex items-center gap-1.5">
+            <button onclick="window.print()" class="no-print bg-white/20 hover:bg-white/30 text-white px-2 py-0.5 rounded text-[10px] font-bold transition flex items-center gap-1">
+              <i class="fa-solid fa-print"></i> <span>印刷/PDF</span>
+            </button>
+            <div class="font-medium whitespace-nowrap">
+              <i class="fa-regular fa-calendar-days mr-1 text-amber-300"></i><span class="inline-block">9/13(日)</span>〜<span class="inline-block">9/27(日)</span> <span class="bg-amber-600/80 text-white px-1.5 py-0.5 rounded text-[10px] font-bold">15日間</span>
+            </div>
+          </div>
+          <div class="text-[10px] sm:text-[11px] text-amber-200/90 flex items-center justify-end gap-1 flex-wrap mt-0.5">
+            <span class="inline-block whitespace-nowrap">カイロ</span>・<span class="inline-block whitespace-nowrap">白砂漠</span>・<span class="inline-block whitespace-nowrap">ルクソール</span>・<span class="inline-block whitespace-nowrap">アテネ</span>・<span class="inline-block whitespace-nowrap">サントリーニ</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ワールドクロック -->
+      <div class="mt-2.5 pt-2 border-t border-white/15 grid grid-cols-3 gap-1.5 text-center text-[10px] sm:text-xs">
+        <div class="bg-black/25 backdrop-blur-xs rounded-lg py-1 px-1 border border-white/10">
+          <span class="text-amber-200 block text-[9px] sm:text-[10px] font-medium">🇯🇵 日本 (JST)</span>
+          <span id="clock-jst" class="font-mono font-bold tracking-wider">--:--:--</span>
+        </div>
+        <div class="bg-black/25 backdrop-blur-xs rounded-lg py-1 px-1 border border-white/10">
+          <span class="text-amber-200 block text-[9px] sm:text-[10px] font-medium">🇪🇬 カイロ (-7h)</span>
+          <span id="clock-cai" class="font-mono font-bold tracking-wider">--:--:--</span>
+        </div>
+        <div class="bg-black/25 backdrop-blur-xs rounded-lg py-1 px-1 border border-white/10">
+          <span class="text-amber-200 block text-[9px] sm:text-[10px] font-medium">🇬🇷 アテネ (-6h)</span>
+          <span id="clock-ath" class="font-mono font-bold tracking-wider">--:--:--</span>
+        </div>
+      </div>
+
+      <!-- ナビゲーションバー (高コントラスト・白飛び防止・完全統一スタイル) -->
+      <nav class="flex flex-wrap gap-1.5 sm:gap-2 mt-2.5 pt-1 text-xs no-scrollbar overflow-x-auto">
+        <button id="btn-tab-itinerary" onclick="switchTab('tab-itinerary')" class="nav-btn px-3 py-1.5 rounded-full whitespace-nowrap transition border border-amber-900 bg-amber-800 text-white font-bold shadow-md ring-2 ring-white/50">
+          <i class="fa-solid fa-route mr-1"></i> 旅程表 (DAY 1-15)
+        </button>
+        <button id="btn-tab-spots" onclick="switchTab('tab-spots')" class="nav-btn px-3 py-1.5 rounded-full whitespace-nowrap transition border border-slate-300 bg-white text-slate-700 shadow-xs hover:bg-amber-50">
+          <i class="fa-solid fa-city mr-1"></i> エリア・宿・カフェ
+        </button>
+        <button id="btn-tab-souvenir" onclick="switchTab('tab-souvenir')" class="nav-btn px-3 py-1.5 rounded-full whitespace-nowrap transition border border-slate-300 bg-white text-slate-700 shadow-xs hover:bg-amber-50">
+          <i class="fa-solid fa-gift mr-1"></i> お土産 ＆ 為替・相場
+        </button>
+        <button id="btn-tab-history" onclick="switchTab('tab-history')" class="nav-btn px-3 py-1.5 rounded-full whitespace-nowrap transition border border-slate-300 bg-white text-slate-700 shadow-xs hover:bg-amber-50">
+          <i class="fa-solid fa-graduation-cap mr-1"></i> 歴史・事前学習
+        </button>
+        <button id="btn-tab-photo" onclick="switchTab('tab-photo')" class="nav-btn px-3 py-1.5 rounded-full whitespace-nowrap transition border border-slate-300 bg-white text-slate-700 shadow-xs hover:bg-amber-50">
+          <i class="fa-solid fa-camera mr-1"></i> フォト・機材
+        </button>
+        <button id="btn-tab-todo" onclick="switchTab('tab-todo')" class="nav-btn px-3 py-1.5 rounded-full whitespace-nowrap transition border border-slate-300 bg-white text-slate-700 shadow-xs hover:bg-amber-50">
+          <i class="fa-solid fa-list-check mr-1"></i> ToDo &amp; 規定
+        </button>
+        <button id="btn-tab-packing" onclick="switchTab('tab-packing')" class="nav-btn px-3 py-1.5 rounded-full whitespace-nowrap transition border border-slate-300 bg-white text-slate-700 shadow-xs hover:bg-amber-50">
+          <i class="fa-solid fa-shirt mr-1"></i> 服装 ＆ 持ち物
+        </button>
+        <button id="btn-tab-tips" onclick="switchTab('tab-tips')" class="nav-btn px-3 py-1.5 rounded-full whitespace-nowrap transition border border-slate-300 bg-white text-slate-700 shadow-xs hover:bg-amber-50">
+          <i class="fa-solid fa-shield-halved mr-1"></i> 安心ガイド・Tips
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <main class="max-w-4xl mx-auto px-3 sm:px-4 mt-4">
+
+    <!-- ==================== TAB 1: 旅程表 (DAY 1 - DAY 15 全日分割) ==================== -->
+    <section id="tab-itinerary" class="tab-content active space-y-4">
+      
+      <!-- 旅程ハイライト＆確定フライトサマリー -->
+      <div class="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-4 sm:p-5 shadow-xs space-y-3.5">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-2.5">
+            <span class="text-2xl">🐪</span>
+            <div>
+              <h2 class="font-bold text-amber-950 text-sm sm:text-base leading-snug">15日間のハネムーン完全スケジュール（全便確定版）</h2>
+              <p class="text-xs text-amber-800 mt-0.5 leading-normal">ギザ＆ルクソール遺跡は安心の「英語プライベート専用車ツアー」で客引きを完全ブロック</p>
+            </div>
+          </div>
+          <span class="text-xs font-bold bg-amber-600 text-white px-3 py-1 rounded-full shadow-xs whitespace-nowrap shrink-0">15 Days Full</span>
+        </div>
+
+        <!-- 確定フライト一覧 -->
+        <div class="bg-white rounded-xl p-3.5 border border-amber-200 text-xs space-y-2 shadow-xs">
+          <div class="font-bold text-amber-950 flex items-center text-xs">
+            <i class="fa-solid fa-plane-departure text-amber-600 mr-2"></i> 全フライト一覧（確定情報）
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-700 leading-relaxed">
+            <div class="p-2 bg-slate-50 rounded-lg border border-slate-200"><strong>9/13(日)：</strong> MS 965便 成田(NRT T1) 20:30発 ➔ カイロ(CAI T3) 翌04:10着</div>
+            <div class="p-2 bg-slate-50 rounded-lg border border-slate-200"><strong>9/18(金)：</strong> MS 066便 カイロ(T3) 14:25発 ➔ ルクソール(LXR) 15:25着</div>
+            <div class="p-2 bg-slate-50 rounded-lg border border-slate-200"><strong>9/20(日)：</strong> MS 067便 ルクソール(LXR) 16:30発 ➔ カイロ(T3) 17:40着</div>
+            <div class="p-2 bg-slate-50 rounded-lg border border-slate-200"><strong>9/21(月)：</strong> MS 747便 カイロ(T3) 10:10発 ➔ アテネ(ATH) 12:10着（左側A席推奨）</div>
+            <div class="p-2 bg-sky-50 rounded-lg border border-sky-200">
+              <strong class="text-sky-950">9/22(火)：</strong> GQ 350便 アテネ(ATH) 14:00発 ➔ サントリーニ(JTR) 14:50着
+            </div>
+            <div class="p-2 bg-sky-50 rounded-lg border border-sky-200">
+              <strong class="text-sky-950">9/25(金)：</strong> GQ 347便 サントリーニ(JTR) 14:15発 ➔ アテネ(ATH) 15:10着
+            </div>
+            <div class="sm:col-span-2 p-2 bg-slate-50 rounded-lg border border-slate-200">
+              <strong>9/26(土)：</strong> HO 1658便 アテネ(ATH) 14:20発 ➔ 上海経由 ➔ 成田 翌12:05着
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 1 -->
+      <div class="bg-white rounded-xl shadow-xs border border-slate-200 p-4 transition hover:border-amber-400">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-2 mb-3 gap-2">
+          <div class="flex items-center space-x-2 min-w-0">
+            <span class="px-2 py-0.5 bg-amber-100 text-amber-800 font-bold text-xs rounded shrink-0">DAY 1</span>
+            <span class="font-bold text-slate-800 text-sm leading-snug">9/13(日) 日本出発 → カイロへ直行便フライト</span>
+          </div>
+          <span class="text-[11px] px-2 py-0.5 bg-blue-50 text-blue-700 border border-blue-200 rounded-full font-semibold whitespace-nowrap shrink-0">MS 965 直行便</span>
+        </div>
+        <div class="text-xs sm:text-sm space-y-2 text-slate-600">
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">17:30：</span>
+            <span>成田空港 第1ターミナル集合・チェックイン・Wi-Fi受取・ドル現金の確認</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">20:30：</span>
+            <span><strong>エジプト航空 MS 965便</strong> 出発（直行便・飛行時間約14時間40分）</span>
+          </div>
+          <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-xs">
+            <span class="font-bold text-slate-700"><i class="fa-solid fa-moon text-indigo-500 mr-1.5"></i> 宿泊：</span> 機内泊（着圧ソックス・アイマスク着用でしっかり睡眠を確保）
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 2 -->
+      <div class="bg-white rounded-xl shadow-xs border border-slate-200 p-4 transition hover:border-amber-400">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-2 mb-3 gap-2">
+          <div class="flex items-center space-x-2 min-w-0">
+            <span class="px-2 py-0.5 bg-amber-100 text-amber-800 font-bold text-xs rounded shrink-0">DAY 2</span>
+            <span class="font-bold text-slate-800 text-sm leading-snug">9/14(月) カイロ早朝到着 ➔ 完全仮眠・休養 ➔ 大エジプト博物館（GEM）</span>
+          </div>
+          <span class="text-[11px] px-2 py-0.5 bg-amber-50 text-amber-700 border border-amber-200 rounded-full font-semibold whitespace-nowrap shrink-0">体調最優先</span>
+        </div>
+        <div class="text-xs sm:text-sm space-y-2 text-slate-600">
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">04:10：</span>
+            <span>カイロ空港(T3)到着。銀行窓口でアライバルビザ（1人25USD新札）購入 ➔ 入国審査</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">06:00：</span>
+            <span>Uberまたは送迎車でギザへ。<strong>Turquoise Pyramids</strong> に前日分アーリーチェックインで入室</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">〜14:00：</span>
+            <div>
+              <span class="font-bold text-amber-900">完全休養・仮眠・シャワータイム</span>
+              <p class="text-xs text-slate-500 mt-0.5 leading-normal">長距離フライトの時差ボケと疲労をベッドでしっかりリセット！</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">15:00：</span>
+            <span><strong>大エジプト博物館（GEM）</strong>見学（ホテル至近）。大階段、ラムセス2世巨像、ツタンカーメンコレクション鑑賞</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">夜：</span>
+            <span>ホテル屋上テラスでピラミッドとGEMの夜景を眺めながら軽めの夕食</span>
+          </div>
+          <div class="bg-amber-50/70 p-2.5 rounded-lg border border-amber-200 text-xs">
+            <span class="font-bold text-amber-900"><i class="fa-solid fa-hotel text-amber-600 mr-1.5"></i> 宿泊：</span> Turquoise Pyramids &amp; Grand Egyptian museum view Hotel
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 3 -->
+      <div class="bg-white rounded-xl shadow-xs border border-slate-200 p-4 transition hover:border-amber-400">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-2 mb-3 gap-2">
+          <div class="flex items-center space-x-2 min-w-0">
+            <span class="px-2 py-0.5 bg-amber-100 text-amber-800 font-bold text-xs rounded shrink-0">DAY 3</span>
+            <span class="font-bold text-slate-800 text-sm leading-snug">9/15(火) 【専用車＆英語ガイド】ギザ三大ピラミッド ➔ サッカラ ➔ 記念ディナー</span>
+          </div>
+          <span class="text-[11px] px-2 py-0.5 bg-red-50 text-red-700 border border-red-200 rounded-full font-semibold whitespace-nowrap shrink-0">終日貸切ツアー</span>
+        </div>
+        <div class="text-xs sm:text-sm space-y-2 text-slate-600">
+          <div class="p-2.5 bg-amber-50 rounded-lg border border-amber-200 text-xs text-amber-950 mb-2 leading-relaxed">
+            <i class="fa-solid fa-shield-halved text-amber-600 mr-1.5"></i> <strong>専属英語ガイド＆専用冷房車ツアー：</strong> ホテル発着で客引きを完全ブロック。炎天下もドア・ツー・ドアで快適移動！
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">08:00：</span>
+            <span>ホテルピックアップ ➔ ギザ高原入場。<strong>クフ王ピラミッド内部入場</strong>（大回廊・玄室） ➔ カフラー王・パノラマポイント</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">10:30：</span>
+            <span>スフィンクス ＆ 河岸神殿（黒閃緑岩の一枚岩遺構）見学</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">午後：</span>
+            <span>専用車で<strong>サッカラ</strong>へ。ジェセル王階段ピラミッド ＆ 涼しい地下巨石棺群「セラペウム」見学</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">夜：</span>
+            <span><strong>エジプトハネムーン記念日ディナー</strong>（Khufu's Restaurant または Mena House「139 Pavilion」）</span>
+          </div>
+          <div class="bg-amber-50/70 p-2.5 rounded-lg border border-amber-200 text-xs">
+            <span class="font-bold text-amber-900"><i class="fa-solid fa-bed text-amber-600 mr-1.5"></i> 宿泊：</span> Turquoise Pyramids 連泊（※明日の砂漠泊に向けリュック1つに荷物を準備）
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 4 -->
+      <div class="bg-white rounded-xl shadow-xs border border-slate-200 p-4 transition hover:border-amber-400">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-2 mb-3 gap-2">
+          <div class="flex items-center space-x-2 min-w-0">
+            <span class="px-2 py-0.5 bg-amber-600 text-white font-bold text-xs rounded shrink-0">DAY 4</span>
+            <span class="font-bold text-slate-800 text-sm leading-snug">9/16(水) 白砂漠へ出発 ➔ 黒砂漠・奇岩 ➔ 満天の星空キャンプ</span>
+          </div>
+          <span class="text-[11px] px-2 py-0.5 bg-yellow-50 text-yellow-800 border border-yellow-200 rounded-full font-semibold whitespace-nowrap shrink-0">砂漠テント泊</span>
+        </div>
+        <div class="text-xs sm:text-sm space-y-2 text-slate-600">
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">07:00：</span>
+            <span>ギザホテル出発（<strong>※大型スーツケースはホテルに預置</strong>）。専用4WDでバハレイヤ・オアシスへ（奥様助手席確約）</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">午後：</span>
+            <span>黒砂漠・クリスタルマウンテン ➔ 新白砂漠（マッシュルーム岩・チキン岩）でサンセット鑑賞</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">夜：</span>
+            <span>ベドウィン焚き火BBQディナー ＆ <strong>一眼レフで天の川・星空撮影</strong></span>
+          </div>
+          <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-xs">
+            <span class="font-bold text-slate-700"><i class="fa-solid fa-tents text-amber-600 mr-1.5"></i> 宿泊：</span> 白砂漠プライベートテント泊（※夜間は冷え込むためウルトラライトダウン着用）
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 5 -->
+      <div class="bg-white rounded-xl shadow-xs border border-slate-200 p-4 transition hover:border-amber-400">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-2 mb-3 gap-2">
+          <div class="flex items-center space-x-2 min-w-0">
+            <span class="px-2 py-0.5 bg-amber-100 text-amber-800 font-bold text-xs rounded shrink-0">DAY 5</span>
+            <span class="font-bold text-slate-800 text-sm leading-snug">9/17(木) 砂漠の日の出 ➔ ギザ帰還 ➔ ホテルで完全休養＆リフレッシュ</span>
+          </div>
+          <span class="text-[11px] px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full font-semibold whitespace-nowrap shrink-0">ホテル完全休養</span>
+        </div>
+        <div class="text-xs sm:text-sm space-y-2 text-slate-600">
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">早朝：</span>
+            <span>砂漠の感動的な日の出鑑賞 ➔ キャンプ朝食後、カイロ・ギザへ向けて出発</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">15:30：</span>
+            <span><strong>Turquoise Pyramids</strong> 着。預け荷物を回収してチェックイン ➔ シャワーで砂を流す</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">16:30〜：</span>
+            <div>
+              <span class="font-bold text-slate-800">ホテルでのんびりリフレッシュタイム</span>
+              <p class="text-xs text-slate-500 mt-0.5 leading-normal">お部屋で洗濯やシャワー、テラスでのんびり休憩。砂漠の疲れを癒やしながら過ごします。</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">夜：</span>
+            <span>ホテル内のレストランまたはルームサービスでゆっくり夕食</span>
+          </div>
+          <div class="bg-amber-50/70 p-2.5 rounded-lg border border-amber-200 text-xs">
+            <span class="font-bold text-amber-900"><i class="fa-solid fa-bed text-amber-600 mr-1.5"></i> 宿泊：</span> Turquoise Pyramids &amp; Grand Egyptian museum view Hotel
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 6 -->
+      <div class="bg-white rounded-xl shadow-xs border border-slate-200 p-4 transition hover:border-amber-400">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-2 mb-3 gap-2">
+          <div class="flex items-center space-x-2 min-w-0">
+            <span class="px-2 py-0.5 bg-amber-100 text-amber-800 font-bold text-xs rounded shrink-0">DAY 6</span>
+            <span class="font-bold text-slate-800 text-sm leading-snug">9/18(金) 【金曜午前・選べる優雅カフェ＆直行】 ➔ ルクソールへ ＆ 【ルクソール神殿夕景〜夜景】</span>
+          </div>
+          <span class="text-[11px] px-2 py-0.5 bg-blue-50 text-blue-700 border border-blue-200 rounded-full font-semibold whitespace-nowrap shrink-0">MS 066 国内線</span>
+        </div>
+        <div class="text-xs sm:text-sm space-y-2 text-slate-600">
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">10:00：</span>
+            <div>
+              <span class="font-bold text-slate-800">ホテルチェックアウト ➔ スーツケースを持参しUberでカフェへ直行</span>
+              <p class="text-xs text-emerald-700 mt-0.5 leading-normal">※金曜午前は礼拝のため渋滞ゼロ！歩道を歩かず「Uberドア・ツー・ドア」で快適移動。</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">10:30〜：</span>
+            <div class="p-2.5 bg-amber-50/80 rounded-lg border border-amber-200 space-y-1">
+              <span class="font-bold text-amber-900 block"><i class="fa-solid fa-mug-saucer text-amber-600 mr-1.5"></i> 【夫婦で楽しむ午前カフェ（宿泊なし外来利用OK・3つの選択肢）】</span>
+              <p class="text-slate-700 text-xs leading-relaxed">
+                <strong>① カイロ・マリオット（ザマレク）：</strong> 宮殿ホテルの車寄せにUber直行。中庭テラス（Garden Promenade Cafe）でお茶＆ベルデスクで荷物預け。<br>
+                <strong>② Granita（ザマレク）：</strong> 全聖徒大聖堂の敷地内カフェ。静かな緑のテラス席に荷物を置いてブランチ。<br>
+                <strong>③ メナ・ハウス「139 Pavilion」（ギザ）：</strong> ホテルから車5分。ピラミッド真正面の宮殿庭園テラスで優雅なティータイム。
+              </p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">12:15：</span>
+            <span>カフェ前からUberでカイロ空港(T3)へ直行（車で約30〜40分）</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">14:25：</span>
+            <span><strong>MS 066便</strong> にてルクソールへ（15:25 LXR着）</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">16:30：</span>
+            <span><strong>イベロテル・ルクソール（Iberotel Luxor）</strong>にチェックイン</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">17:30〜：</span>
+            <div>
+              <span class="font-bold text-amber-900">★ルクソール神殿 見学チャンス①（夕景〜ライトアップ）</span>
+              <p class="text-xs text-slate-600 mt-0.5 leading-normal">ホテルから徒歩8分。夕暮れ時の淡い光から日没後の幻想的なライトアップまで表情の変化を鑑賞。</p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">夜：</span>
+            <span>神殿前の屋上レストラン「Al Sahaby Lane」でラクダ肉ステーキディナー</span>
+          </div>
+          <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-xs">
+            <span class="font-bold text-slate-700"><i class="fa-solid fa-hotel text-amber-600 mr-1.5"></i> 宿泊：</span> イベロテル ルクソール（ナイル川浮きプール）
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 7 -->
+      <div class="bg-white rounded-xl shadow-xs border border-slate-200 p-4 transition hover:border-amber-400">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-2 mb-3 gap-2">
+          <div class="flex items-center space-x-2 min-w-0">
+            <span class="px-2 py-0.5 bg-amber-100 text-amber-800 font-bold text-xs rounded shrink-0">DAY 7</span>
+            <span class="font-bold text-slate-800 text-sm leading-snug">9/19(土) 【専用車＆英語ガイド】西岸遺跡＆メムノン ➔ カルナック斜光 ➔ ファルーカ夕日</span>
+          </div>
+          <span class="text-[11px] px-2 py-0.5 bg-orange-50 text-orange-700 border border-orange-200 rounded-full font-semibold whitespace-nowrap shrink-0">終日貸切ツアー</span>
+        </div>
+        <div class="text-xs sm:text-sm space-y-2 text-slate-600">
+          <div class="p-2.5 bg-amber-50 rounded-lg border border-amber-200 text-xs text-amber-950 mb-2 leading-relaxed">
+            <i class="fa-solid fa-shield-halved text-amber-600 mr-1.5"></i> <strong>専属英語ガイド＆専用冷房車ツアー：</strong> 広大な西岸・東岸を効率よく巡り、解説とベストアングル写真撮影を担当！夕方のファルーカも一括手配で現地トラブル回避。
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">早朝：</span>
+            <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200 w-full">
+              <span class="font-bold text-slate-800 block"><i class="fa-solid fa-parachute-box text-amber-600 mr-1.5"></i> 【早朝枠：熱気球フライト（※参加は検討中・未定）】</span>
+              <p class="text-xs text-slate-600 mt-0.5 leading-normal">
+                参加する場合は04:30発。見送る場合は07:00頃までゆっくり睡眠をとり、体力万全で07:30の専用車ツアーへ合流。
+              </p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">07:30：</span>
+            <span>
+              <strong>王家の谷</strong>（ツタンカーメン墓・ラムセス6世墓）、ハトシェプスト女王葬祭殿 ➔ <strong>メムノンの巨像</strong>（写真ストップ）
+            </span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">昼：</span>
+            <span>ホテルに戻り、ナイル川浮きプールで優雅にクールダウン休憩＆ランチ（※野鳥観察にも最適）</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">15:30：</span>
+            <span><strong>カルナック神殿</strong>（134本の大列柱室に西日が差し込むドラマチックな斜光を撮影）</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">17:15：</span>
+            <span>ツアー事前手配の貸切<strong>ナイル川ファルーカ（帆船）サンセットセーリング</strong>で黄金の夕日を鑑賞</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">夜：</span>
+            <span>伝統邸宅レストラン「Sofra」でエジプトディナー ➔ イベロテル連泊</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 8 -->
+      <div class="bg-white rounded-xl shadow-xs border border-slate-200 p-4 transition hover:border-amber-400">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-2 mb-3 gap-2">
+          <div class="flex items-center space-x-2 min-w-0">
+            <span class="px-2 py-0.5 bg-amber-100 text-amber-800 font-bold text-xs rounded shrink-0">DAY 8</span>
+            <span class="font-bold text-slate-800 text-sm leading-snug">9/20(日) 【昼のルクソール神殿・スーク散歩】 ➔ カイロへ ➔ ヘリオポリス泊</span>
+          </div>
+          <span class="text-[11px] px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full font-semibold whitespace-nowrap shrink-0">昼の神殿＆渋滞回避</span>
+        </div>
+        <div class="text-xs sm:text-sm space-y-2 text-slate-600">
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">09:00〜：</span>
+            <div>
+              <span class="font-bold text-amber-900">★ルクソール神殿 見学チャンス②（青空の昼間訪問！）</span>
+              <p class="text-xs text-slate-600 mt-0.5 leading-normal">
+                青空を背景に立つオベリスクや巨大なラムセス2世像のレリーフ彫刻を鮮明に鑑賞。その後、東岸スークでお土産（カルカデ茶等）探しやカフェ休憩。
+              </p>
+            </div>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">14:30：</span>
+            <span>ルクソール空港(LXR)へ移動</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">16:30：</span>
+            <span><strong>MS 067便</strong> にてカイロへ出発（17:40 CAI T3着）</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">18:30：</span>
+            <span>空港から車で10分の <strong>Ocean Blue Studios（ヘリオポリス）</strong> へチェックイン</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">夜：</span>
+            <span>洗練された<strong>コルバ（Korba）地区</strong>の美しいアーケード街を散策 ＆ エジプト最終夜ディナー</span>
+          </div>
+          <div class="bg-emerald-50/70 p-2.5 rounded-lg border border-emerald-200 text-xs">
+            <span class="font-bold text-emerald-900"><i class="fa-solid fa-hotel text-emerald-600 mr-1.5"></i> 宿泊：</span> Ocean Blue Studios（空港至近で翌朝の通勤渋滞を完全回避！）
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 9 -->
+      <div class="bg-white rounded-xl shadow-xs border border-slate-200 p-4 transition hover:border-sky-400">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-2 mb-3 gap-2">
+          <div class="flex items-center space-x-2 min-w-0">
+            <span class="px-2 py-0.5 bg-sky-100 text-sky-800 font-bold text-xs rounded shrink-0">DAY 9</span>
+            <span class="font-bold text-slate-800 text-sm leading-snug">9/21(月) カイロ出発（3時間前空港着） ➔ ギリシャ・アテネ到着 ➔ プラカ地区散策</span>
+          </div>
+          <span class="text-[11px] px-2 py-0.5 bg-sky-50 text-sky-700 border border-sky-200 rounded-full font-semibold whitespace-nowrap shrink-0">ギリシャ入国</span>
+        </div>
+        <div class="text-xs sm:text-sm space-y-2 text-slate-600">
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">06:45：</span>
+            <span>ホテルチェックアウト ➔ Uberでカイロ空港T3へ移動（車で15分・3時間前到着で安心通過）</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">10:10：</span>
+            <span><strong>MS 747便</strong> カイロ発 ➔ 12:10 アテネ国際空港(ATH)着（<strong>※左側A席</strong>で地中海の島々を展望）</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">14:00：</span>
+            <span>アテネ市内中心部「Galleria Romvis」にチェックイン</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">夕方〜夜：</span>
+            <span>モナスティラキ広場、歴史あるプラカ地区の石畳を散策 ＆ 本場スブラキディナー</span>
+          </div>
+          <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-xs">
+            <span class="font-bold text-slate-700"><i class="fa-solid fa-bed text-sky-600 mr-1.5"></i> 宿泊：</span> アテネ（Galleria Romvis）
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 10 -->
+      <div class="bg-white rounded-xl shadow-xs border border-slate-200 p-4 transition hover:border-sky-400">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-2 mb-3 gap-2">
+          <div class="flex items-center space-x-2 min-w-0">
+            <span class="px-2 py-0.5 bg-sky-100 text-sky-800 font-bold text-xs rounded shrink-0">DAY 10</span>
+            <span class="font-bold text-slate-800 text-sm leading-snug">9/22(火) アクロポリス早朝入場 ➔ サントリーニ島へフライト！</span>
+          </div>
+          <span class="text-[11px] px-2 py-0.5 bg-sky-50 text-sky-700 border border-sky-200 rounded-full font-semibold whitespace-nowrap shrink-0">GQ 350便 確定</span>
+        </div>
+        <div class="text-xs sm:text-sm space-y-2 text-slate-600">
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">08:00：</span>
+            <span><strong>アクロポリス（パルテノン神殿）</strong>早朝入場（朝の涼しい時間帯に優雅に見学）</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">11:00：</span>
+            <span>ホテルに戻りチェックアウト ➔ 11:30 タクシーまたはメトロでアテネ空港(ATH)へ移動</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">14:00：</span>
+            <span><strong>SKYエクスプレス GQ 350便</strong> にてサントリーニ空港(JTR)へ出発（14:50着・飛行時間50分）</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">15:30：</span>
+            <span>イメロヴィグリ「<strong>Andronikos Canaves</strong>」にチェックイン！部屋のテラスからカルデラ夕景鑑賞</span>
+          </div>
+          <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-xs">
+            <span class="font-bold text-slate-700"><i class="fa-solid fa-hotel text-sky-600 mr-1.5"></i> 宿泊：</span> サントリーニ島（Andronikos Canaves）
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 11 -->
+      <div class="bg-white rounded-xl shadow-xs border border-slate-200 p-4 transition hover:border-pink-400">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-2 mb-3 gap-2">
+          <div class="flex items-center space-x-2 min-w-0">
+            <span class="px-2 py-0.5 bg-pink-100 text-pink-800 font-bold text-xs rounded shrink-0">DAY 11</span>
+            <span class="font-bold text-slate-800 text-sm leading-snug">9/23(水) 【サントリーニ・ブライダルフォト撮影】 ➔ イアの街散策 ＆ 夕日</span>
+          </div>
+          <span class="text-[11px] px-2 py-0.5 bg-pink-50 text-pink-700 border border-pink-200 rounded-full font-semibold whitespace-nowrap shrink-0">フォトウェディング</span>
+        </div>
+        <div class="text-xs sm:text-sm space-y-2 text-slate-600">
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">07:30〜：</span>
+            <span><strong>サントリーニ・ブライダルフォト撮影</strong>（ブルードーム、白い街並み、カルデラ背景）</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">午後：</span>
+            <span>撮影終了後、イアのブティックや絶景カフェでのんびり休憩</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">夕方：</span>
+            <span>イア城塞周辺から世界一と称されるエーゲ海のサンセット鑑賞</span>
+          </div>
+          <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-xs">
+            <span class="font-bold text-slate-700"><i class="fa-solid fa-bed text-sky-600 mr-1.5"></i> 宿泊：</span> サントリーニ島連泊
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 12 -->
+      <div class="bg-white rounded-xl shadow-xs border border-slate-200 p-4 transition hover:border-sky-400">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-2 mb-3 gap-2">
+          <div class="flex items-center space-x-2 min-w-0">
+            <span class="px-2 py-0.5 bg-sky-100 text-sky-800 font-bold text-xs rounded shrink-0">DAY 12</span>
+            <span class="font-bold text-slate-800 text-sm leading-snug">9/24(木) ワイナリー巡り ➔ ホテルプール休養 ➔ 【ギリシャ記念ディナー】</span>
+          </div>
+          <span class="text-[11px] px-2 py-0.5 bg-red-50 text-red-700 border border-red-200 rounded-full font-semibold whitespace-nowrap shrink-0">記念日ディナー</span>
+        </div>
+        <div class="text-xs sm:text-sm space-y-2 text-slate-600">
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">午前：</span>
+            <span>静かな中世の村ピルゴス散策 ＆ サントワインズ（Santo Wines）でアシルティコ白ワイン試飲</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">午後：</span>
+            <span>ホテルに戻り、プライベートプールやジャグジーで優雅なハネムーン休養</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">18:00：</span>
+            <span><strong>「The Athenian House」</strong>にて夕日を望むハネムーン記念ディナー（カルデラ絶景席）</span>
+          </div>
+          <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-xs">
+            <span class="font-bold text-slate-700"><i class="fa-solid fa-bed text-sky-600 mr-1.5"></i> 宿泊：</span> サントリーニ島連泊
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 13 -->
+      <div class="bg-white rounded-xl shadow-xs border border-slate-200 p-4 transition hover:border-sky-400">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-2 mb-3 gap-2">
+          <div class="flex items-center space-x-2 min-w-0">
+            <span class="px-2 py-0.5 bg-sky-100 text-sky-800 font-bold text-xs rounded shrink-0">DAY 13</span>
+            <span class="font-bold text-slate-800 text-sm leading-snug">9/25(金) サントリーニ最後の朝 ➔ アテネ帰還 ➔ 高級お土産買い出し ＆ 夕景</span>
+          </div>
+          <span class="text-[11px] px-2 py-0.5 bg-sky-50 text-sky-700 border border-sky-200 rounded-full font-semibold whitespace-nowrap shrink-0">GQ 347便 確定</span>
+        </div>
+        <div class="text-xs sm:text-sm space-y-2 text-slate-600">
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">午前：</span>
+            <span>ホテルで優雅に朝食＆最後のプール・ジャグジー休憩 ➔ 11:30 チェックアウト ➔ 12:30 サントリーニ空港(JTR)へ</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">14:15：</span>
+            <span><strong>SKYエクスプレス GQ 347便</strong> にてアテネ空港(ATH)へ出発（15:10着）</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">16:30：</span>
+            <span>アテネ市内「<strong>Atelier apartment</strong>」にチェックイン</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">夕方〜夜：</span>
+            <span>高級ナッツ・スイーツ店「<strong>carpo</strong>」やオリーブオイル専門店でお土産買い出し ➔ <strong>アレオパゴスの丘</strong>から夕景鑑賞</span>
+          </div>
+          <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-xs">
+            <span class="font-bold text-slate-700"><i class="fa-solid fa-bed text-sky-600 mr-1.5"></i> 宿泊：</span> アテネ（Atelier apartment）
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 14 -->
+      <div class="bg-white rounded-xl shadow-xs border border-slate-200 p-4 transition hover:border-slate-400">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-2 mb-3 gap-2">
+          <div class="flex items-center space-x-2 min-w-0">
+            <span class="px-2 py-0.5 bg-slate-700 text-white font-bold text-xs rounded shrink-0">DAY 14</span>
+            <span class="font-bold text-slate-800 text-sm leading-snug">9/26(土) アテネ出発 → 上海経由で帰国の途へ</span>
+          </div>
+          <span class="text-[11px] px-2 py-0.5 bg-slate-100 text-slate-700 border border-slate-200 rounded-full font-semibold whitespace-nowrap shrink-0">HO 1658 帰国便</span>
+        </div>
+        <div class="text-xs sm:text-sm space-y-2 text-slate-600">
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">午前：</span>
+            <span>ホテルチェックアウト ➔ 11:30 アテネ国際空港(ATH)到着・免税手続き</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">14:20：</span>
+            <span><strong>吉祥航空 HO 1658便</strong> にて上海浦東国際空港へ出発</span>
+          </div>
+          <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-xs">
+            <span class="font-bold text-slate-700"><i class="fa-solid fa-moon text-indigo-500 mr-1.5"></i> 宿泊：</span> 機内泊
+          </div>
+        </div>
+      </div>
+
+      <!-- DAY 15 -->
+      <div class="bg-white rounded-xl shadow-xs border border-slate-200 p-4 transition hover:border-slate-400">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-2 mb-3 gap-2">
+          <div class="flex items-center space-x-2 min-w-0">
+            <span class="px-2 py-0.5 bg-emerald-600 text-white font-bold text-xs rounded shrink-0">DAY 15</span>
+            <span class="font-bold text-slate-800 text-sm leading-snug">9/27(日) 上海乗り継ぎ → 成田空港到着！</span>
+          </div>
+          <span class="text-[11px] px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full font-semibold whitespace-nowrap shrink-0">お帰りなさい！</span>
+        </div>
+        <div class="text-xs sm:text-sm space-y-2 text-slate-600">
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">朝：</span>
+            <span>上海浦東国際空港に到着・乗り継ぎ手続き</span>
+          </div>
+          <div class="flex items-start space-x-2">
+            <span class="font-bold text-slate-700 shrink-0 min-w-[50px]">12:05：</span>
+            <span><strong>成田空港到着！</strong> 税関通過・Wi-Fi返却 ➔ 無事帰宅！</span>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== TAB 2: エリア・宿・カフェ（全6エリア完全統一レイアウト） ==================== -->
+    <section id="tab-spots" class="tab-content space-y-6">
+
+      <!-- 1. ギザ・カイロ -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-4">
+        <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
+          <div class="flex items-center space-x-2.5">
+            <span class="text-2xl">🐫</span>
+            <div>
+              <h2 class="text-lg font-bold text-amber-900">1. ギザ・カイロ</h2>
+              <p class="text-xs text-slate-500">滞在期間：9/14(月)〜9/16(水) ＆ 9/17(木)〜9/18(金)</p>
+            </div>
+          </div>
+          <span class="px-2.5 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded-md whitespace-nowrap shrink-0">ギザ泊</span>
+        </div>
+
+        <!-- 宿泊先 -->
+        <div class="p-3.5 bg-amber-50/70 rounded-xl border border-amber-200 text-xs space-y-1">
+          <div class="flex items-center justify-between flex-wrap gap-1">
+            <span class="font-bold text-amber-950 text-sm">Turquoise Pyramids &amp; Grand Egyptian museum view Hotel</span>
+            <a href="https://www.booking.com/hotel/eg/turquoise-pyramids-amp-grand-egyptian-museum-view.ja.html" target="_blank" rel="noopener noreferrer" class="bg-amber-600 text-white font-bold px-2.5 py-0.5 rounded text-[10px] hover:bg-amber-700 transition shrink-0">
+              宿泊先（確定・詳細） <i class="fa-solid fa-arrow-up-right-from-square ml-0.5"></i>
+            </a>
+          </div>
+          <p class="text-slate-600 leading-relaxed">
+            大エジプト博物館（GEM）とギザ三大ピラミッドの両方を一望する絶景テラス付きホテル。GEMへのアクセスが抜群で、屋上からピラミッドの夜景も楽しめます。
+          </p>
+        </div>
+
+        <!-- 主要見どころ -->
+        <div class="space-y-1 text-xs text-slate-700 leading-relaxed">
+          <div class="font-bold text-slate-800 flex items-center"><i class="fa-solid fa-landmark text-amber-600 mr-1.5"></i> 主要見どころ・ハイライト</div>
+          <p>● <strong>ギザ三大ピラミッド＆スフィンクス：</strong> クフ王玄室内部入場、カフラー王、河岸神殿の黒閃緑岩一枚岩遺構。</p>
+          <p>● <strong>大エジプト博物館（GEM）：</strong> ラムセス2世巨像、大階段、ツタンカーメンの黄金コレクション。</p>
+          <p>● <strong>サッカラ遺跡群：</strong> 最古の階段ピラミッドと、巨大地下巨石棺群「セラペウム」。</p>
+        </div>
+
+        <!-- おすすめレストラン＆カフェ -->
+        <div class="space-y-1 text-xs text-slate-700 leading-relaxed">
+          <div class="font-bold text-slate-800 flex items-center"><i class="fa-solid fa-utensils text-amber-600 mr-1.5"></i> おすすめレストラン ＆ カフェ</div>
+          <p>● <strong>Khufu's Restaurant：</strong> ギザ高原内。クフ王ピラミッド真正面の記念日ディナー。</p>
+          <p>● <strong>139 Pavilion（Marriott Mena House）：</strong> 歴史的宮殿の芝生庭園テラス。ピラミッドを望むカフェ＆ディナー（宿泊者以外も利用可能）。</p>
+          <p>● <strong>Koshari Abou Tarek：</strong> カイロ中心部。エジプト国民食コシャリの最高峰老舗店。</p>
+          <p>● <strong>Garden Promenade Cafe（カイロ・マリオット）：</strong> ザマレク地区。19世紀の王族宮殿の中庭テラスカフェ（宿泊者以外も利用可能）。</p>
+          <p>● <strong>Granita / Simo（ザマレク地区）：</strong> 全聖徒大聖堂内の隠れ家アンティークカフェ＆洗練ベーカリー。</p>
+        </div>
+
+        <!-- 9/18午前カフェ立ち寄りガイド -->
+        <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs space-y-1.5">
+          <div class="font-bold text-amber-950 flex items-center">
+            <i class="fa-solid fa-suitcase text-amber-600 mr-1.5"></i> 【9/18(金) 午前：スーツケース持参でのカフェ外来利用ガイド】
+          </div>
+          <p class="text-slate-700 leading-relaxed">
+            ・<strong>宿泊者以外も自由に入館可能：</strong> ホテル入口の警備員に「カフェ利用（For the cafe）」と伝えるだけで通れます。<br>
+            ・<strong>スーツケースの扱い：</strong> カイロの歩道は段差が激しいため、必ずUberでホテル・カフェの入口へ直行。マリオット等のベルデスクで荷物を預けるか、テラス席の足元に置けば快適に過ごせます。
+          </p>
+        </div>
+
+        <!-- 食事・名物グルメ（乳製品判定） -->
+        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1.5">
+          <div class="font-bold text-slate-800 flex items-center"><i class="fa-solid fa-bowl-rice text-amber-600 mr-1.5"></i> 名物グルメ ＆ 安心食事メモ（乳製品判定）</div>
+          <p><span class="text-emerald-700 font-bold">● コシャリ（Koshari）：</span> 米・パスタ・ひよこ豆・レンズ豆・トマトソース。完全乳製品ゼロで安心！</p>
+          <p><span class="text-emerald-700 font-bold">● シシカバブ / コフタ（炭火焼き肉）：</span> 塩・スパイス・ハーブのみで直火焼き。乳製品不使用。</p>
+          <p><span class="text-emerald-700 font-bold">● エイシュ（伝統パン）：</span> 小麦粉と水・酵母のみ。バター不使用。</p>
+        </div>
+
+        <!-- すきま時間カタログ -->
+        <div class="border-t border-slate-100 pt-3 space-y-2 text-xs">
+          <div class="font-bold text-amber-900 flex items-center"><i class="fa-solid fa-compass text-amber-600 mr-1.5"></i> すきま時間・Uber寄り道カタログ（Turquoise Pyramids起点）</div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px] leading-relaxed">
+            <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200">
+              <span class="font-bold text-slate-800 block text-xs mb-1">15〜30分（ホテル周辺）</span>
+              ・<strong>屋上テラス：</strong> ピラミッド夜景＆GEMライトアップ鑑賞<br>
+              ・<strong>地元ベーカリー：</strong> 焼きたてエイシュ（パン）散歩<br>
+              ・<strong>街角ジューススタンド：</strong> 生搾りサトウキビジュース（氷なし）
+            </div>
+            <div class="p-2.5 bg-amber-50 rounded-lg border border-amber-200">
+              <span class="font-bold text-amber-900 block text-xs mb-1">1〜2時間（Uber移動）</span>
+              ・<strong>ザマレク地区：</strong> 車20分。宮殿マリオット中庭カフェ、カイロタワー（展望台）、ナイル川沿い遊歩道散歩<br>
+              ・<strong>オールドカイロ（コプト地区）：</strong> 車20分。空中教会と聖セルギウス教会の静寂な石畳路地<br>
+              ・<strong>ムイズ通り＆ハン・ハリーリ：</strong> 車25分。中世イスラム建築とランプ小径探索
+            </div>
+            <div class="p-2.5 bg-orange-50 rounded-lg border border-orange-200">
+              <span class="font-bold text-orange-900 block text-xs mb-1">2〜3時間（しっかり観光）</span>
+              ・<strong>エジプト文明国立博物館（NMEC）：</strong> 車20分。歴代ファラオの本物ミイラ館（全館冷房完備）<br>
+              ・<strong>シタデル（モハメド・アリ・モスク）：</strong> 車30分。高台から市街とピラミッドを一望<br>
+              ・<strong>エジプト考古学博物館（タハリール広場旧館）：</strong> 車25分。クラシックな展示空間
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 白砂漠・黒砂漠 -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-4">
+        <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
+          <div class="flex items-center space-x-2.5">
+            <span class="text-2xl">🌌</span>
+            <div>
+              <h2 class="text-lg font-bold text-amber-900">2. 白砂漠 ＆ 黒砂漠</h2>
+              <p class="text-xs text-slate-500">滞在期間：9/16(水)〜9/17(木)</p>
+            </div>
+          </div>
+          <span class="px-2.5 py-1 bg-amber-500 text-white text-xs font-bold rounded-md whitespace-nowrap shrink-0">砂漠キャンプ泊</span>
+        </div>
+
+        <!-- 宿泊先 -->
+        <div class="p-3.5 bg-amber-50/70 rounded-xl border border-amber-200 text-xs space-y-1">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-amber-950 text-sm">白砂漠プライベートキャンプ（テント泊）</span>
+            <span class="bg-amber-600 text-white font-bold px-2.5 py-0.5 rounded text-[10px] shrink-0">ツアー手配込</span>
+          </div>
+          <p class="text-slate-600 leading-relaxed">
+            新白砂漠の奇岩に囲まれた完全プライベートキャンプ。大型スーツケースはギザのホテルに預け、1泊分のリュックで身軽に参加します。
+          </p>
+        </div>
+
+        <!-- 主要見どころ -->
+        <div class="space-y-1 text-xs text-slate-700 leading-relaxed">
+          <div class="font-bold text-slate-800 flex items-center"><i class="fa-solid fa-landmark text-amber-600 mr-1.5"></i> 主要見どころ・ハイライト</div>
+          <p>● <strong>黒砂漠 ＆ クリスタルマウンテン：</strong> 火山性玄武岩の黒い丘陵と天然の方解石クリスタル。</p>
+          <p>● <strong>新白砂漠（マッシュルーム岩・チキン岩）：</strong> 白亜の奇岩群が夕日に染まる感動的なサンセット。</p>
+          <p>● <strong>光害ゼロの天の川 ＆ 星空：</strong> 360度地平線まで広がる満天の星と天の川。</p>
+        </div>
+
+        <!-- おすすめレストラン＆カフェ -->
+        <div class="space-y-1 text-xs text-slate-700 leading-relaxed">
+          <div class="font-bold text-slate-800 flex items-center"><i class="fa-solid fa-utensils text-amber-600 mr-1.5"></i> おすすめレストラン ＆ カフェ</div>
+          <p>● <strong>ベドウィン焚き火BBQディナー（キャンプ地）：</strong> 満天の星の下、砂漠の焚き火で焼き上げる絶品チキン料理。</p>
+          <p>● <strong>バハレイヤ・オアシス現地ロッジ：</strong> 砂漠へ向かう中継地点での家庭的なエジプト家庭料理ブランチ。</p>
+        </div>
+
+        <!-- 食事・名物グルメ（乳製品判定） -->
+        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1.5">
+          <div class="font-bold text-slate-800 flex items-center"><i class="fa-solid fa-bowl-rice text-amber-600 mr-1.5"></i> 名物グルメ ＆ 安心食事メモ（乳製品判定）</div>
+          <p><span class="text-emerald-700 font-bold">● ベドウィンBBQチキン：</span> 炭火でじっくり焼くジューシーなチキン。乳製品ゼロ。</p>
+          <p><span class="text-emerald-700 font-bold">● 野菜とトマトの煮込みスープ：</span> オアシスの新鮮野菜を使った優しい味わい。乳製品不使用。</p>
+          <p><span class="text-emerald-700 font-bold">● ベドウィン・ミントティー：</span> 焚き火で淹れる甘く爽やかなハーブティー。</p>
+        </div>
+
+        <!-- すきま時間カタログ -->
+        <div class="border-t border-slate-100 pt-3 space-y-2 text-xs">
+          <div class="font-bold text-amber-900 flex items-center"><i class="fa-solid fa-compass text-amber-600 mr-1.5"></i> すきま時間・体験カタログ（砂漠滞在中）</div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px] leading-relaxed">
+            <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200">
+              <span class="font-bold text-slate-800 block text-xs mb-1">15〜30分</span>
+              ・奇岩の陰で夕暮れのグラデーション鑑賞<br>
+              ・砂漠の静寂の中でモーニングチャイ
+            </div>
+            <div class="p-2.5 bg-amber-50 rounded-lg border border-amber-200">
+              <span class="font-bold text-amber-900 block text-xs mb-1">1〜2時間</span>
+              ・<strong>一眼レフ星空撮影：</strong> 三脚を立てて天の川と奇岩の長時間露光撮影<br>
+              ・<strong>白砂漠サンライズ散歩：</strong> 朝日に輝く白い大地を散策
+            </div>
+            <div class="p-2.5 bg-orange-50 rounded-lg border border-orange-200">
+              <span class="font-bold text-orange-900 block text-xs mb-1">2〜3時間</span>
+              ・<strong>4WD砂漠デューンドライブ：</strong> 風紋が美しい砂丘地帯を駆け抜ける冒険
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. ルクソール -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-4">
+        <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
+          <div class="flex items-center space-x-2.5">
+            <span class="text-2xl">🏛️</span>
+            <div>
+              <h2 class="text-lg font-bold text-amber-900">3. ルクソール（古代首都テーベ）</h2>
+              <p class="text-xs text-slate-500">滞在期間：9/18(金)〜9/20(日)</p>
+            </div>
+          </div>
+          <span class="px-2.5 py-1 bg-amber-100 text-amber-800 text-xs font-bold rounded-md whitespace-nowrap shrink-0">ルクソール泊</span>
+        </div>
+
+        <!-- 宿泊先 -->
+        <div class="p-3.5 bg-amber-50/70 rounded-xl border border-amber-200 text-xs space-y-1">
+          <div class="flex items-center justify-between flex-wrap gap-1">
+            <span class="font-bold text-amber-950 text-sm">イベロテル ルクソール (Iberotel Luxor)</span>
+            <a href="https://www.booking.com/hotel/eg/iberotel-luxor.ja.html" target="_blank" rel="noopener noreferrer" class="bg-amber-600 text-white font-bold px-2.5 py-0.5 rounded text-[10px] hover:bg-amber-700 transition shrink-0">
+              宿泊先（確定・詳細） <i class="fa-solid fa-arrow-up-right-from-square ml-0.5"></i>
+            </a>
+          </div>
+          <p class="text-slate-600 leading-relaxed">
+            ナイル川の上に浮かぶ温水浮きプールと絶景テラスが最高の確定ホテル。ルクソール神殿まで徒歩8分と観光・散歩に抜群のロケーションです。
+          </p>
+        </div>
+
+        <!-- 主要見どころ -->
+        <div class="space-y-1 text-xs text-slate-700 leading-relaxed">
+          <div class="font-bold text-slate-800 flex items-center"><i class="fa-solid fa-landmark text-amber-600 mr-1.5"></i> 主要見どころ・ハイライト</div>
+          <p>● <strong>ルクソール神殿（昼と夜）：</strong> ライトアップの幻想美と、青空に映えるラムセス2世巨像の彫刻美。</p>
+          <p>● <strong>カルナック神殿：</strong> 134本の大列柱室に西日が差し込むドラマチックな斜光。</p>
+          <p>● <strong>王家の谷 ＆ ハトシェプスト女王葬祭殿：</strong> ツタンカーメン墓・ラムセス6世墓の極彩色の壁画。</p>
+          <p>● <strong>メムノンの巨像：</strong> アメンホテプ3世葬祭殿跡にそびえる2体の巨像（西岸移動時に写真ストップ）。</p>
+          <p>● <strong>ナイル川ファルーカセーリング：</strong> 事前手配の貸切帆船で黄金色に染まるサンセットを鑑賞。</p>
+        </div>
+
+        <!-- おすすめレストラン＆カフェ -->
+        <div class="space-y-1 text-xs text-slate-700 leading-relaxed">
+          <div class="font-bold text-slate-800 flex items-center"><i class="fa-solid fa-utensils text-amber-600 mr-1.5"></i> おすすめレストラン ＆ カフェ</div>
+          <p>● <strong>Al Sahaby Lane：</strong> ネフェルティティホテル屋上。神殿ライトアップを眺めながらのディナー。</p>
+          <p>● <strong>Sofra Restaurant：</strong> 1920年代の伝統邸宅を改装したルクソール最高峰のエジプト料理店。</p>
+        </div>
+
+        <!-- 食事・名物グルメ（乳製品判定） -->
+        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1.5">
+          <div class="font-bold text-slate-800 flex items-center"><i class="fa-solid fa-bowl-rice text-amber-600 mr-1.5"></i> 名物グルメ ＆ 安心食事メモ（乳製品判定）</div>
+          <p><span class="text-emerald-700 font-bold">● ラクダ肉ステーキ / タジン（Al Sahaby Lane）：</span> 牛肉に近い赤身でヘルシー。乳製品ゼロ。</p>
+          <p><span class="text-emerald-700 font-bold">● 炭火焼きラムチョップ（Sofra）：</span> 香ばしいハーブ焼き。乳製品不使用。</p>
+          <p><span class="text-emerald-700 font-bold">● カルカデ（ハイビスカスティー）：</span> ルクソール名産の上質ハーブティー。ビタミン豊富で疲労回復に抜群。</p>
+        </div>
+
+        <!-- すきま時間カタログ -->
+        <div class="border-t border-slate-100 pt-3 space-y-2 text-xs">
+          <div class="font-bold text-amber-900 flex items-center"><i class="fa-solid fa-compass text-amber-600 mr-1.5"></i> すきま時間・深掘り遺跡カタログ（イベロテル起点）</div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px] leading-relaxed">
+            <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200">
+              <span class="font-bold text-slate-800 block text-xs mb-1">15〜30分（ホテル直結）</span>
+              ・浮きプールテラスからの野鳥観察（ヒメカワセミ等）<br>
+              ・ナイル川プロムナードの夕暮れ散歩<br>
+              ・<strong>メムノンの巨像：</strong> 西岸移動時に車窓＆写真撮影
+            </div>
+            <div class="p-2.5 bg-amber-50 rounded-lg border border-amber-200">
+              <span class="font-bold text-amber-900 block text-xs mb-1">1〜2時間（近郊・穴場遺跡）</span>
+              ・<strong>ルクソール博物館：</strong> 車5分。冷房完備・厳選展示と上品な照明<br>
+              ・<strong>東岸スーク：</strong> 徒歩10分。上質カルカデ（ハイビスカス茶）量り売り購入<br>
+              ・<strong>ディール・エル・メディナ（職人の村）：</strong> 西岸。生活感と極彩色の壁画が美しい穴場墓群
+            </div>
+            <div class="p-2.5 bg-orange-50 rounded-lg border border-orange-200">
+              <span class="font-bold text-orange-900 block text-xs mb-1">2〜3時間（遺跡深掘り）</span>
+              ・<strong>メディネト・ハブ：</strong> 鮮やかな色彩が残るラムセス3世葬祭殿<br>
+              ・<strong>王妃の谷（ネフェルタリ墓）：</strong> 世界一美しい壁画（※高額チケット制）<br>
+              ・<strong>カルナック神殿：</strong> 聖なる池の巨大スカラベ（フンコロガシ）像巡り
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. ヘリオポリス -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-4">
+        <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
+          <div class="flex items-center space-x-2.5">
+            <span class="text-2xl">✈️</span>
+            <div>
+              <h2 class="text-lg font-bold text-emerald-900">4. ヘリオポリス（カイロ空港近郊）</h2>
+              <p class="text-xs text-slate-500">滞在期間：9/20(日)〜9/21(月) エジプト最終夜</p>
+            </div>
+          </div>
+          <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 text-xs font-bold rounded-md whitespace-nowrap shrink-0">空港至近泊</span>
+        </div>
+
+        <!-- 宿泊先 -->
+        <div class="p-3.5 bg-emerald-50/70 rounded-xl border border-emerald-200 text-xs space-y-1">
+          <div class="flex items-center justify-between flex-wrap gap-1">
+            <span class="font-bold text-emerald-950 text-sm">Ocean Blue Studios</span>
+            <a href="https://www.booking.com/hotel/eg/ocean-blue-studios.ja.html" target="_blank" rel="noopener noreferrer" class="bg-emerald-600 text-white font-bold px-2.5 py-0.5 rounded text-[10px] hover:bg-emerald-700 transition shrink-0">
+              宿泊先（確定・詳細） <i class="fa-solid fa-arrow-up-right-from-square ml-0.5"></i>
+            </a>
+          </div>
+          <p class="text-slate-600 leading-relaxed">
+            カイロ国際空港から車で約10分の好立地。翌朝のアテネ便フライト（10:10発）に備え、カイロ名物の猛烈な通勤渋滞を完全に回避できます。
+          </p>
+        </div>
+
+        <!-- 主要見どころ -->
+        <div class="space-y-1 text-xs text-slate-700 leading-relaxed">
+          <div class="font-bold text-slate-800 flex items-center"><i class="fa-solid fa-landmark text-emerald-600 mr-1.5"></i> 主要見どころ・ハイライト</div>
+          <p>● <strong>コルバ（Korba）歴史地区：</strong> ベルギーのアンパン男爵が設計した美しいヘリオポリス様式のアーケード街。</p>
+          <p>● <strong>バロン宮殿（Baron Empain Palace）：</strong> ヒンドゥー寺院様式の奇想建築（外観ライトアップ鑑賞）。</p>
+        </div>
+
+        <!-- おすすめレストラン＆カフェ -->
+        <div class="space-y-1 text-xs text-slate-700 leading-relaxed">
+          <div class="font-bold text-slate-800 flex items-center"><i class="fa-solid fa-utensils text-emerald-600 mr-1.5"></i> おすすめレストラン ＆ カフェ</div>
+          <p>● <strong>コルバ地区のテラスカフェ群：</strong> 落ち着いたヨーロッパ風アーケード街でエジプト最後の夜のティータイム。</p>
+          <p>● <strong>Le Chantilly：</strong> コルバ地区にある老舗スイス風カフェレストラン。</p>
+        </div>
+
+        <!-- 食事・名物グルメ（乳製品判定） -->
+        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1.5">
+          <div class="font-bold text-slate-800 flex items-center"><i class="fa-solid fa-bowl-rice text-emerald-600 mr-1.5"></i> 名物グルメ ＆ 安心食事メモ（乳製品判定）</div>
+          <p><span class="text-emerald-700 font-bold">● 洗練された中東グリル料理：</span> コルバ地区の上品なレストランで味わう炭火焼き。乳製品不使用メニュー多数。</p>
+          <p><span class="text-emerald-700 font-bold">● エジプト産デーツ（ナツメヤシ）：</span> お土産用の高級デーツ菓子（プレーンタイプは完全乳製品ゼロ）。</p>
+        </div>
+
+        <!-- すきま時間カタログ -->
+        <div class="border-t border-slate-100 pt-3 space-y-2 text-xs">
+          <div class="font-bold text-emerald-900 flex items-center"><i class="fa-solid fa-compass text-emerald-600 mr-1.5"></i> すきま時間・寄り道カタログ（Ocean Blue Studios起点）</div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px] leading-relaxed">
+            <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200">
+              <span class="font-bold text-slate-800 block text-xs mb-1">15〜30分</span>
+              ・<strong>バロン宮殿外観ライトアップ：</strong> 車8分。夜間の奇想建築鑑賞<br>
+              ・お部屋で翌朝フライト準備・休憩
+            </div>
+            <div class="p-2.5 bg-emerald-50 rounded-lg border border-emerald-200">
+              <span class="font-bold text-emerald-900 block text-xs mb-1">1〜2時間</span>
+              ・<strong>コルバ地区散策＆カフェ：</strong> 車10分。アーケード街散歩<br>
+              ・<strong>カイロ・フェスティバル・シティ：</strong> 車15分。スーパーでお土産買い出し
+            </div>
+            <div class="p-2.5 bg-teal-50 rounded-lg border border-teal-200">
+              <span class="font-bold text-teal-900 block text-xs mb-1">2〜3時間</span>
+              ・ヘリオポリスのホテル内スパ＆優雅なディナー
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. アテネ -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-4">
+        <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
+          <div class="flex items-center space-x-2.5">
+            <span class="text-2xl">🏛️</span>
+            <div>
+              <h2 class="text-lg font-bold text-sky-900">5. アテネ（ギリシャ首都）</h2>
+              <p class="text-xs text-slate-500">滞在期間：9/21(月)〜9/22(火) ＆ 9/25(金)〜9/26(土)</p>
+            </div>
+          </div>
+          <span class="px-2.5 py-1 bg-sky-100 text-sky-800 text-xs font-bold rounded-md whitespace-nowrap shrink-0">アテネ泊</span>
+        </div>
+
+        <!-- 宿泊先 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+          <div class="p-3 bg-sky-50 rounded-xl border border-sky-200">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-bold text-sky-950">Galleria Romvis</span>
+              <a href="https://www.booking.com/Share-PrtGSO" target="_blank" rel="noopener noreferrer" class="bg-sky-700 text-white font-bold px-2 py-0.5 rounded text-[10px] hover:bg-sky-800 transition shrink-0">詳細 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            </div>
+            <p class="text-slate-600 text-[11px] leading-relaxed">アテネ1泊目 (9/21)。モナスティラキ広場・プラカ地区徒歩圏内のスタイリッシュホテル。</p>
+          </div>
+          <div class="p-3 bg-sky-50 rounded-xl border border-sky-200">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-bold text-sky-950">Atelier apartment</span>
+              <a href="https://www.booking.com/Share-4bUsxZ" target="_blank" rel="noopener noreferrer" class="bg-sky-700 text-white font-bold px-2 py-0.5 rounded text-[10px] hover:bg-sky-800 transition shrink-0">詳細 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            </div>
+            <p class="text-slate-600 text-[11px] leading-relaxed">アテネ2泊目 (9/25)。中心街のアパートメント。最終日のお土産買い出しに最適。</p>
+          </div>
+        </div>
+
+        <!-- 主要見どころ -->
+        <div class="space-y-1 text-xs text-slate-700 leading-relaxed">
+          <div class="font-bold text-slate-800 flex items-center"><i class="fa-solid fa-landmark text-sky-600 mr-1.5"></i> 主要見どころ・ハイライト</div>
+          <p>● <strong>アクロポリス（パルテノン神殿）：</strong> 人間の錯視を計算した古代建築の最高峰（朝08:00入場）。</p>
+          <p>● <strong>プラカ地区 ＆ モナスティラキ広場：</strong> 古代遺跡と石畳の小径が広がる歴史地区。</p>
+          <p>● <strong>アレオパゴスの丘：</strong> 夕暮れ時にパルテノン神殿とアテネ市街を一望する大岩の丘。</p>
+        </div>
+
+        <!-- おすすめレストラン＆カフェ＆バー -->
+        <div class="space-y-1 text-xs text-slate-700 leading-relaxed">
+          <div class="font-bold text-slate-800 flex items-center"><i class="fa-solid fa-utensils text-sky-600 mr-1.5"></i> おすすめレストラン ＆ カフェ ＆ バー</div>
+          <p>● <strong>A for Athens：</strong> モナスティラキ広場。ライトアップされたパルテノン神殿を真正面に望むルーフトップバー。</p>
+          <p>● <strong>O Thanasis（モナスティラキ）：</strong> 本場スブラキ＆ケバブの超人気タベルナ。</p>
+          <p>● <strong>carpo（コロナキ地区等）：</strong> 高級ナッツ、ドライフルーツ、チョコレートの銘店（お土産に最適）。</p>
+          <p>● <strong>Yiasemi（プラカ地区）：</strong> 階段沿いにテラス席が並ぶ絵画のような人気カフェ。</p>
+        </div>
+
+        <!-- 食事・名物グルメ（乳製品判定） -->
+        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1.5">
+          <div class="font-bold text-slate-800 flex items-center"><i class="fa-solid fa-bowl-rice text-sky-600 mr-1.5"></i> 名物グルメ ＆ 安心食事メモ（乳製品判定）</div>
+          <p><span class="text-emerald-700 font-bold">● スブラキ（肉の串焼き）：</span> 豚・鶏肉の直火焼き。塩・レモン・オレガノ味付けで乳製品ゼロ！</p>
+          <p><span class="text-emerald-700 font-bold">● カラマリ・ティガニタ（イカのフリット）：</span> オリーブオイルで揚げるイカフライ。乳製品不使用。</p>
+          <p><span class="text-emerald-700 font-bold">● ギリシャ風サラダ（ホリアティキ）：</span> 「フェタチーズ抜き（Χωρίς τυρί）」で注文すれば完全乳製品ゼロ。</p>
+        </div>
+
+        <!-- すきま時間カタログ -->
+        <div class="border-t border-slate-100 pt-3 space-y-2 text-xs">
+          <div class="font-bold text-sky-900 flex items-center"><i class="fa-solid fa-compass text-sky-600 mr-1.5"></i> すきま時間・寄り道カタログ（アテネ中心部起点）</div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px] leading-relaxed">
+            <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200">
+              <span class="font-bold text-slate-800 block text-xs mb-1">15〜30分（徒歩圏内）</span>
+              ・<strong>シンタグマ広場の衛兵交代式：</strong> 徒歩10分。毎正時の儀式<br>
+              ・<strong>アレオパゴスの丘：</strong> 徒歩15分。パルテノン夕景展望
+            </div>
+            <div class="p-2.5 bg-sky-50 rounded-lg border border-sky-200">
+              <span class="font-bold text-sky-900 block text-xs mb-1">1〜2時間（街歩き＆買物）</span>
+              ・<strong>アナフィオティカ地区：</strong> 徒歩15分。アクロポリス崖下の白い島のような猫路地<br>
+              ・<strong>carpoでお土産選び：</strong> 徒歩5〜10分
+            </div>
+            <div class="p-2.5 bg-cyan-50 rounded-lg border border-cyan-200">
+              <span class="font-bold text-cyan-900 block text-xs mb-1">2〜3時間（絶景体験）</span>
+              ・<strong>リカヴィトスの丘：</strong> タクシー10分＋ケーブルカー。360度の大パノラマ夜景<br>
+              ・<strong>新アクロポリス博物館：</strong> 徒歩15分。遺跡が見えるガラス床
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. サントリーニ島 -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-4">
+        <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
+          <div class="flex items-center space-x-2.5">
+            <span class="text-2xl">🌊</span>
+            <div>
+              <h2 class="text-lg font-bold text-cyan-900">6. サントリーニ島（エーゲ海リゾート）</h2>
+              <p class="text-xs text-slate-500">滞在期間：9/22(火)〜9/25(金)</p>
+            </div>
+          </div>
+          <span class="px-2.5 py-1 bg-cyan-100 text-cyan-800 text-xs font-bold rounded-md whitespace-nowrap shrink-0">サントリーニ連泊</span>
+        </div>
+
+        <!-- 宿泊先 -->
+        <div class="p-3.5 bg-cyan-50/70 rounded-xl border border-cyan-200 text-xs space-y-1">
+          <div class="flex items-center justify-between flex-wrap gap-1">
+            <span class="font-bold text-cyan-950 text-sm">Andronikos Canaves（イメロヴィグリ）</span>
+            <a href="https://www.booking.com/Share-6WlNoJ7b" target="_blank" rel="noopener noreferrer" class="bg-cyan-700 text-white font-bold px-2.5 py-0.5 rounded text-[10px] hover:bg-cyan-800 transition shrink-0">
+              宿泊先（確定・詳細） <i class="fa-solid fa-arrow-up-right-from-square ml-0.5"></i>
+            </a>
+          </div>
+          <p class="text-slate-600 leading-relaxed">
+            サントリーニ島で最も標高が高く静かなイメロヴィグリに位置するカルデラ絶景ラグジュアリーホテル。部屋の専用テラスやジャグジーからエーゲ海の夕日を一望できます。
+          </p>
+        </div>
+
+        <!-- 主要見どころ -->
+        <div class="space-y-1 text-xs text-slate-700 leading-relaxed">
+          <div class="font-bold text-slate-800 flex items-center"><i class="fa-solid fa-landmark text-cyan-600 mr-1.5"></i> 主要見どころ・ハイライト</div>
+          <p>● <strong>サントリーニ・ブライダルフォト撮影：</strong> 青いドームと白い街並み、カルデラを背景にした一生の記念写真。</p>
+          <p>● <strong>イア（Oia）の街並み ＆ イア城塞サンセット：</strong> 世界一と称されるエーゲ海の夕暮れ。</p>
+          <p>● <strong>イメロヴィグリのカルデラ展望：</strong> 観光客の喧騒から離れた至高のリゾート景観。</p>
+        </div>
+
+        <!-- おすすめレストラン＆カフェ＆バー -->
+        <div class="space-y-1 text-xs text-slate-700 leading-relaxed">
+          <div class="font-bold text-slate-800 flex items-center"><i class="fa-solid fa-utensils text-cyan-600 mr-1.5"></i> おすすめレストラン ＆ カフェ ＆ バー</div>
+          <p>● <strong>The Athenian House（イメロヴィグリ）：</strong> 夕日を望むハネムーン最高峰ディナー（カルデラ絶景席）。</p>
+          <p>● <strong>PK Cocktail Bar（フィラ）：</strong> カルデラと夕日を見下ろす3層テラスの絶景カクテルラウンジ。</p>
+          <p>● <strong>Santo Wines（ピルゴス近郊）：</strong> 断崖絶壁のテラスで名産白ワインのテイスティング。</p>
+          <p>● <strong>Atlantis Books（イア）：</strong> 世界で最も美しいと言われる洞窟ブックショップ。</p>
+        </div>
+
+        <!-- 食事・名物グルメ（乳製品判定） -->
+        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1.5">
+          <div class="font-bold text-slate-800 flex items-center"><i class="fa-solid fa-bowl-rice text-cyan-600 mr-1.5"></i> 名物グルメ ＆ 安心食事メモ（乳製品判定）</div>
+          <p><span class="text-emerald-700 font-bold">● アシルティコ白ワイン（Assyrtiko）：</span> 火山灰土壌が生むミネラル豊富でキリッとした最高峰ワイン。</p>
+          <p><span class="text-emerald-700 font-bold">● グリルシーフード（タコ・スズキ・エビ）：</span> オリーブオイルとレモンのみ。乳製品ゼロで絶品。</p>
+          <p><span class="text-emerald-700 font-bold">● ファヴァ（Fava）：</span> 黄えんどう豆のペーストにオリーブオイルと玉ねぎ。完全乳製品不使用。</p>
+          <p><span class="text-emerald-700 font-bold">● ドマトケフテデス（トマトフリッター）：</span> サントリーニ特産小粒トマトの揚げ物（※チーズが入っていないか確認）。</p>
+        </div>
+
+        <!-- すきま時間カタログ -->
+        <div class="border-t border-slate-100 pt-3 space-y-2 text-xs">
+          <div class="font-bold text-cyan-900 flex items-center"><i class="fa-solid fa-compass text-cyan-600 mr-1.5"></i> すきま時間・寄り道カタログ（Andronikos Canaves起点）</div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px] leading-relaxed">
+            <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200">
+              <span class="font-bold text-slate-800 block text-xs mb-1">15〜30分（ホテル周辺）</span>
+              ・イメロヴィグリのブルードーム脇ベンチでぼんやり（徒歩3分）<br>
+              ・地元ベーカリーで伝統菓子バクラヴァ購入
+            </div>
+            <div class="p-2.5 bg-cyan-50 rounded-lg border border-cyan-200">
+              <span class="font-bold text-cyan-900 block text-xs mb-1">1〜2時間（絶景散歩）</span>
+              ・<strong>スカロス・ロック手前散歩：</strong> ホテル直結の断崖絶壁パノラマトレイル<br>
+              ・<strong>Atlantis Books立ち寄り：</strong> イア散策時
+            </div>
+            <div class="p-2.5 bg-sky-50 rounded-lg border border-sky-200">
+              <span class="font-bold text-sky-900 block text-xs mb-1">2〜3時間（ドライブ＆ワイン）</span>
+              ・<strong>サントワインズ：</strong> 車20分。断崖の絶景ワイナリーテラス<br>
+              ・<strong>中世の村ピルゴス：</strong> 車20分。静かな迷路のような路地と城塞
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== TAB 3: お土産 ＆ 為替・相場・相手別チェッカー ==================== -->
+    <section id="tab-souvenir" class="tab-content space-y-5">
+      
+      <!-- リアルタイム為替計算ツール -->
+      <div class="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-4 sm:p-5 shadow-xs space-y-3">
+        <div class="flex items-center space-x-2 border-b border-amber-200 pb-2">
+          <i class="fa-solid fa-calculator text-amber-600 text-lg"></i>
+          <div>
+            <h2 class="font-bold text-amber-950 text-sm sm:text-base">リアルタイム為替・日本円換算電卓</h2>
+            <p class="text-[11px] text-amber-800">現地通貨の数字を入力すると自動で日本円の目安が計算されます</p>
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+          <div class="bg-white p-3 rounded-xl border border-amber-200 shadow-xs space-y-1.5">
+            <span class="font-bold text-slate-800 block">🇪🇬 エジプトポンド (EGP)</span>
+            <div class="flex items-center space-x-2">
+              <input type="number" id="calc-egp" placeholder="例: 100" class="w-full p-2 border border-slate-300 rounded-lg text-sm font-bold bg-slate-50 focus:bg-white focus:border-amber-500 outline-hidden">
+              <span class="text-xs font-bold text-slate-500 shrink-0">EGP</span>
+            </div>
+            <div class="text-right text-xs font-bold text-amber-900 pt-1">
+              ≒ <span id="res-egp" class="text-sm font-bold text-amber-600">0</span> 円 <span class="text-[10px] text-slate-400">(1 EGP ≈ 3.1円)</span>
+            </div>
+          </div>
+
+          <div class="bg-white p-3 rounded-xl border border-sky-200 shadow-xs space-y-1.5">
+            <span class="font-bold text-slate-800 block">🇬🇷 ユーロ (EUR)</span>
+            <div class="flex items-center space-x-2">
+              <input type="number" id="calc-eur" placeholder="例: 50" class="w-full p-2 border border-slate-300 rounded-lg text-sm font-bold bg-slate-50 focus:bg-white focus:border-sky-500 outline-hidden">
+              <span class="text-xs font-bold text-slate-500 shrink-0">€</span>
+            </div>
+            <div class="text-right text-xs font-bold text-sky-900 pt-1">
+              ≒ <span id="res-eur" class="text-sm font-bold text-sky-600">0</span> 円 <span class="text-[10px] text-slate-400">(1 € ≈ 163円)</span>
+            </div>
+          </div>
+
+          <div class="bg-white p-3 rounded-xl border border-indigo-200 shadow-xs space-y-1.5">
+            <span class="font-bold text-slate-800 block">💵 米ドル (USD)</span>
+            <div class="flex items-center space-x-2">
+              <input type="number" id="calc-usd" placeholder="例: 25" class="w-full p-2 border border-slate-300 rounded-lg text-sm font-bold bg-slate-50 focus:bg-white focus:border-indigo-500 outline-hidden">
+              <span class="text-xs font-bold text-slate-500 shrink-0">$</span>
+            </div>
+            <div class="text-right text-xs font-bold text-indigo-900 pt-1">
+              ≒ <span id="res-usd" class="text-sm font-bold text-indigo-600">0</span> 円 <span class="text-[10px] text-slate-400">(1 $ ≈ 152円)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ぼったくり防止！適正相場表 -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-3">
+        <div class="flex items-center space-x-2 border-b border-slate-100 pb-2">
+          <i class="fa-solid fa-scale-balanced text-amber-600 text-lg"></i>
+          <div>
+            <h2 class="font-bold text-slate-800 text-sm sm:text-base">ぼったくり防止！エジプト＆ギリシャ 適正相場一覧表</h2>
+            <p class="text-xs text-slate-500">提示額が相場より大幅に高い場合は笑顔で交渉または辞退しましょう</p>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left text-slate-700 border border-slate-200 rounded-lg">
+            <thead class="bg-slate-100 text-slate-800 font-bold">
+              <tr>
+                <th class="p-2 border-b whitespace-nowrap">品目・サービス</th>
+                <th class="p-2 border-b">🇪🇬 エジプト適正相場</th>
+                <th class="p-2 border-b">🇬🇷 ギリシャ適正相場</th>
+                <th class="p-2 border-b">注意点・備考</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 leading-relaxed">
+              <tr>
+                <td class="p-2 font-bold whitespace-nowrap">ミネラルウォーター (500ml)</td>
+                <td class="p-2">10〜20 EGP (約30〜60円)</td>
+                <td class="p-2">0.50〜1.00 € (約80〜160円)</td>
+                <td class="p-2">エジプトの観光地・遺跡内では50EGPと言われることも。スーパー購入推奨。</td>
+              </tr>
+              <tr>
+                <td class="p-2 font-bold whitespace-nowrap">生搾りサトウキビ/オレンジジュース</td>
+                <td class="p-2">20〜40 EGP</td>
+                <td class="p-2">3〜5 €</td>
+                <td class="p-2">エジプトでは「氷なし（Without ice）」で注文必須。</td>
+              </tr>
+              <tr>
+                <td class="p-2 font-bold whitespace-nowrap">Uber (10〜15分移動)</td>
+                <td class="p-2">50〜100 EGP</td>
+                <td class="p-2">10〜15 € (タクシー)</td>
+                <td class="p-2">エジプトはUber一択。流しの白タクシーはメーター不使用多し。</td>
+              </tr>
+              <tr>
+                <td class="p-2 font-bold whitespace-nowrap">コシャリ（大衆店）</td>
+                <td class="p-2">40〜80 EGP</td>
+                <td class="p-2">—</td>
+                <td class="p-2">Abou Tarek等では1杯で満腹。清潔で美味しい。</td>
+              </tr>
+              <tr>
+                <td class="p-2 font-bold whitespace-nowrap">スブラキ・ピタサンド</td>
+                <td class="p-2">—</td>
+                <td class="p-2">3.5〜4.5 €</td>
+                <td class="p-2">テイクアウト（Wrap）がお得でボリューム満点。</td>
+              </tr>
+              <tr>
+                <td class="p-2 font-bold whitespace-nowrap">香油瓶（手吹きガラス・小）</td>
+                <td class="p-2">50〜100 EGP / 個</td>
+                <td class="p-2">—</td>
+                <td class="p-2">最初は1個300〜500EGPと言われます。3〜5個まとめ買いで交渉。</td>
+              </tr>
+              <tr>
+                <td class="p-2 font-bold whitespace-nowrap">カルカデ茶葉（ルクソール産100g）</td>
+                <td class="p-2">50〜80 EGP</td>
+                <td class="p-2">—</td>
+                <td class="p-2">色の濃い丸ごと乾燥タイプが高品質。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- おすすめお土産カタログ -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-4">
+        <div class="flex items-center space-x-2 border-b border-slate-100 pb-2">
+          <i class="fa-solid fa-gift text-amber-600 text-lg"></i>
+          <div>
+            <h2 class="font-bold text-slate-800 text-sm sm:text-base">おすすめ厳選お土産カタログ</h2>
+            <p class="text-xs text-slate-500">エジプト＆ギリシャで絶対手に入れたい名産品</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <!-- エジプト名産 -->
+          <div class="p-3.5 bg-amber-50/70 rounded-xl border border-amber-200 space-y-2">
+            <span class="font-bold text-amber-950 text-sm flex items-center">
+              <span class="mr-1.5">🐫</span> 🇪🇬 エジプトの厳選お土産
+            </span>
+            <ul class="space-y-1.5 text-slate-700 leading-relaxed">
+              <li>● <strong>ルクソール産カルカデ（ハイビスカスティー）：</strong> 丸ごと乾燥させた最高品質の花びら。ビタミン豊富で絶品。</li>
+              <li>● <strong>手吹きガラス香水瓶：</strong> 金彩が施された繊細な小瓶。割れないよう衣類に包んで持ち帰り。</li>
+              <li>● <strong>チョコがけデーツ（ナツメヤシ）：</strong> アーモンドやチョコでコーティングされた高級デーツ菓子。</li>
+              <li>● <strong>ヒエログリフ刻印シルバー（カルトゥーシュ）：</strong> 自分やパートナーの名前を古代文字で刻印する一生の記念。</li>
+            </ul>
+          </div>
+
+          <!-- ギリシャ名産 -->
+          <div class="p-3.5 bg-sky-50/70 rounded-xl border border-sky-200 space-y-2">
+            <span class="font-bold text-sky-950 text-sm flex items-center">
+              <span class="mr-1.5">🏛️</span> 🇬🇷 ギリシャの厳選お土産
+            </span>
+            <ul class="space-y-1.5 text-slate-700 leading-relaxed">
+              <li>● <strong>carpoの高級ナッツ・チョコ（アテネ）：</strong> 焙煎ナッツと濃厚チョコの詰め合わせ。職場・友人への配り土産に最高。</li>
+              <li>● <strong>サントリーニ産 アシルティコ白ワイン：</strong> 火山灰土壌が生むキリッとした辛口白ワイン（割れ物包装で受託手荷物へ）。</li>
+              <li>● <strong>エキストラバージンオリーブオイル：</strong> 酸度0.2%以下の最高級オイル（缶入りが漏れにくく持ち帰り安心）。</li>
+              <li>● <strong>天然海綿スポンジ ＆ KORRESコスメ：</strong> エーゲ海の天然スポンジやギリシャ発のナチュラルオーガニックコスメ。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 渡す相手別 お土産買い忘れチェッカー ＆ カスタム追加 -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+          <div class="flex items-center space-x-2">
+            <i class="fa-solid fa-boxes-packing text-emerald-600 text-lg"></i>
+            <div>
+              <h2 class="font-bold text-slate-800 text-sm sm:text-base">渡す相手別 お土産チェッカー ＆ 自由メモ</h2>
+              <p class="text-xs text-slate-500">買い忘れ防止用チェックリスト（ブラウザに自動保存）</p>
+            </div>
+          </div>
+          <span id="souvenir-count" class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">0 / 4 完了</span>
+        </div>
+
+        <div class="space-y-3 text-xs sm:text-sm" id="souvenir-list-container">
+          <label class="souvenir-item flex items-start space-x-2.5 p-2.5 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+            <input type="checkbox" class="souvenir-check mt-0.5 rounded text-emerald-600 w-4 h-4" data-id="souv-parents">
+            <div>
+              <span class="souvenir-text font-bold text-slate-800">両親・家族用</span>
+              <p class="text-xs text-slate-500 mt-0.5">最高級オリーブオイル、アシルティコ白ワイン、上質カルカデ茶葉、高級デーツ</p>
+            </div>
+          </label>
+
+          <label class="souvenir-item flex items-start space-x-2.5 p-2.5 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+            <input type="checkbox" class="souvenir-check mt-0.5 rounded text-emerald-600 w-4 h-4" data-id="souv-work">
+            <div>
+              <span class="souvenir-text font-bold text-slate-800">職場・上司・同僚用（個包装・配り用）</span>
+              <p class="text-xs text-slate-500 mt-0.5">carpoの個別包装ナッツ・チョコ、ギリシャ伝統焼き菓子、個包装デーツチョコ</p>
+            </div>
+          </label>
+
+          <label class="souvenir-item flex items-start space-x-2.5 p-2.5 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+            <input type="checkbox" class="souvenir-check mt-0.5 rounded text-emerald-600 w-4 h-4" data-id="souv-friends">
+            <div>
+              <span class="souvenir-text font-bold text-slate-800">友人・お世話になった人用</span>
+              <p class="text-xs text-slate-500 mt-0.5">手吹きガラス香水瓶、KORRESハンドクリーム・リップ、ギリシャハーブティー</p>
+            </div>
+          </label>
+
+          <label class="souvenir-item flex items-start space-x-2.5 p-2.5 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+            <input type="checkbox" class="souvenir-check mt-0.5 rounded text-emerald-600 w-4 h-4" data-id="souv-couple">
+            <div>
+              <span class="souvenir-text font-bold text-slate-800">夫婦ふたりの新婚旅行記念用</span>
+              <p class="text-xs text-slate-500 mt-0.5">ヒエログリフ刻印シルバーカルトゥーシュ、パピルス画、サントリーニ絵画・陶器</p>
+            </div>
+          </label>
+        </div>
+
+        <!-- カスタムお土産追加フォーム -->
+        <div class="pt-3 border-t border-slate-100 flex gap-2">
+          <input type="text" id="custom-souvenir-input" placeholder="お土産メモを追加 (例: 〇〇さん用ワイン 1本)" class="flex-1 p-2 border border-slate-300 rounded-lg text-xs outline-hidden focus:border-emerald-500">
+          <button onclick="addCustomSouvenir()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-2 rounded-lg text-xs transition shrink-0">
+            <i class="fa-solid fa-plus mr-1"></i> 追加
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== TAB 4: 歴史・学術・事前学習 ==================== -->
+    <section id="tab-history" class="tab-content space-y-5">
+      
+      <div class="bg-gradient-to-r from-amber-600 via-orange-600 to-sky-700 rounded-2xl p-4 sm:p-5 text-white shadow-xs">
+        <div class="flex items-center space-x-2.5">
+          <span class="text-2xl">📜</span>
+          <div>
+            <h2 class="font-bold text-base sm:text-lg">古代エジプト ＆ 古代ギリシャの学術・文化完全解説</h2>
+            <p class="text-xs text-amber-100">神話・ファラオ・建築工学・死生観から旅の景色を10倍楽しむ</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 事前学習ガイド（映画・YouTube・書籍） -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-3">
+        <div class="flex items-center space-x-2 border-b border-slate-100 pb-2">
+          <i class="fa-solid fa-film text-indigo-600 text-lg"></i>
+          <div>
+            <h2 class="font-bold text-slate-800 text-sm sm:text-base">出発前＆フライト中に観るべき！事前学習・エンタメガイド</h2>
+            <p class="text-xs text-slate-500">旅程の舞台がそのまま登場するおすすめ作品</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs text-slate-700 leading-relaxed">
+          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+            <strong class="text-slate-900 block font-bold mb-1"><i class="fa-solid fa-clapperboard text-indigo-600 mr-1"></i> おすすめ映画</strong>
+            ・<strong>『ナイル殺人事件』(2022/1978)：</strong> ピラミッド、カルナック神殿、アブシンベルが舞台の極上ミステリー。<br>
+            ・<strong>『ハムナプトラ』(1999)：</strong> 古代エジプトのワクワク感を高める冒険大作。<br>
+            ・<strong>『マンマ・ミーア！』：</strong> ギリシャの青い海と白い街並みを堪能。
+          </div>
+          <div class="p-3 bg-amber-50 rounded-xl border border-amber-200">
+            <strong class="text-amber-950 block font-bold mb-1"><i class="fa-brands fa-youtube text-red-600 mr-1"></i> おすすめYouTube講義</strong>
+            ・<strong>河江肖剰の古代エジプト研究所：</strong> エジプト考古学者・河江先生による最新ピラミッド・GEMの超リアル解説。<br>
+            ・<strong>中田敦彦のYouTube大学（エジプト神話・ギリシャ神話）：</strong> 神々の相関図を楽しく予習。
+          </div>
+          <div class="p-3 bg-sky-50 rounded-xl border border-sky-200">
+            <strong class="text-sky-950 block font-bold mb-1"><i class="fa-solid fa-book-open text-sky-600 mr-1"></i> おすすめ書籍・漫画</strong>
+            ・<strong>『古代エジプトの教科書』：</strong> 図解でわかる生活と信仰。<br>
+            ・<strong>『ギリシア神話を知っていますか』(阿刀田高)：</strong> ユーモアたっぷりに読める名著入門書。<br>
+            ・<strong>『ヒストリエ』(岩明均)：</strong> 古代ギリシャの世界観を体感。
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SECTION 1: 古代エジプト深掘り ==================== -->
+      <div class="bg-amber-900 text-white px-3.5 py-1.5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-between shadow-xs">
+        <span class="flex items-center"><span class="text-lg mr-1.5">🐫</span> 第1部：古代エジプトの神々・ファラオ・死生観</span>
+        <span class="text-[10px] bg-amber-700/80 px-2 py-0.5 rounded text-amber-200">カイロ・ギザ・ルクソール</span>
+      </div>
+
+      <!-- 1. 主要エジプト神 6選 キャラ・持ち物図鑑 -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-3">
+        <div class="flex items-center space-x-2 border-b border-slate-100 pb-2">
+          <i class="fa-solid fa-masks-theater text-amber-600 text-lg"></i>
+          <div>
+            <h3 class="font-bold text-amber-950 text-sm sm:text-base">① 壁画が読める！「主要エジプト神 6選」キャラ・持ち物図鑑</h3>
+            <p class="text-xs text-slate-500">王家の谷や神殿の壁画で最も頻出する神々の見分け方</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 text-xs text-slate-700 leading-relaxed">
+          <div class="p-3 bg-amber-50/60 rounded-xl border border-amber-200 space-y-1">
+            <div class="flex items-center justify-between">
+              <strong class="text-amber-950 font-bold text-sm">オシリス（Osiris）</strong>
+              <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.2 rounded">冥界の王・再生</span>
+            </div>
+            <p>・<strong>外見：</strong> ミイラ姿、<strong>緑または黒の肌</strong>（ナイルの肥沃な土と再生の象徴）、白い羽飾りの王冠（アテフ冠）。</p>
+            <p>・<strong>持ち物：</strong> 笏（ヘカ杖＝王権）と殻竿（ネケク＝豊穣）。</p>
+          </div>
+
+          <div class="p-3 bg-amber-50/60 rounded-xl border border-amber-200 space-y-1">
+            <div class="flex items-center justify-between">
+              <strong class="text-amber-950 font-bold text-sm">イシス（Isis）</strong>
+              <span class="text-[10px] bg-rose-100 text-rose-800 font-bold px-1.5 py-0.2 rounded">魔術と母性の女神</span>
+            </div>
+            <p>・<strong>外見：</strong> 頭上に<strong>「玉座（イスの形）」</strong>または「牛の角＋太陽円盤」を載せた美しい女性。オシリスの妻でホルスの母。</p>
+            <p>・<strong>役割：</strong> 復活の魔術で夫オシリスを蘇生させた最強の女神。</p>
+          </div>
+
+          <div class="p-3 bg-amber-50/60 rounded-xl border border-amber-200 space-y-1">
+            <div class="flex items-center justify-between">
+              <strong class="text-amber-950 font-bold text-sm">ホルス（Horus）</strong>
+              <span class="text-[10px] bg-sky-100 text-sky-800 font-bold px-1.5 py-0.2 rounded">天空の神・現世王</span>
+            </div>
+            <p>・<strong>外見：</strong> <strong>ハヤブサの頭</strong>を持つ男性。上エジプト（白）と下エジプト（赤）を統合した「二重冠（プスケント）」を着用。</p>
+            <p>・<strong>象徴：</strong> ファラオ自身は「地上に現れたホルス神の化身」。</p>
+          </div>
+
+          <div class="p-3 bg-amber-50/60 rounded-xl border border-amber-200 space-y-1">
+            <div class="flex items-center justify-between">
+              <strong class="text-amber-950 font-bold text-sm">アヌビス（Anubis）</strong>
+              <span class="text-[10px] bg-slate-200 text-slate-800 font-bold px-1.5 py-0.2 rounded">ミイラ・死者の守護</span>
+            </div>
+            <p>・<strong>外見：</strong> 漆黒の<strong>ジャッカル（野犬）の頭</strong>を持つ男性。黒色は遺体の防腐処理とナイルの再生を表す。</p>
+            <p>・<strong>役割：</strong> 最初のミイラを作り、死者を冥界の裁判へと案内する案内人。</p>
+          </div>
+
+          <div class="p-3 bg-amber-50/60 rounded-xl border border-amber-200 space-y-1">
+            <div class="flex items-center justify-between">
+              <strong class="text-amber-950 font-bold text-sm">トト（Thoth）</strong>
+              <span class="text-[10px] bg-indigo-100 text-indigo-800 font-bold px-1.5 py-0.2 rounded">知恵・書記・暦の神</span>
+            </div>
+            <p>・<strong>外見：</strong> くちばしの長い<strong>トキ（鳥）の頭</strong>またはヒヒの姿。</p>
+            <p>・<strong>持ち物：</strong> パピルスと筆（書記板）。心臓計量裁判で結果を記録する役割を担当。</p>
+          </div>
+
+          <div class="p-3 bg-amber-50/60 rounded-xl border border-amber-200 space-y-1">
+            <div class="flex items-center justify-between">
+              <strong class="text-amber-950 font-bold text-sm">アメン・ラー（Amun-Ra）</strong>
+              <span class="text-[10px] bg-amber-200 text-amber-900 font-bold px-1.5 py-0.2 rounded">テーベ最高神・太陽神</span>
+            </div>
+            <p>・<strong>外見：</strong> <strong>2枚の長い直立した羽</strong>を戴いた王冠をかぶる男性。カルナック神殿の主神。</p>
+            <p>・<strong>地位：</strong> 隠れた大気神アメンと太陽神ラーが合体した古代エジプト国家の最高神。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. ヒエログリフ基本記号 ＆ カルトゥーシュ -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-3">
+        <div class="flex items-center space-x-2 border-b border-slate-100 pb-2">
+          <i class="fa-solid fa-feather text-amber-600 text-lg"></i>
+          <div>
+            <h3 class="font-bold text-amber-950 text-sm sm:text-base">② 誰でも読める！「ヒエログリフ（古代文字）超基本記号」</h3>
+            <p class="text-xs text-slate-500">お土産（ペンダント・パピルス）や神殿の壁画で探してみよう</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-center text-xs">
+          <div class="p-2.5 bg-amber-50/50 rounded-xl border border-amber-200 space-y-1">
+            <span class="text-2xl block font-bold text-amber-900">☥</span>
+            <strong class="block text-slate-800 font-bold">アンク (Ankh)</strong>
+            <p class="text-[11px] text-amber-800">「生命・永遠の命」。神が王の鼻先に差し出して生命を授ける構図多数。</p>
+          </div>
+          <div class="p-2.5 bg-amber-50/50 rounded-xl border border-amber-200 space-y-1">
+            <span class="text-2xl block font-bold text-amber-900">𓂀</span>
+            <strong class="block text-slate-800 font-bold">ウジャトの目</strong>
+            <p class="text-[11px] text-amber-800">「健康・魔除け・再生」。ホルス神の癒やされた左目。最強のお守り。</p>
+          </div>
+          <div class="p-2.5 bg-amber-50/50 rounded-xl border border-amber-200 space-y-1">
+            <span class="text-2xl block font-bold text-amber-900">🪲</span>
+            <strong class="block text-slate-800 font-bold">スカラベ (ケプリ)</strong>
+            <p class="text-[11px] text-amber-800">「新生・復活」。糞球を転がす姿を太陽を運ぶ神に見立てた聖なる甲虫。</p>
+          </div>
+          <div class="p-2.5 bg-amber-50/50 rounded-xl border border-amber-200 space-y-1">
+            <span class="text-2xl block font-bold text-amber-900">𓊽</span>
+            <strong class="block text-slate-800 font-bold">ジェド柱 (Djed)</strong>
+            <p class="text-[11px] text-amber-800">「安定・不変」。オシリス神の背骨を象徴する4段の横木がある柱。</p>
+          </div>
+          <div class="col-span-2 sm:col-span-1 p-2.5 bg-amber-50/50 rounded-xl border border-amber-200 space-y-1">
+            <span class="text-2xl block font-bold text-amber-900">𓍹 𓍺</span>
+            <strong class="block text-slate-800 font-bold">カルトゥーシュ</strong>
+            <p class="text-[11px] text-amber-800">「王名を取り囲む縄」。太陽が照らす全世界を支配する王の証。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. 旅程に登場する 4大ファラオの劇的ドラマ -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-3">
+        <div class="flex items-center space-x-2 border-b border-slate-100 pb-2">
+          <i class="fa-solid fa-crown text-amber-600 text-lg"></i>
+          <div>
+            <h3 class="font-bold text-amber-950 text-sm sm:text-base">③ 旅程の主役たち！「4大ファラオ」の劇的ドラマ</h3>
+            <p class="text-xs text-slate-500">訪れる遺跡（ギザ・ルクソール）と歴史の登場人物を一致させよう</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-700 leading-relaxed">
+          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+            <div class="flex items-center justify-between">
+              <strong class="text-slate-900 font-bold">1. クフ王（古王国 第4王朝・BC26世紀）</strong>
+              <span class="text-[10px] bg-amber-100 text-amber-800 font-bold px-1.5 py-0.2 rounded">ギザ大ピラミッド</span>
+            </div>
+            <p>約230万個の石を積み上げた人類最大の石造建築「大ピラミッド」の主。巨大な建築を残したにもかかわらず、本人の肖像彫刻はカイロ旧博物館にある「わずか7.5cmの小さな象牙の小像」1体しか現存しないという最大のミステリー。</p>
+          </div>
+
+          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+            <div class="flex items-center justify-between">
+              <strong class="text-slate-900 font-bold">2. ハトシェプスト女王（新王国 第18王朝・BC15世紀）</strong>
+              <span class="text-[10px] bg-rose-100 text-rose-800 font-bold px-1.5 py-0.2 rounded">葬祭殿（西岸）</span>
+            </div>
+            <p>エジプト初の偉大な女性ファラオ。国を治める正当性を示すため、<strong>男装しあご髭をつけて</strong>ファラオに即位。戦争ではなくプント交易（現在のソマリア方面）を推進して平和と巨万の富をもたらし、断崖に美しいテラス式葬祭殿を建設。</p>
+          </div>
+
+          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+            <div class="flex items-center justify-between">
+              <strong class="text-slate-900 font-bold">3. ツタンカーメン（新王国 第18王朝・BC14世紀）</strong>
+              <span class="text-[10px] bg-yellow-100 text-yellow-800 font-bold px-1.5 py-0.2 rounded">王家の谷・GEM</span>
+            </div>
+            <p>父アクエンアテンの宗教改革（アテン一神教）を撤回し、アメン信仰を復活させた少年王。わずか19歳で夭折したため墓は急造で小さかったが、後のラムセス6世の墓の土砂に埋もれたおかげで<strong>3000年間ほぼ無傷で発掘</strong>され、人類至高の黄金コレクションが残る。</p>
+          </div>
+
+          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
+            <div class="flex items-center justify-between">
+              <strong class="text-slate-900 font-bold">4. ラムセス2世（新王国 第19王朝・BC13世紀）</strong>
+              <span class="text-[10px] bg-red-100 text-red-800 font-bold px-1.5 py-0.2 rounded">ルクソール・カルナック</span>
+            </div>
+            <p><strong>66年間君臨</strong>し、100人以上の子をもうけた古代エジプト最大の英雄。ヒッタイトとのカデシュの戦いを経て「世界最古の平和条約」を締結。自己顕示欲が凄まじく、エジプト全土の遺跡に自分の巨大像とカルトゥーシュを彫りまくった。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. 死生観「心臓計量裁判（死者の書）」 -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-3">
+        <div class="flex items-center space-x-2 border-b border-slate-100 pb-2">
+          <i class="fa-solid fa-scale-balanced text-amber-600 text-lg"></i>
+          <div>
+            <h3 class="font-bold text-amber-950 text-sm sm:text-base">④ 古代エジプトの死生観「心臓計量裁判（死者の書）」</h3>
+            <p class="text-xs text-slate-500">なぜ脳を捨てて心臓だけを残したのか？ 王家の谷の壁画の核心</p>
+          </div>
+        </div>
+        <div class="text-xs sm:text-sm text-slate-700 leading-relaxed space-y-2">
+          <div class="p-3 bg-amber-50/50 rounded-xl border border-amber-200 space-y-1.5">
+            <strong class="text-amber-950 block font-bold">⚖️ 「真実の羽」と「心臓」を天秤にかける冥界の審判</strong>
+            <p>
+              古代エジプト人にとって思考・記憶・魂の宿る最も神聖な器官は「心臓（イブ）」であり、脳は単なる粘液を出す器官としてミイラ作りの際に鼻から掻き出して捨てられました。
+            </p>
+            <p>
+              死者は冥界で、真実と正義の女神マアトの<strong>「ダチョウの羽」と「自分の心臓」を天秤にかける裁判</strong>を受けます。生前の悪行や嘘で心臓が羽より重くなると、ワニ・ライオン・カバが合体した怪物アメミットに心臓を食べられ、永遠の消滅（二度目の死）を迎えます。羽と釣り合って無罪となった清い魂だけが、冥界の王オシリスに迎えられ、永遠の楽園（イアルの野）へと旅立ちました。
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. ピラミッド進化のエンジニアリング史 -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-3">
+        <div class="flex items-center space-x-2 border-b border-slate-100 pb-2">
+          <i class="fa-solid fa-cubes-stacked text-amber-600 text-lg"></i>
+          <div>
+            <h3 class="font-bold text-amber-950 text-sm sm:text-base">⑤ ピラミッド進化論：人類の試行錯誤と巨石工学の軌跡</h3>
+            <p class="text-xs text-slate-500">9/15にサッカラとギザを巡ることで実感できる建築技術の劇的進化</p>
+          </div>
+        </div>
+        <div class="text-xs sm:text-sm text-slate-700 leading-relaxed space-y-2.5">
+          <p>
+            ピラミッドは最初からあの美しい四角錐だったわけではありません。崩壊や傾斜角度の変更といった数々の失敗と挑戦を経て完成形へと至りました。
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+            <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200 space-y-1">
+              <span class="font-bold text-slate-800 block text-xs">1. 階段ピラミッド（サッカラ）</span>
+              長方形の墓（マスタバ）を6段積み上げた最古の巨石建築。設計者イムホテプの傑作。
+            </div>
+            <div class="p-2.5 bg-amber-50 rounded-lg border border-amber-200 space-y-1">
+              <span class="font-bold text-amber-900 block text-xs">2. 屈折＆赤ピラミッド（ダハシュール）</span>
+              急傾斜で崩壊危機となり途中で角度を緩めた「屈折」を経て、初の真正四角錐「赤」が完成。
+            </div>
+            <div class="p-2.5 bg-orange-50 rounded-lg border border-orange-200 space-y-1">
+              <span class="font-bold text-orange-900 block text-xs">3. クフ王大ピラミッド（ギザ）</span>
+              約230万個の巨石を誤差数ミリの高精度で積み上げた人類建築史上最高峰の到達点。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SECTION 2: 古代ギリシャ深掘り ==================== -->
+      <div class="bg-sky-900 text-white px-3.5 py-1.5 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-between shadow-xs">
+        <span class="flex items-center"><span class="text-lg mr-1.5">🏛️</span> 第2部：古代ギリシャの神話・建築様式・哲学</span>
+        <span class="text-[10px] bg-sky-700/80 px-2 py-0.5 rounded text-sky-200">アテネ・サントリーニ</span>
+      </div>
+
+      <!-- 6. ギリシャ建築3大様式 ＆ パルテノンの錯視補正 -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-3">
+        <div class="flex items-center space-x-2 border-b border-slate-100 pb-2">
+          <i class="fa-solid fa-monument text-sky-600 text-lg"></i>
+          <div>
+            <h3 class="font-bold text-sky-950 text-sm sm:text-base">⑥ 柱を見れば時代がわかる！「ギリシャ建築の3大様式」</h3>
+            <p class="text-xs text-slate-500">パルテノン神殿やアテネの遺跡を見上げるときのチェックポイント</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs text-slate-700 leading-relaxed">
+          <div class="p-3 bg-sky-50/60 rounded-xl border border-sky-200 space-y-1">
+            <strong class="text-sky-950 font-bold block text-sm">1. ドーリア式 (Doric)</strong>
+            <span class="text-[10px] bg-sky-200 text-sky-900 font-bold px-1.5 py-0.2 rounded inline-block">質実剛健・男性美</span>
+            <p class="mt-1">・<strong>特徴：</strong> 柱頭（上部）に装飾がなく<strong>皿のようなシンプルな形</strong>。基壇に直接柱が立つ（台座がない）。</p>
+            <p>・<strong>代表例：</strong> <strong>パルテノン神殿</strong>の外周柱。力強く雄大な印象。</p>
+          </div>
+
+          <div class="p-3 bg-sky-50/60 rounded-xl border border-sky-200 space-y-1">
+            <strong class="text-sky-950 font-bold block text-sm">2. イオニア式 (Ionic)</strong>
+            <span class="text-[10px] bg-sky-200 text-sky-900 font-bold px-1.5 py-0.2 rounded inline-block">優美・女性美</span>
+            <p class="mt-1">・<strong>特徴：</strong> 柱頭に<strong>羊の角のような「渦巻き装飾（ボリュート）」</strong>。柱が細身で台座がある。</p>
+            <p>・<strong>代表例：</strong> エレクティオン神殿、ニケ神殿。繊細で気品ある佇まい。</p>
+          </div>
+
+          <div class="p-3 bg-sky-50/60 rounded-xl border border-sky-200 space-y-1">
+            <strong class="text-sky-950 font-bold block text-sm">3. コリント式 (Corinthian)</strong>
+            <span class="text-[10px] bg-sky-200 text-sky-900 font-bold px-1.5 py-0.2 rounded inline-block">華麗・豪華絢爛</span>
+            <p class="mt-1">・<strong>特徴：</strong> <strong>アカンサス（地中海のアザミに似た植物）の葉</strong>を何層も彫り込んだ超豪華な柱頭。</p>
+            <p>・<strong>代表例：</strong> ゼウス神殿（アテネ市街）。ヘレニズム・ローマ期に大流行。</p>
+          </div>
+        </div>
+
+        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-700 leading-relaxed space-y-1">
+          <strong class="text-slate-900 font-bold block">✨ エレクティオン神殿の「少女像柱（カリアティード）」</strong>
+          <p>アクロポリスの丘でパルテノン神殿の北向かいに立つエレクティオン神殿には、通常の柱の代わりに<strong>6人の美しい少女像が屋根を頭で支える「少女像柱」</strong>があります。首が折れないよう編み込んだ豊かな髪の毛で強度を保つ彫刻工学の傑作です（本物5体は新アクロポリス博物館内、1体は大英博物館に展示）。</p>
+        </div>
+      </div>
+
+      <!-- 7. アテネ誕生神話 -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-3">
+        <div class="flex items-center space-x-2 border-b border-slate-100 pb-2">
+          <i class="fa-solid fa-dove text-sky-600 text-lg"></i>
+          <div>
+            <h3 class="font-bold text-sky-950 text-sm sm:text-base">⑦ アテネ誕生神話：「アテナ vs ポセイドン」の都市命名対決</h3>
+            <p class="text-xs text-slate-500">なぜこの都市が「アテネ」となり、オリーブの木がシンボルなのか？</p>
+          </div>
+        </div>
+        <div class="text-xs sm:text-sm text-slate-700 leading-relaxed p-3 bg-sky-50/50 rounded-xl border border-sky-200 space-y-2">
+          <p>
+            古代、この美しい都市の守護神の座を巡って、海の覇者<strong>ポセイドン</strong>と知恵と戦いの女神<strong>アテナ</strong>が対決しました。
+          </p>
+          <p>
+            ポセイドンが三叉の鉾でアクロポリスの岩を突くと、力強い「軍馬（武力）」と「塩水の泉」が湧き出しました。一方、アテナが槍を突くと、飢えを満たす実、明かりや薬となる油、そして平和をもたらす<strong>「オリーブの木」</strong>が芽吹きました。
+          </p>
+          <p>
+            市民と国王ケクロプスは「戦争ではなく平和と豊かな実りをもたらすオリーブ」を選び、都市の名を守護女神アテナにちなんで「アテネ」と名付けました。エレクティオン神殿の西側には、今もアテナの聖なるオリーブの木が植え継がれています。
+          </p>
+        </div>
+      </div>
+
+      <!-- 8. 古代哲学とアレオパゴスの丘 -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-3">
+        <div class="flex items-center space-x-2 border-b border-slate-100 pb-2">
+          <i class="fa-solid fa-landmark-dome text-sky-600 text-lg"></i>
+          <div>
+            <h3 class="font-bold text-sky-950 text-sm sm:text-base">⑧ アクロポリスの丘と古代哲学・民主政（ソクラテスの知と自由）</h3>
+            <p class="text-xs text-slate-500">人類史上初の直接民主政と哲学が花開いた聖地</p>
+          </div>
+        </div>
+        <div class="text-xs sm:text-sm text-slate-700 leading-relaxed p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+          <p>
+            パルテノン神殿の麓に広がる古代アゴラ（広場）で、哲学者<strong>ソクラテス</strong>は市民たちと対話を重ね、「自分が何も知らないことを自覚すること（無知の知）」こそが真の知恵への第一歩であると説きました。
+          </p>
+          <p>
+            9/25の夕暮れ時に訪れる<strong>アレオパゴスの丘（火星の丘）</strong>は、古代アテネの最高法廷が開かれ、市民による直接裁判や民主政の重要な意思決定が行われた歴史的岩山です。夕日に染まるパルテノン神殿を見上げながらこの丘の上に立つと、2500年前に西洋文明の「自由・対話・民主主義」が産声を上げた原点の息吹を肌で感じることができます。
+          </p>
+        </div>
+      </div>
+
+      <!-- 9. サントリーニ島 ミノア噴火とアトランティス伝説 -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-3">
+        <h3 class="font-bold text-cyan-900 text-base border-b border-slate-100 pb-2 flex items-center">
+          <span class="text-xl mr-2">🌊</span> ⑨ サントリーニ島：ミノア大噴火とアトランティス伝説
+        </h3>
+        <div class="text-xs sm:text-sm text-slate-600 leading-relaxed space-y-2">
+          <p>
+            サントリーニ島（ティラ島）の壮大な三日月形の断崖絶壁は、<strong>紀元前1600年頃に起きた人類史上最大級の火山噴火（ミノア噴火）</strong>によって火口が海没して形成されたカルデラ地形です。島の中央部が吹き飛び、発生した高さ数十メートルの大津波がクレタ島のミノア文明を壊滅させました。
+          </p>
+          <p>
+            哲学者プラトンが対話篇『ティマイオス』『クリティアス』に記した<strong>「一夜にして海に沈んだ高度な理想郷アトランティス伝説」</strong>は、このサントリーニ島の大噴火とアクロティリ遺跡の壊滅がモデルになったというのが近代考古学の最有力説です。白と青の美しいリゾートの眼下に広がる濃紺の海は、かつて文明を呑み込んだ巨大な火口そのものです。
+          </p>
+        </div>
+      </div>
+
+      <!-- ==================== SECTION 3: 文明の交差点 ==================== -->
+      <div class="bg-gradient-to-r from-amber-700 via-purple-800 to-sky-800 text-white rounded-2xl p-4 sm:p-5 shadow-xs space-y-2.5">
+        <div class="flex items-center space-x-2 border-b border-white/20 pb-2">
+          <span class="text-xl">🤝</span>
+          <h3 class="font-bold text-sm sm:text-base text-amber-200">⑩ 文明の交差点：「アレクサンドロス大王とクレオパトラ」</h3>
+        </div>
+        <div class="text-xs sm:text-sm text-slate-100 leading-relaxed space-y-2">
+          <p>
+            <strong>なぜ今回の新婚旅行で「エジプト」と「ギリシャ」を巡るのか？── その答えは歴史の奇跡的な交差点にあります。</strong>
+          </p>
+          <p>
+            紀元前332年、ギリシャ・マケドニアの若き英雄<strong>アレクサンドロス大王</strong>がエジプトを征服し、地中海沿岸に自らの名を冠した都市「アレクサンドリア」を建設しました。彼の死後、部下の将軍プトレマイオスがエジプトに開いたのが<strong>「プトレマイオス朝」</strong>です。
+          </p>
+          <p>
+            プトレマイオス朝の王族たちはギリシャ人でありながら、エジプトの伝統文化と神々（オシリスやホルス）を深く尊重し、自らも「ファラオ」として神殿を築きました。その<strong>最後の女王こそが、絶世の美女として名高いクレオパトラ7世</strong>です。ギリシャの合理主義とエジプトの神秘主義が融合したヘレニズム文化の遺産を巡ることで、2つの国の旅が1本の美しい縦糸で結ばれます。
+          </p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== TAB 5: フォト・機材運用 ==================== -->
+    <section id="tab-photo" class="tab-content space-y-4">
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-4">
+        <div class="flex items-center space-x-2.5 border-b border-slate-100 pb-3">
+          <i class="fa-solid fa-camera-retro text-xl text-amber-600"></i>
+          <div>
+            <h2 class="font-bold text-slate-800 text-base">機材3台体制の運用マニュアル ＆ 撮影マップ</h2>
+            <p class="text-xs text-slate-500">ハネムーンの空気を大切にしながら最高の1枚を残す</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+          <div class="p-3 bg-amber-50 rounded-xl border border-amber-200">
+            <div class="font-bold text-amber-900 mb-1">一眼レフ（メイン）</div>
+            <p class="text-slate-600 leading-relaxed">白砂漠の天の川、カルナック神殿の斜光、サントリーニのサンセット専用。</p>
+          </div>
+          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+            <div class="font-bold text-slate-800 mb-1">RX100（サブコンデジ）</div>
+            <p class="text-slate-600 leading-relaxed">街歩き、ザマレク・コルバ地区、レストランでの食事スナップに目立たず活躍。</p>
+          </div>
+          <div class="p-3 bg-sky-50 rounded-xl border border-sky-200">
+            <div class="font-bold text-sky-900 mb-1">iPhone 13</div>
+            <p class="text-slate-600 leading-relaxed">夫婦ツーショット、超広角（0.5x）記念撮影、移動中のメモ用途。</p>
+          </div>
+        </div>
+
+        <div class="p-3.5 bg-slate-900 text-white rounded-xl text-xs space-y-1.5 shadow-inner">
+          <div class="font-bold text-amber-300 flex items-center">
+            <i class="fa-solid fa-star mr-1.5"></i> 白砂漠・天の川撮影設定（一眼レフ）
+          </div>
+          <p class="font-mono text-[11px] text-slate-300 leading-relaxed">モード: M / F値: 1.4-2.8 / SS: 15-20秒 / ISO: 3200-6400 / MFピント合算</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 6: ToDo & 手荷物規定 ==================== -->
+    <section id="tab-todo" class="tab-content space-y-4">
+      
+      <!-- 航空会社・手荷物規定サマリー -->
+      <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-2xl p-4 sm:p-5 shadow-xs space-y-3">
+        <div class="flex items-center space-x-2 border-b border-blue-200 pb-2">
+          <i class="fa-solid fa-plane-circle-check text-blue-600 text-lg"></i>
+          <h2 class="font-bold text-blue-950 text-sm sm:text-base">全フライト手荷物・受託規定 ＆ 機材注意点</h2>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 text-xs text-slate-700 leading-relaxed">
+          <div class="p-2.5 bg-white rounded-xl border border-blue-200">
+            <strong class="text-blue-900 block mb-1">エジプト航空 (MS)</strong>
+            ・受託手荷物：23kg × 1個（国内線・アテネ便）/ 23kg × 2個（成田直行便MS965）<br>
+            ・機内持込：8kg × 1個 (55×40×23cm)
+          </div>
+          <div class="p-2.5 bg-white rounded-xl border border-sky-200">
+            <strong class="text-sky-900 block mb-1">SKYエクスプレス (GQ)</strong>
+            ・受託手荷物：23kg × 1個（手荷物込運賃選択必須）<br>
+            ・機内持込：8kg × 1個 (55×40×20cm)
+          </div>
+          <div class="p-2.5 bg-white rounded-xl border border-indigo-200">
+            <strong class="text-indigo-900 block mb-1">エーゲ航空 (A3)</strong>
+            ・受託手荷物：23kg × 1個（ComfortFlexまたは追加購入）<br>
+            ・機内持込：8kg × 1個 (56×45×25cm)<br>
+            ・ANAマイル積算対象
+          </div>
+          <div class="p-2.5 bg-white rounded-xl border border-blue-200">
+            <strong class="text-indigo-900 block mb-1">吉祥航空 (HO)</strong>
+            ・受託手荷物：23kg × 2個（上海経由・成田便）<br>
+            ・機内持込：8kg × 1個 (55×40×20cm)
+          </div>
+        </div>
+        <div class="p-2.5 bg-red-50 rounded-lg border border-red-200 text-[11px] text-red-800 leading-relaxed">
+          <strong>⚠️ バッテリー・カメラ機材の重要ルール：</strong><br>
+          リチウムイオンバッテリー、モバイルバッテリー、一眼レフカメラ本体・レンズは<strong>受託手荷物（スーツケース）に預け入れ禁止</strong>です。必ず機内持ち込みバッグに入れてください。
+        </div>
+      </div>
+
+      <!-- ToDoチェックリスト（全10項目完全版 ＋ カスタム追加機能） -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="font-bold text-slate-800 text-base sm:text-lg flex items-center">
+            <i class="fa-solid fa-list-check text-amber-600 mr-2"></i> 出発までのToDo ＆ 予約ステータス [完全全10項目]
+          </h2>
+          <span id="todo-count" class="text-xs font-bold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">0 / 10 完了</span>
+        </div>
+        
+        <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden mb-5">
+          <div id="todo-progress-bar" class="bg-gradient-to-r from-amber-500 to-emerald-500 h-full w-0 transition-all duration-300"></div>
+        </div>
+
+        <div class="space-y-4 text-xs sm:text-sm">
+          <h3 class="font-bold text-slate-700 border-l-4 border-red-500 pl-2 text-sm">1. 最優先・必須手配タスク</h3>
+          <div class="space-y-2.5 pl-1" id="todo-list-container-1">
+            <label class="todo-item flex items-start space-x-3 p-2.5 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+              <input type="checkbox" class="todo-check mt-0.5 rounded text-amber-600 w-4 h-4" data-id="todo-flight-jtr">
+              <div>
+                <span class="todo-text font-bold text-slate-800">サントリーニ島 往復航空券の予約発券（SKYエクスプレス GQ350/GQ347）</span>
+                <span class="ml-2 text-[10px] bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-bold">要予約</span>
+                <p class="text-xs text-slate-500 mt-0.5">①9/22 14:00発(GQ350) ／ ②9/25 14:15発(GQ347)。※受託手荷物23kg込みプランを選択。</p>
+              </div>
+            </label>
+
+            <label class="todo-item flex items-start space-x-3 p-2.5 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+              <input type="checkbox" class="todo-check mt-0.5 rounded text-amber-600 w-4 h-4" data-id="todo-tour-giza">
+              <div>
+                <span class="todo-text font-bold text-slate-800">9/15(火) ギザ＆サッカラ 終日英語プライベートツアー手配</span>
+                <span class="ml-2 text-[10px] bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-bold">必須</span>
+                <p class="text-xs text-slate-500 mt-0.5">専用車＋専属英語ガイド。GetYourGuide/Viator等で高評価ツアー（客引き対策＆ドアツードア）を確保。</p>
+              </div>
+            </label>
+
+            <label class="todo-item flex items-start space-x-3 p-2.5 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+              <input type="checkbox" class="todo-check mt-0.5 rounded text-amber-600 w-4 h-4" data-id="todo-tour-luxor">
+              <div>
+                <span class="todo-text font-bold text-slate-800">9/19(土) ルクソール西岸＆東岸 終日英語プライベートツアー手配</span>
+                <span class="ml-2 text-[10px] bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-bold">必須</span>
+                <p class="text-xs text-slate-500 mt-0.5">王家の谷・ハトシェプスト・カルナック神殿。夕方のナイル川ファルーカ（帆船）セーリング込みプランで手配。</p>
+              </div>
+            </label>
+
+            <label class="todo-item flex items-start space-x-3 p-2.5 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+              <input type="checkbox" class="todo-check mt-0.5 rounded text-amber-600 w-4 h-4" data-id="todo-1">
+              <div>
+                <span class="todo-text font-bold text-slate-800">サントリーニ・ブライダルフォト予約</span>
+                <span class="ml-2 text-[10px] bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-bold">最優先</span>
+                <p class="text-xs text-slate-500 mt-0.5">9/23(水) 07:30朝枠。荒天時の無料スライド規定（9/24）を確認。</p>
+              </div>
+            </label>
+
+            <label class="todo-item flex items-start space-x-3 p-2.5 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+              <input type="checkbox" class="todo-check mt-0.5 rounded text-amber-600 w-4 h-4" data-id="todo-2">
+              <div>
+                <span class="todo-text font-bold text-slate-800">記念日ディナーのテーブル予約（2回分）</span>
+                <span class="ml-2 text-[10px] bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-bold">必須</span>
+                <p class="text-xs text-slate-500 mt-0.5">①9/15 ギザ「Khufu's」または「139 Pavilion」 ／ ②9/24 サントリーニ「The Athenian House」</p>
+              </div>
+            </label>
+
+            <label class="todo-item flex items-start space-x-3 p-2.5 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+              <input type="checkbox" class="todo-check mt-0.5 rounded text-amber-600 w-4 h-4" data-id="todo-3">
+              <div>
+                <span class="todo-text font-bold text-slate-800">白砂漠 1泊2日プライベート4WDツアー手配</span>
+                <span class="ml-2 text-[10px] bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-bold">必須</span>
+                <p class="text-xs text-slate-500 mt-0.5">9/16〜9/17。奥様助手席確約・ノーデューンバッシング条件指定。</p>
+              </div>
+            </label>
+
+            <label class="todo-item flex items-start space-x-3 p-2.5 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+              <input type="checkbox" class="todo-check mt-0.5 rounded text-amber-600 w-4 h-4" data-id="todo-4">
+              <div>
+                <span class="todo-text font-bold text-slate-800">アクロポリス（アテネ）入場チケット購入</span>
+                <span class="ml-2 text-[10px] bg-red-100 text-red-700 px-1.5 py-0.5 rounded font-bold">時間指定</span>
+                <p class="text-xs text-slate-500 mt-0.5">公式サイト（tickets.hh.gr）で 9/22(火) 08:00スロット枠を確保。</p>
+              </div>
+            </label>
+          </div>
+
+          <h3 class="font-bold text-slate-700 border-l-4 border-amber-500 pl-2 text-sm pt-2">2. チケット・アクティビティ判断</h3>
+          <div class="space-y-2.5 pl-1" id="todo-list-container-2">
+            <label class="todo-item flex items-start space-x-3 p-2.5 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+              <input type="checkbox" class="todo-check mt-0.5 rounded text-amber-600 w-4 h-4" data-id="todo-balloon">
+              <div>
+                <span class="todo-text font-bold text-slate-800">【要検討】ルクソール早朝熱気球フライトへの参加判断</span>
+                <span class="ml-2 text-[10px] bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded font-bold">検討中</span>
+                <p class="text-xs text-slate-500 mt-0.5">参加する場合は事前予約。見送る場合は早朝ゆっくり休養し07:30〜西岸観光へ。</p>
+              </div>
+            </label>
+
+            <label class="todo-item flex items-start space-x-3 p-2.5 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+              <input type="checkbox" class="todo-check mt-0.5 rounded text-amber-600 w-4 h-4" data-id="todo-6">
+              <div>
+                <span class="todo-text font-bold text-slate-800">9/14(月) Turquoise Pyramids「前日分アーリーチェックイン」手配</span>
+                <p class="text-xs text-slate-500 mt-0.5">朝06:00に到着してすぐベッドで仮眠できるよう前日泊分を予約確保。</p>
+              </div>
+            </label>
+
+            <label class="todo-item flex items-start space-x-3 p-2.5 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+              <input type="checkbox" class="todo-check mt-0.5 rounded text-amber-600 w-4 h-4" data-id="todo-7">
+              <div>
+                <span class="todo-text font-bold text-slate-800">大エジプト博物館（GEM）＆ クフ王ピラミッド内部入場チケット</span>
+                <p class="text-xs text-slate-500 mt-0.5">GEMは 9/14午後枠、クフ王内部は 9/15午前枠を公式サイトで確保。</p>
+              </div>
+            </label>
+          </div>
+
+          <!-- カスタムToDo追加フォーム -->
+          <div class="pt-3 border-t border-slate-100 flex gap-2">
+            <input type="text" id="custom-todo-input" placeholder="自分たちのToDoを追加 (例: パスポート更新受取)" class="flex-1 p-2 border border-slate-300 rounded-lg text-xs outline-hidden focus:border-amber-500">
+            <button onclick="addCustomTodo()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold px-3 py-2 rounded-lg text-xs transition shrink-0">
+              <i class="fa-solid fa-plus mr-1"></i> 追加
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 7: 服装 ＆ 持ち物完全リスト ==================== -->
+    <section id="tab-packing" class="tab-content space-y-6">
+
+      <!-- シーン別・都市別の服装マナー＆気候対策ガイド -->
+      <div class="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-4 sm:p-5 shadow-xs space-y-4">
+        <div class="flex items-center space-x-2.5 border-b border-amber-200 pb-2">
+          <i class="fa-solid fa-shirt text-amber-600 text-lg"></i>
+          <div>
+            <h2 class="font-bold text-amber-950 text-sm sm:text-base">9月の気候 ＆ シーン別 服装マナー完全ガイド</h2>
+            <p class="text-xs text-amber-800">宗教文化への配慮・寒暖差・足元の安全を守るコーディネート術</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-700 leading-relaxed">
+          <!-- エジプト昼間 -->
+          <div class="p-3 bg-white rounded-xl border border-amber-200 space-y-1.5">
+            <strong class="text-amber-950 flex items-center font-bold">
+              <span class="mr-1.5">🐫</span> 🇪🇬 エジプト昼間（ピラミッド・ルクソール）
+            </strong>
+            <p>・<strong>気温：</strong> 最高35〜38℃。日差しが猛烈で極度に乾燥。</p>
+            <p>・<strong>服装：</strong> 通気性の良い綿・麻の長袖シャツや半袖＋薄手UVカット羽織り。直射日光を避けるため肌を隠した方が涼しい。</p>
+            <p>・<strong>ボトムス：</strong> ゆったりした薄手ロングパンツ（ショートパンツは日焼け＆客引き目線で非推奨）。</p>
+            <p>・<strong>足元：</strong> <strong>歩き慣れたスニーカー必須</strong>（砂・砂利・未舗装路のためサンダルは足が痛くなります）。</p>
+          </div>
+
+          <!-- エジプト宗教施設 -->
+          <div class="p-3 bg-white rounded-xl border border-amber-200 space-y-1.5">
+            <strong class="text-amber-950 flex items-center font-bold">
+              <span class="mr-1.5">🕌</span> 🇪🇬 イスラム地区・モスク入場マナー
+            </strong>
+            <p>・<strong>女性：</strong> 髪を覆う<strong>ストール/スカーフ持参必須</strong>。肩・胸元・膝上の露出厳禁（ロングスカートや長ズボン）。</p>
+            <p>・<strong>男性：</strong> 膝が出るハーフパンツやタンクトップは入場拒否される場合あり。長ズボンが安全。</p>
+            <p>・<strong>靴：</strong> モスク内は靴を脱ぐため、脱ぎ履きしやすい靴または靴下着用が安心。</p>
+          </div>
+
+          <!-- 白砂漠キャンプ -->
+          <div class="p-3 bg-white rounded-xl border border-amber-200 space-y-1.5">
+            <strong class="text-amber-950 flex items-center font-bold">
+              <span class="mr-1.5">⛺</span> 🌌 白砂漠キャンプ（昼夜の激しい寒暖差）
+            </strong>
+            <p>・<strong>気温：</strong> 昼間35℃以上 ➔ 夜間は18〜20℃前後まで急低下。</p>
+            <p>・<strong>服装：</strong> 日没後に羽織る<strong>ウルトラライトダウンまたは厚手フリース必須</strong>。長ズボン・靴下着用で星空撮影に臨む。</p>
+          </div>
+
+          <!-- ギリシャ -->
+          <div class="p-3 bg-white rounded-xl border border-amber-200 space-y-1.5">
+            <strong class="text-sky-950 flex items-center font-bold">
+              <span class="mr-1.5">🇬🇷</span> 🏛️ ギリシャ＆サントリーニ島
+            </strong>
+            <p>・<strong>パルテノン神殿：</strong> 大理石がツルツルに磨かれて滑りやすいため、<strong>靴底の滑り止めが効いたスニーカー必須</strong>（ヒール・サンダル厳禁）。</p>
+            <p>・<strong>記念日ディナー：</strong> スマートカジュアル推奨（男性：襟付きシャツ・長ズボン、女性：リゾートワンピース）。</p>
+            <p>・<strong>サントリーニ夜間：</strong> 海風が強いため、カーディガンやストールが重宝します。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 数量付き・持ち物チェックリスト（完全版） ＆ カスタム追加 -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-5">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div>
+            <h2 class="font-bold text-slate-800 text-base sm:text-lg flex items-center">
+              <i class="fa-solid fa-suitcase-rolling text-sky-600 mr-2"></i> 15日分 持ち物チェックリスト [完全30選 ＋ 自由追加]
+            </h2>
+            <p class="text-xs text-slate-500">チェック状態はお使いのブラウザに自動保存されます</p>
+          </div>
+          <span id="pack-count" class="text-xs font-bold text-sky-700 bg-sky-50 px-2.5 py-1 rounded-full border border-sky-200">0 / 30 準備済</span>
+        </div>
+        
+        <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+          <div id="pack-progress-bar" class="bg-gradient-to-r from-sky-500 to-emerald-500 h-full w-0 transition-all duration-300"></div>
+        </div>
+
+        <div class="space-y-5 text-xs sm:text-sm">
+          
+          <!-- 便利グッズ -->
+          <div>
+            <h3 class="font-bold text-rose-800 border-l-4 border-rose-500 pl-2 text-sm mb-2.5 flex items-center">
+              <i class="fa-solid fa-wand-magic-sparkles text-rose-500 mr-1.5"></i> 快適・便利神グッズ
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pl-1">
+              <label class="pack-item flex items-start space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check mt-0.5 rounded text-sky-600 w-4 h-4" data-id="pack-god-1">
+                <div>
+                  <span class="pack-text font-bold text-slate-800">S字フック ＆ カラビナ（2〜3個）</span>
+                  <p class="text-[11px] text-rose-700">公衆トイレのドアに荷物掛けがない場合の救世主！</p>
+                </div>
+              </label>
+              <label class="pack-item flex items-start space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check mt-0.5 rounded text-sky-600 w-4 h-4" data-id="pack-god-2">
+                <div>
+                  <span class="pack-text font-bold text-slate-800">小型LEDヘッドライト/ペンライト（1個）</span>
+                  <p class="text-[11px] text-slate-500">王家の谷の暗い玄室や白砂漠の夜間歩行用。</p>
+                </div>
+              </label>
+              <label class="pack-item flex items-start space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check mt-0.5 rounded text-sky-600 w-4 h-4" data-id="pack-god-3">
+                <div>
+                  <span class="pack-text font-bold text-slate-800">砂埃防護用 ジップロック（大・中 10枚）</span>
+                  <p class="text-[11px] text-slate-500">砂漠の細かい砂からカメラ・スマホ・財布を守る。</p>
+                </div>
+              </label>
+              <label class="pack-item flex items-start space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check mt-0.5 rounded text-sky-600 w-4 h-4" data-id="pack-god-4">
+                <div>
+                  <span class="pack-text font-bold text-slate-800">機内快適セット（着圧ソックス・スリッパ・アイマスク）</span>
+                  <p class="text-[11px] text-slate-500">14時間半の直行便フライトのむくみ・疲労を防止。</p>
+                </div>
+              </label>
+              <label class="pack-item flex items-start space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check mt-0.5 rounded text-sky-600 w-4 h-4" data-id="pack-god-5">
+                <div>
+                  <span class="pack-text font-bold text-slate-800">黒の油性ボールペン（2本）</span>
+                  <p class="text-[11px] text-slate-500">カイロ空港の出国カード記入用（備え付けペンなし対策）。</p>
+                </div>
+              </label>
+              <label class="pack-item flex items-start space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check mt-0.5 rounded text-sky-600 w-4 h-4" data-id="pack-god-6">
+                <div>
+                  <span class="pack-text font-bold text-slate-800">トラベル用 小分け洗濯洗剤 ＆ 折りたたみピンチハンガー</span>
+                  <p class="text-[11px] text-slate-500">砂漠後や連泊ホテルでの下着・シャツ手洗い用。</p>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 貴重品・書類 -->
+          <div>
+            <h3 class="font-bold text-slate-700 border-l-4 border-amber-500 pl-2 text-sm mb-2.5">貴重品・書類</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pl-1">
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-val-1">
+                <span class="pack-text">パスポート（残存期間6ヶ月以上）＋ コピー（2部）</span>
+              </label>
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-val-2">
+                <span class="pack-text">米ドル現金（新札・ピン札 $200〜$300程度・ビザ＆チップ用）</span>
+              </label>
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-val-3">
+                <span class="pack-text">クレジットカード（Visa / Mastercard 計3〜4枚分散所持）</span>
+              </label>
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-val-4">
+                <span class="pack-text">ユーロ現金（ギリシャ用 100〜200€程度）</span>
+              </label>
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-val-5">
+                <span class="pack-text">海外旅行保険証券（またはクレカ付帯保険の連絡先メモ）</span>
+              </label>
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-val-6">
+                <span class="pack-text">航空券Eチケット控え・ホテル予約バウチャー（PDF印刷）</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 衣類・靴・防寒 -->
+          <div>
+            <h3 class="font-bold text-slate-700 border-l-4 border-emerald-500 pl-2 text-sm mb-2.5">衣類・靴・防寒具（15日分・適宜洗濯前提）</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pl-1">
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-clo-1">
+                <span class="pack-text">速乾Tシャツ・トップス（4〜5着）</span>
+              </label>
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-clo-2">
+                <span class="pack-text">薄手長袖シャツ・リネンシャツ（日焼け防止羽織り・2〜3着）</span>
+              </label>
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-clo-3">
+                <span class="pack-text">動きやすいロングパンツ・薄手イージーパンツ（2〜3着）</span>
+              </label>
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-clo-4">
+                <span class="pack-text">ウルトラライトダウン（白砂漠夜間用・1着）</span>
+              </label>
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-clo-5">
+                <span class="pack-text">記念日ディナー用よそ行き服（ワンピース／襟付きシャツ・1セット）</span>
+              </label>
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-clo-6">
+                <span class="pack-text">下着・靴下（5〜6日分・ホテルで手洗いローテーション）</span>
+              </label>
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-clo-7">
+                <span class="pack-text">歩き慣れた滑り止めスニーカー（メイン靴・1足）</span>
+              </label>
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-clo-8">
+                <span class="pack-text">ホテル・プール用リゾートサンダル（1足）</span>
+              </label>
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-clo-9">
+                <span class="pack-text">薄手大判ストール（女性モスク髪隠し＆冷房除け・1枚）</span>
+              </label>
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-clo-10">
+                <span class="pack-text">水着（ルクソール浮きプール＆サントリーニ用・1着）</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 電子機器・カメラ機材 -->
+          <div>
+            <h3 class="font-bold text-slate-700 border-l-4 border-sky-500 pl-2 text-sm mb-2.5">電子機器・カメラ（※バッテリー類は機内持ち込み）</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pl-1">
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-ele-1">
+                <span class="pack-text">一眼レフカメラ ＋ レンズ ＋ 予備バッテリー ＋ 充電器</span>
+              </label>
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-ele-2">
+                <span class="pack-text">軽量トラベル三脚（白砂漠星空撮影用）</span>
+              </label>
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-ele-3">
+                <span class="pack-text">RX100（サブコンデジ）＋ バッテリー</span>
+              </label>
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-ele-4">
+                <span class="pack-text">大容量モバイルバッテリー（10,000〜20,000mAh 1〜2台）</span>
+              </label>
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-ele-5">
+                <span class="pack-text">Cタイプ変換プラグ（2〜3個）＋ 複数口USB急速充電器</span>
+              </label>
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-ele-6">
+                <span class="pack-text">大容量SDカード（64GB〜128GB 複数枚）</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 医薬品・日焼け・衛生用品 -->
+          <div>
+            <h3 class="font-bold text-slate-700 border-l-4 border-indigo-500 pl-2 text-sm mb-2.5">医薬品・日焼け止め・衛生用品</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pl-1">
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-med-1">
+                <span class="pack-text">日焼け止め（SPF50+ PA++++・汗に強いタイプ 2〜3本）</span>
+              </label>
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-med-2">
+                <span class="pack-text">UVカットサングラス ＆ つば広帽子（強烈な直射日光対策）</span>
+              </label>
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-med-3">
+                <span class="pack-text">除菌ウェットティッシュ（アルコールタイプ・大容量 3〜4袋）</span>
+              </label>
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-med-4">
+                <span class="pack-text">水に流せるポケットティッシュ（公衆トイレ用・10〜15個）</span>
+              </label>
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-med-5">
+                <span class="pack-text">常備薬（整腸剤、ストッパ、解熱鎮痛剤、酔い止め、目薬）</span>
+              </label>
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-med-6">
+                <span class="pack-text">粉末ポカリスエット/経口補水パウダー（熱中症対策・10袋）</span>
+              </label>
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-med-7">
+                <span class="pack-text">高保湿化粧水・乳液・リップクリーム（砂漠の極度乾燥対策）</span>
+              </label>
+              <label class="pack-item flex items-center space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition">
+                <input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="pack-med-8">
+                <span class="pack-text">トラベル用歯ブラシセット（海外ホテルにアメニティなし対策）</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- カスタム持ち物追加（自由登録エリア） -->
+          <div class="pt-3 border-t border-slate-100">
+            <h3 class="font-bold text-slate-700 border-l-4 border-slate-500 pl-2 text-sm mb-2.5">自分たち専用の追加持ち物</h3>
+            <div id="custom-pack-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2 pl-1 mb-3">
+              <!-- JSで動的に追加されます -->
+            </div>
+            <div class="flex gap-2">
+              <input type="text" id="custom-pack-input" placeholder="持ち物を自由に追加 (例: 奥様のコスメポーチ、ヘアアイロン)" class="flex-1 p-2 border border-slate-300 rounded-lg text-xs outline-hidden focus:border-sky-500">
+              <button onclick="addCustomPack()" class="bg-sky-600 hover:bg-sky-700 text-white font-bold px-3 py-2 rounded-lg text-xs transition shrink-0">
+                <i class="fa-solid fa-plus mr-1"></i> 追加
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== TAB 8: 安心ガイド・Tips ==================== -->
+    <section id="tab-tips" class="tab-content space-y-5">
+      
+      <!-- 1. 【乳製品NG】安心指さしカード -->
+      <div class="bg-rose-50 border border-rose-200 rounded-2xl p-4 sm:p-5 shadow-xs space-y-3">
+        <div class="flex items-center space-x-2 border-b border-rose-200 pb-2">
+          <i class="fa-solid fa-ban text-rose-600 text-lg"></i>
+          <div>
+            <h2 class="font-bold text-rose-900 text-sm sm:text-base">【乳製品NG】レストラン指さし注文カード</h2>
+            <p class="text-xs text-rose-700">牛乳・バター・チーズ・ヨーグルトが苦手な場合の注文用フレーズ（スマホ画面を見せるだけでOK）</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <div class="p-3 bg-white rounded-xl border border-rose-200 space-y-1.5">
+            <span class="font-bold text-slate-800 flex items-center justify-between">
+              <span>🇪🇬 エジプト（アラビア語）</span>
+              <span class="text-[10px] bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded">エジプト全域</span>
+            </span>
+            <div class="text-base font-bold text-rose-800 bg-rose-50/70 p-2.5 rounded text-right font-arabic leading-relaxed">
+              من فضلك، أنا عندي حساسية من منتجات الألبان. بدون لبن، بدون زبدة، وبدون جبنة.
+            </div>
+            <div class="text-[11px] text-slate-600 leading-relaxed">
+              カタカナ発音：<strong>ミン・ファドラク、アナ・アンディ・ハサシーヤ・ミン・ムンタジャート・アル・アルバーン。ビドゥーン・ラバン、ビドゥーン・ジブダ、ビドゥーン・ジブナ。</strong><br>
+              （訳：乳製品アレルギーがあります。牛乳・バター・チーズなしでお願いします）
+            </div>
+          </div>
+
+          <div class="p-3 bg-white rounded-xl border border-rose-200 space-y-1.5">
+            <span class="font-bold text-slate-800 flex items-center justify-between">
+              <span>🇬🇷 ギリシャ（ギリシャ語）</span>
+              <span class="text-[10px] bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded">ギリシャ全域</span>
+            </span>
+            <div class="text-base font-bold text-rose-800 bg-rose-50/70 p-2.5 rounded leading-relaxed">
+              Παρακαλώ, έχω αλλεργία στα γαλακτοκομικά. Χωρίς γάλα, χωρίς βούτυρο, χωρίς τυρί.
+            </div>
+            <div class="text-[11px] text-slate-600 leading-relaxed">
+              カタカナ発音：<strong>パラカロ、エホ・アレるギア・スタ・ガラクトコミカ。ホリス・ガラ、ホリス・ヴティロ、ホリス・ティリ。</strong><br>
+              （英語：I am allergic to dairy products. No milk, butter, or cheese please.）
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 日常クイック指さし会話集（アラビア語＆ギリシャ語） -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-3">
+        <div class="flex items-center space-x-2 border-b border-slate-100 pb-2">
+          <i class="fa-solid fa-comments text-amber-600 text-lg"></i>
+          <div>
+            <h2 class="font-bold text-slate-800 text-sm sm:text-base">日常クイック指さし会話集（笑顔が増える魔法の言葉）</h2>
+            <p class="text-xs text-slate-500">現地で挨拶や買い物をするときにそのまま使えるカタカナ付きフレーズ</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <!-- アラビア語 -->
+          <div class="p-3 bg-amber-50/70 rounded-xl border border-amber-200 space-y-1.5">
+            <span class="font-bold text-amber-950 block border-b border-amber-200 pb-1">🇪🇬 エジプト（アラビア語）</span>
+            <ul class="space-y-1 text-slate-700 leading-relaxed">
+              <li>● <strong>ありがとう：</strong> シュクラン (Shukran)</li>
+              <li>● <strong>こんにちは：</strong> サラーム・アレイコム (Salam Alaykum)</li>
+              <li>● <strong>いくらですか？：</strong> ビカーム・ダー？ (Bikam da?)</li>
+              <li>● <strong>結構です/いりません：</strong> ラー、シュクラン (La, Shukran)</li>
+              <li>● <strong>美味しい！：</strong> ラズィーズ！ (Lazeez!)</li>
+              <li>● <strong>トイレはどこ？：</strong> フェーン・エル・ハンマーム？ (Fein el-hammam?)</li>
+            </ul>
+          </div>
+
+          <!-- ギリシャ語 -->
+          <div class="p-3 bg-sky-50/70 rounded-xl border border-sky-200 space-y-1.5">
+            <span class="font-bold text-sky-950 block border-b border-sky-200 pb-1">🇬🇷 ギリシャ（ギリシャ語）</span>
+            <ul class="space-y-1 text-slate-700 leading-relaxed">
+              <li>● <strong>ありがとう：</strong> エフハリスト (Efharisto)</li>
+              <li>● <strong>こんにちは/やあ：</strong> ヤーサス (Yassas)</li>
+              <li>● <strong>いくらですか？：</strong> ポソ・コシジ？ (Poso kostizei?)</li>
+              <li>● <strong>お願いします/どういたしまして：</strong> パラカロ (Parakalo)</li>
+              <li>● <strong>美味しい！：</strong> ノスティモ！ (Nostimo!)</li>
+              <li>● <strong>お会計をお願いします：</strong> ト・ロガリアスモ・パラカロ</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. ドライバー提示用「ホテル・行き先見せカード」 -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-3">
+        <div class="flex items-center space-x-2 border-b border-slate-100 pb-2">
+          <i class="fa-solid fa-taxi text-amber-600 text-lg"></i>
+          <div>
+            <h2 class="font-bold text-slate-800 text-sm sm:text-base">ドライバー提示用「宿・行き先見せカード」</h2>
+            <p class="text-xs text-slate-500">タクシーやUberで迷った時に画面を見せるだけで通じます</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <div class="p-3 bg-amber-50/70 rounded-xl border border-amber-200 space-y-1">
+            <span class="font-bold text-amber-950 block">🇪🇬 ギザ宿泊先 (DAY 2-4, 5-6)</span>
+            <p class="text-base font-bold text-slate-900 font-arabic text-right">فندق تركواز بيراميدز - بجوار المتحف المصري الكبير</p>
+            <p class="text-[11px] text-slate-600">Turquoise Pyramids &amp; Grand Egyptian Museum View Hotel<br>El-Haram, Giza, Egypt</p>
+          </div>
+          <div class="p-3 bg-amber-50/70 rounded-xl border border-amber-200 space-y-1">
+            <span class="font-bold text-amber-950 block">🇪🇬 ルクソール宿泊先 (DAY 6-8)</span>
+            <p class="text-base font-bold text-slate-900 font-arabic text-right">فندق إيبروتيل الأقصر - شارع خالد بن الوليد</p>
+            <p class="text-[11px] text-slate-600">Iberotel Luxor<br>Khaled Ibn El Walid Street, Luxor</p>
+          </div>
+          <div class="p-3 bg-emerald-50/70 rounded-xl border border-emerald-200 space-y-1">
+            <span class="font-bold text-emerald-950 block">🇪🇬 ヘリオポリス宿泊先 (DAY 8-9)</span>
+            <p class="text-base font-bold text-slate-900 font-arabic text-right">أوشن بلو استوديوز - مصر الجديدة (قريب من المطار)</p>
+            <p class="text-[11px] text-slate-600">Ocean Blue Studios<br>Heliopolis, Cairo (Near Cairo Airport)</p>
+          </div>
+          <div class="p-3 bg-sky-50/70 rounded-xl border border-sky-200 space-y-1">
+            <span class="font-bold text-sky-950 block">🇬🇷 サントリーニ宿泊先 (DAY 10-13)</span>
+            <p class="text-base font-bold text-slate-900 text-right">Andronikos Canaves - Ημεροβίγλι</p>
+            <p class="text-[11px] text-slate-600">Andronikos Canaves<br>Imerovigli, Santorini, Greece</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. チップ完全相場表 -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-3">
+        <div class="flex items-center space-x-2 border-b border-slate-100 pb-2">
+          <i class="fa-solid fa-hand-holding-dollar text-amber-600 text-lg"></i>
+          <div>
+            <h2 class="font-bold text-slate-800 text-sm sm:text-base">エジプト＆ギリシャ チップ（バクシーシ）完全相場表</h2>
+            <p class="text-xs text-slate-500">渡し方・小額紙幣の準備の目安</p>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left text-slate-700 border border-slate-200 rounded-lg">
+            <thead class="bg-slate-100 text-slate-800 font-bold">
+              <tr>
+                <th class="p-2 border-b whitespace-nowrap">シーン・相手</th>
+                <th class="p-2 border-b">🇪🇬 エジプト相場（EGPまたはUSD）</th>
+                <th class="p-2 border-b">🇬🇷 ギリシャ相場（EUR）</th>
+                <th class="p-2 border-b">スマートな渡し方</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 leading-relaxed">
+              <tr>
+                <td class="p-2 font-bold whitespace-nowrap">公衆トイレ番</td>
+                <td class="p-2">10〜20 EGP（紙幣を直接手渡し）</td>
+                <td class="p-2">0.5〜1 €（小皿に置く）</td>
+                <td class="p-2">トイレットペーパーを貰う際に支払う</td>
+              </tr>
+              <tr>
+                <td class="p-2 font-bold whitespace-nowrap">ホテル・ポーター（荷物運搬）</td>
+                <td class="p-2">20〜50 EGP / 荷物1個（または 1 USD）</td>
+                <td class="p-2">1〜2 € / 荷物1個</td>
+                <td class="p-2">部屋に荷物を置いてもらった直後</td>
+              </tr>
+              <tr>
+                <td class="p-2 font-bold whitespace-nowrap">枕元チップ（ベッドメイキング）</td>
+                <td class="p-2">20〜50 EGP / 泊（または 1 USD）</td>
+                <td class="p-2">1〜2 € / 泊（高級ホテルは2〜3€）</td>
+                <td class="p-2">毎朝サイドテーブルや枕元に置く</td>
+              </tr>
+              <tr>
+                <td class="p-2 font-bold whitespace-nowrap">専用車ドライバー（終日）</td>
+                <td class="p-2">200〜300 EGP（または 5〜10 USD）/ 組</td>
+                <td class="p-2">5〜10 € / 組</td>
+                <td class="p-2">1日のツアー終了時にお礼とともに</td>
+              </tr>
+              <tr>
+                <td class="p-2 font-bold whitespace-nowrap">専属ツアーガイド（終日）</td>
+                <td class="p-2">300〜500 EGP（または 10〜15 USD）/ 組</td>
+                <td class="p-2">10〜20 € / 組</td>
+                <td class="p-2">1日のツアー終了時に握手しながら</td>
+              </tr>
+              <tr>
+                <td class="p-2 font-bold whitespace-nowrap">レストラン・カフェ</td>
+                <td class="p-2">お釣りの端数〜10%程度</td>
+                <td class="p-2">お釣りの小銭〜5〜10%程度</td>
+                <td class="p-2">テーブル会計時に小銭をトレイに残す</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 5. 水・衛生・お腹対策ルール -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-3">
+        <div class="flex items-center space-x-2 border-b border-slate-100 pb-2">
+          <i class="fa-solid fa-bottle-water text-sky-600 text-lg"></i>
+          <div>
+            <h2 class="font-bold text-slate-800 text-sm sm:text-base">水・衛生・お腹対策の鉄則</h2>
+            <p class="text-xs text-slate-500">エジプトで体調を崩さないための絶対ルール</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-700 leading-relaxed">
+          <div class="p-3 bg-sky-50 rounded-xl border border-sky-200 space-y-1">
+            <strong class="text-sky-950 block">💧 水分補給＆歯磨きのルール</strong>
+            <p>・<strong>生水は絶対NG：</strong> ミネラルウォーター（Dasani、Baraka、Aquafina等）のみ飲用。</p>
+            <p>・<strong>歯磨き・うがい：</strong> ホテルの洗面所の水は口に含まず、必ずペットボトルの水を使用。</p>
+            <p>・<strong>氷と生野菜：</strong> 屋台や安食堂のジュースに入った氷、洗った生野菜サラダは避ける。</p>
+          </div>
+          <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 space-y-1">
+            <strong class="text-amber-950 block">💊 お腹を壊したときの対処法</strong>
+            <p>・<strong>軽い軟便・違和感：</strong> 日本から持参したビオフェルミン等の整腸剤を毎食後服用。</p>
+            <p>・<strong>急な腹痛・下痢：</strong> 日本の薬が効かない菌性の下痢の場合、現地の薬局（Pharmacy）で「<strong>Antinal（アンティナル）</strong>」を購入（エジプト旅行者の定番・約20〜40EGP）。</p>
+            <p>・<strong>経口補水液：</strong> 粉末ポカリスエットをペットボトル水に溶かして常に携帯。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. 治安・スリ・詐欺対策 ＆ アラビア数字早見表 -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-4">
+        <div class="flex items-center space-x-2 border-b border-slate-100 pb-2">
+          <i class="fa-solid fa-shield-halved text-emerald-600 text-lg"></i>
+          <div>
+            <h2 class="font-bold text-slate-800 text-sm sm:text-base">治安・スリ・詐欺対策 ＆ アラビア数字早見表</h2>
+            <p class="text-xs text-slate-500">Uber乗車時のナンバー照合や街歩きの防犯</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs leading-relaxed">
+          <!-- 詐欺・スリ対策 -->
+          <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1.5">
+            <strong class="text-slate-800 block">⚠️ 街歩き・遺跡での防犯ルール</strong>
+            <p>・<strong>アテネ（メトロ・プラカ）：</strong> リュックは体の前で抱える。スマホをズボンの後ろポケットに入れない。</p>
+            <p>・<strong>カイロの「親切詐欺」：</strong> 「こっちが撮影スポットだよ」「神殿の鍵を開けてあげる」と声をかけてくる現地人は100%チップ目的なので無視。</p>
+            <p>・<strong>スマホを渡さない：</strong> 見知らぬ人に「2人の写真を撮ってあげる」と言われてもスマホを渡さない（盗難または法外なチップ要求のリスク）。撮影は専属ガイドに依頼。</p>
+          </div>
+
+          <!-- アラビア数字早見表 -->
+          <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 space-y-1.5">
+            <strong class="text-amber-950 block">🔢 アラビア数字早見表（Uberの車のナンバー照合用）</strong>
+            <div class="grid grid-cols-5 gap-1 text-center font-mono text-xs">
+              <div class="p-1 bg-white rounded border border-amber-200">0 = <strong>٠</strong></div>
+              <div class="p-1 bg-white rounded border border-amber-200">1 = <strong>١</strong></div>
+              <div class="p-1 bg-white rounded border border-amber-200">2 = <strong>٢</strong></div>
+              <div class="p-1 bg-white rounded border border-amber-200">3 = <strong>٣</strong></div>
+              <div class="p-1 bg-white rounded border border-amber-200">4 = <strong>٤</strong></div>
+              <div class="p-1 bg-white rounded border border-amber-200">5 = <strong>٥</strong></div>
+              <div class="p-1 bg-white rounded border border-amber-200">6 = <strong>٦</strong></div>
+              <div class="p-1 bg-white rounded border border-amber-200">7 = <strong>٧</strong></div>
+              <div class="p-1 bg-white rounded border border-amber-200">8 = <strong>٨</strong></div>
+              <div class="p-1 bg-white rounded border border-amber-200">9 = <strong>٩</strong></div>
+            </div>
+            <p class="text-[10px] text-amber-800 mt-1">※Uberアプリのナンバー表示（例：1234 ➔ ١٢٣٤）と車のプレートを照合して乗車。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. スーク値段交渉 5つの黄金ルール -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-3">
+        <div class="flex items-center space-x-2 border-b border-slate-100 pb-2">
+          <i class="fa-solid fa-comments-dollar text-amber-600 text-lg"></i>
+          <div>
+            <h2 class="font-bold text-slate-800 text-sm sm:text-base">エジプト市場（スーク）値段交渉 5つの黄金ルール</h2>
+            <p class="text-xs text-slate-500">ハンハリーリ市場やルクソールスークで楽しく買い物するコツ</p>
+          </div>
+        </div>
+        <div class="text-xs sm:text-sm text-slate-600 space-y-2 leading-relaxed">
+          <p><strong>1. 言い値は「相場の3〜5倍」と思え：</strong> 最初の提示額の1/3〜半額程度を笑顔で逆提示してスタート。</p>
+          <p><strong>2. 最強カード「立ち去るフリ（Walk away）」：</strong> 難航したら「ありがとう！（Shukran）」と店を出ようとすると、8割以上の確率で腕を引かれて値下げされます。</p>
+          <p><strong>3. 複数まとめ買いで値下げ：</strong> 「2個買うから安くして」は非常に有効な交渉テクニック。</p>
+          <p><strong>4. 断る時の魔法の言葉：</strong> 笑顔で手を胸に当てて「<strong>ラー、シュクラン</strong>（いいえ、結構です・ありがとう）」。</p>
+          <p><strong>5. お釣りを出させない：</strong> ぴったりのお金（小額紙幣）で支払うのがトラブル防止の基本。</p>
+        </div>
+      </div>
+
+      <!-- 8. 通信・電源・電圧 -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-3">
+        <div class="flex items-center space-x-2 border-b border-slate-100 pb-2">
+          <i class="fa-solid fa-plug text-indigo-600 text-lg"></i>
+          <div>
+            <h2 class="font-bold text-slate-800 text-sm sm:text-base">通信・電源・Wi-Fi環境</h2>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs text-slate-700 leading-relaxed">
+          <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200">
+            <strong class="text-slate-900 block mb-1">🔌 電源プラグ・電圧</strong>
+            ・プラグ形状：<strong>Cタイプ</strong>（丸ピン2本）<br>
+            ・電圧：220V（スマホ・カメラ充電器は全世界対応100-240Vなので変圧器不要）
+          </div>
+          <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200">
+            <strong class="text-slate-900 block mb-1">📶 通信・eSIM / Wi-Fi</strong>
+            ・エジプト：OrangeまたはVodafoneのeSIM/ローミングが安定。<br>
+            ・ギリシャ：Airalo等の欧州eSIMが極めて快適。
+          </div>
+          <div class="p-2.5 bg-amber-50 rounded-xl border border-amber-200">
+            <strong class="text-amber-950 block mb-1">⛺ 白砂漠の電波事情</strong>
+            ・新白砂漠のキャンプ地は<strong>完全圏外（ノー電波）</strong>になります。<br>
+            ・出発前に家族への連絡を済ませ、デジタルデトックスを満喫！
+          </div>
+        </div>
+      </div>
+
+      <!-- 9. 緊急連絡先 -->
+      <div class="bg-white rounded-2xl shadow-xs border border-slate-200 p-4 sm:p-5 space-y-2 text-xs text-slate-600 leading-relaxed">
+        <h2 class="font-bold text-slate-800 text-sm border-b border-slate-100 pb-2">
+          <i class="fa-solid fa-phone text-rose-500 mr-1.5"></i> 緊急連絡先 ＆ 大使館情報
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+          <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200">
+            <strong class="text-slate-900 block">🇪🇬 在エジプト日本国大使館（カイロ）</strong>
+            ・代表電話：+20-2-2528-5910<br>
+            ・緊急時（夜間・休日）：+20-2-2528-5910（当直転送）<br>
+            ・住所：81 Corniche El Nil Street, Maadi, Cairo
+          </div>
+          <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200">
+            <strong class="text-slate-900 block">🇬🇷 在ギリシャ日本国大使館（アテネ）</strong>
+            ・代表電話：+30-210-670-9900<br>
+            ・緊急時（夜間・休日）：+30-210-670-9900（当直転送）<br>
+            ・住所：46, Ethnikis Antistasseos Str., Halandri, Athens
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // 安全なストレージラッパー
+      var safeStorage = {
+        getItem: function(key) {
+          try { return localStorage.getItem(key); } catch(e) { return null; }
+        },
+        setItem: function(key, val) {
+          try { localStorage.setItem(key, val); } catch(e) {}
+        }
+      };
+
+      // ワールドクロック更新
+      function updateClocks() {
+        var now = new Date();
+        var fmt = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+        
+        var jstEl = document.getElementById('clock-jst');
+        var caiEl = document.getElementById('clock-cai');
+        var athEl = document.getElementById('clock-ath');
+
+        if (jstEl) jstEl.textContent = new Intl.DateTimeFormat('ja-JP', Object.assign({ timeZone: 'Asia/Tokyo' }, fmt)).format(now);
+        if (caiEl) caiEl.textContent = new Intl.DateTimeFormat('ja-JP', Object.assign({ timeZone: 'Africa/Cairo' }, fmt)).format(now);
+        if (athEl) athEl.textContent = new Intl.DateTimeFormat('ja-JP', Object.assign({ timeZone: 'Europe/Athens' }, fmt)).format(now);
+      }
+      setInterval(updateClocks, 1000);
+      updateClocks();
+
+      // 為替計算
+      var rateEgp = 3.1;
+      var rateEur = 163.0;
+      var rateUsd = 152.0;
+
+      var egpIn = document.getElementById('calc-egp');
+      var eurIn = document.getElementById('calc-eur');
+      var usdIn = document.getElementById('calc-usd');
+
+      if (egpIn) {
+        egpIn.addEventListener('input', function() {
+          var val = parseFloat(this.value) || 0;
+          document.getElementById('res-egp').textContent = Math.round(val * rateEgp).toLocaleString();
+        });
+      }
+      if (eurIn) {
+        eurIn.addEventListener('input', function() {
+          var val = parseFloat(this.value) || 0;
+          document.getElementById('res-eur').textContent = Math.round(val * rateEur).toLocaleString();
+        });
+      }
+      if (usdIn) {
+        usdIn.addEventListener('input', function() {
+          var val = parseFloat(this.value) || 0;
+          document.getElementById('res-usd').textContent = Math.round(val * rateUsd).toLocaleString();
+        });
+      }
+
+      // 1. ToDo 管理 ＆ カスタム追加
+      function updateTodo() {
+        var todoChecks = document.querySelectorAll('.todo-check');
+        var todoCountEl = document.getElementById('todo-count');
+        var todoProgressEl = document.getElementById('todo-progress-bar');
+        var total = todoChecks.length;
+        var checked = 0;
+
+        todoChecks.forEach(function(chk) {
+          var item = chk.closest('.todo-item');
+          var text = item ? item.querySelector('.todo-text') : null;
+          if (chk.checked) {
+            checked++;
+            if (item) item.classList.add('card-checked');
+            if (text) text.classList.add('item-checked');
+          } else {
+            if (item) item.classList.remove('card-checked');
+            if (text) text.classList.remove('item-checked');
+          }
+        });
+        if (todoCountEl) todoCountEl.textContent = checked + ' / ' + total + ' 完了';
+        var pct = total > 0 ? (checked / total) * 100 : 0;
+        if (todoProgressEl) todoProgressEl.style.width = pct + '%';
+      }
+
+      function attachTodoListeners() {
+        document.querySelectorAll('.todo-check').forEach(function(chk) {
+          var saved = safeStorage.getItem(chk.getAttribute('data-id'));
+          if (saved === 'true') chk.checked = true;
+          chk.onchange = function() {
+            safeStorage.setItem(chk.getAttribute('data-id'), chk.checked);
+            updateTodo();
+          };
+        });
+        updateTodo();
+      }
+
+      window.addCustomTodo = function() {
+        var input = document.getElementById('custom-todo-input');
+        var val = input.value.trim();
+        if (!val) return;
+        var id = 'custom-todo-' + Date.now();
+        var customTodos = JSON.parse(safeStorage.getItem('custom_todos') || '[]');
+        customTodos.push({ id: id, text: val });
+        safeStorage.setItem('custom_todos', JSON.stringify(customTodos));
+        input.value = '';
+        renderCustomTodos();
+      };
+
+      function renderCustomTodos() {
+        var customTodos = JSON.parse(safeStorage.getItem('custom_todos') || '[]');
+        var container = document.getElementById('todo-list-container-2');
+        // 既存のカスタム要素を削除
+        container.querySelectorAll('.custom-todo-node').forEach(function(el) { el.remove(); });
+
+        customTodos.forEach(function(t) {
+          var label = document.createElement('label');
+          label.className = 'todo-item custom-todo-node flex items-start justify-between space-x-3 p-2.5 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition';
+          label.innerHTML = '<div class="flex items-start space-x-3"><input type="checkbox" class="todo-check mt-0.5 rounded text-amber-600 w-4 h-4" data-id="' + t.id + '"><span class="todo-text font-bold text-slate-800">' + t.text + '</span></div><button type="button" onclick="deleteCustomTodo(\'' + t.id + '\', event)" class="text-slate-400 hover:text-red-500 text-xs px-1"><i class="fa-solid fa-trash"></i></button>';
+          container.appendChild(label);
+        });
+        attachTodoListeners();
+      }
+
+      window.deleteCustomTodo = function(id, e) {
+        if (e) e.stopPropagation();
+        var customTodos = JSON.parse(safeStorage.getItem('custom_todos') || '[]');
+        customTodos = customTodos.filter(function(t) { return t.id !== id; });
+        safeStorage.setItem('custom_todos', JSON.stringify(customTodos));
+        renderCustomTodos();
+      };
+
+      // 2. 持ち物 管理 ＆ カスタム追加
+      function updatePack() {
+        var packChecks = document.querySelectorAll('.pack-check');
+        var packCountEl = document.getElementById('pack-count');
+        var packProgressEl = document.getElementById('pack-progress-bar');
+        var total = packChecks.length;
+        var checked = 0;
+
+        packChecks.forEach(function(chk) {
+          var item = chk.closest('.pack-item');
+          var text = item ? item.querySelector('.pack-text') : null;
+          if (chk.checked) {
+            checked++;
+            if (item) item.classList.add('card-checked');
+            if (text) text.classList.add('item-checked');
+          } else {
+            if (item) item.classList.remove('card-checked');
+            if (text) text.classList.remove('item-checked');
+          }
+        });
+        if (packCountEl) packCountEl.textContent = checked + ' / ' + total + ' 準備済';
+        var pct = total > 0 ? (checked / total) * 100 : 0;
+        if (packProgressEl) packProgressEl.style.width = pct + '%';
+      }
+
+      function attachPackListeners() {
+        document.querySelectorAll('.pack-check').forEach(function(chk) {
+          var saved = safeStorage.getItem(chk.getAttribute('data-id'));
+          if (saved === 'true') chk.checked = true;
+          chk.onchange = function() {
+            safeStorage.setItem(chk.getAttribute('data-id'), chk.checked);
+            updatePack();
+          };
+        });
+        updatePack();
+      }
+
+      window.addCustomPack = function() {
+        var input = document.getElementById('custom-pack-input');
+        var val = input.value.trim();
+        if (!val) return;
+        var id = 'custom-pack-' + Date.now();
+        var customPacks = JSON.parse(safeStorage.getItem('custom_packs') || '[]');
+        customPacks.push({ id: id, text: val });
+        safeStorage.setItem('custom_packs', JSON.stringify(customPacks));
+        input.value = '';
+        renderCustomPacks();
+      };
+
+      function renderCustomPacks() {
+        var customPacks = JSON.parse(safeStorage.getItem('custom_packs') || '[]');
+        var container = document.getElementById('custom-pack-list');
+        container.innerHTML = '';
+
+        customPacks.forEach(function(p) {
+          var label = document.createElement('label');
+          label.className = 'pack-item flex items-center justify-between space-x-2.5 p-2 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition';
+          label.innerHTML = '<div class="flex items-center space-x-2.5"><input type="checkbox" class="pack-check rounded text-sky-600 w-4 h-4" data-id="' + p.id + '"><span class="pack-text font-medium text-slate-800">' + p.text + '</span></div><button type="button" onclick="deleteCustomPack(\'' + p.id + '\', event)" class="text-slate-400 hover:text-red-500 text-xs px-1"><i class="fa-solid fa-trash"></i></button>';
+          container.appendChild(label);
+        });
+        attachPackListeners();
+      }
+
+      window.deleteCustomPack = function(id, e) {
+        if (e) e.stopPropagation();
+        var customPacks = JSON.parse(safeStorage.getItem('custom_packs') || '[]');
+        customPacks = customPacks.filter(function(p) { return p.id !== id; });
+        safeStorage.setItem('custom_packs', JSON.stringify(customPacks));
+        renderCustomPacks();
+      };
+
+      // 3. お土産 相手別管理 ＆ カスタム追加
+      function updateSouvenir() {
+        var checks = document.querySelectorAll('.souvenir-check');
+        var countEl = document.getElementById('souvenir-count');
+        var total = checks.length;
+        var checked = 0;
+
+        checks.forEach(function(chk) {
+          var item = chk.closest('.souvenir-item');
+          var text = item ? item.querySelector('.souvenir-text') : null;
+          if (chk.checked) {
+            checked++;
+            if (item) item.classList.add('card-checked');
+            if (text) text.classList.add('item-checked');
+          } else {
+            if (item) item.classList.remove('card-checked');
+            if (text) text.classList.remove('item-checked');
+          }
+        });
+        if (countEl) countEl.textContent = checked + ' / ' + total + ' 完了';
+      }
+
+      function attachSouvenirListeners() {
+        document.querySelectorAll('.souvenir-check').forEach(function(chk) {
+          var saved = safeStorage.getItem(chk.getAttribute('data-id'));
+          if (saved === 'true') chk.checked = true;
+          chk.onchange = function() {
+            safeStorage.setItem(chk.getAttribute('data-id'), chk.checked);
+            updateSouvenir();
+          };
+        });
+        updateSouvenir();
+      }
+
+      window.addCustomSouvenir = function() {
+        var input = document.getElementById('custom-souvenir-input');
+        var val = input.value.trim();
+        if (!val) return;
+        var id = 'custom-souv-' + Date.now();
+        var customSouvs = JSON.parse(safeStorage.getItem('custom_souvenirs') || '[]');
+        customSouvs.push({ id: id, text: val });
+        safeStorage.setItem('custom_souvenirs', JSON.stringify(customSouvs));
+        input.value = '';
+        renderCustomSouvenirs();
+      };
+
+      function renderCustomSouvenirs() {
+        var customSouvs = JSON.parse(safeStorage.getItem('custom_souvenirs') || '[]');
+        var container = document.getElementById('souvenir-list-container');
+        container.querySelectorAll('.custom-souv-node').forEach(function(el) { el.remove(); });
+
+        customSouvs.forEach(function(s) {
+          var label = document.createElement('label');
+          label.className = 'souvenir-item custom-souv-node flex items-start justify-between space-x-2.5 p-2.5 rounded-lg border border-slate-100 hover:bg-slate-50 cursor-pointer transition';
+          label.innerHTML = '<div class="flex items-start space-x-2.5"><input type="checkbox" class="souvenir-check mt-0.5 rounded text-emerald-600 w-4 h-4" data-id="' + s.id + '"><span class="souvenir-text font-bold text-slate-800">' + s.text + '</span></div><button type="button" onclick="deleteCustomSouvenir(\'' + s.id + '\', event)" class="text-slate-400 hover:text-red-500 text-xs px-1"><i class="fa-solid fa-trash"></i></button>';
+          container.appendChild(label);
+        });
+        attachSouvenirListeners();
+      }
+
+      window.deleteCustomSouvenir = function(id, e) {
+        if (e) e.stopPropagation();
+        var customSouvs = JSON.parse(safeStorage.getItem('custom_souvenirs') || '[]');
+        customSouvs = customSouvs.filter(function(s) { return s.id !== id; });
+        safeStorage.setItem('custom_souvenirs', JSON.stringify(customSouvs));
+        renderCustomSouvenirs();
+      };
+
+      // 初期化実行
+      attachTodoListeners();
+      renderCustomTodos();
+      attachPackListeners();
+      renderCustomPacks();
+      attachSouvenirListeners();
+      renderCustomSouvenirs();
+    });
+  </script>
+</body>
+</html>

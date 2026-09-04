@@ -10,7 +10,7 @@ import os, io, datetime
 ROOT = r"C:\Users\masato.nakazawa\Downloads\Claudeプロジェクト"
 OUT = os.path.join(ROOT, "プロジェクト一覧.md")
 MAX_DEPTH = 2  # ROOT からの深さ
-EXCLUDE = ("00_プロジェクトテンプレート", "_ツール", "_archive")  # プロジェクトとして扱わない
+EXCLUDE = ("00_プロジェクトテンプレート", "_ツール", "_agent", "_archive")  # プロジェクトとして扱わない
 
 
 def read(path):
