@@ -11,14 +11,16 @@ def stub(name, target):
     return (
 '<!doctype html>\n<html lang="ja">\n<head>\n<meta charset="utf-8"/>\n'
 '<meta name="viewport" content="width=device-width, initial-scale=1"/>\n'
-'<title>最新版へ移動 — '+name+'</title>\n'
+'<title>【転送】'+name+'（最新版を開きます）</title>\n'
 '<script>location.replace('+repr_js(target)+'+location.hash);</script>\n'
 '<noscript><meta http-equiv="refresh" content="0; url='+target+'"/></noscript>\n'
 '<style>body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#191d21;color:#e7ebef;'
-'margin:0;padding:40px;line-height:1.6}a{color:#e0b451}</style>\n'
+'margin:0;padding:40px;line-height:1.7}a{color:#e0b451}.note{color:#9aa3ac;font-size:.9rem;margin-top:18px}</style>\n'
 '</head>\n<body>\n'
-'<p>「'+name+'」の最新版へ移動します。自動で移動しない場合は '
-'<a id="lnk" href="'+target+'">こちら</a> を開いてください。</p>\n'
+'<h1 style="font-size:1.15rem">🔁 最新版へ転送しています…</h1>\n'
+'<p>このページは「'+name+'」の<strong>最新版へ自動転送するための固定リンク</strong>です（内容そのものはありません）。'
+'自動で移動しない場合は <a id="lnk" href="'+target+'">最新版（'+target+'）を開く</a> をタップしてください。</p>\n'
+'<p class="note">このファイル名（…_latest）は版番号を含まないため、成果物どうしのリンク切れを防ぐために使っています。ブックマークにも便利です。</p>\n'
 '<script>var a=document.getElementById("lnk");if(a)a.href='+repr_js(target)+'+location.hash;</script>\n'
 '</body>\n</html>\n')
 
@@ -28,7 +30,7 @@ def repr_js(s):
 # (スタブのパス, 表示名, リダイレクト先の現行版ファイル名)
 STUBS = [
  (BASE+"20260729_東ティモールナレッジベース/02_output/20260729_東ティモールナレッジベース_latest.html",
-  "東ティモール総合ナレッジベース", "20260729_東ティモールナレッジベース_v39.35.html"),
+  "東ティモール総合ナレッジベース", "20260729_東ティモールナレッジベース_v39.36.html"),
  (BASE+"20260729_東ティモールナレッジベース/02_output/20260729_東ティモールKB英語概要_latest.html",
   "Timor-Leste — Essentials（英語概要）", "20260729_東ティモールKB英語概要_v1.html"),
  (BASE+"20260903_東ティモールビジネス実務ガイド/02_output/20260903_東ティモールビジネス実務ガイド_latest.html",
