@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>電カル調査研究 定常業務マニュアル</title>
+<style>
+:root{--sb:272px;--pri:#1a2e4a;--acc:#2563eb;--txt:#1f2937;--mu:#6b7280;--bd:#e5e7eb;--bg:#f9fafb}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Hiragino Sans','Yu Gothic',Meiryo,sans-serif;font-size:14px;color:var(--txt);background:var(--bg);display:flex;height:100vh;overflow:hidden}
+#sb{width:var(--sb);min-width:var(--sb);background:var(--pri);color:#fff;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+#sb-hd{padding:14px 12px 10px;border-bottom:1px solid rgba(255,255,255,.12)}
+#sb-tag{font-size:9.5px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.45);text-transform:uppercase}
+#sb-ttl{font-size:12.5px;font-weight:700;color:#fff;margin-top:4px;line-height:1.5}
+#sb-ver{font-size:10px;color:rgba(255,255,255,.35);margin-top:3px}
+#sb-srch{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.1)}
+#srch-in{width:100%;padding:5px 8px;border-radius:5px;border:none;background:rgba(255,255,255,.15);color:#fff;font-size:12px;outline:none}
+#srch-in::placeholder{color:rgba(255,255,255,.4)}
+#srch-in:focus{background:rgba(255,255,255,.22)}
+#nav{flex:1;overflow-y:auto;padding:4px 0 12px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.15) transparent}
+.cat-hd{padding:10px 10px 4px;display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
+.cat-hd:hover{background:rgba(255,255,255,.05)}
+.cat-cadence{font-size:9px;padding:1px 5px;border-radius:10px;font-weight:700;white-space:nowrap;background:rgba(255,255,255,.18);color:rgba(255,255,255,.8)}
+.cat-cadence.月次{background:rgba(217,119,6,.4);color:#fde68a}
+.cat-cadence.随時{background:rgba(107,114,128,.4);color:#d1d5db}
+.cat-name{font-size:10.5px;font-weight:700;color:rgba(255,255,255,.7);flex:1;line-height:1.3}
+.cat-arrow{font-size:9px;color:rgba(255,255,255,.3);transition:transform .15s}
+.cat-hd.collapsed .cat-arrow{transform:rotate(-90deg)}
+.cat-body.collapsed{display:none}
+.ni{display:flex;align-items:flex-start;gap:5px;padding:5px 10px 5px 20px;cursor:pointer;font-size:11px;line-height:1.4;color:rgba(255,255,255,.65);border-left:3px solid transparent;transition:background .1s}
+.ni:hover{background:rgba(255,255,255,.08);color:#fff}
+.ni.active{background:rgba(255,255,255,.12);color:#fff;border-left-color:#60a5fa}
+.ni-bd{font-size:8.5px;padding:1px 4px;border-radius:3px;font-weight:700;white-space:nowrap;flex-shrink:0;margin-top:2px}
+.bd-手順{background:rgba(96,165,250,.3);color:#bfdbfe}
+.bd-参考{background:rgba(156,163,175,.3);color:#d1d5db}
+.bd-メモ{background:rgba(52,211,153,.3);color:#a7f3d0}
+.ni-tx{flex:1}
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+#topbar{background:#fff;border-bottom:1px solid var(--bd);padding:8px 20px;display:flex;align-items:center;gap:8px;min-height:42px}
+#cur-ttl{font-size:13px;font-weight:600;color:var(--pri);flex:1}
+.tb-btn{padding:3px 10px;font-size:11px;border-radius:4px;border:1px solid var(--bd);background:#fff;cursor:pointer;color:var(--txt)}
+.tb-btn:hover{background:var(--bg)}
+#ca{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#d1d5db transparent}
+.sec{display:none;padding:22px 28px 48px;max-width:860px}
+.sec.active{display:block}
+.sec-meta{display:flex;align-items:center;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.sec-cadence{font-size:10px;padding:2px 7px;border-radius:3px;font-weight:700;border:1px solid var(--bd);color:var(--mu)}
+.sec-cadence.週次{background:#eff6ff;color:#1e40af;border-color:#bfdbfe}
+.sec-cadence.月次{background:#fffbeb;color:#92400e;border-color:#fde68a}
+.sec-cadence.随時{background:#f3f4f6;color:#374151;border-color:#d1d5db}
+.sec-cadence.参考{background:#f3f4f6;color:#374151;border-color:#d1d5db}
+.sec-type{font-size:10px;padding:2px 7px;border-radius:3px;font-weight:700}
+.sec-type.手順{background:#dbeafe;color:#1e40af}
+.sec-type.参考{background:#f3f4f6;color:#374151}
+.sec-type.メモ{background:#d1fae5;color:#065f46}
+.sec-h1{font-size:18px;font-weight:700;color:var(--pri);margin-bottom:18px;line-height:1.35}
+.cb h2{font-size:14px;font-weight:700;color:var(--pri);margin:22px 0 8px;padding-bottom:5px;border-bottom:2px solid #dbeafe}
+.cb h2:first-child{margin-top:0}
+.cb h3{font-size:12.5px;font-weight:700;color:#1e40af;margin:14px 0 6px;padding:5px 9px;background:#eff6ff;border-radius:4px;border-left:3px solid #3b82f6}
+.cb p{margin:3px 0;line-height:1.75;color:#374151}
+.cb ul.lns{list-style:none;margin:3px 0 8px 22px;padding:0}
+.cb ul.lns li{padding:2px 0 2px 12px;line-height:1.65;color:#374151;position:relative}
+.cb ul.lns li::before{content:'·';position:absolute;left:3px;color:var(--mu)}
+.chk{display:flex;align-items:flex-start;gap:7px;padding:3px 0}
+.chk input{margin-top:3px;width:14px;height:14px;flex-shrink:0;accent-color:#3b82f6;cursor:pointer}
+.chk label{cursor:pointer;color:#374151;line-height:1.6;flex:1}
+.chk input:checked+label{color:#9ca3af;text-decoration:line-through}
+.phase-hd{font-size:11px;font-weight:700;color:var(--mu);letter-spacing:.04em;margin:16px 0 6px;padding-bottom:3px;border-bottom:1px dashed var(--bd)}
+.phase-hd:first-child{margin-top:0}
+.wrn{background:#fef2f2;border:1px solid #fecaca;border-radius:5px;padding:8px 12px;margin:4px 0 4px 22px;color:#991b1b;font-size:12.5px;line-height:1.65}
+.info{background:#eff6ff;border:1px solid #bfdbfe;border-radius:5px;padding:10px 14px;margin:8px 0;color:#1e40af;font-size:12.5px;line-height:1.75}
+.info a{color:#1e40af}
+.nt{color:var(--mu);font-size:12px;padding:3px 0 3px 10px;border-left:2px solid var(--bd);margin:4px 0;line-height:1.6}
+.bun-label{font-size:10px;font-weight:700;color:var(--mu);margin:8px 0 3px}
+.bun{background:#f8fafc;border:1px solid var(--bd);border-left:3px solid #94a3b8;border-radius:5px;padding:10px 12px;margin-bottom:6px;font-size:11.5px;line-height:1.85;white-space:pre-wrap;word-break:break-all}
+.tbl{width:100%;border-collapse:collapse;margin:8px 0;font-size:12.5px}
+.tbl th{background:#1a2e4a;color:#fff;padding:7px 10px;text-align:left;font-size:11px;font-weight:700}
+.tbl td{border:1px solid var(--bd);padding:6px 10px;vertical-align:top;line-height:1.5}
+.tbl tr:nth-child(even) td{background:#f8fafc}
+#welcome{padding:40px 32px;color:var(--mu)}
+#welcome h2{font-size:18px;color:var(--pri);margin-bottom:12px}
+#welcome p{line-height:1.75;margin-top:4px}
+#srch-res{display:none;padding:20px 28px}
+.sr-item{padding:12px;margin-bottom:8px;background:#fff;border:1px solid var(--bd);border-radius:6px;cursor:pointer}
+.sr-item:hover{border-color:#93c5fd}
+.sr-sec{font-size:11px;color:var(--mu);margin-bottom:4px}
+.sr-txt{font-size:13px;color:var(--txt);line-height:1.5}
+@media print{body{overflow:visible;display:block}#sb{display:none}#main{overflow:visible}#topbar{display:none}#ca{overflow:visible}.sec{display:block!important;page-break-before:always}.sec:first-child{page-break-before:auto}}
+</style>
+</head>
+<body>
+<nav id="sb">
+  <div id="sb-hd">
+    <div id="sb-tag">電カル調査研究</div>
+    <div id="sb-ttl">定常業務<br>マニュアル</div>
+    <div id="sb-ver">v1 · 2026-09-10</div>
+  </div>
+  <div id="sb-srch">
+    <input type="text" id="srch-in" placeholder="🔍 検索..." oninput="doSearch(this.value)">
+  </div>
+  <div id="nav"></div>
+</nav>
+<main id="main">
+  <div id="topbar">
+    <span id="cur-ttl">セクションを選択してください</span>
+    <button class="tb-btn" onclick="resetChecks()">✓ チェックをリセット</button>
+    <button class="tb-btn" onclick="window.print()">🖨 印刷</button>
+  </div>
+  <div id="ca">
+    <div id="welcome">
+      <h2>電カル調査研究 定常業務マニュアル</h2>
+      <p>対象：電子カルテ情報共有サービスに関する厚労省調査研究事業のロジ担当者</p>
+      <p style="margin-top:12px;font-size:12px">左のメニューからセクションを選択してください。チェックボックスで進捗管理ができます（リセットボタンで初期化）。</p>
+    </div>
+    <div id="srch-res"></div>
+  </div>
+</main>
+<script>
+const CATS = [
+  { id:'全体', name:'全体・カレンダー', cadence:'' },
+  { id:'三者定例', name:'三者定例', cadence:'週次' },
+  { id:'社内定例', name:'社内定例', cadence:'週次' },
+  { id:'進捗・WBS', name:'進捗連絡会議・WBS', cadence:'週次' },
+  { id:'開発課題', name:'開発課題検討会', cadence:'週次' },
+  { id:'ONS', name:'ONS', cadence:'週次' },
+  { id:'月次', name:'月次ルーティン', cadence:'月次' },
+  { id:'随時', name:'随時対応', cadence:'随時' },
+];
+
+const SECTIONS = [
+  {
+    id:'calendar', cat:'全体', cadence:'参考', type:'参考',
+    title:'週次カレンダー（全体像）',
+    content:`
+      <table class="tbl">
+        <tr><th>曜日</th><th>時間</th><th>会議・作業</th></tr>
+        <tr><td>月</td><td>10:30–11:00</td><td>三者定例ラップアップ会議</td></tr>
+        <tr><td>月</td><td>13:15–13:30</td><td>昼会</td></tr>
+        <tr><td>月</td><td>13:30–14:00</td><td>開発進捗連絡会議</td></tr>
+        <tr><td>月</td><td>14:00–15:30</td><td>開発課題検討会</td></tr>
+        <tr><td>月</td><td>17:00–17:30</td><td>夕会</td></tr>
+        <tr><td>火</td><td>13:15–13:30</td><td>昼会</td></tr>
+        <tr><td>火</td><td>14:15–15:00</td><td>ONS問合せ会議</td></tr>
+        <tr><td>火</td><td>15:00–15:30</td><td>ONS共有会</td></tr>
+        <tr><td>火</td><td>17:00–17:30</td><td>夕会</td></tr>
+        <tr><td>水</td><td>13:15–13:30</td><td>昼会（ONS返送日）</td></tr>
+        <tr><td>水</td><td>17:00–17:30</td><td>夕会（ONS受領日）</td></tr>
+        <tr><td>木</td><td>13:30</td><td>三者定例 事前連携 刈り取り</td></tr>
+        <tr><td>木</td><td>14:00</td><td>三者定例 事前連携（厚労省シェアポ格納）</td></tr>
+        <tr><td>金</td><td>10:00–12:00</td><td>WBS確認会</td></tr>
+        <tr><td>金</td><td>13:15–13:30</td><td>昼会</td></tr>
+        <tr><td>金</td><td>15:00–16:00</td><td>三者定例（本番）</td></tr>
+        <tr><td>金</td><td>16:30–17:30</td><td>夕会（金のみ長め）</td></tr>
+      </table>
+      <div class="nt" style="margin-top:8px">毎月第2週：ONS月次報告アジェンダが追加（詳細はONSセクション参照）</div>
+      <div class="nt">不定期：JLAC打合せ（月次）・JAHIS打合せ・大江先生打合せ</div>
+      <div class="nt">議事メモ：WBS確認会を除く全会議でロジ担当が作成する</div>
+    `
+  },
+  {
+    id:'fri-main', cat:'三者定例', cadence:'週次', type:'手順',
+    title:'三者定例：金曜（当日）',
+    content:`
+      <div class="info">
+        <strong>【内部Rv用スレッド】</strong> 資料・ラップアップ・議事録のACN内部Rvはこちら<br>
+        02_電カル共有調査研究 ＞ 三者定例資料<br>
+        <a href="https://teams.microsoft.com/l/message/19:4d4ff3d646af48969422605c9518e623@thread.tacv2/1784271041572?tenantId=e0793d39-0939-496d-b129-198edd916feb&groupId=c7a6f885-d9e8-444b-baf0-9f03af3fec14&parentMessageId=1784271041572&teamName=2026%E5%B9%B4%E5%BA%A6_%E9%9B%BB%E5%AD%90%E3%82%AB%E3%83%AB%E3%83%86%E6%83%85%E5%A0%B1%E5%85%B1%E6%9C%89%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9&channelName=02_%E9%9B%BB%E3%82%AB%E3%83%AB%E5%85%B1%E6%9C%89%E8%AA%BF%E6%9F%BB%E7%A0%94%E7%A9%B6&createdTime=1784271041572" target="_blank">Teamsスレッドを開く →</a>
+      </div>
+      <div class="phase-hd">会議中</div>
+      <div class="chk"><input type="checkbox" id="fri-1"><label for="fri-1">ラップアップページに記入する</label></div>
+      <div class="chk"><input type="checkbox" id="fri-2"><label for="fri-2">議事メモを記載する</label></div>
+      <div class="phase-hd">会議後 ① 次回ファイル作成（ACNシェアポ）</div>
+      <div class="chk"><input type="checkbox" id="fri-3"><label for="fri-3">前回分フォルダをコピーし、次回開催日フォルダを作成する</label></div>
+      <div class="chk"><input type="checkbox" id="fri-4"><label for="fri-4">表紙の日付を次回開催日に更新する</label></div>
+      <div class="chk"><input type="checkbox" id="fri-5"><label for="fri-5">議事要旨用のフォルダ・ファイルも同時に作成する</label></div>
+      <div class="phase-hd">会議後 ② 翌週リマインド投稿予約</div>
+      <div class="chk"><input type="checkbox" id="fri-6"><label for="fri-6">ACN Teamsの以下スレッドで、翌週木曜朝・金曜朝の投稿を <strong>各9:00送信で予約</strong> する</label></div>
+      <div class="nt">送付先スレッド：<a href="https://teams.microsoft.com/l/message/19:LKmHQN8a5v1TpiCXG6_ZhITzmQgSlfOEPr9OjtAz0HI1@thread.tacv2/1775654880227?tenantId=e0793d39-0939-496d-b129-198edd916feb&groupId=c7a6f885-d9e8-444b-baf0-9f03af3fec14&parentMessageId=1775654880227&teamName=2026%E5%B9%B4%E5%BA%A6_%E9%9B%BB%E5%AD%90%E3%82%AB%E3%83%AB%E3%83%86%E6%83%85%E5%A0%B1%E5%85%B1%E6%9C%89%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9&channelName=%E4%B8%80%E8%88%AC&createdTime=1775654880227" target="_blank">【状況確認】三者定例資料の送付事前確認 | 2026年度_電子カルテ情報共有サービス ＞ 一般 →</a></div>
+      <div class="bun-label">翌週木曜 9:00 送信予約（事前連携リマインド）</div>
+      <div class="bun">※敬称略失礼します
+Nakazato, Yuri Sakisaka, Tsubasa Yamagata, Naohiro Honda, Keiko
+(CC: Ono, Shunichi Sasagawa, Rika Abe, Masako Minowa, Kazuki Mukai, Chiaki Kurokawa, Hanae)
+
+お疲れ様です。三者定例資料のリマインド失礼します。
+【リマインド内容】
+〇/〇の三者定例資料につきまして、作成状況いかがでしょうか。
+事前連携OKでしたらスタンプをお願いいたします。
+期限：〇/〇 13:50まで
+格納先：2026〇〇〇〇_三者定例</div>
+      <div class="bun-label">翌週金曜 9:00 送信予約（最終格納リマインド）</div>
+      <div class="bun">※敬称略失礼します
+Nakazato, Yuri Sakisaka, Tsubasa Yamagata, Naohiro Honda, Keiko
+(CC: Ono, Shunichi Sasagawa, Rika Abe, Masako Minowa, Kazuki Mukai, Chiaki Kurokawa, Hanae)
+
+お疲れ様です。三者定例資料のリマインド失礼します。
+【リマインド内容】
+〇/〇の三者定例資料につきまして、作成状況いかがでしょうか。
+最終格納OKでしたらスタンプをお願いいたします。
+期限：〇/〇 11:50まで
+格納先：2026〇〇〇〇_三者定例</div>
+      <div class="phase-hd">会議後 ③ 議事要旨作成</div>
+      <div class="chk"><input type="checkbox" id="fri-7"><label for="fri-7">議事要旨フォルダ内のファイルに記載する</label></div>
+      <div class="chk"><input type="checkbox" id="fri-8"><label for="fri-8">締切：翌週木曜 14:00（例：8/28金分 → 9/3木 14:00）</label></div>
+      <div class="chk"><input type="checkbox" id="fri-9"><label for="fri-9">Plannerに発生したTODOを記載する</label></div>
+    `
+  },
+  {
+    id:'mon-main', cat:'三者定例', cadence:'週次', type:'手順',
+    title:'三者定例：月曜（ラップアップ会議）',
+    content:`
+      <div class="phase-hd">会議前</div>
+      <div class="chk"><input type="checkbox" id="mon-0"><label for="mon-0">当週分の三者定例資料ファイルが作成済みか確認する</label></div>
+      <div class="phase-hd">会議中</div>
+      <div class="chk"><input type="checkbox" id="mon-1"><label for="mon-1">前週金曜分のラップアップページを投影する</label></div>
+      <div class="chk"><input type="checkbox" id="mon-2"><label for="mon-2">本田さんから基金側に記入漏れがないか確認してもらう</label></div>
+      <div class="chk"><input type="checkbox" id="mon-3"><label for="mon-3">本田さんが当週金曜の付議事項を確認する。追加アジェンダがあれば金曜資料のアジェンダページ枠外にワッペンでメモする（基金・ACN作業者への共有用）</label></div>
+      <div class="phase-hd">会議後 ① 本田さんにRv依頼</div>
+      <div class="chk"><input type="checkbox" id="mon-4"><label for="mon-4">先週分のラップアップを切り出したファイルをRv依頼する</label></div>
+      <div class="phase-hd">会議後 ② Rv完了後、厚労・基金へ送付</div>
+      <div class="chk"><input type="checkbox" id="mon-5"><label for="mon-5">必ずプロパティを削除すること</label></div>
+      <div class="chk"><input type="checkbox" id="mon-6"><label for="mon-6">以下の宛先にメール送付する</label></div>
+      <div class="bun-label">To（基金）</div>
+      <div class="bun">suzuki-tomoyuki.co@ssk.or.jp; kurokawa-daisuke.cx@ssk.or.jp; nishimura-yoshihisa.ey@ssk.or.jp; hirokami-hisanori.na@ssk.or.jp; miyawaki-shinji.ny@ssk.or.jp; ono-chie.lw@ssk.or.jp; yamamoto-koji.vk@ssk.or.jp; hosonuma-hiroki.bi@ssk.or.jp; yamamoto-takanori.vy@ssk.or.jp; yamamoto-kana.lk@ssk.or.jp; yamashiki_yuji@ssk.or.jp; uchida-hiroaki.uh@ssk.or.jp; saito-masaki.io@ssk.or.jp; amano-yuna.im@ssk.or.jp; nomura-nanako.bs@ssk.or.jp; nakamura_yoshihiko@ssk.or.jp; koshimizu_ayame@ssk.or.jp; yoshihara_kenjiro@ssk.or.jp</div>
+      <div class="bun-label">To（厚労省）</div>
+      <div class="bun">nagamine-yuiko.qt8@mhlw.go.jp; takahashi-yuuichi01@mhlw.go.jp; uehori-motoki.3r6@mhlw.go.jp; nakanishi-masanori.de7@mhlw.go.jp; shibuya-kenichi.z45@mhlw.go.jp; hasegawa-satoru.f83@mhlw.go.jp</div>
+      <div class="bun-label">CC</div>
+      <div class="bun">clins_internal@fortience.com; onsk_e-chartPlatform_ssk_support@accenture.com; ACN_Model_Project@accenture.com; improve_mynakarte@accenture.com</div>
+      <div class="wrn">⚠ 9/14週以降、メールではなく厚労省Teamsのスレッドでの共有に変更予定</div>
+      <div class="chk" style="margin-top:8px"><input type="checkbox" id="mon-7"><label for="mon-7">Plannerに発生したTODOを記載する</label></div>
+    `
+  },
+  {
+    id:'thu-main', cat:'三者定例', cadence:'週次', type:'手順',
+    title:'三者定例：木曜（事前連携）',
+    content:`
+      <h3>【事前】資料更新依頼時の指示（担当者へ個チャ）</h3>
+      <div class="chk"><input type="checkbox" id="thu-0a"><label for="thu-0a">更新中のスライドには全て「更新中」のワッペンを貼るよう依頼する</label></div>
+      <div class="chk"><input type="checkbox" id="thu-0b"><label for="thu-0b">作成中等の理由で事前連携しないファイルは非表示にするよう依頼する</label></div>
+      <h3>① 13:30 刈り取り</h3>
+      <div class="chk"><input type="checkbox" id="thu-1"><label for="thu-1">9:00の自動投稿が正常に送信されているかをスレッドで確認する</label></div>
+      <div class="chk"><input type="checkbox" id="thu-2"><label for="thu-2">スレッドでモデル・基金ACNの承認状況を確認する。反応がなければ個チャで刈り取る</label></div>
+      <h3>② 資料確認</h3>
+      <div class="chk"><input type="checkbox" id="thu-3"><label for="thu-3">三者定例資料全体に目を通す</label></div>
+      <ul class="lns">
+        <li>レイアウト崩れ</li>
+        <li>明らかな更新漏れ</li>
+        <li>前回スライドの削除漏れ</li>
+        <li>ヘッダーのアジェンダ番号漏れ</li>
+      </ul>
+      <div class="chk"><input type="checkbox" id="thu-4"><label for="thu-4">問題があれば担当者に個チャで修正依頼する（モデル：山形さん、基金：崎坂さん）</label></div>
+      <h3>③ 資料修正</h3>
+      <div class="chk"><input type="checkbox" id="thu-5"><label for="thu-5">最新版のラップアップ・議事要旨スライドに差替える</label></div>
+      <h3>④ 本田さんにRv依頼</h3>
+      <div class="chk"><input type="checkbox" id="thu-6"><label for="thu-6">事前連携前の資料全体確認・議事要旨Rvを依頼する</label></div>
+      <h3>⑤ 14:00 事前連携</h3>
+      <div class="chk"><input type="checkbox" id="thu-7"><label for="thu-7">厚労省シェアポの先週の格納ファイルをコピーし、ファイル名の後ろに「事前連携」を付ける</label></div>
+      <div class="chk"><input type="checkbox" id="thu-7b"><label for="thu-7b">ファイルを新規格納するのではなく、<strong>既存ファイルにスライドを差し替える</strong>（プロパティ削除の問題のため）</label></div>
+      <div class="wrn">⚠ ラップアップのスライドは移さない</div>
+      <div class="wrn">⚠ 議事要旨RevがFIXしていない場合は議事要旨ページも移さない</div>
+      <div class="chk"><input type="checkbox" id="thu-8"><label for="thu-8">会議・技術資料チャネルのスレッドで格納完了を投稿する（文案↓）</label></div>
+      <div class="bun-label">投稿文案（事前連携）</div>
+      <div class="bun">件名：【資料共有】〇/〇(金)三者定例
+宛先：02_支払基金 04_フォーティエンス（CC: 01_電カル共有ライン 03_ACN）
+
+お世話になっております。アクセンチュア中澤です。
+〇/〇(木) 12:00時点版の〇/〇(金)の三者定例資料を格納いたしました。
+
+格納先：20260〇〇〇〇_三者定例
+
+最終版は別途ご連絡させていただきます。
+どうぞよろしくお願いします</div>
+    `
+  },
+  {
+    id:'fri-final', cat:'三者定例', cadence:'週次', type:'手順',
+    title:'三者定例：翌金曜（最終格納）',
+    content:`
+      <h3>① 9:00 自動投稿確認</h3>
+      <div class="chk"><input type="checkbox" id="ff-0"><label for="ff-0">9:00の自動投稿が正常に送信されているかをスレッドで確認する</label></div>
+      <h3>② 12:00 刈り取り</h3>
+      <div class="chk"><input type="checkbox" id="ff-1"><label for="ff-1">スレッドでモデル・基金ACNの最終格納承認状況を確認する</label></div>
+      <div class="chk"><input type="checkbox" id="ff-2"><label for="ff-2">反応がなければ個チャで承認の刈り取りを行う（モデル：山形さん、基金：崎坂さん）</label></div>
+      <h3>② 資料確認</h3>
+      <div class="chk"><input type="checkbox" id="ff-3"><label for="ff-3">木曜と同様の観点で資料全体を確認する</label></div>
+      <h3>③ 本田さんにRv依頼</h3>
+      <div class="chk"><input type="checkbox" id="ff-4"><label for="ff-4">最終格納前の資料全体確認を依頼する</label></div>
+      <h3>④ 13:00 最終格納</h3>
+      <div class="chk"><input type="checkbox" id="ff-5"><label for="ff-5">厚労省シェアポに格納する</label></div>
+      <div class="wrn">⚠ ラップアップページは含めない（厚労省シェアポ側には連携しない）</div>
+      <div class="wrn">⚠ 必ずファイルのプロパティを削除すること</div>
+      <div class="chk"><input type="checkbox" id="ff-6"><label for="ff-6">会議・技術資料チャネルのスレッドで格納完了を報告する（文案↓）</label></div>
+      <div class="bun-label">投稿文案（最終格納）</div>
+      <div class="bun">宛先：各位
+
+いつもお世話になっております。アクセンチュア中澤です。
+三者定例資料の最終版を格納いたしました。
+
+直前の格納となり恐れ入りますが、よろしくお願いいたします。</div>
+      <div class="info" style="margin-top:16px">
+        <strong>【ONS月次報告がある週（毎月第2週）】</strong><br>
+        ・木・金曜朝のリマインドスレッドのメンション先に比嘉さんを追加する<br>
+        ・刈り取り対象に比嘉さんを追加する<br>
+        ・祝日等で報告日が曖昧な場合は、比嘉さんと事前に何日に報告するか確認しておく
+      </div>
+    `
+  },
+  {
+    id:'yukan', cat:'社内定例', cadence:'週次', type:'手順',
+    title:'夕会',
+    content:`
+      <table class="tbl">
+        <tr><th>曜日</th><th>時間</th></tr>
+        <tr><td>月・水</td><td>17:00–17:30</td></tr>
+        <tr><td>金</td><td>16:30–17:30</td></tr>
+      </table>
+      <div class="phase-hd">会議中</div>
+      <div class="chk"><input type="checkbox" id="yk-1"><label for="yk-1">個別TODOの進捗を報告する（ロジ担当分）</label></div>
+      <div class="chk"><input type="checkbox" id="yk-2"><label for="yk-2">課題・TODO台帳の確認を行う（金曜のみ）</label></div>
+      <div class="nt">ファシリテーション・ワンノート更新・割り振りは本田さんが担当</div>
+    `
+  },
+  {
+    id:'hirukan', cat:'社内定例', cadence:'週次', type:'手順',
+    title:'昼会',
+    content:`
+      <table class="tbl">
+        <tr><th>時間</th></tr>
+        <tr><td>13:15–13:30（毎日）</td></tr>
+      </table>
+      <div class="phase-hd">会議中</div>
+      <div class="chk"><input type="checkbox" id="hk-1"><label for="hk-1">Plannerに新規追加したTODOを報告する</label></div>
+      <div class="chk"><input type="checkbox" id="hk-2"><label for="hk-2">TODOにおけるエスカレ事項があれば報告する</label></div>
+      <div class="nt">ファシリテーションは本田さんが担当</div>
+    `
+  },
+  {
+    id:'shinchoku', cat:'進捗・WBS', cadence:'週次', type:'手順',
+    title:'開発進捗連絡会議',
+    content:`
+      <div class="phase-hd">金曜（WBS確認会後）</div>
+      <div class="chk"><input type="checkbox" id="sc-1"><label for="sc-1">13時までに厚労省Teamsのスレッドにて厚労省分アジェンダを報告する（スレッドは基金ACNが立てる）</label></div>
+      <div class="chk"><input type="checkbox" id="sc-2"><label for="sc-2">資料がある場合はドラフト版をワッペン付きで格納する</label></div>
+      <div class="chk"><input type="checkbox" id="sc-3"><label for="sc-3">翌週月曜期限のTODOがあれば進捗欄を更新する</label></div>
+      <div class="phase-hd">月曜（会議前）</div>
+      <div class="chk"><input type="checkbox" id="sc-4"><label for="sc-4">会議開始までに資料の最終版を格納し、同スレッドで最終版格納の報告をする</label></div>
+      <div class="phase-hd">月曜（会議後）</div>
+      <div class="chk"><input type="checkbox" id="sc-5"><label for="sc-5">夕会までにPlannerにその日発生したTODOを起票する</label></div>
+      <div class="phase-hd">火曜（ONS読合せ会）</div>
+      <div class="chk"><input type="checkbox" id="sc-6"><label for="sc-6">書面開催分があった場合、ONS読合せ会内で厚労省と資料の読合せを行い、コメント有無を厚労省Teamsの進捗連絡会議スレッドで報告する</label></div>
+    `
+  },
+  {
+    id:'wbs-main', cat:'進捗・WBS', cadence:'週次', type:'手順',
+    title:'WBS確認会',
+    content:`
+      <div class="phase-hd">会議前</div>
+      <div class="chk"><input type="checkbox" id="wbs-1"><label for="wbs-1">ACNシェアポで作成した資料を厚労省Teamsに格納する（必ずプロパティ削除）</label></div>
+      <div class="chk"><input type="checkbox" id="wbs-2"><label for="wbs-2">厚労省TeamsのWBS資料共有スレッドにてアジェンダ・資料リンクを共有する</label></div>
+      <div class="chk"><input type="checkbox" id="wbs-3"><label for="wbs-3">会議チャットにも資料リンクを共有する</label></div>
+      <div class="phase-hd">会議後</div>
+      <div class="chk"><input type="checkbox" id="wbs-4"><label for="wbs-4">ACNシェアポでファイルを複製し、次週ファイルを作成する</label></div>
+      <div class="chk"><input type="checkbox" id="wbs-5"><label for="wbs-5">新ファイル上で古いアジェンダのスライドを削除する（TODO・確認事項一覧スライドは残す）</label></div>
+    `
+  },
+  {
+    id:'wbs-update', cat:'進捗・WBS', cadence:'週次', type:'手順',
+    title:'WBS資料更新',
+    content:`
+      <h3>TODO・確認事項一覧スライド（木曜昼まで）</h3>
+      <div class="chk"><input type="checkbox" id="wu-1"><label for="wu-1">木曜昼までに更新する</label></div>
+      <ul class="lns">
+        <li>翌週期日のTODO</li>
+        <li>厚労省に状況確認したいTODO</li>
+        <li>スレッド等で確認事項になっている件</li>
+        <li>継続的に状況共有したい件</li>
+      </ul>
+      <div class="nt">アップデート部分は青字で記載する</div>
+      <h3>個別アジェンダ</h3>
+      <div class="chk"><input type="checkbox" id="wu-2"><label for="wu-2">火曜まで：方針を決定する（自分で決まらない場合は本田さんに相談）</label></div>
+      <div class="chk"><input type="checkbox" id="wu-3"><label for="wu-3">水曜：資料作成＆Rev依頼</label></div>
+      <div class="chk"><input type="checkbox" id="wu-4"><label for="wu-4">木曜：Rev取り込み</label></div>
+    `
+  },
+  {
+    id:'kaihatu', cat:'開発課題', cadence:'週次', type:'手順',
+    title:'開発課題検討会',
+    content:`
+      <div class="phase-hd">金曜（WBS確認会後）</div>
+      <div class="chk"><input type="checkbox" id="kh-1"><label for="kh-1">17時までに厚労省Teamsのスレッドにて厚労省分アジェンダを報告する</label></div>
+      <div class="chk"><input type="checkbox" id="kh-2"><label for="kh-2">資料がある場合はドラフト版をワッペン付きで格納する</label></div>
+      <div class="chk"><input type="checkbox" id="kh-3"><label for="kh-3">17時以降に格納するアジェンダがある場合は、該当アジェンダの議事要旨（ACNシェアポ上）に合意形成事項・TODOを記入する</label></div>
+      <div class="chk"><input type="checkbox" id="kh-4"><label for="kh-4">翌週月曜期限のTODOがあれば進捗欄を更新する</label></div>
+      <div class="phase-hd">月曜（会議前）</div>
+      <div class="chk"><input type="checkbox" id="kh-5"><label for="kh-5">会議開始までに資料の最終版を格納し、同スレッドで最終版格納の報告をする</label></div>
+      <div class="phase-hd">月曜（会議後）</div>
+      <div class="chk"><input type="checkbox" id="kh-6"><label for="kh-6">夕会までにPlannerにその日発生したTODOを起票する</label></div>
+    `
+  },
+  {
+    id:'ons-main', cat:'ONS', cadence:'週次', type:'手順',
+    title:'ONS（受領・返送）',
+    content:`
+      <div class="info">
+        <strong>更新ファイル</strong><br>
+        ①基金側（ONSチーム連携版）：<a href="https://mhlwlan.sharepoint.com/:x:/r/sites/ext_692-ONS/Shared%20Documents/080_ONS%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B/01_ONS%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B%E7%AE%A1%E7%90%86%E5%8F%B0%E5%B8%B3_%E5%8E%9A%E5%8A%B4%E7%9C%81%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E5%88%86/%E9%9B%BB%E3%82%AB%E3%83%AB%E5%85%B1%E6%9C%89%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E3%81%AB%E9%96%A2%E3%81%99%E3%82%8B%E5%95%8F%E5%90%88%E3%81%9B%EF%BC%88%E5%8E%9A%E5%8A%B4%E7%9C%81%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E5%8F%B0%E5%B8%B3%EF%BC%89v2.1.xlsx?d=w8c34ba8165d24694a12962ca484d0a0c&csf=1&web=1&e=nkZ7o6" target="_blank">電カル共有サービスに関する問合せ（厚労省エスカレ台帳）v2.1 →</a><br>
+        ②厚労省側（検討版）：<a href="https://mhlwlan.sharepoint.com/:x:/r/sites/ext_325-021_/Shared%20Documents/021_%E5%8E%9A%E5%8A%B4%E7%9C%81%E3%83%BB%E5%8E%9A%E5%8A%B4%E4%BA%8B%E6%A5%AD%E8%80%85/01_%E8%AA%B2%E9%A1%8C%E7%AE%A1%E7%90%86/02_ONS%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B%E7%AE%A1%E7%90%86%E5%8F%B0%E5%B8%B3%EF%BC%88%E5%8E%9A%E5%8A%B4%E7%9C%81%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E5%88%86%EF%BC%89/(%E5%8E%9F%E6%9C%AC)%E3%80%90%E9%9B%BB%E3%82%AB%E3%83%AB%E5%85%B1%E6%9C%89%E3%80%91ONS%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B%E7%AE%A1%E7%90%86%E5%8F%B0%E5%B8%B3%EF%BC%88%E5%8E%9A%E5%8A%B4%E7%9C%81%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E5%88%86%EF%BC%89.xlsx?d=w82749eb7cf2d443d911d5910d8428f84&csf=1&web=1&e=CkZZtU" target="_blank">(原本)【電カル共有】ONS問い合わせ管理台帳（厚労省エスカレ分） →</a>
+      </div>
+      <h3>受領（月曜・水曜）</h3>
+      <div class="chk"><input type="checkbox" id="ons-1"><label for="ons-1">厚労省Teamsにて基金側からONS台帳更新の連絡を受領する</label></div>
+      <div class="chk"><input type="checkbox" id="ons-2"><label for="ons-2">基金側台帳①から厚労省側台帳②に内容を転記する</label></div>
+      <ul class="lns">
+        <li><strong>新規起票</strong>の場合：①の該当行を②に丸ごとコピーする</li>
+        <li><strong>更問</strong>（過去質問への追加質問）の場合：②の過去問い合わせ該当行に転記する</li>
+      </ul>
+      <div class="chk"><input type="checkbox" id="ons-2a"><label for="ons-2a">転記後、①のL列「回答状況」を <strong>「厚労省確認中」</strong> に変更する</label></div>
+      <div class="chk"><input type="checkbox" id="ons-2b"><label for="ons-2b">転記後、②のM列「回答状況」を <strong>「ACN回答作成」</strong> に変更する</label></div>
+      <h3>受領後の一時切り分け</h3>
+      <div class="phase-hd">Step 1：過去に既出かどうか確認する</div>
+      <div class="chk"><input type="checkbox" id="ons-3a"><label for="ons-3a">台帳②で過去の回答事例を確認する</label></div>
+      <div class="chk"><input type="checkbox" id="ons-3b"><label for="ons-3b">既出の場合は過去の回答を参考に回答案を作成する</label></div>
+      <div class="phase-hd">Step 2：新規事項は以下で分類する</div>
+      <div class="chk"><input type="checkbox" id="ons-3c"><label for="ons-3c">回答案を作成できそう → そのまま作成する</label></div>
+      <div class="chk"><input type="checkbox" id="ons-3d"><label for="ons-3d">方針確認が必要 → 回答欄に「★回答方針確認」と記載する</label></div>
+      <div class="nt">★に回す目安：過去にない質問 / 他部署転送が必要な質問（情報セキュリティ系 → サイバーライン）/ 自分で判断が難しいもの</div>
+      <h3>返送（火→水）</h3>
+      <div class="info">
+        <strong>連絡先</strong><br>
+        ACN内部Rv：<a href="https://teams.microsoft.com/l/chat/19:2f858d0aa15c44cf9bc67e9d8b63c455@thread.v2/conversations?context=%7B%22contextType%22%3A%22chat%22%7D" target="_blank">調査研究事業-スタッフ チャット →</a><br>
+        ONSチームへの返信：<a href="https://teams.microsoft.com/l/message/19:952cce6250a84243a9b4ca9c37bd35c8@thread.tacv2/1788773935698?tenantId=c4f5cfcd-2672-4991-98f8-877042f5c9b3&groupId=026967fd-24b7-4c7c-bd52-89291303540b&parentMessageId=1759223766206&teamName=%E9%9B%BB%E5%AD%90%E3%82%AB%E3%83%AB%E3%83%86%E6%83%85%E5%A0%B1%E5%85%B1%E6%9C%89%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%EF%BC%88%E6%A5%AD%E5%8B%99%E5%88%A5%EF%BC%89%EF%BC%88%E5%A4%96%E9%83%A8%EF%BC%89&channelName=080_ONS%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B&createdTime=1788773935698&ngc=true" target="_blank">厚労省Teams 080_ONS問合せスレッド →</a>
+      </div>
+      <div class="chk"><input type="checkbox" id="ons-4"><label for="ons-4">火曜：厚労省と回答案の読合せを行う</label></div>
+      <div class="chk"><input type="checkbox" id="ons-4b"><label for="ons-4b">本田さんRvでOKが出たものを対象にExcelを更新する</label></div>
+      <h3>Excel更新手順</h3>
+      <div class="phase-hd">Step 1：台帳①（基金側）を更新する</div>
+      <table class="tbl">
+        <tr><th>列</th><th>列名</th><th>更新内容</th></tr>
+        <tr><td>K列</td><td>厚労省様回答案</td><td>台帳②の回答を転記する</td></tr>
+        <tr><td>L列</td><td>回答状況</td><td><strong>厚労省回答済</strong> に変更</td></tr>
+        <tr><td>M列</td><td>更新日付</td><td>回答日付に変更</td></tr>
+      </table>
+      <div class="phase-hd">Step 2：台帳②（厚労省側）を更新する</div>
+      <table class="tbl">
+        <tr><th>列</th><th>列名</th><th>更新内容</th></tr>
+        <tr><td>M列</td><td>回答状況</td><td><strong>ONS回答済(YYYYMMDD)</strong> に変更</td></tr>
+        <tr><td>N列</td><td>更新日付</td><td>回答日付に変更</td></tr>
+      </table>
+      <div class="chk"><input type="checkbox" id="ons-5"><label for="ons-5">更新後、該当行がグレーアウトすることを確認する（書式設定済みのため自動反映）</label></div>
+      <div class="chk"><input type="checkbox" id="ons-6"><label for="ons-6">本田さんにACN内部Rvを依頼する（調査研究事業-スタッフ チャットで依頼）</label></div>
+      <div class="bun-label">Rv依頼文案（件数・No.を適宜変更）</div>
+      <div class="bun">Honda, Keiko さん
+【Rv依頼：ONS問合せ台帳の更新（ONSチーム返信用）】
+昨日のONS会議にて確認済みのONS問合せ〇件
+（#〇〇〇,〇〇〇,…）について、
+原本への転記が完了しましたので、ONSチームへの返信前のRvをお願いします。
+
+Rv対象
+転記先：電カル共有サービスに関する問合せ（厚労省エスカレ台帳）v2.1.xlsx（①）
+転記元：(原本)【電カル共有】ONS問い合わせ管理台帳（厚労省エスカレ分）.xlsx（②）</div>
+      <div class="chk"><input type="checkbox" id="ons-8"><label for="ons-8">Rv完了後、ONSチームへの返信スレッド（080_ONS問合せ）で下記文案で返信する</label></div>
+      <div class="bun-label">ONSチーム返信文案（M列日付を回答日に変更）</div>
+      <div class="bun">To：山本 貴則（本部情報化企画部電子カルテ情報課）
+　　青木 美和（本部情報化推進部電子カルテ情報課）
+　　Higa, Ryu　／　Miura, Shinichiro A.
+CC：01_電カル共有ライン、Mukai, Chiaki、Honda, Keiko、Kurokawa, Hanae
+
+お世話になっております。アクセンチュア中澤です。
+下記のお問い合わせについてご確認いただけますと幸いでございます。
+どうぞよろしくお願いいたします。
+
+格納フォルダ：01_ONS問い合わせ管理台帳_厚労省エスカレ分
+ファイル名：電カル共有サービスに関する問合せ（厚労省エスカレ台帳）v2.1.xlsx
+シート：Sheet1 (情報追加)
+
+フィルター条件：L列「厚労省回答済」＆M列「YYYYMMDD」　← 回答日付に変更</div>
+      <div class="info" style="margin-top:14px">
+        <strong>【ONS月次報告（毎月第2週）】</strong><br>
+        ・三者定例に月次報告アジェンダが追加される<br>
+        ・三者定例リマインドスレッドのメンション先・刈り取り対象に比嘉さんを追加する<br>
+        ・祝日等で日付が曖昧な場合は、比嘉さんと事前に何日に報告するか確認しておく
+      </div>
+    `
+  },
+  {
+    id:'portal', cat:'月次', cadence:'月次', type:'手順',
+    title:'ポータルサイト更新（マスタ公開）',
+    content:`
+      <div class="nt">JLACの更新に伴って月次で発生する作業。ポータルサイトのマスタページを更新する。</div>
+      <h3>基本方針（作成思想）</h3>
+      <div class="chk"><input type="checkbox" id="pt-1"><label for="pt-1"><strong>旧マスタも掲載し続ける：</strong>医療機関が旧マスタを使用している期間中は参照できる状態を維持する</label></div>
+      <div class="chk"><input type="checkbox" id="pt-2"><label for="pt-2"><strong>新旧の違いを留意事項として明示する：</strong>どのバージョンが「新」「旧」か・変更内容・いつまでどのバージョンを使ってほしいかを記載する</label></div>
+      <h3>留意事項の記載例（KB0012086 JLACコード表）</h3>
+      <div class="bun-label">202608マスタ公開以降</div>
+      <div class="bun">・202603版のマスタは2026年9月末以降は本番環境で利用できなくなります。
+  2026年9月末までは引き続き利用可能です。
+・電カルサービス対応JLACコード表は、202606版への更新に向けた対応をお願いします。</div>
+      <div class="bun-label">202609マスタ公開以降（2026年9月はこちらに更新）</div>
+      <div class="bun">・2026年9月28日の中央機能改修に伴い、202603版マスタは利用不可になります
+・202606版以降のマスタへの移行をお願いします
+【留意事項①】FHIR項目名称の変更（尿中蛋白/クレアチニン比等）
+【留意事項②】JLACコード廃止に伴う電カル登録不可コードへの対応
+【留意事項③】F-HBS抗体のFHIR項目名称変更
+【留意事項④】XML単位記号の変更（KU/L等）</div>
+      <h3>作業タイミング（2026年9月）</h3>
+      <div class="chk"><input type="checkbox" id="pt-3"><label for="pt-3">9/16〜17：ポータルサイト掲載</label></div>
+      <div class="nt">メール送付時には、JLAC公開日の更新漏れを合わせて依頼予定（ACN内部メモ）</div>
+    `
+  },
+  {
+    id:'jlac', cat:'月次', cadence:'月次', type:'参考',
+    title:'JLAC月次ルーティン',
+    content:`
+      <table class="tbl">
+        <tr><th>時期</th><th>タスク</th></tr>
+        <tr><td>毎月第2水曜頃</td><td>JLACへ疑義送付</td></tr>
+        <tr><td>翌週月曜</td><td>JLAC打ち合わせで刈取</td></tr>
+        <tr><td>月中旬16〜17日頃</td><td>ポータルサイト掲載</td></tr>
+        <tr><td>18日頃</td><td>Terminology更新依頼（大江先生）</td></tr>
+        <tr><td>18日頃</td><td>JLACコードマスタ更新</td></tr>
+      </table>
+      <div class="info" style="margin-top:12px">
+        <strong>2026年9月の具体日程</strong><br>
+        疑義送付：9/10（水）　刈取：9/15（月）<br>
+        ポータル掲載：9/16〜17　Terminology・コードマスタ：9/18頃
+      </div>
+    `
+  },
+  {
+    id:'anken', cat:'随時', cadence:'随時', type:'手順',
+    title:'案件起票の流れ',
+    content:`
+      <div class="nt">原則として以下の流れで対応する（例外：金曜午後の急遽起票・開発課題検討会での急遽起票）</div>
+      <div class="chk" style="margin-top:8px"><input type="checkbox" id="ak-1"><label for="ak-1">① 厚労内部用PPTを起票する</label></div>
+      <div class="chk"><input type="checkbox" id="ak-2"><label for="ak-2">② PPT Rev（本田さん＆向井さん）</label></div>
+      <div class="nt" style="margin:4px 0 4px 22px">──── WBS等で厚労省と要求事項を確認 ────</div>
+      <div class="chk"><input type="checkbox" id="ak-3"><label for="ak-3">③ 案件台帳起票（本田さん確認終わるまでは更新欄に「確認中」と記載）</label></div>
+      <div class="chk"><input type="checkbox" id="ak-4"><label for="ak-4">④ 台帳の内容を本田さんRev</label></div>
+      <div class="chk"><input type="checkbox" id="ak-5"><label for="ak-5">⑤ 開発課題検討会資料に起票した旨を記載する＋TODO発生元会議の厚労省スレッドで起票を報告する</label></div>
+    `
+  },
+  {
+    id:'todo', cat:'随時', cadence:'随時', type:'手順',
+    title:'Todo台帳の更新',
+    content:`
+      <div class="nt">毎週金曜に実施する</div>
+      <div class="chk" style="margin-top:8px"><input type="checkbox" id="td-1"><label for="td-1">金曜の夕会までに内容を確認する</label></div>
+      <div class="chk"><input type="checkbox" id="td-2"><label for="td-2">金曜の夕会の場で書けないところを確認する</label></div>
+      <div class="chk"><input type="checkbox" id="td-3"><label for="td-3">金曜中に確認・更新を完了させる</label></div>
+    `
+  },
+];
+
+// ─── Render sidebar
+const nav = document.getElementById('nav');
+CATS.forEach(cat => {
+  const catSecs = SECTIONS.filter(s => s.cat === cat.id);
+  if (!catSecs.length) return;
+  const hd = document.createElement('div');
+  hd.className = 'cat-hd';
+  const badge = cat.cadence ? `<span class="cat-cadence ${cat.cadence}">${cat.cadence}</span>` : '';
+  hd.innerHTML = `${badge}<span class="cat-name">${cat.name}</span><span class="cat-arrow">▾</span>`;
+  const body = document.createElement('div');
+  body.className = 'cat-body';
+  catSecs.forEach(sec => {
+    const ni = document.createElement('div');
+    ni.className = 'ni';
+    ni.dataset.id = sec.id;
+    ni.innerHTML = `<span class="ni-bd bd-${sec.type}">${sec.type}</span><span class="ni-tx">${sec.title}</span>`;
+    ni.addEventListener('click', () => showSec(sec.id));
+    body.appendChild(ni);
+  });
+  hd.addEventListener('click', () => {
+    hd.classList.toggle('collapsed');
+    body.classList.toggle('collapsed');
+  });
+  nav.appendChild(hd);
+  nav.appendChild(body);
+});
+
+// ─── Render sections
+const ca = document.getElementById('ca');
+const welcome = document.getElementById('welcome');
+const srchRes = document.getElementById('srch-res');
+SECTIONS.forEach(sec => {
+  const div = document.createElement('div');
+  div.className = 'sec';
+  div.id = 'sec-' + sec.id;
+  div.innerHTML = `
+    <div class="sec-meta">
+      <span class="sec-cadence ${sec.cadence}">${sec.cadence}</span>
+      <span class="sec-type ${sec.type}">${sec.type}</span>
+    </div>
+    <div class="sec-h1">${sec.title}</div>
+    <div class="cb">${sec.content}</div>
+  `;
+  ca.appendChild(div);
+});
+
+// ─── Navigation
+let curId = null;
+function showSec(id) {
+  if (curId) {
+    document.getElementById('sec-' + curId)?.classList.remove('active');
+    document.querySelector(`.ni[data-id="${curId}"]`)?.classList.remove('active');
+  }
+  welcome.style.display = 'none';
+  srchRes.style.display = 'none';
+  const sec = SECTIONS.find(s => s.id === id);
+  if (!sec) return;
+  document.getElementById('sec-' + id)?.classList.add('active');
+  document.querySelector(`.ni[data-id="${id}"]`)?.classList.add('active');
+  document.getElementById('cur-ttl').textContent = sec.title;
+  curId = id;
+  ca.scrollTo(0, 0);
+}
+
+// ─── Search
+function doSearch(q) {
+  q = q.trim().toLowerCase();
+  if (!q) {
+    srchRes.style.display = 'none';
+    if (curId) document.getElementById('sec-' + curId)?.classList.add('active');
+    else welcome.style.display = 'block';
+    return;
+  }
+  if (curId) document.getElementById('sec-' + curId)?.classList.remove('active');
+  welcome.style.display = 'none';
+  const hits = SECTIONS.filter(s =>
+    s.title.toLowerCase().includes(q) ||
+    s.content.replace(/<[^>]+>/g,'').toLowerCase().includes(q)
+  );
+  srchRes.innerHTML = hits.length
+    ? hits.map(s => `<div class="sr-item" onclick="showSec('${s.id}');document.getElementById('srch-in').value='';doSearch('')"><div class="sr-sec">${s.cat} · ${s.cadence}</div><div class="sr-txt">${s.title}</div></div>`).join('')
+    : '<p style="color:#6b7280;font-size:13px;padding:4px">該当なし</p>';
+  srchRes.style.display = 'block';
+}
+
+// ─── Reset checkboxes
+function resetChecks() {
+  document.querySelectorAll('#ca input[type=checkbox]').forEach(cb => { cb.checked = false; });
+}
+</script>
+</body>
+</html>
