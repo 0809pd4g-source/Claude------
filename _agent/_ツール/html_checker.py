@@ -11,8 +11,8 @@ html_checker.py — Claudeプロジェクト HTML品質チェッカー（汎用�
     1 = FAIL 1件以上（またはstrictモードでWARN1件以上）
 
 チェック内容:
-    [ブロッカー] パース可能・外部CDN/fetch依存なし・charset宣言・ID重複なし・内部リンク解決
-    [警告]       CSS色ハードコード・版番号一元管理・<title>・viewport・lang属性・title/h1乖離・console.log残留・未接続data-*セレクタ
+    [ブロッカー] パース可能・外部CDN/fetch依存なし・charset宣言・ID重複なし・内部リンク解決・base64 PNG デコード健全性
+    [警告]       CSS色ハードコード・版番号一元管理・<title>・viewport・lang属性・title/h1乖離・console.log残留・未接続data-*セレクタ・版付き_vN.html直リンク
     [情報]       ファイルサイズ・ID数・リンク数・style件数
 
 背景:
@@ -209,6 +209,56 @@ def _check_dangling_data_selectors(html):
     return list(dict.fromkeys(dangling))
 
 
+def _check_base64_images(html):
+    """
+    data:image/...;base64 の埋め込み画像をデコードし、
+    PNGはIDATのzlibデータが完全に復号できるかを検証する（FAIL）。
+    全体書き直し時のバイナリ破損検出。v34〜v39.35の1.5ヶ月潜伏事例に基づく。
+    """
+    import base64, zlib
+    broken = []
+    for m in re.finditer(r'data:(image/[\w+]+);base64,([A-Za-z0-9+/=\s]{20,})', html):
+        mime = m.group(1)
+        try:
+            raw = base64.b64decode(m.group(2).replace('\n', '').replace(' ', ''))
+        except Exception as e:
+            broken.append(f"{mime}: base64デコード失敗 ({e})")
+            continue
+        if mime == "image/png":
+            if len(raw) < 8 or raw[:8] != b'\x89PNG\r\n\x1a\n':
+                broken.append("image/png: PNGシグネチャ不正（バイナリ破損）")
+                continue
+            idat = b''
+            pos = 8
+            while pos + 12 <= len(raw):
+                length = int.from_bytes(raw[pos:pos+4], 'big')
+                ctype = raw[pos+4:pos+8]
+                if ctype == b'IDAT':
+                    idat += raw[pos+8:pos+8+length]
+                elif ctype == b'IEND':
+                    break
+                pos += 12 + length
+            if idat:
+                try:
+                    zlib.decompress(idat)
+                except zlib.error as e:
+                    broken.append(f"image/png: IDATのzlibデータ破損 ({e})")
+    return broken
+
+
+def _check_versioned_cross_links(html):
+    """
+    href="xxx_vN.html" のような版付きHTMLへの直リンクを検出する（WARN）。
+    改訂時にリンクが腐る原因になるため、_latestスタブ経由を推奨。
+    """
+    hits = re.findall(
+        r'href\s*=\s*["\']([^"\'#?]*_v\d+(?:\.\d+)*\.html)["\']',
+        html,
+        re.IGNORECASE,
+    )
+    return list(dict.fromkeys(hits))
+
+
 def _title_h1_match(title, h1s):
     """
     <title> と <h1> の内容が大幅に乖離していないかを確認する。
@@ -267,6 +317,12 @@ def run(path, strict=False):
     r.add("内部リンク（#id）がすべて解決", len(broken) == 0, "FAIL",
           f"{len(broken)}件の未解決: {', '.join(broken[:4])}" if broken else "")
 
+    # 5. 埋め込みPNGのzlibデータが完全に復号できる（全体書き直し時のIDAT破損検出）
+    img_broken = _check_base64_images(html)
+    r.add("埋め込み画像（base64 PNG）のデコードが健全", len(img_broken) == 0, "FAIL",
+          f"{len(img_broken)}件の破損: {'; '.join(img_broken[:2])}"
+          "  →  全体書き直しによるバイナリ破損の疑い。差分編集（Rule E）で修正してください" if img_broken else "")
+
     # ──────────────────────────────────────────
     # 警告: 品質向上のために対処を推奨
     # ──────────────────────────────────────────
@@ -317,6 +373,12 @@ def run(path, strict=False):
     r.add("querySelector('[data-*]') が本文に接続されている", len(dangling) == 0, "WARN",
           f"未接続の属性 {len(dangling)}件: {', '.join(dangling[:4])}"
           "  →  マークアップに無い＝空回りの可能性（JSで動的付与しているなら無視可）" if dangling else "")
+
+    # 13. 版付きHTMLへの直リンク（改訂でリンクが腐る恐れ）
+    ver_links = _check_versioned_cross_links(html)
+    r.add("版付き _vN.html への直リンクがない", len(ver_links) == 0, "WARN",
+          f"{len(ver_links)}件検出: {', '.join(ver_links[:3])}"
+          "  →  Rule G: 改訂時にリンクが切れます。_latestスタブ経由に変更してください" if ver_links else "")
 
     # ──────────────────────────────────────────
     # 情報
