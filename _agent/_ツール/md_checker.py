@@ -243,10 +243,12 @@ def run(path, strict=False):
         r.add("内部リンクがすべて解決できる", len(broken) == 0, "WARN",
               f"{len(broken)}件の未解決: {', '.join(broken[:3])}" if broken else "")
 
-        rel_dates = _check_relative_dates(text)
-        r.add("相対日付表現がない（絶対日付で記載）", len(rel_dates) == 0, "WARN",
-              f"{len(rel_dates)}件検出: {', '.join(dict.fromkeys(rel_dates)[:5])}"
-              "  →  YYYY-MM-DD 形式で記載してください" if rel_dates else "")
+        # 設定・ルール文書（CLAUDE.md等）は「今日/明日/前日」をルール文言として使うため相対日付チェックの対象外。
+        if mode != "config":
+            rel_dates = _check_relative_dates(text)
+            r.add("相対日付表現がない（絶対日付で記載）", len(rel_dates) == 0, "WARN",
+                  f"{len(rel_dates)}件検出: {', '.join(list(dict.fromkeys(rel_dates))[:5])}"
+                  "  →  YYYY-MM-DD 形式で記載してください" if rel_dates else "")
 
         print(f"\n{_c('【情報】', DIM)}")
         h_by_level = {lv: sum(1 for l, _ in headings if l == lv) for lv in range(1, 5)}
