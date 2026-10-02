@@ -186,7 +186,7 @@ def _check_project_status(text):
 # モード判定
 # ─────────────────────────────────────────
 
-def _detect_mode(filename):
+def _detect_mode(filename, path=None):
     if filename == "更新履歴.md":
         return "update_history"
     elif filename == "プロジェクト状況.md":
@@ -194,8 +194,13 @@ def _detect_mode(filename):
     elif filename in ("CLAUDE.md", "GEMINI.md", "AGENTS.md") or filename.startswith("README"):
         # 管理・設定文書は版番号が付かない。命名規約(YYYYMMDD_名称_vN)の対象外。
         return "config"
-    else:
+    # 命名規約(YYYYMMDD_名称_vN)は「02_output/ 配下の成果物」だけに適用する。
+    # _ツール/ 等に置く参照・ツール文書（ガイド・プロンプト類）は対象外（config扱い）。
+    norm = (path or filename).replace("\\", "/")
+    if "/02_output/" in norm or norm.startswith("02_output/"):
         return "deliverable"
+    else:
+        return "config"
 
 
 # ─────────────────────────────────────────
@@ -204,7 +209,7 @@ def _detect_mode(filename):
 
 def run(path, strict=False):
     filename = os.path.basename(path)
-    mode = _detect_mode(filename)
+    mode = _detect_mode(filename, path)
 
     with open(path, encoding="utf-8") as f:
         text = f.read()
