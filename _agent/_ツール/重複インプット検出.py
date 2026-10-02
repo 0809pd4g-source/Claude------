@@ -12,6 +12,12 @@ _agent/_input/ にも同名ファイルが存在するものを検出する。
 """
 import os, io, sys
 
+# Windowsコンソール(cp932)では ✅⚠️🔴 等の出力で UnicodeEncodeError を起こすため、標準出力をUTF-8に。
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+except Exception:
+    pass
+
 ROOT = r"C:\Users\masato.nakazawa\Downloads\Claudeプロジェクト\_agent"
 SHARED_INPUT = os.path.join(ROOT, "_input")
 SHOW_ALL = "--all" in sys.argv
