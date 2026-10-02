@@ -27,7 +27,11 @@ def _find_container(start):
     return os.path.dirname(os.path.dirname(start))  # フォールバック
 
 ROOT = _find_container(os.path.dirname(os.path.abspath(__file__)))
-EXCLUDE_TOP = {'00_プロジェクトテンプレート', '_ツール', '_agent', '.git'}
+# プロジェクト（02_outputを持つフォルダ）を探す際に踏み込まないインフラ・特殊フォルダ。
+# _agent 自体は除外しない（配下の業務プロジェクトの 02_output は整理対象）が、
+# _agent 内のインフラ（_ツール/_input/_log/_評価/_タスク管理）とテンプレ・.git・_wip は除外する。
+EXCLUDE_SEG = {'00_プロジェクトテンプレート', '_ツール', '_input', '_log', '_評価',
+               '_タスク管理', '.git', '_wip'}
 TRAILER = 'Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>'
 APPLY = '--apply' in sys.argv
 
@@ -63,34 +67,37 @@ def series(name):
 
 
 def output_dirs():
+    """ツリー全体から『02_output を持つプロジェクトフォルダ』を探す。
+    インフラ・テンプレ（EXCLUDE_SEG）には踏み込まない。_agent 配下の業務プロジェクトも対象。"""
     dirs = []
-    for top in sorted(os.listdir(ROOT)):
-        if top in EXCLUDE_TOP:
-            continue
-        tp = os.path.join(ROOT, top)
-        if not os.path.isdir(tp):
-            continue
-        if top == '_archive':
-            for a in sorted(os.listdir(tp)):
-                od = os.path.join(tp, a, '02_output')
-                if os.path.isdir(od):
-                    dirs.append((os.path.join(tp, a), od))
-        else:
-            od = os.path.join(tp, '02_output')
-            if os.path.isdir(od):
-                dirs.append((tp, od))
-    return dirs
+    for dp, dns, fns in os.walk(ROOT):
+        dns[:] = [d for d in dns if d not in EXCLUDE_SEG]  # 除外フォルダへ踏み込まない
+        if '02_output' in dns:
+            dirs.append((dp, os.path.join(dp, '02_output')))
+            dns.remove('02_output')  # 02_output の中は掘らない
+    return sorted(dirs)
+
+
+def vkey(f):
+    """版トークン '39.35' → (39,35) の数値タプル。版番号での大小比較に使う。"""
+    t = vtok(f) or '0'
+    return tuple(int(x) for x in t.split('.') if x.isdigit())
 
 
 def marked_versions(proj):
-    """更新履歴.md / プロジェクト状況.md で『確定』『最新』を含む行の版トークンを残す。"""
+    """更新履歴.md / プロジェクト状況.md で『確定』『（最新）』を含む行の、
+    **その行の先頭の版トークン（＝その行が指す成果物の版）だけ** を保持対象にする。
+    以前は行内の全vNを拾っていたため、変更説明に他版のvNが並ぶと全版が保持扱いになり
+    間引きが常に0件になっていた（本バグの修正）。"""
     keep = set()
     for d in ('更新履歴.md', 'プロジェクト状況.md'):
         p = os.path.join(proj, d)
         if os.path.exists(p):
             for ln in io.open(p, encoding='utf-8', errors='replace').read().splitlines():
                 if '確定' in ln or '最新' in ln:
-                    keep.update(re.findall(r'v([0-9][0-9.]*)', ln))
+                    m = re.search(r'v([0-9][0-9.]*)', ln)  # 行の先頭版のみ
+                    if m:
+                        keep.add(m.group(1))
     return keep
 
 
@@ -107,9 +114,10 @@ def plan_prune():
             groups.setdefault(series(f), []).append(f)
         kept = deleted = 0
         for sk, fs in groups.items():
-            latest = max(fs, key=lambda f: os.path.getmtime(os.path.join(od, f)))
+            # 最新は「版番号最大」と「更新時刻最新」の両方を保持（どちらで見ても最新を誤削除しない）
+            keep_latest = {max(fs, key=vkey), max(fs, key=lambda f: os.path.getmtime(os.path.join(od, f)))}
             for f in fs:
-                if f == latest or vtok(f) in marked:
+                if f in keep_latest or vtok(f) in marked:
                     kept += 1
                 else:
                     fp = os.path.join(od, f)
