@@ -24,7 +24,7 @@ md_checker.py — Claudeプロジェクト Markdown品質チェッカー
                  相対日付表現がない（今週/先週/来週/翌月 等）
 
 チェック内容（更新履歴.md）:
-    [ブロッカー] （最新）がちょうど1行ある（0行・2行以上は異常）
+    [ブロッカー] （最新）が成果物の系統ごとに1行（全体で0行・同じ系統に2行以上は異常）
     [警告]       最新日付が1年以内
 
 チェック内容（プロジェクト状況.md）:
@@ -144,7 +144,7 @@ DELIVERABLE_NAME_RE = re.compile(r'^\d{8}_[^_].+_v\d+(?:\.\d+)*\.md$')
 def _check_update_history(text):
     """
     更新履歴.md:
-    - （最新）がちょうど1行 → count を返す
+    - （最新）の総数と、同じ系統に（最新）が複数ある系統の一覧を返す
     - 日付の最大値 → latest_date を返す
     """
     # ★表の行（`|` で始まる行）だけを数える。
@@ -152,8 +152,22 @@ def _check_update_history(text):
     #   「最新版は **太字＋（最新）** で示す」を1件と数えてしまい、
     #   正しく1行だけ印を付けても必ずFAILになっていた。
     #   **検査が、正しい状態を不合格にしていた。**
-    count = sum(1 for ln in text.split('\n')
-                if ln.lstrip().startswith('|') and '（最新）' in ln)
+    # 2026-10-03：成果物が複数系統（月次成果物＋常設ツール等）ある案件に対応し、
+    #   系統（先頭列のファイル名から日付接頭辞・_vN・拡張子を除いた名前）ごとに数える。
+    marked = [ln for ln in text.split('\n')
+              if ln.lstrip().startswith('|') and '（最新）' in ln]
+    series = {}
+    for ln in marked:
+        first = ln.strip().strip('|').split('|')[0]
+        name = re.sub(r'[*\s]|（最新）', '', first)
+        key = re.sub(r'^\d{8}_', '', re.sub(r'(_v\d+)?(\.[A-Za-z0-9]+)?$', '', name))
+        series[key] = series.get(key, 0) + 1
+    count = len(marked)
+    dup = [k for k, n in series.items() if n > 1]
+    return count, dup, _latest_date(text)
+
+
+def _latest_date(text):
 
     # YYYY-MM-DD 形式の日付を全抽出
     raw_dates = re.findall(r'(\d{4}-\d{2}-\d{2})', text)
@@ -164,7 +178,7 @@ def _check_update_history(text):
         except ValueError:
             pass
 
-    return count, latest_date
+    return latest_date
 
 
 def _check_project_status(text):
@@ -270,10 +284,12 @@ def run(path, strict=False):
     elif mode == "update_history":
         print(_c("【更新履歴.md チェック】", BOLD))
 
-        count, latest_date = _check_update_history(text)
+        count, dup, latest_date = _check_update_history(text)
 
-        r.add("（最新）がちょうど1行ある", count == 1, "FAIL",
-              f"（最新）が {count} 行検出  →  1行だけ **（最新）** を付けてください")
+        r.add("（最新）が成果物の系統ごとに1行", count >= 1 and not dup, "FAIL",
+              f"（最新）が {count} 行"
+              + (f"・同じ系統に複数: {', '.join(dup)}" if dup else "")
+              + "  →  系統ごとに1行だけ **（最新）** を付け、旧版の（最新）は外してください")
 
         if latest_date:
             days_ago = (date.today() - latest_date).days

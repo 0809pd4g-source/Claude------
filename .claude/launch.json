@@ -93,6 +93,19 @@
       "url": "http://localhost:7438/"
     },
     {
+      "name": "JLACマスタチェックツール",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "7439",
+        "--directory",
+        "C:\\Users\\masato.nakazawa\\Downloads\\Claudeプロジェクト\\_agent\\04_マスタ・プロファイル管理\\JLAC"
+      ],
+      "port": 7439,
+      "url": "http://localhost:7439/"
+    },
+    {
       "name": "他ツール査読",
       "runtimeExecutable": "python",
       "runtimeArgs": [
