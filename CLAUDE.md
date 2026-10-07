@@ -392,6 +392,7 @@ python _agent/_基盤/_ツール/md_checker.py <プロジェクトフォルダ>/
 - マスター索引再生成：`python _agent/_基盤/_ツール/プロジェクト一覧生成.py`
 - プロジェクト状況ダッシュボード：`python _agent/_基盤/_ツール/プロジェクト状況サマリー.py`（停滞検出: `--stale`）
 - 重複インプット検出：`python _agent/_基盤/_ツール/重複インプット検出.py`（二重保持を検出して統合を促す）
+- 構成点検：`python _agent/_基盤/_ツール/構成点検.py`（名前の似たプロジェクト・同じ目的の別ファイル・置き場所の違反・ルール文書のコピーを報告。**何も動かさない**。新規作成前は `--name <名称>`）。`/review-rules`（月1回）と `/new-project` で実行し、指摘は1件ずつ相談してから対応する
 - 容量整理：`python _agent/_基盤/_ツール/容量整理.py`（既定ドライラン→ `--apply` でチェックポイント→中間版間引き→gc）
 - HTML静的チェック：`python _agent/_基盤/_ツール/html_checker.py <htmlファイル>` → /ship 前に必ず実行
 - Markdown静的チェック：`python _agent/_基盤/_ツール/md_checker.py <mdファイル>` → 成果物MD・更新履歴.md・プロジェクト状況.md に対応
