@@ -186,7 +186,8 @@ def _check_project_status(text):
     プロジェクト状況.md の変更履歴セクションに当年または前年の日付があるか。
     Returns: (bool, max_year_found | None)
     """
-    m = re.search(r'##[^#].*変更履歴(.*?)(?=^##|\Z)', text, re.DOTALL | re.MULTILINE)
+    # 見出し行だけに当てる（[^\n]*）。DOTALLで .* を使うと改行をまたいで本文中の「変更履歴」まで伸び、誤WARNになる
+    m = re.search(r'##[^#][^\n]*変更履歴(.*?)(?=^##|\Z)', text, re.DOTALL | re.MULTILINE)
     section = m.group(1) if m else text  # セクションが見つからなければ全体を対象
 
     years = [int(y) for y in re.findall(r'(\d{4})-\d{2}-\d{2}', section)]
