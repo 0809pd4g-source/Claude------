@@ -164,7 +164,17 @@ def _check_update_history(text):
         series[key] = series.get(key, 0) + 1
     count = len(marked)
     dup = [k for k, n in series.items() if n > 1]
-    return count, dup, _latest_date(text)
+    # 2026-10-07：成果物がまだ1つもない初期状態（表が「（未作成）」の行だけ等）を FAIL にしていた。
+    #   成果物の行＝先頭列に _vN を含む、または版の列が vN の行。0行なら（最新）の判定は対象外にする。
+    deliv = 0
+    for ln in text.splitlines():
+        s = ln.strip()
+        if not s.startswith('|') or set(s.replace('|', '').strip()) <= set('-: '):
+            continue
+        cells = [c.strip() for c in s.strip('|').split('|')]
+        if len(cells) >= 2 and (re.search(r'_v\d', cells[0]) or re.match(r'[*\s]*v\d', cells[1])):
+            deliv += 1
+    return count, dup, _latest_date(text), deliv
 
 
 def _latest_date(text):
@@ -285,12 +295,15 @@ def run(path, strict=False):
     elif mode == "update_history":
         print(_c("【更新履歴.md チェック】", BOLD))
 
-        count, dup, latest_date = _check_update_history(text)
+        count, dup, latest_date, deliv = _check_update_history(text)
 
-        r.add("（最新）が成果物の系統ごとに1行", count >= 1 and not dup, "FAIL",
-              f"（最新）が {count} 行"
-              + (f"・同じ系統に複数: {', '.join(dup)}" if dup else "")
-              + "  →  系統ごとに1行だけ **（最新）** を付け、旧版の（最新）は外してください")
+        if deliv == 0 and count == 0:
+            print(f"  {SYM_INFO} 成果物の行がまだない（初期状態）→（最新）の判定は対象外")
+        else:
+            r.add("（最新）が成果物の系統ごとに1行", count >= 1 and not dup, "FAIL",
+                  f"（最新）が {count} 行"
+                  + (f"・同じ系統に複数: {', '.join(dup)}" if dup else "")
+                  + "  →  系統ごとに1行だけ **（最新）** を付け、旧版の（最新）は外してください")
 
         if latest_date:
             days_ago = (date.today() - latest_date).days
