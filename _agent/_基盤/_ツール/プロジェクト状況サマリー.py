@@ -59,35 +59,35 @@ def scan_projects():
         cat_path = os.path.join(ROOT, cat_dir)
         if not os.path.isdir(cat_path):
             continue
-        # JLAC等のサブディレクトリも含めて再帰的に探す（深さ2まで）
-        for sub in [cat_path] + [os.path.join(cat_path, d) for d in os.listdir(cat_path)
-                                   if os.path.isdir(os.path.join(cat_path, d))]:
-            for proj in os.listdir(sub):
-                proj_path = os.path.join(sub, proj)
-                if not os.path.isdir(proj_path):
-                    continue
-                status_path = os.path.join(proj_path, "プロジェクト状況.md")
-                if not os.path.exists(status_path):
-                    continue
-                text = read(status_path)
-                last_date = extract_last_date(extract_section(text, "変更履歴"))
-                next_action = extract_section(text, "未確認・要確認事項")
-                # 変更履歴末尾の「次にやること」を抽出
-                rekishi = extract_section(text, "変更履歴")
-                lines = [l.strip() for l in rekishi.splitlines() if l.strip()]
-                last_entry = lines[-1] if lines else ""
+        # 分類フォルダ（JLAC等）・定例シリーズ（会議名/YYYYMMDD）の入れ子も含めて探す。
+        # プロジェクト状況.md を持つフォルダをプロジェクトとし、その中は掘らない。
+        for dp, dns, fns in os.walk(cat_path):
+            dns[:] = [d for d in dns if d not in ("01_input", "02_output", "03_scripts", "04_reference", "00_共通", ".git")]
+            if dp == cat_path or "プロジェクト状況.md" not in fns:
+                continue
+            dns[:] = []
+            proj_path = dp
+            proj = os.path.relpath(dp, cat_path).replace("\\", "/")  # 例: 開発課題検討会/20261005
+            status_path = os.path.join(proj_path, "プロジェクト状況.md")
+            text = read(status_path)
+            last_date = extract_last_date(extract_section(text, "変更履歴"))
+            next_action = extract_section(text, "未確認・要確認事項")
+            # 変更履歴末尾の「次にやること」を抽出
+            rekishi = extract_section(text, "変更履歴")
+            lines = [l.strip() for l in rekishi.splitlines() if l.strip()]
+            last_entry = lines[-1] if lines else ""
 
-                if STALE_ONLY:
-                    if last_date and (TODAY - last_date).days < STALE_DAYS:
-                        continue
+            if STALE_ONLY:
+                if last_date and (TODAY - last_date).days < STALE_DAYS:
+                    continue
 
-                results.append({
-                    "category": cat_name,
-                    "name": proj,
-                    "last_date": last_date,
-                    "last_entry": last_entry,
-                    "pending": next_action,
-                })
+            results.append({
+                "category": cat_name,
+                "name": proj,
+                "last_date": last_date,
+                "last_entry": last_entry,
+                "pending": next_action,
+            })
     return results
 
 
