@@ -37,7 +37,7 @@ args = sys.argv[1:]
 ROOT = args[args.index("--root") + 1] if "--root" in args else _find_container(os.path.dirname(os.path.abspath(__file__)))
 NAME = args[args.index("--name") + 1] if "--name" in args else None
 
-SKIP_DIRS = {".git", "_archive", "node_modules", "__pycache__", ".claude"}
+SKIP_DIRS = {".git", "_archive", "node_modules", "__pycache__", ".claude", ".agents"}
 WORK_DIRS = ("01_input", "02_output", "03_scripts", "04_reference", "00_共通")
 MGMT_DOCS = {"プロジェクト状況.md", "更新履歴.md", "CLAUDE.md", "README_プロジェクト管理規約.md", "_フォルダ説明.md"}
 DATE_ONLY = re.compile(r"^\d{8}$")
