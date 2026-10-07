@@ -1,0 +1,24 @@
+{
+  "folders": [
+    {
+      "name": "📁 プロジェクト一覧",
+      "path": ".."
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/.git": true,
+      "_archive": true,
+      ".claude": true,
+      "CLAUDE.md": true,
+      "*.code-workspace": true,
+      "*.gitignore": true,
+      "_基盤": true
+    },
+    "workbench.colorCustomizations": {
+      "activityBar.background": "#1a3a2a",
+      "titleBar.activeBackground": "#1a5a3a",
+      "titleBar.activeForeground": "#ffffff"
+    }
+  }
+}

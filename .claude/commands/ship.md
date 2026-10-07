@@ -8,12 +8,12 @@
 
 **対象が `.html` の場合:**
 ```bash
-python _ツール/html_checker.py "<対象ファイルのパス>"
+python _agent/_基盤/_ツール/html_checker.py "<対象ファイルのパス>"
 ```
 
 **対象が `.md` の場合（成果物 MD）:**
 ```bash
-python _ツール/md_checker.py "<対象ファイルのパス>"
+python _agent/_基盤/_ツール/md_checker.py "<対象ファイルのパス>"
 ```
 
 判定（HTML・MD 共通）:
@@ -28,8 +28,8 @@ python _ツール/md_checker.py "<対象ファイルのパス>"
 Step 3・4 で管理文書を更新したら、以下を実行して整合性を確認する。
 
 ```bash
-python _ツール/md_checker.py "<プロジェクトフォルダ>/更新履歴.md"
-python _ツール/md_checker.py "<プロジェクトフォルダ>/プロジェクト状況.md"
+python _agent/_基盤/_ツール/md_checker.py "<プロジェクトフォルダ>/更新履歴.md"
+python _agent/_基盤/_ツール/md_checker.py "<プロジェクトフォルダ>/プロジェクト状況.md"
 ```
 
 - **FAIL（（最新）が1行でない等）** → その場で修正して再確認する。
