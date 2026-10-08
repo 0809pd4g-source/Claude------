@@ -106,6 +106,19 @@
       "url": "http://localhost:7439/"
     },
     {
+      "name": "マニフェスト（Antigravity）",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "7441",
+        "--directory",
+        "C:\\Users\\masato.nakazawa\\Downloads\\Antigravityプロジェクト\\20260727_中澤誠人ライフデザインマニフェスト\\02_output"
+      ],
+      "port": 7441,
+      "url": "http://localhost:7441"
+    },
+    {
       "name": "他ツール査読",
       "runtimeExecutable": "python",
       "runtimeArgs": [
