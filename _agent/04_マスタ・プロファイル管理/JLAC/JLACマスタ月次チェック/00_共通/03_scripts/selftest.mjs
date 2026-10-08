@@ -55,6 +55,26 @@ const g2 = clone(good); g2.code = g2.s[C.JLAC11] = good.code.slice(0, 15) + (goo
 let got = new Set(T_.groupFindings([clone(good), g2], [good]).map(f => f[1]));
 for (const cid of ['KA-17', 'KA-32', 'KA-10']) expect(cid, got);
 got = new Set(T_.groupFindings([good, clone(good)], [good]).map(f => f[1])); expect('KA-31', got);
+// v17〜：新規行1行と既設行1行の重複は、既設行に削除・新規行に適用開始日の修正を依頼する文面にする（隣の条件は従来の文面）
+{
+  const oldR = clone(good); oldR.xrow = 100; oldR.s[C.START] = '00000000';
+  const newR = clone(good); newR.xrow = 200; newR.s[C.START] = '20261015';
+  const isNew = (r) => r.xrow >= 200;
+  const m = (rows) => new Map(T_.groupFindings(rows, [good], isNew).filter(f => f[1] === 'KA-31').map(f => [f[0].xrow, f[2]]));
+  const a = m([oldR, newR]);
+  const same = m([oldR, Object.assign(clone(newR), { s: Object.assign([...newR.s], { [C.START]: '00000000' }) })]);
+  const three = m([oldR, newR, Object.assign(clone(oldR), { xrow: 150 })]);
+  const bothNew = m([Object.assign(clone(newR), { xrow: 201 }), newR]);
+  const nodef = new Map(T_.groupFindings([oldR, newR], [good]).filter(f => f[1] === 'KA-31').map(f => [f[0].xrow, f[2]]));
+  for (const [label, ok] of [
+    ['新規×既設：既設行に削除を依頼', /200行目に別途新規の行として起票.*本行は削除いただけますでしょうか/.test(a.get(100) || '')],
+    ['新規×既設：新規行に開始日の修正を依頼', /100行目（既設行）と重複.*適用開始日（00000000）に合わせて修正/.test(a.get(200) || '')],
+    ['開始日が同じなら修正の依頼を外す', !/適用開始日/.test(same.get(200) || 'x') && /削除をお願いしております/.test(same.get(200) || '')],
+    ['3行の重複は従来の文面', [...three.values()].every(t => t.includes('3行あります'))],
+    ['新規どうしの重複は従来の文面', [...bothNew.values()].every(t => t.includes('2行あります'))],
+    ['新規の判定を渡さない呼び出しは従来の文面', [...nodef.values()].every(t => t.includes('2行あります'))],
+  ]) { fail += !ok; console.log((ok ? 'OK ' : 'NG ') + 'KA-31依頼文'.padEnd(12) + label); }
+}
 const o = clone(good); o.code = o.s[C.JLAC11] = good.code.slice(0, 12) + '000' + good.code.slice(15);
 got = new Set(T_.groupFindings([o], []).map(f => f[1])); expect('KA-33', got);
 const e1 = clone(good); e1.s[C.END] = '20261014'; const o2 = clone(o); o2.s[C.END] = '20261014';
@@ -65,6 +85,16 @@ const S = { prevLabel: '202609版', expectedStart: '20261015', expectedEnd: '202
 for (const [cid, n, p] of [['KA-M2', mut(C.START, '20261015'), good], ['KA-M3', good, mut(C.END, '20261014')], ['STEP1-END', mut(C.END, '20261001'), good],
   ['STEP1-DIFF', mut(C.HANBAI, '別名'), good], ['STEP1-DIFF表記', mut(C.HANBAI, good.s[C.HANBAI] + '　'), good]]) {
   expect(cid, new Set(T_.comparePrev(n, p, S).map(c => c[0])));
+}
+// v19〜：測定法だけ変わり販売名称が前月のままなら、販売名称の確認（その他6）を出す
+{
+  const pv = mut(C.HANBAI, 'テスト試薬 A‐1'); pv.s[C.METH11] = 'テスト法_テスト試薬 A‐1';
+  const nMeth = clone(pv); nMeth.s[C.METH11] = 'テスト法_テスト試薬 A-1';
+  const nBoth = clone(nMeth); nBoth.s[C.HANBAI] = 'テスト試薬 A-1';
+  const pvU = clone(pv); pvU.s[C.HANBAI] = '別の名前'; const nU = clone(pvU); nU.s[C.METH11] = 'テスト法_テスト試薬 A-1';
+  const has = (n, p) => T_.comparePrev(n, p, S).some(c => c[0] === 'STEP1-HANBAI');
+  for (const [label, ok] of [['測定法だけ変わり販売名称が前月のまま→確認を出す', has(nMeth, pv)], ['販売名称も変わった行には出さない', !has(nBoth, pv)],
+    ['測定法と販売名称が対応しない行には出さない', !has(nU, pvU)], ['測定法が変わっていない行には出さない', !has(clone(pv), pv)]]) { fail += !ok; console.log((ok ? 'OK ' : 'NG ') + 'その他6'.padEnd(13) + label); }
 }
 const okEnd = T_.comparePrev(mut(C.END, '20261014'), good, S).map(c => c[0]);
 fail += okEnd.includes('STEP1-END'); console.log((okEnd.includes('STEP1-END') ? 'NG ' : 'OK ') + '切替日前日は指摘しない'.padEnd(10) + okEnd.join(','));
@@ -77,7 +107,7 @@ if (prevCsv) {
   const blanks = pr.filter(x => x.r > 1 && String(x.vals[C.JLAC11] ?? '').trim() === '');
   if (blanks.length >= 2) {
     const delR = blanks[0].r, modR = blanks[1].r;
-    let rr = 0, noteRow = 0, extraRow = 0;
+    let rr = 0, noteRow = 0, extraRow = 0, zeroRow = 0, noteOkRow = 0, noteNgRow = 0;
     const raw = [];
     for (const x of pr) {
       if (x.r === delR) continue;
@@ -88,12 +118,25 @@ if (prevCsv) {
       rr++;
       if (rr === 5) { vals[32] = '連絡事項'; noteRow = rr; }
       if (rr === 6) { vals[32] = ''; vals[33] = '34列目の値'; extraRow = rr; }
+      if (rr === 7 && String(vals[C.JLAC11] ?? '').trim() !== '' && String(vals[C.START]) === '00000000') { vals[C.START] = 0; zeroRow = rr; }
+      // v18〜：連絡用の列のコメントと差分の照合（書いたとおりの変更＝連携済み／違う値＝指摘）
+      if ((rr === 8 || rr === 9) && String(vals[C.JLAC11] ?? '').trim() !== '') {
+        const old = String(vals[C.HANBAI] ?? ''), nw = old + '改';
+        vals[C.HANBAI] = nw;
+        vals[32] = `販売名称を${old}から${rr === 8 ? nw : old + '別'}に変更しました。`;
+        if (rr === 8) noteOkRow = rr; else noteNgRow = rr;
+      }
       raw.push({ r: rr, vals });
     }
+    // 新規行の開始行（JLACセンター連絡）以降に、前月と同じコードの行を再掲載する（v16〜：連絡を優先して新規行として扱う）
+    const src = raw.find(x => x.r > 10 && String(x.vals[C.JLAC11] ?? '').trim() !== '' && x.vals[C.START] !== 0);
+    const dupRow = raw.length + 1;
+    raw.push({ r: dupRow, vals: Object.assign([...src.vals], { [C.START]: '20261015', [C.END]: '99999999' }) });
     const name = '模擬提出';
     const fake = { fileName: '模擬提出_20261006.xlsx', sheets: [{ name }], rawRows: async () => raw, headerOf: async () => raw[0].vals };
     const inp2 = { ...inp, target: fake, prev: prevCsv };
     const st2 = await J.defaultSettings(inp2);
+    st2.newFromRow = String(dupRow);
     const R = await J.run(inp2, st2, null);
     const F = R.findings;
     const del = F.filter(f => f.check === 'STEP1-DEL');
@@ -105,6 +148,15 @@ if (prevCsv) {
       ['連絡用の列はKA-26で指摘しない', !F.some(f => f.check === 'KA-26' && f.row === noteRow && !f.known) && F.some(f => f.check === 'KA-26' && f.row === noteRow && f.note === '連絡用の列'), ''],
       ['34列目の値は従来どおりKA-26で指摘', F.some(f => f.check === 'KA-26' && f.row === extraRow && !f.known), ''],
       ['前月の問題の解消を誤表示しない', ![...R.rowDiff.values()].some(d => d.label.includes('前月の問題が解消')), ''],
+      // v14で文面を変えた際、文面で数えていたこの通知が出なくなった（v15で修正）。文面に頼らず出ることを確かめる
+      ['連絡された新規行は前月に同じコードがあっても新規行として扱う', F.some(f => f.row === dupRow && f.status === '新規行') && !F.some(f => f.row === dupRow && f.status === '既存行'), `${dupRow}行目`],
+      ['その行に既存行向けの指摘（KA-M2・M3・その他2〜4）を出さない', !F.some(f => f.row === dupRow && /^(KA-M2|KA-M3|STEP1-)/.test(f.check)), ''],
+      ['その行の重複（KA-31）は指摘する', F.some(f => f.row === dupRow && f.check === 'KA-31' && !f.known), ''],
+      ['その行について要確認の通知を出す', R.notices.some(n => n.level === '要確認' && n.title.includes('前月FIXに同じJLAC11コードの行がある行')), ''],
+      ['コメントどおりの変更は連携済み（指摘しない）', noteOkRow > 0 && F.some(f => f.row === noteOkRow && f.check === 'STEP1-DIFF' && f.known && f.note === '連携済み') && !F.some(f => f.row === noteOkRow && f.check === 'STEP1-DIFF' && !f.known), `${noteOkRow}行目`],
+      ['コメントと違う値への変更は指摘する', noteNgRow > 0 && F.some(f => f.row === noteNgRow && f.check === 'STEP1-DIFF' && !f.known), `${noteNgRow}行目`],
+      ['コメントがあるのに値が変わっていない行を要確認で通知', R.notices.some(n => n.level === '要確認' && n.title.includes('前月から値が変わっていない行')), `${noteRow}行目`],
+      ['適用開始日が数値の0の行で要確認の通知を出す', zeroRow > 0 && F.some(f => f.check === 'KA-18' && f.row === zeroRow && !f.known) && R.notices.some(n => n.level === '要確認' && n.title.includes('数値の0')), zeroRow ? `${zeroRow}行目` : '模擬行を作れず'],
     ];
     for (const [label, ok, info] of chk) { fail += !ok; console.log((ok ? 'OK ' : 'NG ') + '新旧混合'.padEnd(12) + label + ' ' + info); }
   }

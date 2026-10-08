@@ -1,0 +1,1703 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JLACマスタ月次チェックツール</title>
+<style>
+:root {
+  --bg: #f6f7f8;
+  --panel: #ffffff;
+  --text: #1f2328;
+  --muted: #59636e;
+  --line: #d6dadf;
+  --accent: #0b6e4f;
+  --accent-text: #ffffff;
+  --accent-weak: #e2f1ea;
+  --warn-text: #8a4b00;
+  --warn-bg: #fff3dc;
+  --bad-text: #a8261b;
+  --bad-bg: #fde9e7;
+  --ok-text: #1a6f33;
+  --ok-bg: #e5f4e9;
+  --info-bg: #eaf1fb;
+  --info-text: #1d4f91;
+  --code-bg: #eef0f2;
+  --drop-bg: #f0f7f3;
+  --shadow: rgba(0, 0, 0, 0.06);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #15181b;
+    --panel: #1e2226;
+    --text: #e6e8ea;
+    --muted: #a3acb5;
+    --line: #363c43;
+    --accent: #3fb68b;
+    --accent-text: #0d1a14;
+    --accent-weak: #1d3a2f;
+    --warn-text: #f3c072;
+    --warn-bg: #3a2c12;
+    --bad-text: #ff9b8f;
+    --bad-bg: #3d1f1c;
+    --ok-text: #7fd69a;
+    --ok-bg: #1b3524;
+    --info-bg: #1b2b40;
+    --info-text: #9cc3f5;
+    --code-bg: #2a2f35;
+    --drop-bg: #1b2a23;
+    --shadow: rgba(0, 0, 0, 0.4);
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: "Yu Gothic UI", "Meiryo", system-ui, sans-serif; font-size: 15px; line-height: 1.7; }
+header { background: var(--panel); border-bottom: 1px solid var(--line); padding: 14px 24px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+header h1 { font-size: 20px; margin: 0; }
+.ver { color: var(--muted); font-size: 13px; }
+nav { display: flex; gap: 4px; padding: 0 24px; background: var(--panel); border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+nav button { background: none; border: none; border-bottom: 3px solid transparent; padding: 10px 14px; font: inherit; color: var(--muted); cursor: pointer; }
+nav button.active { color: var(--text); border-bottom-color: var(--accent); font-weight: bold; }
+main { max-width: 1100px; margin: 0 auto; padding: 20px 24px 60px; }
+.tab { display: none; }
+.tab.active { display: block; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 18px 20px; margin-bottom: 18px; box-shadow: 0 1px 2px var(--shadow); }
+.card h2 { font-size: 17px; margin: 0 0 10px; display: flex; align-items: center; gap: 10px; }
+.step { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: var(--accent-text); font-size: 14px; flex: none; }
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
+.note { background: var(--info-bg); color: var(--info-text); border-radius: 6px; padding: 10px 14px; margin: 10px 0; }
+.warnbox { background: var(--warn-bg); color: var(--warn-text); border-radius: 6px; padding: 10px 14px; margin: 10px 0; }
+.badbox { background: var(--bad-bg); color: var(--bad-text); border-radius: 6px; padding: 10px 14px; margin: 10px 0; }
+.okbox { background: var(--ok-bg); color: var(--ok-text); border-radius: 6px; padding: 10px 14px; margin: 10px 0; }
+#drop { border: 2px dashed var(--accent); background: var(--drop-bg); border-radius: 8px; padding: 26px; text-align: center; cursor: pointer; }
+#drop.over { background: var(--accent-weak); }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+th { background: var(--code-bg); font-weight: bold; white-space: nowrap; }
+td.num { text-align: right; white-space: nowrap; }
+.tablewrap { overflow-x: auto; }
+select, input[type=text] { font: inherit; padding: 4px 6px; border: 1px solid var(--line); border-radius: 4px; background: var(--panel); color: var(--text); max-width: 100%; }
+button.primary { background: var(--accent); color: var(--accent-text); border: none; border-radius: 6px; padding: 10px 22px; font: inherit; font-weight: bold; cursor: pointer; }
+button.primary:disabled { opacity: 0.45; cursor: not-allowed; }
+button.secondary { background: var(--panel); color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 8px 16px; font: inherit; cursor: pointer; }
+.btnrow { display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0; }
+.tag { display: inline-block; border-radius: 4px; padding: 0 8px; font-size: 13px; white-space: nowrap; }
+.tag.ok { background: var(--ok-bg); color: var(--ok-text); }
+.tag.ng { background: var(--bad-bg); color: var(--bad-text); }
+.tag.warn { background: var(--warn-bg); color: var(--warn-text); }
+.tag.info { background: var(--info-bg); color: var(--info-text); }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin: 10px 0 16px; }
+.stat { border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; }
+.stat b { display: block; font-size: 24px; }
+.settings-grid { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 10px 16px; align-items: start; }
+.settings-grid > * { min-width: 0; overflow-wrap: anywhere; }
+.settings-grid label { font-weight: bold; padding-top: 4px; }
+td.nowrap { white-space: nowrap; }
+code { background: var(--code-bg); padding: 0 4px; border-radius: 3px; }
+pre { background: var(--code-bg); padding: 10px; border-radius: 6px; white-space: pre-wrap; max-height: 360px; overflow: auto; font-size: 13px; }
+details { margin: 8px 0; }
+summary { cursor: pointer; font-weight: bold; }
+ol li, ul li { margin: 3px 0; }
+#progress { margin-left: 12px; color: var(--muted); }
+footer { text-align: center; color: var(--muted); font-size: 13px; padding: 20px; }
+@media (max-width: 700px) {
+  .settings-grid { grid-template-columns: minmax(0, 1fr); }
+  .settings-grid select { width: 100%; }
+  main { padding: 14px; }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>JLACマスタ月次チェックツール</h1>
+  <span class="ver" id="ver"></span>
+</header>
+<nav>
+  <button type="button" id="tabbtn-run" class="active">チェックを実行</button>
+  <button type="button" id="tabbtn-rules">チェックロジック一覧</button>
+  <button type="button" id="tabbtn-about">このツールについて</button>
+</nav>
+<main>
+<section class="tab active" id="tab-run">
+  <div class="card">
+    <h2>このツールでできること</h2>
+    <p>JLACセンターが毎月1日に提出する電カル共有向けJLACマスタを、<b>39件のチェックロジック</b>と<b>前月FIX版との比較</b>で確認し、JLACセンター向けの<b>確認事項一覧（コメント付きExcel）</b>を作ります。</p>
+    <div class="note small">ファイルはこのPCの中（ブラウザ内）だけで処理され、外部には送信されません。Edge または Chrome の最新版で開いてください。</div>
+    <div id="compat"></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="step">1</span>ファイルを選ぶ</h2>
+    <p>次のExcelファイルをまとめて下の枠にドラッグ＆ドロップしてください（クリックして選ぶこともできます）。どのファイルが何かはツールが自動で判定します。</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>必要なファイル</th><th>入手先・ファイル名の例</th><th>必須</th><th>状態</th></tr></thead>
+      <tbody id="need-body"></tbody>
+    </table>
+    </div>
+    <p></p>
+    <div id="drop" tabindex="0" role="button" aria-label="ファイルを選ぶ">
+      <b>ここにExcelファイルをドロップ</b><br><span class="muted small">またはクリックして選択（複数選択可）</span>
+      <input type="file" id="fileinput" multiple accept=".xlsx,.csv" hidden>
+    </div>
+    <div id="file-list"></div>
+  </div>
+
+  <div class="card" id="settings-card">
+    <h2><span class="step">2</span>設定を確認する</h2>
+    <p class="muted">ファイルから自動で設定しています。通常は変更不要です。</p>
+    <div id="settings-body" class="muted">ステップ1で「今回提出マスタ」と「前月FIXマスタ」を選ぶと表示されます。</div>
+  </div>
+
+  <div class="card">
+    <h2><span class="step">3</span>チェックを実行する</h2>
+    <button type="button" class="primary" id="runbtn" disabled>チェックを実行</button><span id="progress"></span>
+    <div id="run-msg"></div>
+  </div>
+
+  <div class="card" id="results-card" hidden>
+    <h2><span class="step">4</span>結果を確認してダウンロードする</h2>
+    <div id="results"></div>
+  </div>
+</section>
+
+<section class="tab" id="tab-rules">
+  <div class="card">
+    <h2>チェックロジック一覧</h2>
+    <p>合意済みのチェックロジック39件（KA-○○）と、それ以外に手順書Step1・Step2で確認している「その他の指摘事項」（その他1〜5）を、このツールでは次のように判定しています。</p>
+    <ul class="small">
+      <li><b>新規行</b>（前月FIXに無いJLAC11コード）：すべての結果をコメントにします。</li>
+      <li><b>既存行</b>：前月FIXとの差分、および前月FIXでは問題なかったのに今回問題になったもの（再発）だけをコメントにします。</li>
+      <li>前月FIXでも同じ問題だったもの（<b>既知</b>）はコメントせず、件数だけ表示します（手順書Step1「既存行のエラーは一旦無視」に準拠）。</li>
+      <li><b>参考</b>のロジックはコメントせず、結果画面と報告に一覧で出します（目視確認用）。</li>
+    </ul>
+    <div class="tablewrap"><table><thead><tr><th>ID</th><th>区分</th><th>チェック内容</th><th>このツールでの判定方法</th><th>使うファイル</th><th>扱い</th></tr></thead><tbody id="rules-body"></tbody></table></div>
+  </div>
+</section>
+
+<section class="tab" id="tab-about">
+  <div class="card">
+    <h2>このツールについて</h2>
+    <ul>
+      <li>チェックのロジックはこのHTMLファイルの中の1か所（<code>jlac-core</code>）にまとまっています。ロジックの変更はClaude Code側のプロジェクト「20261003_JLACマスタ月次チェック」で管理し、変更のたびに版番号を上げて配布します。</li>
+      <li>古い版のファイルが手元に残っている場合は、最新版を使ってください（画面右上の版番号で確認できます）。</li>
+      <li>結果に疑問がある場合は、出力された「結果報告」を添えて管理者に連絡してください。</li>
+    </ul>
+    <h2>版の履歴</h2>
+    <div class="tablewrap"><table><thead><tr><th>版</th><th>日付</th><th>内容</th></tr></thead><tbody id="changelog-body"></tbody></table></div>
+  </div>
+</section>
+</main>
+<footer>JLACマスタ月次チェックツール <span id="footer-ver"></span></footer>
+
+<script id="jlac-core">
+(function (G) {
+  'use strict';
+  const VERSION = 'v13';
+  const CHANGELOG = [
+    { date: '2026-10-08', note: 'ACN確認用の構成を、本田さんRvで使った完成形（202610提出分 ACN確認用v13〜v18）に合わせた。①シート順を「このファイルの説明→確認いただきたいシート➡→送付前確認事項_一次Rv→JLACセンター向けコメント_確認用（→前回から削除された行）→確認結果サマリ➡→チェック結果一覧→その他の指摘事項→参考_ツールの自動通知→JLACセンター原本➡→原本」にし、区切りシートとタブの色を付けた。②「送付前確認事項_一次Rv」を、完成形の列（#・種別・前回Rvからの引継ぎ内容・確認事項・結果・本田さんへの確認事項・問題があった箇所・コメント要否・本田コメント・中澤回答）で作り、コメント対象のあるチェックとツールの要確認を候補として並べる（問題があった箇所は「計N件」＋行番号ごとにJLAC11コード）。③確認用シートの列を、提出ファイルに連絡用の列があるときは「AG：JLACセンターコメント→AH：JLACセンター向けコメント→新規/既存→Rv用→コメント対象ID→既知・参考ID→前月の結果→差分区分」の順にした。送付用とチェックロジックは変更なし。' },
+    { date: '2026-10-06', note: '新旧混合リストの提出に対応。JLAC11空欄の行を、前月の空欄行と1行ずつ突き合わせるようにした（全項目一致→同じJLAC10コードで最も近い行の順）。これまでは空欄行がまとめて扱われ、削除行・前月の問題の解消を誤って表示していた。コードのある行の扱いは変更なし。' },
+    { date: '2026-10-06', note: '33列目以降の見出しに「コメント」を含む列（JLACセンターの連絡用の列）は、KA-26（32列以内）の対象外として記録のみにし、ACN確認用の確認用シートに内容を表示（AN列）。KA-26の判定条件は変更なし。' },
+    { date: '2026-10-05', note: '新規行のうち、KA-10・KA-12で既存の書き方に一致するため指摘していない行を、同じ大項目の別の書き方（適用中の行数・データタイプ）とACNの見立てとあわせて、「指摘しない扱いで問題ないか」を送付前確認事項で本田さんに確認。送付用とチェックロジックは変更なし。' },
+    { date: '2026-10-05', note: '「連携済みの変更（指摘なし）」の設定を追加。JLACセンターから修正の共有があったコードは、項目の変更を指摘せず記録のみにし、解消行も共有事項（情報）として表示。チェックロジックは変更なし。' },
+    { date: '2026-10-05', note: '前月の公開版で問題があり今回解消（正常化）した行を、送付前確認事項に本田さんへの確認事項として表示（連携メモに記載がある行はその旨を併記）。送付用とチェックロジックは変更なし。' },
+    { date: '2026-10-05', note: 'ACN確認用の先頭に「このファイルの説明」シート（読み方・各シートと列の説明・Rvいただきたいこと）を追加。別シートの理由（JLACセンター連絡）の設定、確認したいコードの誤解のない文面、適用開始日0の本田さん確認事項化。送付用とチェックロジックは変更なし。' },
+    { date: '2026-10-05', note: '「Rv用の見解（ACN案）」の設定を追加。指摘ごとに連携要否と理由をACN確認用（確認用シート・削除行シート・チェック結果一覧・その他の指摘事項）に出力する。送付用とチェックロジックは変更なし。' },
+    { date: '2026-10-05', note: '「今月の個別対応」の設定を追加（共有対象外のシート、削除行を依頼済みとして記録のみ、確認したいJLAC11コードの有無、連携メモ）。チェックロジックは変更なし。' },
+    { date: '2026-10-05', note: '手順書由来の確認（削除行・項目変更・表記変更・適用終了日・新規行の適用開始日）を「その他1〜5」としてチェックロジックと分け、ACN確認用に「その他の指摘事項」シートを追加。前月の基準を全件（公開版CSVまたは新旧混合公開用）に変更し、前月も全件チェック。公開版CSVを直接読み込めるようにした。ACN確認用に「前月のチェック結果」「前月→今回の差分区分」列と、チェック結果一覧に前月の該当行数を追加。同じコードが前月に複数行ある場合は最も近い行と比較。チェックロジックは変更なし。' },
+    { date: '2026-10-05', note: '前回から削除された行を指摘として返すよう変更。送付用・ACN確認用に「前回から削除された行」シートを追加し、前回の内容とコメントを列挙（ロジック一覧にSTEP1-DELを追加）。既存の39ロジックと確認用シートのコメントは変更なし。' },
+    { date: '2026-10-03', note: '送付前確認事項の「旧コードの抜け」の件数を修正（JLAC11空欄の旧行を1件のコードとして数えていたため、コードあり件数と空欄行数に分けて表示）。ダブルチェック（Excel関数による独立検算）で発見。チェックロジック・コメントは変更なし。' },
+    { date: '2026-10-03', note: 'ACN確認用Excelを追加（チェック結果一覧シート・送付前確認事項シート、確認用シートに新規/既存フラグと該当チェックID列）。JLACセンター連絡の「新規行の開始行」との突き合わせを追加。チェックロジック自体は変更なし。' },
+    { date: '2026-10-03', note: '初版。39ロジック＋前月比較（手順書Step1・2）。確認事項一覧Excelと結果報告を出力。' },
+  ];
+  const NCOL = 32;
+  const HEADER = ['区分名称', '予備区分名称', '救急フラグ', '生活習慣病フラグ', 'データ区分', '大項目', 'FHIR項目名称', 'FHIR識別文字列', '略称', '販売名称',
+    '材料(JLAC11)', '測定法(JLAC11)', 'JLAC11コード', '表示用単位', '表示用単位2', 'XML用単位', 'XML用単位2', '材料(JLAC10)', '検査方法(JLAC10-測定法)', 'JLAC10コード',
+    '基準値フラグ(下限)', '基準値フラグ(上限)', '基準値フラグ(判定)', 'データタイプ', '値の下限', '値の上限', '数値型の場合の形式', 'コード型の場合の値リスト', 'コード型のOID', '並び順',
+    '適用開始日', '適用終了日'];
+  const C = {};
+  ['KUBUN', 'YOBI', 'KYUKYU', 'SEIKATSU', 'DATAKUBUN', 'DAIKOMOKU', 'FHIRNAME', 'FHIRID', 'RYAKU', 'HANBAI', 'MAT11', 'METH11', 'JLAC11', 'UNIT', 'UNIT2', 'XUNIT', 'XUNIT2',
+    'MAT10', 'METH10', 'JLAC10', 'FLG_L', 'FLG_H', 'FLG_J', 'DTYPE', 'VMIN', 'VMAX', 'NUMFMT', 'CODELIST', 'OID', 'ORDER', 'START', 'END'].forEach((k, i) => { C[k] = i; });
+  const COMMENT_HDR = 'JLACセンター向けコメント';
+  const REVIEW_SHEET = 'JLACセンター向けコメント_確認用';
+  const SEPARATOR_SHEET = 'JLACセンター原本➡';
+  const EXCEL_ERRORS = new Set(['#NULL!', '#DIV/0!', '#VALUE!', '#REF!', '#NAME?', '#NUM!', '#N/A', '#SPILL!', '#CALC!', '#GETTING_DATA']);
+  const HYPHENS = /[\u2010-\u2015\u2212\uFF0D\uFE63]/g;
+
+  const ROLES = {
+    target: { label: '今回提出マスタ', required: true, where: 'JLACセンターから毎月1日夜にメールで届くExcel', example: '［令和8年9月末頃以降本番環境適用開始］共有項目JLACコードマスタ_…_20261001.xlsx' },
+    prev: { label: '前月FIXマスタ', required: true, where: '前月に公開したマスタのCSV（推奨）、または前月分の公開用マスタ準備ファイル（「新旧混合 公開用」シートがあるもの）。前月の全件を基準にします', example: '［令和8年9月末頃以降本番環境適用開始］共有項目JLACコードマスタ_202609_20260915.csv' },
+    jlac10: { label: 'JLAC10 要素別コード表', required: true, where: '日本臨床検査医学会 https://www.jslm.org/committees/code/index.html の最新版', example: '140jlac10_1.xlsx' },
+    jlac11: { label: 'JLAC11 要素別コード表', required: true, where: '同上（識別・材料・結果単位コードの表）', example: 'jlac11_1_1.0.xlsx' },
+    list11: { label: 'JLAC11 17桁コードリスト', required: false, where: '同上（17桁コードリスト）。無い場合はKA-08を実施しません', example: 'jlac11_3_1.1b.xlsx' },
+    unused: { label: '使わない', required: false },
+  };
+
+  const RULES = [
+    ['KA-01', '整合性', '予備区分名称・基準値フラグ（下限/上限/判定）がすべて空欄であること', '4列とも空文字であること'],
+    ['KA-02', '整合性', 'JLAC11コードが17桁であること（空欄不可）', '文字数が17'],
+    ['KA-03', '整合性', '救急フラグ・生活習慣病フラグが0か1であること', ''],
+    ['KA-04', '整合性', 'データ区分が1か2であること', ''],
+    ['KA-05', '整合性', 'FHIR項目名称（または大項目）がJLAC11測定物コードと整合すること', '参考：新規行の測定物コード（1〜5桁）の大項目が、前月版の同じ測定物コードの大項目と一致するか（測定物コード表は使わない）', '', 'ref'],
+    ['KA-06', '整合性', '表示用単位がJLAC11結果単位コードと整合すること（大小文字区別）', 'JLAC11コード16〜17桁の結果単位コードの「結果単位名(1)」または「結果単位(2)」の別表記と完全一致', 'jlac11'],
+    ['KA-07', '整合性', '材料(JLAC11)がJLAC11材料コードと整合すること', '10〜12桁の材料コードの名称と一致。全角・半角だけの違いは表記を合わせるようコメント', 'jlac11'],
+    ['KA-08', '整合性', '測定法(JLAC11)がJLAC11測定法コードと整合すること', '17桁コードリストの（測定物・識別・測定法）の測定法名称と比較。全角半角・ハイフン類・空白の違いは同じとみなす。13〜15桁=000は対象外。組合せがリストに無い場合は参考', 'list11'],
+    ['KA-09', '整合性', 'XML用単位がUCUM（terminology）のcode/displayに掲載されていること', '未実施（UCUM照合は未対応）。参考：新規行のXML用単位が前月版に無い単位なら一覧表示', '', 'ref'],
+    ['KA-10', '整合性', '大項目をキーにFHIR項目名称/FHIR識別文字列/略称が整合すること', '同じ大項目で組合せが複数あるとき、前月版に無い組合せの行にコメント'],
+    ['KA-11', '整合性', 'FHIR識別文字列をキーに大項目/FHIR項目名称/略称が整合すること', '同上'],
+    ['KA-12', '整合性', '略称をキーに大項目/FHIR項目名称/FHIR識別文字列が整合すること', '同上'],
+    ['KA-13', '整合性', 'データタイプがPQ又はCDであること', ''],
+    ['KA-14', '整合性', 'データタイプCDの場合、値の下限・値の上限が設定されていること', ''],
+    ['KA-15', '整合性', 'データタイプCDの場合、コード型の値リストが設定されていること', ''],
+    ['KA-16', '整合性', 'データタイプCDの場合、コード型のOIDが設定されていること', ''],
+    ['KA-17', '整合性', '並び順とFHIR項目名称の整合性（同一FHIR項目名称は同一の並び順）', '同じFHIR項目名称で並び順が複数あるとき、前月版に無い並び順の行にコメント'],
+    ['KA-18', '整合性', '適用開始日が8桁で00000000又は実在日付であること', '数値の0は「0→00000000に修正」とコメント'],
+    ['KA-19', '整合性', '適用終了日が8桁で99999999又は実在日付であること', ''],
+    ['KA-20', '整合性', 'JLAC10コードが17桁であること', ''],
+    ['KA-21', '整合性', '大項目がJLAC10分析物コードと整合すること', '分析物コード（1〜5桁）がJLAC10分析物コード表に存在するか（名称の照合はしない）', 'jlac10'],
+    ['KA-22', '整合性', 'JLAC10コードの材料コードが材料(JLAC10)名と一致すること', '10〜12桁の材料コードの名称と完全一致', 'jlac10'],
+    ['KA-23', '整合性', '検査方法(JLAC10-測定法)がJLAC10測定法コードと整合すること', '13〜15桁の測定法名（名称(2)との組合せ表記も許容）と一致', 'jlac10'],
+    ['KA-24', '整合性', '表示用単位が結果識別コードと整合すること（定量値はUCUM実在も許容）', '参考：新規行の（結果識別コード×表示用単位）が前月版に無い組合せなら一覧表示', '', 'ref'],
+    ['KA-25', '整合性', '全項目にExcelエラー値（#NAME?等）が含まれないこと', ''],
+    ['KA-26', '整合性', '列数が32を超えていないこと', '33列目以降に値がある行'],
+    ['KA-27', '整合性', '区分名称が空でないこと', ''],
+    ['KA-28', '整合性', '大項目が空でないこと', ''],
+    ['KA-29', '整合性', 'FHIR項目名称が空でないこと', ''],
+    ['KA-30', '整合性', 'FHIR識別文字列が空でないこと', ''],
+    ['KA-31', '整合性', 'JLAC11コードが重複しないこと', '提出ファイルの対象シートを合算して判定'],
+    ['KA-32', '整合性', '同一JLAC10コードに異なるFHIR識別文字列が無いこと', '前月版に無い組合せの行にコメント'],
+    ['KA-DUMMY', '整合性', 'JLAC11コードにダミー（仮）コードが使われていないこと', '目安判定：17桁の英大文字・数字以外、または「仮」・XXX・ZZZ・999999を含む'],
+    ['KA-K', '整合性', '全項目にケルビン記号K（U+212A）が使われていないこと', ''],
+    ['KA-33', '整合性', '『その他の測定法』（JLAC11の13〜15桁=000）には、測定法が決まったコードが同時に存在すること', '1〜12桁と16〜17桁が同じで13〜15桁≠000のコードがあるか'],
+    ['KA-34', '整合性', '終了した測定法コードがある場合、その000版の適用終了日は99999999であること', ''],
+    ['KA-M1', '前月比較', '先月分に無い新規JLAC11コードは、適用開始日≠00000000 かつ 適用終了日=99999999 であること', '', 'prev'],
+    ['KA-M2', '前月比較', '先月分と一致するJLAC11コードは、適用開始日が変わっていないこと', '00000000と数値0は同じとみなす', 'prev'],
+    ['KA-M3', '前月比較', '先月分と一致するJLAC11コードで適用終了日が変わった場合、99999999でないこと', '', 'prev'],
+    ['STEP1-END', '手順書Step1', '適用終了日 99999999→日付 の変更が切替日の前日になっているか／日付→日付の変更（バックデート等）', '想定外の日付・日付の再設定にコメント', 'prev'],
+    ['STEP1-DIFF', '手順書Step1', '適用終了日以外の項目変更（誤作業の可能性）', '前月FIXと値が違う列にコメント', 'prev'],
+    ['STEP1-DIFF表記', '手順書Step1', '表記だけの変更（全角・半角・記号の違い）', '半角統一と認識している旨の確認コメント', 'prev'],
+    ['STEP1-DEL', '手順書Step1', '前回から削除された行が無いこと（行の削除は指摘する）', '前月FIX（新旧混合シートがあれば新旧混合、無ければ新のみ）にあって今回の提出に無い行を、出力Excelの「前回から削除された行」シートに列挙してコメント', 'prev'],
+    ['STEP2-START', '手順書Step2', '新規行の適用開始日が今回の公開日（通常は提出月の15日）であること', '', 'prev'],
+  ].map(([id, cat, title, how, needs, level]) => ({ id, cat, title, how: how || '—', needs: needs || '', level: level || 'strict' }));
+  // 合意済みの39ロジック以外（手順書の確認手順）は「その他の指摘事項」として表示する。内部IDは変えない
+  const OTHER = { 'STEP1-DEL': 'その他1（削除行）', 'STEP1-DIFF': 'その他2（項目の変更）', 'STEP1-DIFF表記': 'その他3（表記の変更）', 'STEP1-END': 'その他4（適用終了日）', 'STEP2-START': 'その他5（新規行の適用開始日）' };
+  const dispId = (id) => OTHER[id] || id;
+  const isOther = (id) => Object.prototype.hasOwnProperty.call(OTHER, id);
+  for (const r of RULES) if (isOther(r.id)) r.cat = 'その他の指摘事項（手順書の確認）';
+
+  // ---------- 文字列ユーティリティ ----------
+  const td = new TextDecoder('utf-8');
+  const te = new TextEncoder();
+  const ENT = { lt: '<', gt: '>', quot: '"', apos: "'", amp: '&' };
+  function xmlDecode(s) {
+    if (s.indexOf('&') < 0) return s;
+    return s.replace(/&(#x[0-9a-fA-F]+|#\d+|lt|gt|quot|apos|amp);/g, (m, e) =>
+      e[0] === '#' ? String.fromCodePoint(e[1] === 'x' ? parseInt(e.slice(2), 16) : parseInt(e.slice(1), 10)) : ENT[e]);
+  }
+  function xmlEscape(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function xmlText(s) { return xmlEscape(String(s).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\uFFFE\uFFFF]/g, '')); }
+  function attrs(s) {
+    const o = {};
+    for (const m of s.matchAll(/([\w:.-]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g)) o[m[1]] = m[2] !== undefined ? m[2] : m[3];
+    return o;
+  }
+  function setAttr(s, name, value) {
+    const re = new RegExp('(\\s' + name.replace(/[:.]/g, '\\$&') + '\\s*=\\s*)("[^"]*"|\'[^\']*\')');
+    return re.test(s) ? s.replace(re, `$1"${value}"`) : `${s} ${name}="${value}"`;
+  }
+  function nz(x) { return x.normalize('NFKC').replace(HYPHENS, '-').replace(/ /g, '').replace(/\u3000/g, ''); }
+  function stripSp(x) { return x.replace(/^[ \u3000]+|[ \u3000]+$/g, ''); }
+  function nv(v) { return v !== null && v !== undefined && v !== ''; }
+  function sv(v) { return v === null || v === undefined ? '' : String(v); }
+  function pad(v, n) { const s = sv(v).trim(); return /^\d+$/.test(s) ? s.padStart(n, '0') : s; }
+  function isDigits(x) { return /^\d+$/.test(x); }
+  function dateNorm(x) { return isDigits(x) ? x.padStart(8, '0') : x; }
+  function len(x) { return Array.from(x).length; }
+  function validDate8(x, special) {
+    if (x.length !== 8 || !isDigits(x)) return false;
+    if (x === special) return true;
+    const y = +x.slice(0, 4), m = +x.slice(4, 6), d = +x.slice(6, 8);
+    if (y < 1 || m < 1 || m > 12 || d < 1) return false;
+    return d <= daysIn(y, m);
+  }
+  function isLeap(y) { return (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0; }
+  function daysIn(y, m) { return [31, isLeap(y) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][m - 1]; }
+  function numStr(raw) {
+    if (/^-?\d+$/.test(raw)) return raw.replace(/^(-?)0+(?=\d)/, '$1');
+    const n = Number(raw);
+    if (!isFinite(n) || raw.trim() === '') return raw;
+    return Number.isInteger(n) && Math.abs(n) < 1e21 ? BigInt(n).toString() : String(n);
+  }
+  function colIndex(ref) {
+    let n = 0;
+    for (const ch of ref) { const c = ch.charCodeAt(0); if (c >= 65 && c <= 90) n = n * 26 + (c - 64); else break; }
+    return n - 1;
+  }
+  function cmpTuple(a, b) {
+    for (let i = 0; i < Math.min(a.length, b.length); i++) { if (a[i] < b[i]) return -1; if (a[i] > b[i]) return 1; }
+    return a.length - b.length;
+  }
+
+  // ---------- ZIP ----------
+  function u16(b, o) { return b[o] | (b[o + 1] << 8); }
+  function u32(b, o) { return (b[o] | (b[o + 1] << 8) | (b[o + 2] << 16) | (b[o + 3] << 24)) >>> 0; }
+  function readZip(bytes) {
+    let e = -1;
+    for (let i = bytes.length - 22; i >= Math.max(0, bytes.length - 22 - 65535); i--) { if (u32(bytes, i) === 0x06054b50) { e = i; break; } }
+    if (e < 0) throw new Error('Excelファイル（.xlsx）として読めません。古い形式（.xls）やパスワード付きのファイルではないか確認してください。');
+    const n = u16(bytes, e + 10);
+    let p = u32(bytes, e + 16);
+    const entries = [];
+    for (let k = 0; k < n; k++) {
+      if (u32(bytes, p) !== 0x02014b50) throw new Error('Excelファイルの構造が壊れています。');
+      const fnl = u16(bytes, p + 28), exl = u16(bytes, p + 30), cml = u16(bytes, p + 32);
+      entries.push({
+        name: td.decode(bytes.subarray(p + 46, p + 46 + fnl)), method: u16(bytes, p + 10), time: u16(bytes, p + 12), date: u16(bytes, p + 14),
+        crc: u32(bytes, p + 16), csize: u32(bytes, p + 20), usize: u32(bytes, p + 24), lho: u32(bytes, p + 42),
+      });
+      p += 46 + fnl + exl + cml;
+    }
+    for (const en of entries) {
+      const q = en.lho, start = q + 30 + u16(bytes, q + 26) + u16(bytes, q + 28);
+      en.raw = bytes.subarray(start, start + en.csize);
+    }
+    return entries;
+  }
+  let CRC_T = null;
+  function crc32(u8) {
+    if (!CRC_T) {
+      CRC_T = new Uint32Array(256);
+      for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; CRC_T[n] = c >>> 0; }
+    }
+    let c = 0xFFFFFFFF;
+    for (let i = 0; i < u8.length; i++) c = CRC_T[(c ^ u8[i]) & 0xFF] ^ (c >>> 8);
+    return (c ^ 0xFFFFFFFF) >>> 0;
+  }
+  function writeZip(items) {
+    const parts = [], central = [];
+    let off = 0;
+    for (const it of items) {
+      const nb = te.encode(it.name), flag = /[^\x00-\x7f]/.test(it.name) ? 0x800 : 0;
+      const lh = new Uint8Array(30 + nb.length), dv = new DataView(lh.buffer);
+      dv.setUint32(0, 0x04034b50, true); dv.setUint16(4, 20, true); dv.setUint16(6, flag, true); dv.setUint16(8, it.method, true);
+      dv.setUint16(10, it.time, true); dv.setUint16(12, it.date, true); dv.setUint32(14, it.crc, true); dv.setUint32(18, it.csize, true);
+      dv.setUint32(22, it.usize, true); dv.setUint16(26, nb.length, true); lh.set(nb, 30);
+      const ch = new Uint8Array(46 + nb.length), cv = new DataView(ch.buffer);
+      cv.setUint32(0, 0x02014b50, true); cv.setUint16(4, 20, true); cv.setUint16(6, 20, true); cv.setUint16(8, flag, true); cv.setUint16(10, it.method, true);
+      cv.setUint16(12, it.time, true); cv.setUint16(14, it.date, true); cv.setUint32(16, it.crc, true); cv.setUint32(20, it.csize, true);
+      cv.setUint32(24, it.usize, true); cv.setUint16(28, nb.length, true); cv.setUint32(42, off, true); ch.set(nb, 46);
+      parts.push(lh, it.data); central.push(ch);
+      off += lh.length + it.data.length;
+    }
+    const cdSize = central.reduce((a, c) => a + c.length, 0);
+    const eocd = new Uint8Array(22), ev = new DataView(eocd.buffer);
+    ev.setUint32(0, 0x06054b50, true); ev.setUint16(8, items.length, true); ev.setUint16(10, items.length, true);
+    ev.setUint32(12, cdSize, true); ev.setUint32(16, off, true);
+    const all = parts.concat(central, [eocd]);
+    const out = new Uint8Array(all.reduce((a, x) => a + x.length, 0));
+    let p = 0;
+    for (const x of all) { out.set(x, p); p += x.length; }
+    return out;
+  }
+  function dosTime(d) { return ((d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1)) & 0xFFFF; }
+  function dosDate(d) { return (((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate()) & 0xFFFF; }
+
+  // ---------- XLSX 読み込み ----------
+  const ROW_RE = /<row\b([^>]*?)(?:\/>|>([\s\S]*?)<\/row>)/g;
+  const C_RE = /<c\b([^>]*?)(?:\/>|>([\s\S]*?)<\/c>)/g;
+  function siText(body) {
+    const b = body.replace(/<rPh\b[\s\S]*?<\/rPh>/g, '');
+    let s = '';
+    for (const t of b.matchAll(/<t(?:\s[^>]*)?>([\s\S]*?)<\/t>/g)) s += t[1];
+    return xmlDecode(s);
+  }
+  function parseSST(x) {
+    const out = [];
+    for (const m of x.matchAll(/<si\b[^>]*?(?:\/>|>([\s\S]*?)<\/si>)/g)) out.push(m[1] ? siText(m[1]) : '');
+    return out;
+  }
+  function parseCells(inner, sst) {
+    const vals = [];
+    let next = 0;
+    for (const cm of inner.matchAll(C_RE)) {
+      const a = attrs(cm[1]);
+      const ci = a.r ? colIndex(a.r) : next;
+      next = ci + 1;
+      const body = cm[2] || '';
+      let v = null;
+      if (a.t === 'inlineStr') v = siText(body);
+      else {
+        const vm = /<v(?:\s[^>]*)?>([\s\S]*?)<\/v>/.exec(body);
+        if (vm) {
+          const raw = xmlDecode(vm[1]);
+          if (a.t === 's') v = sst[+raw] !== undefined ? sst[+raw] : '';
+          else if (a.t === 'str' || a.t === 'e') v = raw;
+          else if (a.t === 'b') v = raw === '1' ? 'True' : 'False';
+          else v = numStr(raw);
+        }
+      }
+      vals[ci] = v;
+    }
+    return vals;
+  }
+  function resolvePath(t) {
+    if (t.startsWith('/')) return t.slice(1);
+    const out = [];
+    for (const p of ('xl/' + t).split('/')) { if (p === '..') out.pop(); else if (p !== '.') out.push(p); }
+    return out.join('/');
+  }
+  function sheetDataBody(x) {
+    const a = x.indexOf('<sheetData');
+    if (a < 0) return '';
+    const b = x.indexOf('</sheetData>', a);
+    return x.slice(a, b < 0 ? x.length : b);
+  }
+  function parseCsv(text) {
+    const rows = [];
+    let row = [], f = '', q = false;
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      if (q) {
+        if (ch === '"') { if (text[i + 1] === '"') { f += '"'; i++; } else q = false; } else f += ch;
+      } else if (ch === '"') q = true;
+      else if (ch === ',') { row.push(f); f = ''; }
+      else if (ch === '\n' || ch === '\r') { if (ch === '\r' && text[i + 1] === '\n') i++; row.push(f); rows.push(row); row = []; f = ''; }
+      else f += ch;
+    }
+    if (f !== '' || row.length) { row.push(f); rows.push(row); }
+    return rows;
+  }
+  // 公開版CSV（UTF-8 BOM付き または Shift_JIS）を、1シートだけのブックとして扱う
+  function openCsv(bytes, fileName) {
+    let text;
+    try { text = new TextDecoder('utf-8', { fatal: true }).decode(bytes); } catch (e) { text = new TextDecoder('shift_jis').decode(bytes); }
+    text = text.replace(/^﻿/, '');
+    const rows = parseCsv(text).map((vals, i) => ({ r: i + 1, vals }));
+    const name = '前月公開CSV';
+    return {
+      fileName, isCsv: true, sheets: [{ name }],
+      rawRows: async (n) => { if (n !== name) throw new Error(`シート「${n}」が見つかりません（${fileName}）`); return rows; },
+      headerOf: async () => (rows[0] ? rows[0].vals : []),
+    };
+  }
+  async function openWorkbook(bytes, fileName, codec) {
+    if (/\.csv$/i.test(fileName)) return openCsv(bytes, fileName);
+    const entries = readZip(bytes);
+    const byName = new Map(entries.map(e => [e.name, e]));
+    const cache = new Map();
+    const wb = { fileName, bytes, entries, byName, codec };
+    wb.data = async (path) => {
+      const e = byName.get(path);
+      if (!e) return null;
+      if (e.method === 0) return e.raw;
+      if (e.method !== 8) throw new Error(`未対応の圧縮形式です（${path}）`);
+      return await codec.inflateRaw(e.raw);
+    };
+    wb.text = async (path) => {
+      if (cache.has(path)) return cache.get(path);
+      const d = await wb.data(path);
+      const s = d ? td.decode(d) : null;
+      cache.set(path, s);
+      return s;
+    };
+    wb.wbXml = await wb.text('xl/workbook.xml');
+    if (!wb.wbXml) throw new Error('Excelブック（.xlsx）として読めません。');
+    wb.relsXml = (await wb.text('xl/_rels/workbook.xml.rels')) || '';
+    wb.rels = {};
+    for (const m of wb.relsXml.matchAll(/<Relationship\b([^>]*?)\/?>/g)) { const a = attrs(m[1]); wb.rels[a.Id] = a; }
+    wb.sheets = [];
+    for (const m of wb.wbXml.matchAll(/<sheet\b([^>]*?)\/?>/g)) {
+      const a = attrs(m[1]);
+      const rel = wb.rels[a['r:id']];
+      if (rel) wb.sheets.push({ name: xmlDecode(a.name), sheetId: a.sheetId, rid: a['r:id'], path: resolvePath(rel.Target) });
+    }
+    const relOf = (t) => Object.values(wb.rels).find(r => new RegExp('/' + t + '$').test(r.Type));
+    const sstRel = relOf('sharedStrings'), stRel = relOf('styles');
+    wb.sstPath = sstRel ? resolvePath(sstRel.Target) : null;
+    wb.stylesPath = stRel ? resolvePath(stRel.Target) : null;
+    let sst = null;
+    wb.sst = async () => {
+      if (!sst) { const x = wb.sstPath ? await wb.text(wb.sstPath) : null; sst = x ? parseSST(x) : []; }
+      return sst;
+    };
+    wb.sheetXml = async (name) => {
+      const sh = wb.sheets.find(s => s.name === name);
+      if (!sh) throw new Error(`シート「${name}」が見つかりません（${fileName}）`);
+      return await wb.text(sh.path);
+    };
+    wb.rawRows = async (name) => {
+      const body = sheetDataBody(await wb.sheetXml(name));
+      const sstv = await wb.sst();
+      const rows = [];
+      let prev = 0;
+      for (const rm of body.matchAll(ROW_RE)) {
+        const ra = attrs(rm[1]);
+        const r = ra.r ? +ra.r : prev + 1;
+        prev = r;
+        rows.push({ r, vals: rm[2] ? parseCells(rm[2], sstv) : [] });
+      }
+      return rows;
+    };
+    wb.headerOf = async (name) => {
+      const body = sheetDataBody(await wb.sheetXml(name));
+      const re = new RegExp(ROW_RE.source);
+      const m = re.exec(body);
+      if (!m || (attrs(m[1]).r && attrs(m[1]).r !== '1')) return [];
+      return m[2] ? parseCells(m[2], await wb.sst()) : [];
+    };
+    return wb;
+  }
+  function isMasterHeader(vals) {
+    for (let c = 0; c < NCOL; c++) if (sv(vals[c]).trim() !== HEADER[c]) return false;
+    return true;
+  }
+  async function masterSheets(wb) {
+    const out = [];
+    for (const sh of wb.sheets) if (isMasterHeader(await wb.headerOf(sh.name))) out.push(sh.name);
+    return out;
+  }
+  function toRows(sheet, raw, noteCols) {
+    const rows = [], nc = new Set(noteCols || []);
+    for (const { r, vals } of raw) {
+      if (r === 1) continue;
+      if (!vals.some(nv)) continue;
+      const s = [];
+      for (let c = 0; c < NCOL; c++) s.push(sv(vals[c]));
+      const extra = [], note = [];
+      for (let c = NCOL; c < vals.length; c++) if (nv(vals[c])) (nc.has(c + 1) ? note : extra).push(c + 1);
+      rows.push({ sheet, xrow: r, s, extra, note: note.map(c => sv(vals[c - 1]).trim()).join('\n'), noteCols: note, code: s[C.JLAC11].trim() });
+    }
+    return rows;
+  }
+
+  // ---------- ファイル判定・既定設定 ----------
+  function guessRole(wb) {
+    if (wb.isCsv) return 'prev';
+    const names = wb.sheets.map(s => s.name);
+    const has = (t) => names.some(n => n.includes(t));
+    if (names.includes('JLAC11_17桁コードリスト')) return 'list11';
+    if (has('分析物コード') && has('測定法コード')) return 'jlac10';
+    if (has('結果単位コード') && has('識別コード共通')) return 'jlac11';
+    if (has('新のみ') || has('新旧混合')) return 'prev';
+    if (has('JLACセンター向けコメント')) return 'unused';
+    return 'target';
+  }
+  function guessRoleNote(wb, role) {
+    if (role === 'unused' && wb.sheets.some(s => s.name.includes('JLACセンター向けコメント'))) return '前回の確認事項一覧のようです（このツールでは使いません）';
+    return '';
+  }
+  function fileDate(name) {
+    const m = name.match(/20\d{6}/g);
+    return m ? m[m.length - 1] : '';
+  }
+  function addDays(yyyymmdd, n) {
+    const d = new Date(Date.UTC(+yyyymmdd.slice(0, 4), +yyyymmdd.slice(4, 6) - 1, +yyyymmdd.slice(6, 8) + n));
+    return `${d.getUTCFullYear()}${String(d.getUTCMonth() + 1).padStart(2, '0')}${String(d.getUTCDate()).padStart(2, '0')}`;
+  }
+  function today() {
+    const d = new Date();
+    return `${d.getFullYear()}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
+  }
+  async function defaultSettings(inp) {
+    const targetSheets = await masterSheets(inp.target);
+    const prevSheets = await masterSheets(inp.prev);
+    // 前月は全件（公開版＝新旧混合）を基準にする。公開版CSVならそのまま全件
+    const baseSheet = inp.prev.isCsv ? (prevSheets[0] || '')
+      : (prevSheets.find(n => n.includes('新旧混合') && n.includes('公開用')) || prevSheets.find(n => n.includes('新旧混合')) || prevSheets.find(n => n.includes('新のみ')) || '');
+    const mixedSheet = '';
+    const submitDate = fileDate(inp.target.fileName);
+    const expectedStart = submitDate ? submitDate.slice(0, 6) + '15' : '';
+    const m = baseSheet.match(/^(\d{6})_/) || inp.prev.fileName.match(/_(\d{6})_/);
+    const prevLabel = m ? `${m[1]}版` : '前月版';
+    return {
+      targetSheets, prevSheets, baseSheet, mixedSheet, submitDate, expectedStart,
+      expectedEnd: expectedStart ? addDays(expectedStart, -1) : '', prevLabel, newFromRow: '', excludeSheets: [], deletedRequested: false, watchCodes: '', memo: '', reviewNotes: '', sheetReasons: '', sharedChanges: '',
+      outName: `【電カル共有】JLACマスタ_JLACセンター${submitDate || 'YYYYMMDD'}提出版_確認事項一覧_${today()}.xlsx`,
+    };
+  }
+
+  // ---------- コード表 ----------
+  async function loadTables(inp) {
+    const T = { mat11: new Map(), unit11: new Map(), ana10: new Map(), mat10: new Map(), meth10: new Map(), list11: new Map() };
+    const rowsOf = async (wb, name, minRow) => (await wb.rawRows(name)).filter(x => x.r >= minRow).map(x => x.vals);
+    const find = (wb, t) => { const s = wb.sheets.find(x => x.name.trim() === t) || wb.sheets.find(x => x.name.includes(t)); if (!s) throw new Error(`「${wb.fileName}」にシート「${t}」がありません`); return s.name; };
+    for (const r of await rowsOf(inp.jlac11, find(inp.jlac11, '材料コード'), 2)) if (nv(r[2])) T.mat11.set(pad(r[2], 3), stripSp(sv(r[3])));
+    for (const r of await rowsOf(inp.jlac11, find(inp.jlac11, '結果単位コード'), 2)) {
+      if (!nv(r[0])) continue;
+      const names = new Set([sv(r[1]).trim()]);
+      for (const x of sv(r[2]).split(',')) if (x.trim()) names.add(x.trim());
+      names.delete('');
+      T.unit11.set(sv(r[0]).trim(), [sv(r[1]).trim(), names]);
+    }
+    for (const r of await rowsOf(inp.jlac10, find(inp.jlac10, '分析物コード'), 6)) if (nv(r[3])) T.ana10.set(sv(r[3]).trim(), [sv(r[4]).trim(), sv(r[8]).trim()]);
+    for (const r of await rowsOf(inp.jlac10, find(inp.jlac10, '材料コード'), 10)) if (nv(r[6]) && isDigits(sv(r[6]).trim())) T.mat10.set(pad(r[6], 3), stripSp(sv(r[7])));
+    for (const r of await rowsOf(inp.jlac10, find(inp.jlac10, '測定法コード'), 6)) if (nv(r[3]) && isDigits(sv(r[3]).trim())) T.meth10.set(pad(r[3], 3), [stripSp(sv(r[4])), stripSp(sv(r[5]))]);
+    if (inp.list11) {
+      for (const r of await rowsOf(inp.list11, 'JLAC11_17桁コードリスト', 2)) {
+        if (!nv(r[3])) continue;
+        const key = [sv(r[3]).trim(), pad(r[5], 4), pad(r[9], 3)].join('|');
+        let d = T.list11.get(key);
+        if (!d) T.list11.set(key, d = { meth: sv(r[10]).trim(), ana: sv(r[4]).trim(), mats: new Set(), units: new Set() });
+        d.mats.add(pad(r[7], 3));
+        for (let i = 13; i < 29; i += 2) if (nv(r[i])) d.mats.add(pad(r[i], 3));
+        d.units.add(sv(r[11]).trim());
+        for (let i = 29; i < 39; i += 2) if (nv(r[i])) d.units.add(sv(r[i]).trim());
+      }
+    }
+    return T;
+  }
+
+  // ---------- 行単位チェック ----------
+  function rowChecks(r, T) {
+    const s = r.s, out = [], H = HEADER;
+    const add = (cid, msg, level) => out.push([cid, level || 'strict', msg]);
+    for (const c of [C.YOBI, C.FLG_L, C.FLG_H, C.FLG_J]) if (s[c] !== '') add('KA-01', `${H[c]}は空欄である必要があります。「${s[c]}」が設定されているため、空欄としてください`);
+    const code = s[C.JLAC11];
+    if (code.trim() === '') add('KA-02', 'JLAC11コードが空欄です。設定をお願いします');
+    else if (len(code) !== 17) add('KA-02', `JLAC11コードは17桁である必要があります（現在${len(code)}桁：「${code}」）。ご確認ください`);
+    for (const c of [C.KYUKYU, C.SEIKATSU]) if (s[c] !== '0' && s[c] !== '1') add('KA-03', `${H[c]}は0または1である必要があります（現在「${s[c]}」）。ご確認ください`);
+    if (s[C.DATAKUBUN] !== '1' && s[C.DATAKUBUN] !== '2') add('KA-04', `データ区分は1または2である必要があります（現在「${s[C.DATAKUBUN]}」）。ご確認ください`);
+    if (len(code) === 17) {
+      const ana = code.slice(0, 5), ide = code.slice(5, 9), mat = code.slice(9, 12), meth = code.slice(12, 15), unit = code.slice(15, 17);
+      const u = T.unit11.get(unit);
+      if (!u) add('KA-06', `JLAC11コードの結果単位コード「${unit}」がJLAC11結果単位コード表に存在しません。ご確認ください`);
+      else if (!u[1].has(s[C.UNIT])) add('KA-06', `表示用単位「${s[C.UNIT]}」が、JLAC11結果単位コード「${unit}」の単位（${[...u[1]].sort().join('／')}）と一致しません（大文字・小文字を区別）。ご確認ください`);
+      const m = T.mat11.get(mat);
+      if (m === undefined) add('KA-07', `JLAC11コードの材料コード「${mat}」がJLAC11材料コード表に存在しません。ご確認ください`);
+      else if (s[C.MAT11].trim() !== m) {
+        if (nz(s[C.MAT11]) === nz(m) && /[（）]/.test(s[C.MAT11])) add('KA-07', `材料(JLAC11)について、他のレコードと合わせて、「()」は半角としてください。\n${s[C.MAT11]}→${m}`);
+        else if (nz(s[C.MAT11]) === nz(m)) add('KA-07', `材料(JLAC11)について、JLAC11材料コード表の表記に合わせてください。\n${s[C.MAT11]}→${m}`);
+        else add('KA-07', `材料(JLAC11)「${s[C.MAT11]}」が、JLAC11材料コード「${mat}」の名称「${m}」と一致しません。ご確認ください`);
+      }
+      if (T.list11.size > 0 && meth !== '000') {
+        const e = T.list11.get([ana, ide, meth].join('|'));
+        if (!e) add('KA-08', `JLAC11コードリストに測定物「${ana}」識別「${ide}」測定法「${meth}」の組合せが見当たらない`, 'ref');
+        else {
+          if (nz(s[C.METH11]) !== nz(e.meth)) add('KA-08', `測定法(JLAC11)「${s[C.METH11]}」が、JLAC11コード表（17桁コードリスト）の測定法名称「${e.meth}」と表記が異なります。ご確認ください`);
+          if (!e.mats.has(mat) || !e.units.has(unit)) add('KA-08', `コードリストの材料/単位の組合せに材料「${mat}」単位「${unit}」が無い`, 'ref');
+        }
+      }
+    }
+    if (s[C.DTYPE] !== 'PQ' && s[C.DTYPE] !== 'CD') add('KA-13', `データタイプはPQまたはCDである必要があります（現在「${s[C.DTYPE]}」）。ご確認ください`);
+    if (s[C.DTYPE] === 'CD') {
+      if (s[C.VMIN].trim() === '' || s[C.VMAX].trim() === '') add('KA-14', 'データタイプがCDの場合、値の下限・値の上限の設定が必要です。ご確認ください');
+      if (s[C.CODELIST].trim() === '') add('KA-15', 'データタイプがCDの場合、コード型の場合の値リストの設定が必要です。ご確認ください');
+      if (s[C.OID].trim() === '') add('KA-16', 'データタイプがCDの場合、コード型のOIDの設定が必要です。ご確認ください');
+    }
+    const st = s[C.START], en = s[C.END];
+    if (!validDate8(st, '00000000')) {
+      if (st === '0') add('KA-18', '適用開始日は8桁である必要があります。そのため、0→00000000に修正ください');
+      else add('KA-18', `適用開始日は8桁で「00000000」または実在する日付である必要があります（現在「${st}」）。ご確認ください`);
+    }
+    if (!validDate8(en, '99999999')) add('KA-19', `適用終了日は8桁で「99999999」または実在する日付である必要があります（現在「${en}」）。ご確認ください`);
+    const c10 = s[C.JLAC10];
+    if (len(c10) !== 17) add('KA-20', `JLAC10コードは17桁である必要があります（現在${len(c10)}桁：「${c10}」）。ご確認ください`);
+    else {
+      const a10 = c10.slice(0, 5), m10 = c10.slice(9, 12), me10 = c10.slice(12, 15);
+      if (!T.ana10.has(a10)) add('KA-21', `JLAC10コードの分析物コード「${a10}」がJLAC10分析物コード表に存在しません。ご確認ください`);
+      const mm = T.mat10.get(m10);
+      if (mm === undefined) add('KA-22', `JLAC10コードの材料コード「${m10}」がJLAC10材料コード表に存在しません。ご確認ください`);
+      else if (s[C.MAT10].trim() !== mm) add('KA-22', `材料(JLAC10)「${s[C.MAT10]}」が、JLAC10コードの材料コード「${m10}」の名称「${mm}」と一致しません。ご確認ください`);
+      const me = T.meth10.get(me10);
+      if (!me) add('KA-23', `JLAC10コードの測定法コード「${me10}」がJLAC10測定法コード表に存在しません。ご確認ください`);
+      else {
+        const [n1, n2] = me;
+        const cands = new Set([n1, n1 + n2, `${n1}(${n2})`, `${n1}（${n2}）`, `${n1}[${n2}]`, `${n1}［${n2}］`, `${n1} ${n2}`, n2]);
+        cands.delete('');
+        if (!cands.has(s[C.METH10].trim())) add('KA-23', `検査方法(JLAC10-測定法)「${s[C.METH10]}」が、JLAC10コードの測定法コード「${me10}」の名称「${n1}${n2 ? '／' + n2 : ''}」と一致しません。ご確認ください`);
+      }
+    }
+    for (let c = 0; c < NCOL; c++) if (EXCEL_ERRORS.has(s[c].trim())) add('KA-25', `${H[c]}にExcelのエラー値「${s[c]}」が含まれています。ご確認ください`);
+    if (r.extra.length) add('KA-26', `33列目以降（${r.extra.join(',')}列目）に値が入力されています。32列以内としてください`);
+    for (const [c, cid] of [[C.KUBUN, 'KA-27'], [C.DAIKOMOKU, 'KA-28'], [C.FHIRNAME, 'KA-29'], [C.FHIRID, 'KA-30']]) if (s[c].trim() === '') add(cid, `${H[c]}が空欄です。設定をお願いします`);
+    if (code && (!/^[0-9A-Z]{17}$/.test(code) || /仮|X{3,}|Z{3,}|9{6,}/.test(code))) add('KA-DUMMY', `JLAC11コード「${code}」はダミー（仮）コードの可能性があります。正式なコードかご確認ください`);
+    for (let c = 0; c < NCOL; c++) if (s[c].includes('\u212A')) add('KA-K', `${H[c]}にケルビン記号「\u212A」(U+212A)が使われています。半角英字「K」に修正ください`);
+    return out;
+  }
+
+  // ---------- グループチェック ----------
+  function combos(rows, keyf, valf) {
+    const g = new Map();
+    for (const r of rows) {
+      const k = keyf(r);
+      if (!k.trim()) continue;
+      let m = g.get(k);
+      if (!m) g.set(k, m = new Map());
+      const v = valf(r), vk = JSON.stringify(v);
+      let e = m.get(vk);
+      if (!e) m.set(vk, e = { v, rows: [] });
+      e.rows.push(r);
+    }
+    return g;
+  }
+  function groupFindings(newRows, baseRows) {
+    const out = [], s = (c) => (r) => r.s[c];
+    const specs = [
+      ['KA-10', '大項目', s(C.DAIKOMOKU), r => [r.s[C.FHIRNAME], r.s[C.FHIRID], r.s[C.RYAKU]], 'FHIR項目名称/FHIR識別文字列/略称'],
+      ['KA-11', 'FHIR識別文字列', s(C.FHIRID), r => [r.s[C.DAIKOMOKU], r.s[C.FHIRNAME], r.s[C.RYAKU]], '大項目/FHIR項目名称/略称'],
+      ['KA-12', '略称', s(C.RYAKU), r => [r.s[C.DAIKOMOKU], r.s[C.FHIRNAME], r.s[C.FHIRID]], '大項目/FHIR項目名称/FHIR識別文字列'],
+      ['KA-17', 'FHIR項目名称', s(C.FHIRNAME), r => [r.s[C.ORDER]], '並び順'],
+      ['KA-32', 'JLAC10コード', s(C.JLAC10), r => [r.s[C.FHIRID]], 'FHIR識別文字列'],
+    ];
+    for (const [cid, kname, keyf, valf, vname] of specs) {
+      const gNew = combos(newRows, keyf, valf), gBase = combos(baseRows, keyf, valf);
+      for (const [k, g] of gNew) {
+        if (g.size < 2) continue;
+        const baseSet = new Set(gBase.has(k) ? gBase.get(k).keys() : []);
+        const newcomers = new Set([...g.keys()].filter(vk => !baseSet.has(vk)));
+        const shown = [...g.values()].map(e => e.v).sort(cmpTuple).map(v => v.join('／')).join('、');
+        let msg = `同一の${kname}「${k}」に対し、${vname}が複数存在します（${shown}）。統一していただけますと幸いです`;
+        if (cid === 'KA-17') msg = `同一のFHIR項目名称「${k}」で並び順が複数（${shown}）存在します。並び順を統一してください`;
+        if (cid === 'KA-32') msg = `同一のJLAC10コード「${k}」に異なるFHIR識別文字列（${shown}）が設定されています。ご確認ください`;
+        for (const [vk, e] of g) {
+          const known = newcomers.size === 0 || !newcomers.has(vk);
+          for (const r of e.rows) out.push([r, cid, msg, known]);
+        }
+      }
+    }
+    const baseCnt = new Map();
+    for (const r of baseRows) baseCnt.set(r.code, (baseCnt.get(r.code) || 0) + 1);
+    const byCode = new Map();
+    for (const r of newRows) { if (!byCode.has(r.code)) byCode.set(r.code, []); byCode.get(r.code).push(r); }
+    for (const [code, rows] of byCode) {
+      if (code && rows.length > 1) {
+        const where = rows.map(r => `${r.sheet} ${r.xrow}行目`).join('、');
+        const msg = `同一のJLAC11コード「${code}」が${rows.length}行存在します（${where}）。正しい行のみ残していただけますと幸いです`;
+        for (const r of rows) out.push([r, 'KA-31', msg, (baseCnt.get(code) || 0) > 1]);
+      }
+    }
+    const sets = (rows) => {
+      const spec = new Map(), others = new Map();
+      for (const r of rows) {
+        const c = r.code;
+        if (len(c) !== 17) continue;
+        const key = c.slice(0, 12) + c.slice(15);
+        if (c.slice(12, 15) === '000') others.set(key, r);
+        else { if (!spec.has(key)) spec.set(key, []); spec.get(key).push(r); }
+      }
+      return [spec, others];
+    };
+    const [specN, othN] = sets(newRows), [specB, othB] = sets(baseRows);
+    for (const [key, r] of othN) {
+      if (!specN.has(key)) {
+        out.push([r, 'KA-33', '本レコードは『その他の測定法』コード（JLAC11の13〜15桁=000）ですが、測定法が決まったコードが同時に存在しません。ご確認ください', othB.has(key) && !specB.has(key)]);
+      }
+      const ended = (specN.get(key) || []).filter(x => x.s[C.END] !== '99999999');
+      if (ended.length && r.s[C.END] !== '99999999') {
+        const msg = `測定法コード（${ended.map(x => x.code).join('、')}）に適用終了日が設定されているため、本『その他の測定法』コードの適用終了日は99999999である必要があります（現在「${r.s[C.END]}」）。ご確認ください`;
+        const b = othB.get(key);
+        const known = !!b && b.s[C.END] !== '99999999' && (specB.get(key) || []).some(x => x.s[C.END] !== '99999999');
+        out.push([r, 'KA-34', msg, known]);
+      }
+    }
+    return out;
+  }
+
+  // ---------- 前月比較 ----------
+  function comparePrev(r, p, st) {
+    const out = [], ps = p.s, ns = r.s, L = st.prevLabel;
+    if (dateNorm(ps[C.START]) !== dateNorm(ns[C.START])) out.push(['KA-M2', `${L}から適用開始日が変更されています（${ps[C.START]}→${ns[C.START]}）。既存コードの適用開始日は変更しない想定のため、ご確認ください`]);
+    if (dateNorm(ps[C.END]) !== dateNorm(ns[C.END])) {
+      if (ns[C.END] === '99999999') out.push(['KA-M3', `${L}から適用終了日が変更されていますが（${ps[C.END]}→${ns[C.END]}）、変更後が99999999になっています。ご確認ください`]);
+      else if (ps[C.END] === '99999999') {
+        if (ns[C.END] !== st.expectedEnd) out.push(['STEP1-END', `適用終了日が${ns[C.END]}に設定されています。今回の切替日（${st.expectedStart}）の前日（${st.expectedEnd}）を想定しておりましたが、意図した日付かご確認ください`]);
+        else out.push(['STEP1-END-OK', `適用終了日 99999999→${ns[C.END]}（想定どおり）`]);
+      } else out.push(['STEP1-END', `${L}から適用終了日が変更されています（${ps[C.END]}→${ns[C.END]}）。適用終了日のバックデート・再設定にあたるため、意図した変更かご確認ください`]);
+    }
+    const diffs = new Map();
+    for (let c = 0; c < NCOL; c++) {
+      if (c === C.START || c === C.END || ps[c] === ns[c]) continue;
+      const k = JSON.stringify([ps[c], ns[c]]);
+      if (!diffs.has(k)) diffs.set(k, { old: ps[c], nw: ns[c], cols: [] });
+      diffs.get(k).cols.push(HEADER[c]);
+    }
+    for (const { old, nw, cols } of diffs.values()) {
+      const cs = cols.join('・');
+      if (nz(old) === nz(nw)) out.push(['STEP1-DIFF表記', `${L}から${cs}の表記が変更されています（「${old}」→「${nw}」）。全角・記号の半角統一による変更と認識しておりますが、相違ないかご確認ください`]);
+      else out.push(['STEP1-DIFF', `${L}から${cs}が変更されています（「${old}」→「${nw}」）。意図した変更かご確認ください`]);
+    }
+    return out;
+  }
+
+  // ---------- 実行 ----------
+  const rk = (r) => r.sheet + '\u0000' + r.xrow;
+  function counter(arr) {
+    const m = new Map();
+    for (const x of arr) m.set(x, (m.get(x) || 0) + 1);
+    return [...m.entries()].sort((a, b) => b[1] - a[1]);
+  }
+  async function run(inp, st, progress) {
+    const say = progress || (() => {});
+    await say('今回提出マスタを読み込んでいます…');
+    const bySheet = {}, newRows = [], noteHdr = {};
+    for (const sh of st.targetSheets) {
+      const raw = await inp.target.rawRows(sh);
+      // 33列目以降で見出しに「コメント」を含む列は、JLACセンターの連絡用の列として扱う
+      const h = (raw.find(x => x.r === 1) || { vals: [] }).vals, nc = [];
+      for (let c = NCOL; c < h.length; c++) if (/コメント/.test(sv(h[c]))) nc.push(c + 1);
+      if (nc.length) noteHdr[sh] = nc.map(c => [c, sv(h[c - 1]).trim()]);
+      bySheet[sh] = toRows(sh, raw, nc);
+      for (const r of bySheet[sh]) newRows.push(r);
+    }
+    await say('前月FIXマスタを読み込んでいます…');
+    const base = toRows(st.baseSheet, await inp.prev.rawRows(st.baseSheet));
+    const mixed = st.mixedSheet ? toRows(st.mixedSheet, await inp.prev.rawRows(st.mixedSheet)) : null;
+    await say('コード表を読み込んでいます…');
+    const T = await loadTables(inp);
+    await say('チェックしています…');
+
+    const baseMap = new Map();
+    for (const p of base) { if (p.code === '') continue; if (!baseMap.has(p.code)) baseMap.set(p.code, []); baseMap.get(p.code).push(p); }
+    const diffCount = (a, b) => a.s.reduce((n, v, i) => n + (v !== b.s[i] ? 1 : 0), 0);
+    // JLAC11空欄の行はコードで突き合わせできないため、前月の空欄行と1行ずつ対応づける（全項目一致→同じJLAC10コードで最も近い行）
+    const blankBase = base.filter(p => p.code === ''), blankMatch = new Map(), usedBlank = new Set();
+    if (blankBase.length) {
+      const byContent = new Map();
+      for (const p of blankBase) { const k = JSON.stringify(p.s); if (!byContent.has(k)) byContent.set(k, []); byContent.get(k).push(p); }
+      const pending = [];
+      for (const r of newRows) {
+        if (r.code !== '') continue;
+        const p = (byContent.get(JSON.stringify(r.s)) || []).find(x => !usedBlank.has(x));
+        if (p) { usedBlank.add(p); blankMatch.set(rk(r), p); } else pending.push(r);
+      }
+      for (const r of pending) {
+        const cands = blankBase.filter(p => !usedBlank.has(p) && p.s[C.JLAC10] === r.s[C.JLAC10]);
+        if (!cands.length) continue;
+        const p = cands.reduce((b, x) => (diffCount(r, x) < diffCount(r, b) ? x : b));
+        usedBlank.add(p); blankMatch.set(rk(r), p);
+      }
+    }
+    // 前月の行の識別子：コードがあればコード、空欄なら行（空欄行は1行ずつ別扱い）
+    const bkey = (p) => (p.code !== '' ? p.code : '\u0002' + p.xrow);
+    const pkey = (r) => (r.code !== '' ? r.code : blankMatch.has(rk(r)) ? bkey(blankMatch.get(rk(r))) : null);
+    const inBase = (r) => (r.code !== '' ? baseMap.has(r.code) : blankMatch.has(rk(r)));
+    // ① 前月の全件チェック（行単位＋グループ）。既知判定と「前月のチェック結果」の表示に使う
+    const baseRC = new Map(), sepIds = new Map(), sepRuleRows = {};
+    const sepAdd = (p, cid) => {
+      const k = bkey(p);
+      if (!sepIds.has(k)) sepIds.set(k, new Set());
+      sepIds.get(k).add(cid);
+      (sepRuleRows[cid] || (sepRuleRows[cid] = new Set())).add(p.xrow);
+    };
+    for (const p of base) {
+      let set = baseRC.get(bkey(p));
+      if (!set) baseRC.set(bkey(p), set = new Set());
+      for (const [cid, , msg] of rowChecks(p, T)) { set.add(cid + '\u0001' + msg); sepAdd(p, cid); }
+    }
+    for (const [p, cid] of groupFindings(base, [])) sepAdd(p, cid);
+    const bestPrev = (r) => { if (r.code === '') return blankMatch.get(rk(r)); const c = baseMap.get(r.code); return c.length === 1 ? c[0] : c.reduce((b, x) => (diffCount(r, x) < diffCount(r, b) ? x : b)); };
+    const comments = new Map(), findings = [], newCodes = [];
+    // 今月の個別対応：共有対象外のシートはチェック結果を記録するがJLACセンター向けコメントは付けない
+    const excl = new Set(st.excludeSheets || []);
+    const sharedSet = new Set(String(st.sharedChanges || '').split(/[\s,、]+/).map(s => s.trim()).filter(Boolean));
+    const addC = (r, msg) => { if (excl.has(r.sheet)) return; const k = rk(r); if (!comments.has(k)) comments.set(k, []); comments.get(k).push(msg); };
+    const rec = (r, check, level, msg, known, status) => findings.push({ sheet: r.sheet, row: r.xrow, code: r.code, check, level, msg, known: known || (excl.has(r.sheet) && level === 'strict'), status, note: excl.has(r.sheet) ? '共有対象外' : '' });
+    for (const r of newRows) {
+      const isNew = !inBase(r);
+      const status = isNew ? '新規行' : '既存行';
+      if (isNew) newCodes.push(r);
+      for (const [cid, level, msg] of rowChecks(r, T)) {
+        const known = !isNew && baseRC.get(pkey(r)).has(cid + '\u0001' + msg);
+        rec(r, cid, level, msg, known, status);
+        if (level === 'strict' && !known) addC(r, msg);
+      }
+      if (r.noteCols.length) findings.push({ sheet: r.sheet, row: r.xrow, code: r.code, check: 'KA-26', level: 'strict', msg: `${r.noteCols.join(',')}列目はJLACセンターの連絡用の列（見出しに「コメント」）のため、32列以内のチェックの対象外として記録のみ`, known: true, status, note: '連絡用の列' });
+      if (isNew) {
+        if (dateNorm(r.s[C.START]) === '00000000' || r.s[C.END] !== '99999999') {
+          const msg = `新規追加のJLAC11コードは、適用開始日≠00000000 かつ 適用終了日=99999999 である必要があります（現在 適用開始日「${r.s[C.START]}」・適用終了日「${r.s[C.END]}」）。ご確認ください`;
+          rec(r, 'KA-M1', 'strict', msg, false, status); addC(r, msg);
+        }
+        if (r.s[C.START] !== st.expectedStart && dateNorm(r.s[C.START]) !== '00000000') {
+          const msg = `新規追加行の適用開始日が「${r.s[C.START]}」となっています。今回の公開日（${st.expectedStart}）を想定しておりましたが、意図した日付かご確認ください`;
+          rec(r, 'STEP2-START', 'strict', msg, false, status); addC(r, msg);
+        }
+      } else {
+        for (const [cid, msg] of comparePrev(r, bestPrev(r), st)) {
+          const level = cid === 'STEP1-END-OK' ? 'info' : 'strict';
+          // 今月の個別対応：JLACセンターから修正の共有があった変更は指摘なし（記録のみ）
+          if (level === 'strict' && /^STEP1-DIFF/.test(cid) && sharedSet.has(r.code)) { findings.push({ sheet: r.sheet, row: r.xrow, code: r.code, check: cid, level, msg, known: true, status, note: '連携済み' }); continue; }
+          rec(r, cid, level, msg, false, status);
+          if (level === 'strict') addC(r, msg);
+        }
+      }
+    }
+    for (const [r, cid, msg, known] of groupFindings(newRows, base)) {
+      rec(r, cid, 'strict', msg, known, inBase(r) ? '既存行' : '新規行');
+      if (!known) addC(r, msg);
+    }
+    const baseX = new Set(), baseU10 = new Set(), baseAna = new Map();
+    for (const p of base) {
+      baseX.add(p.s[C.XUNIT]); baseX.add(p.s[C.XUNIT2]);
+      baseU10.add(p.s[C.JLAC10].slice(15, 17) + '\u0001' + p.s[C.UNIT]);
+      const a = p.code.slice(0, 5);
+      if (!baseAna.has(a)) baseAna.set(a, new Set());
+      baseAna.get(a).add(p.s[C.DAIKOMOKU]);
+    }
+    for (const r of newCodes) {
+      for (const c of [C.XUNIT, C.XUNIT2]) if (r.s[c] && !baseX.has(r.s[c])) rec(r, 'KA-09', 'ref', `${HEADER[c]}「${r.s[c]}」は${st.prevLabel}に無い単位（UCUM掲載を目視確認）`, false, '新規行');
+      const u10 = r.s[C.JLAC10].slice(15, 17);
+      if (!baseU10.has(u10 + '\u0001' + r.s[C.UNIT])) rec(r, 'KA-24', 'ref', `JLAC10結果識別「${u10}」×表示用単位「${r.s[C.UNIT]}」は${st.prevLabel}に無い組合せ`, false, '新規行');
+      const a = r.code.slice(0, 5);
+      if (baseAna.has(a) && !baseAna.get(a).has(r.s[C.DAIKOMOKU])) rec(r, 'KA-05', 'ref', `JLAC11測定物「${a}」の大項目が既存（${[...baseAna.get(a)].sort().join('／')}）と異なる「${r.s[C.DAIKOMOKU]}」`, false, '新規行');
+    }
+
+    // 範囲（削除・分離）の確認
+    const newSet = new Set(newRows.map(r => r.code));
+    const notices = [];
+    // ③ 前回から消えた行（行の削除は指摘対象）。前月の全件を基準にし、JLAC11空欄の行（コードで突き合わせできない）は行として数える
+    const delSrc = mixed || base, delSheet = mixed ? st.mixedSheet : st.baseSheet;
+    const deletedRows = [];
+    const delMsg = `${st.prevLabel}に存在した行ですが、今回の提出に含まれていません。不要になったコードは適用終了日を設定したうえで残す運用と認識しておりますが、削除の意図（今回から新しいコードのみを提出いただく運用に変更されたのか）をご確認ください`;
+    for (const m of delSrc) {
+      if (m.code !== '' ? newSet.has(m.code) : usedBlank.has(m)) continue;
+      deletedRows.push({ r: m, msg: delMsg });
+      findings.push({ sheet: delSheet, row: m.xrow, code: m.code, check: 'STEP1-DEL', level: 'strict', msg: delMsg, known: !!st.deletedRequested, status: '削除行', note: st.deletedRequested ? '依頼済み' : '' });
+    }
+    const oldMissing = [...new Set(deletedRows.map(d => d.r.code).filter(c => c !== ''))];
+    if (deletedRows.length) {
+      const blank = deletedRows.filter(d => d.r.code === '').length;
+      const dist = counter(deletedRows.map(d => d.r.s[C.END])).map(([k, n]) => `適用終了日${k}：${n}行`).join('、');
+      notices.push({ level: st.deletedRequested ? '情報' : '要確認', title: `前月（${st.prevLabel}）にあった ${deletedRows.length}行（JLAC11コードあり${oldMissing.length}件・JLAC11空欄${blank}行）が、今回の提出に含まれていません`, detail: `${dist}。提出の形式が「新のみ」に変わった可能性があります。運用の変更か、旧コードを含む公開用を誰が作るのかを上長に確認してください（手順書では行の削除は指摘対象、古いコードは削除しない運用）。${st.deletedRequested ? '旧コードを含むリストはJLACセンターに別途依頼済みのため、送付用には含めず、ACN確認用の「前回から削除された行」シートに記録のみしています。' : 'これらの行は出力Excelの「前回から削除された行」シートに列挙し、指摘コメントを付けています。'}` });
+    }
+    st.targetSheets.slice(1).forEach(sh => {
+      const rows = bySheet[sh], moved = rows.filter(r => inBase(r)).length;
+      if (excl.has(sh)) { notices.push({ level: '情報', title: `「${sh}」（${rows.length}行）は共有対象外として扱いました`, detail: 'チェックはかけてACN確認用に結果を記録しています（チェックIDに「(共有対象外)」と表示）。JLACセンター向けのコメントは付けていません。' }); return; }
+      const reason = String(st.sheetReasons || '').split(/\r?\n/).map(l => l.split(/[|｜]/)).filter(a => a.length >= 2 && a[0].trim() === sh).map(a => a.slice(1).join('｜').trim())[0];
+      if (reason) notices.push({ level: '要確認', title: `提出ファイルにメイン以外のシート「${sh}」があります（${rows.length}行、うち前月版にあるコード${moved}行）。JLACセンターから分離理由の連絡あり`, detail: `連絡内容：${reason}／本田さんに確認したいこと：この連絡を踏まえ、このシートを確認対象から外してよいか。現時点ではACNの判断で外さず、指摘を残したうえで、確認用シートの「Rv用：連携要否（ACN案）と理由」列に見解を記載しています。` });
+      else notices.push({ level: '要確認', title: `提出ファイルにメイン以外のシート「${sh}」があります（${rows.length}行、うち前月版にあるコード${moved}行）`, detail: 'メインシートから分離された可能性があります。分離の理由（方針どおりか）と、公開・取り込みの対象に含めるかを確認してください。' });
+    });
+    // 今月の個別対応：確認したいJLAC11コードの有無、連携メモ
+    for (const code of String(st.watchCodes || '').split(/[\s,、]+/).map(s => s.trim()).filter(Boolean)) {
+      const o = newRows.filter(r => r.code === code), p = baseMap.get(code) || [];
+      const pState = p.length ? (p.every(r => r.s[C.END] !== '99999999') ? `あり（適用終了日${p.map(r => r.s[C.END]).join('・')}の旧コードとして掲載）` : 'あり（有効なコードとして掲載）') : 'なし';
+      notices.push({ level: '情報', title: `確認したいJLAC11コード ${code}：今回の提出に${o.length ? 'あり' : 'なし'}／前月（${st.prevLabel}）に${pState}`, detail: `${o.length ? '今回：' + o.map(r => `${r.sheet} ${r.xrow}行目（適用開始日${r.s[C.START]}・適用終了日${r.s[C.END]}）`).join('、') : '今回の提出には含まれていません'}。${p.length ? '前月：' + p.map(r => `${r.xrow}行目 ${r.s[C.HANBAI]}（単位${r.s[C.UNIT]}・適用終了日${r.s[C.END]}）`).join('、') + '。' : ''}※このコード自体が載っているかを見ています。見直し後の別のコードが追加されたかは、この行では判定できません。` });
+    }
+    for (const [sh, cols] of Object.entries(noteHdr)) {
+      const n = bySheet[sh].filter(r => r.note).length;
+      notices.push({ level: '情報', title: `「${sh}」の${cols.map(([c, t]) => `${c}列目「${t}」`).join('・')}は、JLACセンターの連絡用の列として扱いました（記載のある行 ${n}行）`, detail: `見出しに「コメント」を含むため、32列以内のチェック（KA-26）の対象外とし、記録のみにしています（JLACセンター向けコメントは付けていません）。ACN確認用の確認用シートでは、内容をAN列に表示しています。公開版・取り込み用のマスタでは、この列を削除する必要があります。` });
+    }
+    if (String(st.memo || '').trim()) notices.push({ level: '情報', title: 'JLACセンターからの連携メモ（今月の個別対応）', detail: String(st.memo).trim() });
+    const zeroStart = findings.filter(f => f.check === 'KA-18' && !f.known && /0→00000000/.test(f.msg)).length;
+    if (zeroStart) notices.push({ level: '要確認', title: `適用開始日が数値の0になっている行が${zeroStart}行あります（前月の${st.prevLabel}では文字列8桁の「00000000」だった行）`, detail: `前月の公開版は文字列の8桁「00000000」で正しく入っています${inp.prev.isCsv ? '（CSVをメモ帳で開くと8桁。Excelでダブルクリックで開くと表示上0になり、テキストとして読み込めば8桁で表示される）' : ''}。今回JLACセンターから届いたExcelでは、セル自体が数値の0です。メール添付では中身は変わらないため、JLACセンター側で作成する過程でExcelの自動変換を経た可能性があります。本田さんに確認したいこと：①経緯をJLACセンターに確認するか、②そのまま「文字列8桁への修正」を依頼するか。あわせて、行ごとにコメントするか、メール本文で1回伝えるか。` });
+    if (st.newFromRow) {
+      const N = +st.newFromRow, main = st.targetSheets[0];
+      const newKeys = new Set(newCodes.map(rk));
+      const tail = bySheet[main].filter(r => r.xrow >= N);
+      const tailKeys = new Set(tail.map(rk));
+      const tailNotNew = tail.filter(r => !newKeys.has(rk(r)));
+      const newOutside = newCodes.filter(r => !tailKeys.has(rk(r)));
+      if (!tailNotNew.length && !newOutside.length) {
+        notices.push({ level: '情報', title: `新規行の判定がJLACセンターの連絡と一致しました（「${main}」の${N}行目以降 ${tail.length}行 ＝ 前月FIXに無いコード ${newCodes.length}行）`, detail: '新規フラグは「前月FIXに同じJLAC11コードが無い行」で判定しています。' });
+      } else {
+        notices.push({ level: '要確認', title: `新規行の判定がJLACセンターの連絡（${N}行目以降が新規）と一致しません`, detail: `${N}行目以降なのに前月FIXにあるコード：${tailNotNew.slice(0, 20).map(r => `${r.xrow}行目 ${r.code}`).join('、') || 'なし'}／${N}行目より前または別シートなのに前月FIXに無いコード：${newOutside.slice(0, 20).map(r => `${r.sheet} ${r.xrow}行目 ${r.code}`).join('、') || 'なし'}` });
+      }
+    }
+    notices.push({ level: '情報', title: `新規追加のJLAC11コードは${newCodes.length}件です`, detail: `適用開始日：${counter(newCodes.map(r => r.s[C.START])).map(([k, n]) => `${k}（${n}件）`).join('、') || 'なし'}／適用終了日：${counter(newCodes.map(r => r.s[C.END])).map(([k, n]) => `${k}（${n}件）`).join('、') || 'なし'}` });
+
+    // ロジック別の集計
+    const summary = {};
+    for (const rule of RULES) summary[rule.id] = { rows: new Set(), known: 0, ref: 0 };
+    for (const f of findings) {
+      const x = summary[f.check];
+      if (!x) continue;
+      if (f.level === 'strict') { if (f.known) { x.known++; if (f.note === '連携済み') x.shared = (x.shared || 0) + 1; if (f.note === '連絡用の列') x.noteCol = (x.noteCol || 0) + 1; } else x.rows.add(f.sheet + '\u0000' + f.row); } else if (f.level === 'ref') x.ref++;
+    }
+    for (const rule of RULES) {
+      const x = summary[rule.id];
+      let status, cls;
+      if (rule.id === 'KA-08' && !inp.list11) { status = '未実施（17桁コードリスト未指定）'; cls = 'warn'; }
+      else if (rule.id === 'STEP1-DEL' && st.deletedRequested && x.known) { status = `記録のみ ${x.known}行（旧コードを含むリストを依頼済み）`; cls = 'warn'; }
+      else if (x.rows.size) { status = `指摘 ${x.rows.size}行`; cls = 'ng'; }
+      else if (rule.id === 'KA-09') { status = x.ref ? `参考 ${x.ref}件（UCUMは目視）` : '参考：新しい単位なし（UCUMは未照合）'; cls = x.ref ? 'warn' : 'info'; }
+      else if (x.known && x.shared === x.known) { status = `指摘なし（JLACセンター連携済み ${x.shared}件）`; cls = 'ok'; }
+      else if (x.known && x.noteCol === x.known) { status = `指摘なし（JLACセンターの連絡用の列 ${x.noteCol}行）`; cls = 'ok'; }
+      else if (x.known) { status = `問題なし（既知 ${x.known}件）`; cls = 'ok'; }
+      else if (x.ref) { status = `問題なし（参考 ${x.ref}件）`; cls = 'ok'; }
+      else { status = '問題なし'; cls = 'ok'; }
+      x.status = status; x.cls = cls;
+    }
+    const breakdown = new Map();
+    for (const f of findings) {
+      if (f.level !== 'strict' || f.known) continue;
+      const k = f.status + '\u0000' + f.check;
+      if (!breakdown.has(k)) breakdown.set(k, { status: f.status, check: f.check, rows: new Set(), sample: f.msg });
+      breakdown.get(k).rows.add(f.sheet + '\u0000' + f.row);
+    }
+    const knownTop = new Map();
+    for (const f of findings) {
+      if (!f.known) continue;
+      if (!knownTop.has(f.check)) knownTop.set(f.check, new Map());
+      const m = knownTop.get(f.check);
+      m.set(f.msg, (m.get(f.msg) || 0) + 1);
+    }
+    // ③ 既存行ごとに「前月→今回」の差分区分を作る（チェックに掛からない値の変更も含める）
+    const isCheck = (c) => !/^(STEP|KA-M)/.test(c);
+    const octIds = new Map(), valChanged = new Set();
+    for (const f of findings) {
+      if (f.status === '削除行' || f.level === 'info' && !/^STEP1-END/.test(f.check)) continue;
+      const k = f.sheet + '\u0000' + f.row;
+      if (isCheck(f.check)) { if (!octIds.has(k)) octIds.set(k, new Set()); octIds.get(k).add(f.check); }
+      else if (/^(STEP1|KA-M2|KA-M3)/.test(f.check)) valChanged.add(k);
+    }
+    const rowDiff = new Map();
+    for (const r of newRows) {
+      const k = rk(r);
+      if (!inBase(r)) { rowDiff.set(k, { sep: '—', label: '新規（前月に無い）' }); continue; }
+      const sep = sepIds.get(pkey(r)) || new Set(), oct = octIds.get(k) || new Set();
+      const added = [...oct].filter(c => !sep.has(c)).sort(), removed = [...sep].filter(c => !oct.has(c)).sort();
+      const parts = [];
+      if (valChanged.has(k)) parts.push('値の変更あり');
+      if (added.length) parts.push(`チェック結果の変化あり（今回追加：${added.join(', ')}）`);
+      if (removed.length) parts.push(`前月の問題が解消（${removed.join(', ')}）`);
+      rowDiff.set(k, { sep: [...sep].sort().join(', ') || 'なし', label: parts.join('／') || '変更なし' });
+    }
+    // Rv用の見解（ACN案）：1行1ルール「チェックID(カンマ区切り/*) ｜ シート名(空可) ｜ JLAC11コード(空可) ｜ 見解」。上から順に最初に一致したものを使う
+    const noteRules = String(st.reviewNotes || '').split(/\r?\n/).map(l => l.split(/[|｜]/).map(x => x.trim())).filter(a => a.length >= 4 && a[3])
+      .map(([c, s, k, ...txt]) => ({ checks: c.split(/[,、]/).map(x => x.trim()).filter(Boolean), sheets: s ? s.split(/[,，]/).map(x => x.trim()) : [], codes: k ? k.split(/[,、]/).map(x => x.trim()) : [], text: txt.join('｜') }));
+    const noteFor = (f) => { const r = noteRules.find(n => (n.checks.includes('*') || n.checks.includes(f.check) || n.checks.includes(dispId(f.check))) && (!n.sheets.length || n.sheets.includes(f.sheet) || (f.status === '削除行' && n.sheets.includes('削除行'))) && (!n.codes.length || n.codes.includes(f.code))); return r ? r.text : ''; };
+    for (const f of findings) { if (f.level === 'strict' && !f.known) f.review = noteFor(f); }
+    const sepRuleCount = {};
+    for (const [cid, rows] of Object.entries(sepRuleRows)) sepRuleCount[cid] = rows.size;
+    // 新規行のうち、グループ判定（KA-10・KA-12）で既存の書き方に一致するため指摘していない行：同じグループに適用中の別の書き方があれば本田さんに確認する
+    const grpKnew = findings.filter(f => f.status === '新規行' && f.known && (f.check === 'KA-10' || f.check === 'KA-12'));
+    if (grpKnew.length) {
+      const keyOf = new Map(newRows.map(r => [rk(r), r]));
+      const daiSet = new Map();
+      for (const f of grpKnew) { const r = keyOf.get(f.sheet + '\u0000' + f.row); if (!r) continue; const d = r.s[C.DAIKOMOKU]; if (!daiSet.has(d)) daiSet.set(d, { rows: new Set(), checks: new Set() }); daiSet.get(d).rows.add(r); daiSet.get(d).checks.add(f.check); }
+      const parts = [];
+      for (const [dai, g] of daiSet) {
+        const own = [...g.rows], combo = (r) => `${r.s[C.FHIRNAME]}／${r.s[C.FHIRID]}／${r.s[C.RYAKU]}`;
+        const ownCombos = new Set(own.map(combo));
+        const others = newRows.filter(r => r.s[C.DAIKOMOKU] === dai && !ownCombos.has(combo(r)));
+        const oc = counter(others.map(r => combo(r))).map(([k, n]) => { const rs = others.filter(r => combo(r) === k); const act = rs.filter(r => r.s[C.END] === '99999999').length; return `「${k}」${n}行（適用中${act}行、データタイプ${[...new Set(rs.map(r => r.s[C.DTYPE]))].join('・')}）`; }).join('、');
+        parts.push(`大項目「${dai}」の新規${own.length}行（${own.map(r => r.xrow).sort((a, b) => a - b).join(', ')}行目）は既存の書き方「${[...ownCombos].join('」「')}」に一致（${[...g.checks].join('・')}）。同じ大項目の別の書き方：${oc || 'なし'}`);
+      }
+      const k10 = summary['KA-10'] ? summary['KA-10'].known : 0, k12 = summary['KA-12'] ? summary['KA-12'].known : 0;
+      notices.push({ level: '要確認', title: `新規行のうち、KA-10・KA-12で既存の書き方に一致するため指摘していない行が${new Set(grpKnew.map(f => f.row)).size}行あります`, detail: `${parts.join('／')}。同じ大項目（略称）の中に適用中の書き方が複数ある状態ですが、前月の公開版まで問題としていなかったため、指摘していません。ACNの見立て：定量（数値）と定性（陽性・陰性）の別の検査結果を分ける設計上の区分で、システムはJLAC11コード・識別文字列で区別するため実務上の問題はないと考えます（略称が同じ点のみ、略称だけを表示する場面での見分けにくさが留意点）。同じ状態は既存行にもあります（KA-10 ${k10}行・KA-12 ${k12}行、前月公開版でも同じ）。本田さんに確認したいこと：この扱い（指摘しない）で問題ないか。` });
+    }
+    // 前月の公開版で問題があり、今回解消（正常化）した行：連携の要否を本田さんに確認する
+    const resolved = newRows.filter(r => { const d = rowDiff.get(rk(r)); return d && d.label.includes('前月の問題が解消'); });
+    if (resolved.length) {
+      const ids = resolved.flatMap(r => ((rowDiff.get(rk(r)).label.match(/前月の問題が解消（([^）]+)）/) || [])[1] || '').split(', ').filter(Boolean));
+      const byCheck = counter(ids).map(([k, n]) => `${dispId(k)} ${n}行`).join('、');
+      const list = resolved.slice(0, 20).map(r => `${r.sheet} ${r.xrow}行目 ${r.code}${sharedSet.has(r.code) ? '（JLACセンターから修正の共有あり）' : String(st.memo || '').includes(r.code) ? '（JLACセンターからの連携メモに記載あり）' : ''}`).join('、');
+      const allShared = resolved.every(r => sharedSet.has(r.code));
+      if (allShared) notices.push({ level: '情報', title: `前月（${st.prevLabel}）の公開版で問題があり、今回解消した行が${resolved.length}行あります（${byCheck}）（共有事項）`, detail: `${list}${resolved.length > 20 ? ' ほか' : ''}。前回公開時に問題があった箇所が今回直っている（正常化した）差分です。JLACセンターから修正について共有があり、チェックロジックにも該当しないため、指摘なしとしています（項目の変更も指摘なし）。` });
+      else notices.push({ level: '要確認', title: `前月（${st.prevLabel}）の公開版で問題があり、今回解消した行が${resolved.length}行あります（${byCheck}）`, detail: `${list}${resolved.length > 20 ? ' ほか' : ''}。前回公開時に問題があった箇所が今回直っている（正常化した）差分です。正常化のためJLACセンターへの連携は不要と考えますが、共有の要否を確認させてください。行ごとの内容は確認用シートのAK列（前月のチェック結果）・AL列（差分区分）を参照。` });
+    }
+    return {
+      version: VERSION, settings: st, inp, bySheet, newRows, base, findings, comments, newCodes, notices, summary, noteHdr,
+      newKeys: new Set(newCodes.map(rk)), rowDiff, sepRuleCount,
+      breakdown: [...breakdown.values()].sort((a, b) => b.rows.size - a.rows.size),
+      known: [...knownTop.entries()].map(([check, m]) => ({ check, total: [...m.values()].reduce((a, b) => a + b, 0), top: [...m.entries()].sort((a, b) => b[1] - a[1]).slice(0, 3) })).sort((a, b) => b.total - a.total),
+      commentRows: [...comments.keys()].length,
+      oldMissing, deletedRows, delSheet,
+    };
+  }
+  function commentText(msgs) {
+    const u = [...new Set(msgs)];
+    return u.length === 1 ? u[0] : u.map(m => '・' + m).join('\n');
+  }
+
+  // ---------- 出力Excel ----------
+  const FROZEN_VIEW = (sel) => `<sheetViews><sheetView${sel ? ' tabSelected="1"' : ''} workbookViewId="0"><pane xSplit="13" ySplit="1" topLeftCell="N2" activePane="bottomRight" state="frozen"/><selection pane="topRight" activeCell="N1" sqref="N1"/><selection pane="bottomLeft" activeCell="A2" sqref="A2"/><selection pane="bottomRight" activeCell="N2" sqref="N2"/></sheetView></sheetViews>`;
+  const SEPARATOR_XML = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><dimension ref="A1"/><sheetViews><sheetView workbookViewId="0"/></sheetViews><sheetFormatPr defaultRowHeight="18"/><sheetData/><pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/></worksheet>';
+  const TAB_FOCUS_SEP = 'FFBF9000', TAB_FOCUS = 'FFD6DCE4';
+  function withTab(xml, rgb) {
+    const tc = `<tabColor rgb="${rgb}"/>`;
+    if (/<sheetPr\b[^>]*\/>/.test(xml)) return xml.replace(/<sheetPr\b([^>]*)\/>/, `<sheetPr$1>${tc}</sheetPr>`);
+    if (/<sheetPr\b[^>]*>/.test(xml)) return xml.replace(/<tabColor\b[^>]*\/>/, '').replace(/(<sheetPr\b[^>]*>)/, `$1${tc}`);
+    return xml.replace(/(<worksheet\b[^>]*>)/, `$1<sheetPr>${tc}</sheetPr>`);
+  }
+  // 確認用シートの列：提出ファイルに連絡用の列があれば、ACN確認用ではAG列にそのまま残し、こちらのコメントを右へずらす
+  function reviewCols(R, internal) {
+    const hasNote = internal && Object.keys(R.noteHdr || {}).length > 0;
+    const b = NCOL + (hasNote ? 1 : 0);
+    return { hasNote, note: NCOL, comment: b, kind: b + 1, rv: b + 2, cid: b + 3, oid: b + 4, prev: b + 5, diff: b + 6 };
+  }
+  function colLetter(ci) { let s = '', n = ci + 1; while (n > 0) { const m = (n - 1) % 26; s = String.fromCharCode(65 + m) + s; n = Math.floor((n - 1) / 26); } return s; }
+  function cellXml(ci, r, text, s) { return `<c r="${colLetter(ci)}${r}" s="${s}" t="inlineStr"><is><t xml:space="preserve">${xmlText(text)}</t></is></c>`; }
+  function numCell(ci, r, n) { return `<c r="${colLetter(ci)}${r}"><v>${n}</v></c>`; }
+  function compressRows(rows) {
+    const s = [...new Set(rows)].sort((a, b) => a - b), out = [];
+    for (let i = 0; i < s.length; i++) { let j = i; while (j + 1 < s.length && s[j + 1] === s[j] + 1) j++; out.push(i === j ? String(s[i]) : `${s[i]}-${s[j]}`); i = j; }
+    return out.join(', ');
+  }
+  function locText(map) {
+    const order = (k) => (k.startsWith('【新規】') ? 0 : k.startsWith('【既存】') ? 1 : 2);
+    const t = [...map.entries()].sort((a, b) => order(a[0]) - order(b[0])).map(([k, rows]) => `${k}：${compressRows(rows)}行目`).join('\n');
+    return t.length > 30000 ? t.slice(0, 30000) + '…（以下省略）' : t;
+  }
+  function simpleSheet(rows, widths, boldXf, wrapXf, selected, filter) {
+    const lastCol = colLetter(widths.length - 1);
+    const data = rows.map((row, i) => `<row r="${i + 1}">${row.map((v, ci) => (v === '' || v === null || v === undefined ? '' : typeof v === 'number' ? numCell(ci, i + 1, v) : cellXml(ci, i + 1, v, i === 0 ? boldXf : wrapXf))).join('')}</row>`).join('');
+    return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">'
+      + `<dimension ref="A1:${lastCol}${rows.length}"/><sheetViews><sheetView${selected ? ' tabSelected="1"' : ''} workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/><selection pane="bottomLeft" activeCell="A2" sqref="A2"/></sheetView></sheetViews>`
+      + `<sheetFormatPr defaultRowHeight="18"/><cols>${widths.map((w, i) => `<col min="${i + 1}" max="${i + 1}" width="${w}" customWidth="1"/>`).join('')}</cols>`
+      + `<sheetData>${data}</sheetData>${filter ? `<autoFilter ref="A1:${lastCol}${rows.length}"/>` : ''}<pageMargins left="0.7" right="0.7" top="0.75" bottom="0.75" header="0.3" footer="0.3"/></worksheet>`;
+  }
+  function makeReviewSheet(xml, extras, headers, boldXf, wrapXf, selected) {
+    let x = xml;
+    x = x.replace(/<(drawing|legacyDrawing|legacyDrawingHF|picture)\b[^>]*\/>/g, '');
+    x = x.replace(/<(tableParts|hyperlinks|oleObjects|controls|autoFilter|sortState)\b[^>]*?(?:\/>|>[\s\S]*?<\/\1>)/g, '');
+    x = x.replace(/<mc:AlternateContent\b[\s\S]*?<\/mc:AlternateContent>/g, m => (/r:id=/.test(m) ? '' : m));
+    x = x.replace(/<ext\b[^>]*>[\s\S]*?<\/ext>/g, m => (/r:id=/.test(m) ? '' : m));
+    x = x.replace(/<extLst>\s*<\/extLst>/g, '');
+    x = x.replace(/(<pageSetup\b[^>]*?)\s+r:id="[^"]*"/g, '$1');
+    x = x.replace(/(<worksheet\b[^>]*?)\s+xr:uid="[^"]*"/, '$1');
+    const a = x.indexOf('<sheetData'), b = x.indexOf('</sheetData>');
+    if (a < 0 || b < 0) throw new Error('シートにデータがありません');
+    let lastRow = 1;
+    const lastCi = Math.max(...headers.map(h => h[0])), LC = colLetter(lastCi);
+    const body = x.slice(a, b).replace(ROW_RE, (m, ra, inner) => {
+      const r = +attrs(ra).r;
+      if (r > lastRow) lastRow = r;
+      let inn = (inner || '').replace(C_RE, (cm, ca) => { const ref = attrs(ca).r; return ref && colIndex(ref) >= NCOL ? '' : cm; });
+      const add = r === 1 ? headers.map(([ci, t]) => cellXml(ci, 1, t, boldXf)).join('') : (extras.has(r) ? extras.get(r).map(([ci, t]) => cellXml(ci, r, t, wrapXf)).join('') : '');
+      if (r === 1) inn = inn.replace(/<c\b([^>]*?)(\/?)>/g, (mm, a2, sl) => `<c${setAttr(a2, 's', boldXf)}${sl}>`);
+      if (!add && inn === (inner || '')) return m;
+      const ra2 = add ? ra.replace(/\bspans="(\d+):(\d+)"/, (s0, p, q) => `spans="${p}:${Math.max(+q, lastCi + 1)}"`) : ra;
+      return `<row${ra2}>${inn}${add}</row>`;
+    });
+    x = x.slice(0, a) + body + x.slice(b);
+    const dim = `<dimension ref="A1:${LC}${lastRow}"/>`;
+    x = /<dimension\b[^>]*\/>/.test(x) ? x.replace(/<dimension\b[^>]*\/>/, dim) : x.replace(/(<worksheet\b[^>]*>)(\s*<sheetPr\b[\s\S]*?(?:\/>|<\/sheetPr>))?/, (m) => m + dim);
+    const view = FROZEN_VIEW(selected);
+    x = /<sheetViews>[\s\S]*?<\/sheetViews>/.test(x) ? x.replace(/<sheetViews>[\s\S]*?<\/sheetViews>/, view) : x.replace(dim, dim + view);
+    const ourCol = headers.map(([ci, , w]) => `<col min="${ci + 1}" max="${ci + 1}" width="${w}" customWidth="1"/>`).join('');
+    if (/<cols>[\s\S]*?<\/cols>/.test(x)) {
+      x = x.replace(/<cols>([\s\S]*?)<\/cols>/, (m, inner) => {
+        const cols = [...inner.matchAll(/<col\b([^>]*?)\/>/g)].map(cm => cm[1]).filter(ca => +attrs(ca).min <= NCOL)
+          .map(ca => (+attrs(ca).max > NCOL ? setAttr(ca, 'max', NCOL) : ca));
+        return `<cols>${cols.map(ca => `<col${ca}/>`).join('')}${ourCol}</cols>`;
+      });
+    } else x = x.replace('<sheetData', `<cols>${ourCol}</cols><sheetData`);
+    let pos = x.indexOf('</sheetData>') + '</sheetData>'.length;
+    const after = /^\s*<(sheetCalcPr|sheetProtection|protectedRanges|scenarios)\b[^>]*?(?:\/>|>[\s\S]*?<\/\1>)/;
+    for (let m = after.exec(x.slice(pos)); m; m = after.exec(x.slice(pos))) pos += m[0].length;
+    x = x.slice(0, pos) + `<autoFilter ref="A1:${LC}${lastRow}"/>` + x.slice(pos);
+    return x;
+  }
+  function rowCheckIds(R) {
+    const ids = new Map();
+    for (const f of R.findings) {
+      if (f.level === 'info') continue;
+      const k = f.sheet + '\u0000' + f.row;
+      let e = ids.get(k);
+      if (!e) ids.set(k, e = { c: new Set(), o: new Set() });
+      if (f.level === 'strict' && !f.known) e.c.add(dispId(f.check));
+      else e.o.add(dispId(f.check) + (f.level === 'ref' ? '(参考)' : f.note ? `(${f.note})` : '(既知)'));
+    }
+    return ids;
+  }
+  function summaryRows(R, other) {
+    const head = ['ID', '区分', 'チェック内容', 'このツールでの判定方法', '結果', `前月（${R.settings.prevLabel}）の該当行数`, 'コメント対象 行数', 'うち新規行', 'うち既存行', '既知（コメントなし）件数', '参考件数', '該当箇所（コメント対象）', '該当箇所（既知・参考）', 'Rv用：連携要否（ACN案）と理由'];
+    const rows = [head];
+    const list = RULES.filter(x => isOther(x.id) === !!other).sort((a, b) => (other ? dispId(a.id).localeCompare(dispId(b.id)) : 0));
+    for (const rule of list) {
+      const cNew = new Set(), cOld = new Set(), cLoc = new Map(), oLoc = new Map();
+      let known = 0, ref = 0;
+      for (const f of R.findings) {
+        if (f.check !== rule.id || f.level === 'info') continue;
+        const target = f.level === 'strict' && !f.known;
+        if (target) (f.status === '新規行' ? cNew : cOld).add(f.sheet + '\u0000' + f.row);
+        else if (f.level === 'ref') ref++; else known++;
+        const loc = target ? cLoc : oLoc;
+        // 新規／既存／削除行の区分ごとに並べる（区分→シート）
+        const key = (f.status === '新規行' ? '【新規】' : f.status === '削除行' ? '【削除行】' : '【既存】') + f.sheet;
+        if (!loc.has(key)) loc.set(key, []);
+        loc.get(key).push(f.row);
+      }
+      rows.push([dispId(rule.id), rule.cat, rule.title, rule.how, R.summary[rule.id].status, /^(STEP|KA-M)/.test(rule.id) ? '—' : (R.sepRuleCount[rule.id] || 0), cNew.size + cOld.size, cNew.size, cOld.size, known, ref, locText(cLoc), locText(oLoc), [...new Set(R.findings.filter(f => f.check === rule.id && f.review).map(f => f.review))].join('\n')]);
+    }
+    return rows;
+  }
+  function readmeRows(R) {
+    const st = R.settings, P = st.prevLabel, K = reviewCols(R, true), L = colLetter;
+    const colDesc = [
+      K.hasNote ? `${L(K.note)}：JLACセンターコメント（提出ファイルの連絡用の列＝見出しに「コメント」を含む33列目以降）` : '',
+      `${L(K.comment)}：JLACセンター向けコメント（送付用と同じ文面）`,
+      `${L(K.kind)}：新規/既存（前月に同じJLAC11コードが無い行＝新規。JLAC11空欄の行は、前月の同じ内容の行と突き合わせ）`,
+      `${L(K.rv)}：Rv用：連携要否（ACN案）と理由`,
+      `${L(K.cid)}：コメント対象のチェックID`,
+      `${L(K.oid)}：既知・参考のチェックID（(既知)＝前月も同じ、(参考)＝目視確認用、(連携済み)＝JLACセンターから変更の連絡があり指摘なし、(連絡用の列)＝JLACセンターコメントの列、(共有対象外)＝個別対応）`,
+      `${L(K.prev)}：前月（${P}）の同じコードのチェック結果`,
+      `${L(K.diff)}：前月→今回の差分区分（変更なし／値の変更あり／チェック結果の変化あり／前月の問題が解消／新規）`,
+    ].filter(Boolean).join('\n');
+    const rows = [
+      ['項目', '説明'],
+      ['本田さんにご確認いただきたいこと', '・「送付前確認事項_一次Rv」に本田さんへの連携事項・確認事項を一覧化しているのでご確認ください。\n・上記に対応する形で、JLACマスタの確認結果一覧と実際のコメントを「JLACセンター向けコメント_確認用」に記載しています。ご参照ください。'],
+      ['このファイルについて', `JLACマスタ月次チェックの【ACN社内の確認用（本田さんRv用）】ファイルです。\nJLACセンターには送付しません。JLACセンターに送るのは「送付用」のファイル（${st.outName}）です。`],
+      ['作成方法', `JLACマスタ月次チェックツール ${VERSION} で自動作成。\n今回の提出：${R.inp.target.fileName}\n前月の基準：${R.inp.prev.fileName}（全件）\nコード表：${[R.inp.jlac10, R.inp.jlac11, R.inp.list11].filter(Boolean).map(w => w.fileName).join('、')}\n※「送付前確認事項_一次Rv」はツールが候補を並べた下書きです。担当者が整理してから本田さんにRvを依頼してください（下の「送付前確認事項の書き方」）。`],
+      ['確認の進め方', `①前月（${P}）を全件チェック\n②今回の提出を全件チェック（新規行はすべての結果を指摘候補とする）\n③既存行は前月との「チェック結果の差分」「値の変更（チェックに掛からないものも）」「行の増減」を確認\n④指摘候補となった該当箇所を確認し、JLACセンター向けコメントを作成`],
+      ['判定のルール', '・前月にも同じ問題がある＝既知の問題としてコメントせず記録のみ（前月に了承して公開済みのため）\n・前月から変わって生じた問題、新規行の問題、行の削除＝指摘が必要な事項としてJLACセンター向けコメントを付ける\n・JLACセンターから変更内容の連絡があった変更（連携済み）＝項目の変更・表記の変更は指摘せず記録のみ。ただし、チェックロジック（KA-○○）に該当する場合はロジックを優先して指摘する\n・「参考」：判定材料が不完全なため（例：コード表の版の違い）、コメントせず目視確認用に記録\n・合意済みのチェックロジック39件（KA-○○）と、確認プロセスを踏まえたチェック（その他1〜5）は分けて表示'],
+      ['シート：送付前確認事項_一次Rv\n★確認いただきたいシート', '送付前に本田さんに確認したい事項と共有事項。\n列：B 種別（新規／残指摘／再検知）、C 前回Rvからの引継ぎ内容、D 確認事項・結果（【確認したこと】チェックロジックの番号〔名前〕・照合先→【結果】）、E 本田さんへの確認事項、F 問題があった箇所（「計N件」＋行番号ごとのJLAC11コード。確認用シート・原本シート共通の行番号）、G JLACセンターへのコメント要否（要／不要）、H 本田コメント、I 担当者回答'],
+      ['シート：JLACセンター向けコメント_確認用\n★確認いただきたいシート', `今回の提出の全行。A〜AF列は提出のまま。${K.hasNote ? `${L(K.note)}列は提出ファイルの連絡用の列（JLACセンターコメント）、` : ''}${L(K.comment)}列は送付用と同じJLACセンター向けコメント（${R.commentRows}行）。${L(K.kind)}列以降はACN確認用の情報（下記）。メイン以外のシートがある場合は「_シート名」付きの確認用シートが別にある`],
+    ];
+    if (R.deletedRows.length) rows.push(['シート：前回から削除された行\n★確認いただきたいシート', `前月（${P}）にあって今回の提出に無い行（${R.deletedRows.length}行）を、前月の内容のまま列挙。AG列がJLACセンター向けコメント、AH列が前月のシート・行番号、AI列がRv用の見解（ACN案）`]);
+    rows.push(
+      [`確認用シートの列（${L(K.hasNote ? K.note : K.comment)}〜${L(K.diff)}）`, colDesc],
+      ['シート：チェック結果一覧', '合意済みのチェックロジック39件（KA-○○）ごとの結果。\n前月の該当行数、今回のコメント対象の行数（新規・既存の内訳）、既知・参考の件数、該当箇所（【新規】【既存】【削除行】シート名：行番号）、Rv用の見解（ACN案）'],
+      ['シート：その他の指摘事項', 'チェックロジック以外の確認プロセスにおけるチェック項目（その他1：削除行、2：項目の変更、3：表記の変更、4：適用終了日、5：新規行の適用開始日）。\n列の構成はチェック結果一覧シートと同じ'],
+      ['シート：参考_ツールの自動通知', 'チェックツールが自動で出した通知（確認したいコードの有無、連絡用の列、新規行の判定、連携メモ、設定など）。要確認の通知は「送付前確認事項_一次Rv」に候補として並べている。参照用'],
+      ['シート：JLACセンター原本➡ 以降', 'JLACセンターから届いた提出ファイルの原本（変更なし）。行番号は確認用シートと共通'],
+      ['送付前確認事項の書き方（担当者向け）', '・#にするのは、本田さんの判断が要るもの・前回Rvから引き継いだもの・チェックロジックに当たったものだけ。共有だけの情報は#にしない。関連する論点は親の#にまとめる\n・件数は「N件」で書く（「○行目」はそのまま）。問題があった箇所は範囲表記をせず、「1104行目（C20120000240045F7）」のように行ごとにJLAC11コードを併記する\n・本田さんへの確認事項は、判断案＋「問題ないかご確認をお願いします」。コメントを返す場合は「■文案」として代表1行分を書く\n・JLACセンター向けコメントは「項目「今の値」が、［照合先の資料・シート・列］の「正しい値」と表記が異なります。意図的に修正されたという認識でよろしいでしょうか。」の形（「ご確認ください」は使わない。文末は句点）。1つのセルで2点以上を確認するときは「・」の箇条書き\n・二次Rv以降：このシートをコピーして「送付前確認事項_二次Rv」を作り、「確認いただきたいシート➡」の直後に置く。前回のシートは「参考➡」区切りの後ろに記録として残し、「二次Rvへの引継ぎ」列を付ける。種別は、残指摘〔一次Rv#○から〕＝前回クローズしていないもの、再検知〔一次Rv#○で確認済み〕＝対象が変わって再び出たもの、新規、の3つ。同じ論点の続きは新しい#を起こさない'],
+    );
+    return rows;
+  }
+  function rvTemplateRows(R) {
+    const st = R.settings, main = st.targetSheets[0];
+    const codeOf = new Map();
+    for (const sh of st.targetSheets) for (const r of R.bySheet[sh]) codeOf.set(rk(r), r.code);
+    const where = (f) => {
+      const code = f.code || codeOf.get(f.sheet + '\u0000' + f.row) || '';
+      const pre = f.status === '削除行' ? `【前月の削除行】${R.delSheet || ''} ` : f.sheet !== main ? `「${f.sheet}」` : '';
+      return `${pre}${f.row}行目${code ? `（${code}）` : ''}`;
+    };
+    const rows = [['#', '種別', '前回Rvからの引継ぎ内容', '確認事項・結果', '本田さんへの確認事項', '問題があった箇所\n※「JLACセンター向けコメント_確認用」シート参照', 'JLACセンターへのコメント要否', '本田コメント', '担当者回答（日付）']];
+    let n = 0;
+    const list = RULES.filter(x => !isOther(x.id)).concat(RULES.filter(x => isOther(x.id)));
+    for (const rule of list) {
+      const hit = new Map();
+      for (const f of R.findings) if (f.check === rule.id && f.level === 'strict' && !f.known) { const k = f.sheet + '\u0000' + f.row; if (!hit.has(k)) hit.set(k, f); }
+      if (!hit.size) continue;
+      const fs = [...hit.values()], nNew = fs.filter(f => f.status === '新規行').length;
+      const lines = fs.slice(0, 200).map(where);
+      if (fs.length > 200) lines.push(`…ほか${fs.length - 200}件（チェック結果一覧を参照）`);
+      const rv = [...new Set(R.findings.filter(f => f.check === rule.id && f.review).map(f => f.review))].join('\n');
+      rows.push([String(++n), '新規', '—', `【確認したこと】\n${isOther(rule.id) ? 'チェックロジック外：' : 'チェックロジック'}${dispId(rule.id)}〔${rule.title}〕\n【結果】\n指摘 ${fs.length}件（新規行${nNew}件・既存行${fs.length - nNew}件）${rv ? '\n【ACNの見解（案）】\n' + rv : ''}`, '', `計${fs.length}件\n${lines.join('\n')}`, '要', '', '']);
+    }
+    R.notices.forEach((x, i) => {
+      if (x.level !== '要確認') return;
+      rows.push([String(++n), '新規', '—', `【確認したこと】\nツールの自動通知\n【結果】\n${x.title}`, '', `「参考_ツールの自動通知」${i + 2}行目`, '', '', '']);
+    });
+    return rows;
+  }
+  function noticeRows(R) {
+    const st = R.settings;
+    const rows = [['区分', '内容', '詳細']];
+    for (const n of R.notices) rows.push([n.level, n.title, n.detail]);
+    rows.push(['', '', ''], ['設定', '今回提出マスタ', `${R.inp.target.fileName}（シート：${st.targetSheets.join('、')}）`],
+      ['設定', '前月FIXマスタ', `${R.inp.prev.fileName}（比較：${st.baseSheet}${st.mixedSheet ? '／新旧混合：' + st.mixedSheet : ''}）`],
+      ['設定', '今回の公開日／切替日前日', `${st.expectedStart}／${st.expectedEnd}`],
+      ['設定', '新規行の開始行（JLACセンター連絡）', st.newFromRow ? `${st.newFromRow}行目以降` : '未入力'],
+      ['設定', 'ツール', `JLACマスタ月次チェックツール ${VERSION}`],
+      ['注意', 'このファイルはACN社内の確認用です', '読み方は先頭の「このファイルの説明」シートを参照。JLACセンターには「送付用」のファイルを送ってください。']);
+    return rows;
+  }
+  async function buildOutput(R, codec, opt) {
+    const internal = !!(opt && opt.internal);
+    const wb = R.inp.target, st = R.settings;
+    const now = new Date(), T = dosTime(now), D = dosDate(now);
+    const changed = new Map();
+    let styles = await wb.text(wb.stylesPath);
+    const fontsM = /<fonts\b([^>]*)>([\s\S]*?)<\/fonts>/.exec(styles);
+    const xfsM = /<cellXfs\b([^>]*)>([\s\S]*?)<\/cellXfs>/.exec(styles);
+    const nFont = (fontsM[2].match(/<font\b/g) || []).length, nXf = (xfsM[2].match(/<xf\b/g) || []).length;
+    const f0 = /<font\b[^>]*?(?:\/>|>[\s\S]*?<\/font>)/.exec(fontsM[2]);
+    const boldFont = f0 && !f0[0].endsWith('/>') ? f0[0].replace(/<b\b[^>]*\/>/g, '').replace(/<font\b([^>]*)>/, '<font$1><b/>') : '<font><b/></font>';
+    const boldXf = nXf, wrapXf = nXf + 1;
+    styles = styles.replace(fontsM[0], `<fonts${setAttr(fontsM[1], 'count', nFont + 1)}>${fontsM[2]}${boldFont}</fonts>`);
+    styles = styles.replace(xfsM[0], `<cellXfs${setAttr(xfsM[1], 'count', nXf + 2)}>${xfsM[2]}<xf numFmtId="0" fontId="${nFont}" fillId="0" borderId="0" xfId="0" applyFont="1"><alignment vertical="center"/></xf><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf></cellXfs>`);
+    changed.set(wb.stylesPath, styles);
+
+    const existingNames = new Set(wb.sheets.map(s => s.name));
+    let maxN = 0;
+    for (const e of wb.entries) { const m = /^xl\/worksheets\/sheet(\d+)\.xml$/.exec(e.name); if (m) maxN = Math.max(maxN, +m[1]); }
+    const news = [];
+    const uniq = (name) => {
+      name = Array.from(name.replace(/[[\]:*?/\\]/g, '_')).slice(0, 31).join('');
+      while (existingNames.has(name)) name = Array.from(name).slice(0, 29).join('') + '_2';
+      existingNames.add(name);
+      return name;
+    };
+    const focus = (xml) => (internal ? withTab(xml, TAB_FOCUS) : xml);
+    if (internal) {
+      news.push({ name: uniq('このファイルの説明'), path: `xl/worksheets/sheet${++maxN}.xml`, xml: simpleSheet(readmeRows(R), [32, 120], boldXf, wrapXf, true, false) });
+      news.push({ name: uniq('確認いただきたいシート➡'), path: `xl/worksheets/sheet${++maxN}.xml`, xml: withTab(SEPARATOR_XML, TAB_FOCUS_SEP) });
+      news.push({ name: uniq('送付前確認事項_一次Rv'), path: `xl/worksheets/sheet${++maxN}.xml`, xml: focus(simpleSheet(rvTemplateRows(R), [6, 16, 36, 60, 50, 36, 14, 36, 40], boldXf, wrapXf, false, true)) });
+    }
+    const ids = internal ? rowCheckIds(R) : null;
+    const rvByRow = new Map();
+    for (const f of R.findings) {
+      if (!f.review) continue;
+      const k = f.sheet + '\u0000' + f.row, s = `[${dispId(f.check)}] ${f.review}`;
+      if (!rvByRow.has(k)) rvByRow.set(k, []);
+      if (!rvByRow.get(k).includes(s)) rvByRow.get(k).push(s);
+    }
+    const K = reviewCols(R, internal);
+    const headers = [];
+    if (K.hasNote) headers.push([K.note, 'JLACセンターコメント（提出ファイルの連絡用の列）', 50]);
+    headers.push([K.comment, COMMENT_HDR, 80]);
+    if (internal) headers.push([K.kind, '新規/既存（ACN確認用）', 14], [K.rv, 'Rv用：連携要否（ACN案）と理由', 60], [K.cid, 'コメント対象のチェックID（ACN確認用）', 26], [K.oid, '既知・参考のチェックID（ACN確認用）', 30], [K.prev, `${st.prevLabel}のチェック結果（ACN確認用）`, 26], [K.diff, `${st.prevLabel}→今回の差分区分（ACN確認用）`, 44]);
+    let first = true;
+    for (const sh of st.targetSheets) {
+      const extras = new Map();
+      let nComments = 0;
+      for (const r of R.bySheet[sh]) {
+        const arr = [], msgs = R.comments.get(rk(r));
+        if (K.hasNote && r.note) arr.push([K.note, r.note]);
+        if (msgs) { arr.push([K.comment, commentText(msgs)]); nComments++; }
+        if (internal) {
+          arr.push([K.kind, R.newKeys.has(rk(r)) ? '新規' : '既存']);
+          const rv = rvByRow.get(rk(r));
+          if (rv && rv.length) arr.push([K.rv, rv.join('\n')]);
+          const e = ids.get(rk(r));
+          if (e && e.c.size) arr.push([K.cid, [...e.c].join(', ')]);
+          if (e && e.o.size) arr.push([K.oid, [...e.o].join(', ')]);
+          const d = R.rowDiff.get(rk(r));
+          if (d) arr.push([K.prev, d.sep], [K.diff, d.label]);
+        }
+        if (arr.length) extras.set(r.xrow, arr);
+      }
+      if (!first && nComments === 0 && !internal) continue;
+      const name = uniq(first ? REVIEW_SHEET : `${REVIEW_SHEET}_${Array.from(sh).slice(-6).join('')}`);
+      news.push({ name, path: `xl/worksheets/sheet${++maxN}.xml`, xml: focus(makeReviewSheet(await wb.sheetXml(sh), extras, headers, boldXf, wrapXf, first && !internal)) });
+      first = false;
+    }
+    if (R.deletedRows.length && (internal || !st.deletedRequested)) {
+      const df = R.findings.find(f => f.check === 'STEP1-DEL' && f.review);
+      const delReview = df ? df.review : '';
+      const asCell = (v) => (/^(0|[1-9]\d{0,14})$/.test(v) ? Number(v) : v);
+      const head = HEADER.concat([COMMENT_HDR], internal ? ['前月FIXのシート・行（ACN確認用）', 'Rv用：連携要否（ACN案）と理由'] : []);
+      const rows = [head].concat(R.deletedRows.map(({ r, msg }) => r.s.map(asCell).concat([msg], internal ? [`${R.delSheet} ${r.xrow}行目`, delReview] : [])));
+      const widths = HEADER.map(() => 14).concat([80], internal ? [30, 50] : []);
+      news.push({ name: uniq('前回から削除された行'), path: `xl/worksheets/sheet${++maxN}.xml`, xml: focus(simpleSheet(rows, widths, boldXf, wrapXf, false, true)) });
+    }
+    if (internal) {
+      news.push({ name: uniq('確認結果サマリ➡'), path: `xl/worksheets/sheet${++maxN}.xml`, xml: SEPARATOR_XML });
+      news.push({ name: uniq('チェック結果一覧'), path: `xl/worksheets/sheet${++maxN}.xml`, xml: simpleSheet(summaryRows(R, false), [10, 11, 40, 40, 22, 12, 10, 9, 9, 11, 9, 50, 50, 60], boldXf, wrapXf, false, true) });
+      news.push({ name: uniq('その他の指摘事項'), path: `xl/worksheets/sheet${++maxN}.xml`, xml: simpleSheet(summaryRows(R, true), [22, 16, 40, 40, 22, 12, 10, 9, 9, 11, 9, 50, 50, 60], boldXf, wrapXf, false, true) });
+      news.push({ name: uniq('参考_ツールの自動通知'), path: `xl/worksheets/sheet${++maxN}.xml`, xml: simpleSheet(noticeRows(R), [10, 50, 90], boldXf, wrapXf, false, false) });
+    }
+    news.push({ name: SEPARATOR_SHEET, path: `xl/worksheets/sheet${++maxN}.xml`, xml: SEPARATOR_XML });
+    for (const sh of wb.sheets) {
+      const x = await wb.text(sh.path);
+      if (/\stabSelected="1"/.test(x)) changed.set(sh.path, x.replace(/\s+tabSelected="1"/g, ''));
+    }
+    let wx = wb.wbXml;
+    let nextId = Math.max(0, ...[...wx.matchAll(/<sheet\b[^>]*?sheetId="(\d+)"/g)].map(m => +m[1])) + 1;
+    news.forEach((n, i) => { n.sheetId = nextId++; n.rid = `rIdJLAC${i + 1}`; });
+    wx = wx.replace('<sheets>', '<sheets>' + news.map(n => `<sheet name="${xmlEscape(n.name)}" sheetId="${n.sheetId}" r:id="${n.rid}"/>`).join(''));
+    wx = wx.replace(/localSheetId="(\d+)"/g, (m, k) => `localSheetId="${+k + news.length}"`);
+    wx = wx.replace(/(<workbookView\b[^>]*?)\s+(activeTab|firstSheet)="\d+"/g, '$1').replace(/(<workbookView\b[^>]*?)\s+(activeTab|firstSheet)="\d+"/g, '$1');
+    changed.set('xl/workbook.xml', wx);
+    changed.set('xl/_rels/workbook.xml.rels', wb.relsXml.replace('</Relationships>', news.map(n => `<Relationship Id="${n.rid}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="${n.path.slice(3)}"/>`).join('') + '</Relationships>'));
+    const ct = await wb.text('[Content_Types].xml');
+    changed.set('[Content_Types].xml', ct.replace('</Types>', news.map(n => `<Override PartName="/${n.path}" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('') + '</Types>'));
+
+    const items = [];
+    const pack = async (name, text, time, date) => {
+      const u8 = te.encode(text), comp = await codec.deflateRaw(u8);
+      return { name, method: 8, crc: crc32(u8), csize: comp.length, usize: u8.length, time, date, data: comp };
+    };
+    for (const e of wb.entries) {
+      if (changed.has(e.name)) items.push(await pack(e.name, changed.get(e.name), e.time, e.date));
+      else items.push({ name: e.name, method: e.method, crc: e.crc, csize: e.csize, usize: e.usize, time: e.time, date: e.date, data: e.raw });
+    }
+    for (const n of news) items.push(await pack(n.path, n.xml, T, D));
+    return writeZip(items);
+  }
+
+  // ---------- 結果報告（Markdown） ----------
+  function ruleById(id) { return RULES.find(r => r.id === id) || { id, title: id }; }
+  function mdCell(s) { return String(s).replace(/\|/g, '｜').replace(/\n/g, ' '); }
+  function reportMarkdown(R) {
+    const st = R.settings, L = [];
+    const d = today();
+    L.push(`# JLACマスタチェック結果（JLACセンター ${st.submitDate || '—'}提出版）`, '');
+    L.push(`> 作成日: ${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6)}（JLACマスタ月次チェックツール ${R.version}）`);
+    L.push(`> 対象: ${R.inp.target.fileName}（シート: ${st.targetSheets.join('、')}）`);
+    L.push(`> 前月比較の基準: ${R.inp.prev.fileName}（シート: ${st.baseSheet}${st.mixedSheet ? '／新旧混合: ' + st.mixedSheet : ''}）`);
+    L.push(`> コード表: ${[R.inp.jlac10, R.inp.jlac11, R.inp.list11].filter(Boolean).map(w => w.fileName).join('、')}`);
+    L.push(`> 今回の公開日（想定）: ${st.expectedStart}／切替日前日: ${st.expectedEnd}`, '');
+    L.push('## 結論・要点', '');
+    L.push(`- コメントを付けた行：**${R.commentRows}行**（${st.targetSheets.map(sh => `${sh}: ${R.bySheet[sh].filter(r => R.comments.has(rk(r))).length}行`).join('、')}）`);
+    L.push(`- 新規追加行：${R.newCodes.length}行（うちコメントあり ${R.newCodes.filter(r => R.comments.has(rk(r))).length}行）`);
+    L.push(`- 送付前に確認したい事項：${R.notices.filter(n => n.level === '要確認').length}件`, '');
+    L.push('## 送付前に確認したい事項', '');
+    for (const n of R.notices) L.push(`- 【${n.level}】${n.title}`, `  - ${n.detail}`);
+    L.push('', '## コメント付与の内訳', '', '| 区分 | ID | 内容 | 行数 | コメント例 |', '|---|---|---|---:|---|');
+    for (const b of R.breakdown) L.push(`| ${b.status} | ${dispId(b.check)} | ${mdCell(ruleById(b.check).title)} | ${b.rows.size} | ${mdCell(b.sample)} |`);
+    if (!R.breakdown.length) L.push('| — | — | コメントなし | 0 | — |');
+    L.push('', '## チェックロジック別の結果', '', '| ID | チェック内容 | 結果 |', '|---|---|---|');
+    for (const rule of RULES.filter(x => !isOther(x.id))) L.push(`| ${rule.id} | ${mdCell(rule.title)} | ${R.summary[rule.id].status} |`);
+    L.push('', '## その他の指摘事項（チェックロジック以外・手順書の確認）', '', '| ID | 内容 | 結果 |', '|---|---|---|');
+    for (const rule of RULES.filter(x => isOther(x.id)).sort((a, b) => dispId(a.id).localeCompare(dispId(b.id)))) L.push(`| ${dispId(rule.id)} | ${mdCell(rule.title)} | ${R.summary[rule.id].status} |`);
+    L.push('', '## 新規追加行', '');
+    const dai = counter(R.newCodes.map(r => r.s[C.DAIKOMOKU])).map(([k, n]) => `${k} ${n}行`).join('、');
+    L.push(`- 大項目：${dai || 'なし'}`);
+    L.push(`- 材料の組合せ（JLAC10⇔JLAC11）：${counter(R.newCodes.map(r => r.s[C.MAT10] + '⇔' + r.s[C.MAT11])).map(([k, n]) => `${k}（${n}行）`).join('、') || 'なし'}（ずれがないか目視で確認）`);
+    const refs = R.findings.filter(f => f.level === 'ref' && f.status === '新規行');
+    if (refs.length) { L.push('- 参考（目視確認）：'); for (const f of refs.slice(0, 30)) L.push(`  - ${f.sheet} ${f.row}行目 ${f.code}：[${f.check}] ${f.msg}`); }
+    L.push('', '## 既知エラー（前月FIXでも同じ・コメント対象外）', '');
+    if (!R.known.length) L.push('- なし');
+    for (const k of R.known) L.push(`- ${k.check}（${k.total}件）：${k.top.map(([m, n]) => `${m}（${n}件）`).join(' ／ ')}`);
+    L.push('', '## やったこと・やっていないこと', '');
+    L.push('- やったこと：39件のチェックロジックと前月FIXとの比較（手順書Step0〜2）を全行に適用し、確認事項一覧（コメント付きExcel）を作成した。');
+    L.push(`- やっていないこと：KA-09のUCUM照合（未対応）${R.inp.list11 ? '' : '、KA-08（17桁コードリスト未指定）'}、KA-21の名称照合、上長レビュー・JLACセンターへの送付。`);
+    return L.join('\n') + '\n';
+  }
+
+  G.JLAC = {
+    VERSION, CHANGELOG, RULES, ROLES, HEADER, C, dispId, isOther,
+    openWorkbook, guessRole, guessRoleNote, masterSheets, defaultSettings, run, buildOutput, reportMarkdown, commentText, addDays,
+    _t: { rowChecks, groupFindings, comparePrev, loadTables, toRows, validDate8, nz, crc32, readZip, rk },
+  };
+})(typeof globalThis !== 'undefined' ? globalThis : this);
+</script>
+
+<script>
+(function () {
+  'use strict';
+  const J = window.JLAC;
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const codec = {
+    inflateRaw: async (u8) => new Uint8Array(await new Response(new Blob([u8]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer()),
+    deflateRaw: async (u8) => new Uint8Array(await new Response(new Blob([u8]).stream().pipeThrough(new CompressionStream('deflate-raw'))).arrayBuffer()),
+  };
+  const state = { files: [], settings: null, result: null, xlsx: null, report: '' };
+
+  document.title = `JLACマスタ月次チェックツール ${J.VERSION}`;
+  $('ver').textContent = J.VERSION;
+  $('footer-ver').textContent = J.VERSION;
+  if (!('DecompressionStream' in window) || !('CompressionStream' in window)) {
+    $('compat').innerHTML = '<div class="badbox">このブラウザでは動作しません。Edge または Chrome の最新版で開いてください。</div>';
+  }
+
+  ['run', 'rules', 'about'].forEach(t => {
+    $('tabbtn-' + t).addEventListener('click', () => {
+      ['run', 'rules', 'about'].forEach(u => {
+        $('tab-' + u).classList.toggle('active', u === t);
+        $('tabbtn-' + u).classList.toggle('active', u === t);
+      });
+    });
+  });
+
+  $('rules-body').innerHTML = J.RULES.map(r => `<tr><td>${esc(J.dispId(r.id))}</td><td>${esc(r.cat)}</td><td>${esc(r.title)}</td><td class="small">${esc(r.how)}</td><td class="small">${esc(r.needs ? J.ROLES[r.needs].label : '今回提出マスタ・前月FIX')}</td><td>${r.level === 'ref' ? '<span class="tag info">参考</span>' : '<span class="tag ng">コメント</span>'}</td></tr>`).join('');
+  $('changelog-body').innerHTML = J.CHANGELOG.map((c, i) => `<tr><td>${i === 0 ? esc(J.VERSION) : ''}</td><td>${esc(c.date)}</td><td>${esc(c.note)}</td></tr>`).join('');
+
+  const roleKeys = ['target', 'prev', 'jlac10', 'jlac11', 'list11'];
+  function roleOf(key) { return state.files.filter(f => f.role === key && f.wb); }
+  function renderNeed() {
+    $('need-body').innerHTML = roleKeys.map(k => {
+      const R = J.ROLES[k], got = roleOf(k);
+      let st;
+      if (got.length === 1) st = '<span class="tag ok">選択済み</span>';
+      else if (got.length > 1) st = '<span class="tag ng">複数あります</span>';
+      else st = R.required ? '<span class="tag ng">未選択</span>' : '<span class="tag warn">なし（任意）</span>';
+      return `<tr><td><b>${esc(R.label)}</b></td><td class="small">${esc(R.where)}<br><span class="muted">例：${esc(R.example)}</span></td><td>${R.required ? '必須' : '任意'}</td><td>${st}</td></tr>`;
+    }).join('');
+  }
+  function renderFiles() {
+    if (!state.files.length) { $('file-list').innerHTML = ''; return; }
+    const opts = (cur) => [...roleKeys, 'unused'].map(k => `<option value="${k}"${k === cur ? ' selected' : ''}>${esc(J.ROLES[k].label)}</option>`).join('');
+    $('file-list').innerHTML = `<p></p><div class="tablewrap"><table><thead><tr><th>ファイル</th><th>判定（違う場合は変更）</th><th>メモ</th><th></th></tr></thead><tbody>${state.files.map((f, i) => `<tr><td>${esc(f.name)}</td><td>${f.wb ? `<select id="role-${i}">${opts(f.role)}</select>` : '<span class="tag ng">読み込み失敗</span>'}</td><td class="small">${esc(f.error || f.note || '')}</td><td><button type="button" class="secondary" id="del-${i}">外す</button></td></tr>`).join('')}</tbody></table></div>`;
+    state.files.forEach((f, i) => {
+      const sel = $('role-' + i);
+      if (sel) sel.addEventListener('change', () => { f.role = sel.value; f.note = ''; refresh(); });
+      $('del-' + i).addEventListener('click', () => { state.files.splice(i, 1); refresh(); });
+    });
+  }
+  async function addFiles(list) {
+    for (const file of list) {
+      const f = { name: file.name, role: 'unused', wb: null, error: '', note: '' };
+      state.files.push(f);
+      renderFiles();
+      try {
+        if (!/\.(xlsx|csv)$/i.test(file.name)) throw new Error('.xlsx または .csv ファイルではありません');
+        f.wb = await J.openWorkbook(new Uint8Array(await file.arrayBuffer()), file.name, codec);
+        f.role = J.guessRole(f.wb);
+        f.note = J.guessRoleNote(f.wb, f.role);
+      } catch (e) { f.error = e.message; }
+    }
+    refresh();
+  }
+  function inputs() {
+    const one = (k) => { const g = roleOf(k); return g.length === 1 ? g[0].wb : null; };
+    return { target: one('target'), prev: one('prev'), jlac10: one('jlac10'), jlac11: one('jlac11'), list11: one('list11') };
+  }
+  let settingsKey = '';
+  async function refresh() {
+    renderNeed();
+    renderFiles();
+    state.result = null;
+    $('results-card').hidden = true;
+    const inp = inputs();
+    const key = (inp.target ? inp.target.fileName : '') + '|' + (inp.prev ? inp.prev.fileName : '');
+    if (inp.target && inp.prev) {
+      if (key !== settingsKey) {
+        settingsKey = key;
+        $('settings-body').innerHTML = '<span class="muted">シートを確認しています…</span>';
+        try { state.settings = await J.defaultSettings(inp); renderSettings(); }
+        catch (e) { state.settings = null; $('settings-body').innerHTML = `<div class="badbox">${esc(e.message)}</div>`; }
+      }
+    } else {
+      settingsKey = ''; state.settings = null;
+      $('settings-body').innerHTML = 'ステップ1で「今回提出マスタ」と「前月FIXマスタ」を選ぶと表示されます。';
+    }
+    updateRunState();
+  }
+  function renderSettings() {
+    const s = state.settings;
+    const opt = (list, cur, none) => (none ? `<option value="">${esc(none)}</option>` : '') + list.map(n => `<option value="${esc(n)}"${n === cur ? ' selected' : ''}>${esc(n)}</option>`).join('');
+    $('settings-body').innerHTML = `<div class="settings-grid">
+      <label>チェック対象のシート</label><div>${s.targetSheets.length ? s.targetSheets.map((n, i) => `<div><input type="checkbox" id="ts-${i}" checked> ${esc(n)}${i === 0 ? '（メイン）' : ''}</div>`).join('') : '<div class="badbox">今回提出マスタに、32列の見出し（区分名称〜適用終了日）を持つシートがありません。ファイルを確認してください。</div>'}<div class="muted small">見出しが32列のマスタ形式になっているシートを自動で選んでいます。</div></div>
+      <label for="set-base">前月の基準（全件）</label><div><select id="set-base">${opt(s.prevSheets, s.baseSheet, '（選んでください）')}</select><div class="muted small">前月の全件を基準にします（公開版CSV、または「新旧混合 公開用」シート）。</div></div>
+      <label for="set-mixed">前月FIXの新旧混合シート</label><div><select id="set-mixed">${opt(s.prevSheets, s.mixedSheet, '使わない')}</select><div class="muted small">旧コード（見直し前コード）が今回の提出から抜けていないかの確認に使います。</div></div>
+      <label for="set-start">今回の公開日</label><div><input type="text" id="set-start" value="${esc(s.expectedStart)}" size="10" maxlength="8"> <span class="muted small">新規行の適用開始日の想定（通常は提出月の15日・8桁）。切替日前日：<b id="set-end">${esc(s.expectedEnd)}</b></span></div>
+      <label for="set-label">前月版の呼び方</label><div><input type="text" id="set-label" value="${esc(s.prevLabel)}" size="12"> <span class="muted small">コメント文に「${esc(s.prevLabel)}から〜が変更されています」の形で入ります。</span></div>
+      <label for="set-newrow">新規行の開始行（任意）</label><div><input type="text" id="set-newrow" value="${esc(s.newFromRow)}" size="8" placeholder="例：8367"> <span class="muted small">JLACセンターのメールに「新規追加行を○行以降に入れた」とあれば、その行番号を入力します。前月FIXとの比較で判定した新規行と一致するかを確認します。</span></div>
+      <label>今月の個別対応（任意）</label><div class="small"><div>共有対象外のシート：${s.targetSheets.slice(1).map((n, i) => `<label style="font-weight:normal"><input type="checkbox" id="ex-${i}"${s.excludeSheets.includes(n) ? ' checked' : ''}> ${esc(n)}</label>`).join(' ') || 'なし'}</div><div><label style="font-weight:normal"><input type="checkbox" id="set-delreq"${s.deletedRequested ? ' checked' : ''}> 前回から削除された行は、旧コードを含むリストを別途依頼済みのため記録のみ（送付用に含めない）</label></div><div>確認したいJLAC11コード（カンマ区切り）：<input type="text" id="set-watch" value="${esc(s.watchCodes)}" style="width:60%"></div><div>JLACセンターからの連携メモ：<br><textarea id="set-memo" rows="3" style="width:100%">${esc(s.memo)}</textarea></div><div>連携済みの変更（指摘なし）：JLACセンターから修正の共有があったJLAC11コード（カンマ区切り）。項目の変更・表記の変更を指摘せず記録のみにします<br><input type="text" id="set-shared" value="${esc(s.sharedChanges)}" style="width:100%"></div><div>別シートの理由（JLACセンターからの連絡）：1行に「シート名｜理由」<br><textarea id="set-sheetreason" rows="2" style="width:100%">${esc(s.sheetReasons)}</textarea></div><div>Rv用の見解（ACN案）：1行に「チェックID（カンマ区切り。*は全て）｜シート名（空欄可。複数はカンマ区切り。削除行は「削除行」）｜JLAC11コード（空欄可）｜見解」。上の行ほど優先。ACN確認用に列として出力し、送付用には出しません。<br><textarea id="set-notes" rows="4" style="width:100%">${esc(s.reviewNotes)}</textarea></div><div class="muted">JLACセンターのメール等で今月だけ伝えられた事情を反映する欄です。毎月の固定ルールではありません。</div></div>
+      <label for="set-out">送付用のファイル名</label><div><input type="text" id="set-out" value="${esc(s.outName)}" style="width:100%"><div class="muted small">ACN確認用は末尾に「_ACN確認用」を付けた名前になります。</div></div>
+    </div>`;
+    const sync = () => {
+      s.baseSheet = $('set-base').value;
+      s.mixedSheet = $('set-mixed').value;
+      s.expectedStart = $('set-start').value.trim();
+      s.expectedEnd = /^\d{8}$/.test(s.expectedStart) ? J.addDays(s.expectedStart, -1) : '';
+      $('set-end').textContent = s.expectedEnd || '（8桁の日付を入力）';
+      s.prevLabel = $('set-label').value.trim() || '前月版';
+      s.outName = $('set-out').value.trim() || 'JLACマスタ確認事項一覧.xlsx';
+      s.newFromRow = $('set-newrow').value.trim();
+      s.excludeSheets = s.targetSheets.slice(1).filter((n, i) => $('ex-' + i) && $('ex-' + i).checked);
+      s.deletedRequested = $('set-delreq').checked;
+      s.watchCodes = $('set-watch').value;
+      s.memo = $('set-memo').value;
+      s.reviewNotes = $('set-notes').value;
+      s.sheetReasons = $('set-sheetreason').value;
+      s.sharedChanges = $('set-shared').value;
+      updateRunState();
+    };
+    ['set-base', 'set-mixed', 'set-start', 'set-label', 'set-out', 'set-newrow', 'set-delreq', 'set-watch', 'set-memo', 'set-notes', 'set-sheetreason', 'set-shared'].forEach(id => { $(id).addEventListener('change', sync); $(id).addEventListener('input', sync); });
+    s.targetSheets.forEach((n, i) => $('ts-' + i).addEventListener('change', updateRunState));
+  }
+  function chosenTargetSheets() {
+    const s = state.settings;
+    return s ? s.targetSheets.filter((n, i) => $('ts-' + i) && $('ts-' + i).checked) : [];
+  }
+  function problems() {
+    const out = [], inp = inputs();
+    for (const k of roleKeys) {
+      const R = J.ROLES[k], n = roleOf(k).length;
+      if (n > 1) out.push(`「${R.label}」に判定されたファイルが${n}つあります。使わない方を「使わない」に変えるか、外してください。`);
+      else if (R.required && n === 0) out.push(`「${R.label}」を選んでください。`);
+    }
+    const s = state.settings;
+    if (inp.target && inp.prev && s) {
+      if (!chosenTargetSheets().length) out.push('チェック対象のシートを1つ以上選んでください。');
+      if (!s.baseSheet) out.push('前月の基準（全件）のシートを選んでください。');
+      if (!/^\d{8}$/.test(s.expectedStart)) out.push('今回の公開日を8桁（例：20261015）で入力してください。');
+      if (s.newFromRow && !/^\d+$/.test(s.newFromRow)) out.push('新規行の開始行は数字（例：8367）で入力するか、空欄にしてください。');
+    }
+    return out;
+  }
+  function updateRunState() {
+    const p = problems();
+    $('runbtn').disabled = p.length > 0;
+    $('run-msg').innerHTML = p.length ? `<div class="warnbox small">${p.map(esc).join('<br>')}</div>` : '<div class="okbox small">準備ができました。「チェックを実行」を押してください（数十秒かかることがあります）。</div>';
+  }
+
+  const drop = $('drop'), fi = $('fileinput');
+  drop.addEventListener('click', () => fi.click());
+  drop.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fi.click(); } });
+  fi.addEventListener('change', () => { addFiles([...fi.files]); fi.value = ''; });
+  drop.addEventListener('dragover', (e) => { e.preventDefault(); drop.classList.add('over'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+  drop.addEventListener('drop', (e) => { e.preventDefault(); drop.classList.remove('over'); addFiles([...e.dataTransfer.files]); });
+
+  $('runbtn').addEventListener('click', async () => {
+    const btn = $('runbtn');
+    btn.disabled = true;
+    $('results-card').hidden = true;
+    const say = async (m) => { $('progress').textContent = m; await new Promise(r => setTimeout(r, 30)); };
+    try {
+      const st = Object.assign({}, state.settings, { targetSheets: chosenTargetSheets() });
+      const R = await J.run(inputs(), st, say);
+      await say('確認事項一覧（Excel）を作成しています…');
+      state.result = R;
+      state.xlsx = await J.buildOutput(R, codec);
+      await say('ACN確認用（Excel）を作成しています…');
+      state.xlsxInternal = await J.buildOutput(R, codec, { internal: true });
+      state.report = J.reportMarkdown(R);
+      renderResults(R);
+      $('progress').textContent = '完了しました。';
+      $('results-card').hidden = false;
+      $('results-card').scrollIntoView({ behavior: 'smooth' });
+    } catch (e) {
+      $('progress').textContent = '';
+      $('run-msg').innerHTML = `<div class="badbox">エラーが発生しました：${esc(e.message)}<br><span class="small">ファイルの選び間違いがないか確認してください。解決しない場合は、このメッセージを管理者に連絡してください。</span></div>`;
+    } finally {
+      btn.disabled = problems().length > 0;
+    }
+  });
+
+  function download(data, name, type) {
+    const url = URL.createObjectURL(new Blob([data], { type }));
+    const a = document.createElement('a');
+    a.href = url; a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+  }
+  function renderResults(R) {
+    const st = R.settings;
+    const needCheck = R.notices.filter(n => n.level === '要確認');
+    const knownTotal = R.known.reduce((a, k) => a + k.total, 0);
+    const reportName = st.outName.replace(/\.xlsx$/i, '') + '_結果報告.md';
+    const statusTag = (cls, text) => `<span class="tag ${cls}">${esc(text)}</span>`;
+    $('results').innerHTML = `
+      <div class="stats">
+        <div class="stat"><span class="muted small">コメントを付けた行</span><b>${R.commentRows}</b></div>
+        <div class="stat"><span class="muted small">前回から削除された行（${st.deletedRequested ? '依頼済みのため記録のみ' : '別シートで指摘'}）</span><b>${R.deletedRows.length}</b></div>
+        <div class="stat"><span class="muted small">新規追加行</span><b>${R.newCodes.length}</b></div>
+        <div class="stat"><span class="muted small">送付前に確認したい事項</span><b>${needCheck.length}</b></div>
+        <div class="stat"><span class="muted small">既知（コメントなし）</span><b>${knownTotal}</b></div>
+      </div>
+      <h3>ダウンロード</h3>
+      <div class="btnrow">
+        <button type="button" class="primary" id="dl-internal">ACN確認用（Excel）をダウンロード</button>
+        <button type="button" class="primary" id="dl-xlsx">JLACセンター送付用（Excel）をダウンロード</button>
+        <button type="button" class="secondary" id="dl-md">結果報告（テキスト）をダウンロード</button>
+        <button type="button" class="secondary" id="copy-md">結果報告をコピー</button>
+      </div>
+      <div class="muted small"><b>ACN確認用</b>：社内の確認・レビュー用です（JLACセンターには送らない）。先頭の「確認いただきたいシート➡」以降が本田さんに見ていただくシートです。「送付前確認事項_一次Rv」にはツールが論点の候補を並べているので、担当者が整理してからRvを依頼してください（書き方は「このファイルの説明」シートの最後）。確認用シートの右側に新規/既存・該当チェックID・前月の結果、「確認結果サマリ➡」以降に全ロジックの結果とツールの自動通知が入っています。<br><b>JLACセンター送付用</b>：合意済みの形式（確認用シート＋原本）です。「JLACセンター向けコメント」列（AG列）でフィルタすると、コメントのある行だけを見られます。</div>
+      <h3>送付前に確認したい事項</h3>
+      ${R.notices.map(n => `<div class="${n.level === '要確認' ? 'warnbox' : 'note'}"><b>【${esc(n.level)}】${esc(n.title)}</b><br><span class="small">${esc(n.detail)}</span></div>`).join('')}
+      <h3>コメント付与の内訳</h3>
+      <div class="tablewrap"><table><thead><tr><th>区分</th><th>ID</th><th>内容</th><th>行数</th><th>コメント例</th></tr></thead><tbody>
+      ${R.breakdown.length ? R.breakdown.map(b => `<tr><td class="nowrap">${esc(b.status)}</td><td class="nowrap">${esc(J.dispId(b.check))}</td><td class="small">${esc((J.RULES.find(r => r.id === b.check) || {}).title || '')}</td><td class="num">${b.rows.size}</td><td class="small">${esc(b.sample)}</td></tr>`).join('') : '<tr><td colspan="5">コメントはありません</td></tr>'}
+      </tbody></table></div>
+      <h3>チェックロジック別の結果</h3>
+      <div class="tablewrap"><table><thead><tr><th>ID</th><th>チェック内容</th><th>結果</th></tr></thead><tbody>
+      ${J.RULES.filter(r => !J.isOther(r.id)).map(r => `<tr><td>${esc(r.id)}</td><td class="small">${esc(r.title)}</td><td>${statusTag(R.summary[r.id].cls, R.summary[r.id].status)}</td></tr>`).join('')}
+      </tbody></table></div>
+      <h3>その他の指摘事項（チェックロジック以外・手順書の確認）</h3>
+      <div class="tablewrap"><table><thead><tr><th>ID</th><th>内容</th><th>結果</th></tr></thead><tbody>
+      ${J.RULES.filter(r => J.isOther(r.id)).sort((a, b) => J.dispId(a.id).localeCompare(J.dispId(b.id))).map(r => `<tr><td class="nowrap">${esc(J.dispId(r.id))}</td><td class="small">${esc(r.title)}</td><td>${statusTag(R.summary[r.id].cls, R.summary[r.id].status)}</td></tr>`).join('')}
+      </tbody></table></div>
+      <details><summary>新規追加行の一覧（${R.newCodes.length}行）</summary><div class="tablewrap"><table><thead><tr><th>シート</th><th>行</th><th>JLAC11コード</th><th>大項目</th><th>材料(JLAC10⇔11)</th><th>測定法(JLAC11)</th><th>適用開始日</th><th>コメント</th></tr></thead><tbody>
+      ${R.newCodes.map(r => `<tr><td class="small">${esc(r.sheet)}</td><td class="num">${r.xrow}</td><td>${esc(r.code)}</td><td class="small">${esc(r.s[J.C.DAIKOMOKU])}</td><td class="small">${esc(r.s[J.C.MAT10])}⇔${esc(r.s[J.C.MAT11])}</td><td class="small">${esc(r.s[J.C.METH11])}</td><td>${esc(r.s[J.C.START])}</td><td>${R.comments.has(J._t.rk(r)) ? '<span class="tag ng">あり</span>' : ''}</td></tr>`).join('')}
+      </tbody></table></div></details>
+      <details><summary>既知エラー（前月FIXでも同じ・コメント対象外）</summary><ul class="small">${R.known.map(k => `<li><b>${esc(k.check)}</b>（${k.total}件）：${k.top.map(([m, n]) => esc(m) + `（${n}件）`).join(' ／ ')}</li>`).join('') || '<li>なし</li>'}</ul></details>
+      <h3>次にやること</h3>
+      <ol>
+        <li>「送付前に確認したい事項」とExcelのコメントを上長（本田さん）にレビュー依頼する。</li>
+        <li>レビュー後、確認事項一覧をJLACセンターへ送付して疑義を連携する（毎月7日頃まで）。</li>
+      </ol>
+      <div id="copy-area"></div>`;
+    $('dl-xlsx').addEventListener('click', () => download(state.xlsx, st.outName, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'));
+    $('dl-internal').addEventListener('click', () => download(state.xlsxInternal, st.outName.replace(/\.xlsx$/i, '') + '_ACN確認用.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'));
+    $('dl-md').addEventListener('click', () => download(state.report, reportName, 'text/markdown;charset=utf-8'));
+    $('copy-md').addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(state.report); $('copy-area').innerHTML = '<div class="okbox small">結果報告をコピーしました。</div>'; }
+      catch (e) { $('copy-area').innerHTML = `<div class="note small">自動コピーできませんでした。下の枠内を選択してコピーしてください。</div><pre>${esc(state.report)}</pre>`; }
+    });
+  }
+
+  renderNeed();
+  updateRunState();
+})();
+</script>
+</body>
+</html>

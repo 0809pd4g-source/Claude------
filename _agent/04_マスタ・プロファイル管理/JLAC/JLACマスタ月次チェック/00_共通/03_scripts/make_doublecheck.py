@@ -102,15 +102,19 @@ for name in awb.sheetnames:
         if name != 'JLACセンター向けコメント_確認用' and len(NEW_SHEETS) < 2:
             continue
         src = NEW_SHEETS[0] if name == 'JLACセンター向けコメント_確認用' else NEW_SHEETS[1]
+        # ツールv13で列の並びが変わったため、見出しの名前で列を探す
+        _hdr = [str(v or '') for v in next(awb[name].iter_rows(min_row=1, max_row=1, values_only=True))]
+        _col = lambda key: next(j for j, h in enumerate(_hdr) if h.startswith(key))
+        c_new, c_ids, c_rec = _col('新規/既存'), _col('コメント対象のチェックID'), _col('既知・参考のチェックID')
         for i, r in enumerate(awb[name].iter_rows(min_row=2, values_only=True), start=2):
-            tool_new[(src, i)] = r[33]
-            tool_ids[(src, i)] = r[34] or ''
-            tool_rec[(src, i)] = r[35] or ''  # 記録のみ（既知・共有対象外など）
+            tool_new[(src, i)] = r[c_new]
+            tool_ids[(src, i)] = r[c_ids] or ''
+            tool_rec[(src, i)] = r[c_rec] or ''  # 記録のみ（既知・共有対象外など）
             tool_code[(src, i)] = r[12]
 tsum = {}
 # ツールv5以降、手順書由来の項目は「その他の指摘事項」シートに表示IDで出るため内部IDへ戻す
 ALIAS = {'その他1（削除行）': 'STEP1-DEL', 'その他2（項目の変更）': 'STEP1-DIFF', 'その他3（表記の変更）': 'STEP1-DIFF表記',
-         'その他4（適用終了日）': 'STEP1-END', 'その他5（新規行の適用開始日）': 'STEP2-START'}
+         'その他4（適用終了日）': 'STEP1-END', 'その他5（新規行の適用開始日）': 'STEP2-START', 'その他6（販売名称の確認）': 'STEP1-HANBAI'}
 for _sh in ('チェック結果一覧', 'その他の指摘事項'):
     if _sh not in awb.sheetnames:
         continue
@@ -129,6 +133,11 @@ t_first_new = min((i for (sh, i), v in tool_new.items() if v == '新規'), defau
 t_blank_exist = sum(1 for k, v in tool_new.items() if v == '既存' and tool_code[k] in (None, ''))
 t_note = sum(1 for k in tool_new if 'KA-26(連絡用の列)' in tool_rec[k])
 t_diff = sum(1 for k in tool_new if any(x in both[k] for x in ('KA-M2', 'KA-M3', 'その他2', 'その他3', 'その他4')))
+# ツールv18〜：連絡用の列のコメントと前月からの差分を照合する。コメントのある行を「差分あり／なし」に分けて突き合わせる
+_has_diff = lambda k: any(x in both[k] for x in ('KA-M2', 'KA-M3', 'その他2', 'その他3', 'その他4'))
+t_note_diff = sum(1 for k in tool_new if 'KA-26(連絡用の列)' in tool_rec[k] and _has_diff(k))
+t_note_nodiff = sum(1 for k in tool_new if 'KA-26(連絡用の列)' in tool_rec[k] and not _has_diff(k) and tool_new[k] == '既存')
+t_note_shared = sum(1 for k in tool_new if 'KA-26(連絡用の列)' in tool_rec[k] and '(連携済み)' in tool_rec[k])
 t_k08 = lambda kind: sum(1 for k, v in tool_new.items() if v == kind and 'KA-08' in tool_ids[k])
 
 # ---- 今回シートの補助列（すべてExcel関数） ----
@@ -137,11 +146,12 @@ def norm(x):
 
 helpers = [
     ('AI', '前月行（コード、空欄行は全項目キーで突き合わせ）', lambda r: f"=IF($M{r}&\"\"<>\"\",IFERROR(MATCH($M{r},'前月'!$M$1:$M${PN},0),\"\"),IFERROR(MATCH($BS{r},'前月'!$AG$1:$AG${PN},0),\"\"))"),
-    ('AJ', '新規判定', lambda r: f'=IF(AI{r}="","新規","既存")'),
+    # ツールv16〜：JLACセンター連絡の新規行の開始行以降は、前月に同じコードがあっても新規
+    ('AJ', '新規判定（前月に無い、または連絡の新規行の開始行以降）', lambda r: f'=IF(OR(AI{r}="",AND(AG{r}="{NEW_SHEETS[0]}",AH{r}>={NEWROW})),"新規","既存")'),
     ('AK', 'KA-18 開始日が0', lambda r: f'=IF($AE{r}&""="0",1,0)'),
-    ('AL', '前月と違う列数（開始・終了日以外）', lambda r: f"=IF(AI{r}=\"\",\"\",SUMPRODUCT(--(($A{r}:$AD{r}&\"\")<>(INDEX('前月'!$A$1:$AD${PN},AI{r},0)&\"\"))))"),
-    ('AM', 'KA-M2 開始日変更', lambda r: f"=IF(AI{r}=\"\",\"\",IF(VALUE($AE{r}&\"\")<>VALUE(INDEX('前月'!$AE$1:$AE${PN},AI{r})&\"\"),1,0))"),
-    ('AN', '終了日変更', lambda r: f"=IF(AI{r}=\"\",\"\",IF(VALUE($AF{r}&\"\")<>VALUE(INDEX('前月'!$AF$1:$AF${PN},AI{r})&\"\"),1,0))"),
+    ('AL', '前月と違う列数（開始・終了日以外）', lambda r: f"=IF(AJ{r}=\"新規\",\"\",SUMPRODUCT(--(($A{r}:$AD{r}&\"\")<>(INDEX('前月'!$A$1:$AD${PN},AI{r},0)&\"\"))))"),
+    ('AM', 'KA-M2 開始日変更', lambda r: f"=IF(AJ{r}=\"新規\",\"\",IF(VALUE($AE{r}&\"\")<>VALUE(INDEX('前月'!$AE$1:$AE${PN},AI{r})&\"\"),1,0))"),
+    ('AN', '終了日変更', lambda r: f"=IF(AJ{r}=\"新規\",\"\",IF(VALUE($AF{r}&\"\")<>VALUE(INDEX('前月'!$AF$1:$AF${PN},AI{r})&\"\"),1,0))"),
     ('AO', 'JLAC11材料名（表）', lambda r: f"=IF(LEN($M{r}&\"\")<>17,\"\",IFERROR(VLOOKUP(MID($M{r},10,3),'JLAC11材料'!$A:$B,2,FALSE)&\"\",\"#コード無し\"))"),
     ('AP', 'KA-07 材料一致', lambda r: f'=IF(AO{r}="","",IF(EXACT(TRIM($K{r}),TRIM(SUBSTITUTE(AO{r},"　",""))),1,0))'),
     ('AQ', 'JLAC11測定法名（17桁リスト）', lambda r: f"=IF(LEN($M{r}&\"\")<>17,\"\",IFERROR(VLOOKUP(LEFT($M{r},5)&\"|\"&MID($M{r},6,4)&\"|\"&MID($M{r},13,3),'JLAC11_17桁'!$A:$B,2,FALSE)&\"\",\"\"))"),
@@ -170,12 +180,12 @@ helpers = [
     ('BL', 'キー：FHIR項目名称|識別|略称', lambda r: f'=$G{r}&"|"&$H{r}&"|"&$I{r}'),
     ('BM', 'キー：大項目|FHIR項目名称|略称', lambda r: f'=$F{r}&"|"&$G{r}&"|"&$I{r}'),
     ('BN', 'キー：大項目|FHIR項目名称|識別', lambda r: f'=$F{r}&"|"&$G{r}&"|"&$H{r}'),
-    ('BO', '前月と差分あり', lambda r: f'=IF(AI{r}="",0,IF(AL{r}+AM{r}+AN{r}>0,1,0))'),
+    ('BO', '前月と差分あり', lambda r: f'=IF(AJ{r}="新規",0,IF(AL{r}+AM{r}+AN{r}>0,1,0))'),
     ('BP', 'ツール：記録のみのチェックID（既知・共有対象外など）', None),
-    ('BQ', 'KA-08 前月の測定法での一致', lambda r: f'=IF(OR(AI{r}="",AQ{r}="",MID($M{r},13,3)="000"),"",IF({norm(f"INDEX('前月'!$L$1:$L${PN},AI{r})&\"\"")}={norm(f"AQ{r}")},1,0))'),
+    ('BQ', 'KA-08 前月の測定法での一致', lambda r: f'=IF(OR(AJ{r}="新規",AQ{r}="",MID($M{r},13,3)="000"),"",IF({norm(f"INDEX('前月'!$L$1:$L${PN},AI{r})&\"\"")}={norm(f"AQ{r}")},1,0))'),
     ('BR', '連絡用の列（提出ファイルの33列目）', None),
     ('BS', 'キー：全項目', lambda r: '=' + KEY(r)),
-    ('BT', '測定法(JLAC11)が前月から変更', lambda r: f"=IF(AI{r}=\"\",\"\",IF(EXACT($L{r}&\"\",INDEX('前月'!$L$1:$L${PN},AI{r})&\"\"),0,1))"),
+    ('BT', '測定法(JLAC11)が前月から変更', lambda r: f"=IF(AJ{r}=\"新規\",\"\",IF(EXACT($L{r}&\"\",INDEX('前月'!$L$1:$L${PN},AI{r})&\"\"),0,1))"),
 ]
 for col, title, f in helpers:
     cur[f'{col}1'] = title
@@ -212,7 +222,7 @@ cnt = lambda c, crit: f'=COUNTIF({R(c)},{crit})'
 items = [
     ('A 件数の突き合わせ', '前月（公開版・全件）の行数', f"=COUNTA({P('A')})", '—', '前月公開CSV'),
     ('A 件数の突き合わせ', '今回提出の行数', f'=COUNTA({R("A")})', '—', ''),
-    ('A 件数の突き合わせ', '新規行の数（前月に同じJLAC11コードが無い行）', cnt('AJ', '"新規"'), t_new, ''),
+    ('A 件数の突き合わせ', '新規行の数（前月に同じJLAC11コードが無い行、または連絡の新規行の開始行以降）', cnt('AJ', '"新規"'), t_new, ''),
     ('A 件数の突き合わせ', '前月にあって今回に無い行（削除行。コードあり）', f"=SUMPRODUCT(({P('M')}&\"\"<>\"\")*({P('AH')}=0))", '—', '今回に同じJLAC11コードが無い前月の行'),
     ('A 件数の突き合わせ', '前月にあって今回に無い行（削除行。JLAC11空欄）', f"=SUM({P('AJ')})", '—', '全項目が同じ行の数を前月と今回で比べ、減った分（前月シートAJ列）'),
     ('A 件数の突き合わせ', '前月にあって今回に無い行（削除行の合計）', f'=C10+C11', T('STEP1-DEL', True), 'ツール：その他1（削除行）'),
@@ -223,6 +233,9 @@ items = [
     ('A 件数の突き合わせ', f'{NEWROW}行目以降で新規の行数', f'=COUNTIFS({R("AG")},"{NEW_SHEETS[0]}",{R("AH")},">={NEWROW}",{R("AJ")},"新規")', t_new_from, '差がある場合は、同じコードが前月にある行（コード重複など）'),
     ('A 件数の突き合わせ', f'新規行のうち適用開始日={START}', f'=COUNTIFS({R("AJ")},"新規",{R("AE")},{START})', t_new - T('STEP2-START', True), f'JLACセンター連絡：適用開始日{START}'),
     ('A 件数の突き合わせ', '連絡用の列（33列目）に記載のある行', f'=COUNTA({R("BR")})', t_note, 'ツール：KA-26(連絡用の列)として記録のみ'),
+    ('A 件数の突き合わせ', '　うち前月から差分がある行', f'=COUNTIFS({R("BR")},"<>",{R("BO")},1)', t_note_diff, 'コメントに書かれた変更が実際にある行'),
+    ('A 件数の突き合わせ', '　うち前月から差分がない既存行', f'=COUNTIFS({R("BR")},"<>",{R("BO")},0,{R("AJ")},"既存")', t_note_nodiff, 'ツール：要確認の通知（コメントがあるのに値が変わっていない）'),
+    ('A 件数の突き合わせ', '　うち連携済み（項目・表記の変更を指摘しない）の行【参考】', '—', t_note_shared, 'コメントの文面と差分の照合はExcel関数では行わないため参考。目視で数件を確認する'),
     ('B 指摘の検算', 'KA-18 適用開始日が0の行', f'=SUM({R("AK")})', T('KA-18', True), ''),
     ('B 指摘の検算', '前月と値が違う行（STEP1・KA-M）', f'=SUM({R("BO")})', t_diff, 'ツール：行ごとのチェックIDにKA-M2・KA-M3・その他2〜4がある行（連携済みを含む）'),
     ('B 指摘の検算', '　うち適用開始日の変更（KA-M2）', f'=SUM({R("AM")})', T('KA-M2', True), ''),
@@ -274,7 +287,7 @@ for i, (k, name, f, t, memo) in enumerate(items, start=HR + 1):
     chk.cell(row=i, column=2, value=name)
     chk.cell(row=i, column=3, value=f)
     chk.cell(row=i, column=4, value=t)
-    chk.cell(row=i, column=5, value=f'=IF(D{i}="—","—",IF(C{i}=D{i},"一致","不一致"))')
+    chk.cell(row=i, column=5, value=f'=IF(OR(C{i}="—",D{i}="—"),"—",IF(C{i}=D{i},"一致","不一致"))')
     chk.cell(row=i, column=6, value=memo)
 last = HR + len(items)
 chk.cell(row=last + 2, column=2, value='一致しなかった項目の数').font = bold
