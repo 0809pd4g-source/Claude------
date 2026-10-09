@@ -7,10 +7,10 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="repla
 from pathlib import Path
 import openpyxl
 
-_BASE = Path(r"C:\Users\masato.nakazawa\Downloads\Claudeプロジェクト\20260728_電カル案件台帳")
-EXCEL_PATH = _BASE / "01_input" / "(原本)【電カル共有】案件台帳_令和8年度.xlsx"
+_BASE = Path(__file__).resolve().parent.parent  # プロジェクトフォルダ（移動しても動くようスクリプト位置から求める）
+EXCEL_PATH = _BASE / "01_input" / "(原本)【電カル共有】案件台帳_令和8年度_20261009受領.xlsx"
 OUT_DIR = _BASE / "02_output"
-OUT_NAME = "20260728_案件台帳_v2.html"
+OUT_NAME = "20260728_案件台帳_v3.html"
 
 # ──────────────────────────────────────────
 # 追記: 2026-07-27 会議エントリー

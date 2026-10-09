@@ -13,6 +13,19 @@
       ],
       "port": 7439,
       "url": "http://localhost:7439/"
+    },
+    {
+      "name": "電カル案件台帳",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "7441",
+        "--directory",
+        "C:\\Users\\masato.nakazawa\\Downloads\\Claudeプロジェクト\\_agent\\03_案件管理\\20260728_電カル案件台帳\\02_output"
+      ],
+      "port": 7441,
+      "url": "http://localhost:7441/"
     }
   ]
 }
