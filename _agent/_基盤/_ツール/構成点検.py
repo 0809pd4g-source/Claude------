@@ -43,7 +43,7 @@ MGMT_DOCS = {"プロジェクト状況.md", "更新履歴.md", "CLAUDE.md", "REA
 DATE_ONLY = re.compile(r"^\d{8}$")
 DATE_PREFIX = re.compile(r"^\d{8}_")
 DELIVERABLE = re.compile(r"^\d{8}_.+_v\d[\d.]*\.[A-Za-z0-9]+$")
-CATEGORY = re.compile(r"^0[1-9]_")
+CATEGORY = re.compile(r"^(0[1-9]|99)_")
 # 名前に共通していても同じ目的とは言えない一般語（誤検出を減らす）
 STOPWORDS = {"プロジェクト", "テンプレート", "マニュアル", "議事録", "逐語録", "ガイド", "資料", "確認", "一覧",
              "手順", "作成", "管理", "チェック", "ルール", "共通", "プロンプト", "移行", "立ち上げ", "指示", "メモ",
@@ -173,9 +173,9 @@ if os.path.isdir(agent):
             xp = os.path.join(cp, x)
             if os.path.isfile(xp) and not x.startswith("."):
                 findings["置き場所"].append(f"業務分類の直下にファイルの直置き：{rel(xp)}")
-            # 06_その他 は分類できないものの一時置き場。定期的（月1回の /review-rules）に中身を見て、他の分類へ移せないか確認する
-            if cat.startswith("06_") and not x.startswith("."):
-                findings["その他フォルダの見直し"].append(f"{rel(xp)} → 07_会議／08_ONS問合せ対応／02_仕様・技術 など、ほかの分類に移せないか確認")
+            # 99_その他 は分類できないものの一時置き場。定期的（月1回の /review-rules）に中身を見て、他の分類へ移せないか確認する
+            if cat.startswith("99_") and not x.startswith("."):
+                findings["その他フォルダの見直し"].append(f"{rel(xp)} → 06_会議／07_ONS問合せ対応／02_仕様・技術 など、ほかの分類に移せないか確認")
 proj_set = {p for p, _, _ in projects}
 for dp, dns, fns in walk():
     r = rel(dp)
