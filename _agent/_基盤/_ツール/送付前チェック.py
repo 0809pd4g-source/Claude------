@@ -45,7 +45,9 @@ def paras(xml):
 
 
 def load_glossary():
-    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '電カル共有_用語集.md')
+    # 用語集は 2026-10-09 に _agent/01_定常業務/ルール・ガイド/ へ移した（業務のルール・ガイドの置き場）
+    agent = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    path = os.path.join(agent, '01_定常業務', 'ルール・ガイド', '電カル共有_用語集.md')
     try:
         md = open(path, encoding='utf-8').read()
     except OSError:

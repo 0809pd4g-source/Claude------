@@ -26,8 +26,8 @@ SHOW_ALL = "--all" in sys.argv
 def list_shared():
     """_agent/_基盤/_input/ のファイル名セットを返す"""
     try:
-        return {f.lower(): f for f in os.listdir(SHARED_INPUT)
-                if os.path.isfile(os.path.join(SHARED_INPUT, f))}
+        # 2026-10-09〜 _input は 仕様書/・制度・公式資料/ に分かれたので下位フォルダも含める
+        return {f.lower(): f for dp, dns, fns in os.walk(SHARED_INPUT) for f in fns if f != "README.md"}
     except Exception:
         return {}
 

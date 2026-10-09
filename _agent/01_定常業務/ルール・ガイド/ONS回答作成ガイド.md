@@ -39,8 +39,8 @@
 |---|---|---|
 | 本サービスの運用ルール・実装要否 | 技術解説書 v2.1.0 | `_agent/_基盤/_input/`（MD）、原本PDFは `02_仕様・技術/20260723_技術解説書2.1.0版/01_input/` |
 | 電文の項目・必須かどうか | 別紙3-1 XMLレイアウト、外部IF仕様書 | `_agent/_基盤/_input/` |
-| 退院時サマリー・診療情報提供書のFHIRの書き方 | 各HL7 FHIR記述仕様 第1.13版（巻末に「リソース記述に関する共通表」） | `_agent/_基盤/_input/eDischargeSummaryFHIR_v1x.pdf`、`eReferralFHIR_v1x.pdf` |
-| 健診のFHIRの書き方 | 健康診断結果報告書 HL7 FHIR記述仕様 第1.7版 | `_agent/_基盤/_input/eCheckupGeneralFHIR_v1x.pdf` |
+| 退院時サマリー・診療情報提供書のFHIRの書き方 | 各HL7 FHIR記述仕様 第1.13版（巻末に「リソース記述に関する共通表」） | `_agent/_基盤/_input/仕様書/eDischargeSummaryFHIR_v1x.pdf`、`eReferralFHIR_v1x.pdf` |
+| 健診のFHIRの書き方 | 健康診断結果報告書 HL7 FHIR記述仕様 第1.7版 | `_agent/_基盤/_input/仕様書/eCheckupGeneralFHIR_v1x.pdf` |
 | 5情報・identifier・プロファイル | JP-CLINS 実装ガイド v1.13.0 | Web（jpfhir.jp）。**ユーザーにブラウザで原文確認を依頼**する |
 | 保険者側の扱い | 保険者向け運用手引き | 厚労省サイト（PDF） |
 
