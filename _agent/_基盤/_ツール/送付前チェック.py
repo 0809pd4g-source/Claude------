@@ -10,6 +10,10 @@
   WARN（意図したものか確認）: 作成者・最終更新者・会社名などのプロパティ／スピーカーノート／非表示シート／
                               隠し文字（Word）／変更履歴の記録がオン（Word）／外部ファイルへのリンク／
                               書きかけの目印の文字（【回答案】・TODO・XX・（仮）・○○ など）
+書き方（議事録・逐語録_共通ルール.md §8-1「基礎チェック（全文書共通）」のうち機械で見られるもの。件数と例を出すだけで、FAILには数えない）:
+  「の」が3つ続く／漢字が8字以上続く（名詞の連続）／「〜の通り」（→とおり）／全角英数字（見出し番号「１．」は除く）／
+  日本語に続く半角の括弧／電カル共有_用語集.md §7 の「使わない表記」（「（単独）」付きと3字以下の英字は誤検出が多いので対象外）
+  xlsxは数値・コードの表で誤検出が多いので、--style を付けたときだけ点検する
 --clean（Office本体で開いて保存するので、テーブル・外部データ接続を含むExcelも壊さない）:
   元ファイルは変更せず「<元の名前>_送付用.<拡張子>」を作り、コメント・個人情報・ドキュメントのプロパティを消す。
   変更履歴・非表示スライド・ノート・非表示シートは中身の判断が要るので消さない（点検結果に残る）。
@@ -34,6 +38,75 @@ def read(z, name):
 
 def texts(xml):
     return ''.join(re.findall(r'<(?:a|w):t(?:\s[^>]*)?>([^<]*)</(?:a|w):t>', xml))
+
+
+def paras(xml):
+    return [t for t in (texts(x) for x in re.split(r'</(?:a|w):p>', xml)) if t.strip()]
+
+
+def load_glossary():
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '電カル共有_用語集.md')
+    try:
+        md = open(path, encoding='utf-8').read()
+    except OSError:
+        return []
+    m = re.search(r'^## 7\..*?(?=^## )', md, re.S | re.M)
+    rules = []
+    for line in (m.group(0) if m else '').splitlines():
+        cells = [c.strip() for c in line.strip().strip('|').split('|')]
+        if not line.startswith('|') or len(cells) < 2 or cells[0] in ('統一表記', '---'):
+            continue
+        rules.append((None, cells[0], ''))  # 統一表記だけの行（除外の判定に使う）
+        for ng in cells[1].split('、'):
+            q = re.search(r'（([^）]*)）$', ng)
+            if q and q.group(1) == '単独':
+                continue
+            note = '（使い分けあり：用語集§7）' if q and q.group(1) == '本文' else ''
+            term = re.sub(r'（[^）]*）$', '', ng).strip()
+            if not term or (term.isascii() and len(term) <= 3):
+                continue
+            rules.append((term, cells[0], note))
+    return rules
+
+
+STYLE = [
+    ('「の」が3つ続く', re.compile(r'の[^、。の\s]{1,12}の[^、。の\s]{1,12}の')),
+    ('漢字が8字以上続く（名詞の連続）', re.compile(r'[一-龠々]{8,}')),
+    ('「通り」→「とおり」', re.compile(r'(?:の|記|述|示|明|定|来|摘|案|旨)通り')),
+    ('全角英数字', re.compile(r'[Ａ-Ｚａ-ｚ０-９]+(?!．)')),
+    ('日本語に続く半角の括弧', re.compile(r'[ぁ-んァ-ヶ一-龠]\([^)]{0,30}\)')),
+]
+ARTICLES = re.compile(r'その|この|あの|どの|もの|のみ')
+
+
+def check_style(segs):
+    hits = []
+    for label, rx in STYLE:
+        ex = []
+        for where, t in segs:
+            tt = ARTICLES.sub('＿＿', t) if label.startswith('「の」') else t
+            ex += [(where, t[max(0, m.start() - 10):m.end() + 10]) for m in rx.finditer(tt)]
+        if ex:
+            hits.append((label, ex))
+    glossary = load_glossary()
+    unified_all = {u for _, u, _ in glossary}
+
+    def inside_unified(t, i, term):
+        # 統一表記の一部として使われている箇所は除く（例：「AIでの採番支援ツール」の中の「採番支援ツール」）
+        for u in unified_all:
+            k = u.find(term)
+            if u != term and k >= 0 and t[i - k:i - k + len(u)] == u:
+                return True
+        return False
+
+    for term, unified, note in glossary:
+        if term is None:
+            continue
+        ex = [(where, t[max(0, i - 10):i + len(term) + 10]) for where, t in segs
+              for i in [m.start() for m in re.finditer(re.escape(term), t)] if not inside_unified(t, i, term)]
+        if ex:
+            hits.append((f'「{term}」→「{unified}」{note}', ex))
+    return hits
 
 
 def check_props(z, out):
@@ -83,8 +156,8 @@ def slide_order(z):
     return ['ppt/' + rid2t[r].lstrip('/').replace('ppt/', '') for r in order if r in rid2t]
 
 
-def check_pptx(z, out):
-    names, found = z.namelist(), []
+def check_pptx(z, out, segs):
+    names = z.namelist()
     ncm = sum(len(re.findall(r'<(?:p:cm|p188:cm)[ >]', read(z, n))) for n in names
               if n.startswith('ppt/comments/'))
     if ncm:
@@ -93,7 +166,7 @@ def check_pptx(z, out):
         xml = read(z, s)
         if re.search(r'<p:sld [^>]*show="0"', xml):
             out.append(('FAIL', f'スライド{i}が非表示（送るなら削除するか表示に戻す）'))
-        check_markers(f'スライド{i}', texts(xml), out, found)
+        segs += [(f'スライド{i}', t) for t in paras(xml)]
         rel = read(z, s.replace('slides/', 'slides/_rels/') + '.rels')
         m = re.search(r'Target="\.\./notesSlides/([^"]+)"', rel)
         if m:
@@ -102,8 +175,8 @@ def check_pptx(z, out):
                 out.append(('WARN', f'スライド{i}にノートがある：{note[:40]}'))
 
 
-def check_docx(z, out):
-    names, found = z.namelist(), []
+def check_docx(z, out, segs):
+    names = z.namelist()
     ncm = len(re.findall(r'<w:comment ', read(z, 'word/comments.xml')))
     if ncm:
         out.append(('FAIL', f'コメントが{ncm}件ある'))
@@ -113,7 +186,7 @@ def check_docx(z, out):
         xml = read(z, p)
         rev += len(re.findall(r'<w:(?:ins|del|moveFrom|moveTo) ', xml)) + len(re.findall(r'<w:(?:rPrChange|pPrChange) ', xml))
         vanish += len(re.findall(r'<w:vanish/>', xml))
-        check_markers('本文' if 'document' in p else p.split('/')[-1], texts(xml), out, found)
+        segs += [('本文' if 'document' in p else p.split('/')[-1], t) for t in paras(xml)]
     if rev:
         out.append(('FAIL', f'変更履歴（承諾・却下していない変更）が{rev}件ある'))
     if vanish:
@@ -122,8 +195,8 @@ def check_docx(z, out):
         out.append(('WARN', '変更履歴の記録がオンのまま（受け取った人の編集も履歴に残る）'))
 
 
-def check_xlsx(z, out):
-    names, found = z.namelist(), []
+def check_xlsx(z, out, segs):
+    names = z.namelist()
     ncm = sum(len(re.findall(r'<comment ', read(z, n))) for n in names if re.match(r'xl/comments\d*\.xml$', n))
     nth = sum(len(re.findall(r'<threadedComment ', read(z, n))) for n in names if n.startswith('xl/threadedComments/'))
     if ncm or nth:
@@ -135,20 +208,26 @@ def check_xlsx(z, out):
             out.append(('WARN', f'非表示のシート「{nm}」（{"完全に非表示" if st.group(1) == "veryHidden" else "非表示"}）'))
     if any(n.startswith('xl/externalLinks/') for n in names):
         out.append(('WARN', '他のブックへのリンク（外部参照）がある'))
-    check_markers('セルの文字', ' '.join(re.findall(r'<t[^>]*>([^<]*)</t>', read(z, 'xl/sharedStrings.xml'))), out, found)
+    segs += [('セルの文字', ''.join(re.findall(r'<t[^>]*>([^<]*)</t>', si)))
+             for si in re.findall(r'<si>(.*?)</si>', read(z, 'xl/sharedStrings.xml'), re.S)]
 
 
-def check(path):
+def check(path, style=False):
     ext = os.path.splitext(path)[1].lower()
-    out = []
+    out, segs = [], []
     with zipfile.ZipFile(path) as z:
-        {'.pptx': check_pptx, '.docx': check_docx, '.xlsx': check_xlsx}[ext](z, out)
+        {'.pptx': check_pptx, '.docx': check_docx, '.xlsx': check_xlsx}[ext](z, out, segs)
         check_props(z, out)
         check_links(z, out)
-    return out
+    found = []
+    for where, t in segs:
+        check_markers(where, t, out, found)
+    hits = check_style(segs) if (style or ext != '.xlsx') else []
+    return out, hits
 
 
-def report(path, out):
+def report(path, result):
+    out, hits = result
     print(f'\n=== {os.path.basename(path)}')
     if not out:
         print('  OK  残っているものは見つからなかった')
@@ -156,6 +235,11 @@ def report(path, out):
         print(f'  {level}  {msg}')
     nf = sum(1 for l, _ in out if l == 'FAIL')
     print(f'  → FAIL {nf}件 / WARN {len(out) - nf}件')
+    if hits:
+        print('  --- 書き方（共通ルール§8-1の機械チェック。直すかどうかは文脈で判断）')
+        for label, ex in hits:
+            sample = ' ／ '.join(f'{w}：…{e}…' for w, e in ex[:3])
+            print(f'  STYLE {label}：{len(ex)}件  例）{sample}')
     return nf
 
 
@@ -232,6 +316,7 @@ def clean(path, outdir):
 def main():
     args = sys.argv[1:]
     do_clean = '--clean' in args
+    style = '--style' in args
     outdir = None
     if '--out' in args:
         i = args.index('--out')
@@ -245,12 +330,12 @@ def main():
         if os.path.splitext(p)[1].lower() not in APPS:
             print(f'\n=== {p}\n  対象外（pptx・docx・xlsxのみ）')
             continue
-        total += report(p, check(p))
+        total += report(p, check(p, style))
         if do_clean:
             dst = clean(p, outdir)
             if dst:
                 print('--- 送付用コピーの点検')
-                total_after = report(dst, check(dst))
+                total_after = report(dst, (check(dst, style)[0], []))
                 if total_after:
                     print('  → まだFAILが残っている：中身の判断が要るもの（変更履歴・非表示スライド等）を対処してください')
     sys.exit(1 if total and not do_clean else 0)
