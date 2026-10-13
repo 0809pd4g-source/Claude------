@@ -26,6 +26,32 @@
       ],
       "port": 7441,
       "url": "http://localhost:7441/"
+    },
+    {
+      "name": "ONS問合せ対応",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "7442",
+        "--directory",
+        "C:\\Users\\masato.nakazawa\\Downloads\\Claudeプロジェクト\\_agent\\07_ONS問合せ対応"
+      ],
+      "port": 7442,
+      "url": "http://localhost:7442"
+    },
+    {
+      "name": "開発進捗連絡会議",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "7443",
+        "--directory",
+        "C:\\Users\\masato.nakazawa\\Downloads\\Claudeプロジェクト\\_agent\\06_会議\\開発進捗連絡会議"
+      ],
+      "port": 7443,
+      "url": "http://localhost:7443"
     }
   ]
 }

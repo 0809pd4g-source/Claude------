@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>開発進捗連絡会議（10/13分）進捗報告資料の読合せスクリプト（NTTデータ・富士通）</title>
+<style>
+:root {
+  --bg: #f6f7f9; --panel: #ffffff; --text: #1f2328; --muted: #5b6470; --line: #d9dde3;
+  --accent: #1f5fbf; --accent-bg: #eaf1fc; --answer-bg: #f3f8f2; --answer-line: #9cc59a;
+  --consult-bg: #fff8e8; --consult-line: #e3c06a; --check-bg: #fff1f0; --check-line: #e08a84;
+  --code-bg: #eef0f3; --th-bg: #eef2f7; --nav-active: #dbe7fb;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #15181d; --panel: #1d2127; --text: #e6e8eb; --muted: #9aa3ad; --line: #343a43;
+    --accent: #7fb0ff; --accent-bg: #1f2b3d; --answer-bg: #1b261c; --answer-line: #4f7a4d;
+    --consult-bg: #2b2616; --consult-line: #8a7433; --check-bg: #2e1d1c; --check-line: #9a4f4a;
+    --code-bg: #262b33; --th-bg: #252b34; --nav-active: #24344d;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text);
+  font-family: "Yu Gothic UI", "Meiryo", system-ui, sans-serif; font-size: 15px; line-height: 1.75; }
+main { zoom: var(--zoom, 1); }
+.sizer { display: flex; gap: 6px; margin: 0 6px 12px; }
+.sizer button { font: inherit; font-size: 12px; cursor: pointer; border: 1px solid var(--line);
+  background: var(--panel); color: var(--text); border-radius: 5px; padding: 2px 10px; }
+.sizer button[aria-pressed="true"] { background: var(--nav-active); border-color: var(--accent); }
+.consult-body { font-size: 1.05em; }
+.layout { display: grid; grid-template-columns: 280px minmax(0, 1fr); }
+nav { position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 16px 12px;
+  border-right: 1px solid var(--line); background: var(--panel); }
+nav .brand { font-weight: 700; font-size: 14px; margin: 0 6px 12px; }
+nav a { display: block; color: var(--text); text-decoration: none; border-radius: 6px;
+  padding: 4px 8px; font-size: 13px; }
+nav a.lv2 { font-weight: 700; margin-top: 8px; }
+nav a.lv3 { padding-left: 20px; color: var(--muted); }
+nav a:hover, nav a.active { background: var(--nav-active); color: var(--text); }
+main { padding: 24px 32px 80px; max-width: 1100px; min-width: 0; overflow-wrap: anywhere; }
+h1 { font-size: 24px; margin: 0 0 8px; }
+.meta { color: var(--muted); font-size: 13px; margin: 0 0 20px; padding-left: 18px; }
+.sec { background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+  padding: 8px 24px 20px; margin: 0 0 20px; }
+h2 { font-size: 20px; border-bottom: 2px solid var(--accent); padding-bottom: 6px; }
+h3 { font-size: 17px; margin-top: 28px; }
+h3.item { background: var(--accent-bg); border-left: 5px solid var(--accent);
+  padding: 8px 12px; border-radius: 6px; }
+h4 { font-size: 15px; }
+p.label { font-weight: 700; color: var(--accent); margin: 16px 0 4px; }
+p.label-check { font-weight: 700; margin: 16px 0 4px; }
+ul.check, ol.check { background: var(--check-bg); border-left: 4px solid var(--check-line);
+  border-radius: 6px; padding: 10px 14px 10px 34px; }
+code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; font-size: 13px; }
+a { color: var(--accent); }
+.tbl { overflow-x: auto; margin: 8px 0 16px; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { border: 1px solid var(--line); padding: 6px 8px; vertical-align: top; text-align: left; }
+th { background: var(--th-bg); white-space: nowrap; }
+.answer, .consult { border-radius: 8px; margin: 10px 0 18px; overflow: hidden; }
+.answer { background: var(--answer-bg); border: 1px solid var(--answer-line); }
+.consult { background: var(--consult-bg); border: 1px solid var(--consult-line); }
+.answer-bar { display: flex; justify-content: space-between; align-items: center;
+  padding: 4px 10px; font-size: 12px; color: var(--muted); border-bottom: 1px solid var(--line); }
+.answer pre { margin: 0; padding: 12px 14px; white-space: pre-wrap; word-break: break-word;
+  font-family: inherit; font-size: 14px; }
+.consult-body { padding: 6px 14px; }
+.consult-body p { margin: 6px 0; }
+button.copy { font: inherit; font-size: 12px; cursor: pointer; border: 1px solid var(--line);
+  background: var(--panel); color: var(--text); border-radius: 5px; padding: 2px 10px; }
+button.copy.done { border-color: var(--answer-line); }
+footer { color: var(--muted); font-size: 12px; margin-top: 24px; }
+@media (max-width: 860px) {
+  .layout { grid-template-columns: minmax(0, 1fr); }
+  nav { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--line); }
+  main { padding: 16px; }
+  .sec { padding: 4px 14px 14px; }
+}
+@media print {
+  nav, button.copy { display: none; }
+  .layout { display: block; }
+  .sec { break-inside: auto; border: none; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav aria-label="目次"><div class="brand" id="brand"></div>
+<div class="sizer" role="group" aria-label="文字の大きさ"><button type="button" data-zoom="1">標準</button><button type="button" data-zoom="1.2">大</button><button type="button" data-zoom="1.4">特大</button></div>
+<a class="lv2" href="#s1">位置づけ</a><a class="lv2" href="#s2">確認結果（2026-10-13実施）</a><a class="lv2" href="#s3">主な差分（赤字部分）</a><a class="lv2" href="#s4">説明スクリプト（スライド順）</a><a class="lv2" href="#s5">想定される質問</a><a class="lv2" href="#s6">画面で確認すること（投影前に）</a><a class="lv2" href="#s7">会議後</a><a class="lv2" href="#s8">やったこと・やっていないこと</a></nav>
+<main>
+<h1 id="title">開発進捗連絡会議（10/13分）進捗報告資料の読合せスクリプト（NTTデータ・富士通）</h1>
+<ul class="meta"><li>作成日: 2026-10-13</li><li>プロジェクト: 06_会議/開発進捗連絡会議/20261013</li></ul>
+<section class="sec" id="s1"><h2>位置づけ</h2>
+<ul><li>10/13の開発進捗連絡会議について、開発ベンダ（NTTデータ・富士通）の進捗報告資料をONS問合せ会議で投影し、厚労省と読み合わせる。厚労省の確認完了は、ACNが代理で基金へ報告する（定常業務マニュアルv48 Section 7-4）</li><li>資料：富士通「01_【電カル共有】個別進捗報告書_1013_1」（全7枚）、NTTデータ「DK-KS-0138_電子カルテ進捗報告書20261013」（報告はp.2〜10。p.11以降は参考・付録）。画面投影のみ</li><li>比較の対象：前週（10/5分）の確認結果（<code>07_ONS問合せ対応/ONS問合せ会議/20261006/02_output/20261006_ONS読み合わせ資料_v5.md</code> 7章）。<strong>前週の資料そのものは手元になく、図の位置の比較はしていない</strong></li><li>読合せの日程：10/13（火）のONS問合せ会議より後に資料を受け取ったため、どのONSで読み合わせるかは要確認</li></ul>
+</section>
+<section class="sec" id="s2"><h2>確認結果（2026-10-13実施）</h2>
+<div class="tbl"><table><thead><tr><th>確認観点</th><th>富士通</th><th>NTTデータ</th></tr></thead><tbody><tr><td>全体スケジュールの変更</td><td>赤字なし。2027.03リリース案件として<strong>フェーズ7を10月から開始</strong>（案件一覧に3件追加）</td><td>マスタスケジュール（p.3）に赤字なし。スクラム開発（SP9）の予定に追加あり（下記）。いずれも<strong>赤字で明示</strong></td></tr><tr><td>遅延</td><td>なし（全体進捗☀。12月・3月リリース案件、フェーズ7とも「遅延等の発生はなし」）</td><td>なし（業務・AP基盤・基盤とも【オンスケ】、SP8の各チームも「進捗に影響する遅延なし」）</td></tr><tr><td>障害報告</td><td><strong>新規なし</strong>（10/6時点：新規0・継続0・クローズ2）。2件とも前週までにクローズ済み</td><td><strong>新規なし</strong>。障害2件（4/27 レスポンス遵守率の低下、5/13 マスタ登録バッチの失敗）は前週と同じく「完了」</td></tr><tr><td>課題</td><td>新規なし（クローズ2件のまま）</td><td>課題なし</td></tr></tbody></table></div>
+</section>
+<section class="sec" id="s3"><h2>主な差分（赤字部分）</h2>
+<p class="label">富士通</p>
+<ul><li>案件一覧（p.4）に<strong>フェーズ7の3件を追加</strong>（いずれも本番2027.03・仕様検討中）<ul><li>184 利用開始日オン資連携のシステム化</li><li>185 運用開始日オン資連携のシステム化</li><li>186 オン資・電処・電カルの各施設リストを抜き出して厚労省へ連携する作業のシステム化</li></ul></li><li>赤字ではないが更新：10/5（月）に接続検証環境用の連携アプリの配信作業が計画どおり完了（p.2・p.5）</li></ul>
+<p class="label">NTTデータ</p>
+<ul><li>案件一覧（p.4）<ul><li>203「Componentに記述された43+5項目のデータの登録をエラーとするアドオンチェックの追加」→ <strong>契約済</strong></li><li>204「JLAC11コード・JLAC10コードが併記されている場合にエラーとするアドオンチェック」→ <strong>取下げ・対応無し</strong>（前週は「未契約・確認中」で残っていた件。10/5開発課題検討会の「204取り下げ」と合った）</li><li>「検証ツールの更新」「ソースコード公開」→ <strong>契約済</strong></li><li>保守「Spring Boot（4.1）＋Go（1.27）のバージョンアップ」→ <strong>SP9</strong> で対応</li></ul></li><li>スクラム開発スケジュール（p.5）【追加】：A〜Dの全チームのSP9に「Spring Boot・Goのバージョンアップ」。CチームのSP9に、036「介護向け診療情報提供書のバージョンチェック」</li><li>進捗概要（p.7）：SP8の開発完了（10/2にSP8のレビュー完了）、SP9を開発予定（SP9は10/5〜10/23、p.14）</li><li>terminologyのリリース予定（p.12、参考の章）<ul><li>10月版（調整中）：接続検証環境第二 11/9（月）、接続検証環境 11/11（水）、本番 11/13（金）。いずれも18:00〜（本番は19:00〜）</li><li>11月版（調整中）：3環境とも、12Sのリリースに合わせて日程を調整中</li><li>（赤字ではない）9月版：接続検証環境第二 10/13（火）、接続検証環境 10/15（木）、本番 10/16（金）</li></ul></li><li>参考：10/5開発課題検討会で話のあった案件221は、今回もまだ載っていない</li></ul>
+</section>
+<section class="sec" id="s4"><h2>説明スクリプト（スライド順）</h2>
+<p class="label">富士通（全7枚）</p>
+<div class="consult"><div class="answer-bar"><span>読み上げ用</span><button type="button" class="copy">コピー</button></div><div class="consult-body"><p><strong>p.2 全体概況</strong>　富士通さんの資料です。赤字部分が更新点です。10月5日に、接続検証環境用の連携アプリの配信作業が完了しています。また、3月リリースの追加分として、10月からフェーズ7の作業が始まっています。</p><p><strong>p.3〜4 案件一覧</strong>　フェーズ7として、3件が追加されました。利用開始日のオン資への連携、運用開始日のオン資への連携、それからオン資・電子処方箋・電子カルテの各施設リストを抜き出して厚労省へ連携する作業を、それぞれシステム化するものです。いずれも3月の本番リリース予定で、現在は仕様の検討中です。</p><p><strong>p.5 概況</strong>　12月・3月リリースの案件、フェーズ7とも、現時点で遅延の発生はありません。相談事項も特にありません。</p><p><strong>p.6〜7 課題管理・障害報告</strong>　新規の課題・障害はありません。</p></div><pre hidden>**p.2 全体概況**　富士通さんの資料です。赤字部分が更新点です。10月5日に、接続検証環境用の連携アプリの配信作業が完了しています。また、3月リリースの追加分として、10月からフェーズ7の作業が始まっています。
+
+**p.3〜4 案件一覧**　フェーズ7として、3件が追加されました。利用開始日のオン資への連携、運用開始日のオン資への連携、それからオン資・電子処方箋・電子カルテの各施設リストを抜き出して厚労省へ連携する作業を、それぞれシステム化するものです。いずれも3月の本番リリース予定で、現在は仕様の検討中です。
+
+**p.5 概況**　12月・3月リリースの案件、フェーズ7とも、現時点で遅延の発生はありません。相談事項も特にありません。
+
+**p.6〜7 課題管理・障害報告**　新規の課題・障害はありません。</pre></div>
+<p class="label">NTTデータ（報告はp.2〜10。p.11以降は参考）</p>
+<div class="consult"><div class="answer-bar"><span>読み上げ用</span><button type="button" class="copy">コピー</button></div><div class="consult-body"><p><strong>p.3 マスタスケジュール</strong>　続いてNTTデータさんの資料です。赤字部分が更新点です。マスタスケジュールに赤字の更新はありません。</p><p><strong>p.4 案件一覧</strong>　案件203の、検査・感染症の43+5項目をComponentに書いた登録をエラーにするチェックが「契約済」になりました。関連する案件204は「取下げ」となっています。ほかに、検証ツールの更新とソースコード公開が「契約済」となりました。また、保守としてSpring BootとGoのバージョンアップを、9番目のスプリントで行います。</p><p><strong>p.5〜6 スクラム開発スケジュール</strong>　NTTデータさん内部の開発の区切り（スプリント）の予定です。9番目のスプリントに、全チームでSpring BootとGoのバージョンアップが追加されています。システムを作る土台となるソフトウェアの更新で、機能が変わるものではありません。あわせて、介護事業所への紹介状送付機能（案件36）の、介護向け診療情報提供書のバージョンチェックが9番目に入っています。</p><p><strong>p.7 進捗概要</strong>　8番目のスプリントの開発が完了し、10月2日にレビューも終わっています。9番目のスプリントは10月23日までの予定です。進捗は「オンスケ」（予定どおり）です。</p><p><strong>p.8〜10 課題管理・障害報告</strong>　新規の課題・障害は特段報告ありません。</p><p><strong>p.12 terminologyのリリース予定（参考）</strong>　最後に、用語・コードのマスタ（terminology）の更新予定です。9月版は10月13日から16日にかけて順にリリースされます。赤字の10月版は、11月9日・11日・13日でリリースする方向で調整中です。11月版は、12月リリースに合わせて日程を調整中です。</p></div><pre hidden>**p.3 マスタスケジュール**　続いてNTTデータさんの資料です。赤字部分が更新点です。マスタスケジュールに赤字の更新はありません。
+
+**p.4 案件一覧**　案件203の、検査・感染症の43+5項目をComponentに書いた登録をエラーにするチェックが「契約済」になりました。関連する案件204は「取下げ」となっています。ほかに、検証ツールの更新とソースコード公開が「契約済」となりました。また、保守としてSpring BootとGoのバージョンアップを、9番目のスプリントで行います。
+
+**p.5〜6 スクラム開発スケジュール**　NTTデータさん内部の開発の区切り（スプリント）の予定です。9番目のスプリントに、全チームでSpring BootとGoのバージョンアップが追加されています。システムを作る土台となるソフトウェアの更新で、機能が変わるものではありません。あわせて、介護事業所への紹介状送付機能（案件36）の、介護向け診療情報提供書のバージョンチェックが9番目に入っています。
+
+**p.7 進捗概要**　8番目のスプリントの開発が完了し、10月2日にレビューも終わっています。9番目のスプリントは10月23日までの予定です。進捗は「オンスケ」（予定どおり）です。
+
+**p.8〜10 課題管理・障害報告**　新規の課題・障害は特段報告ありません。
+
+**p.12 terminologyのリリース予定（参考）**　最後に、用語・コードのマスタ（terminology）の更新予定です。9月版は10月13日から16日にかけて順にリリースされます。赤字の10月版は、11月9日・11日・13日でリリースする方向で調整中です。11月版は、12月リリースに合わせて日程を調整中です。</pre></div>
+<p class="label">締め</p>
+<div class="consult"><div class="answer-bar"><span>読み上げ用</span><button type="button" class="copy">コピー</button></div><div class="consult-body"><p>資料は以上になります。こちらで基金さんに確認完了と報告させていただきます。（厚労省からコメントがないか確認してから宣言する）</p></div><pre hidden>資料は以上になります。こちらで基金さんに確認完了と報告させていただきます。（厚労省からコメントがないか確認してから宣言する）</pre></div>
+</section>
+<section class="sec" id="s5"><h2>想定される質問</h2>
+<div class="tbl"><table><thead><tr><th>質問</th><th>答え方</th></tr></thead><tbody><tr><td>フェーズ7の3件は何か。いつ決まったのか</td><td>3月リリース案件の追加分として、10月から作業開始（富士通p.2）。いずれも「仕様検討中」で、仕様はこれから詰める段階。案件の中身の詳細は資料に書かれていないため、必要なら基金経由で確認する</td></tr><tr><td>185「運用開始日」は、名称変更の話と関係するか</td><td>10/13の会議で「運用開始日」の名称変更を10月末までにスレッドで決めることになっている。名称が変われば案件名や仕様に影響する可能性があるので、決まったら富士通に伝わるか確認したい（資料には記載なし）</td></tr><tr><td>204の取下げは決まったことか</td><td>NTTデータの資料では「取下げ・対応無し」（赤字）。前週の資料では「未契約・確認中」だった。10/5開発課題検討会で204取り下げの話があり、富士通側の関連案件176「検査結果の単位変換」も前週から「案件取り下げ」</td></tr><tr><td>案件221は</td><td>10/5開発課題検討会で新規の話があったが、今回のNTTデータ資料にはまだ載っていない。10/20以降の資料で反映されるか確認する</td></tr><tr><td>Spring Boot・Goのバージョンアップで何か変わるか</td><td>システムを作る土台のソフトウェア（フレームワーク・プログラミング言語）の更新で、保守の作業。資料上「プロファイル影響：無」で、医療機関の機能が変わるものではない</td></tr><tr><td>terminology 10月版の日程は確定か</td><td>「調整中」（NTTデータp.12）。マスタ更新スケジュールのスライドに載せるときは、確定かどうかを確認する</td></tr><tr><td>terminologyの版がすべて「1.13.0対応」なのはなぜか</td><td>「1.13.0」は実装ガイド（JP-CLINS）の版を指すと考えられる（資料に説明はなく推測）。前週の資料の8月版も「1.13.0対応」だったので、写し間違いではなさそう。正確に知りたい場合は基金経由でNTTデータに確認する</td></tr></tbody></table></div>
+</section>
+<section class="sec" id="s6"><h2>画面で確認すること（投影前に）</h2>
+<ul><li>NTTデータ p.7 全体進捗の天気マーク（☀・⛅・☔）のどれが付いているか（文字からは判断できない）</li><li>NTTデータ p.7 概況の文が2つの枠に重なって出ていないか（「3S案件の要件定義、開発中。SP8開発完了。SP9開発予定。」が2回出てくる）</li></ul>
+</section>
+<section class="sec" id="s7"><h2>会議後</h2>
+<ul><li><code>電子カルテ情報共有サービス（外部） &gt; 020_厚労省・基金・事業者</code> に厚労省確認完了を投稿する（宛先：Nakazato, Yuri、CC：08_富士通 09_NTTD）。文面（マニュアル7-4）：</li></ul>
+<div class="consult"><div class="answer-bar"><span>投稿文</span><button type="button" class="copy">コピー</button></div><div class="consult-body"><p>お世話になっております。アクセンチュア中澤です。</p><p>10/13進捗連絡会議の書面開催パートにつきまして、厚労省様にて資料を確認いただいたためご報告いたします。</p><p>今回、特段のコメントはございません。</p><p>今後ともよろしくお願いいたします。</p></div><pre hidden>お世話になっております。アクセンチュア中澤です。
+10/13進捗連絡会議の書面開催パートにつきまして、厚労省様にて資料を確認いただいたためご報告いたします。
+
+今回、特段のコメントはございません。
+今後ともよろしくお願いいたします。</pre></div>
+<ul><li>厚労省からコメントがあった場合は「今回、特段のコメントはございません。」の代わりにコメントの内容を書く（文面は本田さんに確認）</li></ul>
+</section>
+<section class="sec" id="s8"><h2>やったこと・やっていないこと</h2>
+<ul><li>やったこと：両社の資料の文字・表を抜き出し、赤字（FF0000）の箇所をすべて拾った（テーマの色を含めて色を数え、赤字の見落としがないことを確認）。前週（10/5分）の確認結果と比べて差分をまとめ、10/6の読合せと同じ形（スライド順のスクリプト・想定質問・会議後の投稿）で作成した。曜日（10/13火・10/15木・10/16金・11/9月・11/11水・11/13金）はカレンダーで確認した</li><li>やっていないこと：前週の資料が手元にないため、図（マスタスケジュール・富士通の全体スケジュールの画像）の位置の比較はしていない。天気マークの判定、フェーズ7の3件の中身の確認（資料に記載なし）はしていない。読合せの日程は未確認</li></ul>
+</section>
+<footer id="footer"></footer>
+</main>
+</div>
+<script>
+window.VERSION = '表示用v1（元: スクリプトv1）';
+window.DOC_TITLE = '開発進捗連絡会議（10/13分）進捗報告資料の読合せスクリプト（NTTデータ・富士通）';
+document.title = window.DOC_TITLE + "｜" + window.VERSION;
+document.getElementById("title").textContent = window.DOC_TITLE;
+document.getElementById("brand").textContent = window.VERSION;
+document.getElementById("footer").textContent = window.DOC_TITLE + "｜" + window.VERSION + "（MDの資料から自動生成）";
+
+function copyText(text, btn) {
+  const done = () => { btn.textContent = "コピーしました"; btn.classList.add("done");
+    setTimeout(() => { btn.textContent = "コピー"; btn.classList.remove("done"); }, 1500); };
+  const fallback = () => {
+    const ta = document.createElement("textarea");
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    document.execCommand("copy"); ta.remove(); done();
+  };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(done, fallback);
+  } else { fallback(); }
+}
+document.querySelectorAll("button.copy").forEach(btn => {
+  btn.addEventListener("click", () => copyText(btn.closest(".answer, .consult").querySelector("pre").textContent, btn));
+});
+
+const sizeButtons = [...document.querySelectorAll(".sizer button")];
+function setZoom(z) {
+  document.documentElement.style.setProperty("--zoom", z);
+  sizeButtons.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.zoom === z)));
+  try { localStorage.setItem("readthrough-zoom", z); } catch (e) {}
+}
+sizeButtons.forEach(b => b.addEventListener("click", () => setZoom(b.dataset.zoom)));
+let savedZoom = "1";
+try { savedZoom = localStorage.getItem("readthrough-zoom") || "1"; } catch (e) {}
+setZoom(sizeButtons.some(b => b.dataset.zoom === savedZoom) ? savedZoom : "1");
+
+const links = [...document.querySelectorAll("nav a")];
+const targets = links.map(a => document.getElementById(a.getAttribute("href").slice(1)));
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + e.target.id));
+    }
+  });
+}, { rootMargin: "0px 0px -70% 0px" });
+targets.forEach(t => t && obs.observe(t));
+</script>
+</body>
+</html>
