@@ -165,6 +165,14 @@ if os.path.isdir(agent):
     for x in sorted(os.listdir(agent)):
         if x not in ("CLAUDE.md", ".claude", "_基盤") and not CATEGORY.match(x):
             findings["置き場所"].append(f"_agent 直下に管理系・業務分類以外：_agent/{x} → 管理系なら _基盤/ へ")
+    # 番号だけ違う同名の業務分類（例：06_会議 と 07_会議）＝番号を変えた後に古い会話が旧番号へ書き込んだ疑い
+    seen_cat = {}
+    for cat in sorted(os.listdir(agent)):
+        if CATEGORY.match(cat) and os.path.isdir(os.path.join(agent, cat)):
+            seen_cat.setdefault(CATEGORY.sub("", cat), []).append(cat)
+    for name, cats in seen_cat.items():
+        if len(cats) > 1:
+            findings["置き場所"].append(f"同じ名前の業務分類が複数：{' ／ '.join('_agent/' + c for c in cats)} → 古い番号に書き込まれた可能性。中身を統合する")
     for cat in sorted(os.listdir(agent)):
         cp = os.path.join(agent, cat)
         if not (CATEGORY.match(cat) and os.path.isdir(cp)):
