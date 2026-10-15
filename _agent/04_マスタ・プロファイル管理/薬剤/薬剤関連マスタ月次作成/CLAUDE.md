@@ -8,7 +8,7 @@
 ├── CLAUDE.md（このファイル）
 ├── 00_共通/
 │   ├── 01_input/   作成ツール・CSV生成ツールの控え（KTで受け取った9/15のバックアップ。本番の置き場所は手順書10章#1で確認中）
-│   ├── 03_scripts/ check_yakuzai_master.py（前月比較・整合チェック）、make_expected.py（答え合わせ用の予測版）
+│   ├── 03_scripts/ generate_yakuzai_master.py（自動作成：作成ツールの式の写し）、extract_state_from_tool.py（作成ツールから基準データを書き出す・初回のみ）、check_yakuzai_master.py（前月比較・整合チェック）、make_expected.py（答え合わせ用の予測版）
 │   └── 更新履歴.md・プロジェクト状況.md
 └── YYYYMM作成分/（例：202610作成分）
     ├── 01_input/  今月のYJコードリスト、前月公開版_YYYYMM/（前月の5点）、元データ/（厚労省の薬価基準・一般名処方マスタ）
@@ -18,5 +18,7 @@
 - 業務の手順の正本は定常業務マニュアル側の `20261015_薬剤関連マスタ作成手順_v1.md`（最新版を参照。`_agent/01_定常業務/20260831_電カル調査研究_定常業務マニュアル/02_output/`）。手順をここに書き写さない
 - 新しい月の始め方：`YYYYMM作成分/` を作り、前月に送った5点を `01_input/前月公開版_YYYYMM/` に、今月のYJコードリストを `01_input/` に置く。厚労省の一般名処方マスタ・薬価基準の版を確かめ、新しければ `01_input/元データ/` に置く
 - 送る前の点検：`python 00_共通/03_scripts/check_yakuzai_master.py --prev <前月公開版> --cur <今月のCSV> --yj-new N --yj-change N --out <YYYYMM作成分/02_output/YYYYMMDD_チェック結果_vN.md>`。予測版との突き合わせは `make_expected.py --compare`
-- 予測版は答え合わせ専用で、送付物にしない（作成ツールで作ったものが正）
+- 自動作成：`generate_yakuzai_master.py`（使い方は手順書6-3）。前月の出力にある「基準データ（翌月用）」を今月の `01_input/基準データ_YYYYMM/` に置いて `--state` に渡す。作ったら `make_expected.py --compare`（予測版）と `check_yakuzai_master.py` の両方を通す（ダブルチェック）
+- 自動作成のロジックを直したら、必ず回帰試験 `bash 00_共通/03_scripts/regression_test.sh` を流してから使う（作成ツールから書き出した9月のインプット `00_共通/01_input/回帰試験_202609/` → 9月公開版5点とバイト一致）
+- 予測版は答え合わせ専用で、送付物にしない
 - 作成ツール（約40MB）は openpyxl で保存しない（読むだけ）。引き継ぎのためgitに入れている（2026-10-15 ユーザー判断。点検スクリプトは作成ツールの代わりにならないため）
