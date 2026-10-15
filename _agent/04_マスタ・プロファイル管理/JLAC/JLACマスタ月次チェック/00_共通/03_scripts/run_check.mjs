@@ -56,6 +56,8 @@ export async function runFiles(J, files, opt = {}) {
   if (opt.notes) st.reviewNotes = fs.readFileSync(opt.notes, 'utf8');
   if (opt.sheetreason) st.sheetReasons = fs.readFileSync(opt.sheetreason, 'utf8');
   if (opt.shared) st.sharedChanges = opt.shared;
+  // ツールv21〜：判断の線引き（本田さん未決定）。「案」のときだけACN確認用の「指摘の根拠」に判断の区分（案）を出す。既定は今のまま
+  if (opt.judgeLine) st.judgeLine = opt.judgeLine;
   const R = await J.run(inp, st, opt.quiet ? null : async (m) => process.stderr.write(m + '\n'));
   return { R, roles: wbs.map(x => [x.wb.fileName, x.role]) };
 }

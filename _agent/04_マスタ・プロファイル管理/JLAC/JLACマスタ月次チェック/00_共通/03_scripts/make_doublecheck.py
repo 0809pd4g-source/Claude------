@@ -1,5 +1,6 @@
 """確認結果のダブルチェック用Excelを作る。元データを値で貼り込み、判定はすべてExcel関数で計算する（ツールのコードとは独立した検算）。
 使い方: python 00_共通/03_scripts/make_doublecheck.py <ACN確認用xlsx> <出力xlsx> [<YYYYMM提出分フォルダ>]（省略時は最新の月フォルダ。入力ファイル名・新規開始行・公開日は下の定数を毎月差し替え）
+       python 00_共通/03_scripts/make_doublecheck.py <ACN確認用xlsx> <出力xlsx> --config <月次実行の明細.json>（2026-10-15〜。月次実行.ps1 から呼ぶ形。定数の差し替えは要らない）
 前月の基準は前月公開CSV（全件）。新旧混合リストの提出にも対応（JLAC11空欄の行は全項目をつないだキーで前月と突き合わせる）。
 10/1提出版（前月の基準＝9月FIXの新のみシート）で使った版は make_doublecheck_20261001提出版用.py
 """
@@ -10,6 +11,15 @@ from openpyxl.styles import Font, Alignment, PatternFill
 from openpyxl.utils import get_column_letter as L
 
 sys.stdout.reconfigure(encoding='utf-8')
+# 2026-10-15〜：--config <月次実行の明細.json> を付けると、下の定数（入力ファイル・シート名・新規開始行・公開日・ラベル・連絡用の列）を
+# 月次実行（monthly_run.mjs）が実際に使った設定から読む（毎月スクリプトを書き換えなくてよい）。検算の式は変えていない。
+# 独立性の決まり：明細.json から読むのは「どのファイル・どの設定で実行したか」だけ。判定の結果は照合のときにACN確認用から読むだけで、式には使わない。
+CONFIG = None
+if '--config' in sys.argv:
+    _i = sys.argv.index('--config')
+    import json as _json
+    CONFIG = _json.load(open(sys.argv[_i + 1], encoding='utf-8'))
+    del sys.argv[_i:_i + 2]
 BASE = Path(__file__).resolve().parent.parent  # 00_共通
 ROOT = BASE.parent  # JLACマスタ月次チェック
 MONTH = Path(sys.argv[3]).resolve() if len(sys.argv) > 3 else sorted(d for d in ROOT.iterdir() if d.is_dir() and d.name[:6].isdigit() and d.name.endswith('提出分'))[-1]
@@ -23,6 +33,19 @@ NEW_SHEETS = ['1006提出_（新旧コード混合リスト）']
 NEWROW, START = 13436, 20261015
 LABEL = 'JLACセンター 2026-10-06再提出版（新旧混合リスト）'
 NOTE_COL = 33  # JLACセンターの連絡用の列（見出しに「コメント」）。無い月は None
+if CONFIG:
+    _f, _s = CONFIG['files'], CONFIG['settings']
+    NEW, PREV, J10, J11 = Path(_f['target']), Path(_f['prev']), Path(_f['jlac10']), Path(_f['jlac11'])
+    if not _f.get('list11'):
+        sys.exit('中止：この月は17桁コードリストを使っていないため、KA-08の検算（JLAC11_17桁シート）を作れません。17桁コードリストを設定に入れて実行し直すか、ダブルチェックを外してください（-SkipDoublecheck）')
+    LIST11 = Path(_f['list11'])
+    NEW_SHEETS = list(_s['targetSheets'])
+    NEWROW, START = int(_s['newFromRow'] or 10 ** 9), int(_s['expectedStart'])
+    LABEL = CONFIG.get('label') or f"JLACセンター {_s['submitDate']}提出版"
+    NOTE_COL = CONFIG.get('noteCol')
+    if not str(PREV).lower().endswith('.csv'):
+        sys.exit('中止：このスクリプトは前月の基準が前月公開CSVの月だけに対応しています（10/1提出版の形は make_doublecheck_20261001提出版用.py）')
+    print('設定（--config）:', NEW.name, '／', PREV.name, '／シート', NEW_SHEETS, '／新規開始行', _s['newFromRow'] or '（なし）', '／公開日', START, '／連絡用の列', NOTE_COL)
 ACN, OUT = Path(sys.argv[1]), Path(sys.argv[2])
 
 
