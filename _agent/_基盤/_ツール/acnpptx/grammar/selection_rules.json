@@ -1,0 +1,11188 @@
+{
+ "source": "人が作ったアクセンチュアの資料 52 本・本文 1425 枚の注釈から集計（参照元・本文は含まない）",
+ "n": 1425,
+ "alpha": 1.0,
+ "features": [
+  "intent",
+  "density",
+  "deck_type",
+  "timing",
+  "story_step",
+  "purpose",
+  "from_prev",
+  "relation",
+  "data",
+  "focus",
+  "text_load",
+  "n_items",
+  "attrs",
+  "prev_family",
+  "mat_chart",
+  "mat_diagram",
+  "mat_external_figure",
+  "mat_icons",
+  "mat_logos",
+  "mat_numbers",
+  "mat_people_org",
+  "mat_photo",
+  "mat_screenshot",
+  "mat_table_data",
+  "mat_text"
+ ],
+ "prior": {
+  "visual": 34,
+  "map": 7,
+  "profile": 17,
+  "screen": 155,
+  "process": 123,
+  "framework": 29,
+  "row_header": 86,
+  "cards": 93,
+  "schedule": 56,
+  "org": 36,
+  "layer": 43,
+  "case": 83,
+  "statement": 16,
+  "table": 174,
+  "contrast_lr": 68,
+  "tree": 34,
+  "big_number": 22,
+  "hub": 49,
+  "chart": 43,
+  "quadrant": 7,
+  "cycle": 14,
+  "summary_points": 21,
+  "text_blocks": 94,
+  "eval_matrix": 4,
+  "other": 17,
+  "swimlane": 6,
+  "problem_solution": 25,
+  "estimate": 33,
+  "assumptions": 15,
+  "steps_detail": 2,
+  "roles": 9,
+  "meeting": 8,
+  "agenda_nav": 2
+ },
+ "counts": {
+  "intent": {
+   "visual": {
+    "strengths": 1,
+    "case": 2,
+    "new:product_concept": 1,
+    "new:metaphor_question": 2,
+    "definition": 3,
+    "new:partnership": 1,
+    "new:pain_scene": 2,
+    "new:tech_feature": 2,
+    "new:activity_record": 2,
+    "new:activity_log": 2,
+    "phases": 1,
+    "architecture": 1,
+    "overview": 3,
+    "scope": 1,
+    "new:reference_list": 1,
+    "new:quiz": 1,
+    "framework": 2,
+    "new:mindset": 1,
+    "new:feedback_voice": 1,
+    "fact_to_insight": 3,
+    "risk": 1
+   },
+   "map": {
+    "overview": 1,
+    "fact_to_insight": 1,
+    "new:exercise_case": 1,
+    "new:channel_map": 1,
+    "strengths": 1,
+    "scope": 2
+   },
+   "profile": {
+    "org": 5,
+    "case": 1,
+    "new:speaker_profile": 4,
+    "new:company_profile": 1,
+    "new:profile": 1,
+    "new:resource_catalog": 1,
+    "new:instructor_profile": 1,
+    "new:exercise_case": 1,
+    "new:people_spotlight": 1,
+    "new:presenter_intro": 1
+   },
+   "screen": {
+    "case": 12,
+    "framework": 4,
+    "howto": 63,
+    "target": 1,
+    "definition": 9,
+    "new:demo_output": 2,
+    "overview": 12,
+    "new:media_exposure": 3,
+    "new:media_coverage": 1,
+    "new:usecase_illustration": 1,
+    "fact_to_insight": 1,
+    "asis_tobe": 1,
+    "scope": 2,
+    "architecture": 1,
+    "estimate": 1,
+    "schedule": 1,
+    "new:announcement": 1,
+    "new:prompt_demo": 13,
+    "new:output_preview": 1,
+    "new:exemplar": 1,
+    "new:worked_example": 1,
+    "new:ng_example_quiz": 1,
+    "new:ng_diagnosis": 1,
+    "new:template_anatomy": 1,
+    "new:exercise_case": 2,
+    "new:bad_example": 1,
+    "new:process_ai_map": 1,
+    "new:output_sample": 2,
+    "new:deliverable_preview": 8,
+    "new:tech_feature": 1,
+    "strengths": 3,
+    "new:reference_link": 1,
+    "problem_solution": 1
+   },
+   "process": {
+    "case": 7,
+    "phases": 51,
+    "framework": 16,
+    "new:input_hub_output": 1,
+    "howto": 6,
+    "architecture": 8,
+    "new:poc_result": 1,
+    "overview": 9,
+    "new:method_output": 5,
+    "asis_tobe": 7,
+    "scope": 4,
+    "comparison": 1,
+    "problem_solution": 2,
+    "definition": 2,
+    "new:go_to_market": 1,
+    "strengths": 1,
+    "new:usecase_illustration": 1
+   },
+   "framework": {
+    "framework": 22,
+    "definition": 2,
+    "scope": 1,
+    "strengths": 1,
+    "overview": 2,
+    "summary": 1
+   },
+   "row_header": {
+    "framework": 9,
+    "overview": 6,
+    "comparison": 3,
+    "howto": 3,
+    "fact_to_insight": 2,
+    "new:output_sample": 1,
+    "new:hypothesis_list": 3,
+    "new:initiative_detail": 1,
+    "strengths": 5,
+    "definition": 7,
+    "risk": 6,
+    "new:issue_summary": 1,
+    "scope": 12,
+    "case": 6,
+    "request": 1,
+    "new:worked_example": 1,
+    "new:anti_patterns": 1,
+    "new:purpose": 1,
+    "phases": 1,
+    "new:guideline": 1,
+    "new:problem_by_phase": 1,
+    "problem_solution": 4,
+    "target": 3,
+    "summary": 3,
+    "new:reference_list": 1,
+    "new:best_practices": 1,
+    "new:deliverable_preview": 2
+   },
+   "cards": {
+    "framework": 12,
+    "phases": 2,
+    "case": 5,
+    "new:quiz": 1,
+    "new:quiz_answer": 1,
+    "comparison": 2,
+    "strengths": 13,
+    "overview": 26,
+    "summary": 4,
+    "definition": 2,
+    "new:persona_profiles": 1,
+    "risk": 5,
+    "new:tobe_vision": 2,
+    "new:best_practices": 1,
+    "new:reasons": 1,
+    "new:resource_catalog": 3,
+    "org": 2,
+    "fact_to_insight": 1,
+    "new:tool_evaluation": 1,
+    "target": 2,
+    "scope": 3,
+    "new:tobe_definition": 1,
+    "new:tech_feature": 1,
+    "new:output_sample": 1
+   },
+   "schedule": {
+    "schedule": 45,
+    "phases": 5,
+    "new:roadmap_horizons": 1,
+    "asis_tobe": 2,
+    "fact_to_insight": 1,
+    "new:tobe_vision": 1,
+    "new:deliverable_preview": 1
+   },
+   "org": {
+    "org": 34,
+    "request": 1,
+    "overview": 1
+   },
+   "layer": {
+    "architecture": 19,
+    "overview": 8,
+    "framework": 12,
+    "definition": 2,
+    "asis_tobe": 1,
+    "risk": 1
+   },
+   "case": {
+    "case": 82,
+    "risk": 1
+   },
+   "statement": {
+    "new:objective_goal": 1,
+    "definition": 4,
+    "summary": 3,
+    "target": 3,
+    "new:learning_objectives": 1,
+    "new:benefit": 1,
+    "request": 2,
+    "strengths": 1
+   },
+   "table": {
+    "framework": 15,
+    "new:template": 1,
+    "case": 9,
+    "comparison": 15,
+    "overview": 12,
+    "scope": 19,
+    "definition": 10,
+    "new:output_list": 1,
+    "org": 1,
+    "new:validation_result": 1,
+    "risk": 5,
+    "new:method_output": 2,
+    "target": 10,
+    "fact_to_insight": 7,
+    "new:kpi_result": 1,
+    "problem_solution": 4,
+    "new:classification": 1,
+    "new:initiative_to_target": 5,
+    "schedule": 5,
+    "asis_tobe": 6,
+    "estimate": 4,
+    "new:requirement_traceability": 2,
+    "new:dashboard_mock": 1,
+    "new:reference_list": 2,
+    "new:task_responsibility": 1,
+    "new:impact_proof": 1,
+    "new:resource_catalog": 6,
+    "new:usecase_benefit_catalog": 1,
+    "new:status_report": 1,
+    "phases": 10,
+    "howto": 3,
+    "new:usecase_map": 1,
+    "request": 1,
+    "new:work_deliverable_matrix": 2,
+    "new:deliverable_preview": 1,
+    "strengths": 1,
+    "new:value_driver_tree": 1,
+    "new:track_record": 2,
+    "new:worked_example": 1,
+    "new:demo_output": 1,
+    "summary": 1
+   },
+   "contrast_lr": {
+    "comparison": 29,
+    "asis_tobe": 22,
+    "problem_solution": 2,
+    "strengths": 1,
+    "framework": 4,
+    "definition": 2,
+    "new:worked_example": 1,
+    "fact_to_insight": 1,
+    "estimate": 1,
+    "summary": 1,
+    "scope": 1,
+    "architecture": 1,
+    "new:method_output": 1,
+    "new:deliverable_preview": 1
+   },
+   "tree": {
+    "new:exercise_template": 1,
+    "problem_solution": 1,
+    "new:sample_output": 1,
+    "target": 5,
+    "architecture": 3,
+    "new:classification": 1,
+    "risk": 1,
+    "definition": 1,
+    "framework": 8,
+    "howto": 3,
+    "new:criteria": 4,
+    "scope": 1,
+    "fact_to_insight": 1,
+    "estimate": 1,
+    "new:value_driver_tree": 1,
+    "summary": 1
+   },
+   "big_number": {
+    "case": 2,
+    "fact_to_insight": 16,
+    "target": 1,
+    "strengths": 1,
+    "new:poc_result": 2
+   },
+   "hub": {
+    "framework": 11,
+    "architecture": 9,
+    "definition": 6,
+    "org": 5,
+    "risk": 1,
+    "strengths": 4,
+    "new:checklist": 1,
+    "new:value_lever_hub": 1,
+    "scope": 6,
+    "new:track_record": 1,
+    "fact_to_insight": 2,
+    "new:deliverable_preview": 1,
+    "case": 1
+   },
+   "chart": {
+    "target": 1,
+    "fact_to_insight": 24,
+    "comparison": 4,
+    "estimate": 3,
+    "asis_tobe": 1,
+    "new:usecase_illustration": 1,
+    "case": 1,
+    "problem_solution": 1,
+    "framework": 1,
+    "new:method_output": 1,
+    "new:output_sample": 1,
+    "new:deliverable_preview": 1,
+    "howto": 1,
+    "scope": 2
+   },
+   "quadrant": {
+    "overview": 2,
+    "new:positioning": 1,
+    "comparison": 1,
+    "framework": 1,
+    "schedule": 1,
+    "new:roadmap_horizons": 1
+   },
+   "cycle": {
+    "framework": 9,
+    "architecture": 1,
+    "strengths": 1,
+    "phases": 1,
+    "overview": 1,
+    "scope": 1
+   },
+   "summary_points": {
+    "request": 2,
+    "summary": 15,
+    "fact_to_insight": 1,
+    "new:benefit": 1,
+    "overview": 1,
+    "new:advice": 1
+   },
+   "text_blocks": {
+    "fact_to_insight": 5,
+    "scope": 9,
+    "new:voice_of_customer": 1,
+    "risk": 8,
+    "case": 4,
+    "new:voice": 1,
+    "new:outlook": 1,
+    "overview": 6,
+    "new:commitment": 1,
+    "howto": 4,
+    "new:tool_playbook": 4,
+    "definition": 8,
+    "request": 3,
+    "new:tool_profile": 1,
+    "problem_solution": 12,
+    "new:slide_template": 1,
+    "phases": 2,
+    "new:caution": 1,
+    "new:criteria": 2,
+    "new:exercise": 3,
+    "framework": 3,
+    "new:exercise_instruction": 2,
+    "new:guideline": 1,
+    "strengths": 6,
+    "summary": 2,
+    "new:methodology": 3
+   },
+   "eval_matrix": {
+    "comparison": 4
+   },
+   "other": {
+    "framework": 1,
+    "case": 1,
+    "new:voice_of_customer": 1,
+    "risk": 2,
+    "new:voice": 1,
+    "new:outlook": 1,
+    "overview": 2,
+    "estimate": 1,
+    "new:quiz": 1,
+    "new:prioritization": 1,
+    "new:value_map": 1,
+    "architecture": 2,
+    "new:partnership": 1,
+    "problem_solution": 1
+   },
+   "swimlane": {
+    "phases": 2,
+    "asis_tobe": 1,
+    "overview": 1,
+    "new:deliverable_preview": 1,
+    "scope": 1
+   },
+   "problem_solution": {
+    "new:method_output": 2,
+    "problem_solution": 16,
+    "request": 1,
+    "asis_tobe": 1,
+    "strengths": 1,
+    "new:feedback_response": 1,
+    "framework": 3
+   },
+   "estimate": {
+    "estimate": 31,
+    "scope": 2
+   },
+   "assumptions": {
+    "scope": 13,
+    "new:disclaimer": 1,
+    "risk": 1
+   },
+   "steps_detail": {
+    "phases": 1,
+    "architecture": 1
+   },
+   "roles": {
+    "org": 2,
+    "new:role_split": 2,
+    "new:role_assignment": 2,
+    "scope": 3
+   },
+   "meeting": {
+    "new:governance": 2,
+    "new:channel_map": 1,
+    "org": 3,
+    "new:work_deliverable_matrix": 1,
+    "new:meeting_structure": 1
+   },
+   "agenda_nav": {
+    "framework": 1,
+    "scope": 1
+   }
+  },
+  "density": {
+   "visual": {
+    "low": 19,
+    "mid": 11,
+    "high": 4
+   },
+   "map": {
+    "low": 2,
+    "mid": 3,
+    "high": 2
+   },
+   "profile": {
+    "mid": 7,
+    "high": 4,
+    "low": 6
+   },
+   "screen": {
+    "low": 25,
+    "mid": 91,
+    "high": 39
+   },
+   "process": {
+    "mid": 71,
+    "high": 44,
+    "low": 8
+   },
+   "framework": {
+    "mid": 20,
+    "high": 9
+   },
+   "row_header": {
+    "mid": 56,
+    "low": 10,
+    "high": 20
+   },
+   "cards": {
+    "mid": 52,
+    "high": 24,
+    "low": 17
+   },
+   "schedule": {
+    "mid": 25,
+    "high": 28,
+    "low": 3
+   },
+   "org": {
+    "high": 6,
+    "mid": 23,
+    "low": 7
+   },
+   "layer": {
+    "high": 21,
+    "mid": 21,
+    "low": 1
+   },
+   "case": {
+    "mid": 57,
+    "high": 19,
+    "low": 7
+   },
+   "statement": {
+    "low": 16
+   },
+   "table": {
+    "mid": 61,
+    "high": 107,
+    "low": 6
+   },
+   "contrast_lr": {
+    "low": 13,
+    "mid": 37,
+    "high": 18
+   },
+   "tree": {
+    "low": 6,
+    "mid": 20,
+    "high": 8
+   },
+   "big_number": {
+    "low": 5,
+    "mid": 13,
+    "high": 4
+   },
+   "hub": {
+    "mid": 27,
+    "high": 19,
+    "low": 3
+   },
+   "chart": {
+    "mid": 28,
+    "high": 7,
+    "low": 8
+   },
+   "quadrant": {
+    "low": 1,
+    "high": 4,
+    "mid": 2
+   },
+   "cycle": {
+    "low": 1,
+    "high": 3,
+    "mid": 10
+   },
+   "summary_points": {
+    "mid": 13,
+    "low": 3,
+    "high": 5
+   },
+   "text_blocks": {
+    "mid": 48,
+    "low": 23,
+    "high": 23
+   },
+   "eval_matrix": {
+    "mid": 2,
+    "high": 2
+   },
+   "other": {
+    "mid": 9,
+    "high": 6,
+    "low": 2
+   },
+   "swimlane": {
+    "high": 5,
+    "mid": 1
+   },
+   "problem_solution": {
+    "mid": 12,
+    "high": 12,
+    "low": 1
+   },
+   "estimate": {
+    "high": 12,
+    "low": 11,
+    "mid": 10
+   },
+   "assumptions": {
+    "high": 9,
+    "mid": 3,
+    "low": 3
+   },
+   "steps_detail": {
+    "high": 1,
+    "mid": 1
+   },
+   "roles": {
+    "high": 6,
+    "low": 2,
+    "mid": 1
+   },
+   "meeting": {
+    "mid": 8
+   },
+   "agenda_nav": {
+    "low": 1,
+    "high": 1
+   }
+  },
+  "deck_type": {
+   "visual": {
+    "offering": 3,
+    "lt": 6,
+    "internal": 3,
+    "report": 9,
+    "proposal": 5,
+    "training": 6,
+    "techvision": 2
+   },
+   "map": {
+    "offering": 4,
+    "report": 1,
+    "training": 1,
+    "techvision": 1
+   },
+   "profile": {
+    "offering": 2,
+    "training": 6,
+    "lt": 2,
+    "proposal": 2,
+    "report": 2,
+    "internal": 3
+   },
+   "screen": {
+    "offering": 27,
+    "lt": 17,
+    "internal": 12,
+    "report": 10,
+    "proposal": 24,
+    "training": 65
+   },
+   "process": {
+    "offering": 36,
+    "training": 16,
+    "lt": 11,
+    "proposal": 28,
+    "report": 12,
+    "internal": 9,
+    "techvision": 11
+   },
+   "framework": {
+    "offering": 3,
+    "lt": 2,
+    "proposal": 10,
+    "report": 4,
+    "training": 4,
+    "internal": 4,
+    "techvision": 2
+   },
+   "row_header": {
+    "offering": 15,
+    "training": 22,
+    "lt": 3,
+    "proposal": 35,
+    "report": 6,
+    "internal": 4,
+    "techvision": 1
+   },
+   "cards": {
+    "offering": 17,
+    "training": 26,
+    "lt": 11,
+    "internal": 19,
+    "proposal": 10,
+    "report": 4,
+    "techvision": 6
+   },
+   "schedule": {
+    "offering": 5,
+    "proposal": 33,
+    "report": 10,
+    "internal": 4,
+    "training": 1,
+    "lt": 3
+   },
+   "org": {
+    "offering": 3,
+    "lt": 1,
+    "proposal": 27,
+    "report": 3,
+    "internal": 1,
+    "training": 1
+   },
+   "layer": {
+    "offering": 10,
+    "lt": 5,
+    "internal": 4,
+    "report": 8,
+    "proposal": 8,
+    "training": 7,
+    "techvision": 1
+   },
+   "case": {
+    "offering": 11,
+    "lt": 3,
+    "proposal": 8,
+    "report": 4,
+    "internal": 9,
+    "training": 1,
+    "techvision": 46,
+    "other": 1
+   },
+   "statement": {
+    "training": 10,
+    "lt": 2,
+    "internal": 1,
+    "techvision": 3
+   },
+   "table": {
+    "training": 23,
+    "lt": 8,
+    "internal": 36,
+    "offering": 22,
+    "proposal": 47,
+    "report": 37,
+    "techvision": 1
+   },
+   "contrast_lr": {
+    "training": 19,
+    "lt": 3,
+    "offering": 11,
+    "proposal": 15,
+    "report": 6,
+    "internal": 8,
+    "techvision": 6
+   },
+   "tree": {
+    "training": 13,
+    "proposal": 10,
+    "report": 6,
+    "internal": 1,
+    "offering": 2,
+    "lt": 1,
+    "techvision": 1
+   },
+   "big_number": {
+    "lt": 1,
+    "training": 1,
+    "internal": 3,
+    "proposal": 1,
+    "offering": 3,
+    "techvision": 9,
+    "report": 4
+   },
+   "hub": {
+    "lt": 10,
+    "internal": 2,
+    "offering": 10,
+    "proposal": 16,
+    "report": 5,
+    "training": 4,
+    "techvision": 2
+   },
+   "chart": {
+    "lt": 1,
+    "offering": 7,
+    "report": 18,
+    "internal": 3,
+    "proposal": 7,
+    "training": 3,
+    "techvision": 4
+   },
+   "quadrant": {
+    "lt": 2,
+    "offering": 2,
+    "internal": 1,
+    "proposal": 2
+   },
+   "cycle": {
+    "lt": 1,
+    "offering": 3,
+    "report": 1,
+    "proposal": 5,
+    "internal": 1,
+    "training": 2,
+    "techvision": 1
+   },
+   "summary_points": {
+    "internal": 4,
+    "proposal": 2,
+    "report": 5,
+    "training": 5,
+    "techvision": 5
+   },
+   "text_blocks": {
+    "internal": 17,
+    "report": 18,
+    "proposal": 13,
+    "training": 32,
+    "offering": 7,
+    "techvision": 7
+   },
+   "eval_matrix": {
+    "offering": 1,
+    "internal": 1,
+    "proposal": 1,
+    "report": 1
+   },
+   "other": {
+    "offering": 3,
+    "proposal": 1,
+    "report": 5,
+    "training": 2,
+    "internal": 2,
+    "lt": 3,
+    "techvision": 1
+   },
+   "swimlane": {
+    "proposal": 3,
+    "internal": 1,
+    "offering": 2
+   },
+   "problem_solution": {
+    "proposal": 11,
+    "training": 3,
+    "internal": 6,
+    "offering": 3,
+    "techvision": 2
+   },
+   "estimate": {
+    "proposal": 22,
+    "report": 4,
+    "internal": 5,
+    "offering": 2
+   },
+   "assumptions": {
+    "proposal": 14,
+    "offering": 1
+   },
+   "steps_detail": {
+    "report": 1,
+    "offering": 1
+   },
+   "roles": {
+    "proposal": 9
+   },
+   "meeting": {
+    "proposal": 7,
+    "offering": 1
+   },
+   "agenda_nav": {
+    "training": 1,
+    "offering": 1
+   }
+  },
+  "timing": {
+   "visual": {
+    "deck_open": 5,
+    "chapter_body": 21,
+    "appendix": 1,
+    "chapter_open": 6,
+    "chapter_close": 1
+   },
+   "map": {
+    "deck_open": 2,
+    "chapter_body": 4,
+    "appendix": 1
+   },
+   "profile": {
+    "deck_open": 8,
+    "chapter_body": 6,
+    "chapter_open": 2,
+    "appendix": 1
+   },
+   "screen": {
+    "chapter_body": 103,
+    "deck_close": 2,
+    "chapter_close": 4,
+    "appendix": 39,
+    "deck_open": 3,
+    "chapter_open": 4
+   },
+   "process": {
+    "chapter_body": 84,
+    "chapter_open": 17,
+    "chapter_close": 7,
+    "deck_close": 3,
+    "deck_open": 1,
+    "appendix": 11
+   },
+   "framework": {
+    "chapter_open": 5,
+    "chapter_body": 16,
+    "appendix": 2,
+    "deck_open": 2,
+    "chapter_close": 3,
+    "deck_close": 1
+   },
+   "row_header": {
+    "chapter_body": 48,
+    "deck_open": 18,
+    "chapter_close": 3,
+    "appendix": 5,
+    "chapter_open": 12
+   },
+   "cards": {
+    "chapter_body": 60,
+    "chapter_open": 18,
+    "appendix": 6,
+    "deck_open": 3,
+    "chapter_close": 5,
+    "deck_close": 1
+   },
+   "schedule": {
+    "chapter_body": 32,
+    "deck_open": 3,
+    "chapter_open": 16,
+    "chapter_close": 2,
+    "deck_close": 3
+   },
+   "org": {
+    "chapter_body": 10,
+    "deck_close": 9,
+    "chapter_open": 13,
+    "appendix": 2,
+    "chapter_close": 1,
+    "deck_open": 1
+   },
+   "layer": {
+    "chapter_open": 9,
+    "chapter_body": 23,
+    "deck_open": 4,
+    "appendix": 6,
+    "chapter_close": 1
+   },
+   "case": {
+    "chapter_open": 7,
+    "chapter_body": 68,
+    "deck_close": 1,
+    "appendix": 6,
+    "deck_open": 1
+   },
+   "statement": {
+    "deck_open": 8,
+    "chapter_open": 2,
+    "chapter_close": 2,
+    "chapter_body": 3,
+    "deck_close": 1
+   },
+   "table": {
+    "chapter_close": 9,
+    "chapter_body": 109,
+    "chapter_open": 21,
+    "appendix": 25,
+    "deck_open": 6,
+    "deck_close": 4
+   },
+   "contrast_lr": {
+    "chapter_body": 40,
+    "chapter_open": 11,
+    "chapter_close": 4,
+    "deck_close": 1,
+    "appendix": 9,
+    "deck_open": 3
+   },
+   "tree": {
+    "chapter_body": 26,
+    "chapter_close": 3,
+    "chapter_open": 1,
+    "appendix": 3,
+    "deck_close": 1
+   },
+   "big_number": {
+    "deck_open": 4,
+    "chapter_open": 9,
+    "chapter_body": 9
+   },
+   "hub": {
+    "chapter_body": 29,
+    "chapter_open": 9,
+    "appendix": 5,
+    "deck_open": 5,
+    "chapter_close": 1
+   },
+   "chart": {
+    "chapter_close": 3,
+    "chapter_body": 27,
+    "appendix": 5,
+    "chapter_open": 6,
+    "deck_open": 2
+   },
+   "quadrant": {
+    "chapter_body": 3,
+    "deck_open": 2,
+    "chapter_open": 1,
+    "chapter_close": 1
+   },
+   "cycle": {
+    "chapter_body": 8,
+    "appendix": 2,
+    "chapter_close": 1,
+    "chapter_open": 2,
+    "deck_close": 1
+   },
+   "summary_points": {
+    "deck_open": 8,
+    "chapter_body": 2,
+    "appendix": 1,
+    "chapter_open": 2,
+    "deck_close": 3,
+    "chapter_close": 5
+   },
+   "text_blocks": {
+    "chapter_body": 46,
+    "chapter_open": 16,
+    "appendix": 14,
+    "deck_open": 13,
+    "deck_close": 2,
+    "chapter_close": 3
+   },
+   "eval_matrix": {
+    "chapter_body": 4
+   },
+   "other": {
+    "chapter_body": 13,
+    "chapter_close": 1,
+    "deck_close": 1,
+    "chapter_open": 2
+   },
+   "swimlane": {
+    "chapter_body": 4,
+    "deck_open": 1,
+    "chapter_open": 1
+   },
+   "problem_solution": {
+    "chapter_body": 11,
+    "deck_close": 1,
+    "appendix": 2,
+    "deck_open": 7,
+    "chapter_open": 3,
+    "chapter_close": 1
+   },
+   "estimate": {
+    "chapter_body": 15,
+    "deck_close": 9,
+    "chapter_open": 7,
+    "appendix": 1,
+    "chapter_close": 1
+   },
+   "assumptions": {
+    "deck_close": 9,
+    "chapter_open": 5,
+    "chapter_body": 1
+   },
+   "steps_detail": {
+    "appendix": 1,
+    "chapter_body": 1
+   },
+   "roles": {
+    "chapter_body": 4,
+    "chapter_open": 4,
+    "chapter_close": 1
+   },
+   "meeting": {
+    "chapter_body": 2,
+    "chapter_open": 3,
+    "chapter_close": 1,
+    "appendix": 1,
+    "deck_close": 1
+   },
+   "agenda_nav": {
+    "chapter_open": 2
+   }
+  },
+  "story_step": {
+   "visual": {
+    "全体像": 3,
+    "事例": 3,
+    "定義": 5,
+    "根拠": 1,
+    "課題": 3,
+    "詳細": 8,
+    "打ち手": 2,
+    "依頼・次の一手": 1,
+    "背景": 4,
+    "前提": 1,
+    "効果": 1,
+    "目的・ゴール": 1,
+    "原因": 1
+   },
+   "map": {
+    "全体像": 1,
+    "背景": 1,
+    "詳細": 1,
+    "根拠": 3,
+    "目的・ゴール": 1
+   },
+   "profile": {
+    "体制": 8,
+    "背景": 8,
+    "詳細": 1
+   },
+   "screen": {
+    "事例": 60,
+    "詳細": 50,
+    "効果": 8,
+    "根拠": 5,
+    "課題": 4,
+    "費用": 1,
+    "計画": 1,
+    "定義": 3,
+    "手順": 12,
+    "依頼・次の一手": 4,
+    "打ち手": 3,
+    "全体像": 2,
+    "前提": 1,
+    "原因": 1
+   },
+   "process": {
+    "事例": 7,
+    "全体像": 28,
+    "定義": 4,
+    "詳細": 24,
+    "効果": 1,
+    "手順": 21,
+    "根拠": 2,
+    "背景": 2,
+    "打ち手": 19,
+    "計画": 10,
+    "比較・評価": 1,
+    "課題": 2,
+    "目的・ゴール": 1,
+    "原因": 1
+   },
+   "framework": {
+    "全体像": 15,
+    "定義": 5,
+    "目的・ゴール": 3,
+    "詳細": 2,
+    "打ち手": 3,
+    "まとめ": 1
+   },
+   "row_header": {
+    "打ち手": 5,
+    "背景": 8,
+    "比較・評価": 1,
+    "詳細": 17,
+    "根拠": 8,
+    "全体像": 9,
+    "事例": 7,
+    "示唆": 2,
+    "課題": 6,
+    "定義": 8,
+    "要旨": 4,
+    "目的・ゴール": 5,
+    "依頼・次の一手": 1,
+    "手順": 3,
+    "まとめ": 1,
+    "効果": 1
+   },
+   "cards": {
+    "定義": 8,
+    "事例": 5,
+    "目的・ゴール": 5,
+    "背景": 1,
+    "効果": 6,
+    "詳細": 19,
+    "要旨": 2,
+    "全体像": 24,
+    "比較・評価": 1,
+    "手順": 2,
+    "課題": 5,
+    "示唆": 1,
+    "まとめ": 2,
+    "根拠": 6,
+    "体制": 2,
+    "打ち手": 3,
+    "前提": 1
+   },
+   "schedule": {
+    "計画": 44,
+    "背景": 5,
+    "詳細": 4,
+    "示唆": 1,
+    "目的・ゴール": 2
+   },
+   "org": {
+    "体制": 33,
+    "詳細": 1,
+    "依頼・次の一手": 1,
+    "目的・ゴール": 1
+   },
+   "layer": {
+    "全体像": 21,
+    "根拠": 1,
+    "詳細": 7,
+    "背景": 1,
+    "打ち手": 6,
+    "前提": 2,
+    "効果": 1,
+    "目的・ゴール": 2,
+    "定義": 1,
+    "課題": 1
+   },
+   "case": {
+    "事例": 79,
+    "根拠": 1,
+    "課題": 1,
+    "打ち手": 1,
+    "背景": 1
+   },
+   "statement": {
+    "目的・ゴール": 5,
+    "定義": 4,
+    "要旨": 1,
+    "効果": 1,
+    "まとめ": 2,
+    "依頼・次の一手": 1,
+    "前提": 1,
+    "全体像": 1
+   },
+   "table": {
+    "定義": 15,
+    "手順": 5,
+    "事例": 12,
+    "比較・評価": 11,
+    "全体像": 17,
+    "詳細": 51,
+    "効果": 10,
+    "根拠": 14,
+    "課題": 4,
+    "目的・ゴール": 6,
+    "原因": 2,
+    "打ち手": 10,
+    "計画": 9,
+    "背景": 3,
+    "依頼・次の一手": 2,
+    "まとめ": 2,
+    "示唆": 1
+   },
+   "contrast_lr": {
+    "事例": 6,
+    "目的・ゴール": 6,
+    "背景": 3,
+    "課題": 3,
+    "比較・評価": 9,
+    "詳細": 11,
+    "示唆": 3,
+    "原因": 1,
+    "効果": 5,
+    "打ち手": 12,
+    "定義": 5,
+    "前提": 1,
+    "手順": 1,
+    "費用": 1,
+    "全体像": 1
+   },
+   "tree": {
+    "手順": 4,
+    "事例": 2,
+    "詳細": 8,
+    "効果": 2,
+    "目的・ゴール": 2,
+    "全体像": 2,
+    "示唆": 1,
+    "定義": 3,
+    "打ち手": 1,
+    "まとめ": 5,
+    "比較・評価": 1,
+    "根拠": 3
+   },
+   "big_number": {
+    "事例": 1,
+    "背景": 8,
+    "目的・ゴール": 2,
+    "効果": 3,
+    "根拠": 2,
+    "課題": 6
+   },
+   "hub": {
+    "全体像": 17,
+    "定義": 5,
+    "背景": 2,
+    "詳細": 10,
+    "体制": 3,
+    "課題": 2,
+    "効果": 2,
+    "打ち手": 3,
+    "根拠": 2,
+    "目的・ゴール": 1,
+    "計画": 1,
+    "事例": 1
+   },
+   "chart": {
+    "効果": 8,
+    "示唆": 3,
+    "比較・評価": 2,
+    "根拠": 16,
+    "背景": 2,
+    "事例": 3,
+    "原因": 1,
+    "打ち手": 1,
+    "定義": 1,
+    "費用": 1,
+    "詳細": 2,
+    "前提": 1,
+    "目的・ゴール": 1,
+    "課題": 1
+   },
+   "quadrant": {
+    "全体像": 1,
+    "背景": 1,
+    "根拠": 1,
+    "比較・評価": 1,
+    "打ち手": 1,
+    "計画": 2
+   },
+   "cycle": {
+    "定義": 1,
+    "詳細": 2,
+    "目的・ゴール": 1,
+    "効果": 2,
+    "打ち手": 2,
+    "全体像": 5,
+    "根拠": 1
+   },
+   "summary_points": {
+    "依頼・次の一手": 3,
+    "要旨": 7,
+    "まとめ": 8,
+    "示唆": 1,
+    "効果": 1,
+    "全体像": 1
+   },
+   "text_blocks": {
+    "背景": 8,
+    "前提": 8,
+    "根拠": 5,
+    "示唆": 2,
+    "事例": 3,
+    "課題": 9,
+    "効果": 5,
+    "計画": 1,
+    "依頼・次の一手": 6,
+    "定義": 9,
+    "手順": 11,
+    "詳細": 22,
+    "まとめ": 1,
+    "要旨": 2,
+    "打ち手": 1,
+    "全体像": 1
+   },
+   "eval_matrix": {
+    "比較・評価": 3,
+    "根拠": 1
+   },
+   "other": {
+    "詳細": 3,
+    "事例": 1,
+    "効果": 3,
+    "課題": 5,
+    "全体像": 2,
+    "定義": 1,
+    "打ち手": 1,
+    "根拠": 1
+   },
+   "swimlane": {
+    "手順": 1,
+    "詳細": 3,
+    "全体像": 2
+   },
+   "problem_solution": {
+    "手順": 2,
+    "打ち手": 8,
+    "依頼・次の一手": 1,
+    "背景": 2,
+    "課題": 6,
+    "全体像": 2,
+    "要旨": 2,
+    "根拠": 1,
+    "事例": 1
+   },
+   "estimate": {
+    "費用": 25,
+    "定義": 1,
+    "効果": 3,
+    "根拠": 3,
+    "前提": 1
+   },
+   "assumptions": {
+    "前提": 15
+   },
+   "steps_detail": {
+    "手順": 1,
+    "詳細": 1
+   },
+   "roles": {
+    "体制": 7,
+    "詳細": 2
+   },
+   "meeting": {
+    "体制": 7,
+    "計画": 1
+   },
+   "agenda_nav": {
+    "全体像": 2
+   }
+  },
+  "purpose": {
+   "visual": {
+    "掴ませる": 12,
+    "覚えさせる": 2,
+    "理解させる": 10,
+    "納得させる": 8,
+    "参照させる": 1,
+    "行動させる": 1
+   },
+   "map": {
+    "掴ませる": 1,
+    "納得させる": 3,
+    "参照させる": 2,
+    "理解させる": 1
+   },
+   "profile": {
+    "納得させる": 4,
+    "理解させる": 7,
+    "参照させる": 3,
+    "行動させる": 1,
+    "掴ませる": 2
+   },
+   "screen": {
+    "理解させる": 96,
+    "納得させる": 16,
+    "行動させる": 13,
+    "参照させる": 30
+   },
+   "process": {
+    "理解させる": 87,
+    "掴ませる": 19,
+    "覚えさせる": 2,
+    "納得させる": 12,
+    "参照させる": 1,
+    "行動させる": 2
+   },
+   "framework": {
+    "覚えさせる": 2,
+    "理解させる": 15,
+    "掴ませる": 9,
+    "参照させる": 1,
+    "納得させる": 2
+   },
+   "row_header": {
+    "理解させる": 38,
+    "掴ませる": 17,
+    "選ばせる": 1,
+    "納得させる": 15,
+    "参照させる": 8,
+    "行動させる": 4,
+    "覚えさせる": 3
+   },
+   "cards": {
+    "理解させる": 34,
+    "行動させる": 1,
+    "覚えさせる": 13,
+    "納得させる": 11,
+    "参照させる": 13,
+    "掴ませる": 21
+   },
+   "schedule": {
+    "掴ませる": 22,
+    "理解させる": 25,
+    "参照させる": 4,
+    "行動させる": 1,
+    "納得させる": 3,
+    "決めさせる": 1
+   },
+   "org": {
+    "理解させる": 31,
+    "覚えさせる": 1,
+    "行動させる": 1,
+    "掴ませる": 1,
+    "参照させる": 1,
+    "納得させる": 1
+   },
+   "layer": {
+    "掴ませる": 11,
+    "納得させる": 2,
+    "理解させる": 30
+   },
+   "case": {
+    "納得させる": 75,
+    "理解させる": 2,
+    "参照させる": 5,
+    "掴ませる": 1
+   },
+   "statement": {
+    "覚えさせる": 12,
+    "理解させる": 2,
+    "行動させる": 2
+   },
+   "table": {
+    "理解させる": 70,
+    "行動させる": 3,
+    "掴ませる": 13,
+    "参照させる": 48,
+    "納得させる": 32,
+    "選ばせる": 5,
+    "決めさせる": 3
+   },
+   "contrast_lr": {
+    "納得させる": 27,
+    "理解させる": 36,
+    "覚えさせる": 3,
+    "掴ませる": 2
+   },
+   "tree": {
+    "行動させる": 1,
+    "理解させる": 22,
+    "掴ませる": 1,
+    "納得させる": 4,
+    "覚えさせる": 3,
+    "参照させる": 3
+   },
+   "big_number": {
+    "納得させる": 21,
+    "覚えさせる": 1
+   },
+   "hub": {
+    "掴ませる": 12,
+    "理解させる": 29,
+    "覚えさせる": 2,
+    "納得させる": 5,
+    "参照させる": 1
+   },
+   "chart": {
+    "納得させる": 28,
+    "理解させる": 11,
+    "参照させる": 4
+   },
+   "quadrant": {
+    "掴ませる": 4,
+    "納得させる": 1,
+    "選ばせる": 1,
+    "理解させる": 1
+   },
+   "cycle": {
+    "理解させる": 8,
+    "納得させる": 2,
+    "掴ませる": 3,
+    "覚えさせる": 1
+   },
+   "summary_points": {
+    "行動させる": 5,
+    "掴ませる": 6,
+    "覚えさせる": 10
+   },
+   "text_blocks": {
+    "理解させる": 44,
+    "参照させる": 21,
+    "納得させる": 12,
+    "掴ませる": 3,
+    "行動させる": 11,
+    "覚えさせる": 2,
+    "決めさせる": 1
+   },
+   "eval_matrix": {
+    "納得させる": 2,
+    "理解させる": 1,
+    "選ばせる": 1
+   },
+   "other": {
+    "理解させる": 4,
+    "納得させる": 7,
+    "覚えさせる": 2,
+    "掴ませる": 3,
+    "行動させる": 1
+   },
+   "swimlane": {
+    "理解させる": 4,
+    "掴ませる": 1,
+    "参照させる": 1
+   },
+   "problem_solution": {
+    "理解させる": 9,
+    "行動させる": 2,
+    "納得させる": 11,
+    "掴ませる": 3
+   },
+   "estimate": {
+    "参照させる": 6,
+    "決めさせる": 11,
+    "理解させる": 6,
+    "納得させる": 10
+   },
+   "assumptions": {
+    "参照させる": 11,
+    "理解させる": 4
+   },
+   "steps_detail": {
+    "理解させる": 2
+   },
+   "roles": {
+    "理解させる": 4,
+    "参照させる": 5
+   },
+   "meeting": {
+    "理解させる": 7,
+    "参照させる": 1
+   },
+   "agenda_nav": {
+    "掴ませる": 2
+   }
+  },
+  "from_prev": {
+   "visual": {
+    "new_topic": 9,
+    "parallel_next": 7,
+    "shift": 7,
+    "next_step": 1,
+    "zoom_in": 7,
+    "evidence": 1,
+    "contrast": 2
+   },
+   "map": {
+    "shift": 2,
+    "new_topic": 2,
+    "parallel_next": 2,
+    "zoom_in": 1
+   },
+   "profile": {
+    "shift": 6,
+    "new_topic": 7,
+    "zoom_in": 3,
+    "parallel_next": 1
+   },
+   "screen": {
+    "shift": 18,
+    "parallel_next": 65,
+    "zoom_in": 45,
+    "evidence": 2,
+    "next_step": 13,
+    "contrast": 2,
+    "new_topic": 10
+   },
+   "process": {
+    "parallel_next": 18,
+    "shift": 28,
+    "next_step": 28,
+    "evidence": 2,
+    "zoom_in": 28,
+    "new_topic": 17,
+    "contrast": 2
+   },
+   "framework": {
+    "new_topic": 6,
+    "shift": 7,
+    "summary": 2,
+    "zoom_in": 7,
+    "next_step": 6,
+    "parallel_next": 1
+   },
+   "row_header": {
+    "zoom_in": 17,
+    "new_topic": 27,
+    "shift": 16,
+    "parallel_next": 12,
+    "evidence": 4,
+    "next_step": 6,
+    "summary": 2,
+    "contrast": 2
+   },
+   "cards": {
+    "shift": 27,
+    "zoom_in": 18,
+    "next_step": 9,
+    "new_topic": 21,
+    "parallel_next": 12,
+    "contrast": 1,
+    "summary": 5
+   },
+   "schedule": {
+    "next_step": 19,
+    "new_topic": 10,
+    "shift": 13,
+    "zoom_in": 8,
+    "parallel_next": 6
+   },
+   "org": {
+    "next_step": 9,
+    "shift": 14,
+    "parallel_next": 4,
+    "new_topic": 9
+   },
+   "layer": {
+    "new_topic": 11,
+    "zoom_in": 9,
+    "shift": 14,
+    "parallel_next": 4,
+    "next_step": 2,
+    "contrast": 2,
+    "summary": 1
+   },
+   "case": {
+    "new_topic": 10,
+    "parallel_next": 36,
+    "summary": 1,
+    "shift": 5,
+    "evidence": 13,
+    "zoom_in": 8,
+    "next_step": 9,
+    "contrast": 1
+   },
+   "statement": {
+    "next_step": 8,
+    "new_topic": 3,
+    "summary": 4,
+    "zoom_in": 1
+   },
+   "table": {
+    "zoom_in": 46,
+    "next_step": 17,
+    "new_topic": 28,
+    "shift": 38,
+    "evidence": 8,
+    "parallel_next": 35,
+    "summary": 2
+   },
+   "contrast_lr": {
+    "evidence": 5,
+    "new_topic": 12,
+    "zoom_in": 17,
+    "parallel_next": 11,
+    "shift": 12,
+    "contrast": 1,
+    "next_step": 9,
+    "summary": 1
+   },
+   "tree": {
+    "next_step": 6,
+    "zoom_in": 8,
+    "shift": 9,
+    "parallel_next": 5,
+    "new_topic": 2,
+    "summary": 3,
+    "evidence": 1
+   },
+   "big_number": {
+    "zoom_in": 2,
+    "new_topic": 10,
+    "shift": 2,
+    "evidence": 1,
+    "parallel_next": 4,
+    "next_step": 3
+   },
+   "hub": {
+    "zoom_in": 18,
+    "new_topic": 12,
+    "parallel_next": 6,
+    "next_step": 4,
+    "shift": 6,
+    "summary": 1,
+    "evidence": 1,
+    "contrast": 1
+   },
+   "chart": {
+    "evidence": 7,
+    "next_step": 5,
+    "summary": 1,
+    "zoom_in": 8,
+    "parallel_next": 13,
+    "shift": 2,
+    "new_topic": 7
+   },
+   "quadrant": {
+    "shift": 2,
+    "contrast": 1,
+    "next_step": 1,
+    "new_topic": 1,
+    "zoom_in": 1,
+    "summary": 1
+   },
+   "cycle": {
+    "shift": 7,
+    "zoom_in": 4,
+    "new_topic": 2,
+    "next_step": 1
+   },
+   "summary_points": {
+    "new_topic": 10,
+    "parallel_next": 1,
+    "summary": 9,
+    "shift": 1
+   },
+   "text_blocks": {
+    "shift": 12,
+    "zoom_in": 12,
+    "summary": 4,
+    "new_topic": 32,
+    "contrast": 4,
+    "parallel_next": 20,
+    "next_step": 9,
+    "evidence": 1
+   },
+   "eval_matrix": {
+    "evidence": 2,
+    "parallel_next": 1,
+    "next_step": 1
+   },
+   "other": {
+    "zoom_in": 5,
+    "evidence": 1,
+    "shift": 7,
+    "next_step": 2,
+    "new_topic": 1,
+    "parallel_next": 1
+   },
+   "swimlane": {
+    "next_step": 1,
+    "zoom_in": 2,
+    "shift": 1,
+    "parallel_next": 1,
+    "new_topic": 1
+   },
+   "problem_solution": {
+    "next_step": 3,
+    "zoom_in": 3,
+    "parallel_next": 7,
+    "summary": 1,
+    "new_topic": 8,
+    "shift": 3
+   },
+   "estimate": {
+    "zoom_in": 11,
+    "new_topic": 7,
+    "next_step": 7,
+    "parallel_next": 1,
+    "summary": 3,
+    "shift": 4
+   },
+   "assumptions": {
+    "zoom_in": 5,
+    "parallel_next": 4,
+    "new_topic": 2,
+    "shift": 3,
+    "next_step": 1
+   },
+   "steps_detail": {
+    "shift": 1,
+    "zoom_in": 1
+   },
+   "roles": {
+    "zoom_in": 4,
+    "new_topic": 1,
+    "shift": 2,
+    "parallel_next": 1,
+    "next_step": 1
+   },
+   "meeting": {
+    "shift": 5,
+    "new_topic": 2,
+    "zoom_in": 1
+   },
+   "agenda_nav": {
+    "summary": 1,
+    "new_topic": 1
+   }
+  },
+  "relation": {
+   "visual": {
+    "parallel": 20,
+    "contrast": 6,
+    "mutual": 2,
+    "hierarchy": 2,
+    "cause": 2,
+    "flow": 1,
+    "sequence": 1
+   },
+   "map": {
+    "parallel": 4,
+    "cause": 1,
+    "contrast": 1,
+    "flow": 1
+   },
+   "profile": {
+    "parallel": 16,
+    "hierarchy": 1
+   },
+   "screen": {
+    "parallel": 49,
+    "contrast": 11,
+    "sequence": 30,
+    "flow": 39,
+    "hierarchy": 13,
+    "mutual": 1,
+    "cause": 6,
+    "cycle": 1,
+    "converge": 5
+   },
+   "process": {
+    "sequence": 71,
+    "flow": 33,
+    "converge": 9,
+    "cycle": 4,
+    "contrast": 2,
+    "cause": 3,
+    "hierarchy": 1
+   },
+   "framework": {
+    "mutual": 2,
+    "hierarchy": 16,
+    "parallel": 1,
+    "converge": 3,
+    "cycle": 2,
+    "sequence": 3,
+    "flow": 1,
+    "contrast": 1
+   },
+   "row_header": {
+    "mutual": 3,
+    "sequence": 10,
+    "parallel": 38,
+    "contrast": 5,
+    "hierarchy": 12,
+    "cause": 11,
+    "converge": 5,
+    "flow": 2
+   },
+   "cards": {
+    "parallel": 74,
+    "hierarchy": 5,
+    "contrast": 4,
+    "cause": 2,
+    "converge": 2,
+    "flow": 3,
+    "mutual": 2,
+    "cycle": 1
+   },
+   "schedule": {
+    "sequence": 53,
+    "parallel": 2,
+    "flow": 1
+   },
+   "org": {
+    "sequence": 1,
+    "hierarchy": 31,
+    "mutual": 2,
+    "parallel": 1,
+    "converge": 1
+   },
+   "layer": {
+    "flow": 8,
+    "hierarchy": 31,
+    "converge": 2,
+    "mutual": 1,
+    "parallel": 1
+   },
+   "case": {
+    "cause": 11,
+    "sequence": 12,
+    "flow": 3,
+    "parallel": 44,
+    "cycle": 1,
+    "contrast": 5,
+    "mutual": 5,
+    "converge": 1,
+    "hierarchy": 1
+   },
+   "statement": {
+    "sequence": 1,
+    "parallel": 11,
+    "cause": 1,
+    "converge": 3
+   },
+   "table": {
+    "parallel": 60,
+    "contrast": 20,
+    "hierarchy": 52,
+    "sequence": 31,
+    "cause": 5,
+    "converge": 4,
+    "flow": 2
+   },
+   "contrast_lr": {
+    "contrast": 64,
+    "converge": 1,
+    "parallel": 1,
+    "sequence": 1,
+    "mutual": 1
+   },
+   "tree": {
+    "converge": 9,
+    "cause": 1,
+    "hierarchy": 22,
+    "mutual": 1,
+    "flow": 1
+   },
+   "big_number": {
+    "parallel": 13,
+    "cause": 2,
+    "contrast": 7
+   },
+   "hub": {
+    "converge": 8,
+    "mutual": 25,
+    "flow": 9,
+    "hierarchy": 3,
+    "parallel": 2,
+    "sequence": 1,
+    "contrast": 1
+   },
+   "chart": {
+    "contrast": 19,
+    "mutual": 1,
+    "parallel": 12,
+    "cause": 8,
+    "sequence": 2,
+    "flow": 1
+   },
+   "quadrant": {
+    "parallel": 2,
+    "contrast": 2,
+    "sequence": 1,
+    "hierarchy": 2
+   },
+   "cycle": {
+    "mutual": 1,
+    "cycle": 12,
+    "hierarchy": 1
+   },
+   "summary_points": {
+    "parallel": 6,
+    "sequence": 3,
+    "cause": 8,
+    "converge": 3,
+    "hierarchy": 1
+   },
+   "text_blocks": {
+    "cause": 19,
+    "parallel": 46,
+    "contrast": 4,
+    "sequence": 15,
+    "flow": 5,
+    "hierarchy": 4,
+    "cycle": 1
+   },
+   "eval_matrix": {
+    "parallel": 2,
+    "contrast": 2
+   },
+   "other": {
+    "contrast": 4,
+    "cause": 3,
+    "parallel": 4,
+    "converge": 2,
+    "hierarchy": 1,
+    "sequence": 1,
+    "flow": 2
+   },
+   "swimlane": {
+    "flow": 5,
+    "parallel": 1
+   },
+   "problem_solution": {
+    "hierarchy": 2,
+    "cause": 13,
+    "parallel": 1,
+    "converge": 5,
+    "contrast": 3,
+    "flow": 1
+   },
+   "estimate": {
+    "parallel": 20,
+    "hierarchy": 4,
+    "cause": 2,
+    "converge": 5,
+    "contrast": 2
+   },
+   "assumptions": {
+    "parallel": 15
+   },
+   "steps_detail": {
+    "sequence": 2
+   },
+   "roles": {
+    "contrast": 1,
+    "parallel": 4,
+    "hierarchy": 3,
+    "sequence": 1
+   },
+   "meeting": {
+    "parallel": 5,
+    "hierarchy": 1,
+    "sequence": 2
+   },
+   "agenda_nav": {
+    "parallel": 1,
+    "sequence": 1
+   }
+  },
+  "data": {
+   "visual": {
+    "none": 34
+   },
+   "map": {
+    "none": 5,
+    "single_kpi": 2
+   },
+   "profile": {
+    "none": 17
+   },
+   "screen": {
+    "none": 154,
+    "single_kpi": 1
+   },
+   "process": {
+    "none": 117,
+    "magnitude": 2,
+    "single_kpi": 1,
+    "timeseries": 2,
+    "composition": 1
+   },
+   "framework": {
+    "none": 28,
+    "composition": 1
+   },
+   "row_header": {
+    "none": 84,
+    "single_kpi": 2
+   },
+   "cards": {
+    "none": 91,
+    "composition": 1,
+    "single_kpi": 1
+   },
+   "schedule": {
+    "none": 55,
+    "composition": 1
+   },
+   "org": {
+    "none": 35,
+    "composition": 1
+   },
+   "layer": {
+    "none": 43
+   },
+   "case": {
+    "none": 70,
+    "single_kpi": 10,
+    "magnitude": 2,
+    "timeseries": 1
+   },
+   "statement": {
+    "none": 16
+   },
+   "table": {
+    "none": 145,
+    "composition": 4,
+    "magnitude": 18,
+    "single_kpi": 7
+   },
+   "contrast_lr": {
+    "none": 67,
+    "timeseries": 1
+   },
+   "tree": {
+    "none": 32,
+    "magnitude": 1,
+    "composition": 1
+   },
+   "big_number": {
+    "single_kpi": 22
+   },
+   "hub": {
+    "none": 46,
+    "magnitude": 2,
+    "composition": 1
+   },
+   "chart": {
+    "timeseries": 13,
+    "composition": 13,
+    "magnitude": 15,
+    "none": 2
+   },
+   "quadrant": {
+    "none": 6,
+    "magnitude": 1
+   },
+   "cycle": {
+    "none": 14
+   },
+   "summary_points": {
+    "none": 21
+   },
+   "text_blocks": {
+    "none": 90,
+    "timeseries": 1,
+    "single_kpi": 2,
+    "composition": 1
+   },
+   "eval_matrix": {
+    "magnitude": 2,
+    "none": 2
+   },
+   "other": {
+    "none": 13,
+    "single_kpi": 2,
+    "magnitude": 2
+   },
+   "swimlane": {
+    "none": 6
+   },
+   "problem_solution": {
+    "none": 25
+   },
+   "estimate": {
+    "magnitude": 15,
+    "single_kpi": 11,
+    "none": 6,
+    "timeseries": 1
+   },
+   "assumptions": {
+    "none": 15
+   },
+   "steps_detail": {
+    "none": 2
+   },
+   "roles": {
+    "none": 9
+   },
+   "meeting": {
+    "none": 8
+   },
+   "agenda_nav": {
+    "none": 2
+   }
+  },
+  "focus": {
+   "visual": {
+    "False": 25,
+    "True": 9
+   },
+   "map": {
+    "True": 3,
+    "False": 4
+   },
+   "profile": {
+    "False": 17
+   },
+   "screen": {
+    "False": 118,
+    "True": 37
+   },
+   "process": {
+    "False": 79,
+    "True": 44
+   },
+   "framework": {
+    "True": 10,
+    "False": 19
+   },
+   "row_header": {
+    "False": 69,
+    "True": 17
+   },
+   "cards": {
+    "False": 77,
+    "True": 16
+   },
+   "schedule": {
+    "False": 24,
+    "True": 32
+   },
+   "org": {
+    "False": 22,
+    "True": 14
+   },
+   "layer": {
+    "False": 29,
+    "True": 14
+   },
+   "case": {
+    "False": 72,
+    "True": 11
+   },
+   "statement": {
+    "False": 2,
+    "True": 14
+   },
+   "table": {
+    "True": 41,
+    "False": 133
+   },
+   "contrast_lr": {
+    "True": 39,
+    "False": 29
+   },
+   "tree": {
+    "False": 22,
+    "True": 12
+   },
+   "big_number": {
+    "False": 15,
+    "True": 7
+   },
+   "hub": {
+    "False": 21,
+    "True": 28
+   },
+   "chart": {
+    "True": 25,
+    "False": 18
+   },
+   "quadrant": {
+    "False": 2,
+    "True": 5
+   },
+   "cycle": {
+    "False": 10,
+    "True": 4
+   },
+   "summary_points": {
+    "False": 14,
+    "True": 7
+   },
+   "text_blocks": {
+    "False": 80,
+    "True": 14
+   },
+   "eval_matrix": {
+    "False": 1,
+    "True": 3
+   },
+   "other": {
+    "False": 10,
+    "True": 7
+   },
+   "swimlane": {
+    "False": 3,
+    "True": 3
+   },
+   "problem_solution": {
+    "False": 16,
+    "True": 9
+   },
+   "estimate": {
+    "False": 17,
+    "True": 16
+   },
+   "assumptions": {
+    "False": 15
+   },
+   "steps_detail": {
+    "False": 1,
+    "True": 1
+   },
+   "roles": {
+    "False": 7,
+    "True": 2
+   },
+   "meeting": {
+    "False": 8
+   },
+   "agenda_nav": {
+    "True": 2
+   }
+  },
+  "text_load": {
+   "visual": {
+    "mid": 12,
+    "low": 22
+   },
+   "map": {
+    "low": 4,
+    "mid": 3
+   },
+   "profile": {
+    "mid": 7,
+    "high": 4,
+    "low": 6
+   },
+   "screen": {
+    "low": 56,
+    "mid": 76,
+    "high": 23
+   },
+   "process": {
+    "mid": 73,
+    "low": 14,
+    "high": 36
+   },
+   "framework": {
+    "mid": 18,
+    "low": 3,
+    "high": 8
+   },
+   "row_header": {
+    "mid": 50,
+    "low": 15,
+    "high": 21
+   },
+   "cards": {
+    "mid": 54,
+    "high": 15,
+    "low": 24
+   },
+   "schedule": {
+    "mid": 32,
+    "low": 14,
+    "high": 10
+   },
+   "org": {
+    "high": 1,
+    "mid": 16,
+    "low": 19
+   },
+   "layer": {
+    "high": 15,
+    "mid": 20,
+    "low": 8
+   },
+   "case": {
+    "mid": 57,
+    "high": 18,
+    "low": 8
+   },
+   "statement": {
+    "low": 14,
+    "mid": 2
+   },
+   "table": {
+    "mid": 74,
+    "low": 6,
+    "high": 94
+   },
+   "contrast_lr": {
+    "low": 21,
+    "mid": 35,
+    "high": 12
+   },
+   "tree": {
+    "low": 11,
+    "mid": 18,
+    "high": 5
+   },
+   "big_number": {
+    "low": 8,
+    "mid": 13,
+    "high": 1
+   },
+   "hub": {
+    "low": 11,
+    "mid": 35,
+    "high": 3
+   },
+   "chart": {
+    "low": 23,
+    "high": 2,
+    "mid": 18
+   },
+   "quadrant": {
+    "low": 1,
+    "high": 5,
+    "mid": 1
+   },
+   "cycle": {
+    "low": 3,
+    "high": 6,
+    "mid": 5
+   },
+   "summary_points": {
+    "mid": 11,
+    "high": 5,
+    "low": 5
+   },
+   "text_blocks": {
+    "high": 25,
+    "low": 19,
+    "mid": 50
+   },
+   "eval_matrix": {
+    "mid": 1,
+    "high": 2,
+    "low": 1
+   },
+   "other": {
+    "mid": 4,
+    "low": 10,
+    "high": 3
+   },
+   "swimlane": {
+    "mid": 6
+   },
+   "problem_solution": {
+    "low": 2,
+    "high": 9,
+    "mid": 14
+   },
+   "estimate": {
+    "mid": 16,
+    "low": 10,
+    "high": 7
+   },
+   "assumptions": {
+    "high": 10,
+    "mid": 4,
+    "low": 1
+   },
+   "steps_detail": {
+    "mid": 2
+   },
+   "roles": {
+    "high": 6,
+    "low": 2,
+    "mid": 1
+   },
+   "meeting": {
+    "mid": 8
+   },
+   "agenda_nav": {
+    "low": 1,
+    "high": 1
+   }
+  },
+  "n_items": {
+   "visual": {
+    "3-4": 21,
+    "1-2": 9,
+    "5-6": 1,
+    "7+": 3
+   },
+   "map": {
+    "7+": 3,
+    "3-4": 2,
+    "5-6": 2
+   },
+   "profile": {
+    "7+": 2,
+    "3-4": 6,
+    "5-6": 2,
+    "1-2": 7
+   },
+   "screen": {
+    "7+": 4,
+    "1-2": 87,
+    "3-4": 55,
+    "5-6": 9
+   },
+   "process": {
+    "3-4": 72,
+    "5-6": 28,
+    "1-2": 13,
+    "7+": 10
+   },
+   "framework": {
+    "1-2": 4,
+    "3-4": 10,
+    "7+": 4,
+    "5-6": 11
+   },
+   "row_header": {
+    "3-4": 49,
+    "1-2": 13,
+    "7+": 8,
+    "5-6": 16
+   },
+   "cards": {
+    "5-6": 28,
+    "3-4": 46,
+    "7+": 19
+   },
+   "schedule": {
+    "5-6": 16,
+    "3-4": 15,
+    "7+": 20,
+    "1-2": 5
+   },
+   "org": {
+    "3-4": 11,
+    "5-6": 5,
+    "1-2": 2,
+    "7+": 18
+   },
+   "layer": {
+    "3-4": 32,
+    "7+": 3,
+    "5-6": 8
+   },
+   "case": {
+    "1-2": 47,
+    "5-6": 7,
+    "3-4": 28,
+    "7+": 1
+   },
+   "statement": {
+    "1-2": 12,
+    "3-4": 4
+   },
+   "table": {
+    "3-4": 49,
+    "5-6": 49,
+    "7+": 68,
+    "1-2": 8
+   },
+   "contrast_lr": {
+    "1-2": 60,
+    "5-6": 2,
+    "3-4": 4,
+    "7+": 2
+   },
+   "tree": {
+    "1-2": 7,
+    "5-6": 5,
+    "3-4": 20,
+    "7+": 2
+   },
+   "big_number": {
+    "5-6": 1,
+    "3-4": 12,
+    "7+": 1,
+    "1-2": 8
+   },
+   "hub": {
+    "7+": 20,
+    "3-4": 20,
+    "5-6": 7,
+    "1-2": 2
+   },
+   "chart": {
+    "1-2": 16,
+    "7+": 9,
+    "5-6": 3,
+    "3-4": 15
+   },
+   "quadrant": {
+    "3-4": 3,
+    "7+": 4
+   },
+   "cycle": {
+    "3-4": 8,
+    "1-2": 3,
+    "5-6": 3
+   },
+   "summary_points": {
+    "3-4": 15,
+    "5-6": 5,
+    "1-2": 1
+   },
+   "text_blocks": {
+    "1-2": 36,
+    "3-4": 48,
+    "5-6": 8,
+    "7+": 2
+   },
+   "eval_matrix": {
+    "7+": 3,
+    "1-2": 1
+   },
+   "other": {
+    "1-2": 6,
+    "7+": 7,
+    "3-4": 3,
+    "5-6": 1
+   },
+   "swimlane": {
+    "1-2": 1,
+    "3-4": 3,
+    "5-6": 1,
+    "7+": 1
+   },
+   "problem_solution": {
+    "3-4": 16,
+    "1-2": 4,
+    "5-6": 5
+   },
+   "estimate": {
+    "3-4": 10,
+    "1-2": 14,
+    "7+": 7,
+    "5-6": 2
+   },
+   "assumptions": {
+    "1-2": 2,
+    "7+": 4,
+    "3-4": 8,
+    "5-6": 1
+   },
+   "steps_detail": {
+    "3-4": 2
+   },
+   "roles": {
+    "7+": 5,
+    "3-4": 1,
+    "5-6": 2,
+    "1-2": 1
+   },
+   "meeting": {
+    "3-4": 7,
+    "5-6": 1
+   },
+   "agenda_nav": {
+    "1-2": 1,
+    "5-6": 1
+   }
+  },
+  "attrs": {
+   "visual": {
+    "1": 32,
+    "3+": 2
+   },
+   "map": {
+    "1": 7
+   },
+   "profile": {
+    "1": 7,
+    "3+": 6,
+    "2": 4
+   },
+   "screen": {
+    "1": 128,
+    "2": 20,
+    "3+": 7
+   },
+   "process": {
+    "2": 46,
+    "1": 42,
+    "3+": 35
+   },
+   "framework": {
+    "2": 7,
+    "1": 11,
+    "3+": 11
+   },
+   "row_header": {
+    "2": 27,
+    "1": 41,
+    "3+": 18
+   },
+   "cards": {
+    "1": 33,
+    "3+": 34,
+    "2": 26
+   },
+   "schedule": {
+    "1": 36,
+    "3+": 19,
+    "2": 1
+   },
+   "org": {
+    "2": 5,
+    "3+": 3,
+    "1": 28
+   },
+   "layer": {
+    "3+": 17,
+    "2": 8,
+    "1": 18
+   },
+   "case": {
+    "3+": 36,
+    "2": 28,
+    "1": 19
+   },
+   "statement": {
+    "1": 15,
+    "2": 1
+   },
+   "table": {
+    "2": 44,
+    "3+": 117,
+    "1": 13
+   },
+   "contrast_lr": {
+    "1": 12,
+    "2": 24,
+    "3+": 32
+   },
+   "tree": {
+    "2": 12,
+    "3+": 7,
+    "1": 15
+   },
+   "big_number": {
+    "1": 16,
+    "2": 4,
+    "3+": 2
+   },
+   "hub": {
+    "1": 32,
+    "3+": 5,
+    "2": 12
+   },
+   "chart": {
+    "1": 30,
+    "2": 7,
+    "3+": 6
+   },
+   "quadrant": {
+    "1": 3,
+    "2": 3,
+    "3+": 1
+   },
+   "cycle": {
+    "1": 8,
+    "2": 4,
+    "3+": 2
+   },
+   "summary_points": {
+    "1": 17,
+    "2": 2,
+    "3+": 2
+   },
+   "text_blocks": {
+    "1": 53,
+    "3+": 28,
+    "2": 13
+   },
+   "eval_matrix": {
+    "3+": 4
+   },
+   "other": {
+    "2": 4,
+    "3+": 3,
+    "1": 10
+   },
+   "swimlane": {
+    "3+": 3,
+    "2": 1,
+    "1": 2
+   },
+   "problem_solution": {
+    "2": 12,
+    "3+": 7,
+    "1": 6
+   },
+   "estimate": {
+    "3+": 16,
+    "1": 9,
+    "2": 8
+   },
+   "assumptions": {
+    "3+": 3,
+    "1": 11,
+    "2": 1
+   },
+   "steps_detail": {
+    "1": 2
+   },
+   "roles": {
+    "3+": 9
+   },
+   "meeting": {
+    "3+": 7,
+    "2": 1
+   },
+   "agenda_nav": {
+    "1": 1,
+    "3+": 1
+   }
+  },
+  "prev_family": {
+   "visual": {
+    "START": 2,
+    "case": 1,
+    "profile": 1,
+    "hub": 2,
+    "visual": 4,
+    "cards": 1,
+    "screen": 1,
+    "row_header": 3,
+    "map": 1,
+    "tree": 3,
+    "schedule": 3,
+    "text_blocks": 1,
+    "table": 2,
+    "contrast_lr": 3,
+    "statement": 2,
+    "agenda_nav": 1,
+    "other": 1,
+    "problem_solution": 1,
+    "chart": 1
+   },
+   "map": {
+    "visual": 1,
+    "START": 1,
+    "screen": 1,
+    "row_header": 2,
+    "text_blocks": 1,
+    "table": 1
+   },
+   "profile": {
+    "map": 1,
+    "org": 2,
+    "row_header": 3,
+    "START": 5,
+    "hub": 2,
+    "process": 1,
+    "screen": 2,
+    "table": 1
+   },
+   "screen": {
+    "profile": 2,
+    "visual": 3,
+    "screen": 66,
+    "cards": 11,
+    "hub": 6,
+    "case": 1,
+    "table": 16,
+    "quadrant": 1,
+    "process": 11,
+    "text_blocks": 11,
+    "framework": 1,
+    "contrast_lr": 7,
+    "row_header": 6,
+    "START": 1,
+    "cycle": 1,
+    "map": 1,
+    "tree": 4,
+    "problem_solution": 1,
+    "swimlane": 1,
+    "chart": 1,
+    "meeting": 1,
+    "layer": 2
+   },
+   "process": {
+    "screen": 12,
+    "statement": 1,
+    "cards": 8,
+    "process": 25,
+    "case": 7,
+    "cycle": 3,
+    "table": 15,
+    "chart": 3,
+    "contrast_lr": 7,
+    "row_header": 7,
+    "hub": 3,
+    "tree": 3,
+    "other": 3,
+    "schedule": 7,
+    "layer": 3,
+    "framework": 2,
+    "estimate": 2,
+    "text_blocks": 4,
+    "summary_points": 1,
+    "steps_detail": 1,
+    "problem_solution": 1,
+    "visual": 1,
+    "big_number": 4
+   },
+   "framework": {
+    "process": 5,
+    "table": 10,
+    "contrast_lr": 2,
+    "row_header": 2,
+    "visual": 1,
+    "statement": 1,
+    "cards": 2,
+    "screen": 1,
+    "case": 1,
+    "hub": 1,
+    "framework": 1,
+    "tree": 1,
+    "summary_points": 1
+   },
+   "row_header": {
+    "framework": 4,
+    "START": 13,
+    "table": 10,
+    "row_header": 15,
+    "contrast_lr": 5,
+    "process": 7,
+    "cycle": 2,
+    "case": 2,
+    "org": 3,
+    "cards": 5,
+    "hub": 2,
+    "chart": 1,
+    "layer": 2,
+    "tree": 1,
+    "text_blocks": 2,
+    "visual": 2,
+    "statement": 1,
+    "screen": 3,
+    "schedule": 2,
+    "estimate": 1,
+    "quadrant": 1,
+    "big_number": 1,
+    "other": 1
+   },
+   "cards": {
+    "row_header": 4,
+    "cards": 20,
+    "case": 3,
+    "process": 13,
+    "table": 8,
+    "framework": 2,
+    "layer": 7,
+    "hub": 3,
+    "visual": 2,
+    "START": 2,
+    "other": 1,
+    "screen": 9,
+    "problem_solution": 2,
+    "profile": 1,
+    "text_blocks": 5,
+    "contrast_lr": 3,
+    "schedule": 3,
+    "quadrant": 1,
+    "cycle": 1,
+    "big_number": 1,
+    "statement": 1,
+    "chart": 1
+   },
+   "schedule": {
+    "cards": 2,
+    "START": 1,
+    "tree": 1,
+    "process": 7,
+    "screen": 4,
+    "summary_points": 1,
+    "table": 8,
+    "visual": 2,
+    "schedule": 6,
+    "row_header": 5,
+    "org": 1,
+    "other": 2,
+    "estimate": 5,
+    "hub": 3,
+    "contrast_lr": 1,
+    "framework": 2,
+    "layer": 1,
+    "chart": 1,
+    "problem_solution": 1,
+    "text_blocks": 1,
+    "assumptions": 1
+   },
+   "org": {
+    "schedule": 9,
+    "process": 2,
+    "row_header": 2,
+    "table": 5,
+    "org": 1,
+    "text_blocks": 2,
+    "cards": 1,
+    "eval_matrix": 1,
+    "meeting": 2,
+    "contrast_lr": 1,
+    "profile": 1,
+    "assumptions": 4,
+    "chart": 1,
+    "roles": 3,
+    "estimate": 1
+   },
+   "layer": {
+    "profile": 3,
+    "layer": 5,
+    "hub": 3,
+    "process": 5,
+    "summary_points": 2,
+    "table": 4,
+    "text_blocks": 2,
+    "row_header": 2,
+    "screen": 4,
+    "contrast_lr": 2,
+    "case": 2,
+    "cards": 2,
+    "quadrant": 1,
+    "problem_solution": 1,
+    "START": 1,
+    "chart": 1,
+    "visual": 1,
+    "cycle": 1,
+    "schedule": 1
+   },
+   "case": {
+    "layer": 1,
+    "cards": 2,
+    "case": 42,
+    "screen": 3,
+    "hub": 2,
+    "framework": 2,
+    "process": 7,
+    "table": 2,
+    "text_blocks": 7,
+    "big_number": 3,
+    "contrast_lr": 1,
+    "profile": 1,
+    "row_header": 2,
+    "map": 1,
+    "chart": 2,
+    "other": 1,
+    "cycle": 1,
+    "statement": 1,
+    "meeting": 1,
+    "START": 1
+   },
+   "statement": {
+    "profile": 3,
+    "statement": 2,
+    "big_number": 1,
+    "text_blocks": 2,
+    "problem_solution": 1,
+    "process": 1,
+    "row_header": 1,
+    "screen": 1,
+    "table": 1,
+    "summary_points": 1,
+    "layer": 1,
+    "case": 1
+   },
+   "table": {
+    "cards": 15,
+    "table": 47,
+    "statement": 2,
+    "process": 11,
+    "visual": 5,
+    "row_header": 6,
+    "eval_matrix": 1,
+    "screen": 11,
+    "hub": 6,
+    "swimlane": 3,
+    "problem_solution": 3,
+    "estimate": 2,
+    "tree": 4,
+    "chart": 10,
+    "text_blocks": 7,
+    "framework": 7,
+    "schedule": 9,
+    "layer": 3,
+    "org": 2,
+    "contrast_lr": 8,
+    "big_number": 2,
+    "case": 3,
+    "START": 2,
+    "profile": 2,
+    "cycle": 1,
+    "meeting": 1,
+    "summary_points": 1
+   },
+   "contrast_lr": {
+    "row_header": 8,
+    "process": 3,
+    "chart": 2,
+    "screen": 7,
+    "quadrant": 1,
+    "table": 5,
+    "summary_points": 4,
+    "contrast_lr": 9,
+    "cycle": 3,
+    "big_number": 2,
+    "cards": 6,
+    "eval_matrix": 1,
+    "problem_solution": 3,
+    "tree": 3,
+    "text_blocks": 5,
+    "visual": 1,
+    "layer": 2,
+    "START": 1,
+    "hub": 1,
+    "case": 1
+   },
+   "tree": {
+    "contrast_lr": 3,
+    "tree": 7,
+    "process": 5,
+    "text_blocks": 4,
+    "table": 3,
+    "row_header": 1,
+    "org": 1,
+    "screen": 3,
+    "layer": 1,
+    "framework": 1,
+    "hub": 1,
+    "other": 1,
+    "chart": 1,
+    "schedule": 1,
+    "case": 1
+   },
+   "big_number": {
+    "visual": 1,
+    "cards": 3,
+    "org": 1,
+    "chart": 4,
+    "table": 1,
+    "problem_solution": 1,
+    "map": 1,
+    "case": 3,
+    "process": 2,
+    "START": 1,
+    "big_number": 3,
+    "summary_points": 1
+   },
+   "hub": {
+    "process": 5,
+    "cards": 5,
+    "contrast_lr": 1,
+    "layer": 4,
+    "screen": 2,
+    "table": 3,
+    "row_header": 5,
+    "visual": 2,
+    "case": 4,
+    "text_blocks": 7,
+    "problem_solution": 2,
+    "schedule": 1,
+    "statement": 2,
+    "other": 1,
+    "quadrant": 1,
+    "hub": 3,
+    "START": 1
+   },
+   "chart": {
+    "screen": 2,
+    "layer": 4,
+    "chart": 10,
+    "process": 2,
+    "table": 7,
+    "estimate": 1,
+    "summary_points": 2,
+    "tree": 2,
+    "text_blocks": 2,
+    "hub": 1,
+    "big_number": 4,
+    "row_header": 1,
+    "schedule": 1,
+    "contrast_lr": 1,
+    "cards": 1,
+    "map": 1,
+    "visual": 1
+   },
+   "quadrant": {
+    "contrast_lr": 1,
+    "schedule": 2,
+    "quadrant": 1,
+    "tree": 1,
+    "layer": 1,
+    "hub": 1
+   },
+   "cycle": {
+    "visual": 2,
+    "other": 1,
+    "steps_detail": 1,
+    "framework": 2,
+    "row_header": 1,
+    "agenda_nav": 1,
+    "process": 1,
+    "table": 1,
+    "text_blocks": 1,
+    "case": 1,
+    "layer": 1,
+    "big_number": 1
+   },
+   "summary_points": {
+    "START": 7,
+    "summary_points": 2,
+    "table": 1,
+    "contrast_lr": 2,
+    "row_header": 2,
+    "screen": 1,
+    "text_blocks": 3,
+    "case": 1,
+    "framework": 1,
+    "problem_solution": 1
+   },
+   "text_blocks": {
+    "screen": 14,
+    "layer": 4,
+    "other": 3,
+    "text_blocks": 18,
+    "table": 6,
+    "process": 4,
+    "roles": 1,
+    "START": 9,
+    "cards": 5,
+    "chart": 1,
+    "framework": 3,
+    "visual": 3,
+    "swimlane": 1,
+    "profile": 1,
+    "statement": 2,
+    "row_header": 6,
+    "contrast_lr": 6,
+    "schedule": 1,
+    "hub": 1,
+    "summary_points": 2,
+    "case": 3
+   },
+   "eval_matrix": {
+    "process": 1,
+    "cards": 1,
+    "table": 2
+   },
+   "other": {
+    "table": 3,
+    "schedule": 2,
+    "summary_points": 1,
+    "text_blocks": 3,
+    "cards": 1,
+    "problem_solution": 1,
+    "visual": 2,
+    "hub": 2,
+    "map": 1,
+    "case": 1
+   },
+   "swimlane": {
+    "cards": 1,
+    "text_blocks": 1,
+    "problem_solution": 1,
+    "screen": 1,
+    "tree": 1,
+    "table": 1
+   },
+   "problem_solution": {
+    "hub": 2,
+    "problem_solution": 5,
+    "cards": 1,
+    "layer": 1,
+    "table": 4,
+    "START": 4,
+    "profile": 1,
+    "summary_points": 1,
+    "swimlane": 1,
+    "text_blocks": 1,
+    "schedule": 1,
+    "org": 1,
+    "case": 1,
+    "process": 1
+   },
+   "estimate": {
+    "schedule": 2,
+    "profile": 1,
+    "tree": 1,
+    "org": 8,
+    "row_header": 1,
+    "table": 2,
+    "contrast_lr": 2,
+    "estimate": 8,
+    "screen": 1,
+    "eval_matrix": 1,
+    "roles": 1,
+    "assumptions": 2,
+    "text_blocks": 2,
+    "hub": 1
+   },
+   "assumptions": {
+    "estimate": 7,
+    "assumptions": 4,
+    "roles": 3,
+    "org": 1
+   },
+   "steps_detail": {
+    "hub": 1,
+    "chart": 1
+   },
+   "roles": {
+    "org": 2,
+    "schedule": 4,
+    "roles": 1,
+    "text_blocks": 1,
+    "table": 1
+   },
+   "meeting": {
+    "org": 5,
+    "screen": 1,
+    "schedule": 1,
+    "estimate": 1
+   },
+   "agenda_nav": {
+    "other": 1,
+    "process": 1
+   }
+  },
+  "mat_chart": {
+   "visual": {
+    "0": 34
+   },
+   "map": {
+    "0": 7
+   },
+   "profile": {
+    "0": 17
+   },
+   "screen": {
+    "0": 148,
+    "1": 7
+   },
+   "process": {
+    "0": 115,
+    "1": 8
+   },
+   "framework": {
+    "0": 28,
+    "1": 1
+   },
+   "row_header": {
+    "0": 85,
+    "1": 1
+   },
+   "cards": {
+    "0": 93
+   },
+   "schedule": {
+    "0": 56
+   },
+   "org": {
+    "0": 36
+   },
+   "layer": {
+    "0": 43
+   },
+   "case": {
+    "0": 83
+   },
+   "statement": {
+    "0": 16
+   },
+   "table": {
+    "0": 173,
+    "1": 1
+   },
+   "contrast_lr": {
+    "0": 67,
+    "1": 1
+   },
+   "tree": {
+    "0": 33,
+    "1": 1
+   },
+   "big_number": {
+    "0": 13,
+    "1": 9
+   },
+   "hub": {
+    "0": 48,
+    "1": 1
+   },
+   "chart": {
+    "1": 41,
+    "0": 2
+   },
+   "quadrant": {
+    "0": 6,
+    "1": 1
+   },
+   "cycle": {
+    "0": 14
+   },
+   "summary_points": {
+    "0": 21
+   },
+   "text_blocks": {
+    "0": 92,
+    "1": 2
+   },
+   "eval_matrix": {
+    "0": 4
+   },
+   "other": {
+    "0": 16,
+    "1": 1
+   },
+   "swimlane": {
+    "0": 6
+   },
+   "problem_solution": {
+    "0": 25
+   },
+   "estimate": {
+    "0": 30,
+    "1": 3
+   },
+   "assumptions": {
+    "0": 15
+   },
+   "steps_detail": {
+    "0": 2
+   },
+   "roles": {
+    "0": 9
+   },
+   "meeting": {
+    "0": 8
+   },
+   "agenda_nav": {
+    "0": 2
+   }
+  },
+  "mat_diagram": {
+   "visual": {
+    "0": 26,
+    "1": 8
+   },
+   "map": {
+    "1": 3,
+    "0": 4
+   },
+   "profile": {
+    "0": 17
+   },
+   "screen": {
+    "0": 142,
+    "1": 13
+   },
+   "process": {
+    "0": 58,
+    "1": 65
+   },
+   "framework": {
+    "1": 24,
+    "0": 5
+   },
+   "row_header": {
+    "0": 82,
+    "1": 4
+   },
+   "cards": {
+    "0": 84,
+    "1": 9
+   },
+   "schedule": {
+    "1": 28,
+    "0": 28
+   },
+   "org": {
+    "1": 6,
+    "0": 30
+   },
+   "layer": {
+    "1": 30,
+    "0": 13
+   },
+   "case": {
+    "0": 76,
+    "1": 7
+   },
+   "statement": {
+    "0": 16
+   },
+   "table": {
+    "1": 10,
+    "0": 164
+   },
+   "contrast_lr": {
+    "0": 35,
+    "1": 33
+   },
+   "tree": {
+    "1": 23,
+    "0": 11
+   },
+   "big_number": {
+    "0": 22
+   },
+   "hub": {
+    "1": 44,
+    "0": 5
+   },
+   "chart": {
+    "0": 41,
+    "1": 2
+   },
+   "quadrant": {
+    "0": 2,
+    "1": 5
+   },
+   "cycle": {
+    "1": 12,
+    "0": 2
+   },
+   "summary_points": {
+    "0": 21
+   },
+   "text_blocks": {
+    "0": 82,
+    "1": 12
+   },
+   "eval_matrix": {
+    "0": 4
+   },
+   "other": {
+    "1": 9,
+    "0": 8
+   },
+   "swimlane": {
+    "1": 4,
+    "0": 2
+   },
+   "problem_solution": {
+    "1": 6,
+    "0": 19
+   },
+   "estimate": {
+    "0": 33
+   },
+   "assumptions": {
+    "0": 15
+   },
+   "steps_detail": {
+    "1": 2
+   },
+   "roles": {
+    "0": 9
+   },
+   "meeting": {
+    "0": 8
+   },
+   "agenda_nav": {
+    "0": 1,
+    "1": 1
+   }
+  },
+  "mat_external_figure": {
+   "visual": {
+    "0": 30,
+    "1": 4
+   },
+   "map": {
+    "0": 3,
+    "1": 4
+   },
+   "profile": {
+    "0": 17
+   },
+   "screen": {
+    "0": 150,
+    "1": 5
+   },
+   "process": {
+    "0": 123
+   },
+   "framework": {
+    "0": 29
+   },
+   "row_header": {
+    "0": 85,
+    "1": 1
+   },
+   "cards": {
+    "0": 92,
+    "1": 1
+   },
+   "schedule": {
+    "0": 56
+   },
+   "org": {
+    "0": 36
+   },
+   "layer": {
+    "0": 41,
+    "1": 2
+   },
+   "case": {
+    "0": 80,
+    "1": 3
+   },
+   "statement": {
+    "0": 16
+   },
+   "table": {
+    "0": 173,
+    "1": 1
+   },
+   "contrast_lr": {
+    "0": 66,
+    "1": 2
+   },
+   "tree": {
+    "0": 33,
+    "1": 1
+   },
+   "big_number": {
+    "0": 20,
+    "1": 2
+   },
+   "hub": {
+    "0": 47,
+    "1": 2
+   },
+   "chart": {
+    "0": 41,
+    "1": 2
+   },
+   "quadrant": {
+    "0": 7
+   },
+   "cycle": {
+    "0": 14
+   },
+   "summary_points": {
+    "0": 21
+   },
+   "text_blocks": {
+    "0": 91,
+    "1": 3
+   },
+   "eval_matrix": {
+    "0": 4
+   },
+   "other": {
+    "0": 17
+   },
+   "swimlane": {
+    "0": 5,
+    "1": 1
+   },
+   "problem_solution": {
+    "0": 25
+   },
+   "estimate": {
+    "0": 33
+   },
+   "assumptions": {
+    "0": 15
+   },
+   "steps_detail": {
+    "0": 2
+   },
+   "roles": {
+    "0": 9
+   },
+   "meeting": {
+    "0": 8
+   },
+   "agenda_nav": {
+    "0": 2
+   }
+  },
+  "mat_icons": {
+   "visual": {
+    "0": 25,
+    "1": 9
+   },
+   "map": {
+    "0": 7
+   },
+   "profile": {
+    "0": 16,
+    "1": 1
+   },
+   "screen": {
+    "0": 139,
+    "1": 16
+   },
+   "process": {
+    "1": 56,
+    "0": 67
+   },
+   "framework": {
+    "0": 25,
+    "1": 4
+   },
+   "row_header": {
+    "0": 75,
+    "1": 11
+   },
+   "cards": {
+    "1": 47,
+    "0": 46
+   },
+   "schedule": {
+    "0": 47,
+    "1": 9
+   },
+   "org": {
+    "1": 14,
+    "0": 22
+   },
+   "layer": {
+    "1": 22,
+    "0": 21
+   },
+   "case": {
+    "0": 66,
+    "1": 17
+   },
+   "statement": {
+    "0": 16
+   },
+   "table": {
+    "0": 153,
+    "1": 21
+   },
+   "contrast_lr": {
+    "0": 44,
+    "1": 24
+   },
+   "tree": {
+    "0": 29,
+    "1": 5
+   },
+   "big_number": {
+    "0": 19,
+    "1": 3
+   },
+   "hub": {
+    "0": 29,
+    "1": 20
+   },
+   "chart": {
+    "0": 42,
+    "1": 1
+   },
+   "quadrant": {
+    "0": 7
+   },
+   "cycle": {
+    "0": 3,
+    "1": 11
+   },
+   "summary_points": {
+    "0": 17,
+    "1": 4
+   },
+   "text_blocks": {
+    "0": 67,
+    "1": 27
+   },
+   "eval_matrix": {
+    "0": 4
+   },
+   "other": {
+    "0": 11,
+    "1": 6
+   },
+   "swimlane": {
+    "0": 4,
+    "1": 2
+   },
+   "problem_solution": {
+    "0": 17,
+    "1": 8
+   },
+   "estimate": {
+    "0": 32,
+    "1": 1
+   },
+   "assumptions": {
+    "0": 15
+   },
+   "steps_detail": {
+    "1": 2
+   },
+   "roles": {
+    "0": 9
+   },
+   "meeting": {
+    "0": 8
+   },
+   "agenda_nav": {
+    "0": 1,
+    "1": 1
+   }
+  },
+  "mat_logos": {
+   "visual": {
+    "0": 33,
+    "1": 1
+   },
+   "map": {
+    "0": 5,
+    "1": 2
+   },
+   "profile": {
+    "1": 5,
+    "0": 12
+   },
+   "screen": {
+    "0": 145,
+    "1": 10
+   },
+   "process": {
+    "0": 115,
+    "1": 8
+   },
+   "framework": {
+    "0": 29
+   },
+   "row_header": {
+    "0": 84,
+    "1": 2
+   },
+   "cards": {
+    "0": 82,
+    "1": 11
+   },
+   "schedule": {
+    "0": 56
+   },
+   "org": {
+    "0": 36
+   },
+   "layer": {
+    "0": 38,
+    "1": 5
+   },
+   "case": {
+    "0": 78,
+    "1": 5
+   },
+   "statement": {
+    "0": 16
+   },
+   "table": {
+    "0": 169,
+    "1": 5
+   },
+   "contrast_lr": {
+    "0": 66,
+    "1": 2
+   },
+   "tree": {
+    "0": 34
+   },
+   "big_number": {
+    "0": 21,
+    "1": 1
+   },
+   "hub": {
+    "0": 39,
+    "1": 10
+   },
+   "chart": {
+    "0": 43
+   },
+   "quadrant": {
+    "0": 5,
+    "1": 2
+   },
+   "cycle": {
+    "0": 14
+   },
+   "summary_points": {
+    "0": 21
+   },
+   "text_blocks": {
+    "0": 87,
+    "1": 7
+   },
+   "eval_matrix": {
+    "0": 4
+   },
+   "other": {
+    "0": 14,
+    "1": 3
+   },
+   "swimlane": {
+    "0": 5,
+    "1": 1
+   },
+   "problem_solution": {
+    "0": 24,
+    "1": 1
+   },
+   "estimate": {
+    "0": 33
+   },
+   "assumptions": {
+    "0": 15
+   },
+   "steps_detail": {
+    "0": 2
+   },
+   "roles": {
+    "0": 9
+   },
+   "meeting": {
+    "0": 8
+   },
+   "agenda_nav": {
+    "0": 2
+   }
+  },
+  "mat_numbers": {
+   "visual": {
+    "0": 34
+   },
+   "map": {
+    "0": 5,
+    "1": 2
+   },
+   "profile": {
+    "0": 15,
+    "1": 2
+   },
+   "screen": {
+    "0": 151,
+    "1": 4
+   },
+   "process": {
+    "0": 117,
+    "1": 6
+   },
+   "framework": {
+    "0": 28,
+    "1": 1
+   },
+   "row_header": {
+    "0": 84,
+    "1": 2
+   },
+   "cards": {
+    "0": 88,
+    "1": 5
+   },
+   "schedule": {
+    "0": 55,
+    "1": 1
+   },
+   "org": {
+    "0": 33,
+    "1": 3
+   },
+   "layer": {
+    "0": 42,
+    "1": 1
+   },
+   "case": {
+    "0": 64,
+    "1": 19
+   },
+   "statement": {
+    "0": 15,
+    "1": 1
+   },
+   "table": {
+    "0": 134,
+    "1": 40
+   },
+   "contrast_lr": {
+    "0": 67,
+    "1": 1
+   },
+   "tree": {
+    "0": 30,
+    "1": 4
+   },
+   "big_number": {
+    "1": 22
+   },
+   "hub": {
+    "0": 46,
+    "1": 3
+   },
+   "chart": {
+    "1": 23,
+    "0": 20
+   },
+   "quadrant": {
+    "0": 7
+   },
+   "cycle": {
+    "0": 14
+   },
+   "summary_points": {
+    "0": 20,
+    "1": 1
+   },
+   "text_blocks": {
+    "0": 89,
+    "1": 5
+   },
+   "eval_matrix": {
+    "1": 2,
+    "0": 2
+   },
+   "other": {
+    "0": 13,
+    "1": 4
+   },
+   "swimlane": {
+    "0": 6
+   },
+   "problem_solution": {
+    "0": 25
+   },
+   "estimate": {
+    "1": 29,
+    "0": 4
+   },
+   "assumptions": {
+    "0": 15
+   },
+   "steps_detail": {
+    "0": 2
+   },
+   "roles": {
+    "0": 9
+   },
+   "meeting": {
+    "0": 8
+   },
+   "agenda_nav": {
+    "0": 2
+   }
+  },
+  "mat_people_org": {
+   "visual": {
+    "0": 34
+   },
+   "map": {
+    "0": 7
+   },
+   "profile": {
+    "1": 7,
+    "0": 10
+   },
+   "screen": {
+    "0": 155
+   },
+   "process": {
+    "0": 115,
+    "1": 8
+   },
+   "framework": {
+    "0": 29
+   },
+   "row_header": {
+    "0": 86
+   },
+   "cards": {
+    "0": 92,
+    "1": 1
+   },
+   "schedule": {
+    "0": 55,
+    "1": 1
+   },
+   "org": {
+    "1": 33,
+    "0": 3
+   },
+   "layer": {
+    "0": 41,
+    "1": 2
+   },
+   "case": {
+    "0": 83
+   },
+   "statement": {
+    "0": 16
+   },
+   "table": {
+    "0": 174
+   },
+   "contrast_lr": {
+    "0": 67,
+    "1": 1
+   },
+   "tree": {
+    "0": 33,
+    "1": 1
+   },
+   "big_number": {
+    "0": 22
+   },
+   "hub": {
+    "0": 46,
+    "1": 3
+   },
+   "chart": {
+    "0": 43
+   },
+   "quadrant": {
+    "0": 7
+   },
+   "cycle": {
+    "0": 14
+   },
+   "summary_points": {
+    "0": 21
+   },
+   "text_blocks": {
+    "0": 92,
+    "1": 2
+   },
+   "eval_matrix": {
+    "0": 4
+   },
+   "other": {
+    "0": 17
+   },
+   "swimlane": {
+    "0": 6
+   },
+   "problem_solution": {
+    "0": 25
+   },
+   "estimate": {
+    "0": 33
+   },
+   "assumptions": {
+    "0": 15
+   },
+   "steps_detail": {
+    "0": 2
+   },
+   "roles": {
+    "1": 1,
+    "0": 8
+   },
+   "meeting": {
+    "0": 7,
+    "1": 1
+   },
+   "agenda_nav": {
+    "0": 2
+   }
+  },
+  "mat_photo": {
+   "visual": {
+    "1": 21,
+    "0": 13
+   },
+   "map": {
+    "0": 6,
+    "1": 1
+   },
+   "profile": {
+    "1": 14,
+    "0": 3
+   },
+   "screen": {
+    "1": 16,
+    "0": 139
+   },
+   "process": {
+    "1": 3,
+    "0": 120
+   },
+   "framework": {
+    "1": 1,
+    "0": 28
+   },
+   "row_header": {
+    "1": 7,
+    "0": 79
+   },
+   "cards": {
+    "0": 79,
+    "1": 14
+   },
+   "schedule": {
+    "0": 56
+   },
+   "org": {
+    "0": 35,
+    "1": 1
+   },
+   "layer": {
+    "0": 40,
+    "1": 3
+   },
+   "case": {
+    "1": 51,
+    "0": 32
+   },
+   "statement": {
+    "1": 2,
+    "0": 14
+   },
+   "table": {
+    "0": 170,
+    "1": 4
+   },
+   "contrast_lr": {
+    "0": 62,
+    "1": 6
+   },
+   "tree": {
+    "0": 34
+   },
+   "big_number": {
+    "0": 18,
+    "1": 4
+   },
+   "hub": {
+    "0": 48,
+    "1": 1
+   },
+   "chart": {
+    "0": 43
+   },
+   "quadrant": {
+    "0": 7
+   },
+   "cycle": {
+    "1": 2,
+    "0": 12
+   },
+   "summary_points": {
+    "0": 18,
+    "1": 3
+   },
+   "text_blocks": {
+    "0": 85,
+    "1": 9
+   },
+   "eval_matrix": {
+    "0": 4
+   },
+   "other": {
+    "0": 17
+   },
+   "swimlane": {
+    "0": 6
+   },
+   "problem_solution": {
+    "0": 24,
+    "1": 1
+   },
+   "estimate": {
+    "0": 33
+   },
+   "assumptions": {
+    "0": 15
+   },
+   "steps_detail": {
+    "0": 2
+   },
+   "roles": {
+    "0": 9
+   },
+   "meeting": {
+    "0": 8
+   },
+   "agenda_nav": {
+    "0": 2
+   }
+  },
+  "mat_screenshot": {
+   "visual": {
+    "0": 31,
+    "1": 3
+   },
+   "map": {
+    "0": 7
+   },
+   "profile": {
+    "0": 17
+   },
+   "screen": {
+    "0": 18,
+    "1": 137
+   },
+   "process": {
+    "0": 108,
+    "1": 15
+   },
+   "framework": {
+    "0": 28,
+    "1": 1
+   },
+   "row_header": {
+    "0": 82,
+    "1": 4
+   },
+   "cards": {
+    "0": 84,
+    "1": 9
+   },
+   "schedule": {
+    "0": 56
+   },
+   "org": {
+    "0": 36
+   },
+   "layer": {
+    "0": 37,
+    "1": 6
+   },
+   "case": {
+    "0": 73,
+    "1": 10
+   },
+   "statement": {
+    "0": 15,
+    "1": 1
+   },
+   "table": {
+    "0": 162,
+    "1": 12
+   },
+   "contrast_lr": {
+    "0": 61,
+    "1": 7
+   },
+   "tree": {
+    "0": 32,
+    "1": 2
+   },
+   "big_number": {
+    "1": 1,
+    "0": 21
+   },
+   "hub": {
+    "0": 44,
+    "1": 5
+   },
+   "chart": {
+    "0": 40,
+    "1": 3
+   },
+   "quadrant": {
+    "1": 1,
+    "0": 6
+   },
+   "cycle": {
+    "0": 14
+   },
+   "summary_points": {
+    "0": 21
+   },
+   "text_blocks": {
+    "0": 89,
+    "1": 5
+   },
+   "eval_matrix": {
+    "0": 4
+   },
+   "other": {
+    "0": 13,
+    "1": 4
+   },
+   "swimlane": {
+    "0": 6
+   },
+   "problem_solution": {
+    "1": 3,
+    "0": 22
+   },
+   "estimate": {
+    "0": 33
+   },
+   "assumptions": {
+    "0": 15
+   },
+   "steps_detail": {
+    "1": 1,
+    "0": 1
+   },
+   "roles": {
+    "0": 9
+   },
+   "meeting": {
+    "0": 8
+   },
+   "agenda_nav": {
+    "0": 2
+   }
+  },
+  "mat_table_data": {
+   "visual": {
+    "0": 34
+   },
+   "map": {
+    "0": 7
+   },
+   "profile": {
+    "0": 16,
+    "1": 1
+   },
+   "screen": {
+    "0": 134,
+    "1": 21
+   },
+   "process": {
+    "0": 116,
+    "1": 7
+   },
+   "framework": {
+    "0": 29
+   },
+   "row_header": {
+    "0": 83,
+    "1": 3
+   },
+   "cards": {
+    "0": 90,
+    "1": 3
+   },
+   "schedule": {
+    "0": 54,
+    "1": 2
+   },
+   "org": {
+    "0": 36
+   },
+   "layer": {
+    "0": 40,
+    "1": 3
+   },
+   "case": {
+    "0": 80,
+    "1": 3
+   },
+   "statement": {
+    "0": 16
+   },
+   "table": {
+    "0": 57,
+    "1": 117
+   },
+   "contrast_lr": {
+    "0": 62,
+    "1": 6
+   },
+   "tree": {
+    "0": 34
+   },
+   "big_number": {
+    "0": 21,
+    "1": 1
+   },
+   "hub": {
+    "0": 49
+   },
+   "chart": {
+    "0": 40,
+    "1": 3
+   },
+   "quadrant": {
+    "1": 1,
+    "0": 6
+   },
+   "cycle": {
+    "0": 14
+   },
+   "summary_points": {
+    "0": 21
+   },
+   "text_blocks": {
+    "0": 90,
+    "1": 4
+   },
+   "eval_matrix": {
+    "1": 3,
+    "0": 1
+   },
+   "other": {
+    "0": 16,
+    "1": 1
+   },
+   "swimlane": {
+    "0": 6
+   },
+   "problem_solution": {
+    "0": 22,
+    "1": 3
+   },
+   "estimate": {
+    "1": 21,
+    "0": 12
+   },
+   "assumptions": {
+    "0": 12,
+    "1": 3
+   },
+   "steps_detail": {
+    "0": 2
+   },
+   "roles": {
+    "0": 4,
+    "1": 5
+   },
+   "meeting": {
+    "0": 4,
+    "1": 4
+   },
+   "agenda_nav": {
+    "0": 2
+   }
+  },
+  "mat_text": {
+   "visual": {
+    "1": 27,
+    "0": 7
+   },
+   "map": {
+    "1": 7
+   },
+   "profile": {
+    "1": 15,
+    "0": 2
+   },
+   "screen": {
+    "1": 122,
+    "0": 33
+   },
+   "process": {
+    "1": 111,
+    "0": 12
+   },
+   "framework": {
+    "1": 28,
+    "0": 1
+   },
+   "row_header": {
+    "1": 86
+   },
+   "cards": {
+    "1": 92,
+    "0": 1
+   },
+   "schedule": {
+    "1": 54,
+    "0": 2
+   },
+   "org": {
+    "1": 29,
+    "0": 7
+   },
+   "layer": {
+    "1": 39,
+    "0": 4
+   },
+   "case": {
+    "1": 81,
+    "0": 2
+   },
+   "statement": {
+    "1": 16
+   },
+   "table": {
+    "1": 153,
+    "0": 21
+   },
+   "contrast_lr": {
+    "1": 65,
+    "0": 3
+   },
+   "tree": {
+    "1": 32,
+    "0": 2
+   },
+   "big_number": {
+    "0": 2,
+    "1": 20
+   },
+   "hub": {
+    "1": 39,
+    "0": 10
+   },
+   "chart": {
+    "1": 29,
+    "0": 14
+   },
+   "quadrant": {
+    "1": 7
+   },
+   "cycle": {
+    "1": 14
+   },
+   "summary_points": {
+    "1": 21
+   },
+   "text_blocks": {
+    "1": 94
+   },
+   "eval_matrix": {
+    "0": 3,
+    "1": 1
+   },
+   "other": {
+    "1": 17
+   },
+   "swimlane": {
+    "1": 6
+   },
+   "problem_solution": {
+    "1": 25
+   },
+   "estimate": {
+    "1": 21,
+    "0": 12
+   },
+   "assumptions": {
+    "1": 15
+   },
+   "steps_detail": {
+    "1": 2
+   },
+   "roles": {
+    "1": 8,
+    "0": 1
+   },
+   "meeting": {
+    "1": 8
+   },
+   "agenda_nav": {
+    "1": 2
+   }
+  }
+ },
+ "rules": [
+  {
+   "if": {
+    "story_step": "事例",
+    "purpose": "納得させる"
+   },
+   "then": "case",
+   "support": 71,
+   "of": 86,
+   "precision": 0.83,
+   "lift": 14.2
+  },
+  {
+   "if": {
+    "deck_type": "techvision",
+    "story_step": "事例"
+   },
+   "then": "case",
+   "support": 43,
+   "of": 48,
+   "precision": 0.9,
+   "lift": 15.4
+  },
+  {
+   "if": {
+    "story_step": "体制",
+    "relation": "hierarchy"
+   },
+   "then": "org",
+   "support": 29,
+   "of": 32,
+   "precision": 0.91,
+   "lift": 35.9
+  },
+  {
+   "if": {
+    "story_step": "計画",
+    "attrs": "1"
+   },
+   "then": "schedule",
+   "support": 29,
+   "of": 32,
+   "precision": 0.91,
+   "lift": 23.1
+  },
+  {
+   "if": {
+    "mat_screenshot": "1"
+   },
+   "then": "screen",
+   "support": 137,
+   "of": 230,
+   "precision": 0.6,
+   "lift": 5.5
+  },
+  {
+   "if": {
+    "story_step": "費用"
+   },
+   "then": "estimate",
+   "support": 25,
+   "of": 28,
+   "precision": 0.89,
+   "lift": 38.6
+  },
+  {
+   "if": {
+    "story_step": "費用",
+    "relation": "parallel"
+   },
+   "then": "estimate",
+   "support": 16,
+   "of": 16,
+   "precision": 1.0,
+   "lift": 43.2
+  },
+  {
+   "if": {
+    "deck_type": "techvision",
+    "purpose": "納得させる"
+   },
+   "then": "case",
+   "support": 45,
+   "of": 61,
+   "precision": 0.74,
+   "lift": 12.7
+  },
+  {
+   "if": {
+    "deck_type": "training",
+    "story_step": "事例"
+   },
+   "then": "screen",
+   "support": 44,
+   "of": 65,
+   "precision": 0.68,
+   "lift": 6.2
+  },
+  {
+   "if": {
+    "mat_table_data": "1"
+   },
+   "then": "table",
+   "support": 117,
+   "of": 215,
+   "precision": 0.54,
+   "lift": 4.5
+  },
+  {
+   "if": {
+    "story_step": "事例",
+    "relation": "flow"
+   },
+   "then": "screen",
+   "support": 25,
+   "of": 32,
+   "precision": 0.78,
+   "lift": 7.2
+  },
+  {
+   "if": {
+    "deck_type": "techvision",
+    "attrs": "3+"
+   },
+   "then": "case",
+   "support": 23,
+   "of": 29,
+   "precision": 0.79,
+   "lift": 13.6
+  },
+  {
+   "if": {
+    "story_step": "費用",
+    "purpose": "決めさせる"
+   },
+   "then": "estimate",
+   "support": 11,
+   "of": 11,
+   "precision": 1.0,
+   "lift": 43.2
+  },
+  {
+   "if": {
+    "story_step": "費用",
+    "data": "single_kpi"
+   },
+   "then": "estimate",
+   "support": 11,
+   "of": 11,
+   "precision": 1.0,
+   "lift": 43.2
+  },
+  {
+   "if": {
+    "deck_type": "proposal",
+    "story_step": "計画"
+   },
+   "then": "schedule",
+   "support": 25,
+   "of": 33,
+   "precision": 0.76,
+   "lift": 19.3
+  },
+  {
+   "if": {
+    "story_step": "事例",
+    "attrs": "1"
+   },
+   "then": "screen",
+   "support": 54,
+   "of": 89,
+   "precision": 0.61,
+   "lift": 5.6
+  },
+  {
+   "if": {
+    "story_step": "体制",
+    "attrs": "1"
+   },
+   "then": "org",
+   "support": 26,
+   "of": 35,
+   "precision": 0.74,
+   "lift": 29.4
+  },
+  {
+   "if": {
+    "story_step": "計画"
+   },
+   "then": "schedule",
+   "support": 44,
+   "of": 69,
+   "precision": 0.64,
+   "lift": 16.2
+  },
+  {
+   "if": {
+    "deck_type": "training",
+    "timing": "appendix"
+   },
+   "then": "screen",
+   "support": 30,
+   "of": 43,
+   "precision": 0.7,
+   "lift": 6.4
+  },
+  {
+   "if": {
+    "purpose": "決めさせる",
+    "data": "single_kpi"
+   },
+   "then": "estimate",
+   "support": 10,
+   "of": 10,
+   "precision": 1.0,
+   "lift": 43.2
+  },
+  {
+   "if": {
+    "deck_type": "proposal",
+    "story_step": "前提"
+   },
+   "then": "assumptions",
+   "support": 14,
+   "of": 16,
+   "precision": 0.88,
+   "lift": 83.1
+  },
+  {
+   "if": {
+    "deck_type": "techvision",
+    "from_prev": "parallel_next"
+   },
+   "then": "case",
+   "support": 19,
+   "of": 24,
+   "precision": 0.79,
+   "lift": 13.6
+  },
+  {
+   "if": {
+    "n_items": "7+",
+    "attrs": "3+"
+   },
+   "then": "table",
+   "support": 49,
+   "of": 82,
+   "precision": 0.6,
+   "lift": 4.9
+  },
+  {
+   "if": {
+    "relation": "contrast",
+    "n_items": "1-2"
+   },
+   "then": "contrast_lr",
+   "support": 56,
+   "of": 96,
+   "precision": 0.58,
+   "lift": 12.2
+  },
+  {
+   "if": {
+    "deck_type": "training",
+    "relation": "flow"
+   },
+   "then": "screen",
+   "support": 26,
+   "of": 37,
+   "precision": 0.7,
+   "lift": 6.5
+  },
+  {
+   "if": {
+    "timing": "deck_close",
+    "story_step": "前提"
+   },
+   "then": "assumptions",
+   "support": 9,
+   "of": 9,
+   "precision": 1.0,
+   "lift": 95.0
+  },
+  {
+   "if": {
+    "data": "composition",
+    "text_load": "low"
+   },
+   "then": "chart",
+   "support": 9,
+   "of": 9,
+   "precision": 1.0,
+   "lift": 33.1
+  },
+  {
+   "if": {
+    "story_step": "体制",
+    "n_items": "7+"
+   },
+   "then": "org",
+   "support": 18,
+   "of": 23,
+   "precision": 0.78,
+   "lift": 31.0
+  },
+  {
+   "if": {
+    "purpose": "決めさせる",
+    "relation": "parallel"
+   },
+   "then": "estimate",
+   "support": 11,
+   "of": 12,
+   "precision": 0.92,
+   "lift": 39.6
+  },
+  {
+   "if": {
+    "story_step": "計画",
+    "from_prev": "next_step"
+   },
+   "then": "schedule",
+   "support": 19,
+   "of": 25,
+   "precision": 0.76,
+   "lift": 19.3
+  },
+  {
+   "if": {
+    "story_step": "事例",
+    "attrs": "3+"
+   },
+   "then": "case",
+   "support": 36,
+   "of": 58,
+   "precision": 0.62,
+   "lift": 10.7
+  },
+  {
+   "if": {
+    "deck_type": "techvision",
+    "timing": "chapter_body"
+   },
+   "then": "case",
+   "support": 43,
+   "of": 73,
+   "precision": 0.59,
+   "lift": 10.1
+  },
+  {
+   "if": {
+    "story_step": "体制",
+    "purpose": "理解させる"
+   },
+   "then": "org",
+   "support": 30,
+   "of": 46,
+   "precision": 0.65,
+   "lift": 25.8
+  },
+  {
+   "if": {
+    "data": "timeseries",
+    "attrs": "1"
+   },
+   "then": "chart",
+   "support": 8,
+   "of": 8,
+   "precision": 1.0,
+   "lift": 33.1
+  },
+  {
+   "if": {
+    "timing": "deck_close",
+    "story_step": "費用"
+   },
+   "then": "estimate",
+   "support": 8,
+   "of": 8,
+   "precision": 1.0,
+   "lift": 43.2
+  },
+  {
+   "if": {
+    "timing": "deck_close",
+    "relation": "hierarchy"
+   },
+   "then": "org",
+   "support": 8,
+   "of": 8,
+   "precision": 1.0,
+   "lift": 39.6
+  },
+  {
+   "if": {
+    "story_step": "事例",
+    "data": "single_kpi"
+   },
+   "then": "case",
+   "support": 10,
+   "of": 11,
+   "precision": 0.91,
+   "lift": 15.6
+  },
+  {
+   "if": {
+    "story_step": "事例",
+    "relation": "parallel"
+   },
+   "then": "case",
+   "support": 41,
+   "of": 71,
+   "precision": 0.58,
+   "lift": 9.9
+  },
+  {
+   "if": {
+    "deck_type": "techvision",
+    "n_items": "1-2"
+   },
+   "then": "case",
+   "support": 36,
+   "of": 60,
+   "precision": 0.6,
+   "lift": 10.3
+  },
+  {
+   "if": {
+    "timing": "appendix",
+    "story_step": "事例"
+   },
+   "then": "screen",
+   "support": 25,
+   "of": 38,
+   "precision": 0.66,
+   "lift": 6.0
+  },
+  {
+   "if": {
+    "deck_type": "proposal",
+    "data": "single_kpi"
+   },
+   "then": "estimate",
+   "support": 11,
+   "of": 13,
+   "precision": 0.85,
+   "lift": 36.5
+  },
+  {
+   "if": {
+    "story_step": "体制",
+    "focus": "True"
+   },
+   "then": "org",
+   "support": 11,
+   "of": 13,
+   "precision": 0.85,
+   "lift": 33.5
+  },
+  {
+   "if": {
+    "relation": "sequence",
+    "attrs": "2"
+   },
+   "then": "process",
+   "support": 37,
+   "of": 64,
+   "precision": 0.58,
+   "lift": 6.7
+  },
+  {
+   "if": {
+    "relation": "contrast",
+    "data": "single_kpi"
+   },
+   "then": "big_number",
+   "support": 7,
+   "of": 7,
+   "precision": 1.0,
+   "lift": 64.8
+  },
+  {
+   "if": {
+    "data": "timeseries",
+    "text_load": "low"
+   },
+   "then": "chart",
+   "support": 7,
+   "of": 7,
+   "precision": 1.0,
+   "lift": 33.1
+  },
+  {
+   "if": {
+    "story_step": "費用",
+    "purpose": "納得させる"
+   },
+   "then": "estimate",
+   "support": 7,
+   "of": 7,
+   "precision": 1.0,
+   "lift": 43.2
+  },
+  {
+   "if": {
+    "purpose": "決めさせる",
+    "focus": "True"
+   },
+   "then": "estimate",
+   "support": 9,
+   "of": 10,
+   "precision": 0.9,
+   "lift": 38.9
+  },
+  {
+   "if": {
+    "timing": "appendix",
+    "relation": "flow"
+   },
+   "then": "screen",
+   "support": 16,
+   "of": 22,
+   "precision": 0.73,
+   "lift": 6.7
+  },
+  {
+   "if": {
+    "story_step": "事例",
+    "purpose": "理解させる"
+   },
+   "then": "screen",
+   "support": 34,
+   "of": 59,
+   "precision": 0.58,
+   "lift": 5.3
+  },
+  {
+   "if": {
+    "story_step": "計画",
+    "text_load": "low"
+   },
+   "then": "schedule",
+   "support": 12,
+   "of": 15,
+   "precision": 0.8,
+   "lift": 20.4
+  },
+  {
+   "if": {
+    "relation": "contrast",
+    "data": "none"
+   },
+   "then": "contrast_lr",
+   "support": 63,
+   "of": 129,
+   "precision": 0.49,
+   "lift": 10.2
+  },
+  {
+   "if": {
+    "story_step": "体制",
+    "text_load": "low"
+   },
+   "then": "org",
+   "support": 19,
+   "of": 28,
+   "precision": 0.68,
+   "lift": 26.9
+  },
+  {
+   "if": {
+    "purpose": "参照させる",
+    "attrs": "3+"
+   },
+   "then": "table",
+   "support": 34,
+   "of": 60,
+   "precision": 0.57,
+   "lift": 4.6
+  },
+  {
+   "if": {
+    "story_step": "事例",
+    "purpose": "参照させる"
+   },
+   "then": "screen",
+   "support": 25,
+   "of": 40,
+   "precision": 0.62,
+   "lift": 5.7
+  },
+  {
+   "if": {
+    "deck_type": "techvision",
+    "text_load": "mid"
+   },
+   "then": "case",
+   "support": 41,
+   "of": 76,
+   "precision": 0.54,
+   "lift": 9.3
+  },
+  {
+   "if": {
+    "text_load": "high",
+    "n_items": "7+"
+   },
+   "then": "table",
+   "support": 47,
+   "of": 90,
+   "precision": 0.52,
+   "lift": 4.3
+  },
+  {
+   "if": {
+    "purpose": "参照させる",
+    "relation": "flow"
+   },
+   "then": "screen",
+   "support": 13,
+   "of": 17,
+   "precision": 0.76,
+   "lift": 7.0
+  },
+  {
+   "if": {
+    "story_step": "全体像",
+    "relation": "sequence"
+   },
+   "then": "process",
+   "support": 14,
+   "of": 19,
+   "precision": 0.74,
+   "lift": 8.5
+  },
+  {
+   "if": {
+    "story_step": "前提",
+    "text_load": "high"
+   },
+   "then": "assumptions",
+   "support": 10,
+   "of": 12,
+   "precision": 0.83,
+   "lift": 79.2
+  },
+  {
+   "if": {
+    "mat_chart": "1"
+   },
+   "then": "chart",
+   "support": 41,
+   "of": 78,
+   "precision": 0.53,
+   "lift": 17.4
+  },
+  {
+   "if": {
+    "deck_type": "proposal",
+    "purpose": "決めさせる"
+   },
+   "then": "estimate",
+   "support": 11,
+   "of": 14,
+   "precision": 0.79,
+   "lift": 33.9
+  },
+  {
+   "if": {
+    "story_step": "背景",
+    "data": "single_kpi"
+   },
+   "then": "big_number",
+   "support": 8,
+   "of": 9,
+   "precision": 0.89,
+   "lift": 57.6
+  },
+  {
+   "if": {
+    "timing": "deck_close",
+    "story_step": "体制"
+   },
+   "then": "org",
+   "support": 8,
+   "of": 9,
+   "precision": 0.89,
+   "lift": 35.2
+  },
+  {
+   "if": {
+    "story_step": "課題",
+    "data": "single_kpi"
+   },
+   "then": "big_number",
+   "support": 6,
+   "of": 6,
+   "precision": 1.0,
+   "lift": 64.8
+  },
+  {
+   "if": {
+    "timing": "chapter_open",
+    "story_step": "事例"
+   },
+   "then": "case",
+   "support": 6,
+   "of": 6,
+   "precision": 1.0,
+   "lift": 17.2
+  },
+  {
+   "if": {
+    "story_step": "費用",
+    "from_prev": "zoom_in"
+   },
+   "then": "estimate",
+   "support": 6,
+   "of": 6,
+   "precision": 1.0,
+   "lift": 43.2
+  },
+  {
+   "if": {
+    "story_step": "費用",
+    "text_load": "high"
+   },
+   "then": "estimate",
+   "support": 6,
+   "of": 6,
+   "precision": 1.0,
+   "lift": 43.2
+  },
+  {
+   "if": {
+    "story_step": "費用",
+    "attrs": "2"
+   },
+   "then": "estimate",
+   "support": 6,
+   "of": 6,
+   "precision": 1.0,
+   "lift": 43.2
+  },
+  {
+   "if": {
+    "purpose": "掴ませる",
+    "relation": "mutual"
+   },
+   "then": "hub",
+   "support": 6,
+   "of": 6,
+   "precision": 1.0,
+   "lift": 29.1
+  },
+  {
+   "if": {
+    "story_step": "詳細",
+    "data": "single_kpi"
+   },
+   "then": "table",
+   "support": 6,
+   "of": 6,
+   "precision": 1.0,
+   "lift": 8.2
+  },
+  {
+   "if": {
+    "purpose": "理解させる",
+    "data": "single_kpi"
+   },
+   "then": "table",
+   "support": 6,
+   "of": 6,
+   "precision": 1.0,
+   "lift": 8.2
+  },
+  {
+   "if": {
+    "story_step": "手順",
+    "purpose": "参照させる"
+   },
+   "then": "text_blocks",
+   "support": 6,
+   "of": 6,
+   "precision": 1.0,
+   "lift": 15.2
+  },
+  {
+   "if": {
+    "story_step": "事例",
+    "attrs": "2"
+   },
+   "then": "case",
+   "support": 26,
+   "of": 44,
+   "precision": 0.59,
+   "lift": 10.1
+  },
+  {
+   "if": {
+    "deck_type": "techvision",
+    "relation": "parallel"
+   },
+   "then": "case",
+   "support": 31,
+   "of": 55,
+   "precision": 0.56,
+   "lift": 9.7
+  },
+  {
+   "if": {
+    "story_step": "体制"
+   },
+   "then": "org",
+   "support": 33,
+   "of": 60,
+   "precision": 0.55,
+   "lift": 21.8
+  },
+  {
+   "if": {
+    "text_load": "high",
+    "attrs": "3+"
+   },
+   "then": "table",
+   "support": 72,
+   "of": 160,
+   "precision": 0.45,
+   "lift": 3.7
+  },
+  {
+   "if": {
+    "relation": "mutual",
+    "focus": "True"
+   },
+   "then": "hub",
+   "support": 12,
+   "of": 16,
+   "precision": 0.75,
+   "lift": 21.8
+  },
+  {
+   "if": {
+    "mat_people_org": "1"
+   },
+   "then": "org",
+   "support": 33,
+   "of": 61,
+   "precision": 0.54,
+   "lift": 21.4
+  },
+  {
+   "if": {
+    "deck_type": "techvision",
+    "data": "single_kpi"
+   },
+   "then": "big_number",
+   "support": 9,
+   "of": 11,
+   "precision": 0.82,
+   "lift": 53.0
+  },
+  {
+   "if": {
+    "timing": "chapter_open",
+    "data": "single_kpi"
+   },
+   "then": "big_number",
+   "support": 9,
+   "of": 11,
+   "precision": 0.82,
+   "lift": 53.0
+  },
+  {
+   "if": {
+    "story_step": "根拠",
+    "data": "composition"
+   },
+   "then": "chart",
+   "support": 9,
+   "of": 11,
+   "precision": 0.82,
+   "lift": 27.1
+  },
+  {
+   "if": {
+    "story_step": "全体像",
+    "relation": "mutual"
+   },
+   "then": "hub",
+   "support": 9,
+   "of": 11,
+   "precision": 0.82,
+   "lift": 23.8
+  },
+  {
+   "if": {
+    "timing": "appendix",
+    "purpose": "行動させる"
+   },
+   "then": "screen",
+   "support": 9,
+   "of": 11,
+   "precision": 0.82,
+   "lift": 7.5
+  },
+  {
+   "if": {
+    "relation": "flow",
+    "n_items": "1-2"
+   },
+   "then": "screen",
+   "support": 17,
+   "of": 26,
+   "precision": 0.65,
+   "lift": 6.0
+  },
+  {
+   "if": {
+    "purpose": "参照させる",
+    "relation": "hierarchy"
+   },
+   "then": "table",
+   "support": 21,
+   "of": 35,
+   "precision": 0.6,
+   "lift": 4.9
+  },
+  {
+   "if": {
+    "story_step": "事例",
+    "relation": "cause"
+   },
+   "then": "case",
+   "support": 10,
+   "of": 13,
+   "precision": 0.77,
+   "lift": 13.2
+  },
+  {
+   "if": {
+    "data": "magnitude",
+    "attrs": "1"
+   },
+   "then": "chart",
+   "support": 10,
+   "of": 13,
+   "precision": 0.77,
+   "lift": 25.5
+  },
+  {
+   "if": {
+    "deck_type": "techvision",
+    "relation": "sequence"
+   },
+   "then": "process",
+   "support": 10,
+   "of": 13,
+   "precision": 0.77,
+   "lift": 8.9
+  },
+  {
+   "if": {
+    "deck_type": "internal",
+    "purpose": "参照させる"
+   },
+   "then": "table",
+   "support": 10,
+   "of": 13,
+   "precision": 0.77,
+   "lift": 6.3
+  },
+  {
+   "if": {
+    "n_items": "5-6",
+    "attrs": "3+"
+   },
+   "then": "table",
+   "support": 36,
+   "of": 71,
+   "precision": 0.51,
+   "lift": 4.2
+  },
+  {
+   "if": {
+    "story_step": "詳細",
+    "purpose": "参照させる"
+   },
+   "then": "table",
+   "support": 31,
+   "of": 59,
+   "precision": 0.53,
+   "lift": 4.3
+  },
+  {
+   "if": {
+    "purpose": "決めさせる",
+    "attrs": "1"
+   },
+   "then": "estimate",
+   "support": 7,
+   "of": 8,
+   "precision": 0.88,
+   "lift": 37.8
+  },
+  {
+   "if": {
+    "relation": "mutual",
+    "n_items": "3-4"
+   },
+   "then": "hub",
+   "support": 14,
+   "of": 21,
+   "precision": 0.67,
+   "lift": 19.4
+  },
+  {
+   "if": {
+    "deck_type": "training",
+    "from_prev": "parallel_next"
+   },
+   "then": "screen",
+   "support": 39,
+   "of": 79,
+   "precision": 0.49,
+   "lift": 4.5
+  },
+  {
+   "if": {
+    "relation": "mutual",
+    "attrs": "1"
+   },
+   "then": "hub",
+   "support": 15,
+   "of": 23,
+   "precision": 0.65,
+   "lift": 19.0
+  },
+  {
+   "if": {
+    "story_step": "事例"
+   },
+   "then": "case",
+   "support": 79,
+   "of": 191,
+   "precision": 0.41,
+   "lift": 7.1
+  },
+  {
+   "if": {
+    "data": "timeseries"
+   },
+   "then": "chart",
+   "support": 13,
+   "of": 19,
+   "precision": 0.68,
+   "lift": 22.7
+  },
+  {
+   "if": {
+    "relation": "contrast",
+    "data": "composition"
+   },
+   "then": "chart",
+   "support": 5,
+   "of": 5,
+   "precision": 1.0,
+   "lift": 33.1
+  },
+  {
+   "if": {
+    "data": "composition",
+    "n_items": "1-2"
+   },
+   "then": "chart",
+   "support": 5,
+   "of": 5,
+   "precision": 1.0,
+   "lift": 33.1
+  },
+  {
+   "if": {
+    "story_step": "費用",
+    "purpose": "参照させる"
+   },
+   "then": "estimate",
+   "support": 5,
+   "of": 5,
+   "precision": 1.0,
+   "lift": 43.2
+  },
+  {
+   "if": {
+    "story_step": "打ち手",
+    "relation": "cause"
+   },
+   "then": "problem_solution",
+   "support": 5,
+   "of": 5,
+   "precision": 1.0,
+   "lift": 57.0
+  },
+  {
+   "if": {
+    "n_items": "1-2",
+    "attrs": "1"
+   },
+   "then": "screen",
+   "support": 66,
+   "of": 157,
+   "precision": 0.42,
+   "lift": 3.9
+  },
+  {
+   "if": {
+    "purpose": "決めさせる",
+    "n_items": "1-2"
+   },
+   "then": "estimate",
+   "support": 8,
+   "of": 10,
+   "precision": 0.8,
+   "lift": 34.5
+  },
+  {
+   "if": {
+    "relation": "mutual"
+   },
+   "then": "hub",
+   "support": 25,
+   "of": 47,
+   "precision": 0.53,
+   "lift": 15.5
+  },
+  {
+   "if": {
+    "story_step": "前提",
+    "relation": "parallel"
+   },
+   "then": "assumptions",
+   "support": 15,
+   "of": 24,
+   "precision": 0.62,
+   "lift": 59.4
+  },
+  {
+   "if": {
+    "story_step": "打ち手",
+    "relation": "contrast"
+   },
+   "then": "contrast_lr",
+   "support": 12,
+   "of": 18,
+   "precision": 0.67,
+   "lift": 14.0
+  },
+  {
+   "if": {
+    "purpose": "参照させる",
+    "n_items": "7+"
+   },
+   "then": "table",
+   "support": 30,
+   "of": 60,
+   "precision": 0.5,
+   "lift": 4.1
+  },
+  {
+   "if": {
+    "timing": "chapter_open",
+    "story_step": "体制"
+   },
+   "then": "org",
+   "support": 13,
+   "of": 20,
+   "precision": 0.65,
+   "lift": 25.7
+  },
+  {
+   "if": {
+    "purpose": "決めさせる"
+   },
+   "then": "estimate",
+   "support": 11,
+   "of": 16,
+   "precision": 0.69,
+   "lift": 29.7
+  },
+  {
+   "if": {
+    "data": "magnitude",
+    "n_items": "5-6"
+   },
+   "then": "table",
+   "support": 11,
+   "of": 16,
+   "precision": 0.69,
+   "lift": 5.6
+  },
+  {
+   "if": {
+    "relation": "hierarchy",
+    "attrs": "3+"
+   },
+   "then": "table",
+   "support": 40,
+   "of": 87,
+   "precision": 0.46,
+   "lift": 3.8
+  },
+  {
+   "if": {
+    "relation": "sequence",
+    "n_items": "7+"
+   },
+   "then": "schedule",
+   "support": 18,
+   "of": 31,
+   "precision": 0.58,
+   "lift": 14.8
+  },
+  {
+   "if": {
+    "story_step": "詳細",
+    "n_items": "1-2"
+   },
+   "then": "screen",
+   "support": 24,
+   "of": 45,
+   "precision": 0.53,
+   "lift": 4.9
+  },
+  {
+   "if": {
+    "from_prev": "new_topic",
+    "data": "single_kpi"
+   },
+   "then": "big_number",
+   "support": 10,
+   "of": 14,
+   "precision": 0.71,
+   "lift": 46.3
+  },
+  {
+   "if": {
+    "data": "composition",
+    "attrs": "1"
+   },
+   "then": "chart",
+   "support": 10,
+   "of": 14,
+   "precision": 0.71,
+   "lift": 23.7
+  },
+  {
+   "if": {
+    "timing": "appendix",
+    "from_prev": "parallel_next"
+   },
+   "then": "screen",
+   "support": 29,
+   "of": 58,
+   "precision": 0.5,
+   "lift": 4.6
+  },
+  {
+   "if": {
+    "relation": "contrast",
+    "attrs": "2"
+   },
+   "then": "contrast_lr",
+   "support": 23,
+   "of": 43,
+   "precision": 0.53,
+   "lift": 11.2
+  },
+  {
+   "if": {
+    "purpose": "納得させる",
+    "from_prev": "parallel_next"
+   },
+   "then": "case",
+   "support": 32,
+   "of": 66,
+   "precision": 0.48,
+   "lift": 8.3
+  },
+  {
+   "if": {
+    "relation": "hierarchy",
+    "n_items": "7+"
+   },
+   "then": "table",
+   "support": 32,
+   "of": 67,
+   "precision": 0.48,
+   "lift": 3.9
+  },
+  {
+   "if": {
+    "from_prev": "parallel_next",
+    "data": "composition"
+   },
+   "then": "chart",
+   "support": 6,
+   "of": 7,
+   "precision": 0.86,
+   "lift": 28.4
+  },
+  {
+   "if": {
+    "timing": "deck_close",
+    "purpose": "決めさせる"
+   },
+   "then": "estimate",
+   "support": 6,
+   "of": 7,
+   "precision": 0.86,
+   "lift": 37.0
+  },
+  {
+   "if": {
+    "timing": "deck_close",
+    "data": "single_kpi"
+   },
+   "then": "estimate",
+   "support": 6,
+   "of": 7,
+   "precision": 0.86,
+   "lift": 37.0
+  },
+  {
+   "if": {
+    "purpose": "決めさせる",
+    "text_load": "low"
+   },
+   "then": "estimate",
+   "support": 6,
+   "of": 7,
+   "precision": 0.86,
+   "lift": 37.0
+  },
+  {
+   "if": {
+    "relation": "flow",
+    "attrs": "1"
+   },
+   "then": "screen",
+   "support": 34,
+   "of": 72,
+   "precision": 0.47,
+   "lift": 4.3
+  },
+  {
+   "if": {
+    "relation": "contrast",
+    "focus": "True"
+   },
+   "then": "contrast_lr",
+   "support": 39,
+   "of": 87,
+   "precision": 0.45,
+   "lift": 9.4
+  },
+  {
+   "if": {
+    "purpose": "理解させる",
+    "relation": "contrast"
+   },
+   "then": "contrast_lr",
+   "support": 33,
+   "of": 70,
+   "precision": 0.47,
+   "lift": 9.9
+  },
+  {
+   "if": {
+    "from_prev": "parallel_next",
+    "attrs": "1"
+   },
+   "then": "screen",
+   "support": 53,
+   "of": 128,
+   "precision": 0.41,
+   "lift": 3.8
+  },
+  {
+   "if": {
+    "timing": "deck_close",
+    "purpose": "参照させる"
+   },
+   "then": "assumptions",
+   "support": 7,
+   "of": 9,
+   "precision": 0.78,
+   "lift": 73.9
+  },
+  {
+   "if": {
+    "story_step": "比較・評価",
+    "n_items": "1-2"
+   },
+   "then": "contrast_lr",
+   "support": 7,
+   "of": 9,
+   "precision": 0.78,
+   "lift": 16.3
+  },
+  {
+   "if": {
+    "from_prev": "new_topic",
+    "relation": "mutual"
+   },
+   "then": "hub",
+   "support": 7,
+   "of": 9,
+   "precision": 0.78,
+   "lift": 22.6
+  },
+  {
+   "if": {
+    "from_prev": "zoom_in",
+    "relation": "mutual"
+   },
+   "then": "hub",
+   "support": 7,
+   "of": 9,
+   "precision": 0.78,
+   "lift": 22.6
+  },
+  {
+   "if": {
+    "story_step": "体制",
+    "from_prev": "next_step"
+   },
+   "then": "org",
+   "support": 7,
+   "of": 9,
+   "precision": 0.78,
+   "lift": 30.8
+  },
+  {
+   "if": {
+    "story_step": "手順",
+    "purpose": "理解させる"
+   },
+   "then": "process",
+   "support": 19,
+   "of": 35,
+   "precision": 0.54,
+   "lift": 6.3
+  },
+  {
+   "if": {
+    "story_step": "根拠",
+    "from_prev": "parallel_next"
+   },
+   "then": "chart",
+   "support": 8,
+   "of": 11,
+   "precision": 0.73,
+   "lift": 24.1
+  },
+  {
+   "if": {
+    "relation": "mutual",
+    "n_items": "7+"
+   },
+   "then": "hub",
+   "support": 8,
+   "of": 11,
+   "precision": 0.73,
+   "lift": 21.2
+  },
+  {
+   "if": {
+    "relation": "contrast",
+    "attrs": "3+"
+   },
+   "then": "contrast_lr",
+   "support": 31,
+   "of": 67,
+   "precision": 0.46,
+   "lift": 9.7
+  },
+  {
+   "if": {
+    "story_step": "事例",
+    "from_prev": "new_topic"
+   },
+   "then": "case",
+   "support": 9,
+   "of": 13,
+   "precision": 0.69,
+   "lift": 11.9
+  },
+  {
+   "if": {
+    "story_step": "手順",
+    "n_items": "5-6"
+   },
+   "then": "process",
+   "support": 9,
+   "of": 13,
+   "precision": 0.69,
+   "lift": 8.0
+  },
+  {
+   "if": {
+    "deck_type": "proposal",
+    "relation": "sequence"
+   },
+   "then": "schedule",
+   "support": 30,
+   "of": 65,
+   "precision": 0.46,
+   "lift": 11.7
+  },
+  {
+   "if": {
+    "deck_type": "techvision"
+   },
+   "then": "case",
+   "support": 46,
+   "of": 112,
+   "precision": 0.41,
+   "lift": 7.1
+  },
+  {
+   "if": {
+    "deck_type": "techvision",
+    "attrs": "2"
+   },
+   "then": "case",
+   "support": 21,
+   "of": 41,
+   "precision": 0.51,
+   "lift": 8.8
+  },
+  {
+   "if": {
+    "purpose": "掴ませる",
+    "relation": "sequence"
+   },
+   "then": "schedule",
+   "support": 22,
+   "of": 44,
+   "precision": 0.5,
+   "lift": 12.7
+  },
+  {
+   "if": {
+    "story_step": "詳細",
+    "n_items": "7+"
+   },
+   "then": "table",
+   "support": 29,
+   "of": 63,
+   "precision": 0.46,
+   "lift": 3.8
+  },
+  {
+   "if": {
+    "story_step": "詳細",
+    "relation": "hierarchy"
+   },
+   "then": "table",
+   "support": 25,
+   "of": 52,
+   "precision": 0.48,
+   "lift": 3.9
+  },
+  {
+   "if": {
+    "story_step": "事例",
+    "from_prev": "evidence"
+   },
+   "then": "case",
+   "support": 13,
+   "of": 22,
+   "precision": 0.59,
+   "lift": 10.1
+  },
+  {
+   "if": {
+    "purpose": "納得させる",
+    "data": "single_kpi"
+   },
+   "then": "big_number",
+   "support": 21,
+   "of": 42,
+   "precision": 0.5,
+   "lift": 32.4
+  },
+  {
+   "if": {
+    "deck_type": "training",
+    "purpose": "参照させる"
+   },
+   "then": "screen",
+   "support": 30,
+   "of": 66,
+   "precision": 0.45,
+   "lift": 4.2
+  },
+  {
+   "if": {
+    "story_step": "事例",
+    "from_prev": "parallel_next"
+   },
+   "then": "screen",
+   "support": 37,
+   "of": 88,
+   "precision": 0.42,
+   "lift": 3.9
+  },
+  {
+   "if": {
+    "deck_type": "report",
+    "attrs": "3+"
+   },
+   "then": "table",
+   "support": 23,
+   "of": 48,
+   "precision": 0.48,
+   "lift": 3.9
+  },
+  {
+   "if": {
+    "deck_type": "offering",
+    "relation": "sequence"
+   },
+   "then": "process",
+   "support": 20,
+   "of": 40,
+   "precision": 0.5,
+   "lift": 5.8
+  },
+  {
+   "if": {
+    "timing": "appendix",
+    "attrs": "1"
+   },
+   "then": "screen",
+   "support": 33,
+   "of": 77,
+   "precision": 0.43,
+   "lift": 3.9
+  },
+  {
+   "if": {
+    "story_step": "詳細",
+    "attrs": "3+"
+   },
+   "then": "table",
+   "support": 38,
+   "of": 93,
+   "precision": 0.41,
+   "lift": 3.3
+  },
+  {
+   "if": {
+    "deck_type": "training",
+    "relation": "contrast"
+   },
+   "then": "contrast_lr",
+   "support": 18,
+   "of": 35,
+   "precision": 0.51,
+   "lift": 10.8
+  },
+  {
+   "if": {
+    "story_step": "事例",
+    "relation": "mutual"
+   },
+   "then": "case",
+   "support": 5,
+   "of": 6,
+   "precision": 0.83,
+   "lift": 14.3
+  },
+  {
+   "if": {
+    "relation": "contrast",
+    "data": "timeseries"
+   },
+   "then": "chart",
+   "support": 5,
+   "of": 6,
+   "precision": 0.83,
+   "lift": 27.6
+  },
+  {
+   "if": {
+    "timing": "appendix",
+    "relation": "mutual"
+   },
+   "then": "hub",
+   "support": 5,
+   "of": 6,
+   "precision": 0.83,
+   "lift": 24.2
+  },
+  {
+   "if": {
+    "relation": "hierarchy",
+    "data": "single_kpi"
+   },
+   "then": "table",
+   "support": 5,
+   "of": 6,
+   "precision": 0.83,
+   "lift": 6.8
+  },
+  {
+   "if": {
+    "deck_type": "report",
+    "story_step": "前提"
+   },
+   "then": "text_blocks",
+   "support": 5,
+   "of": 6,
+   "precision": 0.83,
+   "lift": 12.6
+  },
+  {
+   "if": {
+    "from_prev": "parallel_next",
+    "n_items": "7+"
+   },
+   "then": "table",
+   "support": 16,
+   "of": 31,
+   "precision": 0.52,
+   "lift": 4.2
+  },
+  {
+   "if": {
+    "deck_type": "report",
+    "n_items": "5-6"
+   },
+   "then": "table",
+   "support": 18,
+   "of": 36,
+   "precision": 0.5,
+   "lift": 4.1
+  },
+  {
+   "if": {
+    "story_step": "詳細",
+    "text_load": "low"
+   },
+   "then": "screen",
+   "support": 27,
+   "of": 62,
+   "precision": 0.44,
+   "lift": 4.0
+  },
+  {
+   "if": {
+    "from_prev": "parallel_next",
+    "n_items": "1-2"
+   },
+   "then": "screen",
+   "support": 38,
+   "of": 94,
+   "precision": 0.4,
+   "lift": 3.7
+  },
+  {
+   "if": {
+    "deck_type": "techvision",
+    "from_prev": "evidence"
+   },
+   "then": "case",
+   "support": 6,
+   "of": 8,
+   "precision": 0.75,
+   "lift": 12.9
+  },
+  {
+   "if": {
+    "story_step": "打ち手",
+    "relation": "flow"
+   },
+   "then": "process",
+   "support": 6,
+   "of": 8,
+   "precision": 0.75,
+   "lift": 8.7
+  },
+  {
+   "if": {
+    "story_step": "手順",
+    "from_prev": "parallel_next"
+   },
+   "then": "screen",
+   "support": 6,
+   "of": 8,
+   "precision": 0.75,
+   "lift": 6.9
+  },
+  {
+   "if": {
+    "timing": "deck_open",
+    "purpose": "覚えさせる"
+   },
+   "then": "statement",
+   "support": 6,
+   "of": 8,
+   "precision": 0.75,
+   "lift": 66.8
+  },
+  {
+   "if": {
+    "deck_type": "offering",
+    "story_step": "手順"
+   },
+   "then": "process",
+   "support": 7,
+   "of": 10,
+   "precision": 0.7,
+   "lift": 8.1
+  },
+  {
+   "if": {
+    "from_prev": "shift",
+    "data": "magnitude"
+   },
+   "then": "table",
+   "support": 7,
+   "of": 10,
+   "precision": 0.7,
+   "lift": 5.7
+  },
+  {
+   "if": {
+    "relation": "contrast",
+    "text_load": "mid"
+   },
+   "then": "contrast_lr",
+   "support": 33,
+   "of": 81,
+   "precision": 0.41,
+   "lift": 8.5
+  },
+  {
+   "if": {
+    "story_step": "前提",
+    "purpose": "参照させる"
+   },
+   "then": "assumptions",
+   "support": 11,
+   "of": 19,
+   "precision": 0.58,
+   "lift": 55.0
+  },
+  {
+   "if": {
+    "relation": "cycle"
+   },
+   "then": "cycle",
+   "support": 12,
+   "of": 22,
+   "precision": 0.55,
+   "lift": 55.5
+  },
+  {
+   "if": {
+    "deck_type": "internal",
+    "n_items": "7+"
+   },
+   "then": "table",
+   "support": 14,
+   "of": 27,
+   "precision": 0.52,
+   "lift": 4.2
+  },
+  {
+   "if": {
+    "purpose": "参照させる",
+    "from_prev": "parallel_next"
+   },
+   "then": "screen",
+   "support": 27,
+   "of": 64,
+   "precision": 0.42,
+   "lift": 3.9
+  },
+  {
+   "if": {
+    "relation": "contrast",
+    "n_items": "5-6"
+   },
+   "then": "table",
+   "support": 9,
+   "of": 15,
+   "precision": 0.6,
+   "lift": 4.9
+  },
+  {
+   "if": {
+    "data": "composition"
+   },
+   "then": "chart",
+   "support": 13,
+   "of": 25,
+   "precision": 0.52,
+   "lift": 17.2
+  },
+  {
+   "if": {
+    "from_prev": "evidence",
+    "text_load": "mid"
+   },
+   "then": "case",
+   "support": 11,
+   "of": 20,
+   "precision": 0.55,
+   "lift": 9.4
+  },
+  {
+   "if": {
+    "relation": "hierarchy",
+    "text_load": "high"
+   },
+   "then": "table",
+   "support": 27,
+   "of": 66,
+   "precision": 0.41,
+   "lift": 3.4
+  },
+  {
+   "if": {
+    "deck_type": "report",
+    "data": "composition"
+   },
+   "then": "chart",
+   "support": 8,
+   "of": 13,
+   "precision": 0.62,
+   "lift": 20.4
+  },
+  {
+   "if": {
+    "deck_type": "proposal",
+    "story_step": "手順"
+   },
+   "then": "process",
+   "support": 8,
+   "of": 13,
+   "precision": 0.62,
+   "lift": 7.1
+  },
+  {
+   "if": {
+    "timing": "chapter_body",
+    "purpose": "参照させる"
+   },
+   "then": "table",
+   "support": 29,
+   "of": 72,
+   "precision": 0.4,
+   "lift": 3.3
+  },
+  {
+   "if": {
+    "story_step": "手順",
+    "relation": "sequence"
+   },
+   "then": "process",
+   "support": 16,
+   "of": 33,
+   "precision": 0.48,
+   "lift": 5.6
+  },
+  {
+   "if": {
+    "from_prev": "parallel_next",
+    "relation": "flow"
+   },
+   "then": "screen",
+   "support": 17,
+   "of": 36,
+   "precision": 0.47,
+   "lift": 4.3
+  },
+  {
+   "if": {
+    "timing": "appendix",
+    "story_step": "手順"
+   },
+   "then": "screen",
+   "support": 7,
+   "of": 11,
+   "precision": 0.64,
+   "lift": 5.9
+  },
+  {
+   "if": {
+    "story_step": "比較・評価",
+    "n_items": "3-4"
+   },
+   "then": "table",
+   "support": 7,
+   "of": 11,
+   "precision": 0.64,
+   "lift": 5.2
+  },
+  {
+   "if": {
+    "story_step": "目的・ゴール",
+    "relation": "contrast"
+   },
+   "then": "contrast_lr",
+   "support": 6,
+   "of": 9,
+   "precision": 0.67,
+   "lift": 14.0
+  },
+  {
+   "if": {
+    "from_prev": "shift",
+    "relation": "cycle"
+   },
+   "then": "cycle",
+   "support": 6,
+   "of": 9,
+   "precision": 0.67,
+   "lift": 67.9
+  },
+  {
+   "if": {
+    "relation": "cycle",
+    "attrs": "1"
+   },
+   "then": "cycle",
+   "support": 6,
+   "of": 9,
+   "precision": 0.67,
+   "lift": 67.9
+  },
+  {
+   "if": {
+    "from_prev": "zoom_in",
+    "relation": "contrast"
+   },
+   "then": "contrast_lr",
+   "support": 16,
+   "of": 35,
+   "precision": 0.46,
+   "lift": 9.6
+  },
+  {
+   "if": {
+    "story_step": "前提"
+   },
+   "then": "assumptions",
+   "support": 15,
+   "of": 32,
+   "precision": 0.47,
+   "lift": 44.5
+  },
+  {
+   "if": {
+    "story_step": "打ち手",
+    "relation": "sequence"
+   },
+   "then": "process",
+   "support": 11,
+   "of": 21,
+   "precision": 0.52,
+   "lift": 6.1
+  },
+  {
+   "if": {
+    "purpose": "行動させる",
+    "focus": "True"
+   },
+   "then": "screen",
+   "support": 11,
+   "of": 21,
+   "precision": 0.52,
+   "lift": 4.8
+  },
+  {
+   "if": {
+    "purpose": "参照させる",
+    "n_items": "1-2"
+   },
+   "then": "screen",
+   "support": 11,
+   "of": 21,
+   "precision": 0.52,
+   "lift": 4.8
+  },
+  {
+   "if": {
+    "deck_type": "internal",
+    "story_step": "事例"
+   },
+   "then": "case",
+   "support": 9,
+   "of": 16,
+   "precision": 0.56,
+   "lift": 9.7
+  },
+  {
+   "if": {
+    "timing": "appendix",
+    "relation": "contrast"
+   },
+   "then": "contrast_lr",
+   "support": 9,
+   "of": 16,
+   "precision": 0.56,
+   "lift": 11.8
+  },
+  {
+   "if": {
+    "story_step": "詳細",
+    "relation": "contrast"
+   },
+   "then": "contrast_lr",
+   "support": 9,
+   "of": 16,
+   "precision": 0.56,
+   "lift": 11.8
+  },
+  {
+   "if": {
+    "purpose": "覚えさせる",
+    "n_items": "1-2"
+   },
+   "then": "statement",
+   "support": 9,
+   "of": 16,
+   "precision": 0.56,
+   "lift": 50.1
+  },
+  {
+   "if": {
+    "from_prev": "shift",
+    "relation": "contrast"
+   },
+   "then": "contrast_lr",
+   "support": 12,
+   "of": 24,
+   "precision": 0.5,
+   "lift": 10.5
+  },
+  {
+   "if": {
+    "timing": "appendix",
+    "relation": "sequence"
+   },
+   "then": "screen",
+   "support": 14,
+   "of": 30,
+   "precision": 0.47,
+   "lift": 4.3
+  },
+  {
+   "if": {
+    "timing": "chapter_open",
+    "story_step": "前提"
+   },
+   "then": "assumptions",
+   "support": 5,
+   "of": 7,
+   "precision": 0.71,
+   "lift": 67.9
+  },
+  {
+   "if": {
+    "deck_type": "report",
+    "relation": "mutual"
+   },
+   "then": "hub",
+   "support": 5,
+   "of": 7,
+   "precision": 0.71,
+   "lift": 20.8
+  },
+  {
+   "if": {
+    "story_step": "体制",
+    "attrs": "2"
+   },
+   "then": "org",
+   "support": 5,
+   "of": 7,
+   "precision": 0.71,
+   "lift": 28.3
+  },
+  {
+   "if": {
+    "deck_type": "techvision",
+    "timing": "chapter_close"
+   },
+   "then": "summary_points",
+   "support": 5,
+   "of": 7,
+   "precision": 0.71,
+   "lift": 48.5
+  },
+  {
+   "if": {
+    "story_step": "比較・評価",
+    "from_prev": "shift"
+   },
+   "then": "table",
+   "support": 5,
+   "of": 7,
+   "precision": 0.71,
+   "lift": 5.8
+  },
+  {
+   "if": {
+    "from_prev": "shift",
+    "relation": "flow"
+   },
+   "then": "process",
+   "support": 10,
+   "of": 19,
+   "precision": 0.53,
+   "lift": 6.1
+  },
+  {
+   "if": {
+    "deck_type": "internal",
+    "relation": "contrast"
+   },
+   "then": "contrast_lr",
+   "support": 8,
+   "of": 14,
+   "precision": 0.57,
+   "lift": 12.0
+  },
+  {
+   "if": {
+    "deck_type": "lt",
+    "story_step": "事例"
+   },
+   "then": "screen",
+   "support": 8,
+   "of": 14,
+   "precision": 0.57,
+   "lift": 5.3
+  },
+  {
+   "if": {
+    "from_prev": "parallel_next",
+    "relation": "hierarchy"
+   },
+   "then": "table",
+   "support": 15,
+   "of": 33,
+   "precision": 0.45,
+   "lift": 3.7
+  },
+  {
+   "if": {
+    "story_step": "事例",
+    "from_prev": "zoom_in"
+   },
+   "then": "screen",
+   "support": 16,
+   "of": 36,
+   "precision": 0.44,
+   "lift": 4.1
+  },
+  {
+   "if": {
+    "relation": "sequence",
+    "n_items": "1-2"
+   },
+   "then": "screen",
+   "support": 16,
+   "of": 36,
+   "precision": 0.44,
+   "lift": 4.1
+  },
+  {
+   "if": {
+    "story_step": "根拠",
+    "text_load": "low"
+   },
+   "then": "chart",
+   "support": 11,
+   "of": 22,
+   "precision": 0.5,
+   "lift": 16.6
+  },
+  {
+   "if": {
+    "story_step": "打ち手",
+    "n_items": "1-2"
+   },
+   "then": "contrast_lr",
+   "support": 11,
+   "of": 22,
+   "precision": 0.5,
+   "lift": 10.5
+  },
+  {
+   "if": {
+    "story_step": "手順",
+    "attrs": "2"
+   },
+   "then": "process",
+   "support": 11,
+   "of": 22,
+   "precision": 0.5,
+   "lift": 5.8
+  },
+  {
+   "if": {
+    "deck_type": "lt",
+    "n_items": "1-2"
+   },
+   "then": "screen",
+   "support": 11,
+   "of": 22,
+   "precision": 0.5,
+   "lift": 4.6
+  },
+  {
+   "if": {
+    "data": "single_kpi",
+    "n_items": "3-4"
+   },
+   "then": "big_number",
+   "support": 12,
+   "of": 25,
+   "precision": 0.48,
+   "lift": 31.1
+  },
+  {
+   "if": {
+    "story_step": "全体像",
+    "relation": "parallel"
+   },
+   "then": "cards",
+   "support": 19,
+   "of": 46,
+   "precision": 0.41,
+   "lift": 6.3
+  },
+  {
+   "if": {
+    "story_step": "事例",
+    "relation": "sequence"
+   },
+   "then": "screen",
+   "support": 15,
+   "of": 34,
+   "precision": 0.44,
+   "lift": 4.1
+  },
+  {
+   "if": {
+    "timing": "appendix",
+    "attrs": "3+"
+   },
+   "then": "table",
+   "support": 15,
+   "of": 34,
+   "precision": 0.44,
+   "lift": 3.6
+  },
+  {
+   "if": {
+    "data": "single_kpi",
+    "attrs": "1"
+   },
+   "then": "big_number",
+   "support": 16,
+   "of": 37,
+   "precision": 0.43,
+   "lift": 28.0
+  },
+  {
+   "if": {
+    "timing": "appendix",
+    "n_items": "1-2"
+   },
+   "then": "screen",
+   "support": 16,
+   "of": 37,
+   "precision": 0.43,
+   "lift": 4.0
+  },
+  {
+   "if": {
+    "relation": "contrast",
+    "text_load": "low"
+   },
+   "then": "contrast_lr",
+   "support": 20,
+   "of": 50,
+   "precision": 0.4,
+   "lift": 8.4
+  },
+  {
+   "if": {
+    "data": "single_kpi",
+    "text_load": "mid"
+   },
+   "then": "big_number",
+   "support": 13,
+   "of": 28,
+   "precision": 0.46,
+   "lift": 30.1
+  },
+  {
+   "if": {
+    "timing": "deck_close",
+    "text_load": "high"
+   },
+   "then": "assumptions",
+   "support": 7,
+   "of": 12,
+   "precision": 0.58,
+   "lift": 55.4
+  },
+  {
+   "if": {
+    "deck_type": "techvision",
+    "from_prev": "zoom_in"
+   },
+   "then": "case",
+   "support": 7,
+   "of": 12,
+   "precision": 0.58,
+   "lift": 10.0
+  },
+  {
+   "if": {
+    "story_step": "効果",
+    "data": "magnitude"
+   },
+   "then": "table",
+   "support": 7,
+   "of": 12,
+   "precision": 0.58,
+   "lift": 4.8
+  },
+  {
+   "if": {
+    "deck_type": "report",
+    "story_step": "根拠"
+   },
+   "then": "chart",
+   "support": 11,
+   "of": 23,
+   "precision": 0.48,
+   "lift": 15.8
+  },
+  {
+   "if": {
+    "purpose": "覚えさせる",
+    "focus": "False"
+   },
+   "then": "cards",
+   "support": 12,
+   "of": 26,
+   "precision": 0.46,
+   "lift": 7.1
+  },
+  {
+   "if": {
+    "story_step": "手順",
+    "relation": "parallel"
+   },
+   "then": "text_blocks",
+   "support": 6,
+   "of": 10,
+   "precision": 0.6,
+   "lift": 9.1
+  },
+  {
+   "if": {
+    "deck_type": "proposal",
+    "story_step": "事例"
+   },
+   "then": "case",
+   "support": 8,
+   "of": 15,
+   "precision": 0.53,
+   "lift": 9.2
+  },
+  {
+   "if": {
+    "deck_type": "offering",
+    "purpose": "参照させる"
+   },
+   "then": "table",
+   "support": 8,
+   "of": 15,
+   "precision": 0.53,
+   "lift": 4.4
+  },
+  {
+   "if": {
+    "story_step": "比較・評価",
+    "text_load": "high"
+   },
+   "then": "table",
+   "support": 8,
+   "of": 15,
+   "precision": 0.53,
+   "lift": 4.4
+  },
+  {
+   "if": {
+    "from_prev": "next_step",
+    "relation": "contrast"
+   },
+   "then": "contrast_lr",
+   "support": 9,
+   "of": 18,
+   "precision": 0.5,
+   "lift": 10.5
+  },
+  {
+   "if": {
+    "deck_type": "report",
+    "data": "magnitude"
+   },
+   "then": "table",
+   "support": 9,
+   "of": 18,
+   "precision": 0.5,
+   "lift": 4.1
+  },
+  {
+   "if": {
+    "timing": "appendix",
+    "n_items": "7+"
+   },
+   "then": "table",
+   "support": 9,
+   "of": 18,
+   "precision": 0.5,
+   "lift": 4.1
+  },
+  {
+   "if": {
+    "deck_type": "training",
+    "n_items": "7+"
+   },
+   "then": "table",
+   "support": 11,
+   "of": 24,
+   "precision": 0.46,
+   "lift": 3.8
+  },
+  {
+   "if": {
+    "deck_type": "proposal",
+    "relation": "contrast"
+   },
+   "then": "contrast_lr",
+   "support": 13,
+   "of": 30,
+   "precision": 0.43,
+   "lift": 9.1
+  },
+  {
+   "if": {
+    "deck_type": "offering",
+    "relation": "flow"
+   },
+   "then": "process",
+   "support": 13,
+   "of": 30,
+   "precision": 0.43,
+   "lift": 5.0
+  },
+  {
+   "if": {
+    "purpose": "納得させる",
+    "relation": "sequence"
+   },
+   "then": "case",
+   "support": 12,
+   "of": 27,
+   "precision": 0.44,
+   "lift": 7.6
+  },
+  {
+   "if": {
+    "purpose": "覚えさせる",
+    "from_prev": "next_step"
+   },
+   "then": "statement",
+   "support": 7,
+   "of": 13,
+   "precision": 0.54,
+   "lift": 48.0
+  },
+  {
+   "if": {
+    "data": "composition",
+    "focus": "True"
+   },
+   "then": "chart",
+   "support": 5,
+   "of": 8,
+   "precision": 0.62,
+   "lift": 20.7
+  },
+  {
+   "if": {
+    "story_step": "比較・評価",
+    "purpose": "納得させる"
+   },
+   "then": "contrast_lr",
+   "support": 5,
+   "of": 8,
+   "precision": 0.62,
+   "lift": 13.1
+  },
+  {
+   "if": {
+    "deck_type": "training",
+    "story_step": "目的・ゴール"
+   },
+   "then": "statement",
+   "support": 5,
+   "of": 8,
+   "precision": 0.62,
+   "lift": 55.7
+  },
+  {
+   "if": {
+    "timing": "deck_open",
+    "story_step": "目的・ゴール"
+   },
+   "then": "statement",
+   "support": 5,
+   "of": 8,
+   "precision": 0.62,
+   "lift": 55.7
+  },
+  {
+   "if": {
+    "story_step": "要旨",
+    "text_load": "high"
+   },
+   "then": "summary_points",
+   "support": 5,
+   "of": 8,
+   "precision": 0.62,
+   "lift": 42.4
+  },
+  {
+   "if": {
+    "story_step": "まとめ",
+    "n_items": "3-4"
+   },
+   "then": "summary_points",
+   "support": 5,
+   "of": 8,
+   "precision": 0.62,
+   "lift": 42.4
+  },
+  {
+   "if": {
+    "purpose": "選ばせる"
+   },
+   "then": "table",
+   "support": 5,
+   "of": 8,
+   "precision": 0.62,
+   "lift": 5.1
+  },
+  {
+   "if": {
+    "deck_type": "report",
+    "story_step": "定義"
+   },
+   "then": "table",
+   "support": 5,
+   "of": 8,
+   "precision": 0.62,
+   "lift": 5.1
+  },
+  {
+   "if": {
+    "story_step": "詳細",
+    "relation": "sequence"
+   },
+   "then": "process",
+   "support": 12,
+   "of": 28,
+   "precision": 0.43,
+   "lift": 5.0
+  },
+  {
+   "if": {
+    "story_step": "根拠",
+    "focus": "True"
+   },
+   "then": "chart",
+   "support": 9,
+   "of": 19,
+   "precision": 0.47,
+   "lift": 15.7
+  },
+  {
+   "if": {
+    "purpose": "参照させる",
+    "n_items": "5-6"
+   },
+   "then": "table",
+   "support": 10,
+   "of": 22,
+   "precision": 0.45,
+   "lift": 3.7
+  },
+  {
+   "if": {
+    "deck_type": "techvision",
+    "story_step": "背景"
+   },
+   "then": "big_number",
+   "support": 6,
+   "of": 11,
+   "precision": 0.55,
+   "lift": 35.3
+  },
+  {
+   "if": {
+    "purpose": "覚えさせる",
+    "n_items": "5-6"
+   },
+   "then": "cards",
+   "support": 6,
+   "of": 11,
+   "precision": 0.55,
+   "lift": 8.4
+  },
+  {
+   "if": {
+    "deck_type": "internal",
+    "data": "single_kpi"
+   },
+   "then": "case",
+   "support": 6,
+   "of": 11,
+   "precision": 0.55,
+   "lift": 9.4
+  },
+  {
+   "if": {
+    "from_prev": "evidence",
+    "n_items": "3-4"
+   },
+   "then": "case",
+   "support": 6,
+   "of": 11,
+   "precision": 0.55,
+   "lift": 9.4
+  },
+  {
+   "if": {
+    "data": "magnitude",
+    "text_load": "low"
+   },
+   "then": "chart",
+   "support": 6,
+   "of": 11,
+   "precision": 0.55,
+   "lift": 18.1
+  },
+  {
+   "if": {
+    "story_step": "手順",
+    "relation": "flow"
+   },
+   "then": "screen",
+   "support": 6,
+   "of": 11,
+   "precision": 0.55,
+   "lift": 5.0
+  },
+  {
+   "if": {
+    "timing": "deck_open",
+    "story_step": "要旨"
+   },
+   "then": "summary_points",
+   "support": 6,
+   "of": 11,
+   "precision": 0.55,
+   "lift": 37.0
+  },
+  {
+   "if": {
+    "story_step": "要旨",
+    "relation": "cause"
+   },
+   "then": "summary_points",
+   "support": 6,
+   "of": 11,
+   "precision": 0.55,
+   "lift": 37.0
+  },
+  {
+   "if": {
+    "story_step": "根拠",
+    "n_items": "5-6"
+   },
+   "then": "table",
+   "support": 6,
+   "of": 11,
+   "precision": 0.55,
+   "lift": 4.5
+  },
+  {
+   "if": {
+    "story_step": "比較・評価",
+    "data": "none"
+   },
+   "then": "table",
+   "support": 11,
+   "of": 26,
+   "precision": 0.42,
+   "lift": 3.5
+  },
+  {
+   "if": {
+    "story_step": "手順",
+    "focus": "True"
+   },
+   "then": "process",
+   "support": 9,
+   "of": 20,
+   "precision": 0.45,
+   "lift": 5.2
+  },
+  {
+   "if": {
+    "story_step": "手順",
+    "purpose": "行動させる"
+   },
+   "then": "screen",
+   "support": 9,
+   "of": 20,
+   "precision": 0.45,
+   "lift": 4.1
+  },
+  {
+   "if": {
+    "relation": "flow",
+    "text_load": "low"
+   },
+   "then": "screen",
+   "support": 8,
+   "of": 17,
+   "precision": 0.47,
+   "lift": 4.3
+  },
+  {
+   "if": {
+    "data": "single_kpi",
+    "focus": "True"
+   },
+   "then": "estimate",
+   "support": 10,
+   "of": 23,
+   "precision": 0.43,
+   "lift": 18.8
+  },
+  {
+   "if": {
+    "deck_type": "internal",
+    "relation": "hierarchy"
+   },
+   "then": "table",
+   "support": 10,
+   "of": 23,
+   "precision": 0.43,
+   "lift": 3.6
+  },
+  {
+   "if": {
+    "deck_type": "report",
+    "purpose": "参照させる"
+   },
+   "then": "text_blocks",
+   "support": 10,
+   "of": 23,
+   "precision": 0.43,
+   "lift": 6.6
+  },
+  {
+   "if": {
+    "story_step": "根拠",
+    "attrs": "3+"
+   },
+   "then": "table",
+   "support": 10,
+   "of": 24,
+   "precision": 0.42,
+   "lift": 3.4
+  },
+  {
+   "if": {
+    "deck_type": "techvision",
+    "purpose": "掴ませる"
+   },
+   "then": "cards",
+   "support": 5,
+   "of": 9,
+   "precision": 0.56,
+   "lift": 8.5
+  },
+  {
+   "if": {
+    "purpose": "納得させる",
+    "relation": "mutual"
+   },
+   "then": "case",
+   "support": 5,
+   "of": 9,
+   "precision": 0.56,
+   "lift": 9.5
+  },
+  {
+   "if": {
+    "data": "single_kpi",
+    "n_items": "5-6"
+   },
+   "then": "case",
+   "support": 5,
+   "of": 9,
+   "precision": 0.56,
+   "lift": 9.5
+  },
+  {
+   "if": {
+    "deck_type": "lt",
+    "from_prev": "parallel_next"
+   },
+   "then": "screen",
+   "support": 5,
+   "of": 9,
+   "precision": 0.56,
+   "lift": 5.1
+  },
+  {
+   "if": {
+    "purpose": "行動させる",
+    "from_prev": "parallel_next"
+   },
+   "then": "screen",
+   "support": 5,
+   "of": 9,
+   "precision": 0.56,
+   "lift": 5.1
+  },
+  {
+   "if": {
+    "story_step": "目的・ゴール",
+    "purpose": "覚えさせる"
+   },
+   "then": "statement",
+   "support": 5,
+   "of": 9,
+   "precision": 0.56,
+   "lift": 49.5
+  },
+  {
+   "if": {
+    "timing": "chapter_close",
+    "story_step": "まとめ"
+   },
+   "then": "summary_points",
+   "support": 5,
+   "of": 9,
+   "precision": 0.56,
+   "lift": 37.7
+  },
+  {
+   "if": {
+    "story_step": "要旨",
+    "n_items": "3-4"
+   },
+   "then": "summary_points",
+   "support": 5,
+   "of": 9,
+   "precision": 0.56,
+   "lift": 37.7
+  },
+  {
+   "if": {
+    "story_step": "計画",
+    "purpose": "参照させる"
+   },
+   "then": "table",
+   "support": 5,
+   "of": 9,
+   "precision": 0.56,
+   "lift": 4.5
+  },
+  {
+   "if": {
+    "story_step": "効果",
+    "relation": "cause"
+   },
+   "then": "text_blocks",
+   "support": 5,
+   "of": 9,
+   "precision": 0.56,
+   "lift": 8.4
+  },
+  {
+   "if": {
+    "deck_type": "proposal",
+    "data": "magnitude"
+   },
+   "then": "estimate",
+   "support": 7,
+   "of": 15,
+   "precision": 0.47,
+   "lift": 20.2
+  },
+  {
+   "if": {
+    "story_step": "手順",
+    "from_prev": "zoom_in"
+   },
+   "then": "process",
+   "support": 7,
+   "of": 15,
+   "precision": 0.47,
+   "lift": 5.4
+  },
+  {
+   "if": {
+    "relation": "flow",
+    "attrs": "2"
+   },
+   "then": "process",
+   "support": 7,
+   "of": 15,
+   "precision": 0.47,
+   "lift": 5.4
+  },
+  {
+   "if": {
+    "deck_type": "techvision",
+    "story_step": "打ち手"
+   },
+   "then": "process",
+   "support": 6,
+   "of": 12,
+   "precision": 0.5,
+   "lift": 5.8
+  },
+  {
+   "if": {
+    "story_step": "目的・ゴール",
+    "attrs": "3+"
+   },
+   "then": "table",
+   "support": 6,
+   "of": 12,
+   "precision": 0.5,
+   "lift": 4.1
+  },
+  {
+   "if": {
+    "data": "single_kpi",
+    "attrs": "3+"
+   },
+   "then": "table",
+   "support": 6,
+   "of": 12,
+   "precision": 0.5,
+   "lift": 4.1
+  },
+  {
+   "if": {
+    "data": "single_kpi",
+    "text_load": "low"
+   },
+   "then": "big_number",
+   "support": 8,
+   "of": 18,
+   "precision": 0.44,
+   "lift": 28.8
+  },
+  {
+   "if": {
+    "story_step": "まとめ",
+    "from_prev": "summary"
+   },
+   "then": "summary_points",
+   "support": 8,
+   "of": 18,
+   "precision": 0.44,
+   "lift": 30.2
+  },
+  {
+   "if": {
+    "story_step": "根拠",
+    "data": "magnitude"
+   },
+   "then": "table",
+   "support": 8,
+   "of": 18,
+   "precision": 0.44,
+   "lift": 3.6
+  },
+  {
+   "if": {
+    "purpose": "覚えさせる",
+    "relation": "parallel"
+   },
+   "then": "cards",
+   "support": 10,
+   "of": 25,
+   "precision": 0.4,
+   "lift": 6.1
+  },
+  {
+   "if": {
+    "story_step": "比較・評価",
+    "attrs": "3+"
+   },
+   "then": "table",
+   "support": 9,
+   "of": 22,
+   "precision": 0.41,
+   "lift": 3.4
+  },
+  {
+   "if": {
+    "purpose": "参照させる",
+    "attrs": "2"
+   },
+   "then": "table",
+   "support": 9,
+   "of": 22,
+   "precision": 0.41,
+   "lift": 3.4
+  },
+  {
+   "if": {
+    "story_step": "比較・評価",
+    "focus": "False"
+   },
+   "then": "table",
+   "support": 8,
+   "of": 19,
+   "precision": 0.42,
+   "lift": 3.4
+  },
+  {
+   "if": {
+    "story_step": "効果",
+    "relation": "contrast"
+   },
+   "then": "chart",
+   "support": 7,
+   "of": 16,
+   "precision": 0.44,
+   "lift": 14.5
+  },
+  {
+   "if": {
+    "from_prev": "zoom_in",
+    "data": "magnitude"
+   },
+   "then": "estimate",
+   "support": 7,
+   "of": 16,
+   "precision": 0.44,
+   "lift": 18.9
+  },
+  {
+   "if": {
+    "story_step": "要旨",
+    "from_prev": "new_topic"
+   },
+   "then": "summary_points",
+   "support": 7,
+   "of": 16,
+   "precision": 0.44,
+   "lift": 29.7
+  },
+  {
+   "if": {
+    "story_step": "定義",
+    "relation": "contrast"
+   },
+   "then": "contrast_lr",
+   "support": 5,
+   "of": 10,
+   "precision": 0.5,
+   "lift": 10.5
+  },
+  {
+   "if": {
+    "deck_type": "techvision",
+    "story_step": "まとめ"
+   },
+   "then": "summary_points",
+   "support": 5,
+   "of": 10,
+   "precision": 0.5,
+   "lift": 33.9
+  },
+  {
+   "if": {
+    "story_step": "要旨",
+    "attrs": "1"
+   },
+   "then": "summary_points",
+   "support": 5,
+   "of": 10,
+   "precision": 0.5,
+   "lift": 33.9
+  },
+  {
+   "if": {
+    "story_step": "効果",
+    "n_items": "5-6"
+   },
+   "then": "table",
+   "support": 5,
+   "of": 10,
+   "precision": 0.5,
+   "lift": 4.1
+  },
+  {
+   "if": {
+    "story_step": "効果",
+    "from_prev": "new_topic"
+   },
+   "then": "text_blocks",
+   "support": 5,
+   "of": 10,
+   "precision": 0.5,
+   "lift": 7.6
+  },
+  {
+   "if": {
+    "data": "magnitude",
+    "n_items": "3-4"
+   },
+   "then": "chart",
+   "support": 6,
+   "of": 13,
+   "precision": 0.46,
+   "lift": 15.3
+  },
+  {
+   "if": {
+    "story_step": "まとめ",
+    "focus": "False"
+   },
+   "then": "summary_points",
+   "support": 6,
+   "of": 13,
+   "precision": 0.46,
+   "lift": 31.3
+  },
+  {
+   "if": {
+    "story_step": "まとめ",
+    "attrs": "1"
+   },
+   "then": "summary_points",
+   "support": 6,
+   "of": 13,
+   "precision": 0.46,
+   "lift": 31.3
+  }
+ ],
+ "avoid": [
+  {
+   "if": {
+    "attrs": "1"
+   },
+   "avoid": "table",
+   "observed": 13,
+   "expected": 80.2
+  },
+  {
+   "if": {
+    "attrs": "3+"
+   },
+   "avoid": "screen",
+   "observed": 7,
+   "expected": 48.2
+  },
+  {
+   "if": {
+    "relation": "parallel"
+   },
+   "avoid": "process",
+   "observed": 0,
+   "expected": 39.4
+  },
+  {
+   "if": {
+    "n_items": "1-2"
+   },
+   "avoid": "table",
+   "observed": 8,
+   "expected": 45.2
+  },
+  {
+   "if": {
+    "data": "none"
+   },
+   "avoid": "chart",
+   "observed": 2,
+   "expected": 38.0
+  },
+  {
+   "if": {
+    "purpose": "理解させる"
+   },
+   "avoid": "case",
+   "observed": 2,
+   "expected": 37.3
+  },
+  {
+   "if": {
+    "n_items": "3-4"
+   },
+   "avoid": "contrast_lr",
+   "observed": 4,
+   "expected": 28.4
+  },
+  {
+   "if": {
+    "n_items": "1-2"
+   },
+   "avoid": "cards",
+   "observed": 0,
+   "expected": 24.1
+  },
+  {
+   "if": {
+    "n_items": "7+"
+   },
+   "avoid": "screen",
+   "observed": 4,
+   "expected": 25.0
+  },
+  {
+   "if": {
+    "relation": "parallel"
+   },
+   "avoid": "contrast_lr",
+   "observed": 1,
+   "expected": 21.8
+  },
+  {
+   "if": {
+    "data": "none"
+   },
+   "avoid": "big_number",
+   "observed": 0,
+   "expected": 19.5
+  },
+  {
+   "if": {
+    "timing": "chapter_open"
+   },
+   "avoid": "screen",
+   "observed": 4,
+   "expected": 23.5
+  },
+  {
+   "if": {
+    "purpose": "掴ませる"
+   },
+   "avoid": "screen",
+   "observed": 0,
+   "expected": 18.4
+  },
+  {
+   "if": {
+    "relation": "hierarchy"
+   },
+   "avoid": "process",
+   "observed": 1,
+   "expected": 18.0
+  },
+  {
+   "if": {
+    "relation": "sequence"
+   },
+   "avoid": "cards",
+   "observed": 0,
+   "expected": 15.9
+  },
+  {
+   "if": {
+    "relation": "parallel"
+   },
+   "avoid": "schedule",
+   "observed": 2,
+   "expected": 17.9
+  },
+  {
+   "if": {
+    "purpose": "参照させる"
+   },
+   "avoid": "process",
+   "observed": 1,
+   "expected": 14.7
+  },
+  {
+   "if": {
+    "relation": "parallel"
+   },
+   "avoid": "hub",
+   "observed": 2,
+   "expected": 15.7
+  },
+  {
+   "if": {
+    "n_items": "7+"
+   },
+   "avoid": "text_blocks",
+   "observed": 2,
+   "expected": 15.2
+  },
+  {
+   "if": {
+    "relation": "parallel"
+   },
+   "avoid": "layer",
+   "observed": 1,
+   "expected": 13.8
+  },
+  {
+   "if": {
+    "relation": "flow"
+   },
+   "avoid": "table",
+   "observed": 2,
+   "expected": 14.4
+  },
+  {
+   "if": {
+    "n_items": "7+"
+   },
+   "avoid": "case",
+   "observed": 1,
+   "expected": 13.4
+  },
+  {
+   "if": {
+    "relation": "contrast"
+   },
+   "avoid": "process",
+   "observed": 2,
+   "expected": 14.2
+  },
+  {
+   "if": {
+    "attrs": "2"
+   },
+   "avoid": "schedule",
+   "observed": 1,
+   "expected": 12.8
+  },
+  {
+   "if": {
+    "relation": "hierarchy"
+   },
+   "avoid": "case",
+   "observed": 1,
+   "expected": 12.2
+  },
+  {
+   "if": {
+    "n_items": "1-2"
+   },
+   "avoid": "layer",
+   "observed": 0,
+   "expected": 11.2
+  },
+  {
+   "if": {
+    "relation": "parallel"
+   },
+   "avoid": "tree",
+   "observed": 0,
+   "expected": 10.9
+  },
+  {
+   "if": {
+    "n_items": "1-2"
+   },
+   "avoid": "hub",
+   "observed": 2,
+   "expected": 12.7
+  },
+  {
+   "if": {
+    "relation": "sequence"
+   },
+   "avoid": "contrast_lr",
+   "observed": 1,
+   "expected": 11.6
+  },
+  {
+   "if": {
+    "relation": "parallel"
+   },
+   "avoid": "org",
+   "observed": 1,
+   "expected": 11.5
+  },
+  {
+   "if": {
+    "timing": "chapter_body"
+   },
+   "avoid": "summary_points",
+   "observed": 2,
+   "expected": 12.3
+  },
+  {
+   "if": {
+    "relation": "hierarchy"
+   },
+   "avoid": "contrast_lr",
+   "observed": 0,
+   "expected": 10.0
+  },
+  {
+   "if": {
+    "purpose": "理解させる"
+   },
+   "avoid": "big_number",
+   "observed": 0,
+   "expected": 9.9
+  },
+  {
+   "if": {
+    "purpose": "理解させる"
+   },
+   "avoid": "summary_points",
+   "observed": 0,
+   "expected": 9.4
+  },
+  {
+   "if": {
+    "n_items": "7+"
+   },
+   "avoid": "contrast_lr",
+   "observed": 2,
+   "expected": 11.0
+  },
+  {
+   "if": {
+    "n_items": "5-6"
+   },
+   "avoid": "contrast_lr",
+   "observed": 2,
+   "expected": 11.0
+  },
+  {
+   "if": {
+    "purpose": "掴ませる"
+   },
+   "avoid": "case",
+   "observed": 1,
+   "expected": 9.8
+  },
+  {
+   "if": {
+    "attrs": "3+"
+   },
+   "avoid": "visual",
+   "observed": 2,
+   "expected": 10.6
+  },
+  {
+   "if": {
+    "timing": "deck_open"
+   },
+   "avoid": "process",
+   "observed": 1,
+   "expected": 9.5
+  },
+  {
+   "if": {
+    "relation": "parallel"
+   },
+   "avoid": "framework",
+   "observed": 1,
+   "expected": 9.3
+  },
+  {
+   "if": {
+    "relation": "hierarchy"
+   },
+   "avoid": "schedule",
+   "observed": 0,
+   "expected": 8.2
+  },
+  {
+   "if": {
+    "purpose": "参照させる"
+   },
+   "avoid": "contrast_lr",
+   "observed": 0,
+   "expected": 8.1
+  },
+  {
+   "if": {
+    "timing": "chapter_body"
+   },
+   "avoid": "assumptions",
+   "observed": 1,
+   "expected": 8.8
+  },
+  {
+   "if": {
+    "attrs": "2"
+   },
+   "avoid": "visual",
+   "observed": 0,
+   "expected": 7.8
+  },
+  {
+   "if": {
+    "relation": "sequence"
+   },
+   "avoid": "hub",
+   "observed": 1,
+   "expected": 8.4
+  },
+  {
+   "if": {
+    "relation": "sequence"
+   },
+   "avoid": "layer",
+   "observed": 0,
+   "expected": 7.3
+  },
+  {
+   "if": {
+    "purpose": "覚えさせる"
+   },
+   "avoid": "table",
+   "observed": 0,
+   "expected": 7.2
+  },
+  {
+   "if": {
+    "relation": "parallel"
+   },
+   "avoid": "problem_solution",
+   "observed": 1,
+   "expected": 8.0
+  },
+  {
+   "if": {
+    "purpose": "納得させる"
+   },
+   "avoid": "org",
+   "observed": 1,
+   "expected": 7.9
+  },
+  {
+   "if": {
+    "data": "magnitude"
+   },
+   "avoid": "screen",
+   "observed": 0,
+   "expected": 6.5
+  },
+  {
+   "if": {
+    "purpose": "覚えさせる"
+   },
+   "avoid": "screen",
+   "observed": 0,
+   "expected": 6.4
+  },
+  {
+   "if": {
+    "relation": "contrast"
+   },
+   "avoid": "schedule",
+   "observed": 0,
+   "expected": 6.4
+  },
+  {
+   "if": {
+    "relation": "hierarchy"
+   },
+   "avoid": "chart",
+   "observed": 0,
+   "expected": 6.3
+  },
+  {
+   "if": {
+    "timing": "appendix"
+   },
+   "avoid": "schedule",
+   "observed": 0,
+   "expected": 5.9
+  },
+  {
+   "if": {
+    "relation": "sequence"
+   },
+   "avoid": "tree",
+   "observed": 0,
+   "expected": 5.8
+  },
+  {
+   "if": {
+    "relation": "mutual"
+   },
+   "avoid": "table",
+   "observed": 0,
+   "expected": 5.7
+  },
+  {
+   "if": {
+    "relation": "sequence"
+   },
+   "avoid": "estimate",
+   "observed": 0,
+   "expected": 5.6
+  },
+  {
+   "if": {
+    "relation": "flow"
+   },
+   "avoid": "contrast_lr",
+   "observed": 0,
+   "expected": 5.6
+  },
+  {
+   "if": {
+    "data": "single_kpi"
+   },
+   "avoid": "screen",
+   "observed": 1,
+   "expected": 6.6
+  },
+  {
+   "if": {
+    "timing": "deck_open"
+   },
+   "avoid": "case",
+   "observed": 1,
+   "expected": 6.4
+  },
+  {
+   "if": {
+    "purpose": "掴ませる"
+   },
+   "avoid": "chart",
+   "observed": 0,
+   "expected": 5.1
+  },
+  {
+   "if": {
+    "purpose": "参照させる"
+   },
+   "avoid": "layer",
+   "observed": 0,
+   "expected": 5.1
+  },
+  {
+   "if": {
+    "relation": "sequence"
+   },
+   "avoid": "org",
+   "observed": 1,
+   "expected": 6.1
+  },
+  {
+   "if": {
+    "attrs": "3+"
+   },
+   "avoid": "statement",
+   "observed": 0,
+   "expected": 5.0
+  },
+  {
+   "if": {
+    "relation": "contrast"
+   },
+   "avoid": "layer",
+   "observed": 0,
+   "expected": 4.9
+  },
+  {
+   "if": {
+    "purpose": "参照させる"
+   },
+   "avoid": "hub",
+   "observed": 1,
+   "expected": 5.8
+  },
+  {
+   "if": {
+    "relation": "sequence"
+   },
+   "avoid": "visual",
+   "observed": 1,
+   "expected": 5.8
+  },
+  {
+   "if": {
+    "relation": "cause"
+   },
+   "avoid": "contrast_lr",
+   "observed": 0,
+   "expected": 4.7
+  },
+  {
+   "if": {
+    "purpose": "納得させる"
+   },
+   "avoid": "summary_points",
+   "observed": 0,
+   "expected": 4.6
+  },
+  {
+   "if": {
+    "relation": "contrast"
+   },
+   "avoid": "hub",
+   "observed": 1,
+   "expected": 5.6
+  },
+  {
+   "if": {
+    "relation": "parallel"
+   },
+   "avoid": "cycle",
+   "observed": 0,
+   "expected": 4.5
+  },
+  {
+   "if": {
+    "relation": "converge"
+   },
+   "avoid": "text_blocks",
+   "observed": 0,
+   "expected": 4.5
+  },
+  {
+   "if": {
+    "n_items": "1-2"
+   },
+   "avoid": "summary_points",
+   "observed": 1,
+   "expected": 5.5
+  },
+  {
+   "if": {
+    "n_items": "5-6"
+   },
+   "avoid": "visual",
+   "observed": 1,
+   "expected": 5.5
+  },
+  {
+   "if": {
+    "relation": "sequence"
+   },
+   "avoid": "problem_solution",
+   "observed": 0,
+   "expected": 4.3
+  },
+  {
+   "if": {
+    "data": "single_kpi"
+   },
+   "avoid": "process",
+   "observed": 1,
+   "expected": 5.3
+  },
+  {
+   "if": {
+    "timing": "chapter_open"
+   },
+   "avoid": "tree",
+   "observed": 1,
+   "expected": 5.2
+  },
+  {
+   "if": {
+    "relation": "mutual"
+   },
+   "avoid": "screen",
+   "observed": 1,
+   "expected": 5.1
+  },
+  {
+   "if": {
+    "relation": "mutual"
+   },
+   "avoid": "process",
+   "observed": 0,
+   "expected": 4.1
+  },
+  {
+   "if": {
+    "relation": "contrast"
+   },
+   "avoid": "org",
+   "observed": 0,
+   "expected": 4.1
+  }
+ ],
+ "transitions": [
+  {
+   "from": "screen",
+   "to": "screen",
+   "n": 66
+  },
+  {
+   "from": "table",
+   "to": "table",
+   "n": 47
+  },
+  {
+   "from": "case",
+   "to": "case",
+   "n": 42
+  },
+  {
+   "from": "process",
+   "to": "process",
+   "n": 25
+  },
+  {
+   "from": "cards",
+   "to": "cards",
+   "n": 20
+  },
+  {
+   "from": "text_blocks",
+   "to": "text_blocks",
+   "n": 18
+  },
+  {
+   "from": "table",
+   "to": "screen",
+   "n": 16
+  },
+  {
+   "from": "cards",
+   "to": "table",
+   "n": 15
+  },
+  {
+   "from": "row_header",
+   "to": "row_header",
+   "n": 15
+  },
+  {
+   "from": "table",
+   "to": "process",
+   "n": 15
+  },
+  {
+   "from": "screen",
+   "to": "text_blocks",
+   "n": 14
+  },
+  {
+   "from": "process",
+   "to": "cards",
+   "n": 13
+  },
+  {
+   "from": "screen",
+   "to": "process",
+   "n": 12
+  },
+  {
+   "from": "cards",
+   "to": "screen",
+   "n": 11
+  },
+  {
+   "from": "process",
+   "to": "table",
+   "n": 11
+  },
+  {
+   "from": "process",
+   "to": "screen",
+   "n": 11
+  },
+  {
+   "from": "screen",
+   "to": "table",
+   "n": 11
+  },
+  {
+   "from": "text_blocks",
+   "to": "screen",
+   "n": 11
+  },
+  {
+   "from": "table",
+   "to": "row_header",
+   "n": 10
+  },
+  {
+   "from": "table",
+   "to": "framework",
+   "n": 10
+  },
+  {
+   "from": "chart",
+   "to": "chart",
+   "n": 10
+  },
+  {
+   "from": "chart",
+   "to": "table",
+   "n": 10
+  },
+  {
+   "from": "schedule",
+   "to": "org",
+   "n": 9
+  },
+  {
+   "from": "contrast_lr",
+   "to": "contrast_lr",
+   "n": 9
+  },
+  {
+   "from": "schedule",
+   "to": "table",
+   "n": 9
+  },
+  {
+   "from": "screen",
+   "to": "cards",
+   "n": 9
+  },
+  {
+   "from": "table",
+   "to": "cards",
+   "n": 8
+  },
+  {
+   "from": "row_header",
+   "to": "contrast_lr",
+   "n": 8
+  },
+  {
+   "from": "cards",
+   "to": "process",
+   "n": 8
+  },
+  {
+   "from": "table",
+   "to": "schedule",
+   "n": 8
+  },
+  {
+   "from": "org",
+   "to": "estimate",
+   "n": 8
+  },
+  {
+   "from": "contrast_lr",
+   "to": "table",
+   "n": 8
+  },
+  {
+   "from": "estimate",
+   "to": "estimate",
+   "n": 8
+  },
+  {
+   "from": "tree",
+   "to": "tree",
+   "n": 7
+  },
+  {
+   "from": "layer",
+   "to": "cards",
+   "n": 7
+  },
+  {
+   "from": "case",
+   "to": "process",
+   "n": 7
+  },
+  {
+   "from": "screen",
+   "to": "contrast_lr",
+   "n": 7
+  },
+  {
+   "from": "contrast_lr",
+   "to": "process",
+   "n": 7
+  },
+  {
+   "from": "process",
+   "to": "row_header",
+   "n": 7
+  },
+  {
+   "from": "row_header",
+   "to": "process",
+   "n": 7
+  },
+  {
+   "from": "process",
+   "to": "case",
+   "n": 7
+  },
+  {
+   "from": "process",
+   "to": "schedule",
+   "n": 7
+  },
+  {
+   "from": "estimate",
+   "to": "assumptions",
+   "n": 7
+  },
+  {
+   "from": "table",
+   "to": "chart",
+   "n": 7
+  },
+  {
+   "from": "text_blocks",
+   "to": "table",
+   "n": 7
+  },
+  {
+   "from": "schedule",
+   "to": "process",
+   "n": 7
+  },
+  {
+   "from": "framework",
+   "to": "table",
+   "n": 7
+  },
+  {
+   "from": "contrast_lr",
+   "to": "screen",
+   "n": 7
+  },
+  {
+   "from": "text_blocks",
+   "to": "hub",
+   "n": 7
+  },
+  {
+   "from": "text_blocks",
+   "to": "case",
+   "n": 7
+  },
+  {
+   "from": "hub",
+   "to": "screen",
+   "n": 6
+  },
+  {
+   "from": "row_header",
+   "to": "table",
+   "n": 6
+  },
+  {
+   "from": "hub",
+   "to": "table",
+   "n": 6
+  },
+  {
+   "from": "table",
+   "to": "text_blocks",
+   "n": 6
+  },
+  {
+   "from": "schedule",
+   "to": "schedule",
+   "n": 6
+  },
+  {
+   "from": "row_header",
+   "to": "screen",
+   "n": 6
+  },
+  {
+   "from": "cards",
+   "to": "contrast_lr",
+   "n": 6
+  },
+  {
+   "from": "row_header",
+   "to": "text_blocks",
+   "n": 6
+  },
+  {
+   "from": "contrast_lr",
+   "to": "text_blocks",
+   "n": 6
+  },
+  {
+   "from": "process",
+   "to": "framework",
+   "n": 5
+  },
+  {
+   "from": "layer",
+   "to": "layer",
+   "n": 5
+  },
+  {
+   "from": "process",
+   "to": "hub",
+   "n": 5
+  },
+  {
+   "from": "cards",
+   "to": "hub",
+   "n": 5
+  },
+  {
+   "from": "contrast_lr",
+   "to": "row_header",
+   "n": 5
+  },
+  {
+   "from": "process",
+   "to": "layer",
+   "n": 5
+  },
+  {
+   "from": "visual",
+   "to": "table",
+   "n": 5
+  },
+  {
+   "from": "table",
+   "to": "contrast_lr",
+   "n": 5
+  },
+  {
+   "from": "row_header",
+   "to": "hub",
+   "n": 5
+  },
+  {
+   "from": "process",
+   "to": "tree",
+   "n": 5
+  },
+  {
+   "from": "problem_solution",
+   "to": "problem_solution",
+   "n": 5
+  },
+  {
+   "from": "table",
+   "to": "org",
+   "n": 5
+  },
+  {
+   "from": "cards",
+   "to": "row_header",
+   "n": 5
+  },
+  {
+   "from": "cards",
+   "to": "text_blocks",
+   "n": 5
+  },
+  {
+   "from": "text_blocks",
+   "to": "cards",
+   "n": 5
+  },
+  {
+   "from": "row_header",
+   "to": "schedule",
+   "n": 5
+  },
+  {
+   "from": "org",
+   "to": "meeting",
+   "n": 5
+  },
+  {
+   "from": "text_blocks",
+   "to": "contrast_lr",
+   "n": 5
+  },
+  {
+   "from": "estimate",
+   "to": "schedule",
+   "n": 5
+  },
+  {
+   "from": "framework",
+   "to": "row_header",
+   "n": 4
+  },
+  {
+   "from": "row_header",
+   "to": "cards",
+   "n": 4
+  },
+  {
+   "from": "layer",
+   "to": "hub",
+   "n": 4
+  },
+  {
+   "from": "visual",
+   "to": "visual",
+   "n": 4
+  },
+  {
+   "from": "table",
+   "to": "layer",
+   "n": 4
+  },
+  {
+   "from": "layer",
+   "to": "chart",
+   "n": 4
+  },
+  {
+   "from": "summary_points",
+   "to": "contrast_lr",
+   "n": 4
+  },
+  {
+   "from": "layer",
+   "to": "text_blocks",
+   "n": 4
+  },
+  {
+   "from": "text_blocks",
+   "to": "tree",
+   "n": 4
+  },
+  {
+   "from": "tree",
+   "to": "table",
+   "n": 4
+  },
+  {
+   "from": "screen",
+   "to": "schedule",
+   "n": 4
+  },
+  {
+   "from": "process",
+   "to": "text_blocks",
+   "n": 4
+  },
+  {
+   "from": "case",
+   "to": "hub",
+   "n": 4
+  },
+  {
+   "from": "assumptions",
+   "to": "assumptions",
+   "n": 4
+  },
+  {
+   "from": "screen",
+   "to": "layer",
+   "n": 4
+  },
+  {
+   "from": "table",
+   "to": "problem_solution",
+   "n": 4
+  },
+  {
+   "from": "chart",
+   "to": "big_number",
+   "n": 4
+  },
+  {
+   "from": "text_blocks",
+   "to": "process",
+   "n": 4
+  },
+  {
+   "from": "tree",
+   "to": "screen",
+   "n": 4
+  },
+  {
+   "from": "assumptions",
+   "to": "org",
+   "n": 4
+  },
+  {
+   "from": "big_number",
+   "to": "chart",
+   "n": 4
+  },
+  {
+   "from": "schedule",
+   "to": "roles",
+   "n": 4
+  },
+  {
+   "from": "big_number",
+   "to": "process",
+   "n": 4
+  },
+  {
+   "from": "profile",
+   "to": "layer",
+   "n": 3
+  },
+  {
+   "from": "case",
+   "to": "cards",
+   "n": 3
+  },
+  {
+   "from": "visual",
+   "to": "screen",
+   "n": 3
+  },
+  {
+   "from": "screen",
+   "to": "case",
+   "n": 3
+  },
+  {
+   "from": "row_header",
+   "to": "profile",
+   "n": 3
+  },
+  {
+   "from": "profile",
+   "to": "statement",
+   "n": 3
+  },
+  {
+   "from": "contrast_lr",
+   "to": "tree",
+   "n": 3
+  },
+  {
+   "from": "hub",
+   "to": "layer",
+   "n": 3
+  },
+  {
+   "from": "hub",
+   "to": "cards",
+   "n": 3
+  },
+  {
+   "from": "process",
+   "to": "contrast_lr",
+   "n": 3
+  },
+  {
+   "from": "cycle",
+   "to": "process",
+   "n": 3
+  },
+  {
+   "from": "table",
+   "to": "hub",
+   "n": 3
+  },
+  {
+   "from": "row_header",
+   "to": "visual",
+   "n": 3
+  },
+  {
+   "from": "chart",
+   "to": "process",
+   "n": 3
+  },
+  {
+   "from": "table",
+   "to": "other",
+   "n": 3
+  },
+  {
+   "from": "hub",
+   "to": "process",
+   "n": 3
+  },
+  {
+   "from": "org",
+   "to": "row_header",
+   "n": 3
+  },
+  {
+   "from": "tree",
+   "to": "process",
+   "n": 3
+  },
+  {
+   "from": "swimlane",
+   "to": "table",
+   "n": 3
+  }
+ ],
+ "mix_by_deck_type": {
+  "offering": {
+   "process": 0.165,
+   "screen": 0.124,
+   "table": 0.101,
+   "cards": 0.078,
+   "row_header": 0.069,
+   "case": 0.05,
+   "contrast_lr": 0.05,
+   "layer": 0.046,
+   "hub": 0.046,
+   "chart": 0.032,
+   "text_blocks": 0.032,
+   "schedule": 0.023,
+   "map": 0.018,
+   "visual": 0.014,
+   "framework": 0.014,
+   "org": 0.014,
+   "big_number": 0.014,
+   "cycle": 0.014,
+   "other": 0.014,
+   "problem_solution": 0.014,
+   "profile": 0.009,
+   "tree": 0.009,
+   "quadrant": 0.009,
+   "swimlane": 0.009,
+   "estimate": 0.009,
+   "eval_matrix": 0.005,
+   "assumptions": 0.005,
+   "steps_detail": 0.005,
+   "meeting": 0.005,
+   "agenda_nav": 0.005
+  },
+  "lt": {
+   "screen": 0.177,
+   "process": 0.115,
+   "cards": 0.115,
+   "hub": 0.104,
+   "table": 0.083,
+   "visual": 0.062,
+   "layer": 0.052,
+   "row_header": 0.031,
+   "schedule": 0.031,
+   "case": 0.031,
+   "contrast_lr": 0.031,
+   "other": 0.031,
+   "profile": 0.021,
+   "framework": 0.021,
+   "statement": 0.021,
+   "quadrant": 0.021,
+   "org": 0.01,
+   "tree": 0.01,
+   "big_number": 0.01,
+   "chart": 0.01,
+   "cycle": 0.01
+  },
+  "internal": {
+   "table": 0.22,
+   "cards": 0.116,
+   "text_blocks": 0.104,
+   "screen": 0.073,
+   "process": 0.055,
+   "case": 0.055,
+   "contrast_lr": 0.049,
+   "problem_solution": 0.037,
+   "estimate": 0.03,
+   "framework": 0.024,
+   "row_header": 0.024,
+   "schedule": 0.024,
+   "layer": 0.024,
+   "summary_points": 0.024,
+   "visual": 0.018,
+   "profile": 0.018,
+   "big_number": 0.018,
+   "chart": 0.018,
+   "hub": 0.012,
+   "other": 0.012,
+   "org": 0.006,
+   "statement": 0.006,
+   "tree": 0.006,
+   "quadrant": 0.006,
+   "cycle": 0.006,
+   "eval_matrix": 0.006,
+   "swimlane": 0.006
+  },
+  "report": {
+   "table": 0.201,
+   "chart": 0.098,
+   "text_blocks": 0.098,
+   "process": 0.065,
+   "screen": 0.054,
+   "schedule": 0.054,
+   "visual": 0.049,
+   "layer": 0.043,
+   "row_header": 0.033,
+   "contrast_lr": 0.033,
+   "tree": 0.033,
+   "hub": 0.027,
+   "summary_points": 0.027,
+   "other": 0.027,
+   "framework": 0.022,
+   "cards": 0.022,
+   "case": 0.022,
+   "big_number": 0.022,
+   "estimate": 0.022,
+   "org": 0.016,
+   "profile": 0.011,
+   "map": 0.005,
+   "cycle": 0.005,
+   "eval_matrix": 0.005,
+   "steps_detail": 0.005
+  },
+  "proposal": {
+   "table": 0.125,
+   "row_header": 0.093,
+   "schedule": 0.088,
+   "process": 0.074,
+   "org": 0.072,
+   "screen": 0.064,
+   "estimate": 0.059,
+   "hub": 0.043,
+   "contrast_lr": 0.04,
+   "assumptions": 0.037,
+   "text_blocks": 0.035,
+   "problem_solution": 0.029,
+   "framework": 0.027,
+   "cards": 0.027,
+   "tree": 0.027,
+   "roles": 0.024,
+   "layer": 0.021,
+   "case": 0.021,
+   "chart": 0.019,
+   "meeting": 0.019,
+   "visual": 0.013,
+   "cycle": 0.013,
+   "swimlane": 0.008,
+   "profile": 0.005,
+   "quadrant": 0.005,
+   "summary_points": 0.005,
+   "big_number": 0.003,
+   "eval_matrix": 0.003,
+   "other": 0.003
+  },
+  "training": {
+   "screen": 0.237,
+   "text_blocks": 0.117,
+   "cards": 0.095,
+   "table": 0.084,
+   "row_header": 0.08,
+   "contrast_lr": 0.069,
+   "process": 0.058,
+   "tree": 0.047,
+   "statement": 0.036,
+   "layer": 0.026,
+   "visual": 0.022,
+   "profile": 0.022,
+   "summary_points": 0.018,
+   "framework": 0.015,
+   "hub": 0.015,
+   "chart": 0.011,
+   "problem_solution": 0.011,
+   "cycle": 0.007,
+   "other": 0.007,
+   "map": 0.004,
+   "schedule": 0.004,
+   "org": 0.004,
+   "case": 0.004,
+   "big_number": 0.004,
+   "agenda_nav": 0.004
+  },
+  "techvision": {
+   "case": 0.411,
+   "process": 0.098,
+   "big_number": 0.08,
+   "text_blocks": 0.062,
+   "cards": 0.054,
+   "contrast_lr": 0.054,
+   "summary_points": 0.045,
+   "chart": 0.036,
+   "statement": 0.027,
+   "visual": 0.018,
+   "framework": 0.018,
+   "hub": 0.018,
+   "problem_solution": 0.018,
+   "map": 0.009,
+   "row_header": 0.009,
+   "layer": 0.009,
+   "table": 0.009,
+   "tree": 0.009,
+   "cycle": 0.009,
+   "other": 0.009
+  },
+  "other": {
+   "case": 1.0
+  }
+ },
+ "cv": {
+  "baseline_top1": 0.603,
+  "baseline_top3": 0.829,
+  "new_top1": 0.667,
+  "new_top3": 0.871,
+  "new_noprev_top1": 0.545,
+  "new_noprev_top3": 0.794,
+  "new_intent_top1": 0.661,
+  "new_intent_top3": 0.865
+ },
+ "families": {
+  "agenda_nav": {
+   "label_ja": "現在地ナビ",
+   "look": "本文の中の現在地ナビ（全体工程を再掲し、今の段だけ強調）",
+   "share": 0.001,
+   "n": 2,
+   "modules": [
+    "M-CHEVRON",
+    "M-TILEMAP"
+   ],
+   "skeletons": [],
+   "patterns": [
+    "P-015",
+    "P-107",
+    "P-110"
+   ],
+   "why": [
+    "全体の構成と今扱う部分を同時に示す",
+    "既出の図を再利用し、読み手に覚え直しをさせない"
+   ],
+   "why_not": [
+    "中扉だと全体の中の現在地が示せない",
+    "新しい図だと前章との接続が切れる"
+   ],
+   "when": "章頭で既出の全体図を再掲し、今扱う部分だけを強調する時",
+   "avoid_when": "全体図をまだ示していない時",
+   "icon_rate": null
+  },
+  "assumptions": {
+   "label_ja": "前提・留意事項",
+   "look": "前提・留意事項・スコープ外の箇条",
+   "share": 0.011,
+   "n": 15,
+   "modules": [
+    "M-ROWHEAD",
+    "M-CHECKLIST",
+    "M-BULLETS"
+   ],
+   "skeletons": [],
+   "patterns": [
+    "P-109"
+   ],
+   "why": [
+    "後の認識齟齬を防ぐため、条件を漏れなく残す",
+    "観点の見出しで区分し、条項単位で探せるようにする",
+    "前提と顧客への依頼を分け、責任分界を確認させる"
+   ],
+   "why_not": [
+    "表だと条文的な但し書きが細切れになる",
+    "見積頁の注記にすると結論が読みにくく収まらない"
+   ],
+   "when": "提案の末尾で契約・見積の前提、範囲外、免責を網羅して残す時",
+   "avoid_when": "提案や見積を伴わない資料、主張を伝える本文の時",
+   "icon_rate": 0.0
+  },
+  "big_number": {
+   "label_ja": "大きな数字",
+   "look": "大きな数字（KPI）＋短い説明が主役",
+   "share": 0.015,
+   "n": 22,
+   "modules": [
+    "M-KPI-TILE",
+    "M-KPI-STACK"
+   ],
+   "skeletons": [
+    "K-102",
+    "K-103",
+    "K-007",
+    "K-033",
+    "K-036",
+    "K-090"
+   ],
+   "patterns": [
+    "P-050",
+    "P-101",
+    "P-115",
+    "P-126"
+   ],
+   "why": [
+    "章頭や冒頭で数字を突き付け、切迫感を出す",
+    "設問の違う数字を同じ型で並べ、落差で対比する",
+    "目標値など覚えてほしい値を主役にする",
+    "数字に出典や当事者の声を添えて裏付ける"
+   ],
+   "why_not": [
+    "グラフだと設問の違う数字が同じ尺度に見える",
+    "表や箇条だと数字が埋もれ、規模感が残らない"
+   ],
+   "when": "少数の大きな数字で規模・課題・効果の大きさを印象づける時",
+   "avoid_when": "数値データがない時、仕組みを理解させる時",
+   "icon_rate": 0.14
+  },
+  "cards": {
+   "label_ja": "並列カード",
+   "look": "同格の要素を同じ大きさの枠で 3〜6 個並べる",
+   "share": 0.065,
+   "n": 93,
+   "modules": [
+    "M-CARD",
+    "M-HEADCOL",
+    "M-BADGECOL",
+    "M-ICONROW",
+    "M-NUMCOL"
+   ],
+   "skeletons": [
+    "K-026",
+    "K-037",
+    "K-038",
+    "K-039",
+    "K-049",
+    "K-051",
+    "K-052",
+    "K-053",
+    "K-054",
+    "K-072",
+    "K-090",
+    "K-091",
+    "K-092",
+    "K-097",
+    "K-114",
+    "K-127",
+    "K-024",
+    "K-031",
+    "K-058",
+    "K-094",
+    "K-106",
+    "K-107"
+   ],
+   "patterns": [
+    "P-008",
+    "P-009",
+    "P-010",
+    "P-016",
+    "P-063",
+    "P-071",
+    "P-078",
+    "P-134"
+   ],
+   "why": [
+    "要素が同格であることを同じ大きさの枠で形として示す",
+    "章頭で全体像を見せ、後続ページの目次・入口にする",
+    "見出しやアイコンで拾い読みでき、要点を記憶に残す",
+    "全体の中で今回の対象だけを枠で強調し、位置づけを示す"
+   ],
+   "why_not": [
+    "表だと要点が行に埋もれ、識別子として覚えにくい",
+    "箇条だと同格の並びが形で伝わらない",
+    "工程図だと順序があるように見えてしまう"
+   ],
+   "when": "同格の要素3〜8個を同じ書式で並べ、全体を一望・記憶させる時",
+   "avoid_when": "要素が1〜2個の時、順序や流れのある内容の時",
+   "icon_rate": 0.51
+  },
+  "case": {
+   "label_ja": "事例",
+   "look": "事例（属性＋背景・取組・成果）",
+   "share": 0.058,
+   "n": 83,
+   "modules": [
+    "M-CASE"
+   ],
+   "skeletons": [
+    "K-005",
+    "K-007",
+    "K-006"
+   ],
+   "patterns": [
+    "P-052",
+    "P-053",
+    "P-054",
+    "P-055",
+    "P-127",
+    "P-128"
+   ],
+   "why": [
+    "主張を実例で裏付け、他社の実績で納得させる",
+    "固定見出しの定型で複数事例を揃え、横比較・拾い読みさせる",
+    "成果の数字と写真で取組の実在感と規模を伝える",
+    "同格の事例を同じ型で連続させ、主張の厚みを出す"
+   ],
+   "why_not": [
+    "成果の数字だけでは何の課題にどう効いたかが分からない",
+    "表に詰めると写真や経緯が載らず具体性が消える",
+    "工程図だと課題と成果の対応が読み取れない"
+   ],
+   "when": "主張の根拠として実在の取組を属性・課題・取組・成果で示す時",
+   "avoid_when": "仕組みを理解させる・全体を掴ませる時、事例7件超の一覧",
+   "icon_rate": 0.2
+  },
+  "chart": {
+   "label_ja": "グラフ＋示唆",
+   "look": "棒・折れ線・円などのグラフ＋示唆",
+   "share": 0.03,
+   "n": 43,
+   "modules": [
+    "M-CHART"
+   ],
+   "skeletons": [
+    "K-020",
+    "K-021",
+    "K-036",
+    "K-099",
+    "K-018",
+    "K-019"
+   ],
+   "patterns": [
+    "P-001",
+    "P-002",
+    "P-003",
+    "P-102",
+    "P-103"
+   ],
+   "why": [
+    "推移・偏り・分布の形で主張を裏付ける",
+    "構成比の偏りや二極化を直感的に見せる",
+    "同じ型のグラフを続け、別の内訳も同じ見方で読ませる",
+    "グラフに示唆や観察メモを添え、データと結論を1枚で閉じる"
+   ],
+   "why_not": [
+    "表だと量の推移や偏りが一目で読めない",
+    "大きな数字だけでは比較群や推移が見えず根拠が弱い",
+    "文章だと変化の大きさが数字と形で伝わらない"
+   ],
+   "when": "推移・構成比・量の比較など数値データを根拠として示す時",
+   "avoid_when": "数値データがない時",
+   "icon_rate": 0.02
+  },
+  "contrast_lr": {
+   "label_ja": "左右対比",
+   "look": "左右（または上下）の 2 項を鏡像で比較（As-Is/To-Be、従来/新、A 案/B 案）",
+   "share": 0.048,
+   "n": 68,
+   "modules": [
+    "M-BEFORE-AFTER",
+    "M-NGOK",
+    "M-CARDSTACK"
+   ],
+   "skeletons": [
+    "K-003",
+    "K-004",
+    "K-009",
+    "K-010",
+    "K-012",
+    "K-013",
+    "K-014",
+    "K-016",
+    "K-022",
+    "K-063",
+    "K-008",
+    "K-011",
+    "K-055"
+   ],
+   "patterns": [
+    "P-021",
+    "P-022",
+    "P-024",
+    "P-027",
+    "P-028",
+    "P-030",
+    "P-066",
+    "P-111",
+    "P-135"
+   ],
+   "why": [
+    "同じ骨格で左右に並べ、差分だけを浮かせる",
+    "比較対象を示し、何と比べて優れるかを明確にする",
+    "NGとOKを並べ、違いを体感させて原則に同意させる",
+    "期間・密度・範囲の差を形の長さや量で直感させる"
+   ],
+   "why_not": [
+    "新しい側だけを示すと従来との差が伝わらない",
+    "箇条や文章では差が対比として浮かばない",
+    "表だと位置関係や構造の差が見えない"
+   ],
+   "when": "従来と新、NGとOKなど2項の違いや変化を同じ骨格で比べる時",
+   "avoid_when": "比べる対象が3つ以上の時、並列・順序・階層の関係の時",
+   "icon_rate": 0.35
+  },
+  "cycle": {
+   "label_ja": "循環",
+   "look": "円環・循環",
+   "share": 0.01,
+   "n": 14,
+   "modules": [
+    "M-CYCLE"
+   ],
+   "skeletons": [
+    "K-025"
+   ],
+   "patterns": [
+    "P-116"
+   ],
+   "why": [
+    "評価結果を次の段に戻す循環を形で示す",
+    "一度きりでなく回し続ける運用・支援だと伝える",
+    "往復のやり取りや相互の受け渡しを矢印で表す"
+   ],
+   "why_not": [
+    "工程図だと一方向の手順に見え、戻りが表せない",
+    "カードや箇条だと継続して回る意味が伝わらない"
+   ],
+   "when": "改善・育成など段階が回り続ける継続的な仕組みを示す時",
+   "avoid_when": "終点のある一方向の手順の時、要素が並列の時",
+   "icon_rate": 0.79
+  },
+  "estimate": {
+   "label_ja": "見積",
+   "look": "見積・費用・工数の表",
+   "share": 0.023,
+   "n": 33,
+   "modules": [
+    "M-TABLE",
+    "M-KPI-TILE"
+   ],
+   "skeletons": [
+    "K-018",
+    "K-019"
+   ],
+   "patterns": [
+    "P-048",
+    "P-049",
+    "P-123"
+   ],
+   "why": [
+    "期間と総額の結論だけを枠で示し、承認対象を限定する",
+    "支払等の条件は注記に分け、判断材料を埋もれさせない",
+    "工数×単価の明細で金額の根拠を追わせる",
+    "前提・幅・増減理由を併記し、見積の妥当性を示す"
+   ],
+   "why_not": [
+    "内訳表に金額を埋めると承認すべき値が分からない",
+    "合計だけでは何にどれだけかかるかの根拠が見えない",
+    "グラフだと算定の前提と式が示せない"
+   ],
+   "when": "費用・工数・期間を示し、承認や発注の判断を求める時",
+   "avoid_when": "費用・工数以外の効果や実績の数値を示す時",
+   "icon_rate": 0.03
+  },
+  "eval_matrix": {
+   "label_ja": "評価表",
+   "look": "選択肢×評価軸の表で、◎○△・ハーベイボール・スコア",
+   "share": 0.003,
+   "n": 4,
+   "modules": [
+    "M-SCORE",
+    "M-MATRIX-SYM",
+    "M-MATURITY"
+   ],
+   "skeletons": [
+    "K-027"
+   ],
+   "patterns": [
+    "P-025",
+    "P-112",
+    "P-125"
+   ],
+   "why": [
+    "案×評価軸で軸ごとの優劣を揃えて読ませる",
+    "多数の指標と案の組み合わせと採否を一度に見せる"
+   ],
+   "why_not": [
+    "左右対比だと評価軸ごとの勝ち負けが揃わない",
+    "グラフだと多数の指標と案が収まらない"
+   ],
+   "when": "複数の案を評価軸で採点し、優位な案や採否を示す時",
+   "avoid_when": "各案の具体的な中身や条件を説明したい時",
+   "icon_rate": null
+  },
+  "framework": {
+   "label_ja": "概念図（ハウス・ピラミッド）",
+   "look": "ハウス（屋根・柱・土台）・ピラミッド・同心円など固定の概念図",
+   "share": 0.02,
+   "n": 29,
+   "modules": [
+    "M-HOUSE",
+    "M-EQUATION",
+    "M-PYRAMID",
+    "M-VENN",
+    "M-TILEMAP"
+   ],
+   "skeletons": [
+    "K-023",
+    "K-025"
+   ],
+   "patterns": [],
+   "why": [
+    "土台・柱・屋根で支える／支えられる関係を示す",
+    "体系を1枚の地図にし、以降の章で再掲・索引にする",
+    "全体の中で今回扱う範囲を枠や色で示す",
+    "重なりや包含で要素が一体であることを示す"
+   ],
+   "why_not": [
+    "表だと導出関係や包含関係が線で示せない",
+    "箇条だと要素間の構造が伝わらない",
+    "工程図だと循環や段階が一方向の手順に見える"
+   ],
+   "when": "方針や概念の体系をハウス・ピラミッド・入れ子など固定図で示す時",
+   "avoid_when": "要素が並列で構造的な関係がない時",
+   "icon_rate": 0.14
+  },
+  "hub": {
+   "label_ja": "ハブ・関係図",
+   "look": "中心＋周囲、関係者・エコシステム、ネットワーク図",
+   "share": 0.034,
+   "n": 49,
+   "modules": [
+    "M-HUB",
+    "M-ACTORS",
+    "M-VENN"
+   ],
+   "skeletons": [
+    "K-031",
+    "K-105"
+   ],
+   "patterns": [
+    "P-017",
+    "P-019",
+    "P-043",
+    "P-108",
+    "P-131"
+   ],
+   "why": [
+    "中心が全体を束ねる構造を位置で示す",
+    "双方向のやり取りや相互依存を矢印で表す",
+    "構成図上で対象範囲を枠で囲み、境界と連携を示す",
+    "関係者ごとの動機や得るものを周囲に添える"
+   ],
+   "why_not": [
+    "表だと誰が誰に何を渡すかの関係が読めない",
+    "工程図だと一方向に見え、往復の関係が表せない",
+    "体制図だと上下関係に見え、対等な連携が伝わらない"
+   ],
+   "when": "中心と周囲の相互関係・連携・関係者の座組みを示す時",
+   "avoid_when": "要素が並列で互いの関係がない時、要素が1〜2個の時",
+   "icon_rate": 0.41
+  },
+  "layer": {
+   "label_ja": "層・スタック",
+   "look": "上下に積んだ層・スタック（アーキテクチャ、レベル）",
+   "share": 0.03,
+   "n": 43,
+   "modules": [
+    "M-LAYER",
+    "M-ARCH",
+    "M-PYRAMID"
+   ],
+   "skeletons": [
+    "K-001",
+    "K-004",
+    "K-049"
+   ],
+   "patterns": [
+    "P-013",
+    "P-014"
+   ],
+   "why": [
+    "下層が上層を支える依存関係を位置で示す",
+    "共通基盤を全幅の帯にし、全要素が乗ることを示す",
+    "層の上に範囲や区分を塗り分け、境界を示す",
+    "章頭で仕組みの全体を一望させる"
+   ],
+   "why_not": [
+    "カードだと同格に見え、支える関係が見えない",
+    "工程図だと層構造が一過性の手順に見える",
+    "表だと層の上下関係と依存が伝わらない"
+   ],
+   "when": "構成要素が上下に積み上がり、下層が上層を支える構造を示す時",
+   "avoid_when": "要素が並列の時、要素が1〜2個しかない時",
+   "icon_rate": 0.51
+  },
+  "map": {
+   "label_ja": "地図・配置図",
+   "look": "地図・拠点・配置図",
+   "share": 0.005,
+   "n": 7,
+   "modules": [],
+   "skeletons": [],
+   "patterns": [],
+   "why": [
+    "地理的な広がりと自拠点の位置を一目で示す",
+    "対象区域を平面図の上で特定させる",
+    "配置で発言者や対象の位置を識別させる"
+   ],
+   "why_not": [
+    "一覧表だと地理的な広がりや位置が伝わらない"
+   ],
+   "when": "拠点・対象区域・座席など地理や配置の広がりを示す時",
+   "avoid_when": "位置や配置に意味がない内容の時",
+   "icon_rate": 0.0
+  },
+  "meeting": {
+   "label_ja": "会議体",
+   "look": "会議体（名称×目的×参加者×頻度）",
+   "share": 0.006,
+   "n": 8,
+   "modules": [
+    "M-TABLE",
+    "M-MATRIX-SYM"
+   ],
+   "skeletons": [
+    "K-034",
+    "K-047",
+    "K-110",
+    "K-111",
+    "K-115"
+   ],
+   "patterns": [
+    "P-121"
+   ],
+   "why": [
+    "会議ごとの頻度や参加者を横に比べさせる",
+    "顧客側の参加負荷や拘束時間を見積もらせる",
+    "推進の仕組みと運営のリズムを1枚で合意させる"
+   ],
+   "why_not": [
+    "体制図に書き添えると頻度や参加者を比べられない",
+    "スケジュール図だと目的と参加者が書き込めない"
+   ],
+   "when": "会議体ごとの目的・頻度・参加者・議題を揃えて合意する時",
+   "avoid_when": "会議体の運営を合意する必要がない時",
+   "icon_rate": 0.0
+  },
+  "org": {
+   "label_ja": "体制図",
+   "look": "体制図（箱と線、ピラミッド）",
+   "share": 0.025,
+   "n": 36,
+   "modules": [
+    "M-ORG",
+    "M-ORG-ACTORS"
+   ],
+   "skeletons": [
+    "K-041",
+    "K-042",
+    "K-043",
+    "K-044",
+    "K-045",
+    "K-046",
+    "K-112",
+    "K-113",
+    "K-116",
+    "K-117",
+    "K-010"
+   ],
+   "patterns": [
+    "P-041",
+    "P-042"
+   ],
+   "why": [
+    "指揮系統と階層の上下関係を箱と線で示す",
+    "顧客と自社を左右に置き、カウンターパートを揃える",
+    "提案範囲の要員を枠で囲み、人数や工数を添える",
+    "小規模な案件では最小の体制図で窓口だけを示す"
+   ],
+   "why_not": [
+    "役割分担表だと階層とカウンターパートの対応が見えない",
+    "表だと提案範囲の規模感と境界が図として出ない"
+   ],
+   "when": "推進体制や双方の役職・担当の階層と対応関係を示す時",
+   "avoid_when": "役割が対等で並列の時、作業単位の分担を確認させたい時",
+   "icon_rate": 0.39
+  },
+  "other": {
+   "label_ja": "その他",
+   "look": "",
+   "share": 0.012,
+   "n": 17,
+   "modules": [],
+   "skeletons": [],
+   "patterns": [],
+   "why": [
+    "足し算・掛け算の式で算定の構造を一目で示す",
+    "吹き出し群や重なる楕円で声や論点の量感を残す",
+    "工程の列の上にバーを伸ばし、守備範囲を示す"
+   ],
+   "why_not": [
+    "箇条や表だと構造や量感が伝わらない",
+    "左右対比だと対立する主張に見えてしまう"
+   ],
+   "when": "計算式・吹き出し群・範囲バーなど既存の型に収まらない内容の時",
+   "avoid_when": "既存の型で表せる内容の時",
+   "icon_rate": 0.35
+  },
+  "problem_solution": {
+   "label_ja": "課題→打ち手",
+   "look": "課題 → 打ち手を行ごと・矢印で対応づける",
+   "share": 0.018,
+   "n": 25,
+   "modules": [
+    "M-ROWHEAD",
+    "M-CARDSTACK"
+   ],
+   "skeletons": [
+    "K-035",
+    "K-064",
+    "K-065",
+    "K-066",
+    "K-067",
+    "K-068",
+    "K-093",
+    "K-120",
+    "K-121",
+    "K-069"
+   ],
+   "patterns": [
+    "P-007",
+    "P-011"
+   ],
+   "why": [
+    "課題ごとに打ち手を対応させ、なぜその手かを示す",
+    "顧客の課題起点で強みを語り、売り込みに見せない",
+    "冒頭で現状の課題から提案の必然性を導く",
+    "多対多の対応を線で結び、整合を確認させる"
+   ],
+   "why_not": [
+    "解決策だけの工程図では課題との対応が見えない",
+    "別表に分けると読み手が突き合わせる必要がある",
+    "カードで並べるだけでは解決への回収が弱い"
+   ],
+   "when": "課題と打ち手（解決・要諦）を行ごとに矢印で対応づける時",
+   "avoid_when": "課題と打ち手の対応がない時、課題だけを示す時",
+   "icon_rate": 0.32
+  },
+  "process": {
+   "label_ja": "工程・フロー",
+   "look": "矢羽根・シェブロン・矢印でつないだ工程・フロー（2〜7 段。2 段でも矢印でつないでいれば process）",
+   "share": 0.086,
+   "n": 123,
+   "modules": [
+    "M-CHEVRON",
+    "M-PHASE",
+    "M-DIAGRAM-FLOW",
+    "M-PIPELINE"
+   ],
+   "skeletons": [
+    "K-002",
+    "K-056",
+    "K-057",
+    "K-058",
+    "K-059",
+    "K-060",
+    "K-061",
+    "K-062",
+    "K-106",
+    "K-107",
+    "K-108",
+    "K-109",
+    "K-119",
+    "K-012",
+    "K-014",
+    "K-016",
+    "K-032",
+    "K-063",
+    "K-064",
+    "K-095",
+    "K-124",
+    "K-128"
+   ],
+   "patterns": [
+    "P-018",
+    "P-029",
+    "P-031",
+    "P-032",
+    "P-035",
+    "P-036",
+    "P-040",
+    "P-119",
+    "P-136"
+   ],
+   "why": [
+    "段の順序と、前段の出力が次段の入力になる関係を見せる",
+    "全体工程を示し、後続の詳細ページの地図・現在地表示に使う",
+    "工程の下に成果物・担当・判断主体を列で揃えて対応させる",
+    "同じ工程配置で色や範囲だけを変え、拡大や短縮を見せる"
+   ],
+   "why_not": [
+    "カードだと段が同格に見え、順序と流れが消える",
+    "箇条や表だと何が次工程へ渡るかの関係が見えない",
+    "ガントだと日程が主役になり、各段の中身が書けない"
+   ],
+   "when": "手順・工程・処理の流れなど順序のある2〜7段を示す時",
+   "avoid_when": "要素が並列・階層・対比の関係の時、参照用の一覧や冒頭の要旨",
+   "icon_rate": 0.46
+  },
+  "profile": {
+   "label_ja": "人物・会社紹介",
+   "look": "人物紹介・会社概要・チーム紹介",
+   "share": 0.012,
+   "n": 17,
+   "modules": [
+    "M-PROFILE"
+   ],
+   "skeletons": [],
+   "patterns": [
+    "P-045"
+   ],
+   "why": [
+    "冒頭で顔と名前・専門を結び付け、短時間で紹介する",
+    "経歴や実績で担い手や助言役の信頼性を裏付ける",
+    "窓口を人として見せ、問い合わせを促す"
+   ],
+   "why_not": [
+    "体制図だと役割の階層が前に出て人物像が伝わらない",
+    "表だと経歴が項目の羅列になり信頼感が出ない"
+   ],
+   "when": "講師・登壇者・担い手・会社を紹介し、人と経歴を結び付ける時",
+   "avoid_when": "役割の階層や指揮系統を示す時",
+   "icon_rate": 0.06
+  },
+  "quadrant": {
+   "label_ja": "2×2・ポジショニング",
+   "look": "2 軸の 2×2・ポジショニングマップ",
+   "share": 0.005,
+   "n": 7,
+   "modules": [
+    "M-2AXIS"
+   ],
+   "skeletons": [],
+   "patterns": [
+    "P-026",
+    "P-104",
+    "P-113"
+   ],
+   "why": [
+    "2軸上の位置で分類や集中と空白を示す",
+    "象限ごとの扱いを添え、優先候補を選ばせる",
+    "同じ地図に自社の範囲を重ね、差を根拠にする"
+   ],
+   "why_not": [
+    "表やカードだと相対的な位置と分類の違いが見えない"
+   ],
+   "when": "候補や機能を2軸で位置づけ、集中・空白・優先度を示す時",
+   "avoid_when": "意味のある2軸がなく、観点の並列にすぎない時",
+   "icon_rate": 0.0
+  },
+  "roles": {
+   "label_ja": "役割分担表",
+   "look": "役割分担表（作業×担当の ◎○、RACI）",
+   "share": 0.006,
+   "n": 9,
+   "modules": [
+    "M-MATRIX-SYM",
+    "M-TABLE"
+   ],
+   "skeletons": [
+    "K-048",
+    "K-083",
+    "K-126"
+   ],
+   "patterns": [
+    "P-044",
+    "P-133"
+   ],
+   "why": [
+    "作業単位で主担当と確認・承認役の区別を示す",
+    "担当・成果物・工数を1行に揃え、後で確認させる",
+    "契約前に作業範囲と責任の境界を合意させる"
+   ],
+   "why_not": [
+    "体制図だと作業ごとの分担と成果物が追えない",
+    "スケジュール上だと担当と作成物が入りきらない"
+   ],
+   "when": "作業ごとに顧客・自社の担当を記号で示し、分担を合意する時",
+   "avoid_when": "組織の階層や窓口を示す時、工程が少なく作業の中身を書く時",
+   "icon_rate": 0.0
+  },
+  "row_header": {
+   "label_ja": "行見出し＋本文",
+   "look": "左に見出し列、右に説明の行（2〜6 行）",
+   "share": 0.06,
+   "n": 86,
+   "modules": [
+    "M-ROWHEAD"
+   ],
+   "skeletons": [
+    "K-008",
+    "K-017",
+    "K-024",
+    "K-028",
+    "K-071",
+    "K-077",
+    "K-087",
+    "K-088",
+    "K-089",
+    "K-098",
+    "K-044",
+    "K-061",
+    "K-065",
+    "K-085",
+    "K-093",
+    "K-121"
+   ],
+   "patterns": [
+    "P-005",
+    "P-077"
+   ],
+   "why": [
+    "定義・目的・範囲など性質の違う観点を区切って読ませる",
+    "見出しと説明の対応を保ちつつ、説明の文章量を確保できる",
+    "冒頭で範囲・期間・金額など提案の枠組みを1枚で確認させる",
+    "課題と解決など同じ行構成で前後のページを見比べさせる"
+   ],
+   "why_not": [
+    "カードだと説明文が短く切れ、同格の並びに見える",
+    "工程図だと観点に順序があるように見える",
+    "表にするほど属性がなく、情報が過剰になる"
+   ],
+   "when": "性質の違う2〜6観点を左の見出しで揃え、説明を1行ずつ読ませる時",
+   "avoid_when": "同格の要素を記憶させたい時、7行超の多属性を比べる時",
+   "icon_rate": 0.13
+  },
+  "schedule": {
+   "label_ja": "スケジュール",
+   "look": "時間軸（ガント、ロードマップ、マイルストーン、タイムライン）",
+   "share": 0.039,
+   "n": 56,
+   "modules": [
+    "M-GANTT",
+    "M-TIMELINE",
+    "M-ROADMAP"
+   ],
+   "skeletons": [
+    "K-073",
+    "K-074",
+    "K-075",
+    "K-076",
+    "K-081",
+    "K-122",
+    "K-123",
+    "K-124",
+    "K-005",
+    "K-078",
+    "K-082"
+   ],
+   "patterns": [
+    "P-020",
+    "P-034",
+    "P-037",
+    "P-038",
+    "P-039",
+    "P-106",
+    "P-118",
+    "P-120",
+    "P-122"
+   ],
+   "why": [
+    "作業の時期・期間・並行・依存を時間軸で読ませる",
+    "全体計画の中で提案範囲を枠で示し、位置づけを掴ませる",
+    "マイルストーンで会議や成果物の節目を示す",
+    "右上がりの段階図で将来へ高度化する方向感を出す"
+   ],
+   "why_not": [
+    "工程図だと時期の重なりと期間が分からない",
+    "表だと前後関係と残り期間が読めない",
+    "文章だと顧客の計画や前後フェーズとの関係が見えない"
+   ],
+   "when": "計画や経緯を時間軸に載せ、いつ誰が何をするかを示す時",
+   "avoid_when": "並列の項目を説明する時、各段の観点を比べたい時",
+   "icon_rate": 0.16
+  },
+  "screen": {
+   "label_ja": "画面・実物＋注釈",
+   "look": "画面キャプチャ・実物（帳票・コード・成果物）＋注釈",
+   "share": 0.109,
+   "n": 155,
+   "modules": [
+    "M-SCREEN",
+    "M-SCREEN-MOCK",
+    "M-CODE",
+    "M-CHAT-MOCK"
+   ],
+   "skeletons": [
+    "K-053"
+   ],
+   "patterns": [
+    "P-056",
+    "P-057",
+    "P-058",
+    "P-059",
+    "P-060",
+    "P-061",
+    "P-062",
+    "P-065",
+    "P-076",
+    "P-129"
+   ],
+   "why": [
+    "実物で実在を証明し、文章より強い裏付けにする",
+    "番号や赤枠で手順と画面の操作箇所を1対1で対応させる",
+    "指示と出力を並べ、何を渡すと何が返るかを再現可能にする",
+    "成果物の粒度・量感を縮小画像のまま伝える",
+    "同格の実演が続く時、同じ型で差分だけを読ませる"
+   ],
+   "why_not": [
+    "文章や箇条では画面のどこを操作するかが分からない",
+    "表に書き起こすと実物感と量感が消える",
+    "工程図にすると実際に何が見えるかが伝わらない"
+   ],
+   "when": "実物の画面・成果物・帳票を見せ、操作や出力の具体像を示す時",
+   "avoid_when": "章頭で全体を掴ませる時、観点3つ以上や項目7件以上を比べる時",
+   "icon_rate": 0.1
+  },
+  "statement": {
+   "label_ja": "言い切り",
+   "look": "一文の言い切り・宣言が主役（図はほぼ無い）",
+   "share": 0.011,
+   "n": 16,
+   "modules": [
+    "M-QUOTE",
+    "M-CALLOUT"
+   ],
+   "skeletons": [],
+   "patterns": [
+    "P-073",
+    "P-075"
+   ],
+   "why": [
+    "ゴールや主張を1〜2点に絞り、宣言として残す",
+    "研修の冒頭で始点と終点を示し、動機づける",
+    "運営連絡など見落とされては困る事項を目立たせる",
+    "誤解を否定した後に概念を命名し、持ち帰らせる"
+   ],
+   "why_not": [
+    "箇条に混ぜるとゴールが説明に埋もれて残らない",
+    "図解だと否定の主張や概念名が埋もれる"
+   ],
+   "when": "冒頭の到達目標や章の主張を1〜2文で言い切り、記憶させる時",
+   "avoid_when": "要点が3つ以上ある時、根拠や詳細を説明する時",
+   "icon_rate": 0.0
+  },
+  "steps_detail": {
+   "label_ja": "手順の詳細",
+   "look": "番号ステップごとに詳細説明（手順書型、画面なし）",
+   "share": 0.001,
+   "n": 2,
+   "modules": [
+    "M-NUMLIST",
+    "M-NUMCOL",
+    "M-ROWHEAD"
+   ],
+   "skeletons": [
+    "K-060"
+   ],
+   "patterns": [
+    "P-033"
+   ],
+   "why": [
+    "各段で何を問い何をするかを書き込める",
+    "構成図と同じ記号で段と処理箇所を対応させる"
+   ],
+   "why_not": [
+    "矢羽根だけの工程だと各段の実行内容が書けない"
+   ],
+   "when": "番号付きのステップごとに実行内容や問いを詳しく示す時",
+   "avoid_when": "流れの概要だけを示せばよい時",
+   "icon_rate": null
+  },
+  "summary_points": {
+   "label_ja": "要旨（番号付き要点）",
+   "look": "番号付きの要点を縦に並べた要旨（エグゼクティブサマリー、まとめ）",
+   "share": 0.015,
+   "n": 21,
+   "modules": [
+    "M-NUMLIST",
+    "M-NUMCOL",
+    "M-ROWHEAD"
+   ],
+   "skeletons": [
+    "K-128",
+    "K-127"
+   ],
+   "patterns": [
+    "P-012",
+    "P-069",
+    "P-070"
+   ],
+   "why": [
+    "要点を因果の順に並べ、一続きの論旨として通読させる",
+    "章末を共通の型で締め、結論を記憶させる",
+    "最後の点を行動や帰結にし、持ち帰る行動を明確にする",
+    "冒頭で依頼や論点を明示し、後続の目次にする"
+   ],
+   "why_not": [
+    "カードだと点が同格に見え、因果の連鎖が切れる",
+    "図解だと論理の接続詞が落ち、要旨として読めない"
+   ],
+   "when": "冒頭の要旨や章末のまとめで、要点を番号付きで縦に通読させる時",
+   "avoid_when": "章の中ほどの説明の時、仕組みを理解させる時",
+   "icon_rate": 0.19
+  },
+  "swimlane": {
+   "label_ja": "スイムレーン",
+   "look": "担当レーン × 工程の業務フロー",
+   "share": 0.004,
+   "n": 6,
+   "modules": [],
+   "skeletons": [
+    "K-056"
+   ],
+   "patterns": [
+    "P-114",
+    "P-117"
+   ],
+   "why": [
+    "工程のどこで誰が動くかを流れと担当で同時に示す",
+    "並行する作業や承認の分岐・差し戻しを表す"
+   ],
+   "why_not": [
+    "1本の工程図だと並行する作業が直列に見える",
+    "画面や表だと承認の流れと分岐が見えない"
+   ],
+   "when": "役割やシステム別に工程を分け、誰の操作で何が起きるかを示す時",
+   "avoid_when": "担当が1つで、順序だけを示せばよい時",
+   "icon_rate": 0.33
+  },
+  "table": {
+   "label_ja": "表",
+   "look": "行×列の表（文字主体）",
+   "share": 0.122,
+   "n": 174,
+   "modules": [
+    "M-TABLE",
+    "M-ROWHEAD"
+   ],
+   "skeletons": [
+    "K-006",
+    "K-011",
+    "K-015",
+    "K-050",
+    "K-055",
+    "K-070",
+    "K-078",
+    "K-079",
+    "K-080",
+    "K-082",
+    "K-084",
+    "K-086",
+    "K-095",
+    "K-125",
+    "K-002",
+    "K-035",
+    "K-045",
+    "K-048",
+    "K-057",
+    "K-059",
+    "K-062",
+    "K-073",
+    "K-083",
+    "K-098",
+    "K-100"
+   ],
+   "patterns": [
+    "P-023",
+    "P-046",
+    "P-051",
+    "P-079",
+    "P-080",
+    "P-105",
+    "P-132"
+   ],
+   "why": [
+    "項目と観点の1対1の対応を行で保ち、横に比べられる",
+    "7件以上・多属性でも1枚に網羅でき、参照用の一覧になる",
+    "目標値・件数・担当・時期など数値や条件を同じ行に置ける",
+    "同格のページが続く時、同じ列構成を保ち読み方を変えさせない",
+    "結合セルで分類→項目→詳細の階層を保ったまま一覧できる"
+   ],
+   "why_not": [
+    "カードは観点の横比較ができず、7件を超えると収まらない",
+    "ツリーや工程図は目標値・条件など多属性を書き込めない",
+    "グラフは具体例や判定基準など文字の情報を載せられない"
+   ],
+   "when": "多数の項目を3つ以上の同じ観点で横に読み比べ、後で参照させる時",
+   "avoid_when": "観点が1つ、項目が1〜2個、流れや順序が主役の時",
+   "icon_rate": 0.12
+  },
+  "text_blocks": {
+   "label_ja": "見出し付き文章",
+   "look": "見出し付きの文章・箇条のブロック（図解しない）",
+   "share": 0.066,
+   "n": 94,
+   "modules": [
+    "M-BULLETS",
+    "M-HEADCOL",
+    "M-DEFBOX"
+   ],
+   "skeletons": [
+    "K-022"
+   ],
+   "patterns": [
+    "P-067",
+    "P-068",
+    "P-072",
+    "P-074",
+    "P-130"
+   ],
+   "why": [
+    "背景→目的など因果や逆接の論旨を文章のまま保つ",
+    "公式の文言・条件・計算式など細部を正確に残す",
+    "固定の見出し枠を反復し、同格の紹介や逆引き資料にする",
+    "演習の問題文や依頼など、読み手の行動を指示する"
+   ],
+   "why_not": [
+    "図解すると論理の接続が矢印だけになり中身が落ちる",
+    "表は属性が少ないと空白が目立ち、説明文が窮屈になる",
+    "カードは項目が少ないと枠が空き、文章の流れが切れる"
+   ],
+   "when": "論理のつながりや条件・定義を、図解せず文章で読ませる時",
+   "avoid_when": "項目が7件以上ある時、数値・構造・流れを見せたい時",
+   "icon_rate": 0.29
+  },
+  "tree": {
+   "label_ja": "ツリー",
+   "look": "ロジックツリー・分解図（左→右／上→下）",
+   "share": 0.024,
+   "n": 34,
+   "modules": [
+    "M-TREE"
+   ],
+   "skeletons": [
+    "K-027",
+    "K-029",
+    "K-030",
+    "K-032",
+    "K-033",
+    "K-040",
+    "K-069",
+    "K-085",
+    "K-096",
+    "K-100",
+    "K-101",
+    "K-104",
+    "K-118",
+    "K-013",
+    "K-026"
+   ],
+   "patterns": [
+    "P-006",
+    "P-047",
+    "P-064",
+    "P-124"
+   ],
+   "why": [
+    "上位と下位の親子・包含関係を形で示す",
+    "上位目標から現場の指標まで連なる筋道を追わせる",
+    "同じツリーに列を足し、手順の差分だけを見せる",
+    "複数の情報源や論点を1つに束ねる構造を示す"
+   ],
+   "why_not": [
+    "表だと階層や多対多の紐付けが見えない",
+    "箇条だと分解の構造が意識されない",
+    "グラフだとどの施策がどの改善に効くかの構造が消える"
+   ],
+   "when": "目的・論点・指標を上位から下位へ分解し、親子関係を示す時",
+   "avoid_when": "要素が並列で上下関係がない時",
+   "icon_rate": 0.15
+  },
+  "visual": {
+   "label_ja": "写真・ビジュアル",
+   "look": "写真・イラストが主役（イメージ）",
+   "share": 0.024,
+   "n": 34,
+   "modules": [
+    "M-PHOTO",
+    "M-ILLUST"
+   ],
+   "skeletons": [
+    "K-094",
+    "K-037",
+    "K-052",
+    "K-066",
+    "K-080"
+   ],
+   "patterns": [
+    "P-004"
+   ],
+   "why": [
+    "冒頭で場面や状況を一瞬で共有し、聞き手を掴む",
+    "利用場面や現場の状況を具体的に想起させる",
+    "比喩の絵で遠回りや天秤など抽象的な主張を直感させる",
+    "問いかけで考える間を作り、参加を促す"
+   ],
+   "why_not": [
+    "箇条だと場面が浮かばず、実感として伝わらない",
+    "仕組み図だと利用場面が想起されない",
+    "表だと実物感が消え、掴みとして弱い"
+   ],
+   "when": "情景・実物・比喩を写真やイラストで直感させ、導入や掴みにする時",
+   "avoid_when": "観点が3つ以上ある詳細を比較・説明する時",
+   "icon_rate": 0.26
+  }
+ },
+ "icon_rate": {
+  "visual": {
+   "rate": 0.26,
+   "n": 34
+  },
+  "map": {
+   "rate": 0.0,
+   "n": 7
+  },
+  "profile": {
+   "rate": 0.06,
+   "n": 17
+  },
+  "screen": {
+   "rate": 0.1,
+   "n": 155
+  },
+  "process": {
+   "rate": 0.46,
+   "n": 123
+  },
+  "framework": {
+   "rate": 0.14,
+   "n": 29
+  },
+  "row_header": {
+   "rate": 0.13,
+   "n": 86
+  },
+  "cards": {
+   "rate": 0.51,
+   "n": 93
+  },
+  "schedule": {
+   "rate": 0.16,
+   "n": 56
+  },
+  "org": {
+   "rate": 0.39,
+   "n": 36
+  },
+  "layer": {
+   "rate": 0.51,
+   "n": 43
+  },
+  "case": {
+   "rate": 0.2,
+   "n": 83
+  },
+  "statement": {
+   "rate": 0.0,
+   "n": 16
+  },
+  "table": {
+   "rate": 0.12,
+   "n": 174
+  },
+  "contrast_lr": {
+   "rate": 0.35,
+   "n": 68
+  },
+  "tree": {
+   "rate": 0.15,
+   "n": 34
+  },
+  "big_number": {
+   "rate": 0.14,
+   "n": 22
+  },
+  "hub": {
+   "rate": 0.41,
+   "n": 49
+  },
+  "chart": {
+   "rate": 0.02,
+   "n": 43
+  },
+  "quadrant": {
+   "rate": 0.0,
+   "n": 7
+  },
+  "cycle": {
+   "rate": 0.79,
+   "n": 14
+  },
+  "summary_points": {
+   "rate": 0.19,
+   "n": 21
+  },
+  "text_blocks": {
+   "rate": 0.29,
+   "n": 94
+  },
+  "other": {
+   "rate": 0.35,
+   "n": 17
+  },
+  "swimlane": {
+   "rate": 0.33,
+   "n": 6
+  },
+  "problem_solution": {
+   "rate": 0.32,
+   "n": 25
+  },
+  "estimate": {
+   "rate": 0.03,
+   "n": 33
+  },
+  "assumptions": {
+   "rate": 0.0,
+   "n": 15
+  },
+  "roles": {
+   "rate": 0.0,
+   "n": 9
+  },
+  "meeting": {
+   "rate": 0.0,
+   "n": 8
+  }
+ },
+ "combos": {
+  "note": "人の資料で 1 枚の中に一緒に使われた部品の組と件数（出典の資料名は含まない）",
+  "n_slides": 1460,
+  "modules": {
+   "M-BULLETS": 347,
+   "M-ROWHEAD": 284,
+   "M-CALLOUT": 205,
+   "M-TABLE": 201,
+   "M-SCREEN": 164,
+   "M-PHOTO": 114,
+   "M-DIAGRAM-FLOW": 99,
+   "M-CHEVRON": 80,
+   "M-CARDSTACK": 80,
+   "M-HEADCOL": 79,
+   "M-NUMLIST": 76,
+   "M-CHART": 60,
+   "M-LAYER": 53,
+   "M-GANTT": 49,
+   "M-CARD": 49,
+   "M-FIGREF": 45,
+   "M-ORG": 43,
+   "M-CHECKLIST": 42,
+   "M-ARCH": 42,
+   "M-TREE": 41,
+   "M-PHASE": 39,
+   "M-MATRIX-SYM": 35,
+   "M-ICONGRID": 34,
+   "M-BADGECOL": 30,
+   "M-CYCLE": 26,
+   "M-PROFILE": 24,
+   "M-KPI-TILE": 23,
+   "M-KPI-STACK": 23,
+   "M-LOGOROW": 20,
+   "M-QUOTE": 19,
+   "M-LEGEND": 13,
+   "M-KPI-INLINE": 13,
+   "M-EQUATION": 12,
+   "M-2AXIS": 10,
+   "M-PROMPTBOX": 8,
+   "M-PYRAMID": 7,
+   "M-NUMCOL": 6,
+   "M-VENN": 5,
+   "M-WIREFRAME": 5,
+   "M-CHAT-MOCK": 4,
+   "M-LINKCARD": 4,
+   "M-MAP": 3,
+   "M-BEFORE-AFTER": 3,
+   "M-PROSCONS": 3,
+   "M-NGOK": 3,
+   "M-DELIVTHUMB": 3,
+   "M-SPANMAP": 3,
+   "M-HUBSPOKE": 2,
+   "M-SPANBAR": 2,
+   "M-DEFBOX": 2,
+   "M-TOOLCARD": 2,
+   "M-ILLUST": 2,
+   "M-DOCMOCK": 2,
+   "M-TRIAD": 1,
+   "M-DIALOGUE": 1,
+   "M-ACTORMAP": 1,
+   "M-SWIMLANE": 1
+  },
+  "pairs": {
+   "M-BULLETS|M-ROWHEAD": 82,
+   "M-ROWHEAD|M-TABLE": 46,
+   "M-BULLETS|M-SCREEN": 46,
+   "M-CALLOUT|M-ROWHEAD": 43,
+   "M-BULLETS|M-PHOTO": 38,
+   "M-BULLETS|M-CALLOUT": 32,
+   "M-CALLOUT|M-TABLE": 28,
+   "M-GANTT|M-ROWHEAD": 27,
+   "M-CHEVRON|M-ROWHEAD": 21,
+   "M-CALLOUT|M-DIAGRAM-FLOW": 20,
+   "M-BULLETS|M-DIAGRAM-FLOW": 20,
+   "M-CALLOUT|M-CHART": 18,
+   "M-DIAGRAM-FLOW|M-ROWHEAD": 17,
+   "M-BULLETS|M-CHEVRON": 17,
+   "M-CALLOUT|M-CARDSTACK": 15,
+   "M-PHOTO|M-SCREEN": 14,
+   "M-CARDSTACK|M-DIAGRAM-FLOW": 14,
+   "M-BULLETS|M-CARDSTACK": 14,
+   "M-NUMLIST|M-SCREEN": 13,
+   "M-HEADCOL|M-ROWHEAD": 13,
+   "M-SCREEN|M-TABLE": 12,
+   "M-BULLETS|M-FIGREF": 12,
+   "M-CARDSTACK|M-ROWHEAD": 12,
+   "M-BULLETS|M-TABLE": 12,
+   "M-CHEVRON|M-DIAGRAM-FLOW": 11,
+   "M-CALLOUT|M-LAYER": 11,
+   "M-CALLOUT|M-HEADCOL": 11,
+   "M-MATRIX-SYM|M-ROWHEAD": 11,
+   "M-BULLETS|M-NUMLIST": 11,
+   "M-CALLOUT|M-SCREEN": 11,
+   "M-CHECKLIST|M-ROWHEAD": 11,
+   "M-DIAGRAM-FLOW|M-SCREEN": 10,
+   "M-BULLETS|M-KPI-STACK": 10,
+   "M-HEADCOL|M-LAYER": 10,
+   "M-CHEVRON|M-HEADCOL": 9,
+   "M-ARCH|M-CALLOUT": 9,
+   "M-CALLOUT|M-PHASE": 9,
+   "M-LAYER|M-ROWHEAD": 9,
+   "M-CHART|M-ROWHEAD": 9,
+   "M-PHASE|M-ROWHEAD": 9,
+   "M-CALLOUT|M-CHEVRON": 9,
+   "M-BULLETS|M-HEADCOL": 9,
+   "M-CARD|M-PHOTO": 9,
+   "M-PHOTO|M-ROWHEAD": 8,
+   "M-PHOTO|M-PROFILE": 8,
+   "M-CALLOUT|M-GANTT": 8,
+   "M-DIAGRAM-FLOW|M-NUMLIST": 8,
+   "M-KPI-STACK|M-ROWHEAD": 8,
+   "M-BULLETS|M-PHASE": 8,
+   "M-ARCH|M-ROWHEAD": 7,
+   "M-CALLOUT|M-CYCLE": 7,
+   "M-BADGECOL|M-CALLOUT": 7,
+   "M-CARDSTACK|M-CHEVRON": 7,
+   "M-CALLOUT|M-ORG": 7,
+   "M-BULLETS|M-CHART": 7,
+   "M-BULLETS|M-LAYER": 7,
+   "M-MATRIX-SYM|M-TABLE": 7,
+   "M-CALLOUT|M-PHOTO": 6,
+   "M-BULLETS|M-TREE": 6,
+   "M-CALLOUT|M-TREE": 6,
+   "M-BULLETS|M-LOGOROW": 6,
+   "M-EQUATION|M-TABLE": 6,
+   "M-ROWHEAD|M-SCREEN": 6,
+   "M-CHEVRON|M-TABLE": 6,
+   "M-HEADCOL|M-TABLE": 6,
+   "M-CHART|M-TABLE": 6,
+   "M-CHEVRON|M-GANTT": 6,
+   "M-CARDSTACK|M-LAYER": 5,
+   "M-NUMLIST|M-TREE": 5,
+   "M-CARDSTACK|M-SCREEN": 5,
+   "M-CALLOUT|M-FIGREF": 5,
+   "M-CHEVRON|M-SCREEN": 5,
+   "M-DIAGRAM-FLOW|M-HEADCOL": 5,
+   "M-ARCH|M-BULLETS": 5,
+   "M-CARD|M-TABLE": 5,
+   "M-CALLOUT|M-QUOTE": 5,
+   "M-CARDSTACK|M-NUMLIST": 5,
+   "M-EQUATION|M-ROWHEAD": 5,
+   "M-CARDSTACK|M-KPI-TILE": 5,
+   "M-HEADCOL|M-PHOTO": 4,
+   "M-CYCLE|M-ROWHEAD": 4,
+   "M-ROWHEAD|M-TREE": 4,
+   "M-LAYER|M-TABLE": 4,
+   "M-CALLOUT|M-ICONGRID": 4,
+   "M-HEADCOL|M-LOGOROW": 4,
+   "M-BULLETS|M-PYRAMID": 4,
+   "M-CHEVRON|M-ICONGRID": 4,
+   "M-ORG|M-ROWHEAD": 4,
+   "M-CARDSTACK|M-HEADCOL": 4,
+   "M-CARDSTACK|M-FIGREF": 4,
+   "M-FIGREF|M-SCREEN": 4,
+   "M-CHART|M-KPI-TILE": 4,
+   "M-PHASE|M-TABLE": 4,
+   "M-CARD|M-CHART": 4,
+   "M-BULLETS|M-MATRIX-SYM": 4,
+   "M-BULLETS|M-PROMPTBOX": 4,
+   "M-CHAT-MOCK|M-SCREEN": 4,
+   "M-CARDSTACK|M-CHART": 4,
+   "M-CHART|M-EQUATION": 4,
+   "M-KPI-INLINE|M-QUOTE": 4,
+   "M-NUMLIST|M-ROWHEAD": 4,
+   "M-CARDSTACK|M-CYCLE": 4,
+   "M-CYCLE|M-LAYER": 4,
+   "M-BULLETS|M-CARD": 4,
+   "M-ICONGRID|M-NUMLIST": 4,
+   "M-ARCH|M-SCREEN": 3,
+   "M-ICONGRID|M-PHOTO": 3,
+   "M-PROFILE|M-TABLE": 3,
+   "M-DIAGRAM-FLOW|M-LEGEND": 3,
+   "M-CHEVRON|M-PHASE": 3,
+   "M-BULLETS|M-ORG": 3,
+   "M-CALLOUT|M-NUMLIST": 3,
+   "M-BULLETS|M-ICONGRID": 3,
+   "M-ICONGRID|M-TABLE": 3,
+   "M-CARD|M-SCREEN": 3,
+   "M-CALLOUT|M-LOGOROW": 3,
+   "M-CARDSTACK|M-PHOTO": 3,
+   "M-QUOTE|M-ROWHEAD": 3,
+   "M-KPI-INLINE|M-ROWHEAD": 3,
+   "M-CARD|M-CYCLE": 3,
+   "M-ARCH|M-DIAGRAM-FLOW": 3,
+   "M-BEFORE-AFTER|M-BULLETS": 3,
+   "M-FIGREF|M-ROWHEAD": 3,
+   "M-KPI-STACK|M-TABLE": 3,
+   "M-CHART|M-CHECKLIST": 3,
+   "M-CYCLE|M-HEADCOL": 3,
+   "M-BULLETS|M-KPI-TILE": 3,
+   "M-BULLETS|M-PROFILE": 3,
+   "M-CHEVRON|M-MATRIX-SYM": 3,
+   "M-BULLETS|M-WIREFRAME": 3,
+   "M-DIAGRAM-FLOW|M-TABLE": 3,
+   "M-NUMLIST|M-PHOTO": 3,
+   "M-BULLETS|M-DELIVTHUMB": 3,
+   "M-CARD|M-KPI-STACK": 3,
+   "M-BADGECOL|M-CARD": 3,
+   "M-ARCH|M-LAYER": 3,
+   "M-DIAGRAM-FLOW|M-PHASE": 3,
+   "M-CHEVRON|M-LAYER": 3,
+   "M-CARD|M-HEADCOL": 3,
+   "M-CARD|M-ICONGRID": 3,
+   "M-CHECKLIST|M-CHEVRON": 2,
+   "M-CHEVRON|M-PHOTO": 2,
+   "M-CYCLE|M-PHOTO": 2,
+   "M-ICONGRID|M-SCREEN": 2,
+   "M-CYCLE|M-SCREEN": 2,
+   "M-LOGOROW|M-SCREEN": 2,
+   "M-KPI-INLINE|M-SCREEN": 2,
+   "M-CYCLE|M-PHASE": 2,
+   "M-CHECKLIST|M-TABLE": 2,
+   "M-HEADCOL|M-SCREEN": 2,
+   "M-CHART|M-DIAGRAM-FLOW": 2,
+   "M-DIAGRAM-FLOW|M-TREE": 2,
+   "M-LOGOROW|M-ORG": 2,
+   "M-BADGECOL|M-ICONGRID": 2,
+   "M-QUOTE|M-TABLE": 2,
+   "M-CALLOUT|M-KPI-TILE": 2,
+   "M-CHART|M-KPI-INLINE": 2,
+   "M-BULLETS|M-LEGEND": 2,
+   "M-LEGEND|M-ROWHEAD": 2,
+   "M-CALLOUT|M-KPI-STACK": 2,
+   "M-CARD|M-EQUATION": 2,
+   "M-KPI-INLINE|M-TABLE": 2,
+   "M-BADGECOL|M-BULLETS": 2,
+   "M-BADGECOL|M-CARDSTACK": 2,
+   "M-CARDSTACK|M-MATRIX-SYM": 2,
+   "M-KPI-TILE|M-ROWHEAD": 2,
+   "M-FIGREF|M-HEADCOL": 2,
+   "M-CHEVRON|M-FIGREF": 2,
+   "M-CARDSTACK|M-TREE": 2,
+   "M-GANTT|M-LEGEND": 2,
+   "M-CARDSTACK|M-ORG": 2,
+   "M-BULLETS|M-CYCLE": 2,
+   "M-FIGREF|M-LAYER": 2,
+   "M-CHART|M-KPI-STACK": 2,
+   "M-BULLETS|M-GANTT": 2,
+   "M-BULLETS|M-CHECKLIST": 2,
+   "M-CHEVRON|M-LOGOROW": 2,
+   "M-CARD|M-LOGOROW": 2,
+   "M-KPI-STACK|M-LOGOROW": 2,
+   "M-CYCLE|M-ICONGRID": 2,
+   "M-LAYER|M-SCREEN": 2,
+   "M-LAYER|M-NUMLIST": 2,
+   "M-CHECKLIST|M-SCREEN": 2,
+   "M-CYCLE|M-NUMLIST": 2,
+   "M-BADGECOL|M-KPI-STACK": 2,
+   "M-HEADCOL|M-MATRIX-SYM": 2,
+   "M-MATRIX-SYM|M-NUMLIST": 2,
+   "M-CALLOUT|M-CARD": 2,
+   "M-ICONGRID|M-LOGOROW": 2,
+   "M-2AXIS|M-CHEVRON": 2,
+   "M-2AXIS|M-ROWHEAD": 2,
+   "M-CARD|M-CHEVRON": 2,
+   "M-HEADCOL|M-ICONGRID": 2,
+   "M-BULLETS|M-KPI-INLINE": 2,
+   "M-ARCH|M-CHECKLIST": 2,
+   "M-ARCH|M-NUMLIST": 2,
+   "M-CHECKLIST|M-MATRIX-SYM": 2,
+   "M-CHECKLIST|M-PHOTO": 1,
+   "M-GANTT|M-ORG": 1,
+   "M-CARDSTACK|M-LEGEND": 1,
+   "M-LAYER|M-LEGEND": 1,
+   "M-ARCH|M-PHOTO": 1,
+   "M-PROFILE|M-ROWHEAD": 1,
+   "M-DIAGRAM-FLOW|M-QUOTE": 1,
+   "M-HUBSPOKE|M-LOGOROW": 1,
+   "M-CHART|M-GANTT": 1,
+   "M-CHEVRON|M-ORG": 1,
+   "M-ORG|M-PHASE": 1,
+   "M-ORG|M-PYRAMID": 1,
+   "M-BADGECOL|M-SPANBAR": 1,
+   "M-CALLOUT|M-SPANBAR": 1,
+   "M-CALLOUT|M-DEFBOX": 1,
+   "M-DEFBOX|M-FIGREF": 1,
+   "M-2AXIS|M-DIAGRAM-FLOW": 1,
+   "M-EQUATION|M-LAYER": 1,
+   "M-CALLOUT|M-LEGEND": 1,
+   "M-CHART|M-LEGEND": 1,
+   "M-ICONGRID|M-PROFILE": 1,
+   "M-CHART|M-TREE": 1,
+   "M-ICONGRID|M-ROWHEAD": 1,
+   "M-CALLOUT|M-EQUATION": 1,
+   "M-GANTT|M-TABLE": 1,
+   "M-CHART|M-QUOTE": 1,
+   "M-CHEVRON|M-TREE": 1,
+   "M-CARDSTACK|M-PHASE": 1,
+   "M-ARCH|M-LEGEND": 1,
+   "M-CARD|M-CARDSTACK": 1,
+   "M-ARCH|M-CHEVRON": 1,
+   "M-FIGREF|M-PHOTO": 1,
+   "M-LAYER|M-LOGOROW": 1,
+   "M-BADGECOL|M-DIAGRAM-FLOW": 1,
+   "M-LOGOROW|M-TABLE": 1,
+   "M-CARD|M-TOOLCARD": 1,
+   "M-BADGECOL|M-CHECKLIST": 1,
+   "M-BULLETS|M-LINKCARD": 1,
+   "M-LINKCARD|M-SCREEN": 1,
+   "M-CARD|M-KPI-INLINE": 1,
+   "M-EQUATION|M-KPI-INLINE": 1,
+   "M-KPI-INLINE|M-KPI-STACK": 1,
+   "M-KPI-STACK|M-QUOTE": 1,
+   "M-CALLOUT|M-VENN": 1,
+   "M-CARDSTACK|M-VENN": 1,
+   "M-DIAGRAM-FLOW|M-MATRIX-SYM": 1,
+   "M-FIGREF|M-NUMLIST": 1,
+   "M-CALLOUT|M-CHECKLIST": 1,
+   "M-CHECKLIST|M-TREE": 1,
+   "M-ARCH|M-TABLE": 1,
+   "M-GANTT|M-PHASE": 1,
+   "M-LEGEND|M-TABLE": 1,
+   "M-LEGEND|M-ORG": 1,
+   "M-ROWHEAD|M-TRIAD": 1,
+   "M-CALLOUT|M-ILLUST": 1,
+   "M-CARDSTACK|M-ILLUST": 1,
+   "M-BULLETS|M-QUOTE": 1,
+   "M-BULLETS|M-ILLUST": 1,
+   "M-KPI-STACK|M-TREE": 1,
+   "M-MATRIX-SYM|M-TREE": 1,
+   "M-MAP|M-PYRAMID": 1,
+   "M-MAP|M-TREE": 1,
+   "M-PYRAMID|M-TREE": 1,
+   "M-PHOTO|M-TREE": 1,
+   "M-CALLOUT|M-WIREFRAME": 1,
+   "M-ROWHEAD|M-WIREFRAME": 1,
+   "M-NUMLIST|M-WIREFRAME": 1,
+   "M-DOCMOCK|M-TABLE": 1,
+   "M-CARDSTACK|M-SPANMAP": 1,
+   "M-BULLETS|M-HUBSPOKE": 1,
+   "M-LOGOROW|M-ROWHEAD": 1,
+   "M-HEADCOL|M-SPANMAP": 1,
+   "M-CHEVRON|M-NUMLIST": 1,
+   "M-HEADCOL|M-SPANBAR": 1,
+   "M-ROWHEAD|M-SPANBAR": 1,
+   "M-HEADCOL|M-TREE": 1,
+   "M-KPI-TILE|M-TABLE": 1,
+   "M-CYCLE|M-FIGREF": 1,
+   "M-FIGREF|M-ICONGRID": 1,
+   "M-LAYER|M-PHASE": 1,
+   "M-KPI-STACK|M-SPANMAP": 1,
+   "M-ROWHEAD|M-SPANMAP": 1,
+   "M-ACTORMAP|M-LAYER": 1,
+   "M-ORG|M-PROFILE": 1,
+   "M-CALLOUT|M-SWIMLANE": 1,
+   "M-BULLETS|M-NUMCOL": 1,
+   "M-SCREEN|M-TREE": 1,
+   "M-CARDSTACK|M-ICONGRID": 1,
+   "M-CARDSTACK|M-TABLE": 1,
+   "M-BADGECOL|M-ROWHEAD": 1,
+   "M-BADGECOL|M-CHEVRON": 1,
+   "M-GANTT|M-NUMLIST": 1,
+   "M-HEADCOL|M-NUMLIST": 1,
+   "M-2AXIS|M-NUMLIST": 1,
+   "M-TABLE|M-TREE": 1,
+   "M-CHECKLIST|M-NUMLIST": 1,
+   "M-CYCLE|M-DIAGRAM-FLOW": 1,
+   "M-2AXIS|M-CARD": 1,
+   "M-2AXIS|M-LAYER": 1,
+   "M-DIAGRAM-FLOW|M-LOGOROW": 1,
+   "M-CHECKLIST|M-LAYER": 1,
+   "M-2AXIS|M-CALLOUT": 1,
+   "M-2AXIS|M-CARDSTACK": 1,
+   "M-GANTT|M-LAYER": 1,
+   "M-ARCH|M-PROFILE": 1,
+   "M-CALLOUT|M-PROFILE": 1,
+   "M-ICONGRID|M-LAYER": 1,
+   "M-CARD|M-CHECKLIST": 1,
+   "M-FIGREF|M-TABLE": 1,
+   "M-KPI-TILE|M-QUOTE": 1,
+   "M-ARCH|M-CARD": 1,
+   "M-FIGREF|M-KPI-TILE": 1,
+   "M-ROWHEAD|M-VENN": 1,
+   "M-EQUATION|M-SCREEN": 1,
+   "M-2AXIS|M-ORG": 1,
+   "M-CHART|M-FIGREF": 1,
+   "M-DIAGRAM-FLOW|M-LAYER": 1,
+   "M-MATRIX-SYM|M-PHOTO": 1,
+   "M-ARCH|M-BADGECOL": 1,
+   "M-CYCLE|M-ORG": 1,
+   "M-CALLOUT|M-MATRIX-SYM": 1,
+   "M-CYCLE|M-KPI-TILE": 1,
+   "M-KPI-TILE|M-LAYER": 1,
+   "M-HEADCOL|M-QUOTE": 1,
+   "M-CHEVRON|M-VENN": 1,
+   "M-HEADCOL|M-PYRAMID": 1,
+   "M-DIAGRAM-FLOW|M-ICONGRID": 1,
+   "M-ORG|M-PHOTO": 1,
+   "M-KPI-TILE|M-PHOTO": 1,
+   "M-BULLETS|M-MAP": 1,
+   "M-CHART|M-MAP": 1,
+   "M-CHART|M-NUMLIST": 1,
+   "M-MAP|M-NUMLIST": 1,
+   "M-CHECKLIST|M-FIGREF": 1,
+   "M-CHECKLIST|M-DIAGRAM-FLOW": 1,
+   "M-DIAGRAM-FLOW|M-GANTT": 1,
+   "M-BULLETS|M-VENN": 1
+  }
+ }
+}

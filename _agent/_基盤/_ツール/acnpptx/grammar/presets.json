@@ -1,0 +1,431 @@
+{
+ "meta": {
+  "note": "旧パターン A〜AN を grid × modules × connectors × closing の組み合わせとして再定義。compose.py が未対応の部品を含むものは references/pattern-specs.md の旧実装を使う"
+ },
+ "presets": {
+  "A": {
+   "grid": "G-1",
+   "modules": [
+    "M-BULLETS"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": "最終手段。箇条だけのボディは CB-34"
+  },
+  "B": {
+   "grid": "G-11",
+   "modules": [
+    "M-BULLETS",
+    "M-BULLETS"
+   ],
+   "connectors": [
+    "R-PAR"
+   ],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "C": {
+   "grid": "G-1",
+   "modules": [],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": "中扉（section レイアウト）"
+  },
+  "D": {
+   "grid": "G-1",
+   "modules": [
+    "M-CALLOUT"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": "キーメッセージ（hero=key_message）"
+  },
+  "E": {
+   "grid": "G-RH",
+   "modules": [
+    "M-ROWHEAD"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "F": {
+   "grid": "G-2x2",
+   "modules": [
+    "M-CARD",
+    "M-CARD",
+    "M-CARD",
+    "M-CARD"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "G": {
+   "grid": "G-1",
+   "modules": [
+    "M-TABLE"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "I": {
+   "grid": "G-1",
+   "modules": [
+    "M-NUMLIST"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [
+    "V-INDEX"
+   ],
+   "note": "目次（agenda レイアウト）"
+  },
+  "J": {
+   "grid": "G-N4",
+   "modules": [
+    "M-KPI-TILE",
+    "M-KPI-TILE",
+    "M-KPI-TILE",
+    "M-KPI-TILE"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "K": {
+   "grid": "G-N3",
+   "modules": [
+    "M-HEADCOL",
+    "M-HEADCOL",
+    "M-HEADCOL"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "L": {
+   "grid": "G-11",
+   "modules": [
+    "M-NGOK"
+   ],
+   "connectors": [
+    "R-VS"
+   ],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "M": {
+   "grid": "G-1",
+   "modules": [
+    "M-CHART"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "N": {
+   "grid": "G-GRID",
+   "modules": [
+    "M-PROFILE"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "P": {
+   "grid": "G-TB",
+   "modules": [
+    "M-CHEVRON",
+    "M-HEADCOL"
+   ],
+   "connectors": [
+    "R-CAUSE"
+   ],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "Q": {
+   "grid": "G-GRID",
+   "modules": [
+    "M-ICONGRID"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "R": {
+   "grid": "G-11",
+   "modules": [
+    "M-PHOTO",
+    "M-BULLETS"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "S": {
+   "grid": "G-MATRIX",
+   "modules": [
+    "M-TABLE"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "T": {
+   "grid": "G-11",
+   "modules": [
+    "M-CARDSTACK",
+    "M-CARDSTACK"
+   ],
+   "connectors": [
+    "R-SOLVE"
+   ],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "U": {
+   "grid": "G-N3",
+   "modules": [
+    "M-BADGECOL",
+    "M-BADGECOL",
+    "M-BADGECOL"
+   ],
+   "connectors": [],
+   "closing": "C-CONCLUSION",
+   "devices": [],
+   "note": ""
+  },
+  "V": {
+   "grid": "G-GRID",
+   "modules": [
+    "M-CARD"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [
+    "V-INDEX"
+   ],
+   "note": "番号カード格子（pattern_v.add_numbered_card_grid）"
+  },
+  "W": {
+   "grid": "G-N3",
+   "modules": [
+    "M-KPI-STACK"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": "大数値"
+  },
+  "X": {
+   "grid": "G-1",
+   "modules": [
+    "M-PHASE"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": "フェーズ付きステップ（pattern_x.add_step_chart）"
+  },
+  "H": {
+   "grid": "G-1",
+   "modules": [
+    "M-CYCLE"
+   ],
+   "connectors": [
+    "R-LOOP"
+   ],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "Y": {
+   "grid": "G-1",
+   "modules": [
+    "M-TIMELINE"
+   ],
+   "connectors": [
+    "R-CAUSE"
+   ],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "Z": {
+   "grid": "G-1",
+   "modules": [
+    "M-ROADMAP"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "AA": {
+   "grid": "G-1",
+   "modules": [
+    "M-2AXIS"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "AB": {
+   "grid": "G-1",
+   "modules": [
+    "M-TREE"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "AC": {
+   "grid": "G-1",
+   "modules": [
+    "M-PYRAMID"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "AD": {
+   "grid": "G-MATRIX",
+   "modules": [
+    "M-TABLE"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [
+    "V-STATUS"
+   ],
+   "note": ""
+  },
+  "AE": {
+   "grid": "G-1",
+   "modules": [
+    "M-VENN"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "AF": {
+   "grid": "G-1",
+   "modules": [
+    "M-QUOTE"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "AG": {
+   "grid": "G-FREE",
+   "modules": [
+    "M-ARCH"
+   ],
+   "connectors": [
+    "R-CAUSE"
+   ],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "AH": {
+   "grid": "G-MATRIX",
+   "modules": [
+    "M-MATRIX-SYM"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "AI": {
+   "grid": "G-MATRIX",
+   "modules": [
+    "M-MATRIX-SYM"
+   ],
+   "connectors": [],
+   "closing": "C-COLSUM",
+   "devices": [],
+   "note": ""
+  },
+  "AJ": {
+   "grid": "G-11",
+   "modules": [
+    "M-CHART",
+    "M-BULLETS"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "AK": {
+   "grid": "G-TL",
+   "modules": [
+    "M-TILEMAP"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "AL": {
+   "grid": "G-GRID",
+   "modules": [
+    "M-TILEMAP"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "AM": {
+   "grid": "G-11",
+   "modules": [
+    "M-PROFILE",
+    "M-QUOTE"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  },
+  "AN": {
+   "grid": "G-1",
+   "modules": [
+    "M-LAYER"
+   ],
+   "connectors": [],
+   "closing": "C-NONE",
+   "devices": [],
+   "note": ""
+  }
+ }
+}

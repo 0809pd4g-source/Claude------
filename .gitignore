@@ -13,3 +13,8 @@ desktop.ini
 __pycache__/
 *.pyc
 
+
+# acnpptx（社内スキルの保管。参照用。重いバイナリはgitに入れない：原本は Downloads/acnpptx.zip）
+_agent/_基盤/_ツール/acnpptx/assets/
+_agent/_基盤/_ツール/acnpptx/*.html
+_agent/_基盤/_ツール/acnpptx/_参考_作成例/

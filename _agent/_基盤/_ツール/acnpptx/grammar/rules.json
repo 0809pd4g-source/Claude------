@@ -1,0 +1,2430 @@
+{
+ "rules": [
+  {
+   "id": "R-STO-01",
+   "category": "ストーリー・論点設計",
+   "rule": "作成前に『読み手は誰か・何を求めているか・何を伝えるべきか』を決め、解くべき問いを1つ設定する",
+   "detail": "スライドの中身（論点と仮説）を決めてから紙面を作る。デッキ構成は問いの分解構造に沿わせる",
+   "ok_example": "冒頭で『本提案は○○を目的に、□□をどう実現するかに答える』と問いを明示",
+   "ng_example": "依頼内容をそのまま紙にしただけで、何に答える資料かが不明",
+   "checkable": "human",
+   "check_hint": "デッキ冒頭3枚に目的・問いの記述があるかをLLMで判定",
+   "priority": "must",
+   "related_ng": [
+    "NG-05"
+   ],
+   "checked_by": "human"
+  },
+  {
+   "id": "R-STO-02",
+   "category": "ストーリー・論点設計",
+   "rule": "導入はSCQ（状況→複雑化→問い）で組み、相手も同意できる事実から入る",
+   "detail": "S=両者に自明な事実、C=状況変化・課題（できれば相手の言葉）、Q=目的付きの疑問文。主観・感想で組まない",
+   "ok_example": "S『立ち上げ期で仕組みは走りながら整備中』→C『トップ自身が○○を課題と認識』→Q『○○を目的に取りうる施策は何か？』",
+   "ng_example": "感想ベースの背景（『〜と思われる』）から始まり、問いが示されない",
+   "checkable": "semi",
+   "check_hint": "冒頭のWhyパートがS/C/Qの3要素を持つか、Qが疑問文かをLLM判定",
+   "priority": "must",
+   "related_ng": [
+    "NG-37"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-STO-03",
+   "category": "ストーリー・論点設計",
+   "rule": "論点は疑問文で書き、すべて解けば目的達成のアクションが決まる構造（論点ツリー）に分解する",
+   "detail": "縦=考えるべき項目の網羅性・レベル感、横=全体〜部分の繋がりで点検する。論点=スライドの問い、メッセージ=その答え",
+   "ok_example": "目的1行→『要件は何か／将来像はどうか／どう作るか』と分析→方針→実行の順に分解",
+   "ng_example": "論点ラベルの抜け（A・CはあるがBがない）や疑問文になっていない論点",
+   "checkable": "semi",
+   "check_hint": "目次・論点一覧の各項目が疑問文か、番号の欠番がないかを機械チェック＋網羅性はLLM判定",
+   "priority": "should",
+   "related_ng": [
+    "NG-16"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-STO-04",
+   "category": "ストーリー・論点設計",
+   "rule": "論点の型（改善型／オプション型／定義型）に合わせてデッキ構成を選ぶ",
+   "detail": "改善型=現状→課題→解決策、オプション型=選択肢→評価基準→評価結果→推奨、定義型=並列の構成要素説明",
+   "ok_example": "比較評価デッキを『選択肢→評価軸→評価結果→推奨案』の順で構成",
+   "ng_example": "選択肢を並べただけで評価軸と推奨がない",
+   "checkable": "semi",
+   "check_hint": "デッキのintent列（asis_tobe/comparison/definition）と章立ての対応をLLM判定",
+   "priority": "should",
+   "related_ng": [
+    "NG-05"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-STO-05",
+   "category": "ストーリー・論点設計",
+   "rule": "論点はインパクトのある少数かつ現実的に解ける問いに絞る",
+   "detail": "漫然と多数の問いを立てず、制約条件を踏まえ解き方がイメージできる問いにする。スライド枚数も重要論点に絞る",
+   "ok_example": "",
+   "ng_example": "思い付きで論点を増やし、各スライドが浅い",
+   "checkable": "human",
+   "check_hint": "",
+   "priority": "should",
+   "related_ng": [],
+   "checked_by": "human"
+  },
+  {
+   "id": "R-STO-06",
+   "category": "ストーリー・論点設計",
+   "rule": "フレームワークを『穴埋め』目的で使わない",
+   "detail": "3C・SWOT等は論点設定の参考に留め、目的達成に繋がる示唆を出すために使う",
+   "ok_example": "3Cから『自社が勝てる領域は○○』と示唆を1文で導く",
+   "ng_example": "フレームワーク枠を埋めただけで示唆がない",
+   "checkable": "semi",
+   "check_hint": "フレームワーク型スライドに示唆文（結論バー等）があるか判定",
+   "priority": "should",
+   "related_ng": [
+    "NG-05"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-STO-07",
+   "category": "ストーリー・論点設計",
+   "rule": "打合せ資料は論点だけでなく仮説（たたき台）まで用意し、相手に判断を求める形にする",
+   "detail": "思考の深さ: 目的のみ（丸投げ）＜論点まで＜仮説まで。仮説は『行動（太字）＋具体例（括弧）』で書き、粗くてよいのでクイックに出す",
+   "ok_example": "『例えばこの案なら実現可能。これで進めてよいか？』",
+   "ng_example": "『さてどうしましょうか？』と論点も仮説もなく相手に委ねる",
+   "checkable": "semi",
+   "check_hint": "議論・依頼目的のスライドに具体案（推奨・仮説）があるかLLM判定",
+   "priority": "should",
+   "related_ng": [
+    "NG-05"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-STO-08",
+   "category": "ストーリー・論点設計",
+   "rule": "仮説は検証可能な内容にし、定性（声・事例）と定量（データ）の両方で裏付ける",
+   "detail": "検証されない仮説はただの決め打ち。定性で当たりを付け、定量で根拠を持たせる。仮説ごとに採否（○×）を判定",
+   "ok_example": "Proofスライドを『利用者の声＋計測データ』の2ペインで構成",
+   "ng_example": "定性コメントのみで効果を断定",
+   "checkable": "semi",
+   "check_hint": "効果主張スライドに数値と事例の両方があるか判定",
+   "priority": "should",
+   "related_ng": [
+    "NG-37"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-STO-09",
+   "category": "ストーリー・論点設計",
+   "rule": "主張はFACTとロジック（演繹／帰納）で組み、各主張に根拠を紐付ける",
+   "detail": "思い付き・思い込みで書かない。結論→理由→根拠（事実）の各層で、解釈ではなく事実を押さえる",
+   "ok_example": "複数の事実の共通項から結論を導き、根拠データをボディに示す",
+   "ng_example": "空想で埋めた主張に根拠データがない",
+   "checkable": "semi",
+   "check_hint": "メッセージ中の主張ごとにボディ内の根拠（数値・出所）の有無をLLMで照合",
+   "priority": "must",
+   "related_ng": [
+    "NG-37"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-STO-10",
+   "category": "ストーリー・論点設計",
+   "rule": "論理はピラミッド（結論→理由→データ）で組み、MECEかつ同階層の粒度を揃える",
+   "detail": "理由はダブりなく漏れなく、反論を予め想定する。同じ階層の要素は抽象度・品詞・文字量を揃える",
+   "ok_example": "結論1つに理由3つ、各理由に根拠2つ",
+   "ng_example": "理由同士が重複し、1つだけ粒度の細かい項目が混ざる",
+   "checkable": "semi",
+   "check_hint": "同階層要素の文字数の最大/最小比（例: 3倍超で警告）＋重複はLLM判定",
+   "priority": "must",
+   "related_ng": [
+    "NG-25"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-STO-11",
+   "category": "ストーリー・論点設計",
+   "rule": "ストーリーの型を場面で使い分ける（起承転結／CREC／TAPS）",
+   "detail": "起承転結=経営会議・複数組織の会議、CREC（結論→理由→例→結論）=定例・単一論点の報告、TAPS（理想→現状→問題→解決）=オペレーショナルな改善。TAPSは論点不在に陥りやすい",
+   "ok_example": "定例報告をCRECで『結論→理由→根拠→再結論』",
+   "ng_example": "経営会議向けを現状説明だけのボトムアップで構成",
+   "checkable": "semi",
+   "check_hint": "deck_type/audienceとストーリー型の組み合わせをLLM判定",
+   "priority": "should",
+   "related_ng": [],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-STO-12",
+   "category": "ストーリー・論点設計",
+   "rule": "起承転結の『転』で実行上のチャレンジを、『結』で具体的アクション・意思決定事項を示す",
+   "detail": "机上の空論・絵描きで終わらせず、ケイパビリティギャップ等の障壁とその克服策まで踏み込む",
+   "ok_example": "結=アクションプラン・決裁事項・協業先候補",
+   "ng_example": "あるべき姿の絵で終わり、次に何を決めるかがない",
+   "checkable": "semi",
+   "check_hint": "最終章にアクション・意思決定項目があるか判定",
+   "priority": "should",
+   "related_ng": [
+    "NG-05"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-STO-13",
+   "category": "ストーリー・論点設計",
+   "rule": "示唆（締め）は相手に具体的アクションを提言する内容にし、相手の立場に合わせて書き分ける",
+   "detail": "同じ分析でも経営層／現場で締めのメッセージを変える。理由と共に聞き手を動かせる内容か確認",
+   "ok_example": "結論バー『○○のため、まず△△を今期中に着手すべき』",
+   "ng_example": "『〜が重要である』の認識止まりで行動がない",
+   "checkable": "semi",
+   "check_hint": "締め文が行動動詞（着手・決定・承認等）を含むか＋読み手適合はLLM判定",
+   "priority": "must",
+   "related_ng": [
+    "NG-05",
+    "NG-07"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-STO-14",
+   "category": "ストーリー・論点設計",
+   "rule": "支配的なストーリーラインを1本に絞り、『状況→複雑化→洞察→推奨→影響』の順に並べる",
+   "detail": "目標はSMARTに、スライドごとに重要メッセージは1つ。KPI・仮定・タイムラインの一貫性を検証する",
+   "ok_example": "",
+   "ng_example": "複数の筋が並走し、推奨が途中で入れ替わる",
+   "checkable": "semi",
+   "check_hint": "全スライドのメッセージ列をLLMに読ませ、筋の分岐・矛盾を検出",
+   "priority": "should",
+   "related_ng": [
+    "NG-37"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-MSG-01",
+   "category": "メッセージ（タイトル・リード）",
+   "rule": "全スライドの最上部にメッセージライン（結論の1文）を置き、空欄・サブタイトルのみにしない",
+   "detail": "まずメッセージが読まれるので良し悪しはメッセージで決まる。参考情報スライドに限り省略可",
+   "ok_example": "タイトル『○○戸数』＋メッセージ『主要地域が近年大幅減少』",
+   "ng_example": "メッセージ枠が空でサブタイトル『本日の目的』のみ",
+   "checkable": "auto",
+   "check_hint": "タイトル/リードのプレースホルダが空、または全角スペースのみならNG（reference=trueのスライドは除外）",
+   "priority": "must",
+   "related_ng": [
+    "NG-04"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-MSG-02",
+   "category": "メッセージ（タイトル・リード）",
+   "rule": "メッセージは1〜2文・2行以内。それだけ読めばページの中身が分かるよう、結論に根拠か手段（何を・どうやって・どれだけ）を添える（目安50〜90字。人の資料の中央値61字）",
+   "detail": "日本語として正しく難解でない、シンプルに整理、キーワードで練る。本デッキ見本は17〜36字中心",
+   "ok_example": "『後続工程でのコスト極小化を目的とし、当フェーズでは実現性の観点からパッケージ検証を実施』（約50字）",
+   "ng_example": "約100字・2文で目的と手段を重複して述べる",
+   "checkable": "auto",
+   "check_hint": "描画で3行以上はERROR、3文以上は警告、40字未満は薄い（MSG-13）",
+   "priority": "must",
+   "related_ng": [
+    "NG-08"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-MSG-03",
+   "category": "メッセージ（タイトル・リード）",
+   "rule": "『〜は以下の通り』『〜について』『〜の推移』などボディを読めば分かる情報ゼロのメッセージを書かない",
+   "detail": "事実型ならボディから導ける事実を、意見型なら判断・主張を書く",
+   "ok_example": "『発行部数は○年をピークに減少の一途』",
+   "ng_example": "『発行部数推移は以下の通りである』",
+   "checkable": "auto",
+   "check_hint": "正規表現 (以下の通り|以下に示す|について$|の推移$|一覧$|概要$) で末尾一致ならNG",
+   "priority": "must",
+   "related_ng": [
+    "NG-07"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-MSG-04",
+   "category": "メッセージ（タイトル・リード）",
+   "rule": "メッセージを『事実』か『意見』か決め、スライドの目的（提案・依頼＝意見／情報共有＝事実）で使い分ける",
+   "detail": "事実=ボディの要約・導ける事実、意見=事実に基づく判断・主張・提案・依頼",
+   "ok_example": "提案スライド『減少に歯止めをかけるべく販促策が必要』",
+   "ng_example": "依頼スライドなのに事実の羅列で何を依頼するか書かない",
+   "checkable": "semi",
+   "check_hint": "message.type(fact/opinion)と slide purpose の整合をLLM判定",
+   "priority": "should",
+   "related_ng": [
+    "NG-07"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-MSG-05",
+   "category": "メッセージ（タイトル・リード）",
+   "rule": "1スライド1メッセージ。メッセージに出てこない図表・情報は削除する",
+   "detail": "主張が2つあると焦点がぶれ意図しない議論を招く",
+   "ok_example": "『比較検討の結果、本システムはA方式を採用する』＋比較表のみ",
+   "ng_example": "採用結論の2文＋比較表＋インフラ構成図を同居",
+   "checkable": "auto",
+   "check_hint": "メッセージの句点数=1、主要図表数>メッセージ内の主張数なら警告",
+   "priority": "must",
+   "related_ng": [
+    "NG-38"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-MSG-06",
+   "category": "メッセージ（タイトル・リード）",
+   "rule": "列挙は上位概念にまとめ、冗長な文末を削り『目的→実施内容』の1文に整理する",
+   "detail": "『〜と考える』『〜であると』『〜を明確にするべきである』等を削る",
+   "ok_example": "『新規事業展開に当たっては、よりどころとなる基本方針の明確化が必要』（約30字）",
+   "ng_example": "『主目的およびマネタイズポイント、注力領域、業務設計の思想について明確にするべきであると考える』（約65字）",
+   "checkable": "auto",
+   "check_hint": "読点区切りの列挙3項目以上、冗長文末辞書（と考える|であると|するべきである）でヒットしたら警告",
+   "priority": "should",
+   "related_ng": [
+    "NG-08"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-MSG-07",
+   "category": "メッセージ（タイトル・リード）",
+   "rule": "曖昧語・一般論（等／様々な／適切に／検討する／一定の／〜と思われる）を避け、具体的・定量的に書く",
+   "detail": "誰でも言える一般論は説得力がない。可能なら数値・日付・KPIで影響を示す",
+   "ok_example": "『問合せ対応時間を3割削減』",
+   "ng_example": "『様々な課題に適切に対応することを検討』",
+   "checkable": "auto",
+   "check_hint": "曖昧語辞書の出現数をメッセージ単位でカウントし1以上で警告",
+   "priority": "should",
+   "related_ng": [
+    "NG-07"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-MSG-08",
+   "category": "メッセージ（タイトル・リード）",
+   "rule": "タイトルが問いなら、メッセージ（リード1文目）で直接答える",
+   "detail": "読み手の問いとタイトルの答えを一致させる。作業事実（何社に聞いた等）だけを返さない",
+   "ok_example": "Q『進捗は順調か』→『順調。予定の8割を完了』",
+   "ng_example": "Q『進捗は順調か』→『10社にインタビューした』",
+   "checkable": "semi",
+   "check_hint": "タイトル末尾が『？』のとき、リード1文目が問いへの回答になっているかLLM判定",
+   "priority": "must",
+   "related_ng": [
+    "NG-04",
+    "NG-07"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-MSG-09",
+   "category": "メッセージ（タイトル・リード）",
+   "rule": "見出しはトピック名ではなく『だから何』を述べる洞察型にする（数字を含めてよい）",
+   "detail": "CEO・取締役会でも通じる経営向けの要点。タイトル下には価値・強みから『使いたくなる』メッセージを書く",
+   "ok_example": "『主要地域が近年CAGR二桁減で大幅減少』",
+   "ng_example": "『市場動向』『〜に使用されるプロンプト』の名詞句のみ",
+   "checkable": "semi",
+   "check_hint": "メッセージが名詞句終わり（体言止めで述語なし）なら警告＋洞察性はLLM判定",
+   "priority": "must",
+   "related_ng": [
+    "NG-07"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-MSG-10",
+   "category": "メッセージ（タイトル・リード）",
+   "rule": "タイトル（トピックの名詞句）＋メッセージライン（数値・因果を含む結論1文）の2段構成にする",
+   "detail": "見本スライドの暗黙ルール。トピックで位置を、メッセージで結論を伝える",
+   "ok_example": "『○○戸数』＋『7割以上を占める主要地域が近年大幅減少』",
+   "ng_example": "タイトルとメッセージが同一文言で情報が重複",
+   "checkable": "auto",
+   "check_hint": "タイトル枠とメッセージ枠の両方が非空で、両者の文字列類似度<0.8",
+   "priority": "should",
+   "related_ng": [
+    "NG-04",
+    "NG-34"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-MSG-11",
+   "category": "メッセージ（タイトル・リード）",
+   "rule": "メッセージだけを連続で読んでストーリーが通るようにする（ゴーストデッキ読み）",
+   "detail": "雑誌の車内広告のように見出しだけで要点が伝わり、本文を読みたくなる状態",
+   "ok_example": "",
+   "ng_example": "前後スライドと同じリードを使い回し、メッセージ列で読むと話が進まない",
+   "checkable": "semi",
+   "check_hint": "全スライドのメッセージを抽出しLLMでストーリー連結性を評価、隣接スライドの同一リードはauto検出",
+   "priority": "must",
+   "related_ng": [
+    "NG-06"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-MSG-12",
+   "category": "メッセージ（タイトル・リード）",
+   "rule": "リードの記述順・番号と本文の並び順・番号を一致させる",
+   "detail": "リードで①②と要点を挙げたら本文の番号も揃える。左右の並び順もリードの記述順に合わせる",
+   "ok_example": "リード『①A ②B』→本文左にA①、右にB②",
+   "ng_example": "リードはA→Bの順なのに本文は右にA・左にB",
+   "checkable": "auto",
+   "check_hint": "リード内の丸数字集合と本文の丸数字集合の一致、キーワード出現順と本文ペインのx座標順の一致をチェック",
+   "priority": "should",
+   "related_ng": [
+    "NG-16",
+    "NG-37"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-MSG-13",
+   "category": "メッセージ（タイトル・リード）",
+   "rule": "用語を勝手に作ったり途中で言い換えたりせず、同じものは同じ言葉で呼ぶ",
+   "detail": "デッキ単位で用語集を持つ。略語・内輪用語は初出で定義する",
+   "ok_example": "",
+   "ng_example": "同じ概念をスライドごとに別の言葉（『問い』と『目的』）で表記",
+   "checkable": "auto",
+   "check_hint": "デッキ内の用語集と照合し、類義表記（編集距離・同義語辞書）を検出",
+   "priority": "must",
+   "related_ng": [
+    "NG-28"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-MSG-14",
+   "category": "メッセージ（タイトル・リード）",
+   "rule": "自社ならではの価値（素のツールや他社と何が違うか）を言い切り、訴求点を絞る",
+   "detail": "冗長な記載を削り重要でアピールすべき点だけ残す。対応範囲の前提も明記する",
+   "ok_example": "『他の手段との違いは○○の蓄積が組み込まれている点』",
+   "ng_example": "職種別シーンを冗長に並べ差別化要素が埋もれる",
+   "checkable": "human",
+   "check_hint": "",
+   "priority": "should",
+   "related_ng": [
+    "NG-13"
+   ],
+   "checked_by": "human"
+  },
+  {
+   "id": "R-BOD-01",
+   "category": "ボディ構成・図解選択",
+   "rule": "ボディはメッセージの根拠（FACT）を示し、可能な限り定量情報を入れる",
+   "detail": "メッセージ中の数値はボディ（チャート上）でも示し強調する",
+   "ok_example": "メッセージ中のシェア・CAGRがチャート上でアクセント表示",
+   "ng_example": "根拠スライドなのにボディに数値が1つもない",
+   "checkable": "auto",
+   "check_hint": "メッセージに含まれる数値がボディのテキスト/チャートラベルに存在するか照合、根拠スライドで数値ゼロなら警告",
+   "priority": "must",
+   "related_ng": [
+    "NG-37",
+    "NG-30"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-BOD-02",
+   "category": "ボディ構成・図解選択",
+   "rule": "ボディの表現形式（表・グラフ・概念図・テキスト）を内容で選ぶ。データがあれば表・グラフを優先",
+   "detail": "数値比較・推移→グラフ、多属性・多選択肢比較→表、関係・ロジック→概念図、図にしにくい説明→テキスト",
+   "ok_example": "方式比較は○△×の表、推移は積み上げ棒",
+   "ng_example": "数値の推移を文章で説明",
+   "checkable": "semi",
+   "check_hint": "body.typeとメッセージの論理型（数値比較/多属性/関係）の整合をLLM判定",
+   "priority": "should",
+   "related_ng": [
+    "NG-26"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-BOD-03",
+   "category": "ボディ構成・図解選択",
+   "rule": "構造的に示す：スコープ全体像と構成要素、『AだからB』のロジックが分かる図にする",
+   "detail": "要素はMECEな構成要素とその関係で整理し、打ち手も大分類→具体策で構造化する",
+   "ok_example": "原因チャート（左）→矢印→結果チャート（右）",
+   "ng_example": "要素を羅列し関係（因果・包含）が図に表れない",
+   "checkable": "semi",
+   "check_hint": "relation（因果/対比/並列/包含）を判定し、対応する関係記号の有無をチェック",
+   "priority": "should",
+   "related_ng": [
+    "NG-17"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-BOD-04",
+   "category": "ボディ構成・図解選択",
+   "rule": "観点（切り口）に応じて図の型を選ぶ（並列分類→ツリー、序列→ピラミッド、空間→地図）",
+   "detail": "同じ対象でも組織・ランク・拠点など観点で表現が変わる",
+   "ok_example": "職位等級はピラミッド、拠点分布は地図＋ドット",
+   "ng_example": "序列のある要素を等幅の箱で並列表示",
+   "checkable": "semi",
+   "check_hint": "要素の性質（順序あり/なし/空間）と図の型の整合をLLM判定",
+   "priority": "should",
+   "related_ng": [],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-BOD-05",
+   "category": "ボディ構成・図解選択",
+   "rule": "配置の基本形4種を使い分ける（紹介=単一ボックス／比較=左右＋中央区切り／順序=左右＋右矢印／全体と部分=軸の中に部分）",
+   "detail": "intentから型を選ぶ。比較の推奨側は色枠で強調",
+   "ok_example": "比較は左右2ボックスの中央に縦長の区切り記号",
+   "ng_example": "比較なのに矢印でつなぎ順序に見える",
+   "checkable": "semi",
+   "check_hint": "intent=comparisonで矢印コネクタがある／intent=sequenceで矢印がない場合に警告",
+   "priority": "should",
+   "related_ng": [
+    "NG-17",
+    "NG-20"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-BOD-06",
+   "category": "ボディ構成・図解選択",
+   "rule": "関係（因果・対比・並列・包含）を先に決めてから配置と関係記号を選ぶ",
+   "detail": "『ロジック』『事柄と事柄の関係性』に即して文字や絵を配置する。並列なら記号を置かない",
+   "ok_example": "課題群⇒解決の大矢印、加算は＋、集約は↓",
+   "ng_example": "並列の3要素に右矢印を付け、順序があるように誤読させる",
+   "checkable": "semi",
+   "check_hint": "relationとconnectorの対応表（cause→R-CAUSE, parallel→なし 等）に照らして不一致を警告",
+   "priority": "must",
+   "related_ng": [
+    "NG-17",
+    "NG-20"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-BOD-07",
+   "category": "ボディ構成・図解選択",
+   "rule": "文字より図・ポンチ絵でビジュアル化し、ぱっと見で理解できるようにする",
+   "detail": "箇条のみのボディは図解化を検討。単純なグラフ・マトリクス・フレームワークをテキストより優先",
+   "ok_example": "",
+   "ng_example": "全面テキストのスライドで要点を拾えない",
+   "checkable": "auto",
+   "check_hint": "ボディが箇条書きのみ（図形・表・画像なし）かつ文字数>300なら警告",
+   "priority": "should",
+   "related_ng": [
+    "NG-26"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-BOD-08",
+   "category": "ボディ構成・図解選択",
+   "rule": "メッセージに関係のない情報・些末な情報は書かない",
+   "detail": "支えないものはすべて削除する。むしろ分かりにくくなる",
+   "ok_example": "",
+   "ng_example": "採用結論のスライドにインフラ構成図を同居させる",
+   "checkable": "semi",
+   "check_hint": "ボディ各要素とメッセージのキーワード関連度をLLM判定し削除候補を提示",
+   "priority": "must",
+   "related_ng": [
+    "NG-38",
+    "NG-27"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-BOD-09",
+   "category": "ボディ構成・図解選択",
+   "rule": "原因→結果は左右2チャートを右向き矢印で、工程×観点は列見出しを右矢印でつないだマトリクスで示す",
+   "detail": "行見出し（担当/役割/必要機能）で観点を揃える",
+   "ok_example": "左に原因チャート、細い三角矢印、右に結果チャート",
+   "ng_example": "",
+   "checkable": "semi",
+   "check_hint": "intent=fact_to_insight/causeで2チャートの間にR-CAUSEがあるか",
+   "priority": "may",
+   "related_ng": [],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-BOD-10",
+   "category": "ボディ構成・図解選択",
+   "rule": "ソリューション紹介は『課題・ニーズ→ゴール→概要（ポンチ絵＋アプローチ）→提供価値・強み』の欄で構成する",
+   "detail": "課題欄は『どの業界・どの層の・どんな課題か』、ゴール欄は『何を解決しどんな成果か』を具体的に。名称は利用者に分かりやすく",
+   "ok_example": "",
+   "ng_example": "課題欄が業界の羅列のみで具体性がない",
+   "checkable": "semi",
+   "check_hint": "必須欄（課題/ゴール/概要/強み）の存在をテンプレ照合、具体性はLLM判定",
+   "priority": "may",
+   "related_ng": [],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-BOD-11",
+   "category": "ボディ構成・図解選択",
+   "rule": "プロセス・アーキテクチャ図では、人の関与（どのタイミング・どの観点）とデータの流れ、導入前提を明示する",
+   "detail": "既存ツールとの連携でデータとエージェントがどう動くかの論理図、必要リソース・設定・対応範囲を書く",
+   "ok_example": "自動レビュー→人の最終レビューを工程上に明示",
+   "ng_example": "要素名を並べただけでデータの向きも担い手も不明",
+   "checkable": "semi",
+   "check_hint": "M-ARCH/M-DIAGRAM-FLOWで矢印ラベル・担い手ラベルの有無をチェック",
+   "priority": "may",
+   "related_ng": [
+    "NG-20"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-BOD-12",
+   "category": "ボディ構成・図解選択",
+   "rule": "図中の要素は工程の順序（前後関係）と整合する位置に置く",
+   "detail": "承認・公開などの前後と要素の左右位置を一致させる",
+   "ok_example": "",
+   "ng_example": "公開後の要素が公開前の位置に描かれている",
+   "checkable": "semi",
+   "check_hint": "工程ラベルのx座標順と関連要素の座標の整合をチェック",
+   "priority": "should",
+   "related_ng": [
+    "NG-16"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-BOD-13",
+   "category": "ボディ構成・図解選択",
+   "rule": "アニメーション・画像・動画は注意誘導と順序付けに限定し、重要ポイントに結び付ける",
+   "detail": "目新しさより分かりやすさ。メッセージを邪魔する過剰な演出を避ける",
+   "ok_example": "",
+   "ng_example": "装飾的な写真が面積の4割を占め情報を持たない",
+   "checkable": "semi",
+   "check_hint": "画像面積比が大きく本文と関連しない場合をLLM判定",
+   "priority": "may",
+   "related_ng": [
+    "NG-27"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-LAY-01",
+   "category": "配置・整列・視線",
+   "rule": "類似の要素はグルーピングし、同一項目の画像・見出し・本文は1ブロックにまとめる",
+   "detail": "近接の原則：同項目要素間の距離＜異項目要素間の距離。背景色で囲むとさらに明確",
+   "ok_example": "項目ごとに写真＋見出し＋テキストを背景色で囲む",
+   "ng_example": "見出しを上にまとめ写真を下にばらばらに置く",
+   "checkable": "auto",
+   "check_hint": "bbox上で同一グループ要素間の距離が異グループ間距離より大きければ警告",
+   "priority": "must",
+   "related_ng": [
+    "NG-39"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-LAY-02",
+   "category": "配置・整列・視線",
+   "rule": "情報の流れはタテ=上/高→下/低、ヨコ=左→右（過去→未来、AsIs→ToBe、原因→結果、上流→下流）",
+   "detail": "タテ・ヨコにロジックを組むと抜け漏れが見え、示唆が得られる",
+   "ok_example": "AsIs（左）→ToBe（右）",
+   "ng_example": "日付が下から古い順の逆順、課題→解決なのに上向き矢印",
+   "checkable": "auto",
+   "check_hint": "時系列・因果の矢印の向きが右/下以外ならNG、日付ラベルの並びが逆順なら警告",
+   "priority": "must",
+   "related_ng": [
+    "NG-20",
+    "NG-16"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-LAY-03",
+   "category": "配置・整列・視線",
+   "rule": "読み順（左→右・上→下）を一貫させ、番号はZ型の視線と一致させる",
+   "detail": "どこからどう読み取ればよいかを明確にする。2x2の番号は行優先で振る",
+   "ok_example": "2x2を左上1→右上2→左下3→右下4",
+   "ng_example": "左列1-2、右列3-4の列優先、上から1・3・2の並び",
+   "checkable": "auto",
+   "check_hint": "番号付き要素の座標を行優先でソートした順と番号順が一致するか",
+   "priority": "must",
+   "related_ng": [
+    "NG-16"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-LAY-04",
+   "category": "配置・整列・視線",
+   "rule": "同じ列・行の要素は上端・下端・高さ・間隔を揃える",
+   "detail": "行見出しと本文の行高、並列カードの高さ、写真のサイズ・キャプション位置を揃える",
+   "ok_example": "",
+   "ng_example": "写真3枚の大きさ・上端・下端・キャプション高さがすべて不揃い",
+   "checkable": "auto",
+   "check_hint": "同一行の図形のtop/bottom差が0.05in超、同種図形のサイズ差が5%超で警告",
+   "priority": "should",
+   "related_ng": [
+    "NG-23"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-LAY-05",
+   "category": "配置・整列・視線",
+   "rule": "テキスト・図形をスライド外・フッター・タイトル領域にはみ出させず、要素同士を重ねない",
+   "detail": "固定サイズの枠に長文を入れると溢れる。吹き出し・スタンプ・凡例が本文やタイトルを隠さない",
+   "ok_example": "",
+   "ng_example": "凡例がタイトルに重なりタイトルが切れる、表がフッターをはみ出す",
+   "checkable": "auto",
+   "check_hint": "bboxがスライド外・フッター帯・タイトル帯と交差、テキストbbox同士の交差、推定テキスト高さ>枠高さでNG",
+   "priority": "must",
+   "related_ng": [
+    "NG-22"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-LAY-06",
+   "category": "配置・整列・視線",
+   "rule": "大きな空白・片寄りを残さない（情報量に合ったレイアウトを選ぶか、前後スライドと統合する）",
+   "detail": "テンプレート統一を優先して面積を活かせないなら型を変える",
+   "ok_example": "",
+   "ng_example": "表が中央に小さく浮き下半分が空白",
+   "checkable": "auto",
+   "check_hint": "コンテンツbboxの合計占有率<45%、または重心がスライド中心から30%以上偏れば警告",
+   "priority": "should",
+   "related_ng": [
+    "NG-24"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-LAY-07",
+   "category": "配置・整列・視線",
+   "rule": "並列のペイン・列は情報量と内部構造（見出し→本文→例）を揃える",
+   "detail": "比較の左右で表現形式（概念図と画面、カードと表）を変えない",
+   "ok_example": "左右パネルを同じ構造（小見出し→見出し→説明→アイコン列）で鏡像に",
+   "ng_example": "左は5〜6項目＋サブ項目、右は1文のみ",
+   "checkable": "auto",
+   "check_hint": "並列ペインの文字数比>2倍、子要素の種類構成が不一致なら警告",
+   "priority": "should",
+   "related_ng": [
+    "NG-25"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-LAY-08",
+   "category": "配置・整列・視線",
+   "rule": "全体→部分の順に示し、詳細スライドでは全体の中の現在地を示す",
+   "detail": "相手の頭に地図を作る。いきなり各論を話し出さない",
+   "ok_example": "『考えるべき項目は9つ、今日はそのうち1つ』と全体の格子の中の1マスを示す",
+   "ng_example": "全体の枠なしに1マスだけ提示",
+   "checkable": "semi",
+   "check_hint": "詳細スライドにパンくず・ハイライト付き縮小全体図があるかを判定",
+   "priority": "should",
+   "related_ng": [],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-COL-01",
+   "category": "色・強調",
+   "rule": "モノトーンを基本に、ハイライトは原則1系統（最大2系統）とし、目立たせる箇所のみ色を使う",
+   "detail": "悪い資料の3症状（意図不明・配置関係不明・色が多すぎ）の1つが色の多さ",
+   "ok_example": "グレー階調の積み上げ棒に、メッセージが言及する系列だけアクセント色",
+   "ng_example": "6つの色付きボックスの色に意味がない",
+   "checkable": "auto",
+   "check_hint": "グレー階調を除く色相数を数え、ハイライト系統>2でNG",
+   "priority": "must",
+   "related_ng": [
+    "NG-11",
+    "NG-12"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-COL-02",
+   "category": "色・強調",
+   "rule": "配色はベース（白背景・黒文字＋グレー）／メイン／アクセントの3役割で定義し、テンプレートのトーンに合わせる",
+   "detail": "メイン=見出し・ボックス・強調、アクセント=最も強調したい箇所（1スライド1〜2箇所）",
+   "ok_example": "メイン紫・アクセントオレンジのみ使用",
+   "ng_example": "デッキ基調と無関係な黄・緑・水色が混在",
+   "checkable": "auto",
+   "check_hint": "パレット（base/main/accent）外の色の使用をNG、accent使用箇所>2で警告",
+   "priority": "must",
+   "related_ng": [
+    "NG-11"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-COL-03",
+   "category": "色・強調",
+   "rule": "メッセージで言及する数値・系列・語だけを強調し、それ以外はグレー階調に落とす",
+   "detail": "提案の切り口になる語を強調しておく（ペルソナ記入例など）",
+   "ok_example": "CAGR値のみアクセント色",
+   "ng_example": "本文の多くの語を紫字でハイライトし強調が分散",
+   "checkable": "auto",
+   "check_hint": "強調runのテキストがメッセージ内キーワード/数値に含まれるか照合",
+   "priority": "should",
+   "related_ng": [
+    "NG-12",
+    "NG-13"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-COL-04",
+   "category": "色・強調",
+   "rule": "強調は1スライド1〜2箇所に絞り、太字・色・下線の多重強調をしない",
+   "detail": "強調が多いと強調の意味が消える。行見出しを本文より目立たせない",
+   "ok_example": "",
+   "ng_example": "下線＋色＋太字の多重強調、赤字と青字の混在",
+   "checkable": "auto",
+   "check_hint": "強調run（色付き/太字/下線）の数>3、または強調種類>2で警告",
+   "priority": "should",
+   "related_ng": [
+    "NG-12"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-COL-05",
+   "category": "色・強調",
+   "rule": "色・記号・枠に意味を持たせたら凡例を対象の近くに置き、同じ色をデッキ内で別の意味に使わない",
+   "detail": "凡例は図から離さず、色見本付きで。色の意味がスライド間で衝突しないよう色辞書を持つ",
+   "ok_example": "体制図のボックスと役割表の見出しを同色で塗り対応させる",
+   "ng_example": "紫=支援範囲と紫=問題工程が混在、凡例なしの塗り分け",
+   "checkable": "semi",
+   "check_hint": "塗り分け（非グレー2色以上）があり凡例テキストがない、凡例と対象の距離>3inで警告。色の意味衝突はLLM判定",
+   "priority": "should",
+   "related_ng": [
+    "NG-14",
+    "NG-15"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-COL-06",
+   "category": "色・強調",
+   "rule": "視覚言語（色・アイコン・図形様式・フォント階層）をデッキ全体で一貫させる",
+   "detail": "生成前にブランドテーマ・テンプレート・フォント階層・色の使い方を確認する",
+   "ok_example": "",
+   "ng_example": "1枚だけ暗色タイトル帯と虹色の工程色で別資料に見える",
+   "checkable": "auto",
+   "check_hint": "スライドごとの色・フォント・ヘッダー位置の分布からデッキ内外れ値を検出",
+   "priority": "should",
+   "related_ng": [
+    "NG-10",
+    "NG-11"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-TXT-01",
+   "category": "文字・密度",
+   "rule": "1文1メッセージの短文で書き、理由と結論を同じ文に混ぜない",
+   "detail": "箇条書きは1行1メッセージ。1文が長すぎるときは箇条で構造化し、接続詞で前後関係を示す",
+   "ok_example": "結論を先頭に置き、理由を別行でぶら下げる",
+   "ng_example": "1文に理由2つと結論を詰め込む",
+   "checkable": "auto",
+   "check_hint": "1箇条内の句点数>1、または1文の文字数>80で警告",
+   "priority": "should",
+   "related_ng": [
+    "NG-26"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-TXT-02",
+   "category": "文字・密度",
+   "rule": "本文はメッセージを証明する箇条・表・ビジュアルとし、段落と専門用語を避ける",
+   "detail": "密な段落は流し読みできない。キーワードを太字にして走査性を上げる",
+   "ok_example": "",
+   "ng_example": "4段落の散文をそのまま貼り付けたスライド",
+   "checkable": "auto",
+   "check_hint": "3行以上連続する段落テキストの検出、専門用語辞書のヒット数",
+   "priority": "should",
+   "related_ng": [
+    "NG-26"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-TXT-03",
+   "category": "文字・密度",
+   "rule": "投影・印刷で読める最小文字サイズを守り、読ませたい詳細は付録・配布資料に回す",
+   "detail": "目安: 本文12pt以上、注記・出所9pt以上（会社テンプレートの規定を優先）",
+   "ok_example": "",
+   "ng_example": "8pt前後の極小文字で投影不可、詳細図を本編に置く",
+   "checkable": "auto",
+   "check_hint": "テキストrunのフォントサイズ<10pt（本文）/<8pt（注記）でNG。画像内文字は画像の表示倍率から推定",
+   "priority": "must",
+   "related_ng": [
+    "NG-01"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-TXT-04",
+   "category": "文字・密度",
+   "rule": "1枚の情報量に上限を設け、超えたら分割・付録化する（『1枚に収める』ことに固執しない）",
+   "detail": "表の行×列、図形数、文字数の上限を決める。詳細説明・デモ・補足資料は追加資料で用意する",
+   "ok_example": "",
+   "ng_example": "200超の図形を1枚に詰め込み文字が極小",
+   "checkable": "auto",
+   "check_hint": "図形数>60、文字数>800、表セル数>60のいずれかで警告",
+   "priority": "should",
+   "related_ng": [
+    "NG-02"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-TXT-05",
+   "category": "文字・密度",
+   "rule": "誤字・機械翻訳の崩れ・日英混在を残さない",
+   "detail": "翻訳資料は必ず人が校正し、図中ラベルの言語を本文と揃える",
+   "ok_example": "",
+   "ng_example": "タイトルの語順崩れ、図中ラベルだけ英語のまま",
+   "checkable": "auto",
+   "check_hint": "スペルチェック、文字種比率（英字率）の外れ値、機械翻訳特有の語順パターン検出",
+   "priority": "must",
+   "related_ng": [
+    "NG-28"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-DAT-01",
+   "category": "数値・チャート・出所",
+   "rule": "FACTの出所を必ず示し、出所はスライド左下の定位置に置く",
+   "detail": "出所がないと妄想になる。すべての情報源を引用する",
+   "ok_example": "左下に『出所：○○白書（年）』",
+   "ng_example": "外部チャートを貼って出所がない",
+   "checkable": "auto",
+   "check_hint": "chart/table/外部図/数値を含むスライドで『出所|出典|Source』テキストがない→NG、位置が左下領域外→警告",
+   "priority": "must",
+   "related_ng": [
+    "NG-29"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-DAT-02",
+   "category": "数値・チャート・出所",
+   "rule": "グラフ・チャートには必ずタイトルと単位を付ける",
+   "detail": "軸ラベル・目盛・凡例も判読できるサイズで",
+   "ok_example": "左上に『（単位：戸）』、各チャートに見出しと『（兆円）』",
+   "ng_example": "縦軸に目盛り値も単位もない",
+   "checkable": "auto",
+   "check_hint": "チャートオブジェクトのtitle・軸title・単位表記の有無をチェック",
+   "priority": "must",
+   "related_ng": [
+    "NG-29"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-DAT-03",
+   "category": "数値・チャート・出所",
+   "rule": "数値規則（通貨・単位・桁・四捨五入・会計年度・シナリオラベル）をデッキ内で統一し明記する",
+   "detail": "単位の切替（月額と年額の混在など）は誤読と幻覚の兆候",
+   "ok_example": "",
+   "ng_example": "同じ図の中で月額と年額が混在",
+   "checkable": "auto",
+   "check_hint": "単位表記（円/千円/%/年/月）の混在、桁区切りの不統一を検出",
+   "priority": "should",
+   "related_ng": [
+    "NG-29"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-DAT-04",
+   "category": "数値・チャート・出所",
+   "rule": "数値・ベンチマークは相互検証し、仮定とデータギャップを明示する",
+   "detail": "トップダウンとボトムアップで三角測量、異常値は手計算で追跡、既知データ・過去成果物と照合",
+   "ok_example": "",
+   "ng_example": "根拠のない外挿やリンク切れの出典",
+   "checkable": "human",
+   "check_hint": "",
+   "priority": "should",
+   "related_ng": [],
+   "checked_by": "human"
+  },
+  {
+   "id": "R-DAT-05",
+   "category": "数値・チャート・出所",
+   "rule": "比較・評価は評価基準（比較軸・スコアリング基準）を先に定義し、全対象を同一基準で評価する",
+   "detail": "SWOT・スコアカード等の構造化テンプレートで一貫性を保つ",
+   "ok_example": "評価軸と5段階基準を表頭に明記",
+   "ng_example": "○△の基準が書かれていない評価表",
+   "checkable": "semi",
+   "check_hint": "評価記号（○△×・ハーベイ）を含む表に凡例/基準の記述があるか",
+   "priority": "should",
+   "related_ng": [
+    "NG-14"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-DAT-06",
+   "category": "数値・チャート・出所",
+   "rule": "目標と実績を並べる表には達成/未達の判定（記号・色）を付ける",
+   "detail": "読み手に数値比較をさせない",
+   "ok_example": "既出KPI表を再掲し実績列＋判定列を追加",
+   "ng_example": "目標と実績を並べるだけで未達が一目で分からない",
+   "checkable": "semi",
+   "check_hint": "目標列と実績列を持つ表に判定列/色分けがあるか",
+   "priority": "should",
+   "related_ng": [
+    "NG-30"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-DAT-07",
+   "category": "数値・チャート・出所",
+   "rule": "伝えたい数値が1つならグラフより大きな数字で示し、順序尺度に円グラフを使わない",
+   "detail": "2系列だけのドーナツは1行の文章で足りる。順序尺度は帯グラフで",
+   "ok_example": "解決率を大きな数字で表示",
+   "ng_example": "結論の比率が凡例の極小文字でしか読めないドーナツ",
+   "checkable": "semi",
+   "check_hint": "系列数<=2の円/ドーナツ、順序カテゴリの円グラフを警告",
+   "priority": "may",
+   "related_ng": [
+    "NG-29",
+    "NG-30"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-DAT-08",
+   "category": "数値・チャート・出所",
+   "rule": "概念図・ダミー値・例示はその旨を明示し、実績値と誤読させない",
+   "detail": "『イメージ』『例示』『ダミー』のラベルを付ける",
+   "ok_example": "",
+   "ng_example": "デモデータである注記が小さく実績値と誤読されうる",
+   "checkable": "auto",
+   "check_hint": "XX/ダミー/サンプル値を含む図に『イメージ|例示|ダミー』ラベルがあるか",
+   "priority": "should",
+   "related_ng": [
+    "NG-09"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-DEC-01",
+   "category": "デッキ構成・ナビゲーション",
+   "rule": "デッキはピラミッドを写像する：1枚目=ガバニングチャート（結論＋理由1〜3）、以降は理由ごとに1枚、事例は各理由の下",
+   "detail": "検討は上（結論）から下（データ）の順に行う",
+   "ok_example": "サマリーの理由3つ＝後続3セクション",
+   "ng_example": "サマリーにない論点のセクションが後続に現れる",
+   "checkable": "auto",
+   "check_hint": "サマリースライドの理由数と後続セクション数・各メッセージの一致を照合",
+   "priority": "should",
+   "related_ng": [
+    "NG-37"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-DEC-02",
+   "category": "デッキ構成・ナビゲーション",
+   "rule": "冒頭に『背景・目的』『本日の目的（誰に何をしてほしいか）』を明文化したスライドを置く",
+   "detail": "認識のズレを防ぐため状況理解は必ず文章に落とす。提案時・各回会議の冒頭で毎回確認する",
+   "ok_example": "行見出し『背景』『目的』＋箇条、最後に番号付きアジェンダ",
+   "ng_example": "『背景・目的』というタイトルなのに目的が一文もない",
+   "checkable": "auto",
+   "check_hint": "冒頭3枚に『目的』を含む見出しと本文があるか",
+   "priority": "must",
+   "related_ng": [
+    "NG-04"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-DEC-03",
+   "category": "デッキ構成・ナビゲーション",
+   "rule": "末尾は決定事項・ToDo／Next Action、または明確な問い・依頼で締める",
+   "detail": "最後のまとめに必ず時間を残す。エグゼクティブサマリーも明確な質問で締める",
+   "ok_example": "『Next Action：担当・期限付きの3項目』",
+   "ng_example": "最終スライドが参考情報の一覧で終わる",
+   "checkable": "auto",
+   "check_hint": "最終2枚に『Next|ネクスト|ToDo|決定事項|依頼|お願い』見出しがあるか",
+   "priority": "must",
+   "related_ng": [
+    "NG-05"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-DEC-04",
+   "category": "デッキ構成・ナビゲーション",
+   "rule": "全体像→詳細の順に並べ、詳細側にアジェンダのハイライト／パンくず／全体図の再掲＋スコープ枠で現在地を示す",
+   "detail": "振り返りでは冒頭のプロセス図を再掲して全工程を確認する",
+   "ok_example": "既出ロードマップを再掲し担当区間だけ枠で囲む",
+   "ng_example": "パンくずの章名と実際の章が不一致",
+   "checkable": "auto",
+   "check_hint": "詳細スライドのパンくず文字列がアジェンダ項目と一致するか、ページ番号・章番号の整合",
+   "priority": "should",
+   "related_ng": [
+    "NG-37",
+    "NG-16"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-DEC-05",
+   "category": "デッキ構成・ナビゲーション",
+   "rule": "エグゼクティブサマリーは厳密に1ページ：1文見出し→なぜ今重要か→定量化した洞察3点→示唆2点→推奨（短期1・長期1）→リスク",
+   "detail": "各洞察は数字から始め、推奨は3つまで、動詞先行で書く。仮定とデータギャップを強調し、つなぎ言葉を削る",
+   "ok_example": "",
+   "ng_example": "サマリーが4段落の散文で結論の1文がない",
+   "checkable": "semi",
+   "check_hint": "サマリースライドの構成要素と推奨数<=3、箇条の先頭が数字かをチェック",
+   "priority": "should",
+   "related_ng": [
+    "NG-26",
+    "NG-04"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-DEC-06",
+   "category": "デッキ構成・ナビゲーション",
+   "rule": "説明時間から本編枚数を逆算し、重要な論点に絞る",
+   "detail": "60分会議なら本題40分に収まる枚数。補足は付録へ",
+   "ok_example": "",
+   "ng_example": "最後の議題に届かず『また来週』",
+   "checkable": "human",
+   "check_hint": "",
+   "priority": "should",
+   "related_ng": [
+    "NG-35"
+   ],
+   "checked_by": "human"
+  },
+  {
+   "id": "R-DEC-07",
+   "category": "デッキ構成・ナビゲーション",
+   "rule": "流用スライドはデッキのテンプレート（ヘッダー・フッター・配色・フォント・タイトル位置）に合わせ直す",
+   "detail": "他資料名・ページ番号・トレンド番号などのヘッダーを残さない",
+   "ok_example": "",
+   "ng_example": "外部資料のヘッダーが残り、配色が前後と不揃い",
+   "checkable": "auto",
+   "check_hint": "スライドマスター/レイアウト、タイトル座標、使用色・フォントのデッキ内外れ値を検出",
+   "priority": "must",
+   "related_ng": [
+    "NG-10"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-DEC-08",
+   "category": "デッキ構成・ナビゲーション",
+   "rule": "同型スライドが続くときはリードで差分を示すか1枚に統合する",
+   "detail": "同じ結論を2枚に分ける理由がなければ統合。分割するなら『1/2』で何が違うかを書く",
+   "ok_example": "",
+   "ng_example": "同型のメディア掲載スライドが3枚続き総括がない",
+   "checkable": "auto",
+   "check_hint": "隣接スライドのレイアウト類似度>0.9かつリード類似度>0.8で警告",
+   "priority": "should",
+   "related_ng": [
+    "NG-35",
+    "NG-06"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-DEC-09",
+   "category": "デッキ構成・ナビゲーション",
+   "rule": "事例スライドはフォーマット統一より『イメージが湧く』ことを優先し、読み手の文脈に近い（国内等の）数字も揃える",
+   "detail": "",
+   "ok_example": "",
+   "ng_example": "",
+   "checkable": "human",
+   "check_hint": "",
+   "priority": "may",
+   "related_ng": [],
+   "checked_by": "human"
+  },
+  {
+   "id": "R-AUD-01",
+   "category": "読み手・目的別の調整",
+   "rule": "前提確認で『相手は誰か・何を求めるか・何を伝えるか（報告/議論/依頼）』を確かめ、推測で進めない",
+   "detail": "同じ内容でも相手によって表現を変える（子供には直観、大人には理由と対処）",
+   "ok_example": "",
+   "ng_example": "注文を聞かずに料理を出すように、オーダーを確認せず作る",
+   "checkable": "human",
+   "check_hint": "生成時にaudience・purpose・期待アクションを必須入力にし、不足時は質問する",
+   "priority": "must",
+   "related_ng": [],
+   "checked_by": "human"
+  },
+  {
+   "id": "R-AUD-02",
+   "category": "読み手・目的別の調整",
+   "rule": "目的は『自分がどうしたいか』と『相手にどうなってもらいたいか』の2軸で設定する",
+   "detail": "意思決定（漏れなく開示→承認）、情報共有（過不足なく→正確に知る）、ディスカッション（意見交換に足る情報→課題に取り組む）。目的は相手の行動を促すこと",
+   "ok_example": "",
+   "ng_example": "資料を披露すること・フィードバックをもらうことが目的になっている",
+   "checkable": "human",
+   "check_hint": "",
+   "priority": "should",
+   "related_ng": [],
+   "checked_by": "human"
+  },
+  {
+   "id": "R-AUD-03",
+   "category": "読み手・目的別の調整",
+   "rule": "相手の立場ごとの関心事に合わせて切り口を変える",
+   "detail": "経営層=業績要因と抜本策、管理職=中長期ミッション、顧客=利用メリット、投資家=価値向上",
+   "ok_example": "",
+   "ng_example": "",
+   "checkable": "semi",
+   "check_hint": "audienceと主要メッセージの関心領域の整合をLLM判定",
+   "priority": "should",
+   "related_ng": [],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-AUD-04",
+   "category": "読み手・目的別の調整",
+   "rule": "共通前提の量に応じて背景（S）の厚さを変える",
+   "detail": "初見の相手は背景・全体の中の位置づけ・要件を厚く、内部の進捗共有は現状→課題・リスク→対策・依頼→次アクションに直行",
+   "ok_example": "",
+   "ng_example": "内部定例で毎回長い背景説明を繰り返す",
+   "checkable": "semi",
+   "check_hint": "audience=internalで背景スライド比率が高すぎる場合に警告",
+   "priority": "should",
+   "related_ng": [],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-AUD-05",
+   "category": "読み手・目的別の調整",
+   "rule": "経営層向けは結論と判断材料、実務者向けは手順・詳細を厚くし、締め（結論バー／論点提示／Ask）を目的で変える",
+   "detail": "経営層向けには専門用語禁止・語数上限などで口調を誘導する",
+   "ok_example": "",
+   "ng_example": "",
+   "checkable": "semi",
+   "check_hint": "audience別に文字量・専門用語数・締めの種類をチェック",
+   "priority": "should",
+   "related_ng": [],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-AUD-06",
+   "category": "読み手・目的別の調整",
+   "rule": "前提知識の少ない上位者（直接説明を受けない人）が単独で読んで理解できるように書く",
+   "detail": "スライドは高額な対価に見合う成果物。略語・内輪用語は初出で定義する",
+   "ok_example": "",
+   "ng_example": "部署略号・記号体系が説明なしに多用される",
+   "checkable": "semi",
+   "check_hint": "未定義の略語（英大文字2〜5字・記号コード）の初出定義有無をチェックし、単独理解性はLLM判定",
+   "priority": "must",
+   "related_ng": [
+    "NG-28"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-AUD-07",
+   "category": "読み手・目的別の調整",
+   "rule": "目的に応じてボディの魅せ方を変える（インパクト重視=大ビジュアル・最小文字／説明重視=図表＋文章で論拠）",
+   "detail": "コンサル資料の標準は説明重視。登壇用はインパクト重視",
+   "ok_example": "",
+   "ng_example": "登壇用スライドに説明重視の詳細表を投影",
+   "checkable": "semi",
+   "check_hint": "mode=presentation/documentで文字量上限・図の大きさを切替えて判定",
+   "priority": "may",
+   "related_ng": [
+    "NG-02"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-MTG-01",
+   "category": "会議・議事録資料",
+   "rule": "会議は導入（目的・S・C・Q）→本題（論点に沿った議論）→まとめ（確認・決定事項・ToDo）で設計し、導入・まとめの時間を必ず確保する",
+   "detail": "60分なら10/40/10分。『本日の目的』は誰に何をしてほしいかを明確に",
+   "ok_example": "",
+   "ng_example": "アジェンダ・時間配分がなく時間切れ",
+   "checkable": "semi",
+   "check_hint": "会議資料に導入/本題/まとめの3パートがあるか判定",
+   "priority": "should",
+   "related_ng": [],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-MTG-02",
+   "category": "会議・議事録資料",
+   "rule": "会議アジェンダは1〜2階層で書き各項目に時間を付け、1番目は『本日の目的（答える問い）』、最後は『ネクストアクションの確認』",
+   "detail": "設計の前提として目的・参加者（初対面か身内か）・時間を確認。時間バーの長さは時間比率に合わせる",
+   "ok_example": "初回会議『概要は何か？どう進めるか？』",
+   "ng_example": "時間バーの長さがすべて同じで時間配分を表していない",
+   "checkable": "auto",
+   "check_hint": "アジェンダ各行に分数表記があるか、先頭/末尾項目のキーワード、バー長と分数の比例をチェック",
+   "priority": "should",
+   "related_ng": [
+    "NG-29"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-MTG-03",
+   "category": "会議・議事録資料",
+   "rule": "議事録は決定事項・ToDoを冒頭にまとめ、冒頭だけで要点を把握できるようにする",
+   "detail": "結論・課題・今後の論点はトップに書き太字・下線で強調",
+   "ok_example": "",
+   "ng_example": "時系列の発言録の末尾に決定事項が埋もれる",
+   "checkable": "auto",
+   "check_hint": "文書冒頭20%以内に『決定事項』『ToDo』見出しがあるか",
+   "priority": "must",
+   "related_ng": [],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-MTG-04",
+   "category": "会議・議事録資料",
+   "rule": "議事録の必須項目：基本情報（日時/場所/参加者/資料）・議題・決定事項（結論と理由）・ToDo（担当とDue）・議事内容（経緯、発言者明記）",
+   "detail": "いつ・どこで・誰によって・何が決められたかを明記。プロジェクトのフォーマット・ルールを確認する",
+   "ok_example": "",
+   "ng_example": "ToDoに担当者・期限がない",
+   "checkable": "auto",
+   "check_hint": "必須セクションの存在、ToDo各行に担当者と日付があるかを正規表現でチェック",
+   "priority": "must",
+   "related_ng": [],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-MTG-05",
+   "category": "会議・議事録資料",
+   "rule": "決定事項は会議で決定した結論のみ、ToDoは会議中に挙がった『しなければならないこと』のみを書く",
+   "detail": "未決事項・業務外の内容・元々決まっていた作業や相手が当然行う確認は書かない（絶対にやってほしい事項は例外）",
+   "ok_example": "",
+   "ng_example": "未決の事項を決定事項に書く",
+   "checkable": "semi",
+   "check_hint": "決定事項文に未確定表現（検討する/予定/？）が含まれれば警告",
+   "priority": "must",
+   "related_ng": [],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-MTG-06",
+   "category": "会議・議事録資料",
+   "rule": "議事録は時系列でなく論点ごと・重要な順に構造化する（箇条→接続詞→見出し→結論先出し）",
+   "detail": "アジェンダごとにタイトルを付け、決定事項・アクションは結論を端的に書き詳細は後に",
+   "ok_example": "",
+   "ng_example": "手書きメモをそのまま文章に起こしただけ",
+   "checkable": "semi",
+   "check_hint": "見出し構造の有無、各節の先頭文が結論かをLLM判定",
+   "priority": "should",
+   "related_ng": [],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-MTG-07",
+   "category": "会議・議事録資料",
+   "rule": "質問には必ず返答を明記し、不適切な発言は表現を変え、オフレコは記述しない",
+   "detail": "無駄な表現を削ぎ落としつつ短くしすぎず、正しく分かりやすい日本語で書く",
+   "ok_example": "",
+   "ng_example": "質問だけが記録され回答がない",
+   "checkable": "semi",
+   "check_hint": "『質問|Q』に対応する回答行があるかを判定",
+   "priority": "must",
+   "related_ng": [],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-MTG-08",
+   "category": "会議・議事録資料",
+   "rule": "文章化後、誰が/いつ/どういう/何の目的で/いつから/なぜ・どのように/誰が判断/何を対象に の観点で抜けを自己チェックする",
+   "detail": "",
+   "ok_example": "",
+   "ng_example": "",
+   "checkable": "semi",
+   "check_hint": "決定事項・ToDoの各文について観点の欠落をLLM判定",
+   "priority": "should",
+   "related_ng": [],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-MTG-09",
+   "category": "会議・議事録資料",
+   "rule": "議事録はSV承認後、関係者に会議資料と併せて翌日中に展開し、修正時は修正点を明記して同じ宛先に再送する",
+   "detail": "疑問点・認識齟齬は送信元に連絡してほしい旨を明記",
+   "ok_example": "",
+   "ng_example": "",
+   "checkable": "human",
+   "check_hint": "",
+   "priority": "should",
+   "related_ng": [],
+   "checked_by": "human"
+  },
+  {
+   "id": "R-MTG-10",
+   "category": "会議・議事録資料",
+   "rule": "Word文書の体裁はスペースでなくタブ・インデント・行頭文字機能で整え、提出時は変更履歴をすべて反映する",
+   "detail": "編集記号を表示して体裁を確認する",
+   "ok_example": "",
+   "ng_example": "全角スペースでインデントを揃え崩れる",
+   "checkable": "auto",
+   "check_hint": "行頭の連続スペース・手打ち『・』・未反映の変更履歴を検出",
+   "priority": "may",
+   "related_ng": [],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-PRC-01",
+   "category": "作成プロセス・品質確認",
+   "rule": "作成手順は 前提確認→メッセージ推敲→出所特定→ボディ作成 の順とし、メッセージを先、ボディを後にする",
+   "detail": "ボディを先に作ると『ボディから言えること』をメッセージにしてしまう",
+   "ok_example": "",
+   "ng_example": "いきなりPCでボディを作り、後からメッセージを考える",
+   "checkable": "human",
+   "check_hint": "生成パイプラインを audience/purpose→message→evidence→body の順に固定",
+   "priority": "must",
+   "related_ng": [],
+   "checked_by": "human"
+  },
+  {
+   "id": "R-PRC-02",
+   "category": "作成プロセス・品質確認",
+   "rule": "紙（テキストのゴーストデッキ）で全スライドのメッセージとボディ構成を考え切り、レビュー後にPPT化する",
+   "detail": "フロントローディングで手戻りを減らす。PPT化は別の人に依頼してもよい",
+   "ok_example": "",
+   "ng_example": "清書後のレビューで構成から作り直し",
+   "checkable": "semi",
+   "check_hint": "",
+   "priority": "should",
+   "related_ng": [],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-PRC-03",
+   "category": "作成プロセス・品質確認",
+   "rule": "仕上げ前にセルフチェックする：ボディはメッセージを支えるか／構造的か／FACTとロジックか／色・ポンチ絵で分かりやすいか／出所は明記か",
+   "detail": "漫然と見るセルフレビューは無効。チェック項目を設定してから行い、指摘はすべて記録して修正後に再確認する",
+   "ok_example": "",
+   "ng_example": "",
+   "checkable": "semi",
+   "check_hint": "出所・色数は機械判定、他はLLM判定のチェックリストとして実装",
+   "priority": "must",
+   "related_ng": [],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-PRC-04",
+   "category": "作成プロセス・品質確認",
+   "rule": "仮説・ドラフトは早めに人にぶつけてレビューを受け、作業計画は論点単位で組む",
+   "detail": "慣れないうちは一次作成に時間をかけすぎない。レビュー工数を大きめに見積もる",
+   "ok_example": "",
+   "ng_example": "",
+   "checkable": "human",
+   "check_hint": "",
+   "priority": "should",
+   "related_ng": [],
+   "checked_by": "human"
+  },
+  {
+   "id": "R-PRC-05",
+   "category": "作成プロセス・品質確認",
+   "rule": "AIは構造と言語の草案に使い、核となる洞察・推奨はAIに任せず、ソースにない新データ・外部仮定を加えない",
+   "detail": "チェックポイントなしでデッキ全体を自動生成しない。解釈や繊細な作業は人が検証する",
+   "ok_example": "",
+   "ng_example": "AI生成の数値をそのまま掲載し出典リンクが壊れている",
+   "checkable": "semi",
+   "check_hint": "生成物の数値・固有名がソース文書に存在するかを照合",
+   "priority": "should",
+   "related_ng": [
+    "NG-37"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-PRC-06",
+   "category": "作成プロセス・品質確認",
+   "rule": "提出前に作業メモ・レビューコメント・プレースホルダ・スライド外オブジェクト・旧版スライドを除去する",
+   "detail": "『XX』『TBD』『(案)』『?』、担当者名入りの付箋、テンプレートの記入指示を残さない",
+   "ok_example": "",
+   "ng_example": "レビュー用の楕円が本文を覆ったまま、値がXXのまま",
+   "checkable": "auto",
+   "check_hint": "テキストに XX|TBD|（案）|\\?$|要確認 を含む、bboxがスライド外の図形、付箋色（黄）の図形でNG",
+   "priority": "must",
+   "related_ng": [
+    "NG-09"
+   ],
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "R-PRC-07",
+   "category": "作成プロセス・品質確認",
+   "rule": "顧客名・人名・金額・外部著作物・ロゴの掲載可否を確認し、汎用化または許諾を得る",
+   "detail": "企業契約外の環境に顧客データを共有しない。社外転用時は匿名化する",
+   "ok_example": "",
+   "ng_example": "事例に顧客名と具体金額が実名のまま並ぶ",
+   "checkable": "auto",
+   "check_hint": "固有表現抽出（組織名・人名）、金額パターン、ロゴ画像の検出で警告",
+   "priority": "must",
+   "related_ng": [
+    "NG-31"
+   ],
+   "checked_by": "visual_evaluator"
+  }
+ ],
+ "ng_patterns": [
+  {
+   "id": "NG-01",
+   "name": "極小文字・判読不能",
+   "description": "本文・図中ラベル・注記・脚注が投影/印刷で読めないサイズになっている",
+   "frequency": 385,
+   "fix": "情報を絞ってフォントを上げる（本文12pt目安）。読ませる詳細は付録・配布資料へ分離",
+   "checkable": "auto",
+   "check_hint": "テキストrunのフォントサイズ<10pt（注記<8pt）、画像内文字は表示倍率から推定",
+   "related_rules": [
+    "R-TXT-03"
+   ]
+  },
+  {
+   "id": "NG-22",
+   "name": "はみ出し・重なり・切れ",
+   "description": "テキストが枠/スライド外にはみ出す、凡例・スタンプ・吹き出しが本文やタイトルを隠す、フッターと干渉",
+   "frequency": 171,
+   "fix": "枠サイズに合わせて文量を削る、要素を重ねない、フッター領域を空ける",
+   "checkable": "auto",
+   "check_hint": "bboxのスライド外・フッター帯・他テキストとの交差、推定テキスト高さ>枠高さ",
+   "related_rules": [
+    "R-LAY-05"
+   ]
+  },
+  {
+   "id": "NG-23",
+   "name": "整列崩れ・サイズ不揃い",
+   "description": "列・行・カード・写真の上端/下端/高さ/間隔がばらつき、改行位置も不揃い",
+   "frequency": 147,
+   "fix": "グリッドに沿って揃える（整列・配置の均等割付、同サイズ化）",
+   "checkable": "auto",
+   "check_hint": "同一行図形のtop/bottom差>0.05in、同種図形のサイズ差>5%",
+   "related_rules": [
+    "R-LAY-04"
+   ]
+  },
+  {
+   "id": "NG-02",
+   "name": "高密度・詰め込み",
+   "description": "1枚に要素・文字・行列が詰め込まれ、視線の起点がなく読む負荷が高い",
+   "frequency": 139,
+   "fix": "1スライド1メッセージに絞り、分割または付録化。表は要約版を本編に置く",
+   "checkable": "auto",
+   "check_hint": "図形数>60・文字数>800・表セル数>60・余白率<10%のいずれかで警告",
+   "related_rules": [
+    "R-TXT-04",
+    "R-AUD-07"
+   ]
+  },
+  {
+   "id": "NG-24",
+   "name": "大きな空白・片寄り",
+   "description": "スライドの下半分・右側が空白、表や図が中央に小さく浮く",
+   "frequency": 136,
+   "fix": "情報量に合うレイアウトに変える、前後スライドと統合、図を拡大",
+   "checkable": "auto",
+   "check_hint": "コンテンツ占有率<45%、重心偏り>30%",
+   "related_rules": [
+    "R-LAY-06"
+   ]
+  },
+  {
+   "id": "NG-18",
+   "name": "対応付けの欠如（図⇔文、左⇔右）",
+   "description": "図と説明、左右ペイン、上下段の要素がどれと対応するかが番号・線・色で示されていない",
+   "frequency": 126,
+   "fix": "共通番号・同色・引き出し線・同じ行位置で対応させる",
+   "checkable": "semi",
+   "check_hint": "左右ペインの番号集合の一致、図中番号と説明番号の一致をチェック。それ以外はLLM判定",
+   "related_rules": []
+  },
+  {
+   "id": "NG-13",
+   "name": "強調・重要度差の欠如（主役が立たない）",
+   "description": "全要素が同じ重さで、最重要の結論・依頼・数値が埋もれる",
+   "frequency": 108,
+   "fix": "最重要要素だけをアクセント色・大きさ・位置で立たせる",
+   "checkable": "semi",
+   "check_hint": "強調runがゼロ、かつ並列要素の書式が完全に均一なら注意。主役判定はLLM",
+   "related_rules": [
+    "R-MSG-14",
+    "R-COL-03"
+   ]
+  },
+  {
+   "id": "NG-39",
+   "name": "階層・区切り・グルーピングが弱い",
+   "description": "見出しと本文、大分類と小分類、行の区切り、グループ境界が書式で区別されず構造が読めない",
+   "frequency": 91,
+   "fix": "見出し階層の書式差（サイズ・ウェイト・色帯）と区切り線・背景色でグルーピングする",
+   "checkable": "semi",
+   "check_hint": "見出しと本文のフォントサイズ差<2pt、グループ間距離≦グループ内距離で警告",
+   "related_rules": [
+    "R-LAY-01"
+   ]
+  },
+  {
+   "id": "NG-03",
+   "name": "画面・画像の判読不能＋注目点の指示なし",
+   "description": "スクリーンショット・サムネイル・引用画像が縮小されすぎて読めず、どこを見ればよいかの赤枠・吹き出し・番号もない",
+   "frequency": 87,
+   "fix": "必要部分だけトリミングして拡大し、赤枠＋番号吹き出しで注目点を示す。手順番号と画面を線で直結",
+   "checkable": "auto",
+   "check_hint": "画像の縮小率が大きい（原寸比<40%）かつ画像上に枠/吹き出し図形が重なっていない",
+   "related_rules": []
+  },
+  {
+   "id": "NG-32",
+   "name": "低コントラスト・淡色で読めない",
+   "description": "淡色文字・灰色小文字・写真上の白文字・暗色背景上の細字で可読性が低い",
+   "frequency": 80,
+   "fix": "背景とのコントラスト比4.5:1以上、写真上の文字は帯や影を敷く",
+   "checkable": "auto",
+   "check_hint": "文字色と背景色のコントラスト比<4.5",
+   "related_rules": []
+  },
+  {
+   "id": "NG-17",
+   "name": "関係記号の欠如",
+   "description": "因果・解決・包含・集約の関係があるのに矢印・括り・記号がなく、関係を読み手が補う必要がある",
+   "frequency": 78,
+   "fix": "relationに応じた記号（→、⇒、括り、↓集約）を置く",
+   "checkable": "semi",
+   "check_hint": "relation=cause/solve/convergeでconnectorsが空/R-PARなら警告",
+   "related_rules": [
+    "R-BOD-03",
+    "R-BOD-05",
+    "R-BOD-06"
+   ]
+  },
+  {
+   "id": "NG-20",
+   "name": "矢印・線の意味不明／向き・種類の混在",
+   "description": "矢印の向き（片方向/双方向）、線種（実線/点線）、色の意味が説明されず、データか制御かも不明",
+   "frequency": 77,
+   "fix": "矢印は1種類に統一し、意味が違うなら凡例とラベルを付ける。時系列は右/下向き",
+   "checkable": "semi",
+   "check_hint": "1スライド内の矢印・線種の種類数>2、ラベルなしの矢印数をカウント",
+   "related_rules": [
+    "R-BOD-05",
+    "R-BOD-06",
+    "R-BOD-11",
+    "R-LAY-02"
+   ]
+  },
+  {
+   "id": "NG-09",
+   "name": "作業メモ・プレースホルダ・レビュー痕跡の残置",
+   "description": "XX・TBD・(案)・疑問符、付箋、レビュー用楕円、スライド外の図形、旧版・別案、空欄の箇条が成果物に残る",
+   "frequency": 74,
+   "fix": "提出前チェックで除去。未確定事項は『要確認』欄に集約して明示",
+   "checkable": "auto",
+   "check_hint": "XX|TBD|（案）|？|要確認 の文字列、スライド外bbox、付箋色図形、空の箇条を検出",
+   "related_rules": [
+    "R-DAT-08",
+    "R-PRC-06"
+   ]
+  },
+  {
+   "id": "NG-04",
+   "name": "メッセージライン（タイトル/リード）不在",
+   "description": "メッセージ枠が空、サブタイトルのみ、リード文なしで、何を言いたいかが読み手任せ",
+   "frequency": 72,
+   "fix": "最上部に結論の1文を書く。参考情報スライドなら『参考』と明示",
+   "checkable": "auto",
+   "check_hint": "タイトル/リードのプレースホルダが空・空白のみ、またはlead=falseの本文スライド",
+   "related_rules": [
+    "R-MSG-01",
+    "R-MSG-08",
+    "R-MSG-10",
+    "R-DEC-02",
+    "R-DEC-05"
+   ]
+  },
+  {
+   "id": "NG-26",
+   "name": "テキストの壁（図解なし）",
+   "description": "全面テキスト・長文段落で、キーワード強調や構造化がなく流し読みできない",
+   "frequency": 69,
+   "fix": "要点を見出し＋箇条に分解し、関係があれば図解化。キーワードを太字に",
+   "checkable": "auto",
+   "check_hint": "箇条のみのボディで文字数>300、3行以上の段落の検出",
+   "related_rules": [
+    "R-BOD-02",
+    "R-BOD-07",
+    "R-TXT-01",
+    "R-TXT-02",
+    "R-DEC-05"
+   ]
+  },
+  {
+   "id": "NG-14",
+   "name": "色・記号の意味不明／意味衝突",
+   "description": "塗り分け・枠・吹き出し色・記号に意味が説明されない、凡例なし、同じ色が別の意味で使われる",
+   "frequency": 63,
+   "fix": "色の意味を凡例で定義し、デッキ内で色辞書を統一。意味のない塗り分けはやめる",
+   "checkable": "semi",
+   "check_hint": "非グレー塗り分け2色以上で凡例テキストなし→警告。意味衝突はLLM判定",
+   "related_rules": [
+    "R-COL-05",
+    "R-DAT-05"
+   ]
+  },
+  {
+   "id": "NG-25",
+   "name": "並列要素の密度・構造の不均衡",
+   "description": "並列の列・ペインで文字量・項目数・粒度・表現形式がばらつき、比較しにくい",
+   "frequency": 60,
+   "fix": "並列要素の構造（見出し→本文→例）と分量を揃える",
+   "checkable": "auto",
+   "check_hint": "並列ペインの文字数比>2、子要素構成の不一致",
+   "related_rules": [
+    "R-STO-10",
+    "R-LAY-07"
+   ]
+  },
+  {
+   "id": "NG-34",
+   "name": "冗長・重複情報",
+   "description": "リードと本文の重複、全行同一値の列、同じ文言の繰り返し、パンくずとタイトルが同一",
+   "frequency": 58,
+   "fix": "差分のない列は統合し、重複表現は1回にまとめる",
+   "checkable": "auto",
+   "check_hint": "テキスト類似度（リード⇔本文、セル間）、全行同一値の列を検出",
+   "related_rules": [
+    "R-MSG-10"
+   ]
+  },
+  {
+   "id": "NG-05",
+   "name": "示唆・締め不在（読み手任せ）",
+   "description": "事実や一覧を並べるだけで『だから何』『次に何をするか』の結論・示唆・総括がない",
+   "frequency": 57,
+   "fix": "結論バー/示唆文/Next Actionで締める。推奨案を明示する",
+   "checkable": "semi",
+   "check_hint": "closing=noneかつリードが事実のみの場合、LLMで示唆の有無を判定",
+   "related_rules": [
+    "R-STO-01",
+    "R-STO-04",
+    "R-STO-06",
+    "R-STO-07",
+    "R-STO-12",
+    "R-STO-13",
+    "R-DEC-03"
+   ]
+  },
+  {
+   "id": "NG-28",
+   "name": "誤字・機械翻訳崩れ・日英混在・表記ゆれ",
+   "description": "誤字、語順の崩れた直訳、英語のまま残った図中ラベル、同一概念の表記ゆれ",
+   "frequency": 56,
+   "fix": "人が校正し、図中ラベルも翻訳、用語集で表記を統一",
+   "checkable": "auto",
+   "check_hint": "スペルチェック、英字率の外れ値、用語集との照合",
+   "related_rules": [
+    "R-MSG-13",
+    "R-TXT-05",
+    "R-AUD-06"
+   ]
+  },
+  {
+   "id": "NG-31",
+   "name": "機密・固有情報の露出",
+   "description": "顧客名・人名・顔写真・金額・他社作品・ロゴが外部提示に配慮なく載っている",
+   "frequency": 52,
+   "fix": "汎用化・匿名化し、掲載許諾を確認する",
+   "checkable": "auto",
+   "check_hint": "固有表現抽出（組織名・人名）、金額パターン、顔写真/ロゴ画像の検出",
+   "related_rules": [
+    "R-PRC-07"
+   ]
+  },
+  {
+   "id": "NG-27",
+   "name": "装飾的で情報を持たない画像・アイコン",
+   "description": "写真・イラスト・アイコン・ロゴが内容と結びつかず、面積だけを占める",
+   "frequency": 44,
+   "fix": "情報を持たない装飾は削除し、残すなら内容と対応させる（キャプション・番号）",
+   "checkable": "semi",
+   "check_hint": "画像面積比が大きく本文キーワードとの関連が低い場合をLLM判定",
+   "related_rules": [
+    "R-BOD-08",
+    "R-BOD-13"
+   ]
+  },
+  {
+   "id": "NG-10",
+   "name": "流用スライドの体裁不統一",
+   "description": "他資料・外部テンプレートのヘッダー・配色・フッター・様式が残り、1枚だけ別資料に見える／シリーズ内で配置が揺れる",
+   "frequency": 38,
+   "fix": "デッキのマスターに貼り直し、色・フォント・タイトル位置を揃える。外部ヘッダーは削除",
+   "checkable": "auto",
+   "check_hint": "レイアウト/マスター名、タイトル座標、色・フォントのデッキ内外れ値",
+   "related_rules": [
+    "R-COL-06",
+    "R-DEC-07"
+   ]
+  },
+  {
+   "id": "NG-12",
+   "name": "強調の分散・過多",
+   "description": "太字・色字・下線・ハイライトが多すぎて強調の意味が消える／行見出しが本文より目立つ",
+   "frequency": 35,
+   "fix": "強調は1スライド1〜2箇所。メッセージ中のキーワード・数値だけに限定",
+   "checkable": "auto",
+   "check_hint": "強調run数>3または強調種類>2、行見出しの彩度・面積が本文を上回る",
+   "related_rules": [
+    "R-COL-01",
+    "R-COL-03",
+    "R-COL-04"
+   ]
+  },
+  {
+   "id": "NG-37",
+   "name": "メッセージと内容の不一致・根拠不足",
+   "description": "タイトル/リードの主張をボディが裏付けない、表にない主張、パンくず・ページ番号の不一致",
+   "frequency": 35,
+   "fix": "主張に対応する根拠をボディに置くか、主張を根拠に合わせて修正",
+   "checkable": "semi",
+   "check_hint": "メッセージ中の数値・キーワードがボディに存在するか照合＋LLM判定",
+   "related_rules": [
+    "R-STO-02",
+    "R-STO-08",
+    "R-STO-09",
+    "R-STO-14",
+    "R-MSG-12",
+    "R-BOD-01",
+    "R-DEC-01",
+    "R-DEC-04",
+    "R-PRC-05"
+   ]
+  },
+  {
+   "id": "NG-16",
+   "name": "番号・読み順の不整合",
+   "description": "番号の欠番・重複・列優先、読み順がZ型とずれる、視線の起点がない、ページ/章番号の不一致",
+   "frequency": 32,
+   "fix": "番号は行優先で通し、リード・本文・ページ番号を一致させる",
+   "checkable": "auto",
+   "check_hint": "番号付き要素の座標順と番号順の一致、番号列の欠番・重複チェック",
+   "related_rules": [
+    "R-STO-03",
+    "R-MSG-12",
+    "R-BOD-12",
+    "R-LAY-02",
+    "R-LAY-03",
+    "R-DEC-04"
+   ]
+  },
+  {
+   "id": "NG-11",
+   "name": "デッキ配色からの逸脱・色数過多",
+   "description": "ブランド基調と無関係な色が混入、虹色化、暗色テーマとの衝突",
+   "frequency": 29,
+   "fix": "パレットをbase/main/accentに限定し、それ以外の色を置き換える",
+   "checkable": "auto",
+   "check_hint": "パレット外の色の使用、非グレー色相数>3",
+   "related_rules": [
+    "R-COL-01",
+    "R-COL-02",
+    "R-COL-06"
+   ]
+  },
+  {
+   "id": "NG-21",
+   "name": "線の交差・錯綜",
+   "description": "接続線・引き出し線が多数交差し、どこからどこへの流れか追えない",
+   "frequency": 29,
+   "fix": "配置を並べ替えて交差を減らす、多対多は対応表に置き換える",
+   "checkable": "auto",
+   "check_hint": "コネクタ同士の交差数>3で警告",
+   "related_rules": []
+  },
+  {
+   "id": "NG-08",
+   "name": "長すぎるタイトル・リード",
+   "description": "タイトルが2行に溢れる、リードが3行以上・複数文で主張が埋もれる",
+   "frequency": 27,
+   "fix": "1文40字前後に圧縮し、補足は本文へ",
+   "checkable": "auto",
+   "check_hint": "句点数>=2、文字数>60、タイトル行数>=2",
+   "related_rules": [
+    "R-MSG-02",
+    "R-MSG-06"
+   ]
+  },
+  {
+   "id": "NG-15",
+   "name": "凡例が遠い・小さい",
+   "description": "凡例が右上/最下部に極小で置かれ、図と往復しないと読めない",
+   "frequency": 27,
+   "fix": "凡例を対象の直近に置くか、データラベル・直接ラベルに置き換える",
+   "checkable": "auto",
+   "check_hint": "凡例と対象図形の距離>3in、凡例フォント<9pt",
+   "related_rules": [
+    "R-COL-05"
+   ]
+  },
+  {
+   "id": "NG-29",
+   "name": "チャートの軸・単位・ラベル不備／不適切なグラフ種",
+   "description": "軸ラベル・目盛・単位・データラベル・基準線がない、順序尺度に円グラフ、情報量に対してドーナツが大きい",
+   "frequency": 26,
+   "fix": "タイトル・単位・軸を付け、メッセージに合うグラフ種を選ぶ",
+   "checkable": "auto",
+   "check_hint": "チャートXMLのtitle/axis title/単位の有無、系列数<=2の円・ドーナツ",
+   "related_rules": [
+    "R-DAT-01",
+    "R-DAT-02",
+    "R-DAT-03",
+    "R-DAT-07",
+    "R-MTG-02"
+   ]
+  },
+  {
+   "id": "NG-30",
+   "name": "数値が埋もれる（KPI・合計・判定がない）",
+   "description": "重要な数値が文中に埋もれ大きな数字になっていない、合計や達成/未達の判定がない",
+   "frequency": 23,
+   "fix": "主役の数値はKPIタイル・大きな数字で示し、合計・判定列を付ける",
+   "checkable": "semi",
+   "check_hint": "数値を含む文が本文にあり、大きなフォントの数値要素がない場合をLLM判定",
+   "related_rules": [
+    "R-BOD-01",
+    "R-DAT-06",
+    "R-DAT-07"
+   ]
+  },
+  {
+   "id": "NG-06",
+   "name": "リード文の使い回し",
+   "description": "前後スライドと同一のリード文・定型文を流用し、そのスライド固有の主張になっていない（タイトルとも不一致）",
+   "frequency": 22,
+   "fix": "スライドごとにボディから言える固有の結論を書き直す",
+   "checkable": "auto",
+   "check_hint": "隣接（±3枚）スライドのリード文字列類似度>0.9で警告",
+   "related_rules": [
+    "R-MSG-11",
+    "R-DEC-08"
+   ]
+  },
+  {
+   "id": "NG-33",
+   "name": "縦書き・回転文字",
+   "description": "縦書きや斜め回転の小さなラベルが読みにくい",
+   "frequency": 21,
+   "fix": "横書きの行見出し・軸タイトルに置き換える",
+   "checkable": "auto",
+   "check_hint": "テキストフレームのvert属性・回転角≠0を検出",
+   "related_rules": []
+  },
+  {
+   "id": "NG-07",
+   "name": "情報ゼロ・トピック型の見出し",
+   "description": "見出しが名詞句・題目・汎用表現・『〜が重要』の認識止まりで主張がない",
+   "frequency": 20,
+   "fix": "『だから何』を述語まで含む1文で書く。問いのタイトルには答えを書く",
+   "checkable": "semi",
+   "check_hint": "名詞句終わり・『以下の通り』等の正規表現＋洞察性はLLM判定",
+   "related_rules": [
+    "R-STO-13",
+    "R-MSG-03",
+    "R-MSG-04",
+    "R-MSG-07",
+    "R-MSG-08",
+    "R-MSG-09"
+   ]
+  },
+  {
+   "id": "NG-35",
+   "name": "スライド単位の冗長・分割ミス",
+   "description": "前頁に収まる情報量で別スライドにしている／同型スライドが総括なく連続／分割で大分類がページをまたぐ",
+   "frequency": 19,
+   "fix": "統合するか、分割理由と差分をリードで示す",
+   "checkable": "semi",
+   "check_hint": "隣接スライドのレイアウト類似度と情報量からLLM判定",
+   "related_rules": [
+    "R-DEC-06",
+    "R-DEC-08"
+   ]
+  },
+  {
+   "id": "NG-38",
+   "name": "1スライド複数論点",
+   "description": "1枚に2つ以上の主張・役割が混在し、焦点がぶれる",
+   "frequency": 16,
+   "fix": "論点ごとにスライドを分け、主メッセージに関係しない図表を削除",
+   "checkable": "semi",
+   "check_hint": "メッセージの文数・述語数、図表数とメッセージ主張数の比較",
+   "related_rules": [
+    "R-MSG-05",
+    "R-BOD-08"
+   ]
+  },
+  {
+   "id": "NG-19",
+   "name": "偽の1対1対応",
+   "description": "左右の項目数が合わない／対応していないのに同じ高さ・同じ番号体系で並べ、対応関係を誤読させる",
+   "frequency": 14,
+   "fix": "対応しないなら行を揃えない・番号体系を分ける。対応するなら1対1に組み直す",
+   "checkable": "semi",
+   "check_hint": "左右ペインの項目数不一致かつ行高が揃っている場合に警告",
+   "related_rules": []
+  },
+  {
+   "id": "NG-36",
+   "name": "画像貼付けで編集不可",
+   "description": "スライド全体・表・図が画像として貼られ、編集できず粗い",
+   "frequency": 11,
+   "fix": "ネイティブの表・図形で作り直す",
+   "checkable": "auto",
+   "check_hint": "スライド面積の50%超を単一画像が占め、テキストフレームが少ない",
+   "related_rules": []
+  }
+ ],
+ "combination_rules": [
+  {
+   "id": "CB-01",
+   "judgement": "NG",
+   "combination": "並列（順序なし）の要素を矢印・矢羽根・シェブロンでつなぐ",
+   "reason": "矢印は順序・因果を意味するため、並列なのに時間的前進や依存関係と誤読される。並列は記号なし（R-PAR）で揃える",
+   "checked_by": "grammar_check"
+  },
+  {
+   "id": "CB-02",
+   "judgement": "NG",
+   "combination": "順序・因果のある要素を番号だけで並べ、矢印・シェブロンを置かない",
+   "reason": "番号だけでは段階の進行が伝わらず、並列に見える。順序は右/下向き矢印・シェブロンで示す",
+   "checked_by": "grammar_check"
+  },
+  {
+   "id": "CB-03",
+   "judgement": "条件付き",
+   "combination": "課題リスト（左）＋解決リスト（右）の横並び",
+   "reason": "大矢印（⇒）で課題→解決を示し、課題と解決を番号で1対1に対応させればOK。記号なし・対応なしは独立した2つの箇条書きに見えNG",
+   "evidence": {
+    "n_slides": 27,
+    "n_with_ng": 4,
+    "rate": 0.15,
+    "base_rate_all_slides": 0.09
+   },
+   "checked_by": "grammar_check"
+  },
+  {
+   "id": "CB-04",
+   "judgement": "NG",
+   "combination": "項目数の違う左右リストを同じ行高・同じ番号体系で並べる",
+   "reason": "対応していないのに行が揃っていると1対1対応と誤読される（偽の対応）",
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "CB-05",
+   "judgement": "OK",
+   "combination": "既出の全体図・ロードマップ・表の再掲＋スコープ枠/ハイライト/追加列",
+   "reason": "既に理解済みの図を再利用し『全体のどこか』『何が増えたか』だけを示すので理解コストが低い。ただし縮小で文字が潰れないこと、枠外を薄くすることが条件",
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "CB-06",
+   "judgement": "NG",
+   "combination": "チャートにタイトル・単位・軸ラベル・目盛がない",
+   "reason": "何の量をどの単位で比べているか読めず、メッセージの根拠にならない",
+   "evidence": {
+    "n_slides": 32,
+    "n_with_ng": 20,
+    "rate": 0.62,
+    "base_rate_all_slides": 0.03
+   },
+   "checked_by": "grammar_check"
+  },
+  {
+   "id": "CB-07",
+   "judgement": "OK",
+   "combination": "グレー階調のチャート＋メッセージが言及する系列/数値だけアクセント色",
+   "reason": "メッセージとチャートの強調箇所が一致し、どこを見ればよいかが一瞬で分かる",
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "CB-08",
+   "judgement": "NG",
+   "combination": "比較の左右で表現形式・内部構造が違う（概念図vs画面、カードvs表、題材の違うNG/OK）",
+   "reason": "比較軸が揃わず差分が読めない。比較は同じ構造の鏡像で作り、違う1点だけを変える",
+   "evidence": {
+    "n_slides": 47,
+    "n_with_ng": 5,
+    "rate": 0.11,
+    "base_rate_all_slides": 0.07
+   },
+   "checked_by": "grammar_check"
+  },
+  {
+   "id": "CB-09",
+   "judgement": "OK",
+   "combination": "NG/OK対比を同じ素材・同じ配置で作り、差分1点だけを変える",
+   "reason": "比較の焦点が差分（結論の位置・グルーピング等）に絞られ、直感的に伝わる",
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "CB-10",
+   "judgement": "NG",
+   "combination": "表＋表を重ねる・詰めて並べる／表を既存レイアウトの上に重ねる",
+   "reason": "後ろの表が隠れ、どちらも判読できなくなる。複数表は1つに統合するか上下に分けて関係を見出しで示す",
+   "evidence": {
+    "n_slides": 135,
+    "n_with_ng": 65,
+    "rate": 0.48,
+    "base_rate_all_slides": 0.42
+   },
+   "checked_by": "grammar_check"
+  },
+  {
+   "id": "CB-11",
+   "judgement": "条件付き",
+   "combination": "画面キャプチャ＋説明文（手順リスト）",
+   "reason": "手順番号と画面上の赤枠番号を一致させる、またはカギ線で手順→画面切り出しを直結すればOK。縮小しただけの画面で注目点がないとNG（画面部品を含むスライドの約4割でNG-03が発生）",
+   "evidence": {
+    "n_slides": 134,
+    "n_with_ng": 58,
+    "rate": 0.43,
+    "base_rate_all_slides": 0.1
+   },
+   "checked_by": "grammar_check"
+  },
+  {
+   "id": "CB-12",
+   "judgement": "NG",
+   "combination": "結論バーを片側ペインの幅だけに置く",
+   "reason": "左のチャートを含めたスライド全体の結論に見えず、右ペインだけの補足に見える。全体の結論は全幅バーにする",
+   "checked_by": "grammar_check"
+  },
+  {
+   "id": "CB-13",
+   "judgement": "OK",
+   "combination": "左右/複数ペイン→全幅の結論バー",
+   "reason": "複数の根拠が1つの結論に集約されることが位置で分かる",
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "CB-14",
+   "judgement": "NG",
+   "combination": "写真・画像の上に文字を直接載せる（帯・影なし）",
+   "reason": "背景の明暗で文字が読めなくなる。帯・半透明ボックスを敷くか写真の外に置く",
+   "checked_by": "compose（描画時に保証）"
+  },
+  {
+   "id": "CB-15",
+   "judgement": "NG",
+   "combination": "文字のない装飾楕円・意味のない円の重なり（ベン図風）",
+   "reason": "重なりや大小が意味を持つと誤解させ、論点数も誤認させる",
+   "checked_by": "grammar_check"
+  },
+  {
+   "id": "CB-16",
+   "judgement": "NG",
+   "combination": "色字＋太字＋下線の多重強調、複数色の強調の混在",
+   "reason": "強調の序列がぼやけ、どれが最重要か判別できない",
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "CB-17",
+   "judgement": "条件付き",
+   "combination": "濃色の行見出し列×本文のマトリクス",
+   "reason": "観点を行で揃え横比較できるのでOK。ただし行見出しの彩度・面積が本文を上回ると主役が逆転しNG",
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "CB-18",
+   "judgement": "NG",
+   "combination": "時間軸（ガント・時間配分バー）の長さが時間比率と一致しない",
+   "reason": "長さで時間を読む読み手を誤導する。列幅・バー長は時間に比例させる",
+   "checked_by": "compose（描画時に保証）"
+  },
+  {
+   "id": "CB-19",
+   "judgement": "NG",
+   "combination": "2x2・複数列の番号を列優先で振る（左1-2、右3-4）",
+   "reason": "Z型に読む視線と番号順がずれ、往復が発生する",
+   "checked_by": "compose（描画時に保証）"
+  },
+  {
+   "id": "CB-20",
+   "judgement": "OK",
+   "combination": "原因チャート（左）→右向き矢印→結果チャート（右）",
+   "reason": "因果の向きが左→右の視線と一致し、2つの事実の関係が一目で分かる",
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "CB-21",
+   "judgement": "NG",
+   "combination": "構成図・ハブ図に意味の区別がない多数の点線矢印",
+   "reason": "片方向/双方向、データ/制御の区別がつかない（構成図部品の約3割でNG-20が発生）。矢印種類を絞り凡例とラベルを付ける",
+   "evidence": {
+    "n_slides": 18,
+    "n_with_ng": 6,
+    "rate": 0.33,
+    "base_rate_all_slides": 0.08
+   },
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "CB-22",
+   "judgement": "NG",
+   "combination": "吹き出しの形・色を混在させる（思考雲/角丸/四角、青/ピンク/緑）",
+   "reason": "形や色に意味があるように見えるが説明されず、肯定・否定の分類も読めない",
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "CB-23",
+   "judgement": "OK",
+   "combination": "ガント＋『現在』縦線＋実施中工程の赤枠",
+   "reason": "今どこにいて次に何があるかが即座に分かる",
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "CB-24",
+   "judgement": "NG",
+   "combination": "『＋』記号を一部の要素にだけ掛ける／単なる区切りに見える使い方",
+   "reason": "加算の意味が曖昧になる。＋は掛かる範囲を全要素に明確に揃え、何が足されるかを示す",
+   "checked_by": "grammar_check"
+  },
+  {
+   "id": "CB-25",
+   "judgement": "NG",
+   "combination": "同じ色を異なる意味で使う（例: 紫=支援範囲と紫=問題工程、赤枠=スコープと赤矢印=連携）",
+   "reason": "色の意味がスライド間・スライド内で衝突し、誤読を招く",
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "CB-26",
+   "judgement": "OK",
+   "combination": "図の各要素と説明カードに同じ番号・同じ色を付ける",
+   "reason": "図と説明の対応が番号/色で1対1に結ばれ、往復が最小になる",
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "CB-27",
+   "judgement": "NG",
+   "combination": "定量チャートと定性コメントを並べるが、コメントの内容がチャートから読み取れない",
+   "reason": "定性の主張を定量が裏付けず、両ペインが独立して見える",
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "CB-28",
+   "judgement": "NG",
+   "combination": "表を個別図形で組んだ疑似表",
+   "reason": "行高・余白が不揃いになり編集性も低い。ネイティブの表で作る",
+   "checked_by": "compose（描画時に保証）"
+  },
+  {
+   "id": "CB-29",
+   "judgement": "OK",
+   "combination": "比較の左右2ボックスの中央に縦長の区切り記号（VS）＋推奨側を色枠",
+   "reason": "対比であることが記号で明示され、どちらを推すかも一目で分かる",
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "CB-30",
+   "judgement": "条件付き",
+   "combination": "範囲を示す枠（点線・赤枠）で全体図の一部を囲む",
+   "reason": "枠の意味をラベルで示し、枠外を薄くすればOK。凡例なし・枠外も同じ強さだと効果が弱くNG",
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "CB-31",
+   "judgement": "NG",
+   "combination": "1つの比率・2系列だけのデータを大きな円/ドーナツで見せる",
+   "reason": "面積に対して情報量が少なく、肝心の数値が凡例の小文字に埋もれる。大きな数字1つで足りる",
+   "checked_by": "grammar_check"
+  },
+  {
+   "id": "CB-32",
+   "judgement": "NG",
+   "combination": "暗色テーマに白地キャプチャ、白地テーマに暗色キャプチャを混在させる",
+   "reason": "画像だけが浮いて見え、境界や文字が背景に溶ける",
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "CB-33",
+   "judgement": "NG",
+   "combination": "見出しの識別アイコンを列の最下部に置く",
+   "reason": "見出しより後に目に入り、識別子として機能しないまま面積だけを消費する",
+   "checked_by": "visual_evaluator"
+  },
+  {
+   "id": "CB-34",
+   "judgement": "NG",
+   "combination": "箇条書きだけのボディ（図形・表なし）",
+   "reason": "要点が拾えないテキストの壁になりやすい（箇条のみのスライドの57%でNG-26）。関係を図解化するかキーワード強調・見出し分割を入れる",
+   "evidence": {
+    "n_slides": 21,
+    "n_with_ng": 12,
+    "rate": 0.57,
+    "base_rate_all_slides": 0.08
+   },
+   "checked_by": "grammar_check"
+  },
+  {
+   "id": "CB-35",
+   "judgement": "NG",
+   "combination": "引用図（外部資料の図）をそのまま縮小貼付",
+   "reason": "引用図スライドの7割で文字が判読不能。必要部分だけ再作図し出所を左下に付ける",
+   "evidence": {
+    "n_slides": 27,
+    "n_with_ng": 19,
+    "rate": 0.7,
+    "base_rate_all_slides": 0.42
+   },
+   "checked_by": "grammar_check"
+  },
+  {
+   "id": "CB-36",
+   "judgement": "条件付き",
+   "combination": "ガント＋タスク注記・吹き出し",
+   "reason": "バーの外に注記を置き重ならなければOK。バー上に吹き出しを重ねると判読不能になる（ガントの半数で重なり・はみ出し）",
+   "evidence": {
+    "n_slides": 26,
+    "n_with_ng": 13,
+    "rate": 0.5,
+    "base_rate_all_slides": 0.19
+   },
+   "checked_by": "visual_evaluator"
+  }
+ ],
+ "diagram_types": [
+  {
+   "id": "DT-01",
+   "name": "表(テーブル)",
+   "when_to_use": "複数の選択肢を複数の評価軸で比較する(例: 方式比較の○△×表)。ボディ4表現形式の1つ",
+   "module_hint": "M-TABLE / M-MATRIX-SYM"
+  },
+  {
+   "id": "DT-02",
+   "name": "グラフ(チャート)",
+   "when_to_use": "定量FACTでメッセージを証明する。推移・構成比は積み上げ棒、2時点比較は棒+伸び率注記。タイトル・単位・出所必須、強調は1系統",
+   "module_hint": "M-CHART"
+  },
+  {
+   "id": "DT-03",
+   "name": "概念図(ポンチ絵)",
+   "when_to_use": "関係性・ロジック(AだからB)やスコープ全体像と構成要素を視覚的に示す。文字より伝わりやすい場面で",
+   "module_hint": "M-DIAGRAM-FLOW ほか"
+  },
+  {
+   "id": "DT-04",
+   "name": "テキスト",
+   "when_to_use": "図にしにくい説明。ボディ4表現形式の1つだが、可能なら図解化を優先",
+   "module_hint": "M-BULLETS"
+  },
+  {
+   "id": "DT-05",
+   "name": "紹介(単一ボックス)",
+   "when_to_use": "1つの対象・概念を紹介・説明する",
+   "module_hint": "G-1"
+  },
+  {
+   "id": "DT-06",
+   "name": "比較(左右2ボックス+中央区切り)",
+   "when_to_use": "2つの対象・案・良し悪し(NG/OK、AsIs/あるべき)を対比する。中央に縦長菱形の区切り、推奨側は色枠で強調",
+   "module_hint": "G-11 + R-VS"
+  },
+  {
+   "id": "DT-07",
+   "name": "順序(時系列・因果: 左右ボックス+右矢印)",
+   "when_to_use": "時間の前後、原因→結果、工程の流れを示す。必ず左→右",
+   "module_hint": "G-11 + R-CAUSE / M-CHEVRON"
+  },
+  {
+   "id": "DT-08",
+   "name": "全体像と部分(縦横軸の中に部分を配置)",
+   "when_to_use": "全体の中で対象部分の位置づけを示す(スコープ・領域の中の該当範囲)",
+   "module_hint": "縦横軸フレーム内の部分矩形 / M-2AXIS"
+  },
+  {
+   "id": "DT-09",
+   "name": "タテの指標(上/高→下/低)",
+   "when_to_use": "組織階層・ランキング・空間(高度)・年齢など上下・序列のある情報",
+   "module_hint": "縦配置・下向き矢印"
+  },
+  {
+   "id": "DT-10",
+   "name": "ヨコの指標(左→右)",
+   "when_to_use": "過去→未来、AsIs→ToBe、原因→結果、プロセス上流→下流",
+   "module_hint": "横配置・右向き矢印"
+  },
+  {
+   "id": "DT-11",
+   "name": "ロジックツリー(分類ツリー)",
+   "when_to_use": "対象を並列の構成要素に分解(組織構造)、打ち手を大分類→具体策に構造化",
+   "module_hint": "M-TREE"
+  },
+  {
+   "id": "DT-12",
+   "name": "階層ピラミッド",
+   "when_to_use": "序列・ランクのある構成要素(職位等級など)",
+   "module_hint": "M-PYRAMID"
+  },
+  {
+   "id": "DT-13",
+   "name": "地図+拠点",
+   "when_to_use": "空間的な分布・拠点の構造化",
+   "module_hint": "M-MAP"
+  },
+  {
+   "id": "DT-14",
+   "name": "ピラミッドストラクチャー/ガバニングチャート",
+   "when_to_use": "結論→理由→データの論理構成を設計・表示する。デッキ構成(サマリー→理由別スライド)の設計図",
+   "module_hint": "M-TREE + M-SLIDESTACK"
+  },
+  {
+   "id": "DT-15",
+   "name": "演繹・帰納の推論図",
+   "when_to_use": "普遍的FACTからの推論(上→下)と複数FACTの共通項からの導出(下→上)を説明する",
+   "module_hint": "M-TREE + 上下逆向き矢印"
+  },
+  {
+   "id": "DT-16",
+   "name": "土台積層図",
+   "when_to_use": "共通基盤(土台)の上に複数の活動・機能が乗る関係",
+   "module_hint": "M-LAYER"
+  },
+  {
+   "id": "DT-17",
+   "name": "列カテゴリ表(階層列見出し×説明×具体例)",
+   "when_to_use": "定性的なカテゴリ一覧を大分類/小分類の包含関係つきで並列比較する",
+   "module_hint": "G-N4 + M-HEADCOL"
+  },
+  {
+   "id": "DT-18",
+   "name": "バリューチェーン×観点マトリクス",
+   "when_to_use": "工程の流れ(列)ごとに担当・役割・必要機能(行)を整理し、必要な機能のまとまりを示す",
+   "module_hint": "G-MATRIX + M-DIAGRAM-FLOW"
+  },
+  {
+   "id": "DT-19",
+   "name": "インパクト重視ビジュアル",
+   "when_to_use": "プレゼンで印象付けたい場合。大きな写真・最小限の文字",
+   "module_hint": "hero=visual, density=low"
+  },
+  {
+   "id": "DT-20",
+   "name": "説明重視ボディ",
+   "when_to_use": "状況や論拠など詳細な説明が必要な場合(コンサル資料の標準)",
+   "module_hint": "density=mid〜high"
+  }
+ ]
+}

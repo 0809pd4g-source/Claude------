@@ -1,0 +1,149 @@
+{
+ "note": "提案書・報告書の定型ページ。人の提案書の多数派の作りに固定する（中身のページは内容に合わせて選ぶ）",
+ "deck_types": [
+  "proposal",
+  "report"
+ ],
+ "pages": {
+  "要旨": {
+   "family": [
+    "summary_points",
+    "text_blocks"
+   ],
+   "modules": [
+    "M-ZONE"
+   ],
+   "how": "提案書の本文の 1 枚目。エグゼクティブサマリー（M-ZONE style summary。番号の箱＋灰の面の行、項目は {lead: 要点, text: 説明} を 3〜5）か、目的と骨子（G-11 の M-ZONE×2 を R-TRI の三角でつなぐ。□ の箇条書き 2 段と ⇒ の結論）",
+   "never": [
+    "要旨を置かずに背景から始める",
+    "短い箇条書き 3 行だけの要旨"
+   ],
+   "evidence": {
+    "note": "人の提案書は冒頭に目的と骨子 → 選ばれる理由 → その根拠の順で置く"
+   }
+  },
+  "選ばれる理由": {
+   "family": [
+    "row_header"
+   ],
+   "modules": [
+    "M-ROWHEAD"
+   ],
+   "how": "課題 3 行 × 強み a/b/c（M-ROWHEAD の Why 型: 番号＋課題 ◀ 記号＋強みの要約｜縦線｜詳細）。続くページで a/b/c の根拠（実績・事例）を順に示す",
+   "never": [
+    "強みを課題と対応づけずにカードで並べる"
+   ],
+   "evidence": {
+    "note": "人の提案書は要旨の次に置き、根拠のページの区分名を a/b/c で揃える"
+   }
+  },
+  "体制": {
+   "family": [
+    "org"
+   ],
+   "modules": [
+    "M-ORG"
+   ],
+   "how": "貴社｜アクセンチュアを左右に並べたツリー。同じ階層を同じ高さにそろえ、提案範囲を破線で囲み、(F)/(P) の凡例と注記を付ける。人数・氏名を見せるときは人のアイコン（members: 専任＝塗り・兼任＝胴が白・専門家＝線だけ）と凡例を付ける",
+   "never": [
+    "体制ピラミッドとの組み合わせ（人の資料に無い）",
+    "カード・箇条書きでの体制の説明"
+   ],
+   "evidence": {
+    "n": 39,
+    "share": 0.62,
+    "families": {
+     "org": 24,
+     "roles": 7,
+     "meeting": 6,
+     "profile": 2
+    }
+   }
+  },
+  "会議体": {
+   "family": [
+    "meeting"
+   ],
+   "modules": [
+    "M-TABLE",
+    "M-MATRIX-SYM"
+   ],
+   "how": "会議名・目的/決めること・参加者・頻度の表。参加者を見せたいときは会議体×参加者の ●○ 表",
+   "never": [
+    "ピラミッドや図との組み合わせ"
+   ],
+   "evidence": {
+    "n": 8,
+    "share": 1.0,
+    "families": {
+     "meeting": 8
+    }
+   }
+  },
+  "計画": {
+   "family": [
+    "schedule"
+   ],
+   "modules": [
+    "M-GANTT"
+   ],
+   "how": "工程×月のガント。提案範囲の期間を破線で囲み、マイルストーンを ◆ で示す",
+   "never": [
+    "カード・矢羽根だけで期間を示す"
+   ],
+   "evidence": {
+    "n": 33,
+    "share": 0.76,
+    "families": {
+     "schedule": 25,
+     "process": 3,
+     "text_blocks": 1,
+     "screen": 1
+    }
+   }
+  },
+  "費用": {
+   "family": [
+    "estimate"
+   ],
+   "modules": [
+    "M-TABLE"
+   ],
+   "how": "区分・工数・金額の表。合計行を強調し、税・単価・前提の注記を付ける",
+   "never": [
+    "大きな数字だけで金額を示す"
+   ],
+   "evidence": {
+    "n": 21,
+    "share": 0.9,
+    "families": {
+     "estimate": 19,
+     "screen": 1,
+     "chart": 1
+    }
+   }
+  },
+  "前提": {
+   "family": [
+    "assumptions"
+   ],
+   "modules": [
+    "M-ROWHEAD",
+    "M-CHECKLIST"
+   ],
+   "how": "見積範囲・支払条件・作業場所・再委託などの行見出し＋ ✓ の箇条。2〜3 ページに分けてよい",
+   "never": [
+    "カードや図での前提の説明"
+   ],
+   "evidence": {
+    "n": 16,
+    "share": 0.88,
+    "families": {
+     "assumptions": 14,
+     "screen": 1,
+     "text_blocks": 1
+    }
+   }
+  }
+ }
+}

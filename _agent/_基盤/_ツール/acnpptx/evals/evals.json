@@ -1,0 +1,30 @@
+[
+  {
+    "id": "cover-agenda-order",
+    "eval_name": "cover-agenda-order",
+    "prompt": "DXロードマップの提案資料を作成して。構成は表紙・アジェンダ（4項目）・チェブロンフロー（5ステップ）・サマリーの4枚構成。ファイルは C:/tmp/eval_order.pptx に保存して。",
+    "expected_output": "4スライドのPPTXファイル。スライド1=カバー、スライド2=アジェンダ、スライド3=チェブロンフロー（Pattern P）、スライド4=サマリー",
+    "files": []
+  },
+  {
+    "id": "chevron-homePlate",
+    "eval_name": "chevron-homePlate",
+    "prompt": "クラウド移行の5ステップを示すチェブロンフロースライドを1枚作って。ステップは「① 現状分析」「② 設計・計画」「③ パイロット移行」「④ 本格展開」「⑤ 最適化」。ファイルは C:/tmp/eval_chevron.pptx に保存して。",
+    "expected_output": "1スライドのPPTXファイル。左端がhomePlate形状、残り4つがchevron形状のフロー図",
+    "files": []
+  },
+  {
+    "id": "short-labels-no-wrap",
+    "eval_name": "short-labels-no-wrap",
+    "prompt": "生成AIツール比較の3列スライド（Pattern K）を作って。列ヘッダーは「MCP」「API」「SDK」の3つ。各列に3〜4行の説明を入れて。ファイルは C:/tmp/eval_labels.pptx に保存して。",
+    "expected_output": "1スライドのPPTXファイル。3列レイアウト（Pattern K）、列ヘッダーが1行で表示される",
+    "files": []
+  },
+  {
+    "id": "mods-harness-sdlc-15plus",
+    "eval_name": "mods-harness-sdlc-15plus",
+    "prompt": "Claude Code の Mods 機能の紹介と、Harness・ループエンジニアリング・SDLC についてまとめて。表紙と最後のページを含まずに15枚以上",
+    "expected_output": "設定 Widget に「本文15枚以上」が依頼文から反映され、完了後は確認なしで最後まで進む。本文15枚以上、grammar_check / brand_check / verify_pptx の ERROR 0、構成の重複率40%以下、デッキ横断の型1つ以上、意味検索のアイコンと SVG 作図の図形が各1枚以上。取得できなかった記事は報告される",
+    "files": []
+  }
+]

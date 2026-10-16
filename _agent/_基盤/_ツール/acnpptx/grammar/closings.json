@@ -1,0 +1,460 @@
+{
+ "meta": {
+  "source": "実物デッキ25本・本文906枚の注釈から集計（実例参照は除去）",
+  "count_note": "count=その表現が出たスライド数、deck_count=出たデッキ数"
+ },
+ "closings": [
+  {
+   "id": "C-CONCLUSION",
+   "name_ja": "結論バー",
+   "family": "結論系",
+   "definition": "スライド下端(または上端)の全幅帯に結論・示唆を1〜2文で言い切る。",
+   "slots": [
+    "帯",
+    "結論文",
+    "強調語"
+   ],
+   "variants": [
+    "全幅の淡色/濃色結論バー",
+    "下向き三角+結論バー",
+    "⇒/➡付き太字1行(枠なし)",
+    "帰結ボックス(中央下)",
+    "白抜きシェブロンで結論"
+   ],
+   "use_when": "根拠を示した後に一言で示唆を固定したいとき(多くの本文スライド)。",
+   "avoid_when": "タイトルと同文の繰り返しになるとき。",
+   "capacity": {
+    "text": "1〜2行、60字以内",
+    "min_items": 1,
+    "max_items": 2,
+    "max_chars": 60
+   },
+   "count": 62,
+   "status": "core",
+   "svg_hint": "最下部に全幅の濃色横長帯、中に白抜きの1行",
+   "count_method": "label+callout_variant",
+   "deck_count": 22
+  },
+  {
+   "id": "C-NEXTACTION",
+   "name_ja": "Next Action",
+   "family": "行動系",
+   "definition": "次に取るべき行動・依頼・Next Stepsを帯やカードで示して締める。",
+   "slots": [
+    "見出し(Next Action)",
+    "行動/依頼項目",
+    "担当/期限"
+   ],
+   "variants": [
+    "Next Action帯",
+    "Next Steps 3枚カード",
+    "右向きシェブロン型カードの縦積み",
+    "要求項目枠"
+   ],
+   "use_when": "Ask/Plan系スライド、会議資料の締め。",
+   "avoid_when": "情報提供のみの頁。",
+   "capacity": {
+    "text": "1〜3項目",
+    "min_items": 1,
+    "max_items": 3
+   },
+   "count": 16,
+   "status": "core",
+   "svg_hint": "下端に左色帯付きの横長帯、右に3つの小さな矢羽カード",
+   "count_method": "label+callout_variant",
+   "deck_count": 8
+  },
+  {
+   "id": "C-TARGET",
+   "name_ja": "目標値・合計値",
+   "family": "数値系",
+   "definition": "右端の目標値列・合計行・試算結果の大数字で、施策や表を数値に着地させる。",
+   "slots": [
+    "目標値/合計",
+    "単位",
+    "根拠"
+   ],
+   "variants": [
+    "右端の目標値タイル列",
+    "合計値の黒帯",
+    "試算式の結果を大数字",
+    "ガント行末のTarget枠",
+    "KPIタイル"
+   ],
+   "use_when": "施策→効果→目標値、試算の締め。",
+   "avoid_when": "数値根拠がないとき。",
+   "capacity": {
+    "text": "数値1〜5",
+    "min_items": 1,
+    "max_items": 5
+   },
+   "count": 11,
+   "status": "extended",
+   "svg_hint": "表の右端に濃色の縦列、各行に大きな数字",
+   "deck_count": 4
+  },
+  {
+   "id": "C-OUTCOME",
+   "name_ja": "効果・成果物帯",
+   "family": "数値系",
+   "definition": "各列・各ペインの下端や最下段に、得られる効果・成果物・アウトプット例を帯やボックスで置く。",
+   "slots": [
+    "効果/成果物",
+    "帯/ボックス"
+   ],
+   "variants": [
+    "下段の『効果』行",
+    "各カード下部の成果ボックス",
+    "各列下端のOutput例",
+    "▼手元に残る成果物カード列",
+    "3インパクト帯"
+   ],
+   "use_when": "施策・工程・事例の価値を明示したいとき。",
+   "avoid_when": "効果が抽象的な美辞麗句になるとき。",
+   "capacity": {
+    "text": "1〜3",
+    "min_items": 1,
+    "max_items": 3
+   },
+   "count": 13,
+   "status": "extended",
+   "svg_hint": "列群の下端に淡色の帯、中に短い成果文",
+   "deck_count": 4
+  },
+  {
+   "id": "C-GOAL",
+   "name_ja": "ゴール帯",
+   "family": "結論系",
+   "definition": "大三角矢印の先や右上に到達ゴール・目指す状態を宣言して締める。",
+   "slots": [
+    "ゴール文",
+    "矢印/三角"
+   ],
+   "variants": [
+    "右端の大三角矢印+縦書きゴール帯",
+    "右上の到達ゴールタグ",
+    "最下段『目指す状態・要諦』行"
+   ],
+   "use_when": "アプローチ・ロードマップの到達点を示すとき。",
+   "avoid_when": "ゴールが本文と重複するとき。",
+   "capacity": {
+    "text": "1〜2",
+    "min_items": 1,
+    "max_items": 2
+   },
+   "count": 5,
+   "status": "extended",
+   "svg_hint": "左の内容から右端へ大きな灰色三角、その先に縦長の濃色帯",
+   "deck_count": 4
+  },
+  {
+   "id": "C-COLSUM",
+   "name_ja": "列末要約",
+   "family": "結論系",
+   "definition": "各列・各パネルの下端に▼と要約文・太字キーワードを置き、列ごとに結論を言い切る。",
+   "slots": [
+    "▼",
+    "列ごとの要約"
+   ],
+   "variants": [
+    "各列下端の▼+要約文",
+    "各パネル下の要点箇条",
+    "フェーズ下の太字キーワード",
+    "列末アイコン"
+   ],
+   "use_when": "並列の各列にそれぞれ結論があるとき。",
+   "avoid_when": "全体の結論が1つで足りるとき(結論バー)。",
+   "capacity": {
+    "text": "列数と同数、各30字",
+    "max_chars": 30
+   },
+   "count": 7,
+   "status": "core",
+   "svg_hint": "3列の各下端に小さな下向き三角と短い帯",
+   "deck_count": 6
+  },
+  {
+   "id": "C-POINTS",
+   "name_ja": "要点・ヒント枠",
+   "family": "補足系",
+   "definition": "ポイント箇条・原則パネル・プロのヒント・統合例文で、学びや作法を要約して締める。",
+   "slots": [
+    "見出し(ポイント/ヒント/原則)",
+    "箇条"
+   ],
+   "variants": [
+    "要点ボックス(淡赤)",
+    "右端の要点タイル",
+    "電球アイコンの『プロのヒント』",
+    "右サイドの原則パネル",
+    "サンプルプロンプト帯(統合例文)",
+    "有効なケースボックス"
+   ],
+   "use_when": "研修・ハウツーで持ち帰るべき要点を示すとき。",
+   "avoid_when": "提案の結論(結論バーへ)。",
+   "capacity": {
+    "text": "2〜4項目",
+    "min_items": 2,
+    "max_items": 4
+   },
+   "count": 26,
+   "status": "core",
+   "svg_hint": "右下に淡色の角丸枠、左上に電球アイコン、中に2本の箇条線",
+   "deck_count": 14
+  },
+  {
+   "id": "C-NAMING",
+   "name_ja": "命名・言い換え締め",
+   "family": "結論系",
+   "definition": "説明の最後に『⇒キーワード』『＝言い換え』や製品名タグで概念に名前を付けて締める。",
+   "slots": [
+    "⇒/＝",
+    "キーワード/製品名"
+   ],
+   "variants": [
+    "⇒大きな色文字キーワード",
+    "列末の色付き『＝』言い換え",
+    "製品名チップ+一文定義",
+    "ソリューション定義バー",
+    "根本コンセプトの引用"
+   ],
+   "use_when": "新概念・自社ソリューションを記憶させたいとき。",
+   "avoid_when": "命名が内容と合っていないとき。",
+   "capacity": {
+    "text": "1"
+   },
+   "count": 7,
+   "status": "extended",
+   "svg_hint": "箇条の下に太い⇒と大きな色付き単語",
+   "deck_count": 5
+  },
+  {
+   "id": "C-WHYUS",
+   "name_ja": "選ばれる理由行",
+   "family": "結論系",
+   "definition": "表・フェーズ図の最下行や帯に差別化根拠(なぜ自社か)を固定で置く。",
+   "slots": [
+    "行見出し(Why us)",
+    "差別化根拠"
+   ],
+   "variants": [
+    "最下行のWhy us行",
+    "全幅帯+選ばれる理由ボックス"
+   ],
+   "use_when": "提案・営業資料のアプローチ/体制頁。",
+   "avoid_when": "社内資料。",
+   "capacity": {
+    "text": "1行",
+    "max_items": 1
+   },
+   "count": 3,
+   "status": "extended",
+   "svg_hint": "表の最下行だけ濃い紫の行見出しと強調セル",
+   "deck_count": 1
+  },
+  {
+   "id": "C-DECISION",
+   "name_ja": "判断ガイド",
+   "family": "行動系",
+   "definition": "比較の直下に『条件→推奨選択肢』カードや判定ボックスを置き、比較を意思決定に変換する。",
+   "slots": [
+    "条件",
+    "推奨/判定"
+   ],
+   "variants": [
+    "選択の目安カード(状況→推奨経路)",
+    "判定ボックス+理由"
+   ],
+   "use_when": "選択肢比較の後に読み手が自分の状況で選べるようにしたいとき。",
+   "avoid_when": "推奨が1つに決まっているとき(結論バー)。",
+   "capacity": {
+    "text": "カード2〜4",
+    "min_items": 2,
+    "max_items": 4
+   },
+   "count": 1,
+   "status": "extended",
+   "svg_hint": "比較表の下に横並びの小カード、各カードに条件→矢印→推奨",
+   "deck_count": 1
+  },
+  {
+   "id": "C-SPAN",
+   "name_ja": "下端横断帯",
+   "family": "補足系",
+   "definition": "列群の下に全幅の両端矢印帯・土台帯・分類色帯を敷き、全体を括って締める。",
+   "slots": [
+    "横断帯",
+    "ラベル"
+   ],
+   "variants": [
+    "伴走支援の全幅両矢印帯",
+    "対象規模の土台帯",
+    "業務カテゴリの塗りつぶし帯",
+    "列下をまたぐ分類矢印バー",
+    "下段シェブロンで段階に対応"
+   ],
+   "use_when": "全体に共通する支援・基盤・範囲を最後に示すとき。",
+   "avoid_when": "個別列の結論が必要なとき(列末要約)。",
+   "capacity": {
+    "text": "1〜2本",
+    "min_items": 1,
+    "max_items": 2
+   },
+   "count": 11,
+   "status": "core",
+   "svg_hint": "列群の最下部に全幅の両端矢印付き帯",
+   "deck_count": 8
+  },
+  {
+   "id": "C-QUESTION",
+   "name_ja": "問いかけ締め",
+   "family": "行動系",
+   "definition": "結論ではなく聴衆への問いや参加呼びかけで締め、議論・参加を促す。",
+   "slots": [
+    "問い文",
+    "回答方法"
+   ],
+   "variants": [
+    "参加者への問いかけバー",
+    "右下の問い楕円",
+    "参加呼びかけバー"
+   ],
+   "use_when": "社内イベント・研修・論点提示の会議。",
+   "avoid_when": "意思決定を求める提案。",
+   "capacity": {
+    "text": "1〜2",
+    "min_items": 1,
+    "max_items": 2
+   },
+   "count": 4,
+   "status": "extended",
+   "svg_hint": "下端に鉤括弧付きの問い文が入った帯",
+   "deck_count": 3
+  },
+  {
+   "id": "C-BRIDGE",
+   "name_ja": "次への橋渡し",
+   "family": "誘導系",
+   "definition": "次頁・次工程への継続を矢印・Continueラベル・橋渡し文で示して締める。",
+   "slots": [
+    "矢印/ラベル",
+    "橋渡し文"
+   ],
+   "variants": [
+    "右端の縦長大矢印で次頁誘導",
+    "Continue...ラベル",
+    "下向き幅広矢印+橋渡し文",
+    "次工程の点線ペンタゴンタグ"
+   ],
+   "use_when": "連続デモ・処理の続き・章をまたぐ論理展開。",
+   "avoid_when": "独立した頁。",
+   "capacity": {
+    "text": "1"
+   },
+   "count": 6,
+   "status": "extended",
+   "svg_hint": "右端に縦長の淡色大矢印と短い文",
+   "count_method": "label+callout_variant",
+   "deck_count": 4
+  },
+  {
+   "id": "C-LINKBAND",
+   "name_ja": "リンク・連絡先帯",
+   "family": "誘導系",
+   "definition": "下端に教材・事例・問い合わせ先へのリンク帯や操作案内バーを置き、次の参照先へ誘導する。",
+   "slots": [
+    "帯ラベル",
+    "リンク/連絡先"
+   ],
+   "variants": [
+    "学習教材リンク帯",
+    "下端・左下のリンク帯ボタン",
+    "問い合わせ先の顔写真帯",
+    "操作案内バー(クリック誘導)"
+   ],
+   "use_when": "ハンドブック・ポータル・社内展開資料。",
+   "avoid_when": "印刷前提の資料。",
+   "capacity": {
+    "text": "リンク1〜4",
+    "min_items": 1,
+    "max_items": 4
+   },
+   "count": 15,
+   "status": "extended",
+   "svg_hint": "下端に指カーソルアイコン付きの淡色帯ボタン",
+   "deck_count": 1
+  },
+  {
+   "id": "C-CAVEAT",
+   "name_ja": "留意事項枠",
+   "family": "補足系",
+   "definition": "点線枠や⚠で前提・留意事項・移行リスク・範囲外の扱いを明示して締める。",
+   "slots": [
+    "⚠/点線枠",
+    "留意事項"
+   ],
+   "variants": [
+    "点線枠の留意事項",
+    "各列下端の『移行の壁』リスク枠",
+    "範囲外の扱いの補足帯",
+    "注意喚起の段落"
+   ],
+   "use_when": "前提条件や限界を誤解なく伝えたいとき。",
+   "avoid_when": "本文の主張を弱めるだけの過剰な但し書き。",
+   "capacity": {
+    "text": "1〜3項目",
+    "min_items": 1,
+    "max_items": 3
+   },
+   "count": 5,
+   "status": "extended",
+   "svg_hint": "下部に点線の角丸枠、左に小さな警告三角",
+   "deck_count": 5
+  },
+  {
+   "id": "C-NOTE",
+   "name_ja": "注記・脚注・凡例",
+   "family": "補足系",
+   "definition": "脚注・出典・前提・凡例を下端に小さく置く補足的な締め。",
+   "slots": [
+    "注記/出典/凡例"
+   ],
+   "variants": [
+    "脚注(前提・税・免責)",
+    "出典URL・学術的根拠",
+    "色/記号の凡例",
+    "表下の注記吹き出し"
+   ],
+   "use_when": "出典・前提・記号の定義が必要なとき。",
+   "avoid_when": "重要な主張を脚注に埋もれさせるとき。",
+   "capacity": {
+    "text": "1〜3行",
+    "min_items": 1,
+    "max_items": 3
+   },
+   "count": 34,
+   "status": "core",
+   "svg_hint": "最下部に小さな文字の細い行2本",
+   "deck_count": 14
+  },
+  {
+   "id": "C-NONE",
+   "name_ja": "締めなし",
+   "family": "補足系",
+   "definition": "明示的な締め要素を置かない(タイトル・本文で完結)。",
+   "slots": [],
+   "variants": [
+    "本文完結"
+   ],
+   "use_when": "図・表自体が結論を語る、連続頁の途中。",
+   "avoid_when": "示唆が読み取りにくい複雑な図。",
+   "capacity": {
+    "text": "-"
+   },
+   "count": 682,
+   "status": "core",
+   "svg_hint": "(締め要素なし)",
+   "deck_count": 25
+  }
+ ]
+}

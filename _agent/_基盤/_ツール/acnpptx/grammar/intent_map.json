@@ -1,0 +1,2920 @@
+{
+ "framework": {
+  "label_ja": "フレームワーク・概念図",
+  "observed_slides": 82,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-014"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-063"
+   },
+   {
+    "rank": 3,
+    "pattern": "P-017"
+   },
+   {
+    "rank": 4,
+    "pattern": "P-016"
+   },
+   {
+    "rank": 5,
+    "pattern": "P-019"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "hierarchy"
+    },
+    "ranking": [
+     "P-014",
+     "P-017",
+     "P-019",
+     "P-080",
+     "P-015"
+    ]
+   },
+   {
+    "if": {
+     "relation": "sequence"
+    },
+    "ranking": [
+     "P-035",
+     "P-064",
+     "P-017",
+     "P-019",
+     "P-033"
+    ]
+   },
+   {
+    "if": {
+     "relation": "parallel"
+    },
+    "ranking": [
+     "P-063",
+     "P-014",
+     "P-016",
+     "P-015",
+     "P-017"
+    ]
+   },
+   {
+    "if": {
+     "materials": "diagram"
+    },
+    "ranking": [
+     "P-017",
+     "P-019",
+     "P-014",
+     "P-016",
+     "P-022"
+    ]
+   },
+   {
+    "if": {
+     "materials": "icons"
+    },
+    "ranking": [
+     "P-019",
+     "P-016",
+     "P-063",
+     "P-017",
+     "P-035"
+    ]
+   },
+   {
+    "if": {
+     "density": "low"
+    },
+    "ranking": [
+     "P-064",
+     "P-015",
+     "P-019",
+     "P-022",
+     "P-035"
+    ]
+   },
+   {
+    "if": {
+     "density": "high"
+    },
+    "ranking": [
+     "P-048",
+     "P-017",
+     "P-044",
+     "P-076",
+     "P-011"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-017",
+   "P-016",
+   "P-014"
+  ],
+  "proposed_alternatives": [
+   "P-108",
+   "P-113",
+   "P-116"
+  ]
+ },
+ "howto": {
+  "label_ja": "操作手順・使い方",
+  "observed_slides": 77,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-056"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-057"
+   },
+   {
+    "rank": 3,
+    "pattern": "P-058"
+   },
+   {
+    "rank": 4,
+    "pattern": "P-059"
+   },
+   {
+    "rank": 5,
+    "pattern": "P-066"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "flow"
+    },
+    "ranking": [
+     "P-056",
+     "P-058",
+     "P-057",
+     "P-059",
+     "P-066"
+    ]
+   },
+   {
+    "if": {
+     "relation": "sequence"
+    },
+    "ranking": [
+     "P-057",
+     "P-056",
+     "P-058",
+     "P-066",
+     "P-059"
+    ]
+   },
+   {
+    "if": {
+     "relation": "parallel"
+    },
+    "ranking": [
+     "P-066",
+     "P-057",
+     "P-064",
+     "P-065",
+     "P-068"
+    ]
+   },
+   {
+    "if": {
+     "materials": "screenshot"
+    },
+    "ranking": [
+     "P-056",
+     "P-057",
+     "P-058",
+     "P-059",
+     "P-063"
+    ]
+   },
+   {
+    "if": {
+     "materials": "table_data"
+    },
+    "ranking": [
+     "P-056",
+     "P-059"
+    ]
+   },
+   {
+    "if": {
+     "density": "low"
+    },
+    "ranking": [
+     "P-057",
+     "P-059"
+    ]
+   },
+   {
+    "if": {
+     "density": "high"
+    },
+    "ranking": [
+     "P-056",
+     "P-066",
+     "P-010",
+     "P-025",
+     "P-036"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-057",
+   "P-058",
+   "P-056"
+  ],
+  "proposed_alternatives": [
+   "P-107",
+   "P-117",
+   "P-129"
+  ]
+ },
+ "overview": {
+  "label_ja": "全体像・構成",
+  "observed_slides": 67,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-078"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-008"
+   },
+   {
+    "rank": 3,
+    "pattern": "P-013"
+   },
+   {
+    "rank": 4,
+    "pattern": "P-014"
+   },
+   {
+    "rank": 5,
+    "pattern": "P-015"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "parallel"
+    },
+    "ranking": [
+     "P-078",
+     "P-008",
+     "P-013",
+     "P-014",
+     "P-015"
+    ]
+   },
+   {
+    "if": {
+     "relation": "hierarchy"
+    },
+    "ranking": [
+     "P-014",
+     "P-013",
+     "P-031",
+     "P-078",
+     "P-079"
+    ]
+   },
+   {
+    "if": {
+     "relation": "sequence"
+    },
+    "ranking": [
+     "P-015",
+     "P-031",
+     "P-020",
+     "P-080"
+    ]
+   },
+   {
+    "if": {
+     "materials": "icons"
+    },
+    "ranking": [
+     "P-008",
+     "P-078",
+     "P-013",
+     "P-014",
+     "P-018"
+    ]
+   },
+   {
+    "if": {
+     "materials": "screenshot"
+    },
+    "ranking": [
+     "P-013",
+     "P-060",
+     "P-074",
+     "P-008",
+     "P-014"
+    ]
+   },
+   {
+    "if": {
+     "density": "low"
+    },
+    "ranking": [
+     "P-015",
+     "P-060",
+     "P-074",
+     "P-008",
+     "P-014"
+    ]
+   },
+   {
+    "if": {
+     "density": "high"
+    },
+    "ranking": [
+     "P-008",
+     "P-013",
+     "P-014",
+     "P-031",
+     "P-078"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-015",
+   "P-013",
+   "P-014"
+  ],
+  "proposed_alternatives": [
+   "P-107",
+   "P-108",
+   "P-110",
+   "P-122",
+   "P-136"
+  ]
+ },
+ "case": {
+  "label_ja": "事例紹介",
+  "observed_slides": 58,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-052"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-053"
+   },
+   {
+    "rank": 3,
+    "pattern": "P-054"
+   },
+   {
+    "rank": 4,
+    "pattern": "P-062"
+   },
+   {
+    "rank": 5,
+    "pattern": "P-074"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "parallel"
+    },
+    "ranking": [
+     "P-052",
+     "P-053",
+     "P-054",
+     "P-074",
+     "P-079"
+    ]
+   },
+   {
+    "if": {
+     "relation": "sequence"
+    },
+    "ranking": [
+     "P-052",
+     "P-053"
+    ]
+   },
+   {
+    "if": {
+     "relation": "flow"
+    },
+    "ranking": [
+     "P-013",
+     "P-018",
+     "P-053",
+     "P-059",
+     "P-062"
+    ]
+   },
+   {
+    "if": {
+     "materials": "photo"
+    },
+    "ranking": [
+     "P-053",
+     "P-052",
+     "P-074",
+     "P-013"
+    ]
+   },
+   {
+    "if": {
+     "materials": "screenshot"
+    },
+    "ranking": [
+     "P-052",
+     "P-053",
+     "P-062",
+     "P-026",
+     "P-050"
+    ]
+   },
+   {
+    "if": {
+     "density": "low"
+    },
+    "ranking": [
+     "P-053",
+     "P-050",
+     "P-052",
+     "P-054",
+     "P-062"
+    ]
+   },
+   {
+    "if": {
+     "density": "high"
+    },
+    "ranking": [
+     "P-052",
+     "P-054",
+     "P-053",
+     "P-079",
+     "P-010"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-052",
+   "P-053",
+   "P-054"
+  ],
+  "proposed_alternatives": [
+   "P-106",
+   "P-107",
+   "P-115",
+   "P-127",
+   "P-128"
+  ]
+ },
+ "phases": {
+  "label_ja": "段階・ステップ",
+  "observed_slides": 56,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-031"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-032"
+   },
+   {
+    "rank": 3,
+    "pattern": "P-033"
+   },
+   {
+    "rank": 4,
+    "pattern": "P-034"
+   },
+   {
+    "rank": 5,
+    "pattern": "P-035"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "sequence"
+    },
+    "ranking": [
+     "P-031",
+     "P-032",
+     "P-033",
+     "P-034",
+     "P-035"
+    ]
+   },
+   {
+    "if": {
+     "relation": "hierarchy"
+    },
+    "ranking": [
+     "P-031",
+     "P-006",
+     "P-032",
+     "P-034",
+     "P-035"
+    ]
+   },
+   {
+    "if": {
+     "relation": "flow"
+    },
+    "ranking": [
+     "P-031",
+     "P-019",
+     "P-032",
+     "P-033",
+     "P-038"
+    ]
+   },
+   {
+    "if": {
+     "materials": "icons"
+    },
+    "ranking": [
+     "P-031",
+     "P-032",
+     "P-034",
+     "P-035",
+     "P-033"
+    ]
+   },
+   {
+    "if": {
+     "materials": "diagram"
+    },
+    "ranking": [
+     "P-031",
+     "P-034",
+     "P-035",
+     "P-032",
+     "P-040"
+    ]
+   },
+   {
+    "if": {
+     "density": "high"
+    },
+    "ranking": [
+     "P-032",
+     "P-031",
+     "P-033",
+     "P-035",
+     "P-080"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-031",
+   "P-032",
+   "P-033"
+  ],
+  "proposed_alternatives": [
+   "P-116",
+   "P-117",
+   "P-119",
+   "P-136"
+  ]
+ },
+ "definition": {
+  "label_ja": "定義・用語",
+  "observed_slides": 49,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-077"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-061"
+   },
+   {
+    "rank": 3,
+    "pattern": "P-074"
+   },
+   {
+    "rank": 4,
+    "pattern": "P-076"
+   },
+   {
+    "rank": 5,
+    "pattern": "P-014"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "hierarchy"
+    },
+    "ranking": [
+     "P-014",
+     "P-074",
+     "P-076",
+     "P-013",
+     "P-019"
+    ]
+   },
+   {
+    "if": {
+     "relation": "parallel"
+    },
+    "ranking": [
+     "P-061",
+     "P-078",
+     "P-073",
+     "P-077",
+     "P-014"
+    ]
+   },
+   {
+    "if": {
+     "relation": "contrast"
+    },
+    "ranking": [
+     "P-021",
+     "P-077",
+     "P-075"
+    ]
+   },
+   {
+    "if": {
+     "materials": "diagram"
+    },
+    "ranking": [
+     "P-076",
+     "P-061",
+     "P-074",
+     "P-013",
+     "P-014"
+    ]
+   },
+   {
+    "if": {
+     "materials": "screenshot"
+    },
+    "ranking": [
+     "P-076",
+     "P-061",
+     "P-072"
+    ]
+   },
+   {
+    "if": {
+     "density": "low"
+    },
+    "ranking": [
+     "P-073",
+     "P-074",
+     "P-061",
+     "P-063",
+     "P-075"
+    ]
+   },
+   {
+    "if": {
+     "density": "high"
+    },
+    "ranking": [
+     "P-077",
+     "P-014",
+     "P-019",
+     "P-021",
+     "P-041"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-074",
+   "P-073",
+   "P-077"
+  ],
+  "proposed_alternatives": [
+   "P-111",
+   "P-135"
+  ]
+ },
+ "comparison": {
+  "label_ja": "比較・評価",
+  "observed_slides": 48,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-023"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-021"
+   },
+   {
+    "rank": 3,
+    "pattern": "P-024"
+   },
+   {
+    "rank": 4,
+    "pattern": "P-022"
+   },
+   {
+    "rank": 5,
+    "pattern": "P-026"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "contrast"
+    },
+    "ranking": [
+     "P-021",
+     "P-023",
+     "P-024",
+     "P-022",
+     "P-026"
+    ]
+   },
+   {
+    "if": {
+     "relation": "parallel"
+    },
+    "ranking": [
+     "P-023",
+     "P-024",
+     "P-078"
+    ]
+   },
+   {
+    "if": {
+     "relation": "sequence"
+    },
+    "ranking": [
+     "P-023",
+     "P-029",
+     "P-002",
+     "P-020",
+     "P-021"
+    ]
+   },
+   {
+    "if": {
+     "materials": "table_data"
+    },
+    "ranking": [
+     "P-023",
+     "P-021",
+     "P-024",
+     "P-055"
+    ]
+   },
+   {
+    "if": {
+     "materials": "diagram"
+    },
+    "ranking": [
+     "P-021",
+     "P-026",
+     "P-023"
+    ]
+   },
+   {
+    "if": {
+     "density": "low"
+    },
+    "ranking": [
+     "P-021"
+    ]
+   },
+   {
+    "if": {
+     "density": "high"
+    },
+    "ranking": [
+     "P-023",
+     "P-021",
+     "P-024",
+     "P-025",
+     "P-026"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-023",
+   "P-021",
+   "P-022"
+  ],
+  "proposed_alternatives": [
+   "P-111",
+   "P-112",
+   "P-113"
+  ]
+ },
+ "fact_to_insight": {
+  "label_ja": "事実→示唆",
+  "observed_slides": 36,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-002"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-001"
+   },
+   {
+    "rank": 3,
+    "pattern": "P-051"
+   },
+   {
+    "rank": 4,
+    "pattern": "P-050"
+   },
+   {
+    "rank": 5,
+    "pattern": "P-003"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "cause"
+    },
+    "ranking": [
+     "P-001",
+     "P-002",
+     "P-005",
+     "P-050",
+     "P-051"
+    ]
+   },
+   {
+    "if": {
+     "relation": "parallel"
+    },
+    "ranking": [
+     "P-001",
+     "P-002",
+     "P-003",
+     "P-051",
+     "P-072"
+    ]
+   },
+   {
+    "if": {
+     "relation": "contrast"
+    },
+    "ranking": [
+     "P-002",
+     "P-055",
+     "P-005",
+     "P-024",
+     "P-034"
+    ]
+   },
+   {
+    "if": {
+     "materials": "numbers"
+    },
+    "ranking": [
+     "P-001",
+     "P-002",
+     "P-050",
+     "P-051",
+     "P-003"
+    ]
+   },
+   {
+    "if": {
+     "materials": "chart"
+    },
+    "ranking": [
+     "P-002",
+     "P-001",
+     "P-050",
+     "P-051",
+     "P-003"
+    ]
+   },
+   {
+    "if": {
+     "density": "low"
+    },
+    "ranking": [
+     "P-002"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-001",
+   "P-002",
+   "P-003"
+  ],
+  "proposed_alternatives": [
+   "P-101",
+   "P-102",
+   "P-103",
+   "P-105",
+   "P-107",
+   "P-125"
+  ]
+ },
+ "scope": {
+  "label_ja": "対象範囲・前提",
+  "observed_slides": 35,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-015"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-079"
+   },
+   {
+    "rank": 3,
+    "pattern": "P-025"
+   },
+   {
+    "rank": 4,
+    "pattern": "P-038"
+   },
+   {
+    "rank": 5,
+    "pattern": "P-005"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "parallel"
+    },
+    "ranking": [
+     "P-079",
+     "P-015",
+     "P-025",
+     "P-067",
+     "P-080"
+    ]
+   },
+   {
+    "if": {
+     "relation": "hierarchy"
+    },
+    "ranking": [
+     "P-015",
+     "P-079",
+     "P-025",
+     "P-038",
+     "P-005"
+    ]
+   },
+   {
+    "if": {
+     "relation": "sequence"
+    },
+    "ranking": [
+     "P-015",
+     "P-038"
+    ]
+   },
+   {
+    "if": {
+     "materials": "table_data"
+    },
+    "ranking": [
+     "P-079",
+     "P-025",
+     "P-015",
+     "P-044"
+    ]
+   },
+   {
+    "if": {
+     "materials": "diagram"
+    },
+    "ranking": [
+     "P-015",
+     "P-038",
+     "P-079",
+     "P-080"
+    ]
+   },
+   {
+    "if": {
+     "density": "low"
+    },
+    "ranking": [
+     "P-079"
+    ]
+   },
+   {
+    "if": {
+     "density": "high"
+    },
+    "ranking": [
+     "P-015",
+     "P-079",
+     "P-025",
+     "P-038",
+     "P-005"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-015",
+   "P-038",
+   "P-079"
+  ],
+  "proposed_alternatives": [
+   "P-109",
+   "P-112",
+   "P-117"
+  ]
+ },
+ "architecture": {
+  "label_ja": "システム構成・仕組み",
+  "observed_slides": 31,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-018"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-014"
+   },
+   {
+    "rank": 3,
+    "pattern": "P-013"
+   },
+   {
+    "rank": 4,
+    "pattern": "P-036"
+   },
+   {
+    "rank": 5,
+    "pattern": "P-019"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "flow"
+    },
+    "ranking": [
+     "P-018",
+     "P-036",
+     "P-013",
+     "P-014",
+     "P-019"
+    ]
+   },
+   {
+    "if": {
+     "relation": "hierarchy"
+    },
+    "ranking": [
+     "P-014",
+     "P-013",
+     "P-018",
+     "P-036",
+     "P-043"
+    ]
+   },
+   {
+    "if": {
+     "relation": "mutual"
+    },
+    "ranking": [
+     "P-036",
+     "P-018",
+     "P-019",
+     "P-043"
+    ]
+   },
+   {
+    "if": {
+     "materials": "diagram"
+    },
+    "ranking": [
+     "P-018",
+     "P-013",
+     "P-014",
+     "P-036",
+     "P-019"
+    ]
+   },
+   {
+    "if": {
+     "materials": "icons"
+    },
+    "ranking": [
+     "P-018",
+     "P-036",
+     "P-013",
+     "P-014",
+     "P-019"
+    ]
+   },
+   {
+    "if": {
+     "density": "high"
+    },
+    "ranking": [
+     "P-013",
+     "P-014",
+     "P-036",
+     "P-043"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-018",
+   "P-013",
+   "P-019"
+  ],
+  "proposed_alternatives": []
+ },
+ "problem_solution": {
+  "label_ja": "課題→解決",
+  "observed_slides": 30,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-007"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-011"
+   },
+   {
+    "rank": 3,
+    "pattern": "P-027"
+   },
+   {
+    "rank": 4,
+    "pattern": "P-072"
+   },
+   {
+    "rank": 5,
+    "pattern": "P-004"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "solve"
+    },
+    "ranking": [
+     "P-007",
+     "P-011",
+     "P-072",
+     "P-075",
+     "P-004"
+    ]
+   },
+   {
+    "if": {
+     "relation": "flow"
+    },
+    "ranking": [
+     "P-011",
+     "P-007",
+     "P-027",
+     "P-025",
+     "P-075"
+    ]
+   },
+   {
+    "if": {
+     "relation": "sequence"
+    },
+    "ranking": [
+     "P-007",
+     "P-011",
+     "P-004",
+     "P-072"
+    ]
+   },
+   {
+    "if": {
+     "materials": "icons"
+    },
+    "ranking": [
+     "P-007",
+     "P-011",
+     "P-027",
+     "P-004",
+     "P-025"
+    ]
+   },
+   {
+    "if": {
+     "materials": "diagram"
+    },
+    "ranking": [
+     "P-011",
+     "P-007",
+     "P-027",
+     "P-075",
+     "P-006"
+    ]
+   },
+   {
+    "if": {
+     "density": "high"
+    },
+    "ranking": [
+     "P-011",
+     "P-007",
+     "P-025",
+     "P-027",
+     "P-072"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-007",
+   "P-006",
+   "P-011"
+  ],
+  "proposed_alternatives": []
+ },
+ "org": {
+  "label_ja": "体制",
+  "observed_slides": 29,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-041"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-042"
+   },
+   {
+    "rank": 3,
+    "pattern": "P-044"
+   },
+   {
+    "rank": 4,
+    "pattern": "P-045"
+   },
+   {
+    "rank": 5,
+    "pattern": "P-014"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "hierarchy"
+    },
+    "ranking": [
+     "P-041",
+     "P-042",
+     "P-044",
+     "P-014",
+     "P-043"
+    ]
+   },
+   {
+    "if": {
+     "relation": "parallel"
+    },
+    "ranking": [
+     "P-044",
+     "P-045",
+     "P-024",
+     "P-041",
+     "P-063"
+    ]
+   },
+   {
+    "if": {
+     "relation": "mutual"
+    },
+    "ranking": [
+     "P-041",
+     "P-042",
+     "P-043",
+     "P-014",
+     "P-019"
+    ]
+   },
+   {
+    "if": {
+     "materials": "people_org"
+    },
+    "ranking": [
+     "P-042",
+     "P-041",
+     "P-044",
+     "P-045",
+     "P-015"
+    ]
+   },
+   {
+    "if": {
+     "materials": "icons"
+    },
+    "ranking": [
+     "P-041",
+     "P-042",
+     "P-019",
+     "P-037",
+     "P-044"
+    ]
+   },
+   {
+    "if": {
+     "density": "low"
+    },
+    "ranking": [
+     "P-041",
+     "P-044",
+     "P-045",
+     "P-063",
+     "P-071"
+    ]
+   },
+   {
+    "if": {
+     "density": "high"
+    },
+    "ranking": [
+     "P-041",
+     "P-024",
+     "P-037",
+     "P-044",
+     "P-045"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-041",
+   "P-042",
+   "P-044"
+  ],
+  "proposed_alternatives": [
+   "P-120",
+   "P-121",
+   "P-131"
+  ]
+ },
+ "asis_tobe": {
+  "label_ja": "現状→将来",
+  "observed_slides": 27,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-027"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-029"
+   },
+   {
+    "rank": 3,
+    "pattern": "P-030"
+   },
+   {
+    "rank": 4,
+    "pattern": "P-028"
+   },
+   {
+    "rank": 5,
+    "pattern": "P-064"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "contrast"
+    },
+    "ranking": [
+     "P-027",
+     "P-029",
+     "P-028",
+     "P-030",
+     "P-064"
+    ]
+   },
+   {
+    "if": {
+     "relation": "sequence"
+    },
+    "ranking": [
+     "P-029",
+     "P-028",
+     "P-025",
+     "P-030",
+     "P-072"
+    ]
+   },
+   {
+    "if": {
+     "relation": "flow"
+    },
+    "ranking": [
+     "P-028",
+     "P-029",
+     "P-072",
+     "P-080",
+     "P-019"
+    ]
+   },
+   {
+    "if": {
+     "materials": "diagram"
+    },
+    "ranking": [
+     "P-027",
+     "P-028",
+     "P-029",
+     "P-019",
+     "P-059"
+    ]
+   },
+   {
+    "if": {
+     "materials": "icons"
+    },
+    "ranking": [
+     "P-027",
+     "P-028",
+     "P-029",
+     "P-019",
+     "P-059"
+    ]
+   },
+   {
+    "if": {
+     "density": "high"
+    },
+    "ranking": [
+     "P-029",
+     "P-027",
+     "P-028",
+     "P-025",
+     "P-030"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-027",
+   "P-028",
+   "P-029"
+  ],
+  "proposed_alternatives": [
+   "P-113",
+   "P-114",
+   "P-115",
+   "P-125"
+  ]
+ },
+ "schedule": {
+  "label_ja": "計画・スケジュール",
+  "observed_slides": 25,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-037"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-039"
+   },
+   {
+    "rank": 3,
+    "pattern": "P-034"
+   },
+   {
+    "rank": 4,
+    "pattern": "P-038"
+   },
+   {
+    "rank": 5,
+    "pattern": "P-025"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "sequence"
+    },
+    "ranking": [
+     "P-037",
+     "P-039",
+     "P-034",
+     "P-038",
+     "P-035"
+    ]
+   },
+   {
+    "if": {
+     "relation": "parallel"
+    },
+    "ranking": [
+     "P-037",
+     "P-025",
+     "P-038",
+     "P-039",
+     "P-072"
+    ]
+   },
+   {
+    "if": {
+     "relation": "hierarchy"
+    },
+    "ranking": [
+     "P-037",
+     "P-025",
+     "P-034",
+     "P-038"
+    ]
+   },
+   {
+    "if": {
+     "materials": "diagram"
+    },
+    "ranking": [
+     "P-037",
+     "P-038",
+     "P-039",
+     "P-034",
+     "P-035"
+    ]
+   },
+   {
+    "if": {
+     "materials": "table_data"
+    },
+    "ranking": [
+     "P-025",
+     "P-034",
+     "P-037"
+    ]
+   },
+   {
+    "if": {
+     "density": "high"
+    },
+    "ranking": [
+     "P-037",
+     "P-034",
+     "P-039",
+     "P-025",
+     "P-038"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-037",
+   "P-038",
+   "P-039"
+  ],
+  "proposed_alternatives": [
+   "P-118",
+   "P-119",
+   "P-120",
+   "P-121"
+  ]
+ },
+ "strengths": {
+  "label_ja": "強み・柱",
+  "observed_slides": 23,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-008"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-009"
+   },
+   {
+    "rank": 3,
+    "pattern": "P-024"
+   },
+   {
+    "rank": 4,
+    "pattern": "P-043"
+   },
+   {
+    "rank": 5,
+    "pattern": "P-005"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "parallel"
+    },
+    "ranking": [
+     "P-008",
+     "P-009",
+     "P-005",
+     "P-024",
+     "P-043"
+    ]
+   },
+   {
+    "if": {
+     "relation": "converge"
+    },
+    "ranking": [
+     "P-008",
+     "P-010",
+     "P-017"
+    ]
+   },
+   {
+    "if": {
+     "relation": "multiply"
+    },
+    "ranking": [
+     "P-009"
+    ]
+   },
+   {
+    "if": {
+     "materials": "icons"
+    },
+    "ranking": [
+     "P-008",
+     "P-024",
+     "P-029",
+     "P-061"
+    ]
+   },
+   {
+    "if": {
+     "materials": "logos"
+    },
+    "ranking": [
+     "P-009",
+     "P-008",
+     "P-010"
+    ]
+   },
+   {
+    "if": {
+     "density": "low"
+    },
+    "ranking": [
+     "P-008"
+    ]
+   },
+   {
+    "if": {
+     "density": "high"
+    },
+    "ranking": [
+     "P-017",
+     "P-024",
+     "P-029",
+     "P-043",
+     "P-061"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-008",
+   "P-009",
+   "P-010"
+  ],
+  "proposed_alternatives": [
+   "P-106"
+  ]
+ },
+ "exercise": {
+  "label_ja": "演習・クイズ・テンプレート(new)",
+  "observed_slides": 21,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-067"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-065"
+   },
+   {
+    "rank": 3,
+    "pattern": "P-061"
+   },
+   {
+    "rank": 4,
+    "pattern": "P-064"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "parallel"
+    },
+    "ranking": [
+     "P-067",
+     "P-064",
+     "P-065"
+    ]
+   },
+   {
+    "if": {
+     "relation": "contrast"
+    },
+    "ranking": [
+     "P-067",
+     "P-061"
+    ]
+   },
+   {
+    "if": {
+     "relation": "sequence"
+    },
+    "ranking": [
+     "P-067"
+    ]
+   },
+   {
+    "if": {
+     "materials": "photo"
+    },
+    "ranking": [
+     "P-067"
+    ]
+   },
+   {
+    "if": {
+     "materials": "icons"
+    },
+    "ranking": [
+     "P-067",
+     "P-061"
+    ]
+   },
+   {
+    "if": {
+     "density": "low"
+    },
+    "ranking": [
+     "P-067",
+     "P-061"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-067",
+   "P-065"
+  ],
+  "proposed_alternatives": [
+   "P-130"
+  ]
+ },
+ "risk": {
+  "label_ja": "リスク・論点",
+  "observed_slides": 21,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-005"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-004"
+   },
+   {
+    "rank": 3,
+    "pattern": "P-022"
+   },
+   {
+    "rank": 4,
+    "pattern": "P-025"
+   },
+   {
+    "rank": 5,
+    "pattern": "P-043"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "parallel"
+    },
+    "ranking": [
+     "P-005",
+     "P-004",
+     "P-025"
+    ]
+   },
+   {
+    "if": {
+     "relation": "contrast"
+    },
+    "ranking": [
+     "P-004",
+     "P-022",
+     "P-072"
+    ]
+   },
+   {
+    "if": {
+     "relation": "hierarchy"
+    },
+    "ranking": [
+     "P-005",
+     "P-025"
+    ]
+   },
+   {
+    "if": {
+     "materials": "icons"
+    },
+    "ranking": [
+     "P-004",
+     "P-005"
+    ]
+   },
+   {
+    "if": {
+     "materials": "diagram"
+    },
+    "ranking": [
+     "P-004",
+     "P-043"
+    ]
+   },
+   {
+    "if": {
+     "density": "low"
+    },
+    "ranking": [
+     "P-004"
+    ]
+   },
+   {
+    "if": {
+     "density": "high"
+    },
+    "ranking": [
+     "P-005",
+     "P-025"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-005",
+   "P-004"
+  ],
+  "proposed_alternatives": [
+   "P-104",
+   "P-134"
+  ]
+ },
+ "target": {
+  "label_ja": "目標・KPI",
+  "observed_slides": 19,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-047"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-067"
+   },
+   {
+    "rank": 3,
+    "pattern": "P-002"
+   },
+   {
+    "rank": 4,
+    "pattern": "P-016"
+   },
+   {
+    "rank": 5,
+    "pattern": "P-020"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "parallel"
+    },
+    "ranking": [
+     "P-047",
+     "P-067",
+     "P-016",
+     "P-020",
+     "P-050"
+    ]
+   },
+   {
+    "if": {
+     "relation": "hierarchy"
+    },
+    "ranking": [
+     "P-047",
+     "P-016"
+    ]
+   },
+   {
+    "if": {
+     "materials": "numbers"
+    },
+    "ranking": [
+     "P-047",
+     "P-002",
+     "P-020",
+     "P-050",
+     "P-051"
+    ]
+   },
+   {
+    "if": {
+     "materials": "table_data"
+    },
+    "ranking": [
+     "P-047",
+     "P-034",
+     "P-050",
+     "P-051"
+    ]
+   },
+   {
+    "if": {
+     "density": "low"
+    },
+    "ranking": [
+     "P-067",
+     "P-047"
+    ]
+   },
+   {
+    "if": {
+     "density": "high"
+    },
+    "ranking": [
+     "P-047",
+     "P-034",
+     "P-051"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-047",
+   "P-046",
+   "P-050"
+  ],
+  "proposed_alternatives": [
+   "P-122",
+   "P-123",
+   "P-124",
+   "P-125",
+   "P-126"
+  ]
+ },
+ "output_sample": {
+  "label_ja": "成果物・出力サンプル提示(new)",
+  "observed_slides": 18,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-062"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-060"
+   },
+   {
+    "rank": 3,
+    "pattern": "P-002"
+   },
+   {
+    "rank": 4,
+    "pattern": "P-006"
+   },
+   {
+    "rank": 5,
+    "pattern": "P-017"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "hierarchy"
+    },
+    "ranking": [
+     "P-062",
+     "P-060",
+     "P-006"
+    ]
+   },
+   {
+    "if": {
+     "relation": "parallel"
+    },
+    "ranking": [
+     "P-062",
+     "P-060"
+    ]
+   },
+   {
+    "if": {
+     "materials": "screenshot"
+    },
+    "ranking": [
+     "P-062",
+     "P-060",
+     "P-017",
+     "P-056",
+     "P-064"
+    ]
+   },
+   {
+    "if": {
+     "materials": "diagram"
+    },
+    "ranking": [
+     "P-006",
+     "P-017",
+     "P-062",
+     "P-064"
+    ]
+   },
+   {
+    "if": {
+     "density": "low"
+    },
+    "ranking": [
+     "P-062",
+     "P-002"
+    ]
+   },
+   {
+    "if": {
+     "density": "high"
+    },
+    "ranking": [
+     "P-006",
+     "P-056",
+     "P-062"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-062",
+   "P-060"
+  ],
+  "proposed_alternatives": []
+ },
+ "estimate": {
+  "label_ja": "試算",
+  "observed_slides": 17,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-049"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-048"
+   },
+   {
+    "rank": 3,
+    "pattern": "P-037"
+   },
+   {
+    "rank": 4,
+    "pattern": "P-050"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "add"
+    },
+    "ranking": [
+     "P-049",
+     "P-048",
+     "P-037"
+    ]
+   },
+   {
+    "if": {
+     "relation": "equation"
+    },
+    "ranking": [
+     "P-048",
+     "P-049",
+     "P-050"
+    ]
+   },
+   {
+    "if": {
+     "relation": "parallel"
+    },
+    "ranking": [
+     "P-049",
+     "P-037"
+    ]
+   },
+   {
+    "if": {
+     "materials": "numbers"
+    },
+    "ranking": [
+     "P-049",
+     "P-048",
+     "P-037",
+     "P-050"
+    ]
+   },
+   {
+    "if": {
+     "materials": "table_data"
+    },
+    "ranking": [
+     "P-049",
+     "P-048",
+     "P-037",
+     "P-050"
+    ]
+   },
+   {
+    "if": {
+     "density": "low"
+    },
+    "ranking": [
+     "P-049"
+    ]
+   },
+   {
+    "if": {
+     "density": "high"
+    },
+    "ranking": [
+     "P-049",
+     "P-048",
+     "P-037",
+     "P-050"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-048",
+   "P-049"
+  ],
+  "proposed_alternatives": [
+   "P-120",
+   "P-123",
+   "P-124"
+  ]
+ },
+ "summary": {
+  "label_ja": "エグゼクティブサマリー",
+  "observed_slides": 13,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-012"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-015"
+   },
+   {
+    "rank": 3,
+    "pattern": "P-025"
+   },
+   {
+    "rank": 4,
+    "pattern": "P-075"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "parallel"
+    },
+    "ranking": [
+     "P-012",
+     "P-015",
+     "P-025",
+     "P-075"
+    ]
+   },
+   {
+    "if": {
+     "relation": "sequence"
+    },
+    "ranking": [
+     "P-012",
+     "P-015",
+     "P-075"
+    ]
+   },
+   {
+    "if": {
+     "relation": "cause"
+    },
+    "ranking": [
+     "P-012"
+    ]
+   },
+   {
+    "if": {
+     "materials": "icons"
+    },
+    "ranking": [
+     "P-015",
+     "P-025",
+     "P-075"
+    ]
+   },
+   {
+    "if": {
+     "density": "low"
+    },
+    "ranking": [
+     "P-012"
+    ]
+   },
+   {
+    "if": {
+     "density": "high"
+    },
+    "ranking": [
+     "P-012"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-012"
+  ],
+  "proposed_alternatives": [
+   "P-110",
+   "P-130",
+   "P-132",
+   "P-134"
+  ]
+ },
+ "prompt_demo": {
+  "label_ja": "プロンプト実演(new)",
+  "observed_slides": 13,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-061"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-056"
+   },
+   {
+    "rank": 3,
+    "pattern": "P-066"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "flow"
+    },
+    "ranking": [
+     "P-061",
+     "P-056",
+     "P-066"
+    ]
+   },
+   {
+    "if": {
+     "relation": "contrast"
+    },
+    "ranking": [
+     "P-061",
+     "P-066"
+    ]
+   },
+   {
+    "if": {
+     "materials": "screenshot"
+    },
+    "ranking": [
+     "P-061",
+     "P-056",
+     "P-066"
+    ]
+   },
+   {
+    "if": {
+     "materials": "icons"
+    },
+    "ranking": [
+     "P-061",
+     "P-056",
+     "P-066"
+    ]
+   },
+   {
+    "if": {
+     "density": "high"
+    },
+    "ranking": [
+     "P-056",
+     "P-066",
+     "P-061"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-061",
+   "P-056"
+  ],
+  "proposed_alternatives": []
+ },
+ "criteria": {
+  "label_ja": "要点・条件・ゴール宣言(new)",
+  "observed_slides": 11,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-064"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-073"
+   },
+   {
+    "rank": 3,
+    "pattern": "P-067"
+   },
+   {
+    "rank": 4,
+    "pattern": "P-025"
+   },
+   {
+    "rank": 5,
+    "pattern": "P-050"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "hierarchy"
+    },
+    "ranking": [
+     "P-064",
+     "P-025",
+     "P-067"
+    ]
+   },
+   {
+    "if": {
+     "relation": "parallel"
+    },
+    "ranking": [
+     "P-025",
+     "P-073"
+    ]
+   },
+   {
+    "if": {
+     "materials": "diagram"
+    },
+    "ranking": [
+     "P-064",
+     "P-050",
+     "P-067",
+     "P-069"
+    ]
+   },
+   {
+    "if": {
+     "density": "low"
+    },
+    "ranking": [
+     "P-073",
+     "P-067"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-073",
+   "P-064"
+  ],
+  "proposed_alternatives": [
+   "P-119",
+   "P-130"
+  ]
+ },
+ "resource_catalog": {
+  "label_ja": "リソース・ツールカタログ(new)",
+  "observed_slides": 11,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-079"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-078"
+   },
+   {
+    "rank": 3,
+    "pattern": "P-025"
+   },
+   {
+    "rank": 4,
+    "pattern": "P-045"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "parallel"
+    },
+    "ranking": [
+     "P-079",
+     "P-078",
+     "P-025",
+     "P-045"
+    ]
+   },
+   {
+    "if": {
+     "relation": "hierarchy"
+    },
+    "ranking": [
+     "P-079",
+     "P-025"
+    ]
+   },
+   {
+    "if": {
+     "materials": "table_data"
+    },
+    "ranking": [
+     "P-079",
+     "P-025"
+    ]
+   },
+   {
+    "if": {
+     "materials": "icons"
+    },
+    "ranking": [
+     "P-078",
+     "P-045",
+     "P-079"
+    ]
+   },
+   {
+    "if": {
+     "density": "high"
+    },
+    "ranking": [
+     "P-079",
+     "P-025"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-078",
+   "P-079"
+  ],
+  "proposed_alternatives": [
+   "P-128",
+   "P-136"
+  ]
+ },
+ "request": {
+  "label_ja": "依頼",
+  "observed_slides": 9,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-070"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-071"
+   },
+   {
+    "rank": 3,
+    "pattern": "P-007"
+   },
+   {
+    "rank": 4,
+    "pattern": "P-045"
+   },
+   {
+    "rank": 5,
+    "pattern": "P-072"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "parallel"
+    },
+    "ranking": [
+     "P-071",
+     "P-070",
+     "P-045",
+     "P-072",
+     "P-073"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-070",
+   "P-071",
+   "P-072"
+  ],
+  "proposed_alternatives": [
+   "P-131",
+   "P-132",
+   "P-133",
+   "P-134"
+  ]
+ },
+ "profile": {
+  "label_ja": "人物・組織プロフィール(new)",
+  "observed_slides": 8,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-045"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-078"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "parallel"
+    },
+    "ranking": [
+     "P-045",
+     "P-078"
+    ]
+   },
+   {
+    "if": {
+     "materials": "photo"
+    },
+    "ranking": [
+     "P-045"
+    ]
+   },
+   {
+    "if": {
+     "density": "low"
+    },
+    "ranking": [
+     "P-045"
+    ]
+   },
+   {
+    "if": {
+     "density": "high"
+    },
+    "ranking": [
+     "P-045",
+     "P-078"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-045"
+  ],
+  "proposed_alternatives": [
+   "P-105",
+   "P-106"
+  ]
+ },
+ "record": {
+  "label_ja": "掲載・活動記録(new)",
+  "observed_slides": 8,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-054"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "parallel"
+    },
+    "ranking": [
+     "P-054"
+    ]
+   },
+   {
+    "if": {
+     "materials": "photo"
+    },
+    "ranking": [
+     "P-054"
+    ]
+   },
+   {
+    "if": {
+     "materials": "screenshot"
+    },
+    "ranking": [
+     "P-054"
+    ]
+   },
+   {
+    "if": {
+     "density": "low"
+    },
+    "ranking": [
+     "P-054"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-054"
+  ],
+  "proposed_alternatives": []
+ },
+ "voice": {
+  "label_ja": "利用者の声・課題の情景(new)",
+  "observed_slides": 7,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-004"
+   },
+   {
+    "rank": 2,
+    "pattern": "P-055"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "parallel"
+    },
+    "ranking": [
+     "P-055"
+    ]
+   },
+   {
+    "if": {
+     "materials": "photo"
+    },
+    "ranking": [
+     "P-004"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-004",
+   "P-055"
+  ],
+  "proposed_alternatives": [
+   "P-105",
+   "P-127"
+  ]
+ },
+ "method_output": {
+  "label_ja": "手法→アウトプット→次工程(new)",
+  "observed_slides": 6,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-016"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "materials": "diagram"
+    },
+    "ranking": [
+     "P-016"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-031",
+   "P-018",
+   "P-032"
+  ],
+  "proposed_alternatives": []
+ },
+ "initiative_to_target": {
+  "label_ja": "施策→効果→目標値(new)",
+  "observed_slides": 6,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-046"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "hierarchy"
+    },
+    "ranking": [
+     "P-046"
+    ]
+   },
+   {
+    "if": {
+     "relation": "converge"
+    },
+    "ranking": [
+     "P-046"
+    ]
+   },
+   {
+    "if": {
+     "materials": "numbers"
+    },
+    "ranking": [
+     "P-046"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-046"
+  ],
+  "proposed_alternatives": [
+   "P-122"
+  ]
+ },
+ "responsibility_matrix": {
+  "label_ja": "作業・依頼・成果物の分担表(new)",
+  "observed_slides": 5,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-044"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "parallel"
+    },
+    "ranking": [
+     "P-044"
+    ]
+   },
+   {
+    "if": {
+     "materials": "table_data"
+    },
+    "ranking": [
+     "P-044"
+    ]
+   },
+   {
+    "if": {
+     "density": "high"
+    },
+    "ranking": [
+     "P-044"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-044"
+  ],
+  "proposed_alternatives": [
+   "P-133"
+  ]
+ },
+ "tool_playbook": {
+  "label_ja": "ツール活用ガイド(new)",
+  "observed_slides": 4,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-068"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "parallel"
+    },
+    "ranking": [
+     "P-068"
+    ]
+   },
+   {
+    "if": {
+     "materials": "logos"
+    },
+    "ranking": [
+     "P-068"
+    ]
+   },
+   {
+    "if": {
+     "materials": "icons"
+    },
+    "ranking": [
+     "P-068"
+    ]
+   },
+   {
+    "if": {
+     "density": "high"
+    },
+    "ranking": [
+     "P-068"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-068"
+  ],
+  "proposed_alternatives": []
+ },
+ "result_review": {
+  "label_ja": "検証・実績結果(new)",
+  "observed_slides": 3,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-051"
+   }
+  ],
+  "conditions": [],
+  "editorial_picks": [
+   "P-051",
+   "P-002"
+  ],
+  "proposed_alternatives": [
+   "P-101",
+   "P-115",
+   "P-116",
+   "P-118",
+   "P-126"
+  ]
+ },
+ "hypothesis_list": {
+  "label_ja": "観点別の仮説列挙(new)",
+  "observed_slides": 3,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-005"
+   }
+  ],
+  "conditions": [
+   {
+    "if": {
+     "relation": "parallel"
+    },
+    "ranking": [
+     "P-005"
+    ]
+   }
+  ],
+  "editorial_picks": [
+   "P-005"
+  ],
+  "proposed_alternatives": []
+ },
+ "tobe_vision": {
+  "label_ja": "ありたい姿(new)",
+  "observed_slides": 2,
+  "default": [
+   {
+    "rank": 1,
+    "pattern": "P-070"
+   }
+  ],
+  "conditions": [],
+  "editorial_picks": [
+   "P-027",
+   "P-017"
+  ],
+  "proposed_alternatives": []
+ }
+}

@@ -1,0 +1,799 @@
+{
+ "source": "人が作ったアクセンチュアの資料 52 本・本文 1389 枚の図形データから集計（参照元・本文は含まない）",
+ "relation_modules": {
+  "parallel": {
+   "M-BULLETS": 122,
+   "M-ROWHEAD": 106,
+   "M-TABLE": 89,
+   "M-PHOTO": 57,
+   "M-CALLOUT": 57,
+   "M-SCREEN": 45,
+   "M-HEADCOL": 36,
+   "M-NUMLIST": 30
+  },
+  "sequence": {
+   "M-ROWHEAD": 87,
+   "M-BULLETS": 70,
+   "M-CHEVRON": 64,
+   "M-GANTT": 48,
+   "M-CALLOUT": 42,
+   "M-DIAGRAM-FLOW": 38,
+   "M-PHASE": 38,
+   "M-SCREEN": 32
+  },
+  "contrast": {
+   "M-ROWHEAD": 47,
+   "M-TABLE": 42,
+   "M-BULLETS": 41,
+   "M-CALLOUT": 39,
+   "M-CHART": 24,
+   "M-DIAGRAM-FLOW": 21,
+   "M-CHEVRON": 18,
+   "M-SCREEN": 15
+  },
+  "multiply": {
+   "M-EQUATION": 5,
+   "M-LOGOROW": 3,
+   "M-CHART": 3,
+   "M-HEADCOL": 3,
+   "M-CALLOUT": 2,
+   "M-ROWHEAD": 2,
+   "M-TREE": 2,
+   "M-CARD": 2
+  },
+  "mutual": {
+   "M-CYCLE": 24,
+   "M-CALLOUT": 23,
+   "M-DIAGRAM-FLOW": 18,
+   "M-BULLETS": 15,
+   "M-ROWHEAD": 13,
+   "M-ORG": 13,
+   "M-CARDSTACK": 9,
+   "M-LAYER": 7
+  },
+  "hierarchy": {
+   "M-ROWHEAD": 75,
+   "M-BULLETS": 58,
+   "M-CALLOUT": 58,
+   "M-TABLE": 58,
+   "M-LAYER": 44,
+   "M-ORG": 37,
+   "M-TREE": 32,
+   "M-CARDSTACK": 22
+  },
+  "flow": {
+   "M-SCREEN": 65,
+   "M-DIAGRAM-FLOW": 61,
+   "M-BULLETS": 56,
+   "M-ARCH": 31,
+   "M-ROWHEAD": 27,
+   "M-CALLOUT": 24,
+   "M-CHEVRON": 16,
+   "M-CARDSTACK": 16
+  },
+  "cause": {
+   "M-BULLETS": 43,
+   "M-CALLOUT": 31,
+   "M-ROWHEAD": 29,
+   "M-CHART": 17,
+   "M-PHOTO": 10,
+   "M-TABLE": 10,
+   "M-CARDSTACK": 9,
+   "M-CHECKLIST": 8
+  },
+  "add": {
+   "M-TABLE": 22,
+   "M-ROWHEAD": 17,
+   "M-CALLOUT": 7,
+   "M-EQUATION": 6,
+   "M-CHART": 6,
+   "M-CARD": 5,
+   "M-LAYER": 4,
+   "M-BULLETS": 4
+  },
+  "converge": {
+   "M-BULLETS": 32,
+   "M-CALLOUT": 29,
+   "M-ROWHEAD": 20,
+   "M-NUMLIST": 13,
+   "M-TREE": 10,
+   "M-KPI-STACK": 9,
+   "M-CARDSTACK": 8,
+   "M-ICONGRID": 7
+  },
+  "solve": {
+   "M-CARDSTACK": 23,
+   "M-BULLETS": 20,
+   "M-ROWHEAD": 14,
+   "M-CALLOUT": 11,
+   "M-DIAGRAM-FLOW": 9,
+   "M-TABLE": 7,
+   "M-NUMLIST": 5,
+   "M-KPI-TILE": 4
+  },
+  "equation": {
+   "M-TABLE": 9,
+   "M-EQUATION": 7,
+   "M-ROWHEAD": 4,
+   "M-CHART": 4,
+   "M-CALLOUT": 3,
+   "M-CARD": 2,
+   "M-LAYER": 1,
+   "new:M-NETWORK-GRAPH(ノードとエッジのネットワーク図、注目ノードを色付け)": 1
+  }
+ },
+ "relation_connectors": {
+  "parallel": {
+   "(none)": 355,
+   "R-PAR": 84,
+   "R-BRACKET": 38,
+   "R-CAUSE": 26,
+   "R-MUTUAL": 10
+  },
+  "sequence": {
+   "R-CAUSE": 140,
+   "(none)": 121,
+   "R-BRACKET": 18,
+   "R-PAR": 14,
+   "R-MUTUAL": 12
+  },
+  "contrast": {
+   "(none)": 98,
+   "R-CAUSE": 43,
+   "R-PAR": 17,
+   "R-BRACKET": 16,
+   "R-SOLVE": 10
+  },
+  "multiply": {
+   "R-MUL": 13,
+   "R-CAUSE": 2,
+   "R-SOLVE": 2,
+   "R-ADD": 2,
+   "R-CONV": 1
+  },
+  "mutual": {
+   "R-MUTUAL": 66,
+   "R-CAUSE": 22,
+   "(none)": 11,
+   "R-CONV": 6,
+   "R-BRACKET": 6
+  },
+  "hierarchy": {
+   "(none)": 142,
+   "R-BRACKET": 69,
+   "R-CAUSE": 56,
+   "R-MUTUAL": 27,
+   "R-CONV": 20
+  },
+  "flow": {
+   "R-CAUSE": 97,
+   "(none)": 33,
+   "new:R-WEDGE(縦長の楔形区切り＝指示→成果)": 25,
+   "R-MUTUAL": 24,
+   "R-CONV": 12
+  },
+  "cause": {
+   "R-CAUSE": 63,
+   "(none)": 49,
+   "R-CONV": 10,
+   "R-SOLVE": 6,
+   "R-PAR": 5
+  },
+  "add": {
+   "R-ADD": 20,
+   "(none)": 17,
+   "R-CAUSE": 6,
+   "R-PAR": 4,
+   "R-BRACKET": 4
+  },
+  "converge": {
+   "R-CONV": 50,
+   "(none)": 19,
+   "R-CAUSE": 16,
+   "R-SOLVE": 12,
+   "R-MUTUAL": 9
+  },
+  "solve": {
+   "R-SOLVE": 19,
+   "(none)": 17,
+   "R-CAUSE": 11,
+   "R-CONV": 3,
+   "R-MUTUAL": 3
+  },
+  "equation": {
+   "R-EQ": 6,
+   "R-ADD": 5,
+   "(none)": 5,
+   "R-MUL": 3,
+   "R-CAUSE": 1
+  }
+ },
+ "intent_modules": {
+  "strengths": {
+   "M-BULLETS": 9,
+   "M-HEADCOL": 8,
+   "M-ROWHEAD": 7,
+   "M-CALLOUT": 6,
+   "M-BADGECOL": 5,
+   "new:M-NUMCOL(大きな色付き番号『01.』+左縦罫線+本文+下端の線画アイコン)": 5,
+   "M-CARD": 5,
+   "M-ICONGRID": 4
+  },
+  "overview": {
+   "M-HEADCOL": 13,
+   "M-SCREEN": 12,
+   "M-BULLETS": 12,
+   "M-CALLOUT": 9,
+   "M-ROWHEAD": 8,
+   "M-LAYER": 8,
+   "M-TABLE": 8,
+   "M-CARDSTACK": 7
+  },
+  "org": {
+   "M-ORG": 34,
+   "M-CALLOUT": 8,
+   "M-BULLETS": 6,
+   "M-ROWHEAD": 6,
+   "M-TABLE": 4,
+   "M-PROFILE": 4,
+   "new:M-FACEGRID(丸抜き顔写真の格子)": 2,
+   "M-LOGOROW": 2
+  },
+  "case": {
+   "M-PHOTO": 46,
+   "M-BULLETS": 45,
+   "M-CARD": 20,
+   "M-SCREEN": 18,
+   "M-ROWHEAD": 16,
+   "new:M-CASEHEAD": 14,
+   "M-TABLE": 12,
+   "M-CALLOUT": 10
+  },
+  "framework": {
+   "M-ROWHEAD": 31,
+   "M-CALLOUT": 22,
+   "M-BULLETS": 20,
+   "M-DIAGRAM-FLOW": 18,
+   "M-LAYER": 18,
+   "M-CYCLE": 14,
+   "M-HEADCOL": 13,
+   "M-TABLE": 12
+  },
+  "phases": {
+   "M-CHEVRON": 25,
+   "M-PHASE": 25,
+   "M-ROWHEAD": 22,
+   "M-BULLETS": 14,
+   "M-CALLOUT": 13,
+   "M-HEADCOL": 7,
+   "M-TABLE": 7,
+   "M-DIAGRAM-FLOW": 6
+  },
+  "schedule": {
+   "M-GANTT": 43,
+   "M-ROWHEAD": 28,
+   "M-CALLOUT": 8,
+   "M-CHEVRON": 8,
+   "M-TABLE": 6,
+   "M-BULLETS": 4,
+   "new:M-STAIRCASE-LOOP(階段状ペンタゴン+各段に循環矢印)": 1,
+   "new:M-TIMEMARK(年度ラベル+▼縦線を表上に重ねる)": 1
+  },
+  "architecture": {
+   "M-ARCH": 27,
+   "M-DIAGRAM-FLOW": 10,
+   "M-BULLETS": 10,
+   "M-LAYER": 8,
+   "M-CALLOUT": 8,
+   "M-ROWHEAD": 7,
+   "M-SCREEN": 5,
+   "M-TREE": 4
+  },
+  "new": {
+   "M-BULLETS": 60,
+   "M-ROWHEAD": 39,
+   "M-SCREEN": 37,
+   "M-TABLE": 33,
+   "M-CALLOUT": 28,
+   "M-PHOTO": 16,
+   "M-NUMLIST": 11,
+   "M-PROFILE": 10
+  },
+  "definition": {
+   "M-BULLETS": 12,
+   "M-CALLOUT": 11,
+   "M-SCREEN": 10,
+   "M-TABLE": 9,
+   "M-ROWHEAD": 8,
+   "M-LAYER": 7,
+   "M-CHECKLIST": 5,
+   "M-FIGREF": 5
+  },
+  "comparison": {
+   "M-TABLE": 25,
+   "M-ROWHEAD": 14,
+   "M-CALLOUT": 9,
+   "M-BULLETS": 9,
+   "M-HEADCOL": 5,
+   "M-CHEVRON": 4,
+   "M-CHART": 3,
+   "M-DIAGRAM-FLOW": 3
+  },
+  "howto": {
+   "M-SCREEN": 58,
+   "M-BULLETS": 42,
+   "M-NUMLIST": 11,
+   "M-DIAGRAM-FLOW": 9,
+   "M-CALLOUT": 7,
+   "new:M-INPUTLABEL(入力資料名のテキストラベル列挙)": 6,
+   "M-PHOTO": 6,
+   "M-CHART": 5
+  },
+  "problem_solution": {
+   "M-CARDSTACK": 17,
+   "M-BULLETS": 16,
+   "M-ROWHEAD": 13,
+   "M-DIAGRAM-FLOW": 11,
+   "M-CALLOUT": 9,
+   "M-TABLE": 5,
+   "M-NUMLIST": 4,
+   "M-HEADCOL": 4
+  },
+  "summary": {
+   "M-BULLETS": 12,
+   "M-NUMLIST": 10,
+   "M-ROWHEAD": 4,
+   "M-PHOTO": 3,
+   "M-HEADCOL": 2,
+   "M-BADGECOL": 2,
+   "M-CALLOUT": 2,
+   "M-ICONGRID": 2
+  },
+  "asis_tobe": {
+   "M-ROWHEAD": 13,
+   "M-CHEVRON": 12,
+   "M-BULLETS": 8,
+   "M-DIAGRAM-FLOW": 8,
+   "M-CALLOUT": 8,
+   "M-TABLE": 5,
+   "new:M-LEGEND": 3,
+   "M-PHASE": 3
+  },
+  "target": {
+   "M-TABLE": 8,
+   "M-ROWHEAD": 7,
+   "M-CALLOUT": 5,
+   "M-BULLETS": 5,
+   "M-TREE": 4,
+   "M-HEADCOL": 3,
+   "M-KPI-STACK": 2,
+   "M-NUMLIST": 2
+  },
+  "fact_to_insight": {
+   "M-CHART": 23,
+   "M-CALLOUT": 16,
+   "M-BULLETS": 13,
+   "M-TABLE": 9,
+   "M-KPI-TILE": 9,
+   "M-QUOTE": 7,
+   "M-KPI-STACK": 7,
+   "M-KPI-INLINE": 5
+  },
+  "scope": {
+   "M-ROWHEAD": 25,
+   "M-TABLE": 22,
+   "M-BULLETS": 20,
+   "M-CALLOUT": 12,
+   "M-DIAGRAM-FLOW": 7,
+   "M-ARCH": 7,
+   "M-CARDSTACK": 4,
+   "M-MATRIX-SYM": 4
+  },
+  "request": {
+   "M-NUMLIST": 4,
+   "M-BULLETS": 3,
+   "M-CARDSTACK": 2,
+   "M-CHECKLIST": 2,
+   "M-ROWHEAD": 2,
+   "M-CALLOUT": 1,
+   "new:M-CONTACTSTRIP(ペンタゴン見出し+丸顔写真の担当者横並び帯)": 1,
+   "M-ORG": 1
+  },
+  "risk": {
+   "M-ROWHEAD": 13,
+   "M-BULLETS": 12,
+   "M-NUMLIST": 6,
+   "M-TABLE": 4,
+   "M-CALLOUT": 3,
+   "M-CARD": 2,
+   "M-SCREEN": 2,
+   "M-ICONGRID": 2
+  },
+  "estimate": {
+   "M-TABLE": 22,
+   "M-ROWHEAD": 13,
+   "M-CHART": 8,
+   "M-BULLETS": 8,
+   "M-CALLOUT": 8,
+   "M-EQUATION": 5,
+   "M-KPI-INLINE": 2,
+   "M-CARD": 2
+  }
+ },
+ "module_freq": {
+  "M-BULLETS": 340,
+  "M-ROWHEAD": 284,
+  "M-CALLOUT": 203,
+  "M-TABLE": 199,
+  "M-SCREEN": 164,
+  "M-PHOTO": 101,
+  "M-DIAGRAM-FLOW": 98,
+  "M-CARDSTACK": 80,
+  "M-CHEVRON": 79,
+  "M-HEADCOL": 76,
+  "M-NUMLIST": 75,
+  "M-CHART": 59,
+  "M-LAYER": 53,
+  "M-GANTT": 49,
+  "M-CARD": 49,
+  "M-FIGREF": 44,
+  "M-ORG": 43,
+  "M-CHECKLIST": 42,
+  "M-ARCH": 42,
+  "M-TREE": 41,
+  "M-PHASE": 39,
+  "M-MATRIX-SYM": 35,
+  "M-ICONGRID": 32,
+  "M-BADGECOL": 28,
+  "M-CYCLE": 26,
+  "M-KPI-TILE": 22,
+  "M-KPI-STACK": 22,
+  "M-LOGOROW": 20,
+  "M-PROFILE": 18,
+  "M-QUOTE": 17,
+  "new:M-CASEHEAD": 15,
+  "M-KPI-INLINE": 12,
+  "M-EQUATION": 12,
+  "M-2AXIS": 10,
+  "new:M-LEGEND": 8,
+  "new:M-LINKBAR(指カーソルアイコン+下線リンクの帯ボタン)": 8,
+  "new:M-PROMPTBOX": 7,
+  "M-PYRAMID": 6,
+  "new:M-INPUTLABEL(入力資料名のテキストラベル列挙)": 6,
+  "new:M-NUMCOL(大きな色付き番号『01.』+左縦罫線+本文+下端の線画アイコン)": 6
+ },
+ "relation_skeletons": {
+  "hierarchy": [
+   "K-001",
+   "K-023",
+   "K-025",
+   "K-027",
+   "K-029",
+   "K-030",
+   "K-033",
+   "K-040",
+   "K-041",
+   "K-042",
+   "K-043",
+   "K-044",
+   "K-046",
+   "K-048",
+   "K-050",
+   "K-078",
+   "K-079",
+   "K-082",
+   "K-084",
+   "K-085",
+   "K-090",
+   "K-096",
+   "K-100",
+   "K-104",
+   "K-112",
+   "K-113",
+   "K-116",
+   "K-117",
+   "K-118",
+   "K-125"
+  ],
+  "sequence": [
+   "K-002",
+   "K-003",
+   "K-005",
+   "K-045",
+   "K-056",
+   "K-057",
+   "K-058",
+   "K-059",
+   "K-060",
+   "K-061",
+   "K-062",
+   "K-073",
+   "K-074",
+   "K-075",
+   "K-076",
+   "K-080",
+   "K-081",
+   "K-083",
+   "K-095",
+   "K-106",
+   "K-107",
+   "K-108",
+   "K-109",
+   "K-119",
+   "K-122",
+   "K-123",
+   "K-124"
+  ],
+  "contrast": [
+   "K-004",
+   "K-008",
+   "K-009",
+   "K-010",
+   "K-011",
+   "K-012",
+   "K-013",
+   "K-014",
+   "K-016",
+   "K-022",
+   "K-036",
+   "K-065",
+   "K-093",
+   "K-099",
+   "K-121"
+  ],
+  "parallel": [
+   "K-006",
+   "K-007",
+   "K-015",
+   "K-024",
+   "K-026",
+   "K-034",
+   "K-037",
+   "K-038",
+   "K-039",
+   "K-047",
+   "K-049",
+   "K-051",
+   "K-052",
+   "K-053",
+   "K-054",
+   "K-055",
+   "K-070",
+   "K-071",
+   "K-072",
+   "K-077",
+   "K-086",
+   "K-087",
+   "K-088",
+   "K-089",
+   "K-091",
+   "K-092",
+   "K-094",
+   "K-102",
+   "K-103",
+   "K-110",
+   "K-111",
+   "K-114",
+   "K-115",
+   "K-126",
+   "K-127"
+  ],
+  "cause": [
+   "K-017",
+   "K-020",
+   "K-021",
+   "K-035",
+   "K-063",
+   "K-066",
+   "K-067",
+   "K-069",
+   "K-097",
+   "K-120",
+   "K-128"
+  ],
+  "converge": [
+   "K-018",
+   "K-019",
+   "K-028",
+   "K-031",
+   "K-068",
+   "K-098",
+   "K-101",
+   "K-105"
+  ],
+  "flow": [
+   "K-032",
+   "K-064"
+  ]
+ },
+ "intent_skeletons": {
+  "architecture": [
+   "K-001",
+   "K-002"
+  ],
+  "asis_tobe": [
+   "K-003",
+   "K-004"
+  ],
+  "case": [
+   "K-005",
+   "K-006",
+   "K-007"
+  ],
+  "comparison": [
+   "K-008",
+   "K-009",
+   "K-010",
+   "K-011",
+   "K-012",
+   "K-013",
+   "K-014",
+   "K-015",
+   "K-016",
+   "K-099"
+  ],
+  "definition": [
+   "K-017"
+  ],
+  "estimate": [
+   "K-018",
+   "K-019",
+   "K-020"
+  ],
+  "fact_to_insight": [
+   "K-021",
+   "K-022",
+   "K-100",
+   "K-101",
+   "K-102",
+   "K-103"
+  ],
+  "framework": [
+   "K-023",
+   "K-024",
+   "K-025",
+   "K-026",
+   "K-104",
+   "K-105",
+   "K-106",
+   "K-107",
+   "K-108",
+   "K-109"
+  ],
+  "howto": [
+   "K-027",
+   "K-028",
+   "K-029",
+   "K-030"
+  ],
+  "new:checklist": [
+   "K-031"
+  ],
+  "new:classification": [
+   "K-032"
+  ],
+  "new:criteria": [
+   "K-033"
+  ],
+  "new:governance": [
+   "K-034",
+   "K-110"
+  ],
+  "new:method_output": [
+   "K-035"
+  ],
+  "new:poc_result": [
+   "K-036"
+  ],
+  "new:tech_feature": [
+   "K-037"
+  ],
+  "new:tobe_vision": [
+   "K-038",
+   "K-039"
+  ],
+  "new:value_driver_tree": [
+   "K-040"
+  ],
+  "org": [
+   "K-041",
+   "K-042",
+   "K-043",
+   "K-044",
+   "K-045",
+   "K-046",
+   "K-047",
+   "K-048",
+   "K-112",
+   "K-113",
+   "K-114",
+   "K-115",
+   "K-116",
+   "K-117"
+  ],
+  "overview": [
+   "K-049",
+   "K-050",
+   "K-051",
+   "K-052",
+   "K-053",
+   "K-054",
+   "K-055",
+   "K-118"
+  ],
+  "phases": [
+   "K-056",
+   "K-057",
+   "K-058",
+   "K-059",
+   "K-060",
+   "K-061",
+   "K-062"
+  ],
+  "problem_solution": [
+   "K-063",
+   "K-064",
+   "K-065",
+   "K-066",
+   "K-067",
+   "K-068",
+   "K-069",
+   "K-119",
+   "K-120",
+   "K-121"
+  ],
+  "request": [
+   "K-070"
+  ],
+  "risk": [
+   "K-071",
+   "K-072"
+  ],
+  "schedule": [
+   "K-073",
+   "K-074",
+   "K-075",
+   "K-076",
+   "K-122",
+   "K-123",
+   "K-124"
+  ],
+  "scope": [
+   "K-077",
+   "K-078",
+   "K-079",
+   "K-080",
+   "K-081",
+   "K-082",
+   "K-083",
+   "K-084",
+   "K-085",
+   "K-086",
+   "K-087",
+   "K-088",
+   "K-089",
+   "K-090",
+   "K-125",
+   "K-126"
+  ],
+  "strengths": [
+   "K-091",
+   "K-092",
+   "K-093"
+  ],
+  "summary": [
+   "K-094",
+   "K-127",
+   "K-128"
+  ],
+  "target": [
+   "K-095",
+   "K-096",
+   "K-097",
+   "K-098"
+  ],
+  "new:meeting_structure": [
+   "K-111"
+  ]
+ }
+}
