@@ -18,3 +18,9 @@ __pycache__/
 _agent/_基盤/_ツール/acnpptx/assets/
 _agent/_基盤/_ツール/acnpptx/*.html
 _agent/_基盤/_ツール/acnpptx/_参考_作成例/
+
+# 大きなExcelの原本・ツール（受け取ったもの。正本はSharePoint。2026-10-16）
+_agent/04_マスタ・プロファイル管理/薬剤/薬剤関連マスタ月次作成/**/*作成ツール_*.xlsx
+# Excelの中間版は _wip/ で作り、gitには入れない（確定版だけコミット。2026-10-16）
+**/_wip/**/*.xlsx
+**/_wip/*.xlsx

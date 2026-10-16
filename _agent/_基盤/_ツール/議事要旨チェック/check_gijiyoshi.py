@@ -114,15 +114,20 @@ def load_minutes(path):
     prs = Presentation(path)
     slides = []
     for idx, sl in enumerate(prs.slides, 1):
-        title, table, others = '', None, []
+        title, table, others, cols = '', None, [], None
         for s in sl.shapes:
-            if s.has_table and 'アジェンダ' in clean(s.table.cell(0, 1).text):
+            hdr = [clean(c.text).strip() for c in s.table.rows[0].cells] if s.has_table else []
+            # 議事要旨の本表＝見出しに「合意形成事項」がある表（アジェンダ一覧だけの表は除く）。列は見出し名で引く
+            if s.has_table and any('合意形成事項' in h for h in hdr):
                 table = s
+                cols = dict(no=0, agenda=next(i for i, h in enumerate(hdr) if 'アジェンダ' in h),
+                            cons=next(i for i, h in enumerate(hdr) if '合意形成事項' in h),
+                            todo=next((i for i, h in enumerate(hdr) if 'todo' in h.lower()), None))
             elif s.is_placeholder and s.has_text_frame and '議事要旨' in s.text_frame.text:
                 title = clean(s.text_frame.text)
             else:
                 others.append(s)
-        slides.append(dict(idx=idx, slide=sl, title=title, table=table, others=others))
+        slides.append(dict(idx=idx, slide=sl, title=title, table=table, others=others, cols=cols))
     rows = []
     for sd in slides:
         if not sd['table']:
@@ -131,8 +136,9 @@ def load_minutes(path):
             if ri == 0:
                 continue
             cells = [clean(c.text) for c in r.cells]
-            rows.append(dict(slide=sd['idx'], no=cells[0].strip(), agenda=cells[1].strip(),
-                             consensus=cells[2], todo=cells[3] if len(cells) > 3 else '', row=r))
+            c = sd['cols']
+            rows.append(dict(slide=sd['idx'], no=cells[c['no']].strip(), agenda=cells[c['agenda']].strip(),
+                             consensus=cells[c['cons']], todo=cells[c['todo']] if c['todo'] is not None else '', row=r))
     return prs, slides, rows
 
 
@@ -521,7 +527,7 @@ def check_format(prs, slides):
         for ri, r in enumerate(t.table.rows):
             if ri == 0:
                 continue
-            c = r.cells[2]
+            c = r.cells[sd['cols']['cons']]
             for p in c.text_frame.paragraphs:
                 txt = clean(''.join(run.text for run in p.runs)).strip()
                 if not ITEM_RE.match(txt):
@@ -1194,6 +1200,11 @@ def annotate(minutes_path, out_path, items):
             if b['y'] + b['h'] > bottom:
                 b['y'] = bottom - b['h']
             bottom = b['y'] - gap
+        if boxes and boxes[0]['y'] < 0:  # 枠が多くて収まらないときは上から詰めて並べる（下にはみ出してもよい）
+            y = 60000
+            for b in boxes:
+                b['y'] = y
+                y += b['h'] + gap
         sl = prs.slides[si - 1]
         for b in boxes:
             box = sl.shapes.add_shape(MSO_SHAPE.RECTANGLE, W + 150000, b['y'], box_w, b['h'])

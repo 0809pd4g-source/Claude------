@@ -23,6 +23,7 @@ smoke_test_template.py — プロジェクト固有スモークテスト テン�
 """
 
 import sys
+sys.stdout.reconfigure(encoding="utf-8")  # Windows(cp932)で✅などの記号を出すと止まるため（2026-10-16）
 import re
 import os
 

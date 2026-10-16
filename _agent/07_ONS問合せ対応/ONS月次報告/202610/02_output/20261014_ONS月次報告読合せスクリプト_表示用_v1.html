@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ONS問い合わせ月次報告（9月分）の読合せスクリプト</title>
+<style>
+:root {
+  --bg: #f6f7f9; --panel: #ffffff; --text: #1f2328; --muted: #5b6470; --line: #d9dde3;
+  --accent: #1f5fbf; --accent-bg: #eaf1fc; --answer-bg: #f3f8f2; --answer-line: #9cc59a;
+  --consult-bg: #fff8e8; --consult-line: #e3c06a; --check-bg: #fff1f0; --check-line: #e08a84;
+  --code-bg: #eef0f3; --th-bg: #eef2f7; --nav-active: #dbe7fb;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #15181d; --panel: #1d2127; --text: #e6e8eb; --muted: #9aa3ad; --line: #343a43;
+    --accent: #7fb0ff; --accent-bg: #1f2b3d; --answer-bg: #1b261c; --answer-line: #4f7a4d;
+    --consult-bg: #2b2616; --consult-line: #8a7433; --check-bg: #2e1d1c; --check-line: #9a4f4a;
+    --code-bg: #262b33; --th-bg: #252b34; --nav-active: #24344d;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text);
+  font-family: "Yu Gothic UI", "Meiryo", system-ui, sans-serif; font-size: 15px; line-height: 1.75; }
+main { zoom: var(--zoom, 1); }
+.sizer { display: flex; gap: 6px; margin: 0 6px 12px; }
+.sizer button { font: inherit; font-size: 12px; cursor: pointer; border: 1px solid var(--line);
+  background: var(--panel); color: var(--text); border-radius: 5px; padding: 2px 10px; }
+.sizer button[aria-pressed="true"] { background: var(--nav-active); border-color: var(--accent); }
+.consult-body { font-size: 1.05em; }
+.layout { display: grid; grid-template-columns: 280px minmax(0, 1fr); }
+nav { position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 16px 12px;
+  border-right: 1px solid var(--line); background: var(--panel); }
+nav .brand { font-weight: 700; font-size: 14px; margin: 0 6px 12px; }
+nav a { display: block; color: var(--text); text-decoration: none; border-radius: 6px;
+  padding: 4px 8px; font-size: 13px; }
+nav a.lv2 { font-weight: 700; margin-top: 8px; }
+nav a.lv3 { padding-left: 20px; color: var(--muted); }
+nav a:hover, nav a.active { background: var(--nav-active); color: var(--text); }
+main { padding: 24px 32px 80px; max-width: 1100px; min-width: 0; overflow-wrap: anywhere; }
+h1 { font-size: 24px; margin: 0 0 8px; }
+.meta { color: var(--muted); font-size: 13px; margin: 0 0 20px; padding-left: 18px; }
+.sec { background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+  padding: 8px 24px 20px; margin: 0 0 20px; }
+h2 { font-size: 20px; border-bottom: 2px solid var(--accent); padding-bottom: 6px; }
+h3 { font-size: 17px; margin-top: 28px; }
+h3.item { background: var(--accent-bg); border-left: 5px solid var(--accent);
+  padding: 8px 12px; border-radius: 6px; }
+h4 { font-size: 15px; }
+p.label { font-weight: 700; color: var(--accent); margin: 16px 0 4px; }
+p.label-check { font-weight: 700; margin: 16px 0 4px; }
+ul.check, ol.check { background: var(--check-bg); border-left: 4px solid var(--check-line);
+  border-radius: 6px; padding: 10px 14px 10px 34px; }
+code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; font-size: 13px; }
+a { color: var(--accent); }
+.tbl { overflow-x: auto; margin: 8px 0 16px; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { border: 1px solid var(--line); padding: 6px 8px; vertical-align: top; text-align: left; }
+th { background: var(--th-bg); white-space: nowrap; }
+.answer, .consult { border-radius: 8px; margin: 10px 0 18px; overflow: hidden; }
+.answer { background: var(--answer-bg); border: 1px solid var(--answer-line); }
+.consult { background: var(--consult-bg); border: 1px solid var(--consult-line); }
+.answer-bar { display: flex; justify-content: space-between; align-items: center;
+  padding: 4px 10px; font-size: 12px; color: var(--muted); border-bottom: 1px solid var(--line); }
+.answer pre { margin: 0; padding: 12px 14px; white-space: pre-wrap; word-break: break-word;
+  font-family: inherit; font-size: 14px; }
+.consult-body { padding: 6px 14px; }
+.consult-body p { margin: 6px 0; }
+button.copy { font: inherit; font-size: 12px; cursor: pointer; border: 1px solid var(--line);
+  background: var(--panel); color: var(--text); border-radius: 5px; padding: 2px 10px; }
+button.copy.done { border-color: var(--answer-line); }
+footer { color: var(--muted); font-size: 12px; margin-top: 24px; }
+@media (max-width: 860px) {
+  .layout { grid-template-columns: minmax(0, 1fr); }
+  nav { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--line); }
+  main { padding: 16px; }
+  .sec { padding: 4px 14px 14px; }
+}
+@media print {
+  nav, button.copy { display: none; }
+  .layout { display: block; }
+  .sec { break-inside: auto; border: none; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav aria-label="目次"><div class="brand" id="brand"></div>
+<div class="sizer" role="group" aria-label="文字の大きさ"><button type="button" data-zoom="1">標準</button><button type="button" data-zoom="1.2">大</button><button type="button" data-zoom="1.4">特大</button></div>
+<a class="lv2" href="#s1">位置づけ</a><a class="lv2" href="#s2">9月分のポイント（8月との比較）</a><a class="lv2" href="#s3">説明スクリプト（スライド順・約5分）</a><a class="lv2" href="#s4">想定される質問</a><a class="lv2" href="#s5">画面で確認すること（投影前に）</a><a class="lv2" href="#s6">会議後</a><a class="lv2" href="#s7">やったこと・やっていないこと</a></nav>
+<main>
+<h1 id="title">ONS問い合わせ月次報告（9月分）の読合せスクリプト</h1>
+<ul class="meta"><li>作成日: 2026-10-14</li><li>プロジェクト: 07_ONS問合せ対応/ONS月次報告/202610</li></ul>
+<section class="sec" id="s1"><h2>位置づけ</h2>
+<ul><li>10/9（金）三者定例のラップアップで「9月のONS問合せ状況月次報告（三者定例資料のスライド57〜72）を厚労省にて書面確認する。厚労省からコメントがある場合は、厚労省TeamsにてDX機構へ連携する」となった。10/14（水）の厚労省との打合せで、ONS回答の読み合わせ・開発進捗連絡会議の資料と併せて読み合わせる</li><li>資料：<code>01_input/三者定例資料_20261009.pptx</code> のp.57〜72（ファイル上は58〜73枚目。以下、画面右下のページ番号で書く）</li><li>持ち時間：<strong>5分</strong>。全ページは読まず、前月（8月）から変わった点3つに絞り、残りは「ご確認ください」で流す</li><li>比較の対象：資料の中にある8月の数字（件数推移の棒グラフ・大分類表・未解決表・更問内訳表）。<strong>8月分の月次報告の資料そのものは手元になく</strong>、資料にない項目（中分類・問い合わせ元の8月分）は比較していない</li></ul>
+</section>
+<section class="sec" id="s2"><h2>9月分のポイント（8月との比較）</h2>
+<div class="tbl"><table><thead><tr><th>観点</th><th>8月 → 9月</th><th>判定</th></tr></thead><tbody><tr><td>新規の件数</td><td>31 → 28件</td><td>横ばい（2026年の月平均 約32件より少ない）</td></tr><tr><td>更問の件数</td><td>25 → 26件</td><td>横ばい</td></tr><tr><td>問い合わせベンダー数</td><td>16 → 16社</td><td>横ばい</td></tr><tr><td><strong>更問のうち「進捗確認のご連絡」</strong></td><td><strong>2 → 10件（5倍）</strong></td><td><strong>急増</strong>。2025年11月（13件）以来の多さ</td></tr><tr><td><strong>特定の1社への集中</strong></td><td>エーシーエス様が新規1・更問14の<strong>計15件</strong>（9月の受領54件の約3割）</td><td><strong>集中</strong>。厚労省確認中の案件に2〜3日置きに進捗確認（p.63）</td></tr><tr><td><strong>未解決（厚労省の確認待ち）</strong></td><td>9月の新規のうち未解決9件、<strong>うち厚労省7件</strong>（7月1→8月3→9月7件）。厚労省の確認待ちは合計<strong>11件</strong>（未解決17件の約3分の2）</td><td><strong>増加が続いている</strong></td></tr><tr><td>大分類の傾向</td><td>臨床情報 12→13、<strong>文書送受信 3→5、健診文書 1→4</strong>、お知らせ・HP 0→2。標準マスタ 6→0</td><td>健診・文書の問い合わせが増え、マスタの問い合わせが無くなった</td></tr><tr><td>障害報告</td><td>0件</td><td>変化なし</td></tr><tr><td>Q&amp;A</td><td>9/30に追加3・更新3・削除4（掲載73件）</td><td>#6（姓・名を分けられない場合）は厚労省の方針を反映した更新</td></tr></tbody></table></div>
+<p><strong>→ 読み上げで取り上げる3点</strong>：①エーシーエス様からの進捗確認の急増、②厚労省確認待ちの未解決が増えていること（11件）、③健診・文書の問い合わせの増加。Q&amp;Aは件数だけ伝える。</p>
+</section>
+<section class="sec" id="s3"><h2>説明スクリプト（スライド順・約5分）</h2>
+<div class="consult"><div class="answer-bar"><span>読み上げ用</span><button type="button" class="copy">コピー</button></div><div class="consult-body"><p><strong>冒頭（p.57）</strong>　続いて、三者定例でお送りしている9月のONS問い合わせ月次報告です。書面確認となっていた分を、ポイントだけご説明します。9月は新規28件、更問26件で、件数・問い合わせ元の数とも8月とほぼ同じです。（約20秒）</p><p><strong>p.58 問い合わせの分類</strong>　分類別では、臨床情報の登録・閲覧と文書送受信で全体の6割です。8月と比べると、健診文書が1件から4件、文書送受信が3件から5件に増えています。逆に、8月に6件あった標準マスタの問い合わせは0件でした。障害報告はありません。（約30秒）</p><p><strong>p.59〜60（参考）</strong>　中身の一覧ですので、後ほどご確認ください。（約5秒）</p><p><strong>p.61 未解決の問い合わせ</strong>　ここが1点目のご確認いただきたい点です。9月に受けた新規28件のうち9件が未解決で、そのうち7件が厚労省様のご確認待ちになっています。7月以降の分を合わせると、厚労省様のご確認待ちは11件です。7月1件、8月3件、9月7件と増えてきています。（約40秒）</p><p><strong>p.62 更問の内訳</strong>　2点目です。更問のうち「進捗確認のご連絡」が、8月の2件から10件に増えました。</p><p><strong>p.63 問い合わせ元</strong>　その多くがエーシーエス様です。9月はエーシーエス様だけで15件、うち14件が更問で、厚労省様でご確認中の案件について、2〜3日置きに進捗の確認が来ている状況です。本日読み合わせた#524・#525もエーシーエス様からのご質問です。（約50秒）</p><p><strong>p.64（参考）</strong>　モデル事業参加ベンダからの新規の問い合わせの一覧です。下から2つ目のSBS情報システム様の「臨床情報の登録タイミング」は、本日読み合わせた#537と同じご質問と思われます。（約15秒）</p><p><strong>p.65〜72 Q&amp;A</strong>　最後にQ&amp;Aです。9月30日に、追加3件・更新3件・削除4件を行い、掲載は73件です。追加は、検査オーダ医師が設定できない場合、検査結果を標準コードに変換できない場合、接続テストの手続きの3件です。更新のうち、姓と名を分けられない場合の書き方は、厚労省様の方針を踏まえて例を直しています。削除4件は、接続テストの手続きを1つにまとめたことによるものと、電子カルテに直接関係しないものです。（約50秒）</p></div><pre hidden>**冒頭（p.57）**　続いて、三者定例でお送りしている9月のONS問い合わせ月次報告です。書面確認となっていた分を、ポイントだけご説明します。9月は新規28件、更問26件で、件数・問い合わせ元の数とも8月とほぼ同じです。（約20秒）
+
+**p.58 問い合わせの分類**　分類別では、臨床情報の登録・閲覧と文書送受信で全体の6割です。8月と比べると、健診文書が1件から4件、文書送受信が3件から5件に増えています。逆に、8月に6件あった標準マスタの問い合わせは0件でした。障害報告はありません。（約30秒）
+
+**p.59〜60（参考）**　中身の一覧ですので、後ほどご確認ください。（約5秒）
+
+**p.61 未解決の問い合わせ**　ここが1点目のご確認いただきたい点です。9月に受けた新規28件のうち9件が未解決で、そのうち7件が厚労省様のご確認待ちになっています。7月以降の分を合わせると、厚労省様のご確認待ちは11件です。7月1件、8月3件、9月7件と増えてきています。（約40秒）
+
+**p.62 更問の内訳**　2点目です。更問のうち「進捗確認のご連絡」が、8月の2件から10件に増えました。
+
+**p.63 問い合わせ元**　その多くがエーシーエス様です。9月はエーシーエス様だけで15件、うち14件が更問で、厚労省様でご確認中の案件について、2〜3日置きに進捗の確認が来ている状況です。本日読み合わせた#524・#525もエーシーエス様からのご質問です。（約50秒）
+
+**p.64（参考）**　モデル事業参加ベンダからの新規の問い合わせの一覧です。下から2つ目のSBS情報システム様の「臨床情報の登録タイミング」は、本日読み合わせた#537と同じご質問と思われます。（約15秒）
+
+**p.65〜72 Q&amp;A**　最後にQ&amp;Aです。9月30日に、追加3件・更新3件・削除4件を行い、掲載は73件です。追加は、検査オーダ医師が設定できない場合、検査結果を標準コードに変換できない場合、接続テストの手続きの3件です。更新のうち、姓と名を分けられない場合の書き方は、厚労省様の方針を踏まえて例を直しています。削除4件は、接続テストの手続きを1つにまとめたことによるものと、電子カルテに直接関係しないものです。（約50秒）</pre></div>
+<p class="label">締め</p>
+<div class="consult"><div class="answer-bar"><span>読み上げ用</span><button type="button" class="copy">コピー</button></div><div class="consult-body"><p>月次報告は以上です。厚労省様のご確認待ちの件、とくにエーシーエス様の件について、何かコメントはございますでしょうか。（コメントがなければ）特段コメントなしとして、こちらで書面確認完了とさせていただきます。（約20秒）</p></div><pre hidden>月次報告は以上です。厚労省様のご確認待ちの件、とくにエーシーエス様の件について、何かコメントはございますでしょうか。（コメントがなければ）特段コメントなしとして、こちらで書面確認完了とさせていただきます。（約20秒）</pre></div>
+</section>
+<section class="sec" id="s4"><h2>想定される質問</h2>
+<div class="tbl"><table><thead><tr><th>質問</th><th>答え方</th></tr></thead><tbody><tr><td>厚労省確認待ちの11件はどれか</td><td>資料には件数だけで、件名の一覧はない（p.61）。9月分のうち件名が分かるのは、p.59〜60・p.64で「処理中」のもの（INC0036873 ネグジット総研、INC0036736 タック、INC0036783 フューチャーアーキテクト、INC0036787 日本IBM、INC0036842・INC0036863 SBS情報システム）。どれが厚労省待ちかは資料からは分からないので、一覧が必要なら機構に依頼する</td></tr><tr><td>エーシーエス様の件はどれか・急ぎか</td><td>p.63では「厚労省様確認中の案件」とだけあり、件名は書かれていない。本日の#524・#525がエーシーエス様の2回目のご質問（台帳番号とINC番号の対応は未確認）</td></tr><tr><td>健診文書の問い合わせが増えたのはなぜか</td><td>資料に理由は書かれていない。9月の健診関連は「健診マスタの更改運用」（INC0036686）「健診文書の郵便番号の必須」（INC0036819）など（p.64）。理由は推測になるため、言うなら「本格運用に向けた実装が進んでいるためと考えられる」程度に留める</td></tr><tr><td>標準マスタの問い合わせが0件になったのは</td><td>資料に理由はない。8月は6件あった。Q&amp;A #5（JLACコードマスタのどれを参照するか）を更新済み（p.70）で、その効果かは不明</td></tr><tr><td>削除したQ&amp;Aは問題ないか</td><td>4件のうち3件は、追加#3（接続テストの手続き、KB0012659）に統合。1件はオンライン資格確認端末の機種の話で、電カルに直接関係しないため削除（p.72）</td></tr><tr><td>姓・名のQ&amp;A（#6）は何を変えたか</td><td>JP-CLINS 1.12.0以降は family（姓）を省略し、given・textにフルネームを入れる書き方を例示。1.11.0以前は family に半角スペースを入れる書き方を残した（p.71）</td></tr></tbody></table></div>
+</section>
+<section class="sec" id="s5"><h2>画面で確認すること（投影前に）</h2>
+<ul><li>p.57 の「集計期間：2025/1/1〜2026/8/31」は、9月分まで載っているので「9/30」の誤りと思われる（指摘するかは本田さんに確認）</li><li>p.61 の表の「総計」の列が、月ごとの数字の合計と合わない（未解決：月ごとの合計15件・総計17件。ACN 0件→総計1件、医療機関等システムベンダー 1件→総計2件。解決件数は1件、総計は3件ずれる）。2024年11月以前の分が総計だけに入っている可能性あり。質問が出たら「表に載っていない期間の分と思われる。機構に確認する」と答える</li><li>p.58 の文「FHIR記述仕様に関するお問合せを5件」は、右の表では臨床情報4件＋文書送受信1件の合計（矛盾ではない）</li></ul>
+</section>
+<section class="sec" id="s6"><h2>会議後</h2>
+<ul><li>厚労省から<strong>コメントがあった場合だけ</strong>、厚労省TeamsでDX機構へ連携する（10/9ラップアップの決定）。<strong>投稿先・宛先・誰が投稿するかは要確認</strong>（本田さん・比嘉さんに確認）。文案：</li></ul>
+<div class="consult"><div class="answer-bar"><span>投稿文</span><button type="button" class="copy">コピー</button></div><div class="consult-body"><p>お世話になっております。アクセンチュア中澤です。</p><p>10/9三者定例資料の「9月のONS問合せ状況月次報告」（スライド57〜72）につきまして、厚労省様にて書面確認いただきましたので、コメントを共有いたします。</p><p>（コメントの内容）</p><p>今後ともよろしくお願いいたします。</p></div><pre hidden>お世話になっております。アクセンチュア中澤です。
+10/9三者定例資料の「9月のONS問合せ状況月次報告」（スライド57〜72）につきまして、厚労省様にて書面確認いただきましたので、コメントを共有いたします。
+
+（コメントの内容）
+今後ともよろしくお願いいたします。</pre></div>
+<ul><li>コメントがなかった場合の連絡の要否も、あわせて確認する</li></ul>
+</section>
+<section class="sec" id="s7"><h2>やったこと・やっていないこと</h2>
+<ul><li>やったこと：三者定例資料（10/9）のp.57〜72の文字・表を抜き出し（<code>03_scripts/extract_slides.py</code>）、図（件数推移・大分類表・未解決表・問い合わせ元のグラフ）はPowerPointで画像にして読んだ。資料内の8月の数字と比べ、急増・傾向の変化・集中・厚労省待ちの増加を拾った。表の合計を計算し、p.61の総計のずれを見つけた。本日のONS読み合わせ（#524・#525・#537）と結び付けた。曜日（9/30水・10/1木・10/9金・10/14水）はカレンダーで確認した</li><li>やっていないこと：8月分の月次報告の資料が手元にないため、中分類・問い合わせ元の前月比較はしていない。厚労省確認待ち11件の件名、台帳番号（#524等）とINC番号の対応は確認していない。会議後の連携の投稿先・担当は未確認。読み上げ時間は文字数からの目安（読み上げ部分 約900字＝約3分。画面の指し示し・質疑を入れて約5分）で、実際に読んで計ってはいない</li></ul>
+</section>
+<footer id="footer"></footer>
+</main>
+</div>
+<script>
+window.VERSION = '表示用v1（元: スクリプトv1）';
+window.DOC_TITLE = 'ONS問い合わせ月次報告（9月分）の読合せスクリプト';
+document.title = window.DOC_TITLE + "｜" + window.VERSION;
+document.getElementById("title").textContent = window.DOC_TITLE;
+document.getElementById("brand").textContent = window.VERSION;
+document.getElementById("footer").textContent = window.DOC_TITLE + "｜" + window.VERSION + "（MDの資料から自動生成）";
+
+function copyText(text, btn) {
+  const done = () => { btn.textContent = "コピーしました"; btn.classList.add("done");
+    setTimeout(() => { btn.textContent = "コピー"; btn.classList.remove("done"); }, 1500); };
+  const fallback = () => {
+    const ta = document.createElement("textarea");
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    document.execCommand("copy"); ta.remove(); done();
+  };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(done, fallback);
+  } else { fallback(); }
+}
+document.querySelectorAll("button.copy").forEach(btn => {
+  btn.addEventListener("click", () => copyText(btn.closest(".answer, .consult").querySelector("pre").textContent, btn));
+});
+
+const sizeButtons = [...document.querySelectorAll(".sizer button")];
+function setZoom(z) {
+  document.documentElement.style.setProperty("--zoom", z);
+  sizeButtons.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.zoom === z)));
+  try { localStorage.setItem("readthrough-zoom", z); } catch (e) {}
+}
+sizeButtons.forEach(b => b.addEventListener("click", () => setZoom(b.dataset.zoom)));
+let savedZoom = "1";
+try { savedZoom = localStorage.getItem("readthrough-zoom") || "1"; } catch (e) {}
+setZoom(sizeButtons.some(b => b.dataset.zoom === savedZoom) ? savedZoom : "1");
+
+const links = [...document.querySelectorAll("nav a")];
+const targets = links.map(a => document.getElementById(a.getAttribute("href").slice(1)));
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + e.target.id));
+    }
+  });
+}, { rootMargin: "0px 0px -70% 0px" });
+targets.forEach(t => t && obs.observe(t));
+</script>
+</body>
+</html>

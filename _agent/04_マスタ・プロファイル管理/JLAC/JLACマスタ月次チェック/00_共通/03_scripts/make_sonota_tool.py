@@ -140,6 +140,9 @@ def build(out):
                  f'{mref}!Q1="XML用単位2",{mref}!{ST}1="適用開始日",{mref}!{EN}1="適用終了日"),"OK",'
                  f'"NG：列の並びが違う（32列のマスタを見出しごとA1に貼る）")')
     n_rows = f'=COUNTA({mref}!A:A)-1'
+    n_end = f'(COUNTA({mref}!A:A)-1-COUNTIF({mref}!{EN}:{EN},"99999999"))'
+    full_ok = (f'=IF({n_end}>=(COUNTA({mref}!A:A)-1)*0.05,"OK（適用終了した行 "&TEXT({n_end},"#,##0")&"行）",'
+               f'"NG：適用終了した行が全体の5%未満（"&TEXT({n_end},"#,##0")&"行）。旧コード除外版の可能性。旧コードを含む全件のマスタを貼る（除外版だと、終了済みの行として既にある000コードが候補に出る）")')
     rows_ok = f'=IF(COUNTA({mref}!A:A)-1>{MAX_ROWS},"NG：{MAX_ROWS:,}行を超えている（ツールを作り直す）","OK")'
     n_cand = f'=MAX({wref}!F:F)'
     cand_ok = f'=IF(MAX({wref}!F:F)>{MAX_OUT},"NG：結果シートの行数（{MAX_OUT:,}行）を超えている","OK")'
@@ -149,7 +152,7 @@ def build(out):
         ["JLACマスタの各コードについて、測定法を「その他の測定法」（JLAC11の13〜15桁=000／JLAC10=999）にしたコードのうち、マスタにまだ無いものを作る。ダミーコード＝その他の測定法コード。"],
         [],
         ["使い方"],
-        ["1", f"今月のマスタ（32列）を全件、見出しごと「{S_MASTER}」のA1に値で貼る（33列目にコメント列があっても可）"],
+        ["1", f"今月のマスタ（32列）を、適用終了した旧コードの行も含めた全件で、見出しごと「{S_MASTER}」のA1に値で貼る（33列目にコメント列があっても可）"],
         ["2", f"（任意）前月公開版のJLAC11コード列を「{S_PREV}」のA1に見出しごと貼る。元のコードが前月からあるのに000版が無いものに印が付く"],
         ["3", "下の「確認」がすべてOKであることを見る（計算に数十秒かかることがある）"],
         ["4", f"「{S_OUT}」に出た行が、追加する000コードの候補。マスタに入れるときは値で貼り、右側の黄色い【確認】列は除く"],
@@ -158,6 +161,7 @@ def build(out):
         ["確認", "結果"],
         ["列の並び", layout_ok],
         ["マスタの行数", n_rows],
+        ["全件のマスタか（旧コードの行を含むか）", full_ok],
         ["行数の上限", rows_ok],
         ["マスタにすでにある000コード（JLAC11の13〜15桁が000の行）", n_existing],
         ["新しく作る000コードの候補", n_cand],
@@ -179,9 +183,9 @@ def build(out):
     for l in lines:
         guide.append(l)
     guide["A1"].font = Font(bold=True, size=13)
-    for r in (4, 11, 19, 27):
+    for r in (4, 11, 20, 28):
         guide.cell(row=r, column=1).font = BOLD
-    for r in range(12, 18):
+    for r in range(12, 19):
         guide.cell(row=r, column=2).fill = NOTE_FILL
         guide.cell(row=r, column=2).font = BOLD
     guide.column_dimensions["A"].width = 34
