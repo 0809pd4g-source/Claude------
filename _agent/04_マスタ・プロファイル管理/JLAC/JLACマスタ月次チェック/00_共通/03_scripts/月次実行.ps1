@@ -1,6 +1,7 @@
 ﻿# JLACマスタ月次チェックの1回実行（入口）。使い方は 00_共通/02_output の「月次実行の使い方」を参照。
 #   powershell -ExecutionPolicy Bypass -File 00_共通\03_scripts\月次実行.ps1 -Month 202611提出分 [-Settings <今月の設定.txt>] [-OutDir <出力先>] [-SkipDoublecheck] [-TimeoutMinutes 15]
 # 流れ：①設定の点検とツールの実行（monthly_run.mjs run。問題があれば実行せずに止まる）
+#       ①-2 既知の指摘の仕様確認資料を作る（make_known_review.py。使用中の行と、今月終了・内容が変わった行が対象）
 #       ②ダブルチェックのExcelを作る（make_doublecheck.py --config）
 #       ③Excel本体（COM）で全数式を計算して保存（Excelが起動中なら計算しない＝開いているファイルの未保存の編集を失わないため）
 #       ④照合の結果を読む（read_doublecheck.py。読み取りだけ）
@@ -41,6 +42,11 @@ if ($code -ne 0) { Write-Host "中止：ツールの実行でエラーになり�
 $resLine = $lines | Where-Object { $_ -like 'RESULT *' } | Select-Object -Last 1
 $res = $resLine.Substring(7) | ConvertFrom-Json
 
+# ①-2 既知の指摘の仕様確認資料（本田さんに仕様か誤りかを判断いただく。作れなくてもチェック結果には影響しない）
+Write-Host '①-2 既知の指摘の仕様確認資料を作る'
+& python "$Scripts\make_known_review.py" $res.state $OutDir
+if ($LASTEXITCODE -ne 0) { Write-Host "  ⚠️ 既知の指摘の仕様確認資料を作れなかった（make_known_review.py の終了コード $LASTEXITCODE）。チェック結果には影響しない" }
+
 # ②〜④ ダブルチェック
 $dcJson = ''
 $dcStatus = ''
@@ -69,7 +75,7 @@ if ($SkipDoublecheck) {
       $pidFile = Join-Path $env:TEMP ("jlac_monthly_excel_" + [guid]::NewGuid().ToString() + '.txt')
       $job = Start-Job -ArgumentList $res.dc, $pidFile -ScriptBlock {
         param($p, $pidFile)
-        $o = $null
+        $o = $null; $wb = $null
         try {
           $o = New-Object -ComObject Excel.Application
           try {
@@ -82,19 +88,27 @@ if ($SkipDoublecheck) {
           $wb.Save(); $wb.Close($false)
           'DONE'
         } catch { 'ERROR ' + $_.Exception.Message } finally {
+          if ($wb -ne $null) { [void][System.Runtime.InteropServices.Marshal]::ReleaseComObject($wb) }
           if ($o -ne $null) { $o.Quit(); [void][System.Runtime.InteropServices.Marshal]::ReleaseComObject($o) }
+          [GC]::Collect(); [GC]::WaitForPendingFinalizers()
         }
       }
       if (Wait-Job $job -Timeout ($TimeoutMinutes * 60)) {
         $msg = (Receive-Job $job) -join ' '
         Remove-Job $job
+        # Quit の後もExcelが残ることがある（2026-10-16の試験で残った）。控えたプロセス番号のExcelだけを、少し待ってから止める
+        $xp = if (Test-Path -LiteralPath $pidFile) { (Get-Content -LiteralPath $pidFile | Select-Object -First 1) } else { '' }
+        if ($xp -match '^\d+$' -and [int]$xp -gt 0) {
+          for ($i = 0; $i -lt 15 -and (Get-Process -Id ([int]$xp) -ErrorAction SilentlyContinue); $i++) { Start-Sleep -Seconds 1 }
+          if (Get-Process -Id ([int]$xp) -ErrorAction SilentlyContinue) { Stop-Process -Id ([int]$xp) -Force -ErrorAction SilentlyContinue; Write-Host "  計算に使ったExcel（プロセス番号 $xp）が残っていたため終了させました" }
+        } else { Write-Host '  ⚠️ 計算に使ったExcelのプロセス番号が取れませんでした。画面の無いExcelが残っていないか、タスクマネージャーで確かめてください' }
+        Remove-Item -LiteralPath $pidFile -ErrorAction SilentlyContinue
         $secs = [int]((Get-Date) - $t0).TotalSeconds
         if ($msg -notlike '*DONE*') { $dcStatus = "Excelでの計算に失敗：$msg" }
         else {
           $errAfter = @(Get-ChildItem -Path $env:TEMP -Filter 'error*.xml' -ErrorAction SilentlyContinue).Count
           if ($errAfter -gt $errBefore) { Write-Host '  ⚠️ Excelの修復ログ（%TEMP%\error*.xml）が増えました。ダブルチェックのファイルを開いて確かめてください' }
           Write-Host "  計算・保存しました（$secs 秒）"
-          Remove-Item -LiteralPath $pidFile -ErrorAction SilentlyContinue
           Write-Host '④ 照合の結果を読む'
           $dcJson = [IO.Path]::ChangeExtension($res.dc, '.照合.json')
           & python "$Scripts\read_doublecheck.py" $res.dc $dcJson --seconds $secs
@@ -104,6 +118,7 @@ if ($SkipDoublecheck) {
         Stop-Job $job; Remove-Job $job -Force
         # 止めるのは、この処理が起動したExcel（控えたプロセス番号）だけ。番号が取れなかったときは止めずに案内する
         $xp = if (Test-Path -LiteralPath $pidFile) { (Get-Content -LiteralPath $pidFile | Select-Object -First 1) } else { '' }
+        Remove-Item -LiteralPath $pidFile -ErrorAction SilentlyContinue
         if ($xp -match '^\d+$' -and [int]$xp -gt 0) { Stop-Process -Id ([int]$xp) -Force -ErrorAction SilentlyContinue }
         else { Write-Host '  ⚠️ 計算に使ったExcelのプロセス番号が取れなかったため止めていません。タスクマネージャーで画面の無いExcelを終了してください' }
         $dcStatus = "Excelでの計算が $TimeoutMinutes 分で終わらなかったため止めた。ダブルチェックのファイルをExcelで開いて手で計算・保存してから、read_doublecheck.py と monthly_run.mjs report を流す"
