@@ -65,6 +65,19 @@
       ],
       "port": 7444,
       "url": "http://localhost:7444"
+    },
+    {
+      "name": "令和9年度案件_要求事項詳細化",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "7445",
+        "--directory",
+        "C:\\Users\\masato.nakazawa\\Downloads\\Claudeプロジェクト\\_agent\\03_案件管理\\20261019_令和9年度案件_要求事項詳細化\\02_output"
+      ],
+      "port": 7445,
+      "url": "http://localhost:7445"
     }
   ]
 }

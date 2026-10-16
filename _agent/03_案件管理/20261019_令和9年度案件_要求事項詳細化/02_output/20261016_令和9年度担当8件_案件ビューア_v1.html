@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>令和9年度案件（中澤担当8件）ASIS・TOBE・要求事項の詳細化</title>
+<style>
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --text: #1d2430;
+  --muted: #5b6573;
+  --border: #d9dee5;
+  --navy: #1f497d;
+  --heading: #1f497d;
+  --navy-text: #ffffff;
+  --accent: #008899;
+  --asis-bg: #fdf1ec;
+  --asis-border: #e3a58a;
+  --tobe-bg: #ecf6f1;
+  --tobe-border: #86c0a2;
+  --do-bg: #eef3fb;
+  --do-border: #8eaad6;
+  --pri-high: #c0392b;
+  --pri-mid: #b7791f;
+  --pri-low: #5b6573;
+  --pri-text: #ffffff;
+  --warn-bg: #fff6d6;
+  --warn-border: #e2c35a;
+  --infer: #7a5ca8;
+  --link: #1f5fa8;
+  --shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14171c;
+    --surface: #1d2128;
+    --text: #e4e8ee;
+    --muted: #9aa4b2;
+    --border: #353c47;
+    --navy: #2e5c96;
+    --heading: #9cc3f0;
+    --navy-text: #ffffff;
+    --accent: #3fb6c4;
+    --asis-bg: #2e2320;
+    --asis-border: #8a5a46;
+    --tobe-bg: #1f2b25;
+    --tobe-border: #4f8a6c;
+    --do-bg: #1f2633;
+    --do-border: #4f6890;
+    --pri-high: #d9534f;
+    --pri-mid: #c98a2e;
+    --pri-low: #6b7685;
+    --pri-text: #ffffff;
+    --warn-bg: #332c17;
+    --warn-border: #8a7430;
+    --infer: #b49ae0;
+    --link: #7fb2ec;
+    --shadow: none;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Meiryo UI", "Meiryo", "Hiragino Sans", "Yu Gothic UI", sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+}
+header {
+  background: var(--surface);
+  border-bottom: 3px solid var(--accent);
+  padding: 18px 24px 12px;
+}
+header h1 { margin: 0 0 4px; font-size: 21px; color: var(--heading); }
+header .meta { color: var(--muted); font-size: 13px; }
+main { max-width: 1180px; margin: 0 auto; padding: 18px 20px 60px; }
+section { margin-bottom: 28px; }
+h2 {
+  font-size: 17px; margin: 0 0 10px;
+  padding-left: 10px; border-left: 5px solid var(--navy);
+}
+.note {
+  background: var(--warn-bg); border: 1px solid var(--warn-border);
+  border-radius: 6px; padding: 10px 14px; font-size: 14px;
+}
+.note ul { margin: 4px 0 0; padding-left: 20px; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0 12px; }
+.toolbar span { color: var(--muted); font-size: 13px; margin-right: 4px; }
+.toolbar button {
+  border: 1px solid var(--border); background: var(--surface); color: var(--text);
+  border-radius: 16px; padding: 4px 14px; font-size: 13px; cursor: pointer; font-family: inherit;
+}
+.toolbar button[aria-pressed="true"] { background: var(--navy); color: var(--navy-text); border-color: var(--navy); }
+.table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow); }
+table { border-collapse: collapse; width: 100%; min-width: 860px; font-size: 13.5px; }
+th, td { border-bottom: 1px solid var(--border); padding: 8px 10px; vertical-align: top; text-align: left; }
+th { background: var(--navy); color: var(--navy-text); font-weight: bold; white-space: nowrap; }
+tr:last-child td { border-bottom: none; }
+td.id a { font-weight: bold; color: var(--link); text-decoration: none; }
+.pri { display: inline-block; min-width: 2.4em; text-align: center; border-radius: 4px; padding: 0 6px; font-size: 12px; font-weight: bold; color: var(--pri-text); }
+.pri-高 { background: var(--pri-high); }
+.pri-中 { background: var(--pri-mid); }
+.pri-低 { background: var(--pri-low); }
+.status { font-size: 12px; color: var(--muted); }
+.card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  box-shadow: var(--shadow); margin-bottom: 18px; overflow: hidden;
+}
+.card-head { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: baseline; }
+.card-head .cid { font-size: 20px; font-weight: bold; color: var(--heading); }
+.card-head .cname { font-size: 16px; font-weight: bold; flex: 1 1 420px; }
+.card-head .ctag { font-size: 12px; color: var(--muted); }
+.card-body { padding: 14px 16px; }
+.official { font-size: 12.5px; color: var(--muted); margin: 0 0 10px; }
+.flow { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+@media (max-width: 820px) { .flow { grid-template-columns: 1fr; } }
+.box { border-radius: 8px; padding: 10px 12px; border: 1px solid; }
+.box h3 { margin: 0 0 4px; font-size: 13px; letter-spacing: 0.05em; }
+.box ul { margin: 0; padding-left: 18px; }
+.box li { margin-bottom: 3px; }
+.asis { background: var(--asis-bg); border-color: var(--asis-border); }
+.tobe { background: var(--tobe-bg); border-color: var(--tobe-border); }
+.do { background: var(--do-bg); border-color: var(--do-border); }
+details { border-top: 1px dashed var(--border); padding: 8px 0 2px; }
+details:first-of-type { border-top: none; }
+summary { cursor: pointer; font-weight: bold; font-size: 14px; color: var(--heading); }
+details ul, details ol { margin: 6px 0 4px; padding-left: 22px; }
+details li { margin-bottom: 4px; }
+.infer { color: var(--infer); font-size: 12px; white-space: nowrap; }
+.links { font-size: 13px; margin-top: 8px; }
+.links a { color: var(--link); }
+.rel { display: grid; gap: 8px; }
+.rel div { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; }
+footer { color: var(--muted); font-size: 12px; text-align: center; padding: 20px; }
+@media print {
+  .toolbar { display: none; }
+  details { display: block; }
+  .card { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1 id="pageTitle"></h1>
+  <div class="meta"><span id="metaLine"></span></div>
+</header>
+<main>
+  <section id="about">
+    <div class="note">
+      <strong>この資料の読み方</strong>
+      <ul>
+        <li>ASIS＝今どうなっているか／TOBE＝どうしたいか／やること＝案件で何をするか。台帳（10/13受領版）と会議の記録をもとにした言い換えです。</li>
+        <li>「詳細化の要点」「主な確認事項」は、詳細化案（MD）の要約です。台帳にない読み取りには <span class="infer">（推論）</span> を付けています。</li>
+        <li>優先度は10/5時点の厚労省資料「8. 令和9年度案件について 一覧」によります（台帳の優先度欄は空欄）。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="overview">
+    <h2>一覧</h2>
+    <div class="toolbar" role="group" aria-label="優先度で絞り込む">
+      <span>優先度で絞り込む：</span>
+      <button type="button" data-filter="all" aria-pressed="true">すべて</button>
+      <button type="button" data-filter="高" aria-pressed="false">高</button>
+      <button type="button" data-filter="中" aria-pressed="false">中</button>
+      <button type="button" data-filter="低" aria-pressed="false">低</button>
+      <button type="button" id="toggleAll" aria-pressed="false">詳細をすべて開く</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>着手順</th><th>ID</th><th>優先度</th><th>案件（短い名前）</th><th>ASIS（今）</th><th>TOBE（こうしたい）</th><th>状態</th></tr>
+        </thead>
+        <tbody id="overviewBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="cases">
+    <h2>案件ごとの詳細</h2>
+    <div id="caseList"></div>
+  </section>
+
+  <section id="relations">
+    <h2>案件どうしの関係</h2>
+    <div class="rel" id="relList"></div>
+  </section>
+</main>
+<footer id="footer"></footer>
+
+<script>
+window.VERSION = "v1";
+window.DOC_TITLE = "令和9年度案件（中澤担当8件）ASIS・TOBE・要求事項の詳細化";
+window.AS_OF = "2026-10-16";
+
+// 案件データ（ここだけを直せば一覧と詳細の両方に反映される）
+const CASES = [
+  {
+    id: "223", order: 1, pri: "高", short: "電子署名の危殆化対応",
+    official: "電子署名の危殆化対応", area: "全体",
+    status: "下書き（本田さん確認前）", file: "20261016_223_要求事項詳細化案_v1.md",
+    asis: ["文書に時刻の証明を付ける仕組み（TSA）がRSA-2048で署名している", "TSAの証明書は2027年10月に期限切れ", "RSA-2048は2030年までに移行が必要"],
+    tobe: ["2030年1月目途に、より強い方式（ECDSA-256/384）へ移す", "2031年以降、RSA-2048で新しい署名を作らない"],
+    doing: ["① 2027年9月：今のRSA方式のまま証明書を更新", "② 2028年3月：署名検証・タイムスタンプの付与と検証を新方式に対応"],
+    points: ["背景・目的が別案件（院内処方の閲覧）の文面 → 要求事項に合わせて書き直す案（本田さんに確認中）", "要求事項に「③署名方式を差し替えやすい作り」を足す（9/28アジェンダ7で「ECDSAは暫定対応」とされたため）<span class=\"infer\">（推論）</span>", "要求事項に「④登録済みの長期保存形式（ES-A）の文書の扱い」を足す<span class=\"infer\">（推論）</span>", "医療機関への影響：取得した文書の署名を検証している医療機関は、新方式に対応が必要<span class=\"infer\">（推論）</span>"],
+    confirm: ["背景・目的とステークホルダー（MEDIS／電子処方箋）は別案件の記載か", "「他案件にそろえて」の他案件はどれか", "耐量子への移行は別案件でよいか", "法令整備「なし」→「不要」、リリース時期を①2027年9月・②2028年3月と明記"]
+  },
+  {
+    id: "218", order: 2, pri: "高", short: "検査・感染症の「0」の注意書き",
+    official: "検査・感染症の検査結果に対する注意事項の追記", area: "臨床情報：感染症・検査",
+    status: "詳細化案あり", file: "20261016_218_要求事項詳細化案_v1.md",
+    asis: ["「検出せず」は「登録できない理由」で連携 → 他院に共有されない", "閲覧する側は「検出されなかった」のか「未登録」なのか分からない"],
+    tobe: ["「検出せず」は0として登録・共有してよいことにする", "閲覧時に「『0』には『検出せず』が含まれる場合がある」と注意書きが出る"],
+    doing: ["PDF帳票3種（他院向け臨床情報・マイナポ向け臨床情報・マイナポ向け患者サマリー）の注意書き欄に1文を足す", "資格確認端末の臨床情報詳細画面の注意書き欄に1文を足す"],
+    points: ["台帳に抜けていた方針（10/5の説明）を補った：①0で登録してよい →②注意書き →③技術解説書・FAQで周知", "注意書きは検査・感染症の欄があれば常に表示する案", "文言の叩き台を2案（医療従事者向け・患者向け）", "0で登録するのは「検出せず」だけ。「定量下限未満」は今のまま"],
+    confirm: ["表示の条件（常に／0のときだけ）", "文言", "対象の帳票・画面は4つで足りるか", "周知はシステム改修と別に、リリース後に行う"]
+  },
+  {
+    id: "219", order: 3, pri: "高", short: "承継時の処方・検査の表示範囲",
+    official: "医療機関の承継が発生した際における患者サマリーのマイナポでの処方情報・検査情報の表示対象範囲の正規化", area: "患者サマリー",
+    status: "詳細化案あり（220と一緒）", file: "20261016_219・220_要求事項詳細化案_v2.md",
+    asis: ["処方・検査は医療機関コードで紐づけて表示", "承継でコードが変わると、承継後のサマリーに承継前（旧コード）の処方・検査が出ない"],
+    tobe: ["承継元として登録した処方・検査も含めて、指導日から30日分が出る"],
+    doing: ["患者サマリーの処方・検査の抽出で、承継元の医療機関コードの分も拾う"],
+    points: ["9/28の決定事項を反映：承継の前後を問わず30日分／統合時も各30日分／処方・検査ごとの登録医療機関名は表示しない", "承継の判定は総合ポータルサイトの承継の届出（案件141と同じ）。届出のない吸収合併は対象外", "対象は臨床情報閲覧機能（PDF・XML）。取り下げた案件206（前身）にそろえた", "技術解説書（患者サマリー編）の「同一医療機関が…」を改訂"],
+    confirm: ["承継を判定するタイミング（141と同じ登録時点を想定）", "リリース前に登録されたサマリーの扱い", "承継が2回以上続いた場合"]
+  },
+  {
+    id: "216", order: 4, pri: "高", short: "CLINS 1.12.0の利用終了",
+    official: "サポートするプロファイルバージョンの終了(令和9年度)", area: "全体",
+    status: "詳細化案あり", file: "20261016_216_要求事項詳細化案_v1.md",
+    asis: ["CLINS 1.12.0のプロファイルでも登録できる（複数世代を受け付ける仕組み）", "運用開始版の技術解説書は1.13.0対応と書く予定"],
+    tobe: ["1.12.0はシステム上使えない"],
+    doing: ["全機能で、1.12.0を宣言した登録をエラーにする（令和9年12月リリース）"],
+    points: ["案件192（1.10.0・1.11.0・健診1.5.0を令和8年度3月に終了）の続き。エラーの返し方・周知を192とそろえる", "リリースは10/5の説明どおり令和9年12月", "登録済みデータは閲覧できるまま／削除は受け付け／更新は1.13.0で送り直し（案）"],
+    confirm: ["エラーの返し方を192と同じにしてよいか", "1.12.0で登録済みのBundleの更新・削除の扱い", "健診で終了するバージョンはあるか", "全国への周知の方法"]
+  },
+  {
+    id: "207", order: 5, pri: "高", short: "自己情報提供不可フラグの患者サマリー登録エラー",
+    official: "自己情報提供不可フラグ設定した患者に対する患者サマリーの登録時のエラーのアドオンチェック", area: "患者サマリー",
+    status: "詳細化案あり", file: "20261016_207_要求事項詳細化案_v1.md",
+    asis: ["マイナポータルを見られない患者（DV被害者等）にも患者サマリーを登録できてしまう"],
+    tobe: ["登録時にエラーを返し、医療機関は紙の療養計画書に切り替える", "臨床情報は今のとおり登録できる（8/3決定）"],
+    doing: ["登録時のチェック（アドオンチェック）に条件を足す"],
+    points: ["エラー文言の叩き台：住所不開示のエラー（CISS1116E）と同じ型（登録できない理由＋紙で交付）", "文言に「DV」「自己情報提供不可」などフラグの種類を書かない案（職員に被害者だと分からないように）<span class=\"infer\">（推論）</span>", "対象は自己情報提供不可フラグのみ（不開示該当フラグの患者はマイナポータルを見られる＝案件162）", "更新もエラー・削除は受け付け、フラグが後から付いても登録済みは消さない"],
+    confirm: ["エラー文言", "影響確認「なし」→「あり（紙への切り替えの周知）」", "フラグの確認にオン資との連携の改修が要るか"]
+  },
+  {
+    id: "211", order: 6, pri: "中", short: "display値変更時の経過措置期間",
+    official: "標準マスタにおける1つのコードに対するdisplay値変更時における経過措置期間の設定機能の追加", area: "標準マスタ",
+    status: "詳細化案あり（見積もり前）", file: "20261016_211_要求事項詳細化案_v1.md",
+    asis: ["コードは同じでdisplay値（名称）だけ変わると、旧名称での登録がエラーになる（例：J-FAGY 0925版で11件）"],
+    tobe: ["経過措置期間内なら旧名称でもワーニングで登録できる", "期間は柔軟に設定できる"],
+    doing: ["中央基盤のマスタチェックを改修。期間の設定方式は②〜④を見積もって決める"],
+    points: ["受け付ける条件を1つの式に：チェック対象日付 ≦ 旧displayの適用終了日＋経過措置日数", "対象は技術解説書 表35のマスタ（健診マスタ・医療機関等マスタは対象外）", "方式の候補を②〜④に絞る（9/28の決定。台帳の①は削除）", "運用の役割分担：管理団体が旧・新を連携／機構が精査／厚労省が判断基準"],
+    confirm: ["見積もり（#1219、10/19目途）後に：方式・日数の初期値・誰が設定するか", "医療機関等マスタを対象外にしてよいか", "ワーニングの内容"]
+  },
+  {
+    id: "220", order: 7, pri: "低", short: "承継時の旧医療機関名の扱い",
+    official: "承継申請に基づく医療機関コードの変換処理における旧医療機関発行した患者サマリーの挙動の変更", area: "患者サマリー",
+    status: "詳細化案あり（219と一緒）", file: "20261016_219・220_要求事項詳細化案_v2.md",
+    asis: ["案件141で、承継の届出があれば承継先の名前を表示するようにした", "承継元のサマリーを承継後に更新すると、指導医療機関が承継先の名前に変わる"],
+    tobe: ["更新の前後で指導医療機関の名前が変わらない"],
+    doing: ["指導日が承継日より前のサマリーの更新では、承継先への変換をしない"],
+    points: ["名前を承継しない案件205が9/28に「改修しない方針」で取り下げ済み → 要否を厚労省に判断してもらう形にした", "比べる日付（承継日・指導日）を定義。「更新」の見分け方は要件整理で決める", "2件を合わせたときの見え方を例（A病院→B病院）で整理"],
+    confirm: ["220の要否（205の取り下げ理由と矛盾しないか）", "承継後に、承継前の指導日のサマリーを新規に登録した場合", "10/2 WBSの「承継後の更新でIDが変わる事象」との関係"]
+  },
+  {
+    id: "011", order: 8, pri: "低", short: "健診PDFの表示件数（5回→5年分）",
+    official: "健診PDF帳票の表示件数の拡張", area: "健診文書",
+    status: "詳細化案あり（⚠️優先度要確認）", file: "20261016_011_要求事項詳細化案_v1.md",
+    asis: ["健診結果のPDFは直近5回分まで", "電カル共有を「利用する」設定ならXMLでは過去5年分すべて見られる（PDFとXMLで範囲が違う）"],
+    tobe: ["PDFでも過去5年分（回数の上限なし）を見られる"],
+    doing: ["PDF帳票の表示上限を「5回分」から「5年分」に変える（開発要否はレイアウトイメージを見て決める）"],
+    points: ["XMLとPDFの差をなくす案件と位置づけ、背景に追記", "「5年分」は受診日が過去5年以内（XMLにそろえる）", "6回分以上は5回分ずつ改ページする想定", "「利用しない」設定は今のまま"],
+    confirm: ["⚠️優先度：10/5の説明では「中」、一覧の画像では「低」", "対象の帳票（医療機関向け・マイナポ向け）", "案件178（保存期間の延長）との関係"]
+  }
+];
+
+const RELATIONS = [
+  "<strong>219と220</strong>：どちらも承継の案件。219は「承継元の処方・検査も拾う」、220は「承継元の名前のまま表示する」。承継の判定方法と画面の見え方を一緒にそろえる。",
+  "<strong>216と223</strong>：どちらも技術解説書の全国的な運用開始版に関係しそう。10/13に本田さんが言った「優先して進めてほしい案件」に当たるかは確認中。",
+  "<strong>207・218・211</strong>：方向性は決まっていて、残りは文言（207・218）か見積もり（211）。厚労省の検討・機構の見積もり待ち。",
+  "<strong>前身の案件</strong>：216←192（CLINS 1.10.0・1.11.0、健診1.5.0の終了）、219←206（取り下げ）、220←205（取り下げ・改修しない方針）。"
+];
+
+function el(tag, attrs, html) {
+  const e = document.createElement(tag);
+  if (attrs) Object.entries(attrs).forEach(([k, v]) => e.setAttribute(k, v));
+  if (html !== undefined) e.innerHTML = html;
+  return e;
+}
+function list(items) { return "<ul>" + items.map(i => "<li>" + i + "</li>").join("") + "</ul>"; }
+function priBadge(p) { return '<span class="pri pri-' + p + '">' + p + "</span>"; }
+
+function render() {
+  document.title = window.DOC_TITLE;
+  document.getElementById("pageTitle").textContent = window.DOC_TITLE;
+  document.getElementById("metaLine").textContent = window.AS_OF + " 時点／" + window.VERSION + "／元資料：案件台帳（10/13受領版）と各案件の詳細化案（同じフォルダのMD）";
+  document.getElementById("footer").textContent = window.DOC_TITLE + "　" + window.VERSION + "（" + window.AS_OF + "）";
+
+  const body = document.getElementById("overviewBody");
+  const listEl = document.getElementById("caseList");
+  CASES.slice().sort((a, b) => a.order - b.order).forEach(c => {
+    const tr = el("tr", { "data-pri": c.pri });
+    tr.innerHTML =
+      "<td>" + c.order + "</td>" +
+      '<td class="id"><a href="#case-' + c.id + '">' + c.id + "</a></td>" +
+      "<td>" + priBadge(c.pri) + "</td>" +
+      "<td>" + c.short + "</td>" +
+      "<td>" + c.asis[0] + "</td>" +
+      "<td>" + c.tobe[0] + "</td>" +
+      '<td class="status">' + c.status + "</td>";
+    body.appendChild(tr);
+
+    const card = el("article", { class: "card", id: "case-" + c.id, "data-pri": c.pri });
+    card.innerHTML =
+      '<div class="card-head"><span class="cid">' + c.id + "</span>" +
+      '<span class="cname">' + c.short + "</span>" + priBadge(c.pri) +
+      '<span class="ctag">' + c.area + "／" + c.status + "</span></div>" +
+      '<div class="card-body">' +
+      '<p class="official">台帳の案件名称：' + c.official + "</p>" +
+      '<div class="flow">' +
+      '<div class="box asis"><h3>ASIS（今）</h3>' + list(c.asis) + "</div>" +
+      '<div class="box tobe"><h3>TOBE（こうしたい）</h3>' + list(c.tobe) + "</div>" +
+      '<div class="box do"><h3>案件でやること</h3>' + list(c.doing) + "</div>" +
+      "</div>" +
+      "<details><summary>詳細化の要点</summary>" + list(c.points) + "</details>" +
+      "<details><summary>主な確認事項</summary>" + list(c.confirm) + "</details>" +
+      '<div class="links">詳細化案：<a href="' + c.file + '">' + c.file + "</a></div>" +
+      "</div>";
+    listEl.appendChild(card);
+  });
+
+  const rel = document.getElementById("relList");
+  RELATIONS.forEach(r => rel.appendChild(el("div", null, r)));
+}
+
+function setupFilter() {
+  const buttons = document.querySelectorAll("[data-filter]");
+  buttons.forEach(btn => btn.addEventListener("click", () => {
+    const f = btn.getAttribute("data-filter");
+    buttons.forEach(b => b.setAttribute("aria-pressed", String(b === btn)));
+    document.querySelectorAll("#overviewBody tr, #caseList .card").forEach(row => {
+      row.hidden = !(f === "all" || row.getAttribute("data-pri") === f);
+    });
+  }));
+  const toggle = document.getElementById("toggleAll");
+  toggle.addEventListener("click", () => {
+    const open = toggle.getAttribute("aria-pressed") !== "true";
+    toggle.setAttribute("aria-pressed", String(open));
+    toggle.textContent = open ? "詳細をすべて閉じる" : "詳細をすべて開く";
+    document.querySelectorAll("#caseList details").forEach(d => { d.open = open; });
+  });
+}
+
+render();
+setupFilter();
+</script>
+</body>
+</html>
