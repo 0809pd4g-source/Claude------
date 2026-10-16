@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>電カル調査研究事業 定常業務マニュアル</title>
+<style>
+:root{--bg:#ffffff;--fg:#1f2328;--muted:#59636e;--line:#d1d9e0;--side:#f6f8fa;--accent:#0b5cad;--accent-bg:#e6f0fb;
+--code-bg:#eff2f5;--th-bg:#f0f3f6;--warn-bg:#fff6e0;--warn-line:#d4a72c;--hit:#fff1a8;--card:#ffffff;--shadow:rgba(0,0,0,.08)}
+[data-theme=dark]{--bg:#0f1419;--fg:#e6edf3;--muted:#9aa5b1;--line:#30363d;--side:#161b22;--accent:#6cb6ff;--accent-bg:#1c2b3d;
+--code-bg:#1f262e;--th-bg:#1a2129;--warn-bg:#2e2611;--warn-line:#a27c1c;--hit:#5a4a00;--card:#161b22;--shadow:rgba(0,0,0,.4)}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Yu Gothic UI","Meiryo",system-ui,sans-serif;font-size:15px;line-height:1.75;color:var(--fg);background:var(--bg)}
+header{position:sticky;top:0;z-index:5;display:flex;gap:12px;align-items:center;padding:8px 16px;background:var(--side);border-bottom:1px solid var(--line)}
+header h1{font-size:16px;margin:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+header .ver{font-size:12px;color:var(--muted);white-space:nowrap}
+#q{width:260px;padding:5px 9px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--fg)}
+button{font:inherit;cursor:pointer;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:3px 10px}
+.wrap{display:flex;min-height:calc(100vh - 46px)}
+nav{width:290px;flex:none;background:var(--side);border-right:1px solid var(--line);padding:10px 8px 40px;position:sticky;top:46px;height:calc(100vh - 46px);overflow:auto;font-size:14px}
+nav .grp{font-size:12px;color:var(--muted);margin:14px 8px 4px;font-weight:bold}
+nav a{display:block;padding:3px 8px;border-radius:5px;color:var(--fg);text-decoration:none}
+nav a:hover{background:var(--accent-bg)}
+nav a.on{background:var(--accent-bg);color:var(--accent);font-weight:bold}
+nav .subs{display:none;margin-left:10px;border-left:2px solid var(--line)}
+nav .subs a{font-size:13px;color:var(--muted)}
+nav li.open .subs{display:block}
+nav ul{list-style:none;margin:0;padding:0}
+main{flex:1;min-width:0;padding:16px 32px 80px;max-width:1100px}
+main h2,main h3,main h4,main h5{scroll-margin-top:56px}
+main h2{font-size:22px;border-bottom:2px solid var(--accent);padding-bottom:4px}
+main h3{font-size:18px;margin-top:28px;border-left:4px solid var(--accent);padding-left:8px}
+main h4{font-size:16px;margin-top:20px}
+main h5{font-size:15px;margin-top:16px;color:var(--accent)}
+a{color:var(--accent)}
+code{background:var(--code-bg);padding:1px 4px;border-radius:4px;font-size:.9em;word-break:break-all}
+pre{background:var(--code-bg);padding:10px;border-radius:6px;overflow:auto}
+pre code{padding:0;background:none;word-break:normal}
+.tw{overflow-x:auto;margin:10px 0}
+table{border-collapse:collapse;font-size:14px}
+th,td{border:1px solid var(--line);padding:5px 8px;vertical-align:top}
+th{background:var(--th-bg);text-align:left}
+blockquote{margin:10px 0;padding:6px 12px;border-left:4px solid var(--line);color:var(--fg);background:var(--side)}
+blockquote.caution{border-left-color:var(--warn-line);background:var(--warn-bg)}
+.cb{color:var(--muted)}
+.tabs{display:flex;gap:6px;margin:12px 0;border-bottom:1px solid var(--line)}
+.tabs button{border-bottom:none;border-radius:6px 6px 0 0;padding:6px 18px}
+.tabs button[aria-selected=true]{background:var(--accent-bg);color:var(--accent);font-weight:bold;border-color:var(--accent)}
+.srcdoc{margin-bottom:36px}
+.srcname{font-size:13px;color:var(--muted);border:1px dashed var(--line);border-radius:6px;padding:4px 10px;display:flex;gap:10px;flex-wrap:wrap}
+.srcname .fname{font-family:monospace}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.card{display:flex;flex-direction:column;padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--card);box-shadow:0 1px 3px var(--shadow);text-decoration:none;color:var(--fg)}
+.card span{font-size:13px;color:var(--muted)}
+figure{margin:12px 0}
+figure img{max-width:100%;border:1px solid var(--line)}
+figcaption{font-size:12px;color:var(--muted)}
+.warn{color:var(--warn-line)}
+#results{display:none;position:fixed;top:46px;right:16px;width:480px;max-height:70vh;overflow:auto;background:var(--bg);border:1px solid var(--line);border-radius:8px;box-shadow:0 4px 16px var(--shadow);z-index:6}
+#results a{display:block;padding:6px 10px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--fg);font-size:13px}
+#results a b{color:var(--accent);font-weight:normal;font-size:12px;display:block}
+#results mark{background:var(--hit);color:inherit}
+footer{font-size:12px;color:var(--muted);margin-top:40px;border-top:1px solid var(--line);padding-top:8px}
+@media (max-width:800px){nav{display:none}.wrap.navopen nav{display:block;position:fixed;z-index:7;width:80%}main{padding:12px}#q{width:140px}#results{width:92%}}
+@media (min-width:801px){#menu{display:none}}
+@media print{header,nav,#results{display:none}section.page{display:block!important}.tabpanel{display:block!important}}
+</style>
+</head>
+<body>
+<header><button type="button" id="menu" aria-label="目次">☰</button><h1 id="apptitle">電カル調査研究事業 定常業務マニュアル</h1>
+<span class="ver vertext"></span><input id="q" type="search" placeholder="検索（2文字以上）" aria-label="検索">
+<button type="button" id="theme" aria-label="明暗の切替">◐</button></header>
+<div id="results"></div>
+<div class="wrap"><nav aria-label="目次"><div class="grp">本体</div><ul><li data-page="p-top"><a href="#p-top">はじめに</a></li></ul><div class="grp">定常業務マニュアル</div><ul><li data-page="p-m1"><a href="#p-m1">1. 定期サイクル全体像</a><div class=subs><a href="#p-m1-h1">業務一覧（いつ・何を・どこを見る）</a><a href="#p-m1-h2">週次カレンダー</a></div></li><li data-page="p-m2"><a href="#p-m2">2. 社内定例</a><div class=subs><a href="#p-m2-h1">2-1. 夕会（毎週月・水・金）</a><a href="#p-m2-h2">2-2. 昼会（毎日）</a></div></li><li data-page="p-m3"><a href="#p-m3">3. 三者定例</a><div class=subs><a href="#p-m3-h1">開催時間</a><a href="#p-m3-h2">3-1. 金曜（三者定例当日）</a><a href="#p-m3-h6">3-2. 月曜（ラップアップ会議）</a><a href="#p-m3-h10">3-3. 木曜（事前連携）</a><a href="#p-m3-h13">3-4. 翌金曜（最終格納）</a></div></li><li data-page="p-m4"><a href="#p-m4">4. 開発進捗連絡会議</a><div class=subs><a href="#p-m4-h1">会議前（前週金曜）</a><a href="#p-m4-h2">会議前（当日月曜）</a><a href="#p-m4-h3">資料格納手順（最終版・当日）</a><a href="#p-m4-h4">会議中</a><a href="#p-m4-h5">会議後</a></div></li><li data-page="p-m5"><a href="#p-m5">5. 開発課題検討会</a><div class=subs><a href="#p-m5-h1">会議前（前週金曜）</a><a href="#p-m5-h2">会議前（当日月曜）</a><a href="#p-m5-h3">資料格納手順（最終版・当日）</a><a href="#p-m5-h4">会議中</a><a href="#p-m5-h5">会議後</a><a href="#p-m5-h6">議事要旨（案）のチェックのしかた（4章・5章共通）</a></div></li><li data-page="p-m6"><a href="#p-m6">6. WBS確認会</a><div class=subs><a href="#p-m6-h1">会議前</a><a href="#p-m6-h2">会議中</a><a href="#p-m6-h3">会議後</a></div></li><li data-page="p-m7"><a href="#p-m7">7. ONS（台帳管理・会議）</a><div class=subs><a href="#p-m7-h1">ONSの1週間の流れ（まずここを見る）</a><a href="#p-m7-h2">更新ファイル</a><a href="#p-m7-h3">7-1. 台帳管理フロー（週次）</a><a href="#p-m7-h7">7-2. ONS問合せ会議（毎週火曜 14:15–15:00）</a><a href="#p-m7-h12">7-3. ONS共有会（毎週火曜 15:00–15:30）</a><a href="#p-m7-h15">7-4. 開発進捗連絡会議（書面開催・書面確認分）の読合せ</a></div></li><li data-page="p-m8"><a href="#p-m8">8. 資料作成</a><div class=subs><a href="#p-m8-h1">8-1. 案件起票の流れ</a><a href="#p-m8-h3">8-2. WBS資料</a><a href="#p-m8-h7">8-3. terminology月次更新：収載マスタ版数の回答（毎月）</a><a href="#p-m8-h8">8-4. 【周知の共通ルール①】DX機構へのマスタ取り込み・ポータルサイト更新の依頼メール（マスタ更新のたび）</a><a href="#p-m8-h9">8-5. 【周知の共通ルール②】ポータルサイトの周知文（マスタの版上げのとき）</a><a href="#p-m8-h10">8-6. マスタ更新スケジュールスライド（毎月）</a><a href="#p-m8-h11">8-7. 外部IF・バリデーションの修正一覧の確認（不定期：機構から依頼が来たとき）</a></div></li><li data-page="p-m9"><a href="#p-m9">9. 外部会議</a><div class=subs><a href="#p-m9-h1">9-1. 共通フロー</a><a href="#p-m9-h2">9-2. JLACセンター打合せ（毎月）</a><a href="#p-m9-h3">9-3. JAHIS打合せ（アドホック）</a><a href="#p-m9-h4">9-4. 大江先生打合せ（アドホック）</a></div></li><li data-page="p-m10"><a href="#p-m10">10. 担当早見表</a></li><li data-page="p-m11"><a href="#p-m11">11. 注意事項まとめ</a></li><li data-page="p-m12"><a href="#p-m12">12. 引き継ぎの入口：文書・ツールの一覧（まずここを見る）</a><div class=subs><a href="#p-m12-h1">12-1. 業務ごとの手順の正本とツール</a><a href="#p-m12-h2">12-2. 毎日・毎週使う管理ファイル</a><a href="#p-m12-h3">12-3. 調べるときの参照先</a><a href="#p-m12-h4">12-4. Claude Code を使う場合</a></div></li><li data-page="p-x14"><a href="#p-x14">付録：主要担当者（社内）</a></li></ul><div class="grp">マスタ業務（手作業編／ツール編）</div><ul><li data-page="p-jlac"><a href="#p-jlac">JLACマスタ月次チェック</a></li><li data-page="p-yakuzai"><a href="#p-yakuzai">薬剤関連マスタの作成</a></li><li data-page="p-jfagy"><a href="#p-jfagy">J-FAGYの版上げ（不定期）</a></li></ul></nav>
+<main><section class="page" id="p-top" data-title="はじめに" hidden><h2>はじめに</h2><blockquote><p>作成日: 2026-08-31<br>改訂日: 2026-10-16（v51）<br><strong>はじめて読む人へ</strong>：まず「12. 引き継ぎの入口」で、業務ごとの手順書・ツール・管理ファイルの場所を確認する<br>プロジェクト: 20260831_電カル調査研究_定常業務マニュアル<br>対象: 電子カルテ情報共有サービスに関する厚労省調査研究事業のロジ担当者</p></blockquote>
+<hr><h3>まず見るところ</h3><div class="cards"><a class="card" href="#p-m1"><b>業務一覧と週次カレンダー</b><span>いつ・何を・どこを見るか</span></a><a class="card" href="#p-jlac"><b>JLACマスタ月次チェック</b><span>手作業編とツール編</span></a><a class="card" href="#p-yakuzai"><b>薬剤関連マスタの作成</b><span>手作業編とツール編</span></a><a class="card" href="#p-jfagy"><b>J-FAGYの版上げ</b><span>不定期・周知まで</span></a></div></section><section class="page" id="p-m1" data-title="1. 定期サイクル全体像" hidden><h2>1. 定期サイクル全体像</h2><h3 id="p-m1-h1">業務一覧（いつ・何を・どこを見る）</h3>
+<div class="tw"><table><thead><tr><th>頻度</th><th>業務</th><th>手順の場所</th></tr></thead><tbody><tr><td>毎日</td><td>昼会</td><td>2-2</td></tr><tr><td>週（月・水・金）</td><td>夕会</td><td>2-1</td></tr><tr><td>週（月）</td><td>三者定例ラップアップ</td><td>3-2</td></tr><tr><td>週（月）</td><td>開発進捗連絡会議（書面開催の週は資料の読合せ）</td><td>4章・7-4</td></tr><tr><td>週（月）</td><td>開発課題検討会</td><td>5章</td></tr><tr><td>週（火）</td><td>ONS問合せ会議・ONS共有会</td><td>7-2・7-3</td></tr><tr><td>週（水）</td><td>議事要旨コメント返送・議事要旨チェック</td><td>4章・5章</td></tr><tr><td>週（木）</td><td>三者定例の事前連携／WBSのTODO・確認事項スライド（木曜昼まで）</td><td>3-3・8-2</td></tr><tr><td>週（金）</td><td>全体WBS確認会／三者定例当日／翌週の最終格納</td><td>6章・3-1・3-4</td></tr><tr><td>随時</td><td>ONS台帳管理（受領→回答案→Rv→返送）</td><td>7-1</td></tr><tr><td>月</td><td>JLACマスタ月次チェック（毎月1日提出→7日頃送付）。手作業編＋ツール編</td><td>12-1（JLACマスタチェック手順・手作業編）</td></tr><tr><td>月</td><td>薬剤関連マスタの作成（毎月15日ごろ）</td><td>12-1（薬剤関連マスタ作成手順）</td></tr><tr><td>月</td><td>terminology収載マスタ版数の回答</td><td>8-3</td></tr><tr><td>月</td><td>マスタ更新スケジュールスライド</td><td>8-6</td></tr><tr><td>月</td><td>ONS問い合わせ月次報告の読合せ（第2週の翌週）</td><td>7-2・7-3</td></tr><tr><td>月</td><td>JLACセンター打合せ</td><td>9-2</td></tr><tr><td>マスタ版上げごと</td><td>周知（機構への依頼メール・ポータル周知文）：共通ルール＋マスタ別ルール</td><td>8-4・8-5（対応表）</td></tr><tr><td>不定期</td><td>J-FAGY版上げ</td><td><a class="doclink" href="#p-jfagy"><code>20261016_J-FAGYマスタ更新手順_v1.md</code></a></td></tr><tr><td>不定期</td><td>案件起票／機構の確認結果の拾い上げ</td><td>8-1・8-1b</td></tr><tr><td>不定期</td><td>外部IF・バリデーション修正一覧の確認</td><td>8-7</td></tr><tr><td>不定期</td><td>JAHIS打合せ・大江先生打合せ</td><td>9-3・9-4</td></tr><tr><td>外部送付・印刷のたび</td><td>送付前チェック</td><td>11章</td></tr></tbody></table></div>
+<h3 id="p-m1-h2">週次カレンダー</h3>
+<div class="tw"><table><thead><tr><th>曜日</th><th>時間</th><th>会議・作業</th></tr></thead><tbody><tr><td>月</td><td>10:30–11:00</td><td>三者定例ラップアップ</td></tr><tr><td>月</td><td>13:15–13:30</td><td>昼会</td></tr><tr><td>月</td><td>13:30–14:00</td><td>開発進捗連絡会議</td></tr><tr><td>月</td><td>14:00–15:30</td><td>開発課題検討会</td></tr><tr><td>月</td><td>17:00–17:30</td><td>夕会</td></tr><tr><td>月</td><td>18:30–20:30</td><td>内部情報共有会（議事メモ不要）</td></tr><tr><td>月</td><td>（会議後）</td><td>開発進捗連絡会議が書面開催・書面確認の場合：NTTデータ・富士通の資料を入手し、火曜ONSでの読合せを準備（→7-4）</td></tr><tr><td>火</td><td>13:15–13:30</td><td>昼会</td></tr><tr><td>火</td><td>14:15–15:00</td><td>ONS問合せ会議（書面開催の週は開発進捗連絡会議資料の読合せあり→7-4）</td></tr><tr><td>火</td><td>15:00–15:30</td><td>ONS共有会</td></tr><tr><td>水</td><td>13:15–13:30</td><td>昼会（ONS返送日）</td></tr><tr><td>水</td><td>15:00 / 18:00</td><td>議事要旨コメント返送（月曜の開発進捗連絡会議・開発課題検討会分。厚労省Rv依頼は15:00まで、刈り取りは18:00）</td></tr><tr><td>水</td><td>17:00–17:30</td><td>夕会（ONS受領日）</td></tr><tr><td>木</td><td>（終日）</td><td>三者定例：事前連携対応</td></tr><tr><td>木</td><td>昼まで</td><td>WBSのTODO・確認事項一覧スライド更新（→8-2）</td></tr><tr><td>金</td><td>10:00–12:30</td><td>全体WBS確認会</td></tr><tr><td>金</td><td>13:15–13:30</td><td>昼会</td></tr><tr><td>金</td><td>13:30–14:00</td><td>三者定例</td></tr><tr><td>金</td><td>16:30–17:30</td><td>夕会（金のみ長め）</td></tr></tbody></table></div>
+<blockquote><p><strong>月次：毎月第2週</strong>はONS月次報告のアジェンダが追加される（詳細はセクション5注記）。<br><strong>月次：毎月1日</strong>にJLACマスタを提出 → 7日頃に送付（手順は12-1）。<br><strong>月次：毎月15日ごろ</strong>、YJコードリストを受領したら薬剤関連マスタを作成 → 翌日に本田さんRv → 送付（手順は12-1）。<br><strong>月次：第2週の翌週</strong>のONS問合せ会議で、ONS問い合わせ月次報告（前月分）を厚労省と約5分で読み合わせる（→7-2・7-3）。<br><strong>月次：terminology公開後</strong>、DX機構（芳原さん）から収載マスタ版数の問合せメールが来る→版数を確認して回答（→8-3）。<br><strong>不定期：</strong> J-FAGYの版上げ（<a class="doclink" href="#p-jfagy"><code>20261016_J-FAGYマスタ更新手順_v1.md</code></a>）、JLAC打合せ（月次）、JAHIS打合せ、大江先生打合せ（セクション9）。<br><strong>議事メモ：WBS確認会を除く全会議でロジ担当が作成する</strong>（WBS確認会のみ山川さん・中澤が主担当）。</p></blockquote>
+<hr></section><section class="page" id="p-m2" data-title="2. 社内定例" hidden><h2>2. 社内定例</h2><h3 id="p-m2-h1">2-1. 夕会（毎週月・水・金）</h3>
+<div class="tw"><table><thead><tr><th>曜日</th><th>時間</th></tr></thead><tbody><tr><td>月・水</td><td>17:00–17:30</td></tr><tr><td>金</td><td>16:30–17:30</td></tr></tbody></table></div>
+<p><strong>会議前（水・金のみ）</strong></p>
+<ul><li><span class="cb">☐</span> 課題・TODO台帳を確認し、WBSに当てないとまずいTodoがないかを事前にピックアップしておく</li></ul>
+<p><strong>会議中</strong></p>
+<ul><li><span class="cb">☐</span> 個別TODOの進捗を報告する（ロジ担当分）</li><li><span class="cb">☐</span> 課題・TODO台帳の確認を行う（水・金）</li></ul>
+<p><strong>会議後（タスク発生時）</strong></p>
+<ul><li><span class="cb">☐</span> タスクを遂行する</li></ul>
+<blockquote><p>ファシリテーション・ワンノート更新・割り振りは本田さんが担当。</p></blockquote>
+<hr>
+<h3 id="p-m2-h2">2-2. 昼会（毎日）</h3>
+<div class="tw"><table><thead><tr><th>時間</th></tr></thead><tbody><tr><td>13:15–13:30</td></tr></tbody></table></div>
+<p><strong>会議中</strong></p>
+<ul><li><span class="cb">☐</span> Plannerに新規追加したTODOを報告する</li><li><span class="cb">☐</span> TODOにおけるエスカレ事項があれば報告する</li></ul>
+<blockquote><p>ファシリテーションは本田さんが担当。</p></blockquote>
+<hr></section><section class="page" id="p-m3" data-title="3. 三者定例" hidden><h2>3. 三者定例</h2><h3 id="p-m3-h1">開催時間</h3>
+<div class="tw"><table><thead><tr><th>会議名</th><th>曜日</th><th>時間</th></tr></thead><tbody><tr><td>三者定例ラップアップ</td><td>毎週月曜</td><td>10:30–11:00</td></tr><tr><td>三者定例</td><td>毎週金曜</td><td>13:30–14:00</td></tr></tbody></table></div>
+<hr>
+<h3 id="p-m3-h2">3-1. 金曜（三者定例当日）</h3>
+<h4 id="p-m3-h3">会議前</h4>
+<ul><li><span class="cb">☐</span> ドラフト版資料の作成・事前連携を行う（本田さんが主担当）</li><li><span class="cb">☐</span> リマインド投稿（木・金朝）の設定を確認する（→セクション3-3参照）</li></ul>
+<h4 id="p-m3-h4">会議中</h4>
+<ul><li><span class="cb">☐</span> ラップアップページに記入する</li><li><span class="cb">☐</span> 議事メモを記載する</li></ul>
+<h4 id="p-m3-h5">会議後</h4>
+<ul><li><span class="cb">☐</span> <strong>次回ファイル作成</strong>（月曜朝のラップアップ会議前までに）<ul><li>ACNシェアポ上で前回フォルダをコピーして翌週（金曜）のファイルを作成する</li><li>表紙の日付を更新する</li></ul></li><li><span class="cb">☐</span> <strong>次週リマインド投稿予約</strong>（各日 <strong>9:00送信</strong>）<ul><li>送付先スレッド：<a href="https://teams.microsoft.com/l/message/19:LKmHQN8a5v1TpiCXG6_ZhITzmQgSlfOEPr9OjtAz0HI1@thread.tacv2/1775654880227?tenantId=e0793d39-0939-496d-b129-198edd916feb&amp;groupId=c7a6f885-d9e8-444b-baf0-9f03af3fec14&amp;parentMessageId=1775654880227&amp;teamName=2026%E5%B9%B4%E5%BA%A6_%E9%9B%BB%E5%AD%90%E3%82%AB%E3%83%AB%E3%83%86%E6%83%85%E5%A0%B1%E5%85%B1%E6%9C%89%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9&amp;channelName=%E4%B8%80%E8%88%AC&amp;createdTime=1775654880227" target="_blank" rel="noopener">【状況確認】三者定例資料の送付事前確認 ＞ 2026年度_電子カルテ情報共有サービス ＞ 一般</a></li></ul></li></ul>
+<blockquote><p><strong>宛先の決まり（2026-10-09 更新）</strong>：宛先は Miyamoto・Nakazato・Sakisaka・Honda、CCは Ono・Sasagawa・Abe・Minowa・Mukai・Kurokawa・Yamagata（山形さんへは「モデルは連携不要のためレスポンス不要」の一文を添える）。<strong>毎月第2週（ONS月次報告週）だけ、宛先に比嘉さん（Higa, Ryu／ryu.higa）を追加する</strong> → 毎月1回目の三者定例が終わった後に、翌週（第2週）分のリマインドを予約するときに入れる。</p></blockquote>
+<p><strong>翌週木曜 9:00 送信予約（事前連携リマインド）</strong></p>
+<pre><code>※敬称略失礼します
+Miyamoto, Fumiaki Nakazato, Yuri Sakisaka, Tsubasa Honda, Keiko
+CC: Ono, Shunichi Sasagawa, Rika Abe, Masako Minowa, Kazuki Mukai, Chiaki Kurokawa, Hanae Yamagata, Naohiro
+
+お疲れ様です。三者定例資料のリマインド失礼します。
+【リマインド内容】
+〇/〇の三者定例資料につきまして、作成状況いかがでしょうか。
+事前連携OKでしたらスタンプをお願いいたします。
+期限：〇/〇 13:50まで
+格納先：2026〇〇〇〇_三者定例
+
+※ Yamagata, Naohiroさん：モデルについては連携不要の認識のためレスポンス不要です。</code></pre>
+<p><strong>翌週金曜 9:00 送信予約（最終格納リマインド）</strong></p>
+<pre><code>※敬称略失礼します
+Miyamoto, Fumiaki Nakazato, Yuri Sakisaka, Tsubasa Honda, Keiko
+CC: Ono, Shunichi Sasagawa, Rika Abe, Masako Minowa, Kazuki Mukai, Chiaki Kurokawa, Hanae Yamagata, Naohiro
+
+お疲れ様です。三者定例資料のリマインド失礼します。
+【リマインド内容】
+〇/〇の三者定例資料につきまして、作成状況いかがでしょうか。
+最終格納OKでしたらスタンプをお願いいたします。
+期限：〇/〇 11:50まで
+格納先：2026〇〇〇〇_三者定例
+
+※ Yamagata, Naohiroさん：モデルについては連携不要の認識のためレスポンス不要です。</code></pre>
+<ul><li><span class="cb">☐</span> <strong>議事要旨作成</strong>（翌週木曜14時までに完成）</li><li><span class="cb">☐</span> Plannerに発生したTODOを記載する</li></ul>
+<hr>
+<h3 id="p-m3-h6">3-2. 月曜（ラップアップ会議）</h3>
+<h4 id="p-m3-h7">会議前</h4>
+<ul><li><span class="cb">☐</span> 当週分の三者定例資料ファイルを作成する（前週金曜に作成済みのはず）</li><li><span class="cb">☐</span> 当週のアジェンダを確認する</li></ul>
+<h4 id="p-m3-h8">会議中</h4>
+<ul><li><span class="cb">☐</span> <strong>ラップアップ投影</strong>：前週金曜分のラップアップページを投影する<ul><li>本田さんから基金側に記入漏れ等ないか確認してもらう</li></ul></li><li><span class="cb">☐</span> <strong>次回アジェンダ確認</strong>：本田さんが当週金曜の付議事項を確認<ul><li>追加アジェンダがあれば、金曜資料のアジェンダページ枠外にワッペンでメモする（基金・ACN作業者への共有用）</li></ul></li><li><span class="cb">☐</span> 議事メモを記載する</li></ul>
+<h4 id="p-m3-h9">会議後</h4>
+<ul><li><span class="cb">☐</span> <strong>ラップアップ送付</strong><ol><li>本田さんに送付可否を確認する</li><li>ラップアップのみ切り出したファイルを作成し、<strong>必ずプロパティを削除する</strong></li><li>以下の宛先にメール送付する</li></ol></li></ul>
+<p><strong>To:</strong></p>
+<pre><code>suzuki-tomoyuki.co@ssk.or.jp; kurokawa-daisuke.cx@ssk.or.jp; nishimura-yoshihisa.ey@ssk.or.jp; hirokami-hisanori.na@ssk.or.jp; miyawaki-shinji.ny@ssk.or.jp; ono-chie.lw@ssk.or.jp; yamamoto-koji.vk@ssk.or.jp; hosonuma-hiroki.bi@ssk.or.jp; yamamoto-takanori.vy@ssk.or.jp; yamamoto-kana.lk@ssk.or.jp; yamashiki_yuji@ssk.or.jp; uchida-hiroaki.uh@ssk.or.jp; saito-masaki.io@ssk.or.jp; amano-yuna.im@ssk.or.jp; nomura-nanako.bs@ssk.or.jp; nakamura_yoshihiko@ssk.or.jp; koshimizu_ayame@ssk.or.jp; yoshihara_kenjiro@ssk.or.jp; nagamine-yuiko.qt8@mhlw.go.jp; takahashi-yuuichi01@mhlw.go.jp; uehori-motoki.3r6@mhlw.go.jp; nakanishi-masanori.de7@mhlw.go.jp; shibuya-kenichi.z45@mhlw.go.jp; hasegawa-satoru.f83@mhlw.go.jp</code></pre>
+<p><strong>CC:</strong></p>
+<pre><code>clins_internal@fortience.com; onsk_e-chartPlatform_ssk_support@accenture.com; ACN_Model_Project@accenture.com; improve_mynakarte@accenture.com</code></pre>
+<ul><li><span class="cb">☐</span> Plannerに発生したTODOを記載する</li></ul>
+<hr>
+<h3 id="p-m3-h10">3-3. 木曜（事前連携）</h3>
+<h4 id="p-m3-h11">【事前】資料更新依頼時の指示（担当者へ個チャ）</h4>
+<ul><li><span class="cb">☐</span> 更新中のスライドには全て「更新中」のワッペンを貼るよう依頼する</li><li><span class="cb">☐</span> 作成中等の理由で事前連携しないファイルは非表示にするよう依頼する</li></ul>
+<h4 id="p-m3-h12">13:30 刈り取り</h4>
+<ul><li><span class="cb">☐</span> <strong>9:00の自動投稿が正常に送信されているか</strong>をスレッドで確認する</li><li><span class="cb">☐</span> スレッドでモデル・基金ACNの承認状況を確認する。反応がなければ個チャで刈り取る</li><li><span class="cb">☐</span> <strong>資料確認</strong><ul><li>前週金曜のラップアップ・議事要旨を当週金曜資料の冒頭に貼り付ける</li><li>全体を目視確認する（レイアウト崩れ・更新漏れ・前回スライド削除漏れ・アジェンダ番号漏れ）</li><li>問題があれば個チャで修正依頼（<strong>モデル：山形さん、基金：崎坂さん</strong>）</li></ul></li><li><span class="cb">☐</span> <strong>本田さん確認依頼</strong>：<strong>ACN内部SP</strong> のファイルを共有してRv依頼する<ul><li>ACN内部SP（三者定例フォルダ）: <a href="https://ts.accenture.com/:f:/r/sites/2026_/Shared%20Documents/%E4%B8%80%E8%88%AC/03_%E4%BC%9A%E8%AD%B0%E8%B3%87%E6%96%99/01_%E4%B8%89%E8%80%85%E5%AE%9A%E4%BE%8B?d=we91d459fef1645f3a7e9d6e3b93fe49b&amp;csf=1&amp;web=1&amp;e=Q4uVne" target="_blank" rel="noopener">https://ts.accenture.com/:f:/r/sites/2026_/Shared%20Documents/%E4%B8%80%E8%88%AC/03_%E4%BC%9A%E8%AD%B0%E8%B3%87%E6%96%99/01_%E4%B8%89%E8%80%85%E5%AE%9A%E4%BE%8B?d=we91d459fef1645f3a7e9d6e3b93fe49b&amp;csf=1&amp;web=1&amp;e=Q4uVne</a></li><li>本田さんOKを確認してから次の事前連携ステップに進む</li></ul></li><li><span class="cb">☐</span> <strong>14:00 事前連携</strong>（本田さんOK後）<ul><li>ACN内部SPのファイルを<strong>厚労省シェアポにコピー</strong>する</li><li>厚労省シェアポの先週の格納ファイルをコピーし、ファイル名の後ろに「事前連携」を付ける</li><li>ファイルを新規格納するのではなく、<strong>既存ファイルにスライドを差し替える</strong>（プロパティ削除の問題のため）</li><li><strong>ラップアップのスライドは移さない</strong></li><li>議事要旨RevがFIXしていなければ議事要旨ページも移さない</li><li>会議・技術資料チャネルでスレッド投稿する（文案↓）<ul><li>投稿先（三者定例を関係者に連携するスレッド。厚労省Teams「電子カルテ情報共有サービス（外部）＞001_会議・技術資料」）：<a href="https://teams.microsoft.com/l/message/19:986a38876c964cc4b0215325602dab33@thread.tacv2/1791435922619?tenantId=c4f5cfcd-2672-4991-98f8-877042f5c9b3&amp;groupId=1b611ff1-725f-4c25-a52a-db90793cf4bb&amp;parentMessageId=1791435922619&amp;teamName=%E9%9B%BB%E5%AD%90%E3%82%AB%E3%83%AB%E3%83%86%E6%83%85%E5%A0%B1%E5%85%B1%E6%9C%89%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%EF%BC%88%E5%A4%96%E9%83%A8%EF%BC%89&amp;channelName=001_%E4%BC%9A%E8%AD%B0%E3%83%BB%E6%8A%80%E8%A1%93%E8%B3%87%E6%96%99&amp;createdTime=1791435922619&amp;ngc=true" target="_blank" rel="noopener">三者定例 連携スレッド</a></li></ul></li></ul></li></ul>
+<p><strong>スレッド投稿文案（事前連携）</strong></p>
+<pre><code>件名：【資料共有】〇/〇(金)三者定例
+宛先：02_支払基金 04_フォーティエンス
+CC：01_電カル共有ライン 03_ACN
+
+お世話になっております。アクセンチュア中澤です。
+〇/〇(木) 12:00時点版の〇/〇(金)の三者定例資料を格納いたしました。
+
+格納先：20260〇〇〇〇_三者定例
+
+最終版は別途ご連絡させていただきます。
+どうぞよろしくお願いします</code></pre>
+<hr>
+<h3 id="p-m3-h13">3-4. 翌金曜（最終格納）</h3>
+<ul><li><span class="cb">☐</span> <strong>9:00の自動投稿が正常に送信されているか</strong>をスレッドで確認する</li><li><span class="cb">☐</span> <strong>12:00 刈り取り</strong>：モデル・基金ACNの最終格納承認状況を確認。スレッドに反応なければ個チャで刈り取る</li><li><span class="cb">☐</span> <strong>資料確認</strong>（事前連携時と同様の目視チェック）</li><li><span class="cb">☐</span> <strong>本田さん確認依頼</strong>：<strong>ACN内部SP</strong> のファイルを共有してRv依頼する（URLは3-3参照）<ul><li>本田さんOKを確認してから次の最終格納ステップに進む</li></ul></li><li><span class="cb">☐</span> <strong>13:00 最終格納</strong>（本田さんOK後）<ul><li>ACN内部SPのファイルを<strong>厚労省シェアポにコピー</strong>する（<strong>ラップアップページは含めない・プロパティ削除</strong>）</li><li>会議・技術資料チャネルのスレッドで完了を報告する（文案↓）。投稿先は3-3と同じ<a href="https://teams.microsoft.com/l/message/19:986a38876c964cc4b0215325602dab33@thread.tacv2/1791435922619?tenantId=c4f5cfcd-2672-4991-98f8-877042f5c9b3&amp;groupId=1b611ff1-725f-4c25-a52a-db90793cf4bb&amp;parentMessageId=1791435922619&amp;teamName=%E9%9B%BB%E5%AD%90%E3%82%AB%E3%83%AB%E3%83%86%E6%83%85%E5%A0%B1%E5%85%B1%E6%9C%89%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%EF%BC%88%E5%A4%96%E9%83%A8%EF%BC%89&amp;channelName=001_%E4%BC%9A%E8%AD%B0%E3%83%BB%E6%8A%80%E8%A1%93%E8%B3%87%E6%96%99&amp;createdTime=1791435922619&amp;ngc=true" target="_blank" rel="noopener">三者定例 連携スレッド</a></li></ul></li></ul>
+<p><strong>スレッド投稿文案（最終格納）</strong></p>
+<pre><code>各位
+
+いつもお世話になっております。アクセンチュア中澤です。
+三者定例資料の最終版を格納いたしました。
+
+会議直前となり恐れ入りますが、どうぞよろしくお願いいたします。</code></pre>
+<hr></section><section class="page" id="p-m4" data-title="4. 開発進捗連絡会議" hidden><h2>4. 開発進捗連絡会議</h2><p><strong>開催時間：毎週月曜 13:30–14:00</strong></p>
+<h3 id="p-m4-h1">会議前（前週金曜）</h3>
+<ul><li><span class="cb">☐</span> <strong>会議の1営業日前の17時まで</strong>（通常は前週金曜。月曜が祝日で火曜開催の週も前週金曜）に厚労省Teamsの厚労省・基金・事業者チャネルのスレッド（基金ACNが立てる）にて、厚労省分のアジェンダを報告する</li><li><span class="cb">☐</span> 資料がある場合は<strong>ドラフト版をワッペン付き</strong>で格納する</li><li><span class="cb">☐</span> 翌週月曜期限のTODOがあれば進捗欄を更新する</li></ul>
+<h3 id="p-m4-h2">会議前（当日月曜）</h3>
+<ul><li><span class="cb">☐</span> アジェンダ登録・資料格納の報告を行う</li><li><span class="cb">☐</span> 課題・TODO台帳を更新する</li><li><span class="cb">☐</span> 会議開始までに<strong>最終版を格納</strong>し、同スレッドで最終版格納を報告する（→下記「資料格納手順」参照）</li></ul>
+<h3 id="p-m4-h3">資料格納手順（最終版・当日）</h3>
+<ol><li><strong>本田さんから最終版の連携を受けたら着手する</strong></li><li><strong>格納先フォルダを確認する</strong><ul><li>厚労省Teams「電子カルテ情報共有サービス（外部）- 001_会議・技術資料」の当該フォルダ（会議名と開催日が一致しているフォルダ）を開く</li></ul></li><li><strong>格納前チェック（目視確認）</strong><ul><li>アジェンダ番号の連番・抜け漏れ</li><li>誤字脱字</li><li>体裁崩れ（レイアウト・フォント等）</li></ul></li><li><strong>スライドを差し替える形で更新する</strong><ul><li>前営業日に格納されているドラフト版ファイルを開く</li><li><strong>ファイル自体を差し替えるのではなく、スライドを差し替える</strong>（格納済みファイルは更新履歴が残らないよう設定されているため）</li></ul></li><li><strong>格納完了を通知する</strong><ul><li>厚労省Teams「001_会議・技術資料」チャネルの当該会議スレッドに完了を通知する</li><li>通知文例：<blockquote>お世話になっております。アクセンチュア○○です。<br>厚労省側の開発進捗連絡会議資料の最終版を格納いたしました。<br>会議直前となり恐れ入りますが、どうぞよろしくお願いいたします。</blockquote></li></ul></li></ol>
+<h3 id="p-m4-h4">会議中</h3>
+<ul><li><span class="cb">☐</span> 議事メモを記載する</li></ul>
+<h3 id="p-m4-h5">会議後</h3>
+<ul><li><span class="cb">☐</span> Plannerに発生したTODOを記載する</li><li><span class="cb">☐</span> 議事要旨を確認しコメントを作成する（<strong>議事要旨は基金側で作成するため、厚労省側にRvが来るのは会議2日後の水曜</strong>。以下の手順と時刻上限は水曜に適用する）<ol><li>向井さんRv：コメント案を向井さんに確認してもらう。<strong>返答が遅い場合はフォローメッセージを入れる</strong>（例：「先ほどご依頼させていただきました議事要旨のご確認をお願いいたします。」）<ul><li><strong>内部確認が遅れる場合</strong>：記載ぶりの修正（誤字・表現の整理）にとどまらないクリティカルなコメント（意味・内容・事実認識に関わるもの）については、向井さんRv完了を待たずに手順3（厚労省Rv依頼）を先行して進める。</li><li><strong>時刻上限</strong>：基金ACN内部確認の完了にかかわらず、<strong>遅くとも15:00までに厚労省Rv依頼</strong>を送付し、<strong>18:00に刈り取り</strong>（返信確認・台帳反映）を行う。</li></ul></li><li>ACN内部返送：Rv完了後、ACN内部（箕輪さん・向井さん・本田さん）へ返送する</li><li>厚労省職員（会議出席者）にRv依頼：確認が取れ次第依頼する（<strong>上限：15:00</strong>）</li><li>基金への回答：厚労省Rv結果を基金に回答する（<strong>刈り取り：18:00</strong>）</li></ol><ul><li>コメント案の作り方（ツールでの指摘候補の出し方・採否の決め方）は、5章の「議事要旨（案）のチェックのしかた」を参照</li></ul></li><li><span class="cb">☐</span> 夕会までにPlannerにTODOを起票する</li></ul>
+<hr>
+<hr></section><section class="page" id="p-m5" data-title="5. 開発課題検討会" hidden><h2>5. 開発課題検討会</h2><p><strong>開催時間：毎週月曜 14:00–15:30</strong></p>
+<h3 id="p-m5-h1">会議前（前週金曜）</h3>
+<ul><li><span class="cb">☐</span> <strong>会議の1営業日前の17時まで</strong>（通常は前週金曜。月曜が祝日で火曜開催の週も前週金曜）に厚労省Teamsの厚労省・基金・事業者チャネルのスレッド（基金ACNが立てる）にて、厚労省分のアジェンダを報告する</li><li><span class="cb">☐</span> 資料がある場合は<strong>ドラフト版をワッペン付き</strong>で格納する</li><li><span class="cb">☐</span> 17時以降に資料格納するアジェンダがある場合：議事要旨（ACNシェアポ上）に合意形成事項・TODOを記入する</li><li><span class="cb">☐</span> 翌週月曜期限のTODOがあれば進捗欄を更新する</li><li><span class="cb">☐</span> 今週、案件台帳を起票・更新した場合は、次週の開発課題検討会資料の<strong>案件台帳のスライド</strong>を合わせて更新する（→Section 8-1⑤）</li></ul>
+<h3 id="p-m5-h2">会議前（当日月曜）</h3>
+<ul><li><span class="cb">☐</span> アジェンダ登録・資料格納の報告を行う</li><li><span class="cb">☐</span> 課題・TODO台帳を更新する</li><li><span class="cb">☐</span> 会議開始までに<strong>最終版を格納</strong>し、同スレッドで最終版格納を報告する（→下記「資料格納手順」参照）</li></ul>
+<h3 id="p-m5-h3">資料格納手順（最終版・当日）</h3>
+<ol><li><strong>本田さんから最終版の連携を受けたら着手する</strong></li><li><strong>格納先フォルダを確認する</strong><ul><li>厚労省Teams「電子カルテ情報共有サービス（外部）- 001_会議・技術資料」の当該フォルダ（会議名と開催日が一致しているフォルダ）を開く</li></ul></li><li><strong>格納前チェック（目視確認）</strong><ul><li>アジェンダ番号の連番・抜け漏れ</li><li>誤字脱字</li><li>体裁崩れ（レイアウト・フォント等）</li></ul></li><li><strong>スライドを差し替える形で更新する</strong><ul><li>前営業日に格納されているドラフト版ファイルを開く</li><li><strong>ファイル自体を差し替えるのではなく、スライドを差し替える</strong>（格納済みファイルは更新履歴が残らないよう設定されているため）</li></ul></li><li><strong>格納完了を通知する</strong><ul><li>厚労省Teams「001_会議・技術資料」チャネルの当該会議スレッドに完了を通知する</li><li>通知文例：<blockquote>お世話になっております。アクセンチュア○○です。<br>厚労省側の開発課題検討会資料の最終版を格納いたしました。<br>会議直前となり恐れ入りますが、どうぞよろしくお願いいたします。</blockquote></li></ul></li></ol>
+<h3 id="p-m5-h4">会議中</h3>
+<ul><li><span class="cb">☐</span> 議事メモを記載する</li></ul>
+<h3 id="p-m5-h5">会議後</h3>
+<ul><li><span class="cb">☐</span> Plannerに発生したTODOを記載する</li><li><span class="cb">☐</span> 議事要旨を確認しコメントを作成する（<strong>議事要旨は基金側で作成するため、厚労省側にRvが来るのは会議2日後の水曜</strong>。以下の手順と時刻上限は水曜に適用する）<ol><li>向井さんRv：コメント案を向井さんに確認してもらう。<strong>返答が遅い場合はフォローメッセージを入れる</strong>（例：「先ほどご依頼させていただきました議事要旨のご確認をお願いいたします。」）<ul><li><strong>内部確認が遅れる場合</strong>：記載ぶりの修正（誤字・表現の整理）にとどまらないクリティカルなコメント（意味・内容・事実認識に関わるもの）については、向井さんRv完了を待たずに手順3（厚労省Rv依頼）を先行して進める。</li><li><strong>時刻上限</strong>：基金ACN内部確認の完了にかかわらず、<strong>遅くとも15:00までに厚労省Rv依頼</strong>を送付し、<strong>18:00に刈り取り</strong>（返信確認・台帳反映）を行う。</li></ul></li><li>ACN内部返送：Rv完了後、ACN内部（箕輪さん・向井さん・本田さん）へ返送する</li><li>厚労省職員（会議出席者）にRv依頼：確認が取れ次第依頼する（<strong>上限：15:00</strong>）</li><li>基金への回答：厚労省Rv結果を基金に回答する（<strong>刈り取り：18:00</strong>）</li></ol></li><li><span class="cb">☐</span> 夕会までにPlannerにTODOを起票する</li></ul>
+<h3 id="p-m5-h6">議事要旨（案）のチェックのしかた（4章・5章共通）</h3>
+<p>手順1の「コメント案」は、ツールで指摘の候補を出してから、人が採否を決めて作る。</p>
+<p><strong>ツール</strong>：<code>_基盤/_ツール/議事要旨チェック/check_gijiyoshi.py</code>（Python。Claude Code環境で動かす）</p>
+<pre><code>python check_gijiyoshi.py --minutes 議事要旨(案).pptx --date 2026-10-05 --out 結果.md
+    [--materials 会議資料.pptx 会議資料_厚労省側.pptx] [--ledger 課題・TODO管理台帳.xlsx]
+    [--prev 前回の議事要旨.pptx] [--transcript 逐語録.md] [--notes 逐語録ベースの議事録.md]
+    [--annotate コメント入り.pptx]</code></pre>
+<ul><li>必須は議事要旨（案）と会議日だけ。ほかを渡すほど照合が増える（渡さなかった照合は飛ばす）。台帳は読むだけで保存しない</li><li><code>--annotate</code> を付けると、指摘の箇所に黄色のハイライトとコメント枠を入れたpptxを別ファイルで作る（元のファイルは変えない）</li><li>照合すること：台帳との照合（件数・期限・担当・記載漏れ）、会議資料との照合（アジェンダ・参照・案件名）、前回のToDo、逐語録、体裁・表記（英数字のフォント・句読点など）。結果は「要修正／要確認／参考」に分かれる</li></ul>
+<p><strong>採否の決め方</strong>（2026-10-07〜08 ユーザー決定）</p>
+<ul><li>課題・ToDo台帳は<strong>会議前の記載を正</strong>とする。照合するのは、<strong>会議後に追記された内容</strong>（「M/D 会議名にて…」の追記や、会議で発生したToDoの起票）が議事要旨・逐語録と食い違っていないかだけ</li><li>台帳の中だけの食い違い（会議と関係のない進捗欄どうし等）や、議事要旨に出てこない案件の資料内だけの名称のゆれは、指摘しない</li><li>会議後の追記・起票が会議の結果と違う場合は「要確認」とし、議事要旨には貼らず、ACN内の確認事項として出す</li><li>台帳との照合は<strong>一次Rvのときだけ</strong>でよい（最終の突合は機構側が行う。確定版を受け取った後に台帳を再照合しない）</li><li>10/5分で採用されたもの：件数、延伸前の期限（台帳の会議前の値）、句読点、ID採番の競合、資料の更新・取り下げの記載漏れ、英数字のフォント違い。採用されなかったもの：案件名の表記差、軽微な語句の重複、逐語録ベースのToDo漏れ候補（根拠がClaude作成の議事録のもの）</li><li>人の判断で付けるコメント（ToDoの削除範囲・時期尚早・会議で依頼がなかったToDoなど）はツールでは判定しない。ツールが並べる逐語録の該当箇所を見て判断する</li></ul>
+<hr></section><section class="page" id="p-m6" data-title="6. WBS確認会" hidden><h2>6. WBS確認会</h2><p><strong>開催時間：毎週金曜 10:00–12:30</strong></p>
+<h3 id="p-m6-h1">会議前</h3>
+<ul><li><span class="cb">☐</span> <strong>ファイル作成</strong>：次週分のファイルを準備する（→前週会議後に作成済みのはず）</li><li><span class="cb">☐</span> ACNシェアポで作成した資料を厚労省Teamsに格納する（<strong>必ずプロパティ削除</strong>）</li><li><span class="cb">☐</span> 厚労省TeamsのWBS資料共有スレッドにてアジェンダ・資料リンクを共有する<ul><li>スレッド（WBS会議資料を厚労省に連携するスレッド。厚労省Teams「医療情報連携（外部）＞100_会議資料」）：<a href="https://teams.microsoft.com/l/message/19:8a79642c62c747e1a64142fb37bb5264@thread.tacv2/1785667493955?tenantId=c4f5cfcd-2672-4991-98f8-877042f5c9b3&amp;groupId=b122cae8-a818-4430-8b31-c6d64f99febf&amp;parentMessageId=1785667493955&amp;teamName=%E5%8C%BB%E7%99%82%E6%83%85%E5%A0%B1%E9%80%A3%E6%90%BA%EF%BC%88%E5%A4%96%E9%83%A8%EF%BC%89&amp;channelName=100_%E4%BC%9A%E8%AD%B0%E8%B3%87%E6%96%99&amp;createdTime=1785667493955" target="_blank" rel="noopener">WBS資料 連携スレッド</a></li></ul></li><li><span class="cb">☐</span> 会議チャットにて資料リンクを共有する</li></ul>
+<h3 id="p-m6-h2">会議中</h3>
+<ul><li><span class="cb">☐</span> 議事メモを記載する（山川さん・中澤が主担当）</li></ul>
+<h3 id="p-m6-h3">会議後</h3>
+<ul><li><span class="cb">☐</span> Plannerに発生したTODOを記載する</li><li><span class="cb">☐</span> ACNシェアポ上でファイルを複製し、<strong>次週のファイルを作成する</strong><ul><li>古いアジェンダのスライドを削除する</li><li><strong>注意</strong>：TODO・確認事項一覧スライドは残す</li></ul></li></ul>
+<hr></section><section class="page" id="p-m7" data-title="7. ONS（台帳管理・会議）" hidden><h2>7. ONS（台帳管理・会議）</h2><blockquote><p><strong>問い合わせ元</strong>：電カルベンダ（富士通・NTTデータ等）からの問い合わせだけでなく、支払基金からの問い合わせもある。</p></blockquote>
+<h3 id="p-m7-h1">ONSの1週間の流れ（まずここを見る）</h3>
+<p>台帳は2つある：<strong>①＝基金側</strong>（ONSチームとのやり取り用）、<strong>②＝厚労省側</strong>（厚労省内の検討用）。下の「更新ファイル」を参照。</p>
+<div class="tw"><table><thead><tr><th>いつ</th><th>やること</th><th>触る台帳・列</th><th>手順</th></tr></thead><tbody><tr><td>月・水</td><td>受領：①の新規・更問を②に転記する</td><td>①L列「厚労省確認中」、②M列「ACN回答作成」</td><td>7-1「受領」</td></tr><tr><td>受領後〜金</td><td>既出か確認し、回答案を作る。区分を決める（読み合せ／回答方針確認）。<strong>回答方針確認（B）は金曜中に本田さんRv依頼まで</strong></td><td>②</td><td>7-1「受領後の一時切り分け」、7-2「会議前」</td></tr><tr><td>月〜火</td><td>本田さん→向井さんのRv。読み合わせスクリプトを作る</td><td>②</td><td>7-2「会議前」「読み合わせスクリプトの作成」</td></tr><tr><td>火 14:15</td><td>ONS問合せ会議で読み合わせ</td><td>②</td><td>7-2「会議中」</td></tr><tr><td>火 会議後</td><td>台帳綺麗化 → 本田さんにRv依頼</td><td>②M列「ONS回答済(YYYYMMDD)」。<strong>日付は機構への連携日（翌水曜）</strong>。当日を入れるとすぐグレーになる</td><td>7-2「会議後」</td></tr><tr><td>水</td><td>返送：②の回答を①に転記 → 本田さんRv → 080_ONS問合せスレッドで返信</td><td>①K列に回答（<strong>【回答案】の見出しは消す</strong>）・L列「厚労省回答済」・M列 回答日付／②N列 回答日付（<strong>②M列は火曜に入れ済みなので変えない</strong>）</td><td>7-1「返送」</td></tr></tbody></table></div>
+<h3 id="p-m7-h2">更新ファイル</h3>
+<div class="tw"><table><thead><tr><th>#</th><th>ファイル名</th><th>用途</th></tr></thead><tbody><tr><td>①</td><td><a href="https://mhlwlan.sharepoint.com/:x:/r/sites/ext_692-ONS/Shared%20Documents/080_ONS%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B/01_ONS%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B%E7%AE%A1%E7%90%86%E5%8F%B0%E5%B8%B3_%E5%8E%9A%E5%8A%B4%E7%9C%81%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E5%88%86/%E9%9B%BB%E3%82%AB%E3%83%AB%E5%85%B1%E6%9C%89%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E3%81%AB%E9%96%A2%E3%81%99%E3%82%8B%E5%95%8F%E5%90%88%E3%81%9B%EF%BC%88%E5%8E%9A%E5%8A%B4%E7%9C%81%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E5%8F%B0%E5%B8%B3%EF%BC%89v2.1.xlsx?d=w8c34ba8165d24694a12962ca484d0a0c&amp;csf=1&amp;web=1&amp;e=nkZ7o6" target="_blank" rel="noopener">電カル共有サービスに関する問合せ（厚労省エスカレ台帳）v2.1</a></td><td>ONSチームからの連携版（基金側）</td></tr><tr><td>②</td><td><a href="https://mhlwlan.sharepoint.com/:x:/r/sites/ext_325-021_/Shared%20Documents/021_%E5%8E%9A%E5%8A%B4%E7%9C%81%E3%83%BB%E5%8E%9A%E5%8A%B4%E4%BA%8B%E6%A5%AD%E8%80%85/01_%E8%AA%B2%E9%A1%8C%E7%AE%A1%E7%90%86/02_ONS%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B%E7%AE%A1%E7%90%86%E5%8F%B0%E5%B8%B3%EF%BC%88%E5%8E%9A%E5%8A%B4%E7%9C%81%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E5%88%86%EF%BC%89/(%E5%8E%9F%E6%9C%AC" target="_blank" rel="noopener">(原本)【電カル共有】ONS問い合わせ管理台帳（厚労省エスカレ分）</a>%E3%80%90%E9%9B%BB%E3%82%AB%E3%83%AB%E5%85%B1%E6%9C%89%E3%80%91ONS%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B%E7%AE%A1%E7%90%86%E5%8F%B0%E5%B8%B3%EF%BC%88%E5%8E%9A%E5%8A%B4%E7%9C%81%E3%82%A8%E3%82%B9%E3%82%AB%E3%83%AC%E5%88%86%EF%BC%89.xlsx?d=w82749eb7cf2d443d911d5910d8428f84&amp;csf=1&amp;web=1&amp;e=CkZZtU)</td><td>厚労省内での検討版（厚労省側）</td></tr></tbody></table></div>
+<hr>
+<h3 id="p-m7-h3">7-1. 台帳管理フロー（週次）</h3>
+<h4 id="p-m7-h4">受領（毎週月曜・水曜）</h4>
+<ul><li><span class="cb">☐</span> 厚労省Teamsにて基金側からONS台帳更新の連絡を受領する</li><li><span class="cb">☐</span> 基金側の台帳ファイル①（スレッド上のリンク先）から厚労省側の台帳ファイル②に内容を転記する<ul><li><strong>新規起票</strong>の場合：①の該当行を②に丸ごとコピーする</li><li><strong>更問</strong>（過去質問への追加質問）の場合：②の過去問い合わせ該当行に転記する</li><li>転記後、①のL列「回答状況」を <strong>「厚労省確認中」</strong> に変更する</li><li>転記後、②のM列「回答状況」を <strong>「ACN回答作成」</strong> に変更する</li></ul></li></ul>
+<h4 id="p-m7-h5">受領後の一時切り分け</h4>
+<p><strong>Step 1：過去に既出かどうか確認する</strong></p>
+<ul><li>Excel（台帳②）で過去の回答事例を確認する</li><li>既出のものは過去の回答を参考に回答案を作成する</li></ul>
+<p><strong>Step 2：新規事項は以下で分類する</strong></p>
+<ul><li>回答案を作成できそう → 回答案を作成し、回答状況を <code>読み合せ</code> に変更する</li><li>回答方針確認が必要 → 方針案を含む回答案を作成し、回答状況を <code>回答方針確認</code> に変更する</li></ul>
+<blockquote><p><strong>基金確認・厚労確認の使い分け（本田さんより）</strong></p>
+<ul><li><strong>基金確認</strong>：システム仕様の確認が必要なもの・ベンダテスト・運用テスト系</li><li><strong>厚労確認</strong>：回答の落としどころを検討するためのディスカッションが必要なもの（前例がない質問・FHIR関連等）</li><li>★回答方針確認にする場合も、<strong>オープンクエスチョンにせず</strong>、考えられる対応策・落としどころの提案を準備しておくこと</li></ul></blockquote>
+<h4 id="p-m7-h6">返送（毎週水曜）</h4>
+<p><strong>連絡先</strong></p>
+<ul><li>ACN内部Rv用チャット：<a href="https://teams.microsoft.com/l/chat/19:2f858d0aa15c44cf9bc67e9d8b63c455@thread.v2/conversations?context=%7B%22contextType%22%3A%22chat%22%7D" target="_blank" rel="noopener">調査研究事業-スタッフ</a></li><li>ONSチームへの返信スレッド：<a href="https://teams.microsoft.com/l/message/19:952cce6250a84243a9b4ca9c37bd35c8@thread.tacv2/1788773935698?tenantId=c4f5cfcd-2672-4991-98f8-877042f5c9b3&amp;groupId=026967fd-24b7-4c7c-bd52-89291303540b&amp;parentMessageId=1759223766206&amp;teamName=%E9%9B%BB%E5%AD%90%E3%82%AB%E3%83%AB%E3%83%86%E6%83%85%E5%A0%B1%E5%85%B1%E6%9C%89%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%EF%BC%88%E6%A5%AD%E5%8B%99%E5%88%A5%EF%BC%89%EF%BC%88%E5%A4%96%E9%83%A8%EF%BC%89&amp;channelName=080_ONS%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B&amp;createdTime=1788773935698&amp;ngc=true" target="_blank" rel="noopener">厚労省Teams 080_ONS問合せ</a></li><li><span class="cb">☐</span> ONS問合せ会議（火曜）を経て、本田さんRvでOKが出たものを対象にExcelを更新する</li></ul>
+<p><strong>【Excel更新手順】</strong></p>
+<p><strong>Step 1：台帳①（基金側）を更新する</strong></p>
+<div class="tw"><table><thead><tr><th>列</th><th>列名</th><th>更新内容</th></tr></thead><tbody><tr><td>K列</td><td>厚労省様回答案</td><td>台帳②の回答を転記する。<strong>DX機構へのコメント（回答）はK列に書く</strong>。この時点の回答は案ではなくFIXした回答なので、<strong>【回答案】の見出しは付けない（転記時に削除する）</strong>（2026-10-06 本田さんコメント）</td></tr><tr><td>L列</td><td>回答状況</td><td><code>厚労省回答済</code> に変更</td></tr><tr><td>M列</td><td>更新日付</td><td>回答日付に変更</td></tr></tbody></table></div>
+<p><strong>Step 2：台帳②（厚労省側）を更新する</strong></p>
+<div class="tw"><table><thead><tr><th>列</th><th>列名</th><th>更新内容</th></tr></thead><tbody><tr><td>M列</td><td>回答状況</td><td>台帳綺麗化で <code>ONS回答済(YYYYMMDD)</code>（YYYYMMDD＝機構への連携日）を入れ済みのため、<strong>変更不要</strong>。連携日になると自動でグレーアウトする</td></tr><tr><td>N列</td><td>更新日付</td><td>回答日付に変更</td></tr></tbody></table></div>
+<ul><li><span class="cb">☐</span> 更新後、該当行がグレーアウトすることを確認する（書式設定済みのため自動で反映される）</li><li><span class="cb">☐</span> <strong>本田さんにACN内部Rvを依頼する</strong>（調査研究事業-スタッフ チャットで依頼）</li></ul>
+<pre><code>Honda, Keiko さん
+【Rv依頼：ONS問合せ台帳の更新（ONSチーム返信用）】
+昨日のONS会議にて確認済みのONS問合せ〇件
+（#〇〇〇,〇〇〇,…）について、
+原本への転記が完了しましたので、ONSチームへの返信前のRvをお願いします。
+
+Rv対象
+転記先：電カル共有サービスに関する問合せ（厚労省エスカレ台帳）v2.1.xlsx（①）
+転記元：(原本)【電カル共有】ONS問い合わせ管理台帳（厚労省エスカレ分）.xlsx（②）</code></pre>
+<ul><li><span class="cb">☐</span> Rv完了後、ONSチームへの返信スレッド（080_ONS問合せ）で下記文案で返信する</li></ul>
+<pre><code>To：山本 貴則（本部情報化企画部電子カルテ情報課）
+　　青木 美和（本部情報化推進部電子カルテ情報課）
+　　Higa, Ryu
+　　Miura, Shinichiro A.
+CC：01_電カル共有ライン、Mukai, Chiaki、Honda, Keiko、Kurokawa, Hanae
+
+お世話になっております。アクセンチュア中澤です。
+下記のお問い合わせについてご確認いただけますと幸いでございます。
+どうぞよろしくお願いいたします。
+
+格納フォルダ：01_ONS問い合わせ管理台帳_厚労省エスカレ分
+ファイル名：電カル共有サービスに関する問合せ（厚労省エスカレ台帳）v2.1.xlsx
+シート：Sheet1 (情報追加)
+
+フィルター条件：L列「厚労省回答済」＆M列「YYYYMMDD」　← 回答日付に変更</code></pre>
+<hr>
+<h3 id="p-m7-h7">7-2. ONS問合せ会議（毎週火曜 14:15–15:00）</h3>
+<h4 id="p-m7-h8">会議前</h4>
+<p><strong>金曜（事前着手推奨）</strong></p>
+<ul><li><span class="cb">☐</span> 水曜受領分のうち未着手の回答案を確認し、着手可能なものから回答案作成を開始する</li><li><span class="cb">☐</span> <strong>特にB（回答方針確認）区分</strong>はRvに時間がかかるため、金曜中に本田さんRv依頼まで進めることを目指す（本田さんRv → 向井さんRvの2段階があるため月曜以降では火曜に間に合わないリスクあり）</li></ul>
+<p><strong>月曜〜火曜（最終仕上げ）</strong></p>
+<ul><li><span class="cb">☐</span> 新規起票等を厚労省ファイルに反映する</li><li><span class="cb">☐</span> ONS回答案を作成し、Rvを進める（下記フロー参照）</li><li><span class="cb">☐</span> エスカレ事項を検討する（→本田さんに確認）</li></ul>
+<p><strong>回答案作成フロー（ケース別）</strong></p>
+<div class="tw"><table><thead><tr><th>ケース</th><th>フロー</th></tr></thead><tbody><tr><td><strong>A. 回答案を作成できるもの</strong></td><td>回答案作成 → 本田さんRv → 向井さんRv → 回答状況を <code>読み合せ</code> に変更 → 会議内で読み合せ</td></tr><tr><td><strong>B. 回答方針の確認が必要なもの</strong></td><td>方針案を含む回答案作成 → 本田さんRv → 向井さんRv → 回答状況を <code>回答方針確認</code> に変更 → 会議内で読み合せ・方針決定</td></tr></tbody></table></div>
+<blockquote><p><strong>注意（本田さんより）</strong>：★回答方針確認にする場合も、オープンクエスチョンで終わらせず、考えられる対応策・落としどころの提案を必ず準備しておくこと。</p></blockquote>
+<h4 id="p-m7-h9">読み合わせスクリプトの作成（会議前・毎週）</h4>
+<p>厚労省はFHIRや技術に詳しくない前提で、読み合わせる件ごとに説明スクリプトを用意する（2026-10-06〜）。詳しい作り方・注意点は <code>_agent/01_定常業務/ルール・ガイド/ONS回答作成ガイド.md</code>。</p>
+<p><strong>1件の型（全件同じ構成にそろえる）</strong></p>
+<ol><li><strong>何についての質問か</strong>（一言）：サービス（文書送受信／臨床情報／健診文書）、文書の種類（診療情報提供書・退院時サマリー・健康診断結果報告書）、IF（例：CIS-IF-101）、技術解説書の機能番号を特定できる範囲で補足する</li><li><strong>ご質問</strong>：ベンダの質問を平易な言葉で言い直す（文章で）</li><li><strong>回答案</strong>：台帳に入れた最終の回答案の要点を文章で言う。最後に根拠（技術解説書等のページ）を一言</li><li>基金（機構）への連携事項がある件は、回答案の後に連携事項と「この返し方で問題ないか」の確認依頼を入れる</li></ol>
+<p><strong>書き方のポイント</strong></p>
+<ul><li>スクリプトは<strong>台帳に入った最終の回答案</strong>から作る（途中の案から作ると、根拠や言い回しがずれる）</li><li>用語は回答文と同じ言葉を使う（例：「患者共有フラグ」を「印」などに言い換えない。言い換えると別のものに聞こえる）。初めて出る用語は「何についての質問か」の中で一文で説明する</li><li>対象の範囲が限られる言葉は限定を付ける（例：「検査項目」→「感染症の検査（感染症5項目）」）</li><li>似た分野の質問は続けて読み、冒頭に「共通の分野の質問です」と一言入れる（例：#534・#536 緊急時の同意）。各件の型はそろえたまま</li><li>想定される質問（答え方と根拠）を表で用意する。回答から外した注意点・未確認の点はここに入れる</li></ul>
+<p><strong>読む順</strong></p>
+<ul><li>ONS問合せの各件（番号順。似た分野はまとめる）→ 開発進捗連絡会議が書面開催の週は、資料の読合せ（Section 7-4）→ 第2週の翌週は、ONS問い合わせ月次報告（前月分）の読合せ（約5分。→7-3の注記）→ 締め</li></ul>
+<h4 id="p-m7-h10">会議中</h4>
+<ul><li><span class="cb">☐</span> 議事メモを記載する</li><li><span class="cb">☐</span> 共有事項の説明を行う</li></ul>
+<h4 id="p-m7-h11">会議後</h4>
+<ul><li><span class="cb">☐</span> 基金ファイルに変更点を反映・報告する</li><li><span class="cb">☐</span> Plannerに発生したTODOを記載する</li><li><span class="cb">☐</span> <strong>台帳綺麗化</strong>（2026-10-05 黒川さんより移管。担当：中澤）：読み合わせた回答の回答欄を整理し、M列を「<strong>ONS回答済(YYYYMMDD)</strong>」に変更する。<strong>YYYYMMDDは機構への連携日（通常は翌日の水曜）を入れる</strong>。完了後、本田さんにRv依頼の投稿をする。<ul><li>条件付き書式により、<strong>連携日になるまでグレーアウトしない</strong>（連携日になると自動でグレーになる）。当日の日付を入れるとすぐグレーになるので注意</li><li>本田さんのRvでOKが出たら、M列はそのままでDX機構へ連携する（→7-1「返送（毎週水曜）」。機構へのコメントは①のK列、【回答案】は付けない）</li><li>条件付き書式（「ONS問い合わせ」シート、適用先 B2:Q1000、3つ目のルール。2026-10-06変更・本田さん了承）：<code>=AND(ISNUMBER(FIND("ONS回答済",$M2)),IFERROR(DATE(MID($M2,FIND("ONS回答済",$M2)+7,4),MID($M2,FIND("ONS回答済",$M2)+11,2),MID($M2,FIND("ONS回答済",$M2)+13,2))&lt;=TODAY(),TRUE))</code>。日付なしの「ONS回答済」、日付が読み取れない行は従来どおりグレー</li><li>投稿先：<code>2026年度_電子カルテ情報共有サービス &gt; 02_電カル共有調査研究</code></li><li>文案例：<code>Honda, Keiko さん / 本日のONSで読合せた回答〇件につきまして、回答欄綺麗化のうえ、M列を「ONS回答済(YYYYMMDD)」（連携日）へと変更しております。DX機構への連携（明日実施予定）の前に、念のためご確認いただけますと幸いです。</code></li></ul></li></ul>
+<hr>
+<h3 id="p-m7-h12">7-3. ONS共有会（毎週火曜 15:00–15:30）</h3>
+<h4 id="p-m7-h13">会議中</h4>
+<ul><li><span class="cb">☐</span> 議事メモを記載する</li></ul>
+<h4 id="p-m7-h14">会議後</h4>
+<ul><li><span class="cb">☐</span> ONS回答案を作成する（問合せ会議後の内容を踏まえて）</li><li><span class="cb">☐</span> 基金ファイルに変更点を反映・報告する</li></ul>
+<blockquote><p><strong>ONS月次報告（毎月第2週）</strong>：ONS月次報告のアジェンダが追加される。祝日等で日程が曖昧な場合は比嘉さんに事前確認。木・金朝のリマインドスレッドのメンション先・刈り取り対象に比嘉さんも追加する。<br><strong>月次報告の読合せ（2026-10-14〜）</strong>：翌週のONS問合せ会議で、月次報告（前月分）を厚労省と約5分で読み合わせる。作り方は <code>01_定常業務/ルール・ガイド/ONS回答作成ガイド.md</code> 5-3、置き場所は <code>07_ONS問合せ対応/ONS月次報告/YYYYMM/</code>。</p></blockquote>
+<hr>
+<h3 id="p-m7-h15">7-4. 開発進捗連絡会議（書面開催・書面確認分）の読合せ</h3>
+<blockquote><p>月曜の開発進捗連絡会議が書面開催（未開催・書面確認）になり、開発ベンダ（NTTデータ・富士通）の進捗報告資料がある場合は、<strong>その週の</strong>ONS問合せ会議（火曜）内で資料を厚労省と読み合わせ、厚労省確認完了をスレッドで報告する。ロジ担当（中澤）がメイン担当（2026-10-05 黒川さんより移管。Plannerは黒川さんが起票済み）。<br>厚労省の確認完了を、<strong>ACNが代理で基金へ報告する</strong>位置づけ。</p></blockquote>
+<h4 id="p-m7-h16">会議前（月曜〜火曜のONSまで）</h4>
+<ul><li><span class="cb">☐</span> 月曜の開発進捗連絡会議が書面開催・書面確認になったか、NTTデータ・富士通の資料があるかを確認する</li><li><span class="cb">☐</span> NTTデータ・富士通の資料を入手し、ONS問合せ会議で<strong>投影・読み合わせできるように用意</strong>する（入手先・ONSアジェンダへの載せ方は要確認）</li><li><span class="cb">☐</span> 資料の<strong>赤字（更新点）</strong>を確認し、読み上げ用に次の2点をメモしておく<ul><li>スケジュールのアップデート内容</li><li>新規の障害・課題の報告の有無</li></ul></li></ul>
+<h4 id="p-m7-h17">会議中（ONS問合せ会議内で実施）</h4>
+<ul><li><span class="cb">☐</span> 資料を投影し、さらっと確認する（細かく読み上げなくてよい）<ul><li>話し方の例：「赤字部分が更新点です。今回はスケジュールは○○がアップデートです。新規の障害・課題は特段報告ありません。」</li></ul></li><li><span class="cb">☐</span> 最後に厚労省からコメントがないかを確認しつつ、スレッド投稿を宣言する<ul><li>話し方の例：「資料は以上になります。こちらで基金さんに確認完了と報告させていただきます。」</li></ul></li></ul>
+<h4 id="p-m7-h18">会議後</h4>
+<ul><li><span class="cb">☐</span> <strong>確認完了報告</strong>：<strong>ONSが終わったらすぐ</strong>（数分で終わる）、厚労省確認完了の旨を以下のチャネルに投稿する<ul><li>投稿先：<code>電子カルテ情報共有サービス（外部） &gt; 020_厚労省・基金・事業者</code></li><li>宛先：Nakazato, Yuri（CC: 08_富士通 09_NTTD）</li><li>文面（2026-10-06 中澤が投稿した実例。日付とコメント有無を変えて使う）：</li></ul></li></ul>
+<blockquote><p>お世話になっております。アクセンチュア中澤です。<br>10/5進捗連絡会議の書面開催パートにつきまして、厚労省様にて資料を確認いただいたためご報告いたします。</p>
+<p>今回、特段のコメントはございません。<br>今後ともよろしくお願いいたします。</p></blockquote>
+<ul><li>厚労省からコメントがあった場合は「今回、特段のコメントはございません。」の代わりに、コメントの内容を書く（文面は本田さんに確認）</li></ul>
+<hr></section><section class="page" id="p-m8" data-title="8. 資料作成" hidden><h2>8. 資料作成</h2><h3 id="p-m8-h1">8-1. 案件起票の流れ</h3>
+<blockquote><p><strong>通常フロー（以下の順で実施）</strong>。例外：金曜午後の急遽起票・開発課題検討会での急遽起票はこの限りではない。</p></blockquote>
+<p><strong>① 厚労省内部用PPTを起票する</strong></p>
+<ul><li>ファイル：<code>(原本)電カル共有改修案件一覧および要求事項詳細</code></li><li>格納先：<a href="https://mhlwlan.sharepoint.com/sites/msteams_a8aa15/Shared%20Documents/Forms/AllItems.aspx?FolderCTID=0x012000D4539448D464A546A4CD41E29E82F110&amp;id=%2Fsites%2Fmsteams%5Fa8aa15%2FShared%20Documents%2F200%5F%E8%AA%B2%E9%A1%8C%E6%95%B4%E7%90%86%EF%BC%88%E9%9B%BB%E3%82%AB%E3%83%AB%E5%85%B1%E6%9C%89%EF%BC%89%2F00%5F%E5%8E%9A%E5%8A%B4%E6%A4%9C%E8%A8%8E%E8%AA%B2%E9%A1%8C%E7%AE%A1%E7%90%86%E5%8F%B0%E5%B8%B3" target="_blank" rel="noopener">https://mhlwlan.sharepoint.com/sites/msteams_a8aa15/Shared%20Documents/Forms/AllItems.aspx?FolderCTID=0x012000D4539448D464A546A4CD41E29E82F110&amp;id=%2Fsites%2Fmsteams%5Fa8aa15%2FShared%20Documents%2F200%5F%E8%AA%B2%E9%A1%8C%E6%95%B4%E7%90%86%EF%BC%88%E9%9B%BB%E3%82%AB%E3%83%AB%E5%85%B1%E6%9C%89%EF%BC%89%2F00%5F%E5%8E%9A%E5%8A%B4%E6%A4%9C%E8%A8%8E%E8%AA%B2%E9%A1%8C%E7%AE%A1%E7%90%86%E5%8F%B0%E5%B8%B3</a></li><li>要求事項が一番の確認ポイントのため、向井さんに確認していただけるよう内容を明確に記載する</li></ul>
+<p><strong>② PPT Rev（本田さん・向井さん）</strong></p>
+<ul><li>本田さん・向井さんにRevを依頼する</li><li>Revのやり取りはTeamsの個チャ（モデル課題検討チャット等）で行う</li><li>向井さんからOKが出たら次へ進む</li></ul>
+<p><strong>③ 案件台帳に起票する</strong></p>
+<ul><li>ファイル：<code>(原本)【電カル共有】案件台帳_令和8年度.xlsx</code></li><li>格納先：<a href="https://mhlwlan.sharepoint.com/:f:/r/sites/ext_325-/Shared%20Documents/001_%E4%BC%9A%E8%AD%B0%E3%83%BB%E6%8A%80%E8%A1%93%E8%B3%87%E6%96%99/001_%E9%96%8B%E7%99%BA%E6%A1%88%E4%BB%B6%E7%AE%A1%E7%90%86/01_%E6%A1%88%E4%BB%B6%E5%8F%B0%E5%B8%B3%EF%BC%88%E5%8E%9F%E6%9C%AC%EF%BC%89?d=w12d927fe113046f3879b0cc97f971ab4&amp;csf=1&amp;web=1&amp;e=Kv1vg3" target="_blank" rel="noopener">https://mhlwlan.sharepoint.com/:f:/r/sites/ext_325-/Shared%20Documents/001_%E4%BC%9A%E8%AD%B0%E3%83%BB%E6%8A%80%E8%A1%93%E8%B3%87%E6%96%99/001_%E9%96%8B%E7%99%BA%E6%A1%88%E4%BB%B6%E7%AE%A1%E7%90%86/01_%E6%A1%88%E4%BB%B6%E5%8F%B0%E5%B8%B3%EF%BC%88%E5%8E%9F%E6%9C%AC%EF%BC%89?d=w12d927fe113046f3879b0cc97f971ab4&amp;csf=1&amp;web=1&amp;e=Kv1vg3</a></li><li>厚労ACN内Rev中は更新欄に <code>（確認中）</code> と記載する</li><li>TODO由来の起票であれば、TODO発生元会議の厚労省スレッドで起票を報告する（過去のスレッド記載を参照）</li></ul>
+<p><strong>④ 台帳の内容を本田さんにRevしてもらう</strong></p>
+<ul><li>本田さんに台帳リンクを共有してRevを依頼する</li></ul>
+<p><strong>⑤ 開発課題検討会資料の案件台帳スライドを更新する</strong></p>
+<ul><li>案件台帳を<strong>起票したときだけでなく、更新したときも</strong>、次週の開発課題検討会資料の<strong>案件台帳のスライド（案件台帳更新概要ページ）</strong>に起票・更新内容を記載する</li><li>更新漏れを防ぐため、毎週金曜の開発課題検討会の会議前準備でも確認する（→Section 5「会議前（前週金曜）」）</li></ul>
+<h4 id="p-m8-h2">8-1b. 厚労省が依頼した改修（案件）への機構の確認結果を拾う（不定期）</h4>
+<blockquote><p><strong>ポイント</strong>：厚労省から機構へ改修（案件対応）を依頼したものについて、機構から確認結果・確認依頼（PDFイメージ、仕様案、対応方針など）が厚労省スレッドに届くことがある。<strong>開発関連で厚労省の確認が必要な投稿は、ロジ担当（中澤）が拾って対応する</strong>（2026-10-09 ユーザー。例：案件ID194・195 臨床情報一覧・患者サマリーのPDF帳票レイアウト。天野さんの9/16投稿に黒川さんが対応）。</p></blockquote>
+<ul><li><span class="cb">☐</span> 厚労省Teams（020_厚労省・基金・事業者、001_会議・技術資料 など）で、機構からの改修案件の確認結果・確認依頼の投稿を見つけたら、tasks_current.md に起票する（案件ID・投稿日・依頼内容・期限）</li><li><span class="cb">☐</span> 内容を確認し、案件台帳の要求事項と食い違いがないか、追加費用・リリース時期への影響がないかを見る</li><li><span class="cb">☐</span> 確認結果（回答案）を本田さんにRv → 厚労省に対応方針をスレッド報告 → 必要なら案件台帳に追記（追記したら次週の開発課題検討会資料の案件台帳スライドも更新：8-1⑤）→ 機構へ連携</li><li><span class="cb">☐</span> Plannerにタスクがあれば（本田さんが起票する場合あり）、同じ件だと分かるよう tasks_current.md に注記する</li></ul>
+<hr>
+<h3 id="p-m8-h3">8-2. WBS資料</h3>
+<h4 id="p-m8-h4">TODO・確認事項一覧スライド</h4>
+<ul><li><strong>更新期限：木曜昼まで</strong></li><li><strong>前提</strong>：先週のWBS資料のスライドをベースに更新する</li></ul>
+<p><strong>【Todo欄】</strong></p>
+<ul><li>Todo台帳（<code>〔原本〕【電カル共有】課題・TODO管理台帳.xlsx</code>）をベースに更新する</li><li>翌週が期日のTODOを記載する（その他厚労省に状況確認したいTODOも適宜掲載）</li><li>確認事項についてはWBS資料のアジェンダを確認しながら更新する</li></ul>
+<p><strong>【確認事項一覧欄】</strong>（スライドの見出しは「スレッド等での確認事項」）</p>
+<ul><li>スレッド・会議内の会話で出てきている課題を記載する</li><li>厚労省Teamsの各スレッドを確認し、<strong>先週起票以降のやりとり</strong>を見て更新する</li><li>厚労省・厚労ACN側にボールがあるものを記載する</li><li><strong>アップデート部分は青字で記載する</strong></li></ul>
+<p><strong>書き方の型</strong>（2026-10-02版のスライドの全15行から整理。2026-10-08）</p>
+<div class="tw"><table><thead><tr><th>列</th><th>書き方</th></tr></thead><tbody><tr><td>＃</td><td>通し番号。前回からの続きの行は番号を変えない</td></tr><tr><td>内容</td><td>①課題を1〜2文で書く（「〜について」「〜を検討する」「〜する必要がある」で終える）。②必要なら補足を付ける（【相談事項】、■FTCコメント、背景の1〜2文）。③最後に、元のスレッドを1行で貼る（「スレッド：投稿者: 件名 | チーム &gt; チャネル | Microsoft Teams」。Teamsの「リンクをコピー」で貼ると、この形になる）</td></tr><tr><td>確認事項</td><td>①1行目は「状況共有」。②その下に経緯を書き足していく。日付は「→MMDD）」で始める（例：「→1002）」）。古い経緯は消さない。③<strong>今週の分だけ青字</strong>にする。新しい行は、内容・確認事項とも全部青字</td></tr></tbody></table></div>
+<p><strong>今週の1文の結び</strong>（どれか1つに決める）</p>
+<div class="tw"><table><thead><tr><th>型</th><th>いつ使うか</th><th>例（10/2版から）</th></tr></thead><tbody><tr><td>状況を聞く</td><td>厚労省で検討・調整してもらっていて、進み具合を知りたい</td><td>「MEDISの山本先生へのコンタクトの取り方について省内調整のご状況はいかがか。」</td></tr><tr><td>相談する</td><td>こちらから案を出して、厚労省に決めてもらいたい</td><td>「JLAC11に再振り直してもらうことを推奨するような記載とするかご相談させていただきたい。」</td></tr><tr><td>報告する</td><td>決まったこと・済んだことを伝える（厚労省の判断は要らない）</td><td>「9/29に再修正いただいた。修正箇所について問題ないことをACNにて確認済み。」</td></tr><tr><td>別スライドへ誘導</td><td>説明が長く、個別のスライドを用意した</td><td>「内容について次スライドにて確認させていただきたい。」</td></tr></tbody></table></div>
+<ul><li>「報告する」で終わる行も、厚労省に別途確認をお願いしたいことがあれば、最後に1文足す（例：「周知文について、別途ご確認のご依頼をさせていただきたい」）</li><li>⚠️ 未確認：決着した行をいつ外すか（決まりが見当たらない。10/2版には5月から更新のない行〔#6・#8〕も残っている）</li><li><strong>確かめ方</strong>：①過去のWBS資料を2〜3週分並べ、消えた行が消える前の週にどう書かれていたか（決着の一文があったか）を見る ②決まりが無ければ、案を本田さんに確認して決める。案：決着した週は「→MMDD）〜で決着した。」を青字で書いて残し、その翌週の資料で外す（厚労省が決着の記載を一度見られるようにするため）</li></ul>
+<p><strong>候補の拾い方</strong></p>
+<ul><li>週中に、厚労省へ確認・相談・報告するものが出たら、日次メモ（<code>_agent/_基盤/_タスク管理/daily/YYYYMMDD.md</code>）の「## WBS向けメモ」に1行でためる（Claudeとのやり取りで出たものはClaudeが追記する）</li><li>外部Teamsのやり取りは、該当の投稿を貼り付けてClaudeに渡せば、上の型で文案を作る</li><li>木曜にためたメモをまとめ、前回のスライドの各行に「今週の更新があるか」を当てはめてから、新しい行を足す</li></ul>
+<p><strong>確認対象チャネル：</strong></p>
+<ul><li>医療情報連携（外部）<ul><li>100_会議資料</li><li>200_課題整理（電カル共有）</li></ul></li><li>電子カルテ情報共有サービス（外部）<ul><li>一般</li><li>001_会議・技術資料</li><li>020_厚労省・基金・事業者</li></ul></li></ul>
+<h4 id="p-m8-h5">WBS向けメモの蓄積と木曜共有（週次フロー）</h4>
+<ul><li><strong>週中の蓄積</strong>：セッション中にWBS確認事項一覧・TodoスライドへのネタになるメモがあったときはClaudeがdailyファイルの「## WBS向けメモ」セクションに随時追記する</li><li><strong>木曜共有</strong>：毎週木曜のセッション開始時または木曜セッション中に、当週分の蓄積メモをまとめてユーザーに提示する（WBS資料の更新作業に反映するため）</li><li><strong>蓄積対象</strong>：確認事項一覧の新規追加・継続掲載ネタ、Todoに載せるべき案件・意向確認事項など</li></ul>
+<h4 id="p-m8-h6">個別アジェンダ（週次スケジュール）</h4>
+<ul><li>火曜まで：方針確定（定まらない場合は本田さんに相談）</li><li>水曜：資料作成・Rev依頼</li><li>木曜：Rev取り込み</li></ul>
+<h3 id="p-m8-h7">8-3. terminology月次更新：収載マスタ版数の回答（毎月）</h3>
+<blockquote><p><strong>ポイント</strong>：2026-10-06に黒川さんから中澤へ移管（黒川さんKT）。約半年前から、DX機構（芳原さん）から毎月「NTTデータで取得した最新terminologyに収載されているマスタの版数を教えてほしい」というメールが来るので、毎月回答している。目的は、NTTデータ（ND）が取り込むマスタの版数を確認すること。</p></blockquote>
+<p><strong>手順（スクリプトを使う場合・推奨）</strong></p>
+<ol><li>依頼メールで、対象のterminologyの版（例：Ver. 2.2609.0）を確認する</li><li><code>python _agent/_基盤/_ツール/terminology版数確認.py 2.2609.0</code> を実行する（前月版を自動でダウンロードして比較。比較する版は2つ目の引数で指定可）</li><li>出力された表の「版」をメールの表に書き、「更新」が★の行を赤字にする。健診マスタは別途確認する</li><li>出力の最後の「参考：回答対象外のCodeSystemの変化」に<strong>増えた・消えたファイル</strong>があれば、回答表に入れるべきマスタが増減していないかを確認する（必要ならスクリプトの MAPPING を直す）</li><li>メール文案を作成 → 本田さんにRv依頼 → Rv完了後に芳原さんへ返信する</li></ol>
+<p><strong>確認するファイルの選び方（ロジック）</strong></p>
+<ul><li>回答表の行は毎月同じ（前月の回答表を正とする）。行ごとに、パッケージ内のCodeSystemのファイルを1対1（JLACは4ファイル）で決めてある（下の表の「確認するファイル」）</li><li>決め方：①回答表の左端の識別子（diseasekanricodes・modifiers・allergenYCM 等）がそのままファイル名に含まれるものを選ぶ → ②候補が複数あるときは、ファイルの <code>title</code> が回答表の「名称」と一致するものを選ぶ<ul><li>修飾語：候補が3つある（<code>diseasenamecodes-modifiers</code>＝MEDIS病名 修飾語管理番号／<code>diseasename-exchangecodes-modifiers</code>＝修飾語交換用コード／<code>condition-disease-modifier-receipt</code>＝レセプト電算用修飾語マスター）。「修飾語マスタ」は標準病名（MEDIS）側の管理番号を指すと判断して <code>diseasenamecodes-modifiers</code> を選んだ（2026-10時点では3つとも5.18.0で結果は同じ）</li><li>用法：候補が2つある（<code>mhlw-medication-usage-jami</code>＝電子処方箋管理サービス 標準用法コード／<code>jp-medication-usage-jami</code>＝JP Core JAMI 16桁用法、1.1.1）。名称「電子処方箋管理サービスの…用法マスタ」と一致する <code>mhlw-</code> を選んだ</li><li>JLAC：JLAC10/JLAC11 × 基本（corelabo）/感染症（infectionlabo）の4ファイル。4つとも同じ版であることを確認する</li><li>YJ：<code>medicationcode-yj</code>（全件）と <code>medicationcode-yj-Active</code>（アクティブのみ）がある。名称「個別医薬品コード（YJコード）リスト」に合わせて全件の方を選んだ</li></ul></li><li><strong>健診マスタはパッケージに含まれないため、毎月個別に確認する</strong>（2026-10-06 黒川さん確認）</li><li>J-FAGYの回答表の行は食物（<code>jfagy-food-allergen</code>）のみ。非食物・非医薬品（<code>jfagy-non-food-non-medication-allergen</code>）は<strong>回答表に無いので対象外</strong>（スクリプトの参考出力に版の変化が出ても回答には入れない）</li></ul>
+<p><strong>手順（手作業の場合）</strong></p>
+<ol><li>依頼メールで、対象のterminologyの版（例：Ver. 2.2609.0）を確認する</li><li><a href="https://std.jpfhir.jp/" target="_blank" rel="noopener">https://std.jpfhir.jp/</a> → terminology（Ver.2系列）のページ → 指定の版のページから、パッケージ（<code>jpfhir-terminology.r4-&lt;版&gt;.tgz</code>）をダウンロードする（大江先生が公開しているもの）</li><li>ダウンロードしたファイルを解凍し、各マスタのファイル（CodeSystemのjson）の中身から版（<code>version</code>）を確認する</li><li>前月の版の回答と比べ、更新されたマスタを赤字にする</li><li>メール文案（版数の表つき）を作成 → 本田さんにRv依頼 → Rv完了後に芳原さんへ返信する</li></ol>
+<p><strong>回答表の形（2026-10 回答の例・Ver. 2.2609.0）</strong></p>
+<div class="tw"><table><thead><tr><th>情報</th><th>名称</th><th>版</th><th>確認するファイル（<code>version</code>の値）</th></tr></thead><tbody><tr><td>傷病名：傷病名</td><td>標準病名履歴マスタ</td><td>5.18</td><td><code>CodeSystem-medis-codesystem-diseasekanricodes.json</code>（5.18.0）</td></tr><tr><td>傷病名：修飾語</td><td>修飾語マスタ</td><td>5.18</td><td><code>CodeSystem-medis-codesystem-diseasenamecodes-modifiers.json</code>（5.18.0）</td></tr><tr><td>薬剤アレルギー等</td><td>薬剤アレルギー用コードマスタ（YCM）</td><td>202609</td><td><code>CodeSystem-jp-jfagy-medication-allergenYCM-cs.json</code>（2026.9.15）</td></tr><tr><td>薬剤アレルギー等</td><td>剤形・規格・銘柄不明コードマスタ（GCM）</td><td>202609</td><td><code>CodeSystem-jp-jfagy-medication-allergenGCM-cs.json</code>（2026.9.15）</td></tr><tr><td>その他アレルギー等</td><td>J-FAGYアレルゲンコードマスタ</td><td>20260925</td><td><code>CodeSystem-jp-jfagy-food-allergen-cs.json</code>（2026.9.25）</td></tr><tr><td>検査・感染症</td><td>電子カルテ情報共有サービス対応JLACコード表（共有項目JLACコードマスタ）</td><td>202609</td><td><code>CodeSystem-jp-clins-codesystem-JLAC10/JLAC11-corelabo/infectionlabo-cs.json</code>（2026.09）</td></tr><tr><td>処方：医薬品</td><td>個別医薬品コード（YJコード）リスト</td><td>202609</td><td><code>CodeSystem-jp-medicationcode-yj-cs.json</code>（2026.9.15）</td></tr><tr><td>処方：用法</td><td>電子処方箋管理サービスの処方箋情報等を記録するための用法マスタ</td><td>202507</td><td><code>CodeSystem-mhlw-medication-usage-jami-cs.json</code>（2025.7.1）</td></tr><tr><td>健診文書</td><td>電子カルテ情報共有サービス向け健診マスタ</td><td>1.3.2</td><td>terminologyパッケージには含まれていない → <strong>毎月個別に確認する</strong></td></tr></tbody></table></div>
+<p><strong>注意</strong></p>
+<ul><li>版の表記はファイルの値をそのまま書かず、回答表の形にそろえる（例：2026.9.15 → 202609、5.18.0 → 5.18、2026.9.25 → 20260925）</li><li>赤字（更新部）は、前月の版のパッケージと比べて決める（記憶で決めない）</li><li>送付の前に、コメント・変更履歴を残していないか確認する（→Section 11）</li></ul>
+<hr>
+<h3 id="p-m8-h8">8-4. 【周知の共通ルール①】DX機構へのマスタ取り込み・ポータルサイト更新の依頼メール（マスタ更新のたび）</h3>
+<blockquote><p><strong>周知の管理のしかた</strong>：周知（機構への依頼メール・ポータル周知文）には、<strong>どのマスタでも共通のルール（この8-4・8-5）</strong>と、<strong>マスタごとの個別ルール・タスク</strong>がある。共通は本マニュアル、個別は各マスタの手順書に置く。個別の事情（周知する変更の範囲、記事のID、旧版の扱い、実績）は共通側に書かない。</p></blockquote>
+<div class="tw"><table><thead><tr><th>マスタ</th><th>頻度</th><th>個別ルール・タスクの正本</th><th>ポータルの記事</th></tr></thead><tbody><tr><td>J-FAGY（食物アレルゲン）</td><td>不定期</td><td><a class="doclink" href="#p-jfagy"><code>20261016_J-FAGYマスタ更新手順_v1.md</code></a></td><td>KB0012085</td></tr><tr><td>JLAC</td><td>月次</td><td><a class="doclink" href="#p-jlac"><code>20261001_JLACマスタチェック手順_vN.md</code></a> 9-4（ポータルの注記の更新は、毎月ではなくイレギュラー時のみ。本田さんの指示で動く）</td><td>⚠️記事IDは未確認</td></tr><tr><td>薬剤関連（YJ・薬剤アレルギー等）</td><td>月次</td><td><a class="doclink" href="#p-yakuzai"><code>20261015_薬剤関連マスタ作成手順_v1.md</code></a>（周知の記載の有無は⚠️未確認）</td><td>⚠️未確認</td></tr></tbody></table></div>
+<ul><li>新しいマスタを周知対象に加えるときは、この表に1行足し、個別の手順書を作る（J-FAGYの手順書を雛形にする）</li></ul>
+<p>マスタの版が上がるたびに、DX機構（齋藤様・山舗様）へ「マスタの取り込み」と「ポータルサイト（ServiceNow KB）の更新」をメールで依頼する。JLACは月次、J-FAGYなどは不定期（マスタ別の事情は上の表の手順書を見る）。</p>
+<p><strong>流れ</strong></p>
+<ol><li>ポータルの更新イメージ（PPT「ポータルサイトのレイアウト変更イメージ（〇〇）」）を作り、本田さんにRv依頼 → OK</li><li>依頼メールを作る（下の型）。本田さんの修文依頼・確認事項を反映する</li><li>送る前の確認（下のチェック）をして送る</li></ol>
+<p><strong>メールの型</strong>（見本：2026-08-25 黒川さん「【電カル共有】JLACマスタ8月版公開・接検第2への取り込みおよびポータルサイト更新のご依頼」、2026-10-08 中澤 J-FAGY版 → J-FAGYの手順書の4.）</p>
+<ul><li>件名：<code>【電カル共有】〇〇マスタ〇〇版の取り込みおよびポータルサイト更新のご依頼</code></li><li>宛名：<code>DX機構　齋藤様、山舗様</code>（「山舗」が正しい。2026-10以降は「DX機構」）</li><li>To：齋藤様・山舗様／Cc：過去の依頼メールと同じ宛先（支払基金・厚労省・ACN共有アドレス）。前任や関係者が別メールを送っている場合はその人もCc</li><li>本文：冒頭1文で趣旨 →【ご依頼事項】「１．マスタの取り込み」「２．ポータルサイトの更新」の2段 → 期限<ul><li>１：版、<strong>取り込む環境</strong>（本番／接検／接検第二。毎回違うので必ず書く。例：8/25は接検第2のみ、10/8は3環境すべて）、期限（リリース日時に合わせる）、マスタの渡し方（添付 or ダウンロードページ。公開サイトから取れるものは版とリリース番号まで書いてURLで示す）</li><li>２：添付PPTを参照して記事を更新。リンク切れがあれば新しいURLへの差し替えも依頼する。環境の反映日はPPTでは「XX」とし、機構に埋めてもらう。期限は「本番環境反映日の前日まで」</li><li><strong>機構の取り込みのしかた</strong>：これまでは全環境に一度に取り込んでいた（リリース日は環境ごとに違う）。2026-10のJ-FAGYでは、各環境の<strong>リリース日に合わせて順番に</strong>取り込む形だった（接検第二 10/13 12:00 → 接検 10/15 12:00 → 本番 10/16 12:00。Terminologyの月次リリースに合わせた）。<strong>各リリース日までに取り込まれれば問題ない</strong>（前任に確認・2026-10-13）。依頼では、環境ごとに「いつまでに取り込むか」を書くと食い違いが起きにくい</li><li>ポータルの公開が環境のリリースより遅れると、周知の内容と環境の実態がずれる（2026-10-13、接検第二のリリースが公開より先になり、本田さんの文案で公開を急ぐよう依頼した）。機構から日程の連絡が来たら、ポータル公開がいちばん早いリリースに間に合うかを確かめる</li><li>会議資料（開発進捗連絡会議のマスタ更新予定）と違う日に連携するときは、理由を書く（例：Terminologyの取り込みに合わせて前倒し。モデル医療機関への影響がないことも添える）</li></ul></li></ul>
+<p><strong>送る前の確認</strong></p>
+<ul><li><span class="cb">☐</span> 関係する別メール（例：黒川さんの芳原様あての更新日程のメール）がある場合、その<strong>後</strong>に送る</li><li><span class="cb">☐</span> ポータルに載せるリンクは、ブラウザで実際に開けることを確認する（旧リンクが404になっていることがある。J-FAGYの例は手順書の4.）</li><li><span class="cb">☐</span> 添付PPTのコメント・プロパティを削除する。機構への吹き出し（「DX機構担当者様」の図形）は残す。吹き出しがスライドからはみ出していないか（→Section 11）</li></ul>
+<h3 id="p-m8-h9">8-5. 【周知の共通ルール②】ポータルサイトの周知文（マスタの版上げのとき）</h3>
+<p>医療機関等向け総合ポータルサイト（ServiceNow のナレッジ。記事のIDはマスタごとに違う→8-4の表）に載せる周知文を、「レイアウト変更イメージ」のPPTで作り、本田さんRvを経て、8-4の依頼メールに添付する。</p>
+<p><strong>周知する変更・しない変更</strong>：マスタごとに決める。J-FAGYで決めたことは <a class="doclink" href="#p-jfagy"><code>20261016_J-FAGYマスタ更新手順_v1.md</code></a> の2.（表記の変更は周知、新規追加・誤記修正は周知しない、書きぶりは「〜に変更になりました」）</p>
+<p><strong>ページの構成</strong></p>
+<ul><li>新しい版に切り替わっても、<strong>旧版がまだ使われている間は、旧版の留意事項も残す</strong>（2026-10-06 本田さん：「0531版の内容もまだ周知しておいた方がいい」）</li><li>構成は<strong>期間で分ける</strong>（JLACのページと同じ形）：現行の版（「令和N年M月D日以降」）を上に置き、その下に「令和N年M月D日まで適用のマスタ（旧版）」のアコーディオンを並べる。各アコーディオンに、版の情報・適用終了日・その版の留意事項を入れる</li><li>環境への反映日など、機構が決める日付は「XX」のまま送り、機構に埋めてもらう（依頼メールにその旨を書く）</li><li>旧版の参照先は、先祖返り（直した表記が戻る）がある場合に備えて「○○版以降の版をご確認ください」とする（J-FAGYの例は手順書の3.）</li></ul>
+<p><strong>作業の注意</strong></p>
+<ul><li>直すときは、元のスライドを触らず、スライドをコピーしてからコピー側で作業する（→Section 11）</li><li>見本：J-FAGYの手順書の3.（期間で分ける構成のPPT）</li></ul>
+<h3 id="p-m8-h10">8-6. マスタ更新スケジュールスライド（毎月）</h3>
+<p>次週の開発進捗連絡会議で示す「マスタ更新スケジュール」のスライドを更新する。</p>
+<ul><li><strong>作業フォルダ</strong>：ACNシェアポ / 31_周知物 / 01_ONS・ポータル</li><li><strong>やること</strong>：スライドの<strong>黄色の箇所</strong>に、薬剤アレルギー・YJコード・JLACマスタの更新日を入れる</li><li><strong>日付の決め方</strong></li></ul>
+<div class="tw"><table><thead><tr><th>マスタ</th><th>日付</th></tr></thead><tbody><tr><td>薬剤アレルギー</td><td>元ネタが毎月15日に届くので、その<strong>2日後</strong>の日付</td></tr><tr><td>JLACマスタ</td><td>「15日」で仮置き</td></tr><tr><td>YJコード</td><td>⚠️ 未確認（決め方を確認して追記する）</td></tr></tbody></table></div>
+<ul><li>祝日をはさむ場合は、日付がずれないか確認する</li><li><strong>期限</strong>：開発進捗連絡会議の前週の金曜中に、本田さんにRv依頼する（2026-10は10/2〈金〉が期限だった）</li><li>⚠️ 未確認：毎月いつの会議向けに更新するか（月初の会議か）。上の内容は、2026-10のタスクの記録から書き起こしたもの</li><li><strong>確かめ方</strong>：①ACNシェアポの過去の版（ファイルのバージョン履歴、または前月までの開発進捗連絡会議の資料）を2〜3か月分並べ、YJコードの日付がその月の何日になっているか、どの週の会議の資料に入っているかを見る ②分からなければ、以前この作業をしていた人（黒川さん）か本田さんに聞く。分かったらこの節の表を埋める</li></ul>
+<h3 id="p-m8-h11">8-7. 外部IF・バリデーションの修正一覧の確認（不定期：機構から依頼が来たとき）</h3>
+<p>DX機構から「外部IF・バリデーションの修正一覧（厚労省様説明用）」のExcelが届き、確認を頼まれることがある。定常ではないが、来たときは次の流れで回す。下の流れは2026-09〜10（【R8.12S】の修正一覧）の実績から書き起こしたもの。</p>
+<p><strong>1往復目：一覧の確認</strong></p>
+<ol><li>機構から修正一覧のExcelを受け取る（2026-09は「【R8.12S】外部IF・バリデーションの修正一覧（厚労省様説明用）20260903.xlsx」）</li><li>ACNで内容を確認する</li><li>厚労省にレビューしてもらう（2026-10-01：誤字1件の指摘 → 反映）</li><li>機構へ返す<strong>クリーン版のExcel</strong>と<strong>返答文案</strong>を作る</li><li>本田さんにRvを依頼する</li><li>本田さんのOK後、機構のスレッドへ送る</li></ol>
+<p><strong>2往復目以降：機構からのコメントへの回答</strong></p>
+<ol><li>機構からコメントの返信が来る（2026-10-02）</li><li>コメントごとに回答案を作る</li><li>本田さんにRvを依頼する（2026-10-06：コメント2件。1件はOK、1件は文面の差し替え）</li><li>反映して、本田さんに報告する</li><li>厚労省にRvを依頼する</li><li>厚労省のRvが済んだら、機構へ連携する</li></ol>
+<p><strong>メモ</strong></p>
+<ul><li>機構へ出す文面・資料は、本田さんRvを通す（→Section 11「本田さんRvの要否」）</li><li>厚労省のレビュー・Rvを経た版は、ファイル名に「厚労省レビュー版(YYYYMMDD)」を付けていた</li><li>⚠️ 未確認：2.の「ACNで内容を確認する」で何を見たか（観点）、ファイルの置き場所、機構とやり取りしたスレッド。次に依頼が来たときに追記する</li></ul>
+<hr></section><section class="page" id="p-m9" data-title="9. 外部会議" hidden><h2>9. 外部会議</h2><h3 id="p-m9-h1">9-1. 共通フロー</h3>
+<p>以下の外部会議はすべて同じ基本フローで対応する。</p>
+<p><strong>会議前</strong></p>
+<ul><li><span class="cb">☐</span> スケジュール調整・メール送付（本田さん主導）</li><li><span class="cb">☐</span> インビテーションの発行</li><li><span class="cb">☐</span> 資料作成（本田さんが主担当、ロジ担当がサポート）</li><li><span class="cb">☐</span> 資料を印刷・PDF化・社外に送る前に、<strong>コメント・変更履歴・プロパティを削除</strong>し、印刷設定でもコメントを出さない（→Section 11。点検・削除は <code>_基盤/_ツール/送付前チェック.py</code>）</li></ul>
+<p><strong>会議中</strong></p>
+<ul><li><span class="cb">☐</span> 議事録を作成する</li></ul>
+<p><strong>会議後</strong></p>
+<ul><li><span class="cb">☐</span> 議事録を格納・関係者に連携する</li><li><span class="cb">☐</span> Plannerに発生したTODOを記載する</li><li><span class="cb">☐</span> 御礼メール・資料を連携する（本田さん主導）</li><li><span class="cb">☐</span> タスクを遂行する</li></ul>
+<hr>
+<h3 id="p-m9-h2">9-2. JLACセンター打合せ（毎月）</h3>
+<blockquote><p><strong>ポイント</strong>：月次定例。日程調整・メール対応は本田さんが主担当。議事録作成・格納・御礼メールはロジ担当が対応。</p></blockquote>
+<hr>
+<h3 id="p-m9-h3">9-3. JAHIS打合せ（アドホック）</h3>
+<blockquote><p><strong>ポイント</strong>：JLACと同様のフロー。日程不定。</p></blockquote>
+<hr>
+<h3 id="p-m9-h4">9-4. 大江先生打合せ（アドホック）</h3>
+<blockquote><p><strong>ポイント</strong>：スケジュール調整は本田さん・向井さんが主担当。議事録・御礼メールはロジ担当が対応。</p></blockquote>
+<hr></section><section class="page" id="p-m10" data-title="10. 担当早見表" hidden><h2>10. 担当早見表</h2><blockquote><p><strong>2026-10-06〜：黒川さん・福島さんが担当していた作業は、すべて中澤の担当</strong>（ユーザー確認）。下表は移管後の担当。</p></blockquote>
+<p>Excel（260813 定常作業整理.xlsx）の主要担当を会議単位で簡略化したもの。詳細なRACIはExcelを参照。</p>
+<div class="tw"><table><thead><tr><th>会議名</th><th>頻度</th><th>ファシリ</th><th>資料作成</th><th>議事録</th><th>ロジ作業（アジェンダ登録・報告等）</th></tr></thead><tbody><tr><td>夕会</td><td>月水金</td><td>本田</td><td>—</td><td>—</td><td>中澤</td></tr><tr><td>昼会</td><td>毎日</td><td>本田</td><td>—</td><td>—</td><td>中澤</td></tr><tr><td>三者定例ラップアップ</td><td>月</td><td>本田</td><td>中澤</td><td>中澤</td><td>中澤</td></tr><tr><td>開発進捗連絡会議</td><td>月</td><td>本田</td><td>本田/山川</td><td>中澤</td><td>中澤</td></tr><tr><td>開発課題検討会</td><td>月</td><td>本田</td><td>本田/山川</td><td>中澤</td><td>中澤</td></tr><tr><td>ONS問合せ会議</td><td>火</td><td>本田</td><td>本田/山川/中澤</td><td>中澤</td><td>中澤</td></tr><tr><td>ONS共有会</td><td>火</td><td>—</td><td>—</td><td>本田/中澤</td><td>中澤</td></tr><tr><td>WBS確認会</td><td>金</td><td>本田</td><td>本田/山川</td><td>山川/中澤</td><td>中澤</td></tr><tr><td>三者定例</td><td>金</td><td>—</td><td>本田</td><td>中澤</td><td>中澤</td></tr><tr><td>JLAC打合せ</td><td>月次</td><td>本田</td><td>本田</td><td>中澤</td><td>中澤</td></tr><tr><td>JAHIS打合せ</td><td>随時</td><td>本田</td><td>本田</td><td>中澤</td><td>中澤</td></tr><tr><td>大江先生打合せ</td><td>随時</td><td>本田/向井</td><td>本田</td><td>中澤</td><td>中澤</td></tr></tbody></table></div>
+<blockquote><p>凡例（Excelより）：●＝主担当、○＝適宜担当になりうる人、☆＝レビュー担当</p></blockquote>
+<hr></section><section class="page" id="p-m11" data-title="11. 注意事項まとめ" hidden><h2>11. 注意事項まとめ</h2><div class="tw"><table><thead><tr><th>項目</th><th>注意点</th></tr></thead><tbody><tr><td>ファイル格納全般</td><td>厚労省シェアポ格納前に<strong>必ずプロパティを削除する</strong></td></tr><tr><td>印刷・PDF化・社外送付の前（2026-10-06追加）</td><td>次の3点を確認する。①<strong>コメントを削除</strong>（PowerPoint・Word・Excelとも「校閲」→コメントの削除→すべて）②<strong>印刷設定でコメントを出さない</strong>（PowerPoint：印刷画面の「コメントを印刷する」をオフ／Word：「変更履歴/コメントの印刷」をオフ／Excel：ページ設定→シート→コメント「なし」）③<strong>変更履歴・ファイルのプロパティを削除</strong>。<strong>①③はツールで点検・削除できる</strong>：<code>python _agent/_基盤/_ツール/送付前チェック.py &lt;ファイル&gt;</code>（点検だけ。コメント・変更履歴・非表示スライドはFAIL、プロパティ・ノート・非表示シート・外部リンク・書きかけの目印〔【回答案】・TODO・XX・（仮）・○○〕はWARN）→ <code>--clean</code> を付けると「&lt;元の名前&gt;_送付用」のコピーを作り、コメント・個人情報・プロパティを消して点検し直す（元ファイルは変えない。変更履歴の承諾・却下、非表示スライド・ノートの扱いは中身の判断が要るので消さない。実行前にPowerPoint・Word・Excelを閉じる）。理由：2026-10-06のJLACセンター打合せ向けの印刷物に、コメント機能で付けたコメントが残っていた</td></tr><tr><td>三者定例資料</td><td>末尾のラップアップページは厚労省シェアポ側には連携しない</td></tr><tr><td>議事要旨</td><td>Rev未完であれば事前連携時に含めない</td></tr><tr><td>ラップアップ送付</td><td>本田さんの送付可確認後に送付する</td></tr><tr><td>ONS新規事項</td><td>回答方針確認が必要なものは回答欄に <code>★厚労省回答方針確認</code> と記載</td></tr><tr><td>WBS資料（次週ファイル）</td><td>古いアジェンダは削除するが、TODO・確認事項一覧スライドは残す</td></tr><tr><td>ONS月次報告週（第2週）</td><td>リマインドのメンション先・刈り取り対象に比嘉さんを追加</td></tr><tr><td>黒川さんからの移管業務（2026-10-05〜）</td><td>引継ぎ対象の業務に関するチャット・スレッド投稿では中澤がメンションされる。<strong>メンションされた投稿は全量確認</strong>し、不明点は黒川さんに聞く（対象：ONS読み合わせ後の台帳綺麗化、開発進捗連絡会議（書面開催分）の読合せ ほか）</td></tr><tr><td>会議のリスケ（祝日等）（2026-10-08追加・黒川さんに確認）</td><td><strong>三者定例ラップアップ</strong>：箕輪さん・向井さん・本田さん・笹川さん・まつきよさんあたりの予定表を見て空きを確認し、会議チャット「(in)【電カル共有】3者定例 ラップアップ」で「この日時でお願いします」と<strong>宣言</strong>すればよい（個別の事前調整は不要）。<strong>内部情報共有会</strong>：定時後で予定が入っていないことが多いため、同じチャットで「月曜祝日なので火曜に振替できればと思いますが、付議事項ありでご都合の悪い方いらっしゃいますか」程度に投げ、<strong>厚労ACN・基金（機構）ACNの両方に同時に</strong>確認すればよい。決まったら予定表（会議招集）を更新する</td></tr><tr><td>本田さんRvの要否（2026-10-06追加）</td><td><strong>厚労省・機構（社外）に出す文面・資料は本田さんRvを通す</strong>。一方、<strong>厚労ACN内部の作業について、機構ACN（崎坂さん等、同じACNの担当者）に確認を依頼する内部向けの連絡は本田さんRv不要</strong>で、そのまま送ってよい。例：健診XML FHIRパス突合の確認依頼（2026-10-06、崎坂さん宛て）。判断に迷うときは「宛先が社外か」「作業が厚労ACN内部のものか」で見る</td></tr><tr><td>資料の修正（スライド・シート）（2026-10-06追加）</td><td>Rvバック等で既存資料を直すときは、<strong>修正対象のスライドをそのまま触らず、スライドをコピーしてからコピー側で作業する</strong>（現断面を残すため）。コピー側に元スライドのコメントが複製された場合は削除し、元スライドのコメントは残す</td></tr></tbody></table></div>
+<hr></section><section class="page" id="p-m12" data-title="12. 引き継ぎの入口：文書・ツールの一覧（まずここを見る）" hidden><h2>12. 引き継ぎの入口：文書・ツールの一覧（まずここを見る）</h2><p>このマニュアル以外にも、業務ごとの手順書・ツール・ガイドがある。場所はすべて <code>Claudeプロジェクト/_agent/</code> からの相対パス。<strong>版のあるファイルは、同じフォルダの <code>更新履歴.md</code> で「（最新）」の付いた版を使う</strong>。</p>
+<blockquote class="caution"><p>⚠️ <code>01_定常業務/20260831_電カル調査研究_定常業務マニュアル/02_output/20260831_定常業務マニュアル_v1.html</code> は2026-09-10時点の古い版（MD版v3相当）で、更新していない。<strong>このMD版の最新を使う</strong></p></blockquote>
+<h3 id="p-m12-h1">12-1. 業務ごとの手順の正本とツール</h3>
+<blockquote><p><strong>マスタ関連は「手作業編」と「ツール編」の2本立てで引き継ぐ</strong>。ツール（自動化）だけでは、何の作業をしているかが分からないため。手作業編は、ツールが中で何をしているかの説明も兼ねる（後輩へは両方を渡す。2026-10-16 ユーザー）。現在の手作業編：JLACチェック＝下の行の <code>…手作業編_v1.md</code>、薬剤関連マスタ＝手順書の3章（Excelの作成ツールでの作業）、terminology版数回答＝8-3「手作業の場合」。<strong>未整備</strong>：『その他の測定法』コード作成・JLAC最終化の手作業（それぞれ手順書7章・9章に説明があるが、手作業編としての点検は未了）。</p></blockquote>
+<div class="tw"><table><thead><tr><th>業務</th><th>手順の正本</th><th>ツール・ひな形</th><th>動かすのに要るもの</th></tr></thead><tbody><tr><td>JLACマスタ月次チェック（毎月1日提出→7日頃送付）</td><td><code>01_定常業務/20260831_電カル調査研究_定常業務マニュアル/02_output/20261001_JLACマスタチェック手順_vN.md</code>（8章がツールの使い方）</td><td>チェックツール：<code>04_マスタ・プロファイル管理/JLAC/JLACマスタ月次チェック/00_共通/02_output/20261003_JLACマスタチェックツール_vN.html</code>（番号がいちばん大きい版）</td><td>Edge・Chromeだけ（インストール不要・外部送信なし）</td></tr><tr><td>JLACマスタ月次チェックの<strong>手作業編</strong>（Excelだけでチェックするやり方。ツールの中身の説明を兼ねる）</td><td><code>01_定常業務/20260831_電カル調査研究_定常業務マニュアル/02_output/20261016_JLACマスタ月次チェック_手作業編_v1.md</code></td><td>前月公開版・JLAC10/11コード表（Excel）</td><td>Excelだけ</td></tr><tr><td>『その他の測定法』（000）コードの作成（JLACの月次）</td><td>同上の7章</td><td><code>04_マスタ・プロファイル管理/JLAC/JLACマスタ月次チェック/00_共通/02_output/20261007_その他の測定法コード作成ツール_v1.xlsx</code></td><td>Excelだけ</td></tr><tr><td>JLACチェック結果のダブルチェック（任意）</td><td>同上の8-7</td><td><code>04_マスタ・プロファイル管理/JLAC/JLACマスタ月次チェック/00_共通/03_scripts/make_doublecheck.py</code></td><td>Python（Claude Code環境）</td></tr><tr><td>JLACチェックツールを直すとき</td><td><code>04_マスタ・プロファイル管理/JLAC/JLACマスタ月次チェック/CLAUDE.md</code>（版の上げ方・試験のしかた）</td><td><code>00_共通/03_scripts/run_check.mjs</code>・<code>selftest.mjs</code>・<code>compare_outputs.py</code></td><td>Node.js・Python（Claude Code環境）</td></tr><tr><td>薬剤関連マスタの作成（毎月15日ごろ、YJコードリスト受領日→翌日本田さんRv→送付）</td><td><code>01_定常業務/20260831_電カル調査研究_定常業務マニュアル/02_output/20261015_薬剤関連マスタ作成手順_v1.md</code></td><td>作成ツール（Excel）・CSV生成ツール（xlsm）。点検：<code>04_マスタ・プロファイル管理/薬剤/薬剤関連マスタ月次作成/00_共通/03_scripts/check_yakuzai_master.py</code>・<code>make_expected.py</code></td><td>Excel（マクロ有効）。点検はPython（Claude Code環境）</td></tr><tr><td>J-FAGYの版上げ（不定期：新版が出たとき）</td><td><code>01_定常業務/20260831_電カル調査研究_定常業務マニュアル/02_output/20261016_J-FAGYマスタ更新手順_v1.md</code></td><td>見本：<code>05_周知広報/20261001_JFAGY周知文案/02_output/</code></td><td>—</td></tr><tr><td>JLACセンター打合せの議事録</td><td><code>01_定常業務/ルール・ガイド/JLAC打合せ議事録フォーマット.md</code></td><td>—</td><td>—</td></tr><tr><td>terminology収載マスタの版数回答（毎月）</td><td>本マニュアル 8-3</td><td><code>_基盤/_ツール/terminology版数確認.py</code></td><td>Python（Claude Code環境）</td></tr><tr><td>開発進捗連絡会議・開発課題検討会の議事要旨チェック（毎週水曜）</td><td>本マニュアル 5章「議事要旨（案）のチェックのしかた」</td><td><code>_基盤/_ツール/議事要旨チェック/check_gijiyoshi.py</code></td><td>Python（Claude Code環境）</td></tr><tr><td>ONS問合せの回答案・読み合わせスクリプト（毎週）</td><td>本マニュアル 7章（冒頭に1週間の流れ）</td><td>書き方：<code>01_定常業務/ルール・ガイド/ONS回答作成ガイド.md</code></td><td>—</td></tr><tr><td>ONS問い合わせ月次報告の読合せ（毎月、第2週の翌週）</td><td><code>01_定常業務/ルール・ガイド/ONS回答作成ガイド.md</code> 5-3</td><td><code>07_ONS問合せ対応/ONS月次報告/YYYYMM/03_scripts/extract_slides.py</code>・<code>md_to_html.py</code></td><td>Python（Claude Code環境）</td></tr><tr><td>WBSのTODO・確認事項一覧スライド（毎週木曜）</td><td>本マニュアル 8-2（書き方の型）</td><td>候補は日次メモ（<code>_基盤/_タスク管理/daily/</code>）の「WBS向けメモ」</td><td>—</td></tr><tr><td>議事録・逐語録の作成（会議全般）</td><td><code>01_定常業務/ルール・ガイド/議事録・逐語録_共通ルール.md</code></td><td><code>01_定常業務/ルール・ガイド/議事録テンプレート.md</code>・<code>逐語録テンプレート.md</code>／Claude Codeの <code>/minutes</code></td><td>逐語録からの作成はClaude Code</td></tr><tr><td>マスタの版上げのポータル周知文・機構への依頼メール（共通ルール）</td><td>本マニュアル 8-4（依頼メール）・8-5（周知文）。マスタ別は8-4の表</td><td>見本：<code>05_周知広報/20261001_JFAGY周知文案/02_output/</code></td><td>—</td></tr><tr><td>マスタ更新スケジュールスライド（毎月）</td><td>本マニュアル 8-6</td><td>ACNシェアポ / 31_周知物 / 01_ONS・ポータル</td><td>—</td></tr><tr><td>外部IF・バリデーションの修正一覧の確認（不定期）</td><td>本マニュアル 8-7</td><td>—</td><td>—</td></tr><tr><td>外部へ送る・印刷する前のチェック</td><td>本マニュアル 11章</td><td><code>_基盤/_ツール/送付前チェック.py</code>（点検。<code>--clean</code> で送付用コピーを作って消す）</td><td>Python（Claude Code環境）。<code>--clean</code> はPowerPoint・Word・Excel本体（実行前に閉じる）</td></tr></tbody></table></div>
+<h3 id="p-m12-h2">12-2. 毎日・毎週使う管理ファイル</h3>
+<div class="tw"><table><thead><tr><th>ファイル</th><th>中身</th></tr></thead><tbody><tr><td><code>_基盤/_タスク管理/tasks_current.md</code></td><td>今のタスクと締切カレンダー。完了・追加はここを更新する</td></tr><tr><td><code>_基盤/_タスク管理/個人の残論点.md</code></td><td>決まっていない論点（個人R・プロジェクト課題の追跡T・候補K）。解決したら「✅ 解決済み（日付）」に</td></tr><tr><td><code>_基盤/_タスク管理/会議一覧.md</code></td><td>定常の会議（曜日・時間・自分の準備）と週ごとの会議予定</td></tr><tr><td><code>_基盤/_タスク管理/daily/YYYYMMDD.md</code></td><td>日次メモ。残論点・迷い・「WBS向けメモ」</td></tr><tr><td><code>_基盤/_input/README.md</code></td><td>横断の参照資料（仕様書・通知など）の索引</td></tr></tbody></table></div>
+<h3 id="p-m12-h3">12-3. 調べるときの参照先</h3>
+<div class="tw"><table><thead><tr><th>ファイル</th><th>中身</th></tr></thead><tbody><tr><td><code>01_定常業務/ルール・ガイド/関係者プロファイル.md</code></td><td>関係者ごとの所属・立場・担当と、説明・依頼のときに気にすること（会議ごとの担当は本マニュアル10章が正本）</td></tr><tr><td><code>01_定常業務/ルール・ガイド/電カル共有_用語集.md</code></td><td>用語の正式な意味（出典付き）と、厚労省に説明するときの言い換え、表記の統一</td></tr><tr><td>各会議・案件のフォルダの <code>プロジェクト状況.md</code></td><td>その会議・案件で何を決めたか・次に何をするか（経緯はここが正本）</td></tr></tbody></table></div>
+<h3 id="p-m12-h4">12-4. Claude Code を使う場合</h3>
+<ul><li>業務セッションのルールは <code>_agent/CLAUDE.md</code>。セッション開始時のタスク確認・残論点の表示、WBS向けメモの拾い上げ、終了時の日次メモの作成などをClaudeが自動で行う</li><li>「動かすのに要るもの」がPython・Node.jsのツールは、Claude Code環境で動かす前提。Claude Codeが使えない場合は、ブラウザ版・Excel版のツール（JLACチェックツール、000コード作成ツール）と、本マニュアルの手順で回せる</li></ul>
+<hr></section><section class="page" id="p-x14" data-title="付録：主要担当者（社内）" hidden><h2>付録：主要担当者（社内）</h2><div class="tw"><table><thead><tr><th>役割</th><th>担当者</th></tr></thead><tbody><tr><td>PMリード・ファシリ全般</td><td>本田さん</td></tr><tr><td>モデル側資料修正依頼</td><td>山形さん</td></tr><tr><td>基金側資料修正依頼</td><td>崎坂さん</td></tr><tr><td>ONS月次報告</td><td>比嘉さん</td></tr><tr><td>レビュー（議事要旨等）</td><td>箕輪さん・向井さん</td></tr></tbody></table></div></section><section class="page" id="p-jlac" data-title="JLACマスタ月次チェック" hidden><h2>JLACマスタ月次チェック</h2><div class="tabs" role="tablist"><button type="button" role="tab" aria-selected="true" data-tab="p-jlac-tab0">手作業編</button><button type="button" role="tab" aria-selected="false" data-tab="p-jlac-tab1">ツール編</button></div><div class="tabpanel" id="p-jlac-tab0"><div class="srcdoc"><div class="srcname">JLACマスタ月次チェック：手作業編（Excelだけで行うやり方）<span class="fname">20261016_JLACマスタ月次チェック_手作業編_v1.md</span></div><blockquote class="caution"><p>作成日: 2026-10-16<br>プロジェクト: 20260831_電カル調査研究_定常業務マニュアル<br>対象: JLACマスタの月次チェックを引き継ぐ担当者。<strong>何をチェックしているのかを理解するため</strong>、および<strong>ツールが使えないときに自分で回すため</strong>の手順<br>位置づけ: <strong>ツール編</strong>（<a class="doclink" href="#p-jlac"><code>20261001_JLACマスタチェック手順_vN.md</code></a> 8章：HTMLチェックツール、<code>00_共通/02_output/</code> の <code>*_月次実行の使い方_vN.md</code>：1回実行）と<strong>対</strong>。実務はツールで行い、この手作業編は「ツールが中で何をしているか」の説明を兼ねる<br>出典: 手順書 3章（Step 0〜3）・4章（チェックロジック39件）、および凍結した参照実装 <code>00_共通/03_scripts/check_jlac_monthly.py</code> のロジック<br>⚠️ <strong>注意</strong>：この文書のExcel式は、参照実装（Python）のロジックから起こした<strong>例</strong>で、Excelで試験していない。初回は<strong>前月公開版を使って練習</strong>し、結果が既知の内容と合うか確かめる（6章）。<strong>判定の正本は最新版のHTMLチェックツール（<code>jlac-core</code>）</strong>で、参照実装は凍結されている。ツールと手作業で結果が違ったら、ツールの判定根拠（ACN確認用の「指摘の根拠」シート）を見て原因を調べる</p></blockquote>
+<hr>
+<h3 id="p-jlac-t0-0-h1">1. 何をチェックするのか（全体像）</h3>
+<p>JLACセンターが毎月1日に提出する、電カル共有向けJLACマスタ（1行＝JLAC11コード1つ、32列）を、厚労省側（ACN）が点検する。</p>
+<div class="tw"><table><thead><tr><th>目的</th><th>やること</th><th>手順書の章</th></tr></thead><tbody><tr><td>① 形の誤りを見つける</td><td>空欄・桁数・値の範囲・Excelエラー等（Step 0）</td><td>3章 Step 0・4章</td></tr><tr><td>② コード表との食い違いを見つける</td><td>JLAC10／JLAC11のコード表に照らして名称が合うか（Step 0）</td><td>4章</td></tr><tr><td>③ 同じ項目の表記ゆれ・重複を見つける</td><td>大項目・FHIR項目名称・識別文字列・略称の組合せ、コード重複（Step 0）</td><td>4章</td></tr><tr><td>④ 前月から勝手に変わっていないか見る</td><td>前月の公開版と行ごとに突き合わせる（Step 1）</td><td>3章 Step 1</td></tr><tr><td>⑤ 新規行を重点的に見る</td><td>新規行は全指摘を確認する（Step 2）</td><td>3章 Step 2</td></tr><tr><td>⑥ JLACセンターへ疑義を伝える</td><td>コメントを書き、本田さんRv後に連携（Step 3）</td><td>3章 Step 3</td></tr></tbody></table></div>
+<p><strong>「既知」の考え方</strong>：前月にも同じ指摘が出ていた行（既存行）は、JLACセンターに何度も言わないよう<strong>コメントしない</strong>（件数だけ控える）。新規行は、全指摘をコメントする。既存行は、前月との差分と、前月は通っていたのに今月落ちたものだけをコメントする。</p>
+<h3 id="p-jlac-t0-0-h2">2. 用意するもの</h3>
+<div class="tw"><table><thead><tr><th>もの</th><th>中身・入手先</th></tr></thead><tbody><tr><td>今月の提出ファイル</td><td>JLACセンター提出のxlsx。シートは通常「提出分」＋ABO・Rhのシート。1行目が見出し、2行目以降がデータ</td></tr><tr><td>前月の公開版マスタ</td><td>「新のみ」シート（新コードだけの版）を使う。公開用CSVは読めない場合があるので、Excel版を使う</td></tr><tr><td>JLAC10要素別コード表</td><td><code>140jlac10_1.xlsx</code>（<a href="https://www.jslm.org/committees/code/index.html" target="_blank" rel="noopener">https://www.jslm.org/committees/code/index.html</a> から。毎月最新版）</td></tr><tr><td>JLAC11要素別コード表</td><td><code>jlac11_1_1.0.xlsx</code>（同上。コードと手順書8-2の表記。実ファイル名は確認する）</td></tr><tr><td>JLAC11の17桁コードリスト（任意・参考）</td><td><code>jlac11_3_1.1b.xlsx</code>（<code>../20260930_JLACマスター新旧対応表確認/01_input/</code>）。KA-08の参考確認用</td></tr><tr><td>今月の連絡事項</td><td>JLACセンターのメール（新規行の開始行・再提出の有無・公開日など）</td></tr></tbody></table></div>
+<p>作業は<strong>コピーを作ってから</strong>行う（提出原本は触らない）。作業用ブックを作り、提出シートの右隣（AG列）に「JLACセンター向けコメント」列を追加する。</p>
+<h3 id="p-jlac-t0-0-h3">3. 列の位置（A〜AF の32列）</h3>
+<p>以降の式はこの列記号で書く。見出し名が違う・列がずれている提出は、まずそれ自体を指摘する（KA-26：33列目以降に値があってはいけない）。</p>
+<div class="tw"><table><thead><tr><th>列</th><th>項目</th><th>列</th><th>項目</th><th>列</th><th>項目</th></tr></thead><tbody><tr><td>A</td><td>区分名称</td><td>L</td><td>測定法（JLAC11）</td><td>W</td><td>判定フラグ</td></tr><tr><td>B</td><td>予備区分名称</td><td>M</td><td><strong>JLAC11コード（17桁）</strong></td><td>X</td><td>データタイプ</td></tr><tr><td>C</td><td>救急フラグ</td><td>N</td><td>表示用単位</td><td>Y</td><td>値の下限</td></tr><tr><td>D</td><td>生活習慣病フラグ</td><td>O</td><td>表示用単位2</td><td>Z</td><td>値の上限</td></tr><tr><td>E</td><td>データ区分</td><td>P</td><td>XML用単位</td><td>AA</td><td>数値書式</td></tr><tr><td>F</td><td>大項目</td><td>Q</td><td>XML用単位2</td><td>AB</td><td>コード型の値リスト</td></tr><tr><td>G</td><td>FHIR項目名称</td><td>R</td><td>材料（JLAC10）</td><td>AC</td><td>コード型のOID</td></tr><tr><td>H</td><td>FHIR識別文字列</td><td>S</td><td>検査方法（JLAC10-測定法）</td><td>AD</td><td>並び順</td></tr><tr><td>I</td><td>略称</td><td>T</td><td><strong>JLAC10コード（17桁）</strong></td><td>AE</td><td>適用開始日</td></tr><tr><td>J</td><td>販売名称</td><td>U</td><td>基準値フラグ（下限）</td><td>AF</td><td>適用終了日</td></tr><tr><td>K</td><td>材料（JLAC11）</td><td>V</td><td>基準値フラグ（上限）</td><td></td><td></td></tr></tbody></table></div>
+<p><strong>コードの桁の区切り（JLAC11／JLAC10とも17桁）</strong>：1〜5桁＝測定物（分析物）、6〜9桁＝識別、10〜12桁＝材料、13〜15桁＝測定法、16〜17桁＝結果単位（JLAC10は結果識別）。式では <code>MID(M2,10,3)</code> のように切り出す。</p>
+<h3 id="p-jlac-t0-0-h4">4. Step 0：全行にチェックをかける</h3>
+<p>作業用ブックに「チェック」シートを作り（式は別シートの提出データを <code>提出!M2</code> の形で参照する。<strong>チェック列は提出シートの右に置かない</strong>。KA-26のAG列以降の確認に支障が出るため）、提出の行と同じ並びで、チェックごとに1列ずつ式を置く（1行目に見出しとしてチェックIDを書く）。式は2行目に書いて全行にコピーする。結果は「問題あり＝TRUE」とし、フィルターでTRUEの行を絞ってコメントを書く。</p>
+<h4 id="p-jlac-t0-0-h5">4-1. 形のチェック（コード表は不要）</h4>
+<div class="tw"><table><thead><tr><th>ID</th><th>見ること</th><th>式の例（2行目）</th></tr></thead><tbody><tr><td>KA-01</td><td>B・U・V・W列が空欄</td><td><code>=COUNTA(B2,U2:W2)&gt;0</code>（TRUE＝何か入っている）</td></tr><tr><td>KA-02</td><td>M列が17桁（空欄不可）</td><td><code>=LEN(TRIM(M2))&lt;&gt;17</code></td></tr><tr><td>KA-03</td><td>C・D列が0か1</td><td><code>=OR(AND(C2&amp;""&lt;&gt;"0",C2&amp;""&lt;&gt;"1"),AND(D2&amp;""&lt;&gt;"0",D2&amp;""&lt;&gt;"1"))</code>（<code>&amp;""</code> で文字にして比べる。セルが数値の0/1でも誤判定しない）</td></tr><tr><td>KA-04</td><td>E列が1か2</td><td><code>=AND(E2&amp;""&lt;&gt;"1",E2&amp;""&lt;&gt;"2")</code></td></tr><tr><td>KA-13</td><td>X列がPQかCD</td><td><code>=AND(X2&lt;&gt;"PQ",X2&lt;&gt;"CD")</code></td></tr><tr><td>KA-14〜16</td><td>X列がCDのとき、Y・Z（下限・上限）／AB（値リスト）／AC（OID）が空欄でない</td><td><code>=AND(X2="CD",OR(Y2="",Z2=""))</code>／<code>=AND(X2="CD",AB2="")</code>／<code>=AND(X2="CD",AC2="")</code></td></tr><tr><td>KA-18</td><td>AE列が8桁で「00000000」か実在する日付</td><td><code>=AND(AE2&amp;""&lt;&gt;"00000000",OR(LEN(AE2&amp;"")&lt;&gt;8,IFERROR(TEXT(DATE(LEFT(AE2&amp;"",4),MID(AE2&amp;"",5,2),RIGHT(AE2&amp;"",2)),"yyyymmdd")&lt;&gt;AE2&amp;"",TRUE)))</code>（8桁でない・実在しない日付を拾う。Excelの <code>DATE</code> は月13・日32のような値を繰り上げてエラーにしないため、<strong>作り直した日付が元の値と同じか</strong>で実在を判定する。数値の「0」は「00000000に修正」を依頼する）</td></tr><tr><td>KA-19</td><td>AF列が8桁で「99999999」か実在する日付</td><td>KA-18と同じ形で <code>AF2</code> と <code>"99999999"</code> に置き換える</td></tr><tr><td>KA-20</td><td>T列が17桁</td><td><code>=LEN(TRIM(T2))&lt;&gt;17</code></td></tr><tr><td>KA-25</td><td>どの列にもExcelエラー値（#NAME?等）が無い</td><td><code>=SUMPRODUCT(--ISERROR(A2:AF2))&gt;0</code></td></tr><tr><td>KA-26</td><td>33列目（AG列）以降に値が無い</td><td>作業ブックにコメント列を足す<strong>前に</strong>、元のシートでAG列以降が空か確認する</td></tr><tr><td>KA-27〜30</td><td>A・F・G・H列が空欄でない</td><td><code>=OR(A2="",F2="",G2="",H2="")</code></td></tr><tr><td>KA-DUMMY</td><td>M列がダミー（仮）コードでない</td><td>式にすると複雑なので、<strong>M列を昇順に並べて目視</strong>＋「仮」「XXX」「ZZZ」「999999」を検索（Ctrl+F）で探す。17桁の英数字大文字（0〜9・A〜Z）以外が混じるものも拾う</td></tr><tr><td>KA-K</td><td>どの列にもケルビン記号（K：U+212A）が無い</td><td><code>=LEN(TEXTJOIN("",,A2:AF2))&lt;&gt;LEN(SUBSTITUTE(TEXTJOIN("",,A2:AF2),UNICHAR(8490),""))</code>（半角英字の「K」とは別の文字。見つけたら半角英字「K」に直すよう依頼）</td></tr></tbody></table></div>
+<h4 id="p-jlac-t0-0-h6">4-2. コード表に照らすチェック</h4>
+<p>コード表を作業ブックにシートとして取り込む（<code>コード表_J11結果単位</code>、<code>コード表_J11材料</code>、<code>コード表_J10分析物</code>、<code>コード表_J10材料</code>、<code>コード表_J10測定法</code>）。コードは<strong>文字列</strong>として扱い、先頭の0が落ちている表は3桁（結果単位は表の形）にそろえる。</p>
+<div class="tw"><table><thead><tr><th>ID</th><th>見ること</th><th>取り方</th></tr></thead><tbody><tr><td>KA-06</td><td>N列（表示用単位）が、M列16〜17桁の結果単位コードの単位と一致（<strong>大文字・小文字を区別</strong>）</td><td>JLAC11の「結果単位コード」シートで、コード（A列）を探し、名称（B列）または別名（C列。カンマ区切り）と<strong>EXACT</strong>で比べる。例：<code>=NOT(EXACT(N2,VLOOKUP(RIGHT(M2,2),コード表_J11結果単位!A:B,2,FALSE)))</code>。TRUEでも、別名（C列）に一致すれば問題なし。コードが表に無ければそれ自体が指摘</td></tr><tr><td>KA-07</td><td>K列（材料JLAC11）が、M列10〜12桁の材料コードの名称と一致</td><td>JLAC11「材料コード」シート（コードC列・名称D列）。<code>=NOT(EXACT(TRIM(K2),VLOOKUP(MID(M2,10,3),コード表_J11材料!C:D,2,FALSE)))</code>。差が「（）の全角・半角」「空白」だけなら、「他のレコードと合わせて半角に」等、表記の指摘にする</td></tr><tr><td>KA-21</td><td>T列1〜5桁が、JLAC10の分析物コードに存在する</td><td>JLAC10「分析物コード」シート（コードD列、6行目から）。<code>=ISNA(MATCH(LEFT(T2,5),コード表_J10分析物!D:D,0))</code></td></tr><tr><td>KA-22</td><td>R列（材料JLAC10）が、T列10〜12桁の材料コードの名称と一致</td><td>JLAC10「材料コード」シート（コードG列・名称H列、10行目から）。<code>=NOT(EXACT(TRIM(R2),VLOOKUP(MID(T2,10,3),コード表_J10材料!G:H,2,FALSE)))</code></td></tr><tr><td>KA-23</td><td>S列（検査方法）が、T列13〜15桁の測定法の名称と一致</td><td>JLAC10「測定法コード」シート（コードD列、名称E列と名称2のF列、6行目から）。S列は「名称1」「名称1＋名称2」「名称1(名称2)」「名称2」のいずれかなら可。<strong>名称1だけで見て違う行</strong>を拾い、F列を足して合うか目で確認する</td></tr><tr><td>KA-05（参考）</td><td>F列（大項目）が、同じ測定物（M列1〜5桁）の既存の大項目と同じ</td><td>前月公開版で同じ5桁の大項目を引き、新規行で違うものを目視</td></tr><tr><td>KA-08（参考）</td><td>L列（測定法JLAC11）が、17桁コードリストの測定法名称と一致</td><td>17桁コードリスト（測定物・識別・測定法の組合せ）で引く。測定法が000のコードは対象外</td></tr><tr><td>KA-09（参考）</td><td>P・Q列（XML用単位）が、UCUMに載っている</td><td>前月に無い単位だけ、UCUM（terminology）のcode/displayで目視（「[]」は無視）</td></tr><tr><td>KA-24（参考）</td><td>N列（表示用単位）が、T列16〜17桁（結果識別）と整合</td><td>前月に無い「結果識別×表示用単位」の組合せだけ目視</td></tr></tbody></table></div>
+<h4 id="p-jlac-t0-0-h7">4-3. 行をまたぐチェック（グループ・重複）</h4>
+<p>「チェック」シートに、条件付きの集計列を作る。式は <code>COUNTIFS</code> またはピボットテーブルで同じことができる。</p>
+<div class="tw"><table><thead><tr><th>ID</th><th>見ること</th><th>やり方</th></tr></thead><tbody><tr><td>KA-10</td><td>同じ<strong>大項目</strong>（F）に、FHIR項目名称（G）／識別文字列（H）／略称（I）の組合せが<strong>1通りだけ</strong></td><td>F・G・H・Iを <code>&amp;"|"&amp;</code> でつないだキー列を作り、F列ごとに異なるキーが<strong>2種類以上</strong>あれば指摘。<strong>ピボットテーブルが確実</strong>：「F」を行、「キー」を値（データモデルに追加して「個別カウント」）にし、2以上の行を見る。式で行う場合は、キー列を重複排除した一覧を作り、F列ごとに <code>COUNTIF</code> で数える（データ範囲は <code>$F$2:$F$n</code> の固定範囲にする。列全体を指定すると空行で <code>#DIV/0!</code> になり、1万行超では重い）。空欄のキーは対象外</td></tr><tr><td>KA-11</td><td>同じ<strong>FHIR識別文字列</strong>（H）に、大項目・FHIR項目名称・略称が1通りだけ</td><td>同上（キーを F・G・I にする）</td></tr><tr><td>KA-12</td><td>同じ<strong>略称</strong>（I）に、大項目・FHIR項目名称・識別文字列が1通りだけ</td><td>同上（キーを F・G・H にする）</td></tr><tr><td>KA-17</td><td>同じ<strong>FHIR項目名称</strong>（G）は、<strong>並び順</strong>（AD）が同じ</td><td>G列ごとにADの種類が2以上ないか</td></tr><tr><td>KA-32</td><td>同じ<strong>JLAC10コード</strong>（T）に、異なるFHIR識別文字列（H）が無い</td><td>T列ごとにHの種類が2以上ないか</td></tr><tr><td>KA-31</td><td><strong>JLAC11コード</strong>（M）が重複しない</td><td><code>=COUNTIF(M:M,M2)&gt;1</code>（提出が複数シートの場合は全シートを1つにまとめて数える）</td></tr><tr><td>KA-33</td><td>『その他の測定法』（M列13〜15桁＝000）の行には、測定法が決まったコードが同時に存在する</td><td>M列の13〜15桁を除いたキー（<code>LEFT(M2,12)&amp;RIGHT(M2,2)</code>）を作り、000の行について、同じキーで000以外の行が1つ以上あるかを<code>COUNTIFS</code>で数える。0なら指摘</td></tr><tr><td>KA-34</td><td>000でない測定法コードの適用終了日が99999999以外（終了した）なら、その000の行の適用終了日は99999999のまま</td><td>同じキーの000以外の行に AF≠99999999 があり、000の行のAF≠99999999なら指摘</td></tr></tbody></table></div>
+<h4 id="p-jlac-t0-0-h8">4-4. 結果の見方</h4>
+<p>TRUEの行をフィルターで集め、<strong>行ごとに、どのチェックに当たったか</strong>を確認する。メッセージの書き方は、過去の確認事項一覧（<code>00_共通/02_output/20261008_コメント文面の統一案_v1.md</code>）に合わせる。</p>
+<h3 id="p-jlac-t0-0-h9">5. Step 1・2：前月との差分と新規行</h3>
+<p>「前月」シートに前月公開版（新のみ）のJLAC11コード（M列）を置く。</p>
+<ol><li><strong>新規行かどうか</strong>：<code>=ISNA(MATCH(M2,前月!M:M,0))</code>（TRUE＝新規）。新規行は基本、提出シートの下部に追加される。<strong>JLACセンターのメールに「○行目以降が新規」とあれば、その行以降は前月に同じコードがあっても新規扱い</strong>（旧コードの再掲載。前月行との比較はしない。ツール編の手順書8-5）</li><li><strong>新規行</strong>（Step 2）：<ul><li>Step 0の指摘は<strong>すべて</strong>確認する（無視しない）</li><li><strong>KA-M1</strong>：適用開始日（AE）が「00000000」でなく、適用終了日（AF）が「99999999」であること</li><li>適用開始日が<strong>今回の公開日</strong>（その月の15日）になっているか（違えば「意図した日付か」を確認）</li></ul></li><li><strong>既存行</strong>（Step 1）：前月の同じコードの行と、32列を1つずつ比べる（<code>XLOOKUP</code> で前月の値を引いて、列ごとに <code>&lt;&gt;</code> で比べる）<ul><li><strong>KA-M2</strong>：適用開始日（AE）が前月から変わっていない</li><li><strong>KA-M3</strong>：適用終了日（AF）が変わった場合、変更後が99999999でない</li><li>適用終了日が99999999→日付に変わった場合は、<strong>今回の切替日（公開日）の前日</strong>が想定。違う日付なら「意図した日付か」を確認。それ以外の日付の再設定（バックデート）は要確認</li><li>適用開始日・終了日以外の列の変更：全角・半角など表記だけの変更か、中身の変更かを見分けて確認</li><li>判断の一覧は手順書 3章 Step 1 の表に従う</li></ul></li><li><strong>削除された行</strong>：前月にあって今月に無いJLAC11コード（<code>前月!M列</code> を今月の中で探して <code>ISNA</code>）。削除は想定外なので指摘する。ただし、ABO・Rhのシートへ移っている場合があるので、全シートの中で探す</li><li><strong>既知の扱い</strong>：前月の確認事項一覧で、同じ行・同じ指摘がすでに出ていたら「既知」として、コメントを書かない（件数だけ控える）</li></ol>
+<h3 id="p-jlac-t0-0-h10">6. 練習のしかた（初回は必ずやる）</h3>
+<ol><li><strong>前月の提出ファイルと、その前の公開版</strong>で、4・5章を一通りやる</li><li>前月の「確認事項一覧（ACN確認用）」（<code>YYYYMM提出分/02_output/</code>）の指摘と、自分の結果を比べる</li><li>食い違う列があれば、式かコード表の取り込み（桁・先頭の0・全角半角）を直す</li><li>合ったら、今月分に進む</li></ol>
+<h3 id="p-jlac-t0-0-h11">7. Step 3：コメントを書いて連携する</h3>
+<ol><li>疑義がある行の AG列（JLACセンター向けコメント）に、指摘を書く（1行に複数なら「・」で並べる）</li><li>毎月1日の初回提出分のみ、まとめて<strong>本田さんにRv依頼</strong>する（手順書 3章 Step 3・5章スケジュール）</li><li>OK後、JLACセンターへ連携する。送付前チェック（コメント・変更履歴の削除）は定常業務マニュアル11章</li></ol>
+<h3 id="p-jlac-t0-0-h12">8. ツール（自動化）との対応</h3>
+<div class="tw"><table><thead><tr><th>手作業の工程</th><th>ツール編での対応</th></tr></thead><tbody><tr><td>4章 Step 0（39件）</td><td>HTMLチェックツール（手順書8章）の判定。同じロジック <code>jlac-core</code></td></tr><tr><td>5章 Step 1・2（前月比較・新規行）</td><td>ツールが前月公開版と突き合わせて判定</td></tr><tr><td>5章 既知の扱い</td><td>ツールの「既知」判定（指摘の文面が前月と同じか）</td></tr><tr><td>7章 コメント</td><td>ツールが送付用・ACN確認用のExcelにコメントを出力</td></tr><tr><td>全体</td><td>1回実行（<code>月次実行.ps1</code>）：設定→判定→ダブルチェック（Excelでの独立計算）→引継ぎ確認</td></tr></tbody></table></div>
+<p><strong>ダブルチェック</strong>（ツール編）は、この手作業編の考え方（Excel式での独立した検算）をExcel上で自動作成したもの。手作業でやるときは、4章のチェック列そのものが検算になる。</p>
+<h3 id="p-jlac-t0-0-h13">9. ⚠️ 未確認・この文書の限界</h3>
+<ol><li>4・5章のExcel式は、<strong>試験していない</strong>（6章の練習で確かめる）。特に KA-10〜12・KA-33/34 の集計式、KA-DUMMY（目視中心）は、ピボットなど別の手段のほうが速い可能性がある</li><li>参照実装は<strong>凍結</strong>（旧ロジック）。現行の判定との差（ツールv21までの改善：重複コードの依頼文、JLACセンターのコメントとの自動照合、その他6〔販売名称の確認〕など）は手順書8-5を見る。手作業編にはまだ反映していない</li><li>『その他の測定法』（000）コードの作成、最終化（公開用・取り込み用・新コードのみ）の手作業は、手順書7章・9章を見る。この文書では扱わない</li><li>適用終了日のバックデートの詳細な判断基準（手順書で「後日確認」）</li><li>KA-21は、手順書の定義は「大項目がJLAC10分析物コードと整合」だが、ツール・参照実装は「分析物コードが表に存在するか」だけを見る（名称は未照合）。手作業もそれに合わせた</li><li>「既知」の判定：グループチェック（KA-10〜12・17・32）は、前月からある組合せ側は既知、今回新たに生じた組合せ側だけを指摘にする（5章の「同じ行・同じ指摘」は行チェックの説明）</li></ol></div></div><div class="tabpanel" id="p-jlac-tab1" hidden><div class="srcdoc"><div class="srcname">JLACマスタチェック手順<span class="fname">20261001_JLACマスタチェック手順_v11.md</span></div><blockquote><p>作成日: 2026-10-01<br>改訂日: 2026-10-16（v11）<br>プロジェクト: 20260831_電カル調査研究_定常業務マニュアル<br>対象: 電子カルテ情報共有サービス向けJLACマスタの月次チェック担当者</p></blockquote>
+<hr>
+<h3 id="p-jlac-t1-0-h1">1. 概要・背景</h3>
+<p>JLACセンターが毎月1日に電カル共有向けのJLACマスタ（JLAC10/JLAC11コード対応表）を提出する。厚労省側（ACN担当）が内容をチェックし、疑義があればJLACセンターへ連携・修正を経て、15日頃に正式公開する。</p>
+<p><strong>公開までの流れ（毎月）：</strong></p>
+<div class="tw"><table><thead><tr><th>時期</th><th>担当</th><th>作業</th></tr></thead><tbody><tr><td>N-2月末</td><td>JLACセンター</td><td>付番委員会でコード採択</td></tr><tr><td>N-1月第1・2週</td><td>JLACセンター</td><td>JSMLのHPで公開するマスタの整備</td></tr><tr><td>N-1月第3・4週</td><td>JLACセンター</td><td>電カル共有向けマスタ整備</td></tr><tr><td>N月1日</td><td>JLACセンター</td><td>電カル共有向けマスタ提出</td></tr><tr><td>N月第1週</td><td><strong>厚労省（ACN）</strong></td><td><strong>提出されたマスタのチェック</strong> ← 本手順</td></tr><tr><td>N月第2週</td><td>JLACセンター</td><td>チェック結果の確認・反映</td></tr><tr><td>N月15日頃</td><td>厚労省</td><td>電カル共有向けマスタの一般公開</td></tr></tbody></table></div>
+<blockquote><p>今年度（令和8年度）は自動化推進中。令和9年度では早期提供を目指す。</p></blockquote>
+<hr>
+<h3 id="p-jlac-t1-0-h2">2. インプット（参照マスタ）</h3>
+<p>チェック時に参照するマスタ（毎月最新版を使用）：</p>
+<ul><li><strong>JLAC10要素別コード表</strong></li><li><strong>JLAC11要素別コード表</strong></li></ul>
+<p>ダウンロード先：<a href="https://www.jslm.org/committees/code/index.html" target="_blank" rel="noopener">https://www.jslm.org/committees/code/index.html</a></p>
+<hr>
+<h3 id="p-jlac-t1-0-h3">3. 月次チェック手順</h3>
+<blockquote><p><strong>Excelだけで行うやり方（手作業編）</strong>は <a class="doclink" href="#p-jlac"><code>20261016_JLACマスタ月次チェック_手作業編_v1.md</code></a>（チェック39件の見方・Excel式の例・前月比較）。ツール（8章）が中で何をしているかの説明も兼ねる。後任へは手作業編とツール編の両方を渡す。</p></blockquote>
+<h4 id="p-jlac-t1-0-h4">Step 0：全行にチェックロジック適用（重複検出のため）</h4>
+<ul><li>チェックロジック（KA-01〜KA-M3、39件）を全行に対してかける</li><li><strong>目的</strong>：コード重複・構造エラーを見落とさないため（既存行も含めて一括チェック）</li><li>結果を「作業Excel」に出力し、問題箇所にコメントを記入する</li></ul>
+<h4 id="p-jlac-t1-0-h5">Step 1：既存行の確認（前月との差分チェック）</h4>
+<ul><li>新規追加でない行（前月マスタに存在する行）について：<ul><li><strong>Step 0で大量エラーが出ても一旦無視</strong>（既存行のエラーは既知のものが多い）</li><li><strong>前月マスタとの差分がないかを確認</strong>する</li></ul></li><li>差分がある場合の判断：</li></ul>
+<div class="tw"><table><thead><tr><th>差分の種類</th><th>判断</th></tr></thead><tbody><tr><td>適用終了日 <code>99999999</code> → 特定の日付に変更</td><td><strong>問題なし</strong>（マスタ更新で切り替えが生じるため）</td></tr><tr><td>適用終了日の日付が不自然（遠い未来・1日等）</td><td><strong>要確認</strong>（おおよそ15日前後が想定、1日等は要確認）</td></tr><tr><td>適用終了日以外の変更</td><td><strong>要確認</strong>（誤作業の可能性）</td></tr><tr><td>行の削除</td><td><strong>指摘する</strong>（削除は想定外のため）</td></tr><tr><td>適用終了日のバックデート</td><td><strong>要確認</strong>（詳細判断基準：後日確認）</td></tr></tbody></table></div>
+<blockquote><p><strong>見直し前コードについて：</strong> 6月に一気に見直しを実施。古いコードは適用終了日を設定して放置（削除しない）。</p></blockquote>
+<h4 id="p-jlac-t1-0-h6">Step 2：新規追加行の確認</h4>
+<ul><li>新規追加行（前月マスタに存在しない行）について：<ul><li><strong>Step 0のチェックロジック結果を全件確認する</strong>（問題が潜在する可能性があるため無視しない）</li><li>新規行の見つけ方：基本的にExcelの下部に追加される（メールも要確認）</li></ul></li></ul>
+<h4 id="p-jlac-t1-0-h7">Step 3：JLACセンター向けコメント記載（毎月1日の初回提出分のみ）</h4>
+<ul><li>疑義事項をJLACセンター向けにコメントとして作業Excelに記載する</li><li><strong>本田さんRv後（10/7まで）</strong> にJLACセンターへ疑義を連携する</li></ul>
+<h4 id="p-jlac-t1-0-h8">最終化（CSV化）時の注意</h4>
+<ul><li>「<strong>並び順</strong>」列のフィルターで<strong>昇順</strong>にしてからCSV化する</li></ul>
+<hr>
+<h3 id="p-jlac-t1-0-h9">4. チェックロジック一覧（39件）</h3>
+<p>基金レビュー済みのロジック定義。<strong>チェックはHTMLチェックツール（8章）で行う。</strong></p>
+<blockquote><p>前任者が作った「標準マスタチェックツール」（Streamlit製・2026-08-13版。標準マスタ6種類を扱い、JLACは「⑥検査感染症」）は使わない。理由（2026-10-07に中身を確認）：</p>
+<ul><li>39ロジックの一覧はこの章と同じだが、前月にもある問題（既知）を分けずにNGを全部並べる。JLACセンター向けコメントも作らない</li><li>照合用のコード表と前月比較の基準がツールのフォルダに固定で入っていて、毎月の差し替えを前提にしていない。前月分はExcelしか読めない（公開CSVは不可）</li><li>列が33列あると14列目（表示用単位）を注記の列とみなして捨てる作りのため、33列目にJLACセンターコメントがある提出（10/6再提出など）は列がずれて読まれる疑いがある</li><li>10/6再提出（13,531行）で動かしたところ、2時間半たっても終わらなかった（この環境のpandas 3.0との相性の可能性もあり、原因は未調査）</li><li>Python・Streamlitのインストールが要る。HTMLツールはブラウザだけで動く</li></ul></blockquote>
+<h4 id="p-jlac-t1-0-h10">整合性チェック（KA系）</h4>
+<div class="tw"><table><thead><tr><th>ID</th><th>チェック内容</th></tr></thead><tbody><tr><td>KA-01</td><td>予備区分名称・基準値フラグ（下限/上限/判定）がすべて空欄であること</td></tr><tr><td>KA-02</td><td>JLAC11コードが17桁であること（空欄不可）</td></tr><tr><td>KA-03</td><td>救急フラグ・生活習慣病フラグが0か1であること</td></tr><tr><td>KA-04</td><td>データ区分が1か2であること</td></tr><tr><td>KA-05</td><td>FHIR項目名称（または大項目）がJLAC11測定物コードと整合すること</td></tr><tr><td>KA-06</td><td>表示用単位がJLAC11結果単位コードと整合すること（大小文字区別）</td></tr><tr><td>KA-07</td><td>材料（JLAC11）がJLAC11材料コードと整合すること</td></tr><tr><td>KA-08</td><td>測定法（JLAC11）がJLAC11測定法コードと整合すること</td></tr><tr><td>KA-09</td><td>XML用単位がUCUM（terminology）のcode/displayに掲載されていること（[]は無視）</td></tr><tr><td>KA-10</td><td>大項目をキーにFHIR項目名称/FHIR識別文字列/略称が整合すること</td></tr><tr><td>KA-11</td><td>FHIR識別文字列をキーに大項目/FHIR項目名称/略称が整合すること</td></tr><tr><td>KA-12</td><td>略称をキーに大項目/FHIR項目名称/FHIR識別文字列が整合すること</td></tr><tr><td>KA-13</td><td>データタイプがPQ又はCDであること</td></tr><tr><td>KA-14</td><td>データタイプCDの場合、値の下限・値の上限が設定されていること</td></tr><tr><td>KA-15</td><td>データタイプCDの場合、コード型の値リストが設定されていること</td></tr><tr><td>KA-16</td><td>データタイプCDの場合、コード型のOIDが設定されていること</td></tr><tr><td>KA-17</td><td>並び順とFHIR項目名称の整合性（同一FHIR項目名称は同一の並び順）</td></tr><tr><td>KA-18</td><td>適用開始日が8桁で00000000又は実在日付であること</td></tr><tr><td>KA-19</td><td>適用終了日が8桁で99999999又は実在日付であること</td></tr><tr><td>KA-20</td><td>JLAC10コードが17桁であること</td></tr><tr><td>KA-21</td><td>大項目がJLAC10分析物コードと整合すること</td></tr><tr><td>KA-22</td><td>JLAC10コードの材料コードが材料（JLAC10）名と一致すること</td></tr><tr><td>KA-23</td><td>検査方法（JLAC10-測定法）がJLAC10測定法コードと整合すること</td></tr><tr><td>KA-24</td><td>表示用単位が結果識別コードと整合すること（定量値はUCUM実在も許容）</td></tr><tr><td>KA-25</td><td>全項目にExcelエラー値（#NAME?等）が含まれないこと</td></tr><tr><td>KA-26</td><td>列数が32を超えていないこと</td></tr><tr><td>KA-27</td><td>区分名称が空でないこと</td></tr><tr><td>KA-28</td><td>大項目が空でないこと</td></tr><tr><td>KA-29</td><td>FHIR項目名称が空でないこと</td></tr><tr><td>KA-30</td><td>FHIR識別文字列が空でないこと</td></tr><tr><td>KA-31</td><td>JLAC11コードが重複しないこと</td></tr><tr><td>KA-32</td><td>同一JLAC10コードに異なるFHIR識別文字列が無いこと</td></tr><tr><td>KA-DUMMY</td><td>JLAC11コードにダミー（仮）コードが使われていないこと</td></tr><tr><td>KA-K</td><td>全項目にケルビン記号K（U+212A）が使われていないこと</td></tr><tr><td>KA-33</td><td>『その他の測定法』（JLAC11の13〜15桁=000）には、測定法が決まったコードが同時に存在すること</td></tr><tr><td>KA-34</td><td>終了した測定法コード（13〜15桁≠000, 適用終了日≠99999999）がある場合、その000版の適用終了日は99999999であること</td></tr></tbody></table></div>
+<h4 id="p-jlac-t1-0-h11">前月比較チェック（KA-M系）</h4>
+<div class="tw"><table><thead><tr><th>ID</th><th>チェック内容</th></tr></thead><tbody><tr><td>KA-M1</td><td>先月分に無い新規JLAC11コードは、適用開始日≠00000000 かつ 適用終了日=99999999 であること</td></tr><tr><td>KA-M2</td><td>先月分と一致するJLAC11コードは、適用開始日が変わっていないこと</td></tr><tr><td>KA-M3</td><td>先月分と一致するJLAC11コードで適用終了日が変わった場合、99999999でないこと</td></tr></tbody></table></div>
+<h4 id="p-jlac-t1-0-h12">追加確認点（手動）</h4>
+<ul><li>JLAC10の材料とJLAC11の材料が明らかにずれていないか</li><li>新規追加行の適用開始日がその月の15日（前後）になっているか</li></ul>
+<hr>
+<h3 id="p-jlac-t1-0-h13">5. 今月のスケジュール（10月）</h3>
+<div class="tw"><table><thead><tr><th>日付</th><th>作業</th></tr></thead><tbody><tr><td>10/1（夜）</td><td>JLACセンターより一次提出</td></tr><tr><td><strong>10/2（本日）</strong></td><td><strong>【ACN】マスタ内容の確認作業（Step 0〜2）</strong></td></tr><tr><td>10/7まで</td><td>【ACN】本田さんRv依頼→JLACセンターへ疑義連携</td></tr><tr><td>10月第2週</td><td>JLACセンターによる修正・反映</td></tr><tr><td>10/15頃</td><td>一般公開</td></tr></tbody></table></div>
+<hr>
+<h3 id="p-jlac-t1-0-h14">7. ダミーコード（「その他」のコード）の作り方（2026-10-07 本田さんKT）</h3>
+<ul><li>「その他」に分類されるコードは、<strong>既存のコードから作る</strong></li><li>JLAC11の測定法コード（<strong>13〜15桁</strong>）が <strong>000</strong> のものは「その他」に分類される（JLAC10では <strong>999</strong>）</li><li>作り方：<ol><li>既存のJLAC11コードの13〜15桁を <strong>000</strong> に置き換える</li><li>置き換えた結果から<strong>重複を除いた一覧</strong>を作り、「その他」のコード一覧とする</li></ol></li><li>このコードを<strong>ダミーコード</strong>という。<strong>ダミーコード＝『その他の測定法』コード</strong>（JLAC11の13〜15桁目が000のコード。用語集の表記は「その他の測定法」コード）。チェックロジックの KA-33・KA-34 と関係する</li><li>関連：日本衛生検査所協会打合せ（10/6）後の方針に「その他の測定法でマッピングすることであれば可能か」の検討がある</li></ul>
+<h4 id="p-jlac-t1-0-h15">7-1. 作成ツールでの作り方</h4>
+<p>使うもの：<code>電子カルテ情報共有サービス対応JLACコード表作成ツール_20250127.xlsx</code> の「ダミーコード生成用」シート（本田さん共有）</p>
+<ol><li>「★共有項目JLACコード(原本)」に、その月のマスタを<strong>全件</strong>貼り付ける</li><li>「ダミーコード生成用」で次の行を除く<ul><li><strong>AI列が <code>A</code> の行</strong>（2回目以降に出てきた000コード）</li><li><strong>JLAC11コード（M列）が空の行</strong>（000版を作れないため。ツールのままだと「000」だけの行が出る）</li><li>本田さんメモの「AL列：A排除」は、AI列で <code>A</code> を除けば結果は同じ。ALだけで絞ると <code>AB</code> の行が残るので、<strong>AI列で必ず絞る</strong></li></ul></li><li>残った行のAP〜BS列を<strong>値で</strong>貼り付け、000コードの一覧にする</li><li><strong>マスタにすでにある000コードと同じものを除く</strong>（原本にもともと「その他」があるため。重複させない）</li><li>適用終了日を確かめる：同じグループに有効な行（99999999）があるのに000コードに終了日が付いていたら <code>99999999</code> に直す（KA-34）</li></ol>
+<h4 id="p-jlac-t1-0-h16">7-2. 各列の決まり方（ツールの式）</h4>
+<div class="tw"><table><thead><tr><th>列</th><th>値</th></tr></thead><tbody><tr><td>JLAC11コード</td><td>元のJLAC11コードの13〜15桁を000にしたもの（<code>LEFT(M,12)&amp;"000"&amp;RIGHT(M,2)</code>）</td></tr><tr><td>JLAC10コード</td><td>元のJLAC10コードの13〜15桁を999にしたもの</td></tr><tr><td>測定法(JLAC11)・検査方法(JLAC10-測定法)</td><td>「その他の測定法」（固定）</td></tr><tr><td>販売名称</td><td>空欄</td></tr><tr><td>それ以外（名称・FHIR識別文字列・単位・並び順・適用開始日・適用終了日など）</td><td>000にまとまる行のうち<strong>いちばん上の行</strong>の値を写す</td></tr></tbody></table></div>
+<ul><li>測定法だけが違う複数のコードは、1つの000コードにまとまる。例：<code>V2259000021200002</code> には「HIV-1+2抗体(定性)」と「HIV-1+2抗体・p24抗原(定性)」がまとまり、FHIR識別文字列は上にある「HIV-1+2抗体(定性)」になる。<strong>この決め方でよい</strong>（2026-10-07 ユーザー判断。9月公開版も同じ決め方になっている）</li><li>適用終了日もいちばん上の行の値が写るため、いちばん上の行が終了したコードだと000コードにも終了日が付く。10/6提出版のKA-34（3件・終了日20260812）はこの形</li></ul>
+<h4 id="p-jlac-t1-0-h17">7-3. ⚠️ 32列のマスタ（表示用単位2・XML用単位2あり）で使うときの注意</h4>
+<div class="tw"><table><thead><tr><th>問題</th><th>内容</th><th>対処</th></tr></thead><tbody><tr><td>列の並びが違う</td><td>ツールの原本は30列（R列＝JLAC10コード）。2026年9月以降のマスタは表示用単位2・XML用単位2が加わり、R列は「材料(JLAC10)」</td><td>そのまま貼ると、999版のJLAC10コードが材料(JLAC10)の値から作られる。JLAC11（M列）は同じ位置なので000版は正しく見え、<strong>気づきにくい</strong>。列を直したシートを使う（下記）</td></tr><tr><td>行が足りない</td><td>ツールの式は7,152行目まで</td><td>10月版は13,531行。式を延ばす</td></tr><tr><td>既存の000コードが多い</td><td>10月版には000コードが1,179件ある</td><td>手順4を式で行う（「マスタに既存の000」列）</td></tr></tbody></table></div>
+<ul><li><strong>毎月はこのツールを使う</strong>：<code>04_マスタ・プロファイル管理/JLAC/JLACマスタ月次チェック/00_共通/02_output/20261007_その他の測定法コード作成ツール_v1.xlsx</code>（Excelだけで使える。後任・チームにそのまま渡せる）<ol><li>今月のマスタ（32列）を見出しごと「①マスタ貼り付け」のA1に値で貼る</li><li>（任意）前月公開版のJLAC11コード列を「②前月公開版（任意）」に貼る</li><li>「使い方」シートの「確認」がすべてOKか見る（列の並びが違うとNGになる）</li><li>「④結果」に出た行が候補。【確認】要確認事項に書かれた行は本田さんと相談する（元の行がすべて終了／先頭行が終了済み／開始日00000000／前月からあるのに000版が無い／元の行でJLAC10・単位・FHIR識別文字列が違う）</li></ol><ul><li>ツールの作り直し（上限：マスタ20,000行・結果3,000行）：<code>00_共通/03_scripts/make_sonota_tool.py</code></li></ul></li><li>10月版の候補を作った結果：<code>202610提出分/02_output/20261007_その他の測定法コード候補_JLACセンター20261006提出版_v1.xlsx</code>（スクリプト：<code>202610提出分/03_scripts/make_sonota_codes.py</code>）</li><li>⚠️ 未確認：本田さんが32列のマスタでツールの列を直して使っているのか、別の作り方をしているのか（ユーザーが確認する）</li></ul>
+<h4 id="p-jlac-t1-0-h18">7-4. 9月公開版で確かめたこと（2026-10-07）</h4>
+<ul><li>9月公開版の000コード1,179件を元の行と突き合わせた：名称・FHIR識別文字列など11項目は<strong>いちばん上の行と一致</strong>（材料(JLAC10)の3件だけ、同じグループの別の行と一致）</li><li>JLAC10コード（999版）：同じ000コードにまとまる行でJLAC10コードが違うグループが129件あり、9月公開版では先頭行以外の行の999版を使っているものが36件、どの行の999版とも違うもの（JLAC10の付け替えの経緯と推測）が25件あった。新しく作るときに起きたらツールが要確認として示す</li><li>適用開始日：1,049件は元の行のうちいちばん早い開始日と同じ。128件は <code>00000000</code>（最初の版からある000コードで、元の行が後から変わっても開始日はそのまま）</li><li>9月に新しく作った3件（LDL-C、<code>C6011000025000056</code> ほか）は、元の行と同じ <strong>20260915</strong>。新しい組み合わせなら、元の行がその月の新しい行だけなので、いちばん上の行を写すと開始日はその月の15日になる（KA-M1を満たす）</li></ul>
+<h4 id="p-jlac-t1-0-h19">7-5. 10月版（JLACセンター20261006提出版）の結果</h4>
+<ul><li>作る000コードの候補：<strong>15件</strong>（000にまとまるグループ1,194件−既存1,179件）<ul><li>12件：HCV抗原検査（10月新規・開始日20261015）</li><li>3件：HIV-1+2抗体(陽性コントロール比)（<code>V2259000024000060</code> ほか）。元の行は9月公開版からある（開始日20260813）のに、9月に000版を作っていなかった。<strong>開始日を元の行のまま（20260813）にするか、20261015にするかは要判断</strong></li></ul></li></ul>
+<hr>
+<h3 id="p-jlac-t1-0-h20">8. HTMLチェックツールでの確認手順（Step 0〜2の自動化）</h3>
+<p>3章のStep 0〜2（39ロジックの適用・前月との差分・新規行の確認）と、JLACセンター向けコメントの下書きまでを自動で行う。PythonやClaude Codeは要らない。PCのブラウザ（Edge または Chrome）だけで動き、ファイルは外部に送信されない。</p>
+<h4 id="p-jlac-t1-0-h21">8-1. ツールの場所</h4>
+<ul><li><code>04_マスタ・プロファイル管理/JLAC/JLACマスタ月次チェック/00_共通/02_output/20261003_JLACマスタチェックツール_vN.html</code></li><li><strong>番号がいちばん大きい版を使う</strong>。画面右上に版番号が出る。<code>_wip/</code> の中は試作なので使わない</li><li>⚠️ 未確認：チーム向けの配布場所（SharePointのどこに置くか）は決まっていない</li></ul>
+<h4 id="p-jlac-t1-0-h22">8-2. 用意するファイル（5つ）</h4>
+<div class="tw"><table><thead><tr><th>ファイル</th><th>必須</th><th>入手先</th><th>ファイル名の例</th></tr></thead><tbody><tr><td>今回提出マスタ</td><td>必須</td><td>JLACセンターから毎月1日の夜にメールで届くExcel</td><td><code>［令和8年9月末頃以降本番環境適用開始］共有項目JLACコードマスタ_…_20261001.xlsx</code></td></tr><tr><td>前月FIXマスタ</td><td>必須</td><td>前月に公開したマスタのCSV（おすすめ）。前月の全件を比較の基準にする</td><td><code>…共有項目JLACコードマスタ_202609_20260915.csv</code></td></tr><tr><td>JLAC10 要素別コード表</td><td>必須</td><td><a href="https://www.jslm.org/committees/code/index.html" target="_blank" rel="noopener">https://www.jslm.org/committees/code/index.html</a> の最新版</td><td><code>140jlac10_1.xlsx</code></td></tr><tr><td>JLAC11 要素別コード表</td><td>必須</td><td>同上（識別・材料・結果単位の表）</td><td><code>jlac11_1_1.0.xlsx</code></td></tr><tr><td>JLAC11 17桁コードリスト</td><td>任意</td><td>同上。無いとKA-08（測定法）を確認しない</td><td><code>jlac11_3_1.1b.xlsx</code></td></tr></tbody></table></div>
+<ul><li>毎月のフォルダ <code>JLACマスタ月次チェック/YYYYMM提出分/01_input/</code> にまとめて置く（原本は書き換えない）</li><li>17桁コードリストが古いと、その月に決まった新しいコードがKA-08で「参考」として出る（10月版のHCV抗原21行がこれ）。出たら最新のリストを取り直す</li></ul>
+<h4 id="p-jlac-t1-0-h23">8-3. 実行のしかた</h4>
+<ol><li>ツールのHTMLをEdgeかChromeで開く</li><li>5つのファイルをまとめて枠にドラッグ＆ドロップする。どのファイルが何かはツールが自動で判定し、画面に表示する。<strong>表示が合っているか必ず見る</strong></li><li>「設定を確認する」を確認する。通常は変更しない。次の2つだけは、JLACセンターのメールを見て合わせる<ul><li><strong>新規行の開始行</strong>：「8367行目以降が新規」のようにメールに書かれている行番号。<strong>メールに書かれていれば必ず入れる</strong>（ツールv16〜は、この行以降を新規行として扱う。入れないと、旧コードを最下行に再掲載した行が既存行として比べられ、適用開始日の変更などの的外れな指摘が出る）</li><li><strong>今回の公開日</strong>：通常はその月の15日。ツールはファイル名の末尾の日付から推定するため、外れることがある（10/6再提出はファイル名が「…_20260915」で、9/15と推定された。そのまま実行すると、新規行85行が「適用開始日が公開日と違う」と誤って指摘される）。<strong>必ず目で確かめる</strong></li><li>JLACセンターが提出ファイルのコメント列に書いた変更は、ツールが自動で照合するので入力は要らない（ツールv18〜）。<strong>メール本文だけで連絡された</strong>変更や連携事項があれば「今月の個別対応（任意）」に入れる（「連携済みの変更」にコード、「連携メモ」に本文）。前月の値は流用せず、その月の連絡から書き直す。入れた内容は <code>YYYYMM提出分/04_reference/</code> にテキストで残す（かけ直すときに同じ設定を使うため）</li></ul></li><li>「チェックを実行」を押す</li><li>結果画面で「要確認」の黄色い枠を読み、ファイルをダウンロードする</li></ol>
+<h4 id="p-jlac-t1-0-h24">8-4. 出てくるファイル</h4>
+<div class="tw"><table><thead><tr><th>ファイル</th><th>誰向け</th><th>中身</th></tr></thead><tbody><tr><td>確認事項一覧（送付用）</td><td>JLACセンター</td><td>関係者と合意した形式。確認用シートのAG列にJLACセンター向けコメント、その後ろに提出の原本</td></tr><tr><td>確認事項一覧（ACN確認用）</td><td>社内（本田さんRv用）</td><td>送付前確認事項の下書き・確認用シート（右側に新規/既存・該当チェックID・前月の結果・差分区分）・チェック結果一覧・ツールの通知。構成は下記。<strong>JLACセンターには送らない</strong></td></tr><tr><td>チェック結果報告（md）</td><td>社内</td><td>確認事項・ロジック別の結果・既知のエラーのまとめ</td></tr></tbody></table></div>
+<ul><li>保存先は <code>YYYYMM提出分/02_output/</code>。名前は <code>YYYYMMDD_JLACマスタ確認事項一覧_[ACN確認用_]JLACセンターYYYYMMDD提出版_vN.xlsx</code></li></ul>
+<p><strong>ACN確認用のシート構成</strong>（ツールv13〜。本田さんRvで使った形）</p>
+<div class="tw"><table><thead><tr><th>区切り</th><th>シート</th><th>中身</th></tr></thead><tbody><tr><td>—</td><td>このファイルの説明</td><td>1行目に本田さんに確認いただきたいこと。最後に「送付前確認事項の書き方」</td></tr><tr><td>確認いただきたいシート➡</td><td>送付前確認事項_一次Rv</td><td>本田さんへの確認事項の一覧。<strong>ツールが候補を並べた下書きなので、担当者が整理してからRvを依頼する</strong>（下記）</td></tr><tr><td></td><td>JLACセンター向けコメント_確認用</td><td>提出の全行。A〜AF列は提出のまま、右側にJLACセンター向けコメントとACN確認用の情報（列の意味は説明シート）</td></tr><tr><td></td><td>前回から削除された行</td><td>削除行があるときだけ</td></tr><tr><td>確認結果サマリ➡</td><td>チェック結果一覧／その他の指摘事項</td><td>39ロジックと手順書の確認（その他1〜6）ごとの件数・該当箇所・Rv用の見解</td></tr><tr><td></td><td>参考_ツールの自動通知</td><td>ツールの通知（要確認・情報）と今回の設定</td></tr><tr><td>JLACセンター原本➡</td><td>原本</td><td>届いたファイルのまま</td></tr></tbody></table></div>
+<ul><li>提出ファイルに連絡用の列（33列目「JLACセンターコメント」など）があるとき、確認用シートではAG列にそのまま残し、JLACセンター向けコメントはAH列になる。送付用も同じ並び（AG列「JLACセンターコメント（提出時）」、AH列「JLACセンター向けコメント」。ツールv20〜。JLACセンターが自分のコメントとこちらのコメントを並べて読めるようにするため。2026-10-08 ユーザー決定）。連絡用の列が無い月は、どちらもAG列がコメント</li></ul>
+<p><strong>送付前確認事項の書き方</strong>（本田さんRvの結果から決まった形。2026-10-07〜08）</p>
+<ul><li>列：# ／種別／前回Rvからの引継ぎ内容／確認事項・結果（【確認したこと】チェックロジックの番号〔名前〕・照合先 →【結果】）／本田さんへの確認事項／問題があった箇所／JLACセンターへのコメント要否（要・不要）／本田コメント／担当者回答（日付）</li><li><strong>#にするもの</strong>：本田さんの判断が要るもの、前回Rvから引き継いだもの、チェックロジックに当たったものだけ。共有だけの情報は#にしない。関連する論点は親の#にまとめる</li><li>件数は「N件」で書く。問題があった箇所は「計N件」＋「1104行目（C20120000240045F7）」のように、行ごとにJLAC11コードを付ける（行番号だけでは検索できない。範囲表記はしない）</li><li>本田さんへの確認事項は「判断案＋問題ないかご確認をお願いします」。コメントを返す場合は「■文案」として代表1行分を書く</li><li>JLACセンター向けコメントは「項目「今の値」が、［照合先の資料・シート・列］の「正しい値」と表記が異なります。意図的に修正されたという認識でよろしいでしょうか。」の形。JLACセンターが意図した記載の可能性があるので「ご確認ください」「〜としてください」は使わない。文末は句点。1つのセルで2点以上を確認するときは「・」の箇条書き</li><li>ツール（v14〜）が出すコメントは、この形になっている。結びは型で決まっている：照合先と表記が違う＝「意図的に修正された（新規行は設定された）という認識でよろしいでしょうか。」、明らかな誤り（桁数・空欄など）＝「修正をお願いできますでしょうか。」、コード表に無い＝「ご教示いただけますでしょうか。」。照合先には、その月に読み込んだコード表のファイル名が入る。表記の変更には、どの文字が変わったかが自動で書き添えられる。手で書き足すのは、JLACセンターのコメントとの照合や販売名称の確認など、その月の判断が要る部分だけ（文面の型は <code>JLACマスタ月次チェック/00_共通/02_output/20261008_コメント文面の統一案_v1.md</code>）</li><li><strong>2回目のRv（再提出など）</strong>：「送付前確認事項_一次Rv」をコピーして「送付前確認事項_二次Rv」を作り、「確認いただきたいシート➡」の直後に置く。一次Rvのシートは「参考➡」という区切りシートを作ってその後ろに記録として残し、「二次Rvへの引継ぎ」列を付ける。種別は、残指摘〔一次Rv#○から〕（前回クローズしていないもの）／再検知〔一次Rv#○で確認済み〕（対象が変わって再び出たもの）／新規、の3つ。同じ論点の続きは新しい#を起こさない</li><li>見本：<code>04_マスタ・プロファイル管理/JLAC/JLACマスタ月次チェック/202610提出分/02_output/20261006_JLACマスタ確認事項一覧_ACN確認用_JLACセンター20261006提出版_v18.xlsx</code>（10月の二次Rv）</li></ul>
+<h4 id="p-jlac-t1-0-h25">8-5. ツールの判定のしかた（結果を読むときの前提）</h4>
+<ul><li><strong>新規行</strong>（前月に同じJLAC11コードが無い行、またはJLACセンターが連絡した新規行の開始行以降の行）：すべての結果をコメントにする。開始行以降に前月と同じコードの行がある場合（旧コードの再掲載など）も新規行として扱い、前月の行との比較はしない。同じコードの既設行が残っていれば重複（KA-31）として指摘され、「参考_ツールの自動通知」に要確認として出る。このとき依頼文は、既設行に「新規の行として起票されており重複しているため削除」、新規行に「既設行の削除と併せて、適用開始日を既設行の適用開始日に合わせて修正」となる（2026-10-08 本田さん：JLAC11コードは一意のキーなので重複はNG）</li><li><strong>既存行</strong>：前月から変わって生じた問題、行の削除だけをコメントにする</li><li><strong>JLACセンターのコメント（提出ファイルの33列目など、見出しに「コメント」を含む列）</strong>：前月からの差分と照合し、コメントに列名と変更前・変更後の値が書かれている変更は「連携済み」として指摘しない。書かれていない変更は指摘する。チェックロジック（KA-○○）に当たるものはコメントがあっても指摘し、そのコメントの先頭に「コメントいただいた○○の変更は確認いたしました。」が付く。返すかどうかはRvで決める（10月はKA-M3の2行を「意図どおり」として返さなかった）。コメントがあるのに値が変わっていない行は、要確認として通知される</li><li><strong>その他6（販売名称の確認）</strong>：測定法(JLAC11)だけが前月から変わり、販売名称が前月のままの行（販売名称と測定法がほぼ同じ値の行）には、「販売名称は修正不要という認識でよろしいでしょうか。」の確認が付く。JLACセンターのコメントで測定法の変更が連絡されていても付く（本田さん）</li><li><strong>既知</strong>（前月にも同じ問題がある）：コメントせず件数だけ記録する。前月に了承して公開済みのため</li><li><strong>参考</strong>：判定材料が不完全なもの（コード表の版の違いなど）。コメントせず、目で確認する</li><li>既知かどうかは<strong>指摘の文面が前月と同じか</strong>で決まる。前月から不一致の行でも、値が変わると新しい指摘として出る（10/6再提出のKA-08の5行がこれ。説明を書くときに誤りやすい）</li></ul>
+<h4 id="p-jlac-t1-0-h26">8-6. 送付までの流れ</h4>
+<ol><li>ツールを実行する（8-3）</li><li>ACN確認用で論点を整理し、本田さんにRvを依頼する。見てほしいシートと見なくてよいシートを依頼文に書く</li><li>Rvの結果を反映する。同じ月に再提出があればツールをかけ直す。2回目のRvでは、前回のRvで終わっていない論点を引き継ぐ。同じ論点の続きには新しい番号を付けず、元の番号の下に書く</li><li>送付用をJLACセンターへ送る（毎月7日頃まで）。<strong>送る前に、コメント・変更履歴・ファイルのプロパティを削除する</strong>（定常業務マニュアル Section 11）</li><li>送付用・ACN確認用は<strong>Excel本体で開いて、修復のメッセージが出ないことを確かめてから</strong>渡す</li></ol>
+<h4 id="p-jlac-t1-0-h27">8-7. ダブルチェック（任意・Claude Codeがあるとき）</h4>
+<p>ツールとは別に、Excelの関数だけで同じ判定をして結果を突き合わせる仕組みがある。ツールの結果に疑問があるとき、またはツールを直したときに使う。</p>
+<ul><li><code>python 00_共通/03_scripts/make_doublecheck.py &lt;ACN確認用xlsx&gt; &lt;出力xlsx&gt; [YYYYMM提出分]</code> で作る。入力ファイル名・新規開始行・公開日はスクリプトの冒頭で毎月書き換える</li><li>Excelで開いて計算させ、「照合」シートがすべて一致なら、ツールの結果と同じ</li><li>一致しない項目は、検算式とツールのどちらが正しいかを原因まで調べる（過去には両方の誤りが見つかっている）</li></ul>
+<h4 id="p-jlac-t1-0-h28">8-8. 困ったとき・ツールを直すとき</h4>
+<ul><li>結果に疑問があるときは、出てきた「チェック結果報告」を添えて管理者に相談する</li><li>チェックロジック39件は関係者と合意したものなので、<strong>勝手に変えない</strong>。改善したい点は <code>00_共通/02_output/*_チェックロジック改善提案_vN.md</code> に書く</li><li>ツールを直す手順（版の上げ方・試験のしかた）は <code>JLACマスタ月次チェック/CLAUDE.md</code> にある</li></ul>
+<h3 id="p-jlac-t1-0-h29">9. 最終化（公開用・取り込み用・新コードのみ）と二次チェック（2026-10-15 黒川さんKT）</h3>
+<blockquote class="caution"><p>KTの文字起こしからの整理。⚠️の箇所は聞き取りが不確かなため、次回の最終化の前に黒川さん・本田さんに確かめる。</p></blockquote>
+<h4 id="p-jlac-t1-0-h30">9-1. 二次チェック（再提出の確認）の範囲</h4>
+<ul><li>一次チェックでJLACセンターに返した版と、今回提出された版の<strong>差分</strong>を確かめ、<strong>新しい変更が入っていないか</strong>と、<strong>こちらのコメントへの対応状況</strong>を見る（KTでの黒川さんの見立て。前月比較は一次チェックで済んでいる）</li><li>一次チェックと同じ観点で異常がないかも見る。最終化の段階ではJLACセンターに差し戻さない。異常があれば本田さんにエスカレーションし、こちらで直すか、今回は追加せず除外するかを本田さんに確認する</li><li>重大度の目安（KT）：<strong>FHIR項目名称の変更は、コードの変更と同じくらい重大</strong>（旧い名称で登録するとエラーになる）。販売名称の変更は、黙って変えること（サイレント変更）を許容した経緯があるかもしれない ⚠️黒川さんが確認中</li></ul>
+<h4 id="p-jlac-t1-0-h31">9-2. 最終化で作る3種類</h4>
+<p>マスタの整備が済んだら、最初に「公開用の新旧混合」を作り、そこから残り2つを作る。</p>
+<div class="tw"><table><thead><tr><th>#</th><th>名前（ポータルでの表記）</th><th>中身</th><th>作り方</th></tr></thead><tbody><tr><td>1</td><td>ポータルサイト公開用（新旧混合）</td><td>新旧のコードが混ざった全件</td><td>整備済みのマスタ</td></tr><tr><td>2</td><td>基盤取り込み用（新旧混合）</td><td>1と同じ全件</td><td>1をコピーし、<strong>JLAC11コードが空欄の行を、17桁で互いに重ならない文字列で埋める</strong>（例：連番）。基盤は空欄だと取り込めないため。空欄の行は、測定法の区分のJLAC11コードを別に用意している行</td></tr><tr><td>3</td><td>旧コード除外版（新コードのみ）</td><td>新しいコードだけ</td><td>1をコピーし、<strong>適用終了日が20260824以降の行と99999999（終了日なし）の行だけ</strong>を残す</td></tr></tbody></table></div>
+<ul><li>名前は⚠️KTでは「共有項目コードマスタ（ポータルサイト公開用）」「（旧コード除外版）」と聞こえた。正式名は前月の公開ファイルで確かめる</li><li>3の日付 20260824 の理由：第6・第7改定以降でJLACコードを大きく見直したため、それより前の旧コードは全国運用の開始後は使えなくなる見込み。7月ごろに適用終了になったものは見直し前の旧コード（KT。KTの中で日付と「開始日／終了日」の言い直しがあったが、「適用<strong>終了</strong>日が20260824以降」で、9月版の実物の新コードのみ〔8,403行〕と全行一致することを確認した。2026-10-16）</li></ul>
+<h5 id="p-jlac-t1-0-h32">手作業（Excelだけ）での作り方</h5>
+<blockquote><p><strong>並べ替え（3章「最終化（CSV化）時の注意」：並び順で昇順）は、1.の前に済ませる。</strong> 以後は並びを変えない（ダミーの連番は最終の並びで上から振るため）</p></blockquote>
+<ol><li><strong>公開用</strong>：整備済みのマスタ（32列）をそのまま使う。見出し行を含め、並びは変えない</li><li><strong>取り込み用</strong>：1をコピーし、JLAC11コード（M列）が<strong>空欄の行</strong>に、上から順に <code>xyzxyzxyzxyz00001</code>、<code>xyzxyzxyzxyz00002</code>、…（「xyzxyzxyzxyz」＋5桁の連番＝17桁）を入れる。他の列は1と同じ<ul><li>式の例（補助列に入れて、値で貼り付け直す。<strong>試験していない</strong>）：<code>=IF(M2="","xyzxyzxyzxyz"&amp;TEXT(COUNTBLANK($M$2:M2),"00000"),M2)</code></li><li>値で貼り付けたら、<strong>補助列は削除する</strong>（32列に戻す。残すと公開用と列数が合わない）</li><li>この決め方（上から順・xyzxyzxyzxyz＋連番）は、9月公開版の取り込み用シートと全行一致することをスクリプトで確認済み（2026-10-16）</li></ul></li><li><strong>新コードのみ</strong>：1をコピーし、適用終了日（AF列）が<strong>20260824以降の行（99999999を含む）</strong>だけを残す。並びは1のまま。AF列が文字列のときは、数値に直してからフィルターする（文字列のままだと「以上」で絞れない）</li><li><strong>点検</strong>（作ったら必ず）：取り込み用のJLAC11コードがすべて17桁／ダミー（xyzxyzxyzxyz…）が重複せず、埋めた行数と同じ／新コードのみの適用終了日がすべて20260824以降でJLAC11コードに空欄がない／3つの行数を控える（取り込み用＝公開用。新コードのみは公開用以下）</li><li>CSV化の書式：UTF-8（BOMなし）・全項目を <code>"</code> で囲む・改行CRLF（公開版CSVと同じ）。Excelの標準の「CSV UTF-8」保存はBOMが付き、全項目を囲まないので使わない。薬剤関連マスタと同じCSV生成ツール（薬剤関連マスタ作成手順 4章）を使う。⚠️このツールの出力がこの書式になるか、JLAC（約13,400行・32列）で動くかは未確認。初回は前月の公開版CSVと書式（BOMの有無・囲み・改行）を突き合わせて確かめる</li><li><strong>ファイル名</strong>：3つとも前月の公開ファイルの名前で確かめる（公開用の頭の「［令和8年9月末頃以降本番環境適用開始］」を10月以降も使うかを含む。スクリプトは公開用の名前をこの形で固定している）</li></ol>
+<h5 id="p-jlac-t1-0-h33">ツール（内々の効率化用）</h5>
+<p>手作業の1〜5と同じ結果を1コマンドで作る。作成後の点検（4.）も同時に出る。</p>
+<pre><code>python 00_共通/03_scripts/make_jlac_final.py --in &lt;整備済みのマスタ（csv/xlsx）&gt; [--sheet …] --ym YYYYMM --ymd YYYYMMDD --out &lt;出力フォルダ&gt; --name-tor &lt;取り込み用の正式名&gt; --name-new &lt;新のみの正式名&gt;
+python 00_共通/03_scripts/make_jlac_final.py --selftest &lt;9月版公開用マスタ準備.xlsx&gt;   # 9月の3シートを再現できるか</code></pre>
+<p>（<code>00_共通</code> ＝ <code>04_マスタ・プロファイル管理/JLAC/JLACマスタ月次チェック/00_共通</code>。ロジックを直したら必ず <code>--selftest</code> で9月の再現を確かめる）</p>
+<ul><li>できたら（手作業のときは5.でCSVにしてから。ツールの出力はすでにCSV）、本田さんに確認を依頼する</li></ul>
+<h4 id="p-jlac-t1-0-h34">9-3. なぜ3種類あるか（公開の考え方）</h4>
+<ul><li>ポータルサイトには、マスタ2つ（新旧混合・新コードのみ）と新旧対応表を公開している（対応表はマスタではないが公開物）</li><li>基盤では新旧混合を持つ。旧コードを使うベンダーと新コードを使う医療機関が混在するため、移行期間は旧コードで登録してもエラーにしない</li><li>ベンダー・医療機関には新コードでの対応を求めているので、「新しくマッピングするときはこちら」として新コードのみも公開する</li><li>基盤で持っているものを非公開にするのは適切でないため、新旧混合も公開する</li></ul>
+<h4 id="p-jlac-t1-0-h35">9-4. ポータルサイトの注記の更新</h4>
+<ul><li>毎月は更新しない。行を削除したなどのイレギュラーなときだけ。マスタの基本は、使えなくなるコードも<strong>行を残して適用終了日を入れる</strong>（例：販売終了が決まった試薬は終了日を入れて残す）。通常の行の追加・終了日の設定なら注記は要らない</li><li>新旧対応表で山川さんの担当の箇所に何か起きたときは要るかもしれないが、その場合は本田さんからサイト更新の指示が来る</li></ul>
+<hr>
+<h3 id="p-jlac-t1-0-h36">6. 未確認事項</h3>
+<ul><li><span class="cb">☐</span> 適用終了日バックデートの詳細判断基準（「特定の日付から特定の日付に」の具体的な判定方法）</li><li><span class="cb">☐</span> 作業ExcelのフォーマットおよびJLACセンター向けコメント記載例</li><li><span class="cb">☑</span> チェックツール（自動化スクリプト）の仕様・現状 → 前任者ツールは使わず、HTMLチェックツールに一本化（4章・8章、2026-10-07）</li><li><span class="cb">☐</span> HTMLチェックツールの配布場所（SharePointのどこに置くか）</li><li><span class="cb">☑</span> ACN確認用Excelのシート構成 → 8-4に追記（ツールv13、2026-10-08）</li><li><span class="cb">☑</span> ツールのコメント文面を、8-4の決まった形にそろえる → ツールv14（2026-10-08）</li><li><span class="cb">☐</span> 既存マニュアルの内容（取り込み予定）</li><li><span class="cb">☐</span> 9章の⚠️（3種類の正式名・販売名称の変更の扱い・CSV生成ツールの出力の書式）。新コードのみの日付の条件は9月版で確認済み（2026-10-16）。次の最終化の前に黒川さん・本田さんに確認する</li></ul></div><div class="srcdoc"><div class="srcname">JLACマスタ月次チェック 月次実行（1回実行）の使い方<span class="fname">20261016_月次実行の使い方_v5.md</span></div><blockquote><p>作成日: 2026-10-15（v2〜v5：2026-10-16）<br>プロジェクト: JLACマスタ月次チェック（00_共通）<br>対象：Claude Code（または Node.js・Python・Excel のあるPC）で月次チェックを行う担当者。HTML版のツールだけを使う場合は、手順書（定常業務マニュアルのJLACマスタチェック手順 8章）を見る<br>設計：<code>02_output/_wip/20261009_月次チェック1回実行化_設計案_v1.md</code>。試験の記録：<code>02_output/_wip/20261016_1回実行化_試験結果_v2.md</code></p></blockquote>
+<h3 id="p-jlac-t1-1-h1">結論・要点</h3>
+<ul><li>1コマンドで、設定の点検 → チェックツールでの判定（送付用・ACN確認用・報告・明細）→ 既知の指摘の仕様確認資料 → ダブルチェック（Excelでの計算まで）→ 前月からの引継ぎの確認 → 「月次実行の結果.md」まで出る</li><li>毎月書くのは <code>YYYYMM提出分/04_reference/今月の設定.txt</code> の1ファイルだけ（スクリプトの書き換えは要らない）</li><li>判定はチェックツール（最新版HTMLの jlac-core）のまま。ツールv21から、指摘ごとの「判定の根拠」と「説明文の下書き」がACN確認用の「指摘の根拠」シートに出る</li><li>2026年11月分は、今のやり方（<code>run_check.mjs</code> に引数）と並行して流し、結果を突き合わせる（2026-10-09 ユーザー決定）</li></ul>
+<h3 id="p-jlac-t1-1-h2">1. 準備（毎月）</h3>
+<ol><li><code>YYYYMM提出分/</code> を作り、<code>01_input/</code> に提出ファイル・前月公開版CSV・JLAC10/JLAC11コード表を置く（月次の <code>CLAUDE.md</code>「新しい月の始め方」）</li><li><code>04_reference/今月の設定.txt</code> を作る。<strong>前月の設定ファイルは見本として読むだけ</strong>にし、値はその月のJLACセンターのメールから書き直す（見本：<code>202610提出分/04_reference/20261015_今月の設定_202610提出分_1006再提出.txt</code>）</li><li>前月の月フォルダに「翌月への引継ぎ」があれば、<code>前月からの引継ぎ:</code> に指定する（11月分は <code>../202610提出分/04_reference/20261016_翌月への引継ぎ_202610提出分.txt</code>（HIVの000コード3件の適用開始日を8月更新の20260813にした版。20261015_の版は使わない） を <code>04_reference</code> にコピーして名前を書く）</li><li><strong>Excelをすべて閉じる</strong>（ダブルチェックの計算でExcel本体を使うため。起動中だと計算を飛ばす）</li></ol>
+<h3 id="p-jlac-t1-1-h3">2. 今月の設定.txt の書き方</h3>
+<p>「キー: 値」の形。<code>#</code> で始まる行は読まない。複数行の値は「キー: &lt;&lt;&lt;」の次の行から「&gt;&gt;&gt;」の行まで（「&gt;&gt;&gt;」を書き忘れると止まる）。ファイル名は <code>01_input</code>（17桁コードリストは <code>../20260930_JLACマスター新旧対応表確認/01_input</code> も）から探す。<code>.txt</code> で終わる値は <code>04_reference</code> からファイルの中身を読む。</p>
+<div class="tw"><table><thead><tr><th>キー</th><th>必須</th><th>中身</th></tr></thead><tbody><tr><td>対象月</td><td>必須</td><td>YYYYMM。月フォルダの名前と同じでないと止まる（前月の設定の流用を防ぐ）</td></tr><tr><td>提出ファイル／前月公開版／JLAC10コード表／JLAC11コード表</td><td>必須</td><td>ファイル名。同じ月に提出が2つあっても、どれを使うかがここに残る。前月公開版の名前に前月のYYYYMM（例：11月分なら「202610」）が無いと「注意」が出る</td></tr><tr><td>17桁コードリスト／17桁コードリストの取得日</td><td>任意</td><td>無いとKA-08を確認しない。取得日はYYYYMMDD</td></tr><tr><td>提出日</td><td>必須</td><td>YYYYMMDD。対象月と違うと止まる</td></tr><tr><td>公開日</td><td>必須</td><td>YYYYMMDD（通常はその月の15日）。15日以外なら「公開日が15日でない理由」が無いと止まる</td></tr><tr><td>新規行の開始行</td><td>メールにあれば必須</td><td>メール本文に「行目」があるのに空なら止まる</td></tr><tr><td>JLACセンターの連絡（メール本文）</td><td>推奨</td><td>本文を貼る（根拠の記録と、開始行の入れ忘れの点検に使う）</td></tr><tr><td>連携メモ／連携済みの変更／Rv用の見解／別シートの理由</td><td>任意</td><td>今までの <code>04_reference/*.txt</code> をそのまま指定できる</td></tr><tr><td>共有対象外のシート／削除行は依頼済み（はい・いいえ）／確認したいJLAC11コード</td><td>任意</td><td>今月の個別対応</td></tr><tr><td>前月からの引継ぎ</td><td>推奨</td><td>「JLAC11コード ｜ 期待する状態 ｜ メモ」の1行1件のファイル。状態は 含まれる／含まれない／有効な行がある（適用終了日99999999の行がある。旧い行が残っているコードの追加・000コードはこれで書く）／1行だけ／適用開始日 YYYYMMDD／適用終了日 YYYYMMDD／列なし 見出し名（コード欄は「（列）」）</td></tr><tr><td>血液型の期待／血液型の行</td><td>任意</td><td>血液型（ABO・Rh）の38行の状態（全行あり／全行なし／一部だけ）を毎月、結果mdに情報として出す。2027年1月〜3月末に使われる版から外す予定で、<strong>どの版から外し、どの版で戻すかは調整中（個人の残論点.md K009）</strong>。決まったら「血液型の期待: 202701提出分=外す, 202704提出分=残す」のように書く（書いた月だけ、期待と違えば⚠️）。書いていない月は「一部だけ」（一部の行だけが欠けた・終了した）のときだけ⚠️。行はJLAC11コードの測定物（5桁）で、既定は「K1001,K1006」（ABO 16行・Rh 22行）</td></tr><tr><td>ツールの版</td><td>任意</td><td>空か「最新」なら最新版。版を固定したいときはファイル名</td></tr><tr><td>判断の線引き／000コードの適用開始日／17桁コードリストの取り直し</td><td>任意</td><td><strong>本田さんの判断待ち。決まるまで「今のまま」（書かなければ今のまま）</strong>。下の3章</td></tr></tbody></table></div>
+<h3 id="p-jlac-t1-1-h4">3. 判断待ちの切り替え（本田さん未決定）</h3>
+<div class="tw"><table><thead><tr><th>キー</th><th>今のまま（既定）</th><th>切り替えると</th></tr></thead><tbody><tr><td>判断の線引き</td><td>何も変えない</td><td>「案」：ACN確認用の「指摘の根拠」に「判断の区分（案）」列を出す（重複・削除行・000コード・コメントがあるがロジックに当たるもの＝本田さんに上げる案、ほか＝通常どおり一次Rv）。判定・送付用は変わらない</td></tr><tr><td>000コードの適用開始日</td><td>何も変えない</td><td>「その月の15日」：今は記録のみ（1回実行では000コードの候補をまだ作っていない）</td></tr><tr><td>17桁コードリストの取り直し</td><td>取得日が空なら注意を出すだけ</td><td>「毎月」：取得日が無い、または提出日の前月1日より古いと止まる（前月1日ちょうどは通る）</td></tr></tbody></table></div>
+<h3 id="p-jlac-t1-1-h5">4. 実行</h3>
+<p><strong>実行するフォルダ</strong>：<code>JLACマスタ月次チェック/</code>（このフォルダの1つ上。<code>00_共通</code> と <code>YYYYMM提出分</code> が並んでいるところ）。PowerShell で <code>cd</code> してから次を流す。</p>
+<pre><code>powershell -ExecutionPolicy Bypass -File 00_共通\03_scripts\月次実行.ps1 -Month 202611提出分</code></pre>
+<ul><li>任意の引数：<code>-Settings &lt;設定ファイル&gt;</code>（既定は <code>04_reference\今月の設定.txt</code>）、<code>-OutDir &lt;出力先&gt;</code>（既定は <code>02_output</code>）、<code>-SkipDoublecheck</code>、<code>-TimeoutMinutes 15</code>（Excelでの計算の上限）</li><li><strong>実行中はExcelを開かない</strong>（計算はこの処理が起動した画面の無いExcelで行う。時間切れのときは、そのExcelだけを止める）</li><li>出力（名前は <code>YYYYMMDD_名称_vN</code>。同じ名前の最大の番号＋1を自動で付け、上書きしない）：送付用・ACN確認用・チェック結果報告・月次実行の明細（json）・<strong>既知の指摘の仕様確認（xlsx）</strong>・ダブルチェック（xlsx）とその照合結果（json）・<strong>月次実行の結果（md）</strong></li></ul>
+<h4 id="p-jlac-t1-1-h6">4-1. 終了コード（止まったときの読み方）</h4>
+<div class="tw"><table><thead><tr><th>終了コード</th><th>意味</th><th>すること</th></tr></thead><tbody><tr><td>0</td><td>最後まで流れた</td><td>「月次実行の結果.md」を読む（ダブルチェックを飛ばした場合も0。結果mdの冒頭に理由が出る）</td></tr><tr><td>2</td><td>設定の点検で止まった。<strong>何も実行していない</strong></td><td>画面の <code>[止める]</code> を直して流し直す</td></tr><tr><td>1</td><td>ツールの実行、または結果のまとめでエラー</td><td>画面の最後の数行（エラーの文）を、月次実行の明細・設定ファイルと一緒に管理者（Claude Code）に渡す。出力の一部ができていることがあるが、使わずに流し直す（番号は自動で次に進む）</td></tr></tbody></table></div>
+<h4 id="p-jlac-t1-1-h7">4-2. 2026年11月の並行運用（今のやり方と突き合わせる）</h4>
+<p>並行のあいだは、<strong>1回実行の出力を <code>02_output</code> 以外に出す</strong>。旧来の <code>run_check.mjs</code> は、指定した名前のファイルがあっても確かめずに上書きするため、同じフォルダに出すと片方を消してしまうことがある。</p>
+<pre><code>powershell -ExecutionPolicy Bypass -File 00_共通\03_scripts\月次実行.ps1 -Month 202611提出分 -OutDir 202611提出分\02_output\_wip\月次実行</code></pre>
+<p>今のやり方（<code>run_check.mjs</code> に <code>--json &lt;明細.json&gt;</code> も付けて流す）と、次で比べる。いずれも「FAIL 0」なら一致。</p>
+<pre><code># 送付用・指摘明細・通知・コメント（json は旧来の --json の出力と、1回実行の「月次実行の明細」）
+python 00_共通\03_scripts\compare_outputs.py &lt;旧の送付用.xlsx&gt; &lt;新の送付用.xlsx&gt; &lt;旧の明細.json&gt; &lt;新の月次実行の明細.json&gt;
+# ACN確認用（v21で足した・変えた3シートを外し、版番号と作成日の表記だけをそろえる）
+python 00_共通\03_scripts\compare_outputs.py &lt;旧のACN確認用.xlsx&gt; &lt;新のACN確認用.xlsx&gt; --skip "指摘の根拠|このファイルの説明|送付前確認事項_一次Rv" --replace "v20=v21|確認事項一覧_&lt;旧の実行日&gt;=確認事項一覧_&lt;新の実行日&gt;"</code></pre>
+<ul><li><code>--skip</code> と <code>--replace</code> は「|」（半角の縦棒）で区切って複数書く。<code>--replace</code> は「旧=新」で、<strong>版番号の表記（v20=v21）と実行日（送付用の名前に入る日付）だけに使う</strong>。それ以外を置き換えると、違いを隠してしまう</li><li>旧も新もツールv21で流した場合は <code>--replace</code> は要らない（作成日だけが違えば、その分だけ書く）</li><li>「送付前確認事項_一次Rv」は、v21で候補ごとに説明文の下書きの代表1件が足されるため、上の比較では外している。下書きを除いて同じかを見るときは、管理者に頼む（試験では <code>【説明文の下書き（代表1件…】</code> の段落を消して比べた）</li></ul>
+<h4 id="p-jlac-t1-1-h8">4-3. 根拠の試験（ツールを直したとき）</h4>
+<p><code>node 00_共通\03_scripts\test_monthly_run.mjs --json &lt;10/6再提出分の月次実行の明細.json&gt; --json2 &lt;10/1提出版の月次実行の明細.json&gt;</code>。明細jsonは、<code>202610提出分/04_reference</code> の2つの設定（<code>20261015_今月の設定_202610提出分_1006再提出.txt</code>・<code>…_1001提出.txt</code>）で <code>node 00_共通\03_scripts\monthly_run.mjs run --month 202610提出分 --settings &lt;設定&gt; --out &lt;一時フォルダ&gt;</code> を流すと、一時フォルダにできる（<code>202610提出分/02_output</code> には出さない）。</p>
+<h3 id="p-jlac-t1-1-h9">5. 結果の読み方と、その後の作業</h3>
+<ol><li>「月次実行の結果.md」を上から読む。冒頭に、ダブルチェックが済んでいるか・不一致があるか・比較できる項目が10月分（54項目）より減っていないかが出る。<strong>不一致があれば、検算式とツールのどちらが正しいかを原因まで調べ、それまで説明文を確定しない</strong></li><li>結果mdの冒頭に「⚠️ 血液型（ABO・Rh）の行を本田さんに上げる」が出たら、本田さんへの確認事項として一次Rvに足す（一部の行だけが欠けた・終了した、または設定した期待〔残す・外す〕と違う）。「全行あり」「全行なし」は、外す版・戻す版が調整中のあいだはどちらもありうるため、3章の情報を見るだけでよい</li><li>ACN確認用の「送付前確認事項_一次Rv」を整える。候補ごとに説明文の下書きの代表1件が入っている。全件は「指摘の根拠」シート（判定の材料から決まった型で作った下書き。そのまま確定した説明として使わない）</li><li>結果mdの「前月からの引継ぎの確認」で未反映のものは、一次Rvに「残指摘〔前月の依頼から〕」として手で足す</li><li>本田さんにRvを依頼する（見てほしいシート・見なくてよいシートを書く）。あわせて「既知の指摘の仕様確認」（<code>make_known_review.py</code> の出力。既知としてコメントしなかった指摘を論点ごとにまとめたもの）で、仕様か誤りかの判断を依頼する。対象は使用中の行と、今月終了した行・内容が変わった行（前月も同じ内容で終了済みの行だけ外す）。前月に判断済みの論点と変わっていなければ、変わった点だけ伝えればよい</li><li>Rvを反映したら、送付用とACN確認用のコメントのずれを確かめる：<code>node 00_共通\03_scripts\monthly_run.mjs sync --send &lt;送付用.xlsx&gt; --acn &lt;ACN確認用.xlsx&gt;</code>（違う行を一覧にする。読み取りだけ）</li><li><code>python _agent\_基盤\_ツール\送付前チェック.py &lt;送付用.xlsx&gt; --clean</code> で送付用を作って送る（PowerPoint・Word・Excelを閉じてから）</li><li>送付を確定したら、翌月用の「翌月への引継ぎ」を <code>04_reference</code> に書く（削除・修正を依頼したコード、ACNで追加したコード）</li></ol>
+<h3 id="p-jlac-t1-1-h10">6. Excelが起動中だったとき（ダブルチェックの計算を飛ばしたとき）</h3>
+<p>結果mdの冒頭に「ダブルチェックの照合が済んでいません」と出る。Excelをすべて閉じてから、次を順に流す（ファイル名は出力にあるもの）：</p>
+<pre><code>（ダブルチェックのxlsxをExcelで開き、数式を再計算〔Ctrl+Alt+F9〕して保存して閉じる）
+python 00_共通\03_scripts\read_doublecheck.py &lt;ダブルチェック.xlsx&gt; &lt;ダブルチェック.照合.json&gt;
+node 00_共通\03_scripts\monthly_run.mjs report --state &lt;月次実行の明細.json&gt; --dc &lt;ダブルチェック.照合.json&gt;</code></pre>
+<ul><li>report は新しい番号の「月次実行の結果.md」を書く（前の結果は上書きしない）</li></ul>
+<h3 id="p-jlac-t1-1-h11">7. 困ったとき</h3>
+<ul><li>「ファイルの役割」で止まる：設定に書いたファイルが、ツールの判定では別の種類（例：前月公開版に今月の提出ファイルを書いた）。ファイル名を見直す</li><li>前月の基準がxlsx（前月公開CSVでない）の月：ダブルチェックは自動で外れる（<code>make_doublecheck.py</code> は前月公開CSVの月だけに対応）</li><li>ツールの判定を直したいとき：月次の <code>CLAUDE.md</code>「ロジック変更時」の手順。直したら <code>node 00_共通\03_scripts\test_monthly_run.mjs --json &lt;明細.json&gt;</code> と <code>selftest.mjs</code> も流す</li><li>Node.js・Python・Excelが無いPC：HTML版のツール（手順書8章）を使う。ダブルチェック・引継ぎの確認はこの入口だけ</li></ul></div></div></section><section class="page" id="p-yakuzai" data-title="薬剤関連マスタの作成" hidden><h2>薬剤関連マスタの作成</h2><div class="tabs" role="tablist"><button type="button" role="tab" aria-selected="true" data-tab="p-yakuzai-tab0">手作業編</button><button type="button" role="tab" aria-selected="false" data-tab="p-yakuzai-tab1">ツール編</button></div><div class="tabpanel" id="p-yakuzai-tab0"><div class="srcdoc"><div class="srcname">薬剤関連マスタ作成手順<span class="fname">20261015_薬剤関連マスタ作成手順_v1.md</span></div><blockquote><p>作成日: 2026-10-15<br>プロジェクト: 20260831_電カル調査研究_定常業務マニュアル<br>対象: 電子カルテ情報共有サービス向けの薬剤関連マスタ（5種類）を毎月作る担当者<br>作業フォルダ（Claude Code）: <code>_agent/04_マスタ・プロファイル管理/薬剤/薬剤関連マスタ月次作成/</code></p></blockquote>
+<hr>
+<h3 id="p-yakuzai-t0-0-h1">1. 概要</h3>
+<div class="tw"><table><thead><tr><th>項目</th><th>内容</th></tr></thead><tbody><tr><td>何を作るか</td><td>薬剤関連マスタ5種類のCSV（5章の正式名称）。うち4種類は作成ツールで作り、YJコードリストは受け取ったものを正式名称にして送る</td></tr><tr><td>いつ</td><td>毎月15日ごろ、YJコードリストを受け取った日に作る。翌日に本田さんRv、その日のうちに送付（2026-10 KTのタイムライン）</td></tr><tr><td>インプット</td><td>YJコードリスト（メール「個別医薬品コード(YJコード)リストのご案内」で届く。本田さんからの転送。元の送り主はKTの聞き取りで「異条件」、⚠️正式名は要確認）、厚労省の一般名処方マスタ・薬価基準収載品目リスト</td></tr><tr><td>送付先</td><td>KTの聞き取りで「キキ（キキン）さん」。⚠️氏名・所属・送り方は要確認</td></tr><tr><td>所要</td><td>約2時間（本田さんの見込み）</td></tr></tbody></table></div>
+<p><strong>5種類の関係</strong>（9月公開版で全行成り立つことを確認済み。6-3のスクリプトはこれを点検する）</p>
+<ul><li>薬剤アレルギー用コードマスタ ＝ YJコードリストの各行のコードの頭に「YCM」を付けたもの（並び・名称・会社名・日付・変更区分も同じ）</li><li>剤形・規格・銘柄不明コードマスタ（GCM）＝ YJコードの頭9桁＋「ZZZ」に「GCM」を付けたコード。成分名が同じものは1つにまとめる（2,885件。YJの25,628件より少ない）</li><li>YJとの対応表 ＝ YJコードリストの全行に、紐づけ先のGCMコードと成分名を付けたもの</li><li>一般名処方との対応表 ＝ 一般名処方マスタの一般名コードごとに、紐づけ先のGCMコードと成分名を付けたもの</li></ul>
+<hr>
+<h3 id="p-yakuzai-t0-0-h2">2. 用意するもの</h3>
+<div class="tw"><table><thead><tr><th>もの</th><th>場所</th></tr></thead><tbody><tr><td>作成ツール <code>剤形・規格・銘柄不明コードマスタの作成ツール_YYYYMMDD.xlsx</code>（約40MB。関数で処理するため重い）</td><td>本番の置き場所は ⚠️要確認（KTで受け取ったのは9/15のバックアップ。<code>00_共通/01_input/</code> に控え）</td></tr><tr><td>CSV生成ツール <code>標準マスタＣＳＶ生成用 1.xlsm</code>（マクロ）</td><td>同上。<code>00_共通/01_input/</code> に控え</td></tr><tr><td>今月のYJコードリスト（CSV）</td><td>メール「個別医薬品コード(YJコード)リストのご案内」のDLリンク（box.com）から、メールに書かれたDLパスでダウンロードする。UTF-8のCSVをZIPにしたもの（<code>…_YYYYMM_YYYYMMDD_utf8.zip</code>）。パスワードは毎月メールに書かれるので、手順書・記録には書き写さない</td></tr><tr><td>前月の公開版CSV 5点（比較用）</td><td>前月の格納フォルダ（⚠️場所は要確認。Teamsスレッドに格納先のリンクあり）</td></tr><tr><td>一般名処方マスタ（Excel）</td><td>厚労省「処方箋に記載する一般名処方の標準的な記載（一般名処方マスタ）について」 <a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000078916.html" target="_blank" rel="noopener">https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000078916.html</a></td></tr><tr><td>薬価基準収載品目リスト（Excel 4ファイル：内用・注射・外用・歯科）</td><td>厚労省「薬価基準収載品目リスト及び後発医薬品に関する情報について」。2026-10-15に見たページは <a href="https://www.mhlw.go.jp/topics/2026/04/tp20260401-01.html" target="_blank" rel="noopener">https://www.mhlw.go.jp/topics/2026/04/tp20260401-01.html</a> で、令和8年10月14日適用の内用・注射・外用（<code>tp20261014-01_01〜03.xlsx</code>）と、4月1日適用の歯科（<code>tp20260401-01_04.xlsx</code>）が載っていた。ファイルごとに適用日が違うことがある。年度が変わるとページも変わると思われる（要確認）</td></tr></tbody></table></div>
+<ul><li>厚労省のページは、古い版を開くと上部に「このページの情報は最新ではありません」と出る。<strong>出ていないページ</strong>の版を使う（KT）</li><li>CSV生成ツールはOneDrive・Google Driveの同期フォルダでは保存に失敗する（ツールの「困ったとき」Q3）。同期されないローカルのフォルダで使う</li></ul>
+<hr>
+<h3 id="p-yakuzai-t0-0-h3">3. 作成ツールでの作業（手順0〜11）</h3>
+<p>ツールの「本ツールの利用方法」シートの手順に従う。<strong>数字（0、1、2…）が大項目、アルファベット（a、b、c…）が手で行う作業</strong>。数字だけの項目（例：1「下3桁をZZZに変換」、3、4）は関数が自動で行うので、結果を見るだけでよい（KT）。シートや列は削除しない（非表示列で計算している）。</p>
+<h4 id="p-yakuzai-t0-0-h4">手順0：元データを最新にする</h4>
+<ul><li><strong>0-a 一般名処方マスタ</strong>（a-1〜a-6）<ul><li>最新版のExcelをダウンロードし、<strong>A〜E列（区分〜規格）を全行コピー</strong>して、「一般名処方マスタ(令和YY年MM月DD日適用分まで)」シートの<strong>最下行の次に貼り、「重複の削除」で整理</strong>する（KT）。一般名コードを昇順にする</li><li>F列を「1」でフィルター → A〜E列を「一般名処方マスタ_重複削除」シートのA1に貼る</li><li>同じシートのF列を「1」でフィルターしたままにする（重複コードのうち古い行が0）。シート名の「(令和YY年MM月DD日適用分まで)」も最新の適用日に直す</li><li>a-4：「一般名処方マスタ（例外コード表）」シートのB〜E列に、空欄がないように新規のコードを追加する。<strong>廃止になったコードは削除しない</strong></li><li>a-5：同シートのX列を「1」でフィルター</li><li>a-6：同シートの<strong>B〜V列</strong>をコピーして<strong>B2</strong>に貼る。⚠️貼り先は、ツールの説明では「一般名処方マスタ_重複削除」だが、実物には別に「一般名処方マスタ（例外コード表）_重複削除」シートがあり、対応表（改修版）はこちらを参照している。どちらに貼るか要確認（10章#8）</li><li>版が前回から変わっていなければ、この作業は要らない（2026-10-15時点の最新は令和8年6月12日適用で、ツールに入っている版と同じ）</li></ul></li><li><strong>0-b 薬価基準収載医薬品コード</strong><ul><li>KTのやり方：最新のリスト（内用・注射・外用・歯科）のA〜D列を全行コピーし、シートの<strong>最下行の次に貼って「重複の削除」</strong>をする（先にある既存の行が残るので並びは変わらない）。新しく残った行の<strong>E列に追加日</strong>を入れる。<strong>並べ替えない</strong>。⚠️重複の判定に使う列（コードの列だけか、A〜D列全部か）は要確認</li><li>E列の既存の値は 20260415・20260615・20260815 など薬価の適用日と同じ日付になっている。⚠️適用日を入れる決まりかは要確認</li><li>シート名の「(令和YY年MM月DD日適用分まで)」も最新の適用日に直す</li></ul></li><li><strong>0-c YJ-list</strong>：「YJ-list」シートのA〜F列を今月のYJコードリストに張り替える</li></ul>
+<h4 id="p-yakuzai-t0-0-h5">手順1〜5</h4>
+<ul><li>2：「YJ-list」のI列（2行目以降）をコピー →「STEP1_コード重複削除用」のA2に貼る → A列を昇順にして重複を削除</li><li>3・4：自動（薬価基準の頭9桁と突き合わせて成分名を付け、頭に「GCM」を付ける）</li><li>5：バイオ後続品の整理<ul><li>a.「STEP3_後続・名称重複削除」のJ列に「Error」がないか確認</li><li>b. H列を「削除」以外でフィルター　c. K列を「削除」以外でフィルター</li></ul></li></ul>
+<h4 id="p-yakuzai-t0-0-h6">手順6〜8</h4>
+<ul><li><strong>グレーアウトしている手順は何もせず飛ばし、6-aから8-bへ進む</strong>（KT「第6番のAから第8番のBへ進んで差し支えない」）。つまり：<ul><li>6-a：「STEP3_後続・名称重複削除」のB〜C列（3行目以降）をコピー</li><li>8-b：それを「STEP5_表記変換」のA3に貼る</li><li>6-b・7-a・8-a（「(想定)STEP4_塩・水和物・消毒用・希削除」シートへの貼り付けとフィルター）は行わない</li></ul></li><li>「(想定)STEP4」はどの出力にも使われていない（YJとの対応表のJ〜AB列はSTEP4を参照しているが、紐づけに使うH列はI列から別に計算しており、J〜AB列を使わない。式で確認、2026-10-15）。飛ばしてよい</li><li><strong>8-c：「STEP6_最新断面」のC〜F列に「Error」がないか確認する</strong><ul><li><strong>「名称の重複フラグ」（D列）は毎回エラーが出る。</strong> シートの下のほうにある、式だけが入った予備の行に対するエラーで、<strong>コードが「0」の行に対するエラーだけなら「エラーなし」と扱ってよい</strong>（KT・Teamsのメモ）</li><li>それ以外のErrorがあれば「STEP5_表記変換」のE〜Q列を確認する</li></ul></li></ul>
+<h4 id="p-yakuzai-t0-0-h7">手順9：前回分との整合（一度付けたコードを変えない）</h4>
+<ul><li>a.「STEP7_前回分との整合チェック」のA〜F列（3行目以降）を空にする</li><li>b. A〜E列に、<strong>現在公開されている最新の剤形・規格・銘柄不明コードマスタ</strong>（前月の公開版）を貼り、G列を「前回」にする</li><li>c. その次の行から、「STEP6」のA〜B列（3行目以降）を貼り、G列を「今回」にする</li><li>d. M列を「追加」でフィルター → e. <strong>D列に登録年月日（yyyymmdd）、F列に「新規」を入れる</strong><ul><li>登録年月日は、9月の新規7件ではYJコードリストの日付（20260915）だった（10章#4）</li></ul></li><li>f. <strong>M列（マージ）</strong>を「残」と「追加」でフィルター。ツールの説明では「L列」とあるが、実物のL列は「コードの重複」（数値）で、「残／追加／削除」が出るのはM列。<strong>実物のシートが最新</strong>（2026-10-15 ユーザー確認）</li><li>g. A〜F列（3行目以降）をコピーし、「剤形・規格・銘柄不明コードマスタ_YYYYMMDD」シートの<strong>A2</strong>に貼る。ツールの説明では「A3」とあるが、実物は1行目が見出しで2行目からデータ（A3に貼ると1行ずれて古い行が残る）。<strong>実物のシートが最新</strong>（2026-10-15 ユーザー確認）</li><li>Q〜S列の注記も見る。「前回11」（今回、同じコードなのに違う名称が付いた：半角・全角の統一などで起きる）の行は、<strong>必要に応じて除外年月日を入れる</strong>（ツールの注記。9月公開版でも GCM3999435A1ZZZ・GCM3999437G1ZZZ に除外年月日 20260116 が入っている）。迷ったら本田さんに確認</li><li>前回分はA〜E列だけ貼るので、<strong>前月の「新規」の印は今月は消える</strong>（正常）</li></ul>
+<h4 id="p-yakuzai-t0-0-h8">手順10・11（自動）</h4>
+<ul><li>YJコードリストとの対応表、一般名処方マスタとの対応表ができる</li></ul>
+<h4 id="p-yakuzai-t0-0-h9">最終化：できるシート（4種類）</h4>
+<ul><li>シート名の日付（例：<code>_20260915</code>）を毎月その月の日付に直すかは要確認（10章#11）</li></ul>
+<div class="tw"><table><thead><tr><th>ツールのシート</th><th>送るファイル（5章）</th><th>切り出すときの注意</th></tr></thead><tbody><tr><td>剤形・規格・銘柄不明コードマスタ_YYYYMMDD</td><td>剤形・規格・銘柄不明コードマスタ</td><td>A〜F列だけ（G・H列は計算列）。<strong>コードの昇順になっているか必ず確認</strong>（KT・Teamsのメモ「最後昇順にする」）</td></tr><tr><td>YJコードとのマッピング表_YYYYMMDD</td><td>【参考表】『個別医薬品コード（YJコードリスト）』と…との対応表</td><td><strong>非表示のD〜F列を削除し、A・B・C・G・H列の5列にする</strong>（KT。元のシートの見た目と同じにする）。I列以降の計算列も持っていかない</td></tr><tr><td>薬剤アレルギー用コードマスタ_YYYYMMDD</td><td>薬剤アレルギー用コードマスタ</td><td>A〜F列</td></tr><tr><td>一般名処方とのマッピング表_YYYYMMDD／改修版_一般名処方とのマッピング表_YYYYMMDD</td><td>【参考表】『一般名処方マスタ』と…との対応表</td><td>A〜D列。⚠️シートが2つある。9月公開版（1,647行）は「改修版」と行数が一致した（改修版でないほうは1,656行）。違いは参照先：改修版は「一般名処方マスタ_重複削除」と「例外コード表_重複削除」を参照し、改修版でないほうは重複を削除する前のシートを参照している（行数の差はこのため）。どちらを送るかは要確認</td></tr></tbody></table></div>
+<hr>
+<h3 id="p-yakuzai-t0-0-h10">4. CSVにする（手順12・13）</h3>
+<p>作成ツールから直接CSVにすると、重くて止まる（KT）。<strong>別のExcelに値で切り出してから、CSV生成ツールで変換する。</strong></p>
+<ol><li>新しいExcel（KTの例：<code>20260915_切り出し.xlsx</code>）を作り、3章の4つのシートをそれぞれ<strong>値で貼り付け</strong>る。シート名は短くする（9月の例：<code>剤形・規格・銘柄不明コードマスタ</code>・<code>YJ-mapping</code>・<code>薬剤アレルギー用コードマスタ</code>・<code>ippan-mapping</code>）<ul><li>出力シートは式で行が確保されていて空の行が多い（例：一般名処方は4,998行中データ1,647行）。<strong>データのある最終行までを貼る</strong>。CSVにした後、行数が前月と大きく違わないか確かめる（6-3のスクリプトでも出る）</li><li>⚠️ツールの手順12は「1シート1ファイルに分ける」。1ファイルに4シートでよいか、CSV生成ツールに残っている前月の出力シート（<code>ippan-mapping</code> 等）を消してから動かすかは要確認（10章#12）</li></ul></li><li>YJとの対応表のシートは、貼った後に<strong>D〜F列を削除</strong>する</li><li>切り出しExcelを<strong>CSV生成ツールと同じフォルダ</strong>に置く。<strong>そのフォルダに前月の切り出しファイルなどを置かない</strong>（前月分が読み込まれたことがある。KT）</li><li>CSV生成ツールを開き、マクロを有効にする。「メインシート」に入れる<ul><li>標準マスタファイル名：切り出しExcelの名前（拡張子まで）</li><li>標準マスタシート名：変換するシート名</li><li>標準マスタデータ開始位置：A1（見出し行も出す）</li><li>出力ファイル名：短い名前（例：<code>gcm</code>）。<strong>ファイル名・シート名が長い、または日付・記号を含むとうまく動かない</strong>（KT・Teamsのメモ）。正式名称にするのは最後</li><li>出力ファイル拡張子：csv　出力ファイルエンコード：UTF-8</li></ul></li><li>出力ボタンを押す。うまくいくと、ツールに出力ファイル名と同じ名前のシートができ、同じフォルダにCSVができる。4シート分くり返す</li><li>できたCSVの名前を5章の正式名称に変える。YJコードリストも、受け取ったファイル名（例：<code>…_utf8.csv</code>）を正式名称に変える</li></ol>
+<hr>
+<h3 id="p-yakuzai-t0-0-h11">5. ファイル名（正式名称）</h3>
+<p><code>YYYYMM</code> は対象月、<code>YYYYMMDD</code> はYJコードリストの日付（9月はすべて <code>_202609_20260915</code>）。⚠️10月以降も「YJコードリストの日付」でよいかは要確認。</p>
+<div class="tw"><table><thead><tr><th>#</th><th>ファイル名</th></tr></thead><tbody><tr><td>1</td><td><code>個別医薬品コード(YJコード)リスト_YYYYMM_YYYYMMDD.csv</code>（本田さんから転送されたもの）</td></tr><tr><td>2</td><td><code>薬剤アレルギー用コードマスタ_YYYYMM_YYYYMMDD.csv</code></td></tr><tr><td>3</td><td><code>剤形・規格・銘柄不明コードマスタ_YYYYMM_YYYYMMDD.csv</code></td></tr><tr><td>4</td><td><code>【参考表】『個別医薬品コード（YJコードリスト）』と『剤形・規格・銘柄不明コードマスタ』との対応表_YYYYMM_YYYYMMDD.csv</code></td></tr><tr><td>5</td><td><code>【参考表】『一般名処方マスタ』と『剤形・規格・銘柄不明コードマスタ』との対応表_YYYYMM_YYYYMMDD.csv</code></td></tr></tbody></table></div>
+<ul><li>括弧の全角・半角が名前によって違う（1・2・3は半角の「(YJコード)」、4・5は全角の「（YJコードリスト）」）。9月公開版の名前をコピーして使うと間違えない</li><li>公開版の書式：UTF-8（BOMなし）・全項目を <code>"</code> で囲む・改行はCRLF</li></ul>
+<hr>
+<h3 id="p-yakuzai-t0-0-h12">6. 確認（前月版との比較）</h3>
+<p><strong>基本は、同じマスタの前月版と比べ、差分を1件ずつ見て「あってしかるべき変更か」を確かめる</strong>（KT）。不自然な変更があれば、すぐ本田さんに報告する。</p>
+<h4 id="p-yakuzai-t0-0-h13">6-1. KTでの確認のしかた（アプリで並べる）</h4>
+<ul><li>前月版と今月版を差分比較のアプリ（⚠️KTで使ったアプリ名は要確認）で左右に並べる。差分の行がオレンジ色になる。<strong>コンテキストの行数を0にすると差分の行だけ表示</strong>される</li><li><strong>YJコードリスト</strong>：メールに書かれた新規件数・変更件数と、差分の件数が合うか（9月：新規14件）。前月に「新規」「変更」だった行が今月空欄になるのは正常。コード（A列）など、変更区分以外が変わっていれば、正しい変更か確かめる</li><li><strong>薬剤アレルギー用コードマスタ</strong>：YJコードリストと同じ見方（右端の変更区分も同じように付く）</li><li><strong>剤形・規格・銘柄不明コードマスタ</strong>：手順9-eで自分で「新規」を付けた行が、前月に無かった行と一致しているか。前月の新規の印が残っていないか。不自然なコードの変更がないか。<strong>コードが昇順か</strong></li><li>対応表2点：⚠️KTでは説明なし（6-3のスクリプトで点検する）</li></ul>
+<h4 id="p-yakuzai-t0-0-h14">6-2. 確認の観点（まとめ）</h4>
+<div class="tw"><table><thead><tr><th>マスタ</th><th>見ること</th></tr></thead><tbody><tr><td>YJコードリスト</td><td>新規・変更の件数がメールと合う／削除されたコードがない／変更区分の付かない変更がない</td></tr><tr><td>薬剤アレルギー用</td><td>YJコードリストの全行に「YCM」を付けたものと同じ</td></tr><tr><td>剤形・規格・銘柄不明</td><td>昇順／コード・成分名の重複がない／前月のコードがすべて残る／新規に登録年月日と「新規」／前月の「新規」が消えている／既存コードの名称が変わっていない</td></tr><tr><td>YJとの対応表</td><td>5列／YJの並び・名称・会社名がYJコードリストと同じ／GCMコードがすべてマスタにあり、成分名もマスタと同じ／既存YJの紐づけ先が変わっていない</td></tr><tr><td>一般名処方との対応表</td><td>GCMコードがすべてマスタにあり、成分名も同じ／前月との差（出るのは主に、一般名処方マスタを更新した月か、GCMの成分名が増えた・変わった月。対応表は成分名でGCMマスタを引く式のため。9月公開版とツールの式からの見立て）</td></tr></tbody></table></div>
+<h3 id="p-yakuzai-t0-0-h15">7. 送付までの流れ</h3>
+<ol><li>YJコードリストを受け取る（7-1のメール）。ZIPを解凍し、メールの「先月との差分」の件数を控える（6-3の <code>--yj-new</code>・<code>--yj-change</code> に入れる）</li><li>3〜5章で作り、6章で確認する</li><li>Teamsのスレッドで<strong>まず黒川さんにメンション</strong>して連絡し、格納先（スレッドにリンクあり）に<strong>その月のフォルダを作って格納</strong>する。2026-10は、黒川さんが並行して作成し、本田さんの確認の前に照合する（KT）</li><li>本田さんにRvを依頼する（受け取った翌日）</li><li>送付する（Rvの当日中）。⚠️送付先・送り方は要確認</li></ol>
+<h4 id="p-yakuzai-t0-0-h16">7-1. YJコードリストのご案内メール（2026-10の例）</h4>
+<ul><li>件名「個別医薬品コード(YJコード)リストのご案内」。本文に「今月更新の標記情報」、DLリンク・DLパス、<strong>先月との差分</strong>、形式（UTF8形式をZIP化）がある</li><li>先月との差分の書き方（2026-10）：「最新：2026年10月月初」「変更：4品目」。新規の行は無く、CSVでも新規0件・変更4件だった。⚠️「最新：…月初」が何を表すか（情報の時点か）、新規があるときの書き方は要確認（9月は新規14品目だった。KT）</li><li>気づいた点があれば送り主に連絡してよい、とメールにある（DL不具合・ファイルの内容）</li></ul>
+<h3 id="p-yakuzai-t0-0-h17">8. 関連：同じKTで説明されたJLACマスタの最終化</h3>
+<p>同じKT（2026-10-15）で、JLACマスタの最終化（ポータル公開用・基盤取り込み用・新コードのみの3種類）と二次チェックの範囲も説明があった。JLACマスタチェック手順に書く（定常業務マニュアル12章から辿る）。</p>
+<hr>
+<h3 id="p-yakuzai-t0-0-h18">9. 2026-10（202610作成分）の状況</h3>
+<ul><li>YJコードリスト（20261015）：新規0件・変更4件（会社名の変更：トピロリック錠3規格 富士薬品→持田製薬、エクテリー錠 KalVista→キエジ・ファーマ・ジャパン）。メールの「先月との差分」（変更：4品目、新規の記載なし）と一致（2026-10-15確認）</li><li>薬価基準：令和8年10月14日適用版で、ツールに無いコードが14件（手順0-bで追加）。YJコードリストには載っていないため、今月のGCMマスタには影響しない見込み</li><li>一般名処方マスタ：最新は令和8年6月12日適用で、ツールの版と同じ（0-aは不要）</li><li>新規YJが0件のため、予測版では、GCMマスタ＝9月版から「新規」の印を消したもの、アレルギー用・YJとの対応表＝会社名4行の変更だけ、一般名処方との対応表＝9月版と同じ、になる</li></ul>
+<hr>
+<h3 id="p-yakuzai-t0-0-h19">10. 未確認事項</h3>
+<div class="tw"><table><thead><tr><th>#</th><th>内容</th><th>聞く相手</th></tr></thead><tbody><tr><td>1</td><td>作成ツール・CSV生成ツールの本番の置き場所、前月の公開版の格納場所</td><td>黒川さん</td></tr><tr><td>2</td><td>一般名処方とのマッピング表は2シートのどちらを送るか → 9月公開版は「改修版」の式でバイト一致に再現できた（2026-10-15）ので、改修版を使っていたと考えられる。念のため確認</td><td>黒川さん</td></tr><tr><td>3</td><td>手順0-bのE列（追加日）は薬価の適用日か作業日か</td><td>黒川さん</td></tr><tr><td>4</td><td>ファイル名の日付（YYYYMMDD）の決め方。YJコードリストの日付でよいか</td><td>黒川さん・本田さん</td></tr><tr><td>5</td><td>YJコードリストの元の送り主（KTの聞き取りで「異条件」）と、送付先（「キキ」さん）の正式な名前・送り方</td><td>本田さん</td></tr><tr><td>6</td><td>差分比較に使うアプリの名前</td><td>黒川さん</td></tr><tr><td>7</td><td>黒川さんの並行作成・照合は今月だけか</td><td>黒川さん</td></tr><tr><td>8</td><td>手順0-a a-6の貼り先（「一般名処方マスタ_重複削除」か「一般名処方マスタ（例外コード表）_重複削除」か）</td><td>黒川さん</td></tr><tr><td>9</td><td>✅ 「(想定)STEP4」はどの出力にも使われていない（式で確認）。飛ばしてよい</td><td>—</td></tr><tr><td>10</td><td>✅ ツールの説明と実物の違い（9-fはM列、9-gはA2）→ 実物のシートが最新（2026-10-15 ユーザー確認）。説明シートの文言が古い箇所はほかにもありうるので、迷ったら実物の見出し・式を正とする</td><td>—</td></tr><tr><td>11</td><td>出力シート名の日付（_YYYYMMDD）を毎月直すか</td><td>黒川さん</td></tr><tr><td>12</td><td>切り出しは1ファイル4シートでよいか。CSV生成ツールに残る前月の出力シートの扱い</td><td>黒川さん</td></tr></tbody></table></div></div></div><div class="tabpanel" id="p-yakuzai-tab1" hidden><div class="srcdoc"><div class="srcname">薬剤関連マスタ作成手順<span class="fname">20261015_薬剤関連マスタ作成手順_v1.md</span></div><h3 id="p-yakuzai-t1-0-h1">6. 確認（前月版との比較）</h3>
+<p><strong>基本は、同じマスタの前月版と比べ、差分を1件ずつ見て「あってしかるべき変更か」を確かめる</strong>（KT）。不自然な変更があれば、すぐ本田さんに報告する。</p>
+<h4 id="p-yakuzai-t1-0-h2">6-3. 自動作成（Claude Codeの環境があるとき・内々の効率化用）</h4>
+<p>作成ツールの式をそのままPythonに写したもので、3〜5章のExcel作業とCSV化を省ける。<strong>9月公開版の5点を、ツールに残っていた9月のインプットから1バイトも違わずに作れることを確認済み</strong>（2026-10-15）。10月分も予測版と全行一致した。作成ツールが正式なやり方であることは変わらない（使うのは内々。黒川さん・本田さんへの切り替えの提案はしていない）。</p>
+<pre><code>python 00_共通/03_scripts/generate_yakuzai_master.py --state &lt;前月の基準データ&gt; --yj &lt;今月のYJコードリスト&gt; --prev-gcm &lt;前月のGCMマスタCSV&gt; --ym YYYYMM --ymd YYYYMMDD --date &lt;新規の登録年月日&gt; --out &lt;出力フォルダ&gt; [--yakka-new &lt;厚労省の薬価基準xlsx…&gt; --yakka-date &lt;適用日&gt;] [--ippan-new &lt;一般名処方マスタxlsx&gt;]</code></pre>
+<ul><li>基準データ（薬価基準・一般名処方マスタ・例外コード表）は作成ツールのシートの中身をCSVにしたもの。最初の1回は <code>extract_state_from_tool.py</code> で作成ツールから書き出した（202610作成分/01_input/基準データ_202609/）。出力フォルダに「基準データ（翌月用）」ができるので、翌月はそれを <code>--state</code> に使う</li><li>出力：5点のCSV（正式名称・公開版と同じ書式）と「作成ログ.md」。ログの❌は直す、⚠️は判断する（後続品で先発品のコードが無い、前回11＝名称が合わなくなった既存コード、など）</li><li>⚠️まだ試していない経路：一般名処方マスタの更新（<code>--ippan-new</code>）、例外コード表の追加（手で <code>例外コード表.csv</code> に足す）、先発品の無い後続品。初めて出た月は作成ツールの結果とも突き合わせる</li><li>作成ツール（Excel）に戻るときは、ツールのシートに手順0の更新（薬価基準の追加など）を入れ忘れない</li></ul>
+<h4 id="p-yakuzai-t1-0-h3">6-4. 点検スクリプト（Claude Codeの環境があるとき）</h4>
+<p>6-2をまとめて点検する。作成ツールの代わりではなく、作ったCSVを送る前の点検に使う。</p>
+<pre><code>python 00_共通/03_scripts/check_yakuzai_master.py --prev &lt;前月公開版のフォルダ&gt; --cur &lt;今月のCSVのフォルダ&gt; --yj-new &lt;メールの新規件数&gt; --yj-change &lt;メールの変更件数&gt; --out &lt;報告.md&gt;</code></pre>
+<ul><li>結果は NG（直してから送る）／要確認（明細を見て判断）／情報／OK。ファイル名の正式名称、列数（非表示列の消し忘れ）、昇順も見る</li><li><strong>答え合わせ用の予測版</strong>：前月の公開版と今月のYJコードリストから、4種類の「こうなるはず」を作れる。新規YJが無く、一般名処方マスタの更新（0-a）も無い月は、ほぼ全行を予測できる（除外年月日を手で入れた行は外れる）。新規がある月は、同じ頭9桁の既存コードがあればその紐づけ先を使い、無いものは注記に出す</li></ul>
+<pre><code>python 00_共通/03_scripts/make_expected.py --prev &lt;前月公開版のフォルダ&gt; --yj &lt;今月のYJコードリスト&gt; --ym YYYYMM --ymd YYYYMMDD --out &lt;予測版のフォルダ&gt;
+python 00_共通/03_scripts/make_expected.py --compare &lt;予測版のフォルダ&gt; &lt;作成したCSVのフォルダ&gt;</code></pre>
+<ul><li>予測版は送付物には使わない（作成ツールでの作成が正）。違う行が出たら、どちらが正しいか作成ツールのシートで確かめる</li></ul>
+<hr>
+<h3 id="p-yakuzai-t1-0-h4">7. 送付までの流れ</h3>
+<ol><li>YJコードリストを受け取る（7-1のメール）。ZIPを解凍し、メールの「先月との差分」の件数を控える（6-3の <code>--yj-new</code>・<code>--yj-change</code> に入れる）</li><li>3〜5章で作り、6章で確認する</li><li>Teamsのスレッドで<strong>まず黒川さんにメンション</strong>して連絡し、格納先（スレッドにリンクあり）に<strong>その月のフォルダを作って格納</strong>する。2026-10は、黒川さんが並行して作成し、本田さんの確認の前に照合する（KT）</li><li>本田さんにRvを依頼する（受け取った翌日）</li><li>送付する（Rvの当日中）。⚠️送付先・送り方は要確認</li></ol>
+<h4 id="p-yakuzai-t1-0-h5">7-2. Claude Codeへの依頼のしかた（自動作成を使う月）</h4>
+<ol><li>YJコードリストのメールが来たら、ZIPをダウンロードして解凍する（パスワードはメールにある）</li><li>Claude Codeに「薬剤関連マスタ YYYYMM をお願い」と伝え、解凍したCSVの場所と、メールの「先月との差分」（新規・変更の件数）を渡す。メールの画面の貼り付けでもよい</li><li>Claudeがやること：その月のフォルダを作る → 前月の5点と基準データを引き継ぐ → 厚労省の薬価基準・一般名処方マスタの版を確かめ、新しければ取り込む → 自動作成 → 予測版・点検スクリプトで確認 → 結果と判断が要る点を報告する</li><li>担当者がやること：報告を見て、判断が要る点があれば本田さんに相談 → 格納・本田さんRv → 送付</li></ol>
+<hr></div></div></section><section class="page" id="p-jfagy" data-title="J-FAGYの版上げ（不定期）" hidden><h2>J-FAGYの版上げ（不定期）</h2><div class="tabpanel" id="p-jfagy-tab0"><div class="srcdoc"><div class="srcname">J-FAGYマスタ更新手順（不定期：J-FAGYの新しい版が出たとき）<span class="fname">20261016_J-FAGYマスタ更新手順_v1.md</span></div><blockquote><p>作成日: 2026-10-16<br>プロジェクト: 20260831_電カル調査研究_定常業務マニュアル<br>対象: J-FAGYアレルゲンコードマスタ（食物アレルゲン、<code>jfagy-food-allergen</code>）の版上げ対応を行うロジ担当者<br>位置づけ: 定常業務マニュアル（<a class="doclink" href="#p-top"><code>20260831_定常業務マニュアル_v51.md</code></a>）の8-4・8-5（周知の共通ルール）に対する、<strong>J-FAGY固有の手順書</strong>。共通の型（依頼メール・ポータル周知文の作り方）は定常業務マニュアル8-4・8-5を見る<br>出典: 2026-10 の実績（<code>05_周知広報/20261001_JFAGY周知文案/</code> のプロジェクト状況・機構依頼メールv1）、定常業務マニュアル v50 の8-3〜8-5。<strong>手順は2026-10の1回分の実績から書き起こしたもの</strong>で、2回目以降に違いが出たら直す</p></blockquote>
+<hr>
+<h3 id="p-jfagy-t0-0-h1">1. 全体像</h3>
+<p>J-FAGYは<strong>不定期</strong>（月次ではない）。版が公開されたら、次の順で進める。</p>
+<div class="tw"><table><thead><tr><th>順</th><th>作業</th><th>相手</th><th>目安・メモ</th></tr></thead><tbody><tr><td>1</td><td>新しい版の変更内容を確認し、周知する変更かを判断する</td><td>—</td><td>2. を見る</td></tr><tr><td>2</td><td>ポータル周知文のPPT（レイアウト変更イメージ）を作る</td><td>—</td><td>3. を見る。元のスライドは触らず、コピーして作業</td></tr><tr><td>3</td><td>本田さんにRv依頼 → OK</td><td>本田さん</td><td>OK後に次へ</td></tr><tr><td>4</td><td>DX機構へ「マスタの取り込み」「ポータル更新」を依頼するメールを送る</td><td>DX機構（齋藤様・山舗様）</td><td>型は定常業務マニュアル8-4。送付条件は4.</td></tr><tr><td>5</td><td>各環境への取り込み・ポータル公開の状況を確認する</td><td>DX機構</td><td>公開が最初のリリースに間に合うか確かめる（8-4）</td></tr><tr><td>6</td><td>（参考）次のterminology版数回答（8-3）で、回答表のJ-FAGY行の版が変わる</td><td>DX機構（芳原さん）</td><td>版数回答は公開パッケージの <code>version</code> を読んで答える別作業。J-FAGY行は食物のみ（8-3）</td></tr></tbody></table></div>
+<blockquote class="caution"><p>⚠️ 未確認：<strong>1の起点</strong>（新版の公開を誰がどうやって知るか）。2026-10は20260925版（2026-09-25公開、2026-09-29にR2）で、10/2に「JFAGYコードの周知文案作成」としてタスク化された。公開の検知方法・誰からの連絡かは記録が見当たらない。次回、検知のきっかけを記録して追記する</p></blockquote>
+<h3 id="p-jfagy-t0-0-h2">2. 周知する変更・しない変更</h3>
+<p>2026-10（20260925版）で決めたこと。</p>
+<ul><li><strong>周知する</strong>：表記の変更（J-FAGYでは日本語表記〔JPTERM〕の変更）。20260925版は11件（依頼以外の修正7件＋依頼に紐づく修正4件）</li><li><strong>周知しない</strong>：新規追加（20260925版は3件）、誤記修正</li><li>書きぶりは「〜に変更になりました」とシンプルにする（版上げの周知のため）</li><li>⚠️ 未確認：上の区分は2026-10の判断。恒久のルールとして厚労省・本田さんと合意したかは未確認</li></ul>
+<h3 id="p-jfagy-t0-0-h3">3. ポータル周知文（ServiceNow KB0012085）</h3>
+<p>医療機関等向け総合ポータルサイトのJ-FAGYの記事は <strong>KB0012085</strong>。周知の共通の考え方は定常業務マニュアル8-5。J-FAGYで決めたことは次のとおり。</p>
+<ul><li><strong>旧版がまだ使われている間は、旧版の留意事項も残す</strong>（2026-10-06 本田さん：「0531版の内容もまだ周知しておいた方がいい」）</li><li><strong>期間で分ける構成</strong>（JLACのページと同じ形）：現行の版（「令和N年M月D日以降」）を上に置き、その下に「令和N年M月D日まで適用のマスタ（旧版）」のアコーディオンを並べる。各アコーディオンに、版の情報・適用終了日・その版の留意事項を入れる<ul><li>2026-10の実際：現行＝20260925版／「令和8年10月XX日まで適用」＝20260531版（留意事項5件）／「令和8年9月27日まで適用」＝20250401・20240709</li></ul></li><li><strong>旧版の参照先は「○○版以降の版をご確認ください」とする</strong>。理由：J-FAGY 20260531版で、やまいも・マカダミアナッツの表記に<strong>先祖返り</strong>（直した表記が戻る）があった</li><li>環境への反映日など機構が決める日付は「XX」のまま送り、機構に埋めてもらう</li><li>作業の注意：元のスライドを触らず、<strong>スライドをコピーしてからコピー側で作業</strong>する（現断面を残すため。2026-10-06 ユーザー指示）。PPTを外へ出す前はコメント・プロパティを削除する（定常業務マニュアル11章）</li><li>見本：<code>05_周知広報/20261001_JFAGY周知文案/02_output/20261001_ポータルサイトのレイアウト変更イメージ（JFAGY）_v3.pptx</code>（期間で分ける構成。ユーザーがこれを直したv4で本田さんOK）</li></ul>
+<h3 id="p-jfagy-t0-0-h4">4. DX機構への依頼メール</h3>
+<p>型は定常業務マニュアル8-4。J-FAGYで気をつけたことは次のとおり。</p>
+<ul><li>見本（送付記録・雛形）：<code>05_周知広報/20261001_JFAGY周知文案/02_output/20261008_機構依頼メール_JFAGY取り込み・ポータル更新_v1.md</code></li><li>件名：<code>【電カル共有】J-FAGYアレルゲンコードマスタ〇〇版の取り込みおよびポータルサイト更新のご依頼</code></li><li><strong>マスタ本体は添付せず、ダウンロードページを示す</strong>（公開サイトから取得できるため）。<strong>版とリリース番号（R2など）まで書く</strong>。同じ版でも取り下げられたリリースがある（20260925版のR1）ため</li><li>ダウンロードページ：<code>https://jpfhir.jp/fhir/core/terminology/JFAGY/download.html</code>（全版をまとめた1ページ。版番号を含まないので、版が上がっても差し替え不要の見込み〔推測〕）<ul><li>旧リンク <code>…/JFAGY/20260531/download.html</code> は2026-10-08時点で404（版ごとのページはなくなっていた）。ポータルの記事に旧リンクが残っていたら、新リンクへの差し替えもあわせて依頼する</li></ul></li><li>取り込み先の環境と期限を書く（2026-10は本番・接検・接検第二の3環境。各リリース日までに取り込まれれば問題ない。8-4）</li><li>会議資料（開発進捗連絡会議のマスタ更新予定）と違う日に連携するときは理由を書く（2026-10は「Terminologyの取り込みに合わせて前倒し」。モデル医療機関へ特段の周知はしていないので影響なし、と添えた）</li><li><strong>送付順</strong>：同じ版上げに関する別メール（2026-10は黒川さんの芳原様・齋藤様あて、J-FAGYを月次マスタと合わせて10/16更新・Terminology10/19取り込みの旨）がある場合、その<strong>後</strong>に送る（本田さん指示）</li><li>Ccは過去の依頼メール（2026-08-25 黒川さん送付）と同じ宛先（支払基金・厚労省・ACN共有アドレス）に、前任・関係者が別メールを送っていればその人を足す</li><li>2026-10のCcは、過去の依頼メールと同じ宛先に黒川さんを追加した</li><li>共通の送付前チェック（添付PPTのコメント・プロパティ削除、「DX機構担当者様」の吹き出しを残す、環境の反映日は「XX」で機構に埋めてもらう旨を本文に書く）は定常業務マニュアル8-4・8-5</li><li>宛名は「DX機構　齋藤様、山舗様」（「山舗」が正しい）</li></ul>
+<h3 id="p-jfagy-t0-0-h5">5. 2026-10の実績（20260925版）</h3>
+<div class="tw"><table><thead><tr><th>日付</th><th>出来事</th></tr></thead><tbody><tr><td>2026-09-25 / 09-29</td><td>20260925版 公開（09-29にR2。R1は取り下げ）</td></tr><tr><td>2026-10-02</td><td>周知文案を本田さんにRv依頼</td></tr><tr><td>2026-10-06</td><td>本田さんRv：「0531版の内容も併記」→ 期間で分ける構成に（v2→v3）。ユーザーが直してv4</td></tr><tr><td>2026-10-08</td><td>本田さんOK（添付PPTはこの版。ファイル名の日付接頭辞は20261007）</td></tr><tr><td>2026-10-08</td><td>機構への依頼メールを確定（OKと同日。送付はユーザー）</td></tr><tr><td>2026-10-13</td><td>接検第二に反映（リリース）。時刻は資料で不一致（8-4＝12:00、依頼メールv1＝18時）</td></tr><tr><td>2026-10-15 12:00</td><td>接検に反映</td></tr><tr><td>2026-10-16 12:00</td><td>本番に反映</td></tr></tbody></table></div>
+<p>※ 反映日の根拠は定常業務マニュアル8-4の記録（10/13〜10/16）。時刻の差と、黒川さんの別メールにある「10/16更新・Terminology 10/19取り込み」との関係は未確認。次回確認する</p>
+<h3 id="p-jfagy-t0-0-h6">6. ⚠️ 未確認（次回に確かめて追記する）</h3>
+<ol><li>新版公開の検知方法と起点（1.）</li><li>周知する・しないの区分を恒久ルールにしてよいか（2.）</li><li>機構のポータル更新・取り込みの結果確認の手順（2026-10は確認結果の記録なし）</li><li>マスタ更新スケジュールスライド（定常業務マニュアル8-6）にJ-FAGYを載せるか。8-6の表には「薬剤アレルギー」「YJコード」「JLACマスタ」の行があるが、J-FAGY（食物）の行は無い</li><li>J-FAGYの薬剤アレルギー用コードマスタ（YCM・GCM）は、毎月の薬剤関連マスタ作成（<a class="doclink" href="#p-yakuzai"><code>20261015_薬剤関連マスタ作成手順_v1.md</code></a>）と、本手順書の食物アレルゲンのどちらで扱うか。版数回答（8-3）の表では両方がJ-FAGY系</li></ol></div></div></section><footer>このHTMLは生成物です。直すときは元のMD（正本）を直して作り直す。版：<span class="vertext"></span>（元のMD：<span id="srcs"></span>）</footer></main></div>
+<script>
+window.VERSION = '雛形v1（MD v51）';
+window.APP_TITLE = '電カル調査研究事業 定常業務マニュアル';
+window.SOURCES = '定常業務マニュアル_v51・JLACマスタ月次チェック_手作業編_v1・JLACマスタチェック手順_v11・月次実行の使い方_v5・薬剤関連マスタ作成手順_v1・J-FAGYマスタ更新手順_v1';
+(function(){
+  document.title = APP_TITLE;
+  document.getElementById('apptitle').textContent = APP_TITLE;
+  document.querySelectorAll('.vertext').forEach(function(e){ e.textContent = VERSION; });
+  document.getElementById('srcs').textContent = SOURCES;
+  var root = document.documentElement;
+  var saved = localStorage.getItem('manual-theme');
+  if (saved) root.dataset.theme = saved;
+  else if (matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
+  document.getElementById('theme').onclick = function(){
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('manual-theme', root.dataset.theme);
+  };
+  document.getElementById('menu').onclick = function(){ document.querySelector('.wrap').classList.toggle('navopen'); };
+  var pages = Array.prototype.slice.call(document.querySelectorAll('section.page'));
+  function showTab(panel){
+    var bar = panel.parentNode.querySelector('.tabs');
+    if (!bar) return;
+    bar.querySelectorAll('button').forEach(function(b){
+      var on = b.dataset.tab === panel.id;
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+      document.getElementById(b.dataset.tab).hidden = !on;
+    });
+  }
+  document.querySelectorAll('.tabs button').forEach(function(b){
+    b.onclick = function(){ location.hash = b.dataset.tab; };
+  });
+  // 検索の索引（route より先に作る：検索結果のURL #xN で開き直しても同じ場所に行けるように）
+  var idx = [];
+  function ownText(e){   // 入れ子の箇条書きの文字は親に含めない（二重に出さない）
+    var t = '';
+    e.childNodes.forEach(function(n){ if (n.nodeName !== 'UL' && n.nodeName !== 'OL') t += n.textContent; });
+    return t;
+  }
+  pages.forEach(function(p){
+    var title = p.dataset.title;
+    p.querySelectorAll('h2,h3,h4,h5,p,li,td,pre').forEach(function(e){
+      if (!e.id) e.id = 'x' + idx.length;
+      var t = e.nodeName === 'LI' ? ownText(e) : e.textContent;
+      idx.push({id: e.id, page: title, text: t, low: t.toLowerCase()});
+    });
+  });
+  function route(){
+    var id = decodeURIComponent(location.hash.slice(1)) || 'p-top';
+    var el = document.getElementById(id);
+    var page = el && el.closest('section.page');
+    if (!page) { el = page = document.getElementById('p-top'); }   // ページの外を指すハッシュは「はじめに」へ
+    pages.forEach(function(p){ p.hidden = p !== page; });
+    var panel = el.classList.contains('tabpanel') ? el : el.closest('.tabpanel');
+    if (panel) showTab(panel);
+    document.querySelectorAll('nav li').forEach(function(li){
+      var on = li.dataset.page === page.id;
+      li.classList.toggle('open', on);
+      li.querySelector('a').classList.toggle('on', on);
+    });
+    var top = el === page || el.classList.contains('tabpanel');
+    setTimeout(function(){ if (top) window.scrollTo(0, 0); else el.scrollIntoView(); }, 0);   // ブラウザ自身のアンカー移動の後で合わせる
+    document.querySelector('.wrap').classList.remove('navopen');
+  }
+  window.addEventListener('hashchange', route);
+  route();
+  // 検索：見出し・段落・箇条書き・表のセル・コードが対象。英字の大文字・小文字は区別しない
+  var q = document.getElementById('q'), res = document.getElementById('results');
+  function esc(s){ return s.replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  q.addEventListener('input', function(){
+    var w = q.value.trim();
+    if (w.length < 2) { res.style.display = 'none'; return; }
+    var wl = w.toLowerCase();
+    var hits = idx.filter(function(x){ return x.low.indexOf(wl) >= 0; }).slice(0, 60);
+    res.innerHTML = hits.length ? hits.map(function(h){
+      var i = h.low.indexOf(wl), s = Math.max(0, i - 30);
+      var snip = esc(h.text.slice(s, i)) + '<mark>' + esc(h.text.slice(i, i + w.length)) + '</mark>' + esc(h.text.slice(i + w.length, i + w.length + 50));
+      return '<a href="#' + h.id + '"><b>' + esc(h.page) + '</b>' + snip + '</a>';
+    }).join('') : '<a>見つかりません</a>';
+    res.style.display = 'block';
+  });
+  res.addEventListener('click', function(){ res.style.display = 'none'; });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') res.style.display = 'none'; });
+})();
+</script>
+</body>
+</html>

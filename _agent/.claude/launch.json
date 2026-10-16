@@ -52,6 +52,19 @@
       ],
       "port": 7443,
       "url": "http://localhost:7443"
+    },
+    {
+      "name": "定常業務マニュアル",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "7444",
+        "--directory",
+        "C:\\Users\\masato.nakazawa\\Downloads\\Claudeプロジェクト\\_agent\\01_定常業務\\20260831_電カル調査研究_定常業務マニュアル\\02_output"
+      ],
+      "port": 7444,
+      "url": "http://localhost:7444"
     }
   ]
 }
