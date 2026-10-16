@@ -866,7 +866,7 @@ def analyze(eng: Engine, r: Record):
 
 
 def render(eng: Engine, targets: list[Record], ledger: Path, ledger_hash: str, pdf: Path, round_id: str,
-           warn_old: str) -> str:
+           warn_old: str, target_rule: str = "") -> str:
     now = dt.datetime.now()
     mtime = dt.datetime.fromtimestamp(ledger.stat().st_mtime)
     rd = dt.datetime.strptime(round_id, "%Y%m%d").strftime("%Y-%m-%d")
@@ -875,6 +875,8 @@ def render(eng: Engine, targets: list[Record], ledger: Path, ledger_hash: str, p
     L.append("")
     L.append(f"> 作成日: {now:%Y-%m-%d}")
     L.append(f"> 元データ: 台帳②「{SHEET_NAME}」シート（`{ledger.name}`、{mtime:%Y-%m-%d %H:%M} 保存）。読み取りのみ。実行前後でファイルのハッシュが一致することを確認済み（SHA-256 先頭12桁 {ledger_hash[:12]}）")
+    if target_rule:
+        L.append(f"> 対象: {target_rule}。{len(targets)}件（" + "・".join(f"#{r.no}" for r in targets) + "）")
     if warn_old:
         L.append(f"> ⚠️ {warn_old}")
     for w in LOAD_WARNINGS:
@@ -1144,6 +1146,17 @@ def next_version_path(out_dir: Path, round_id: str) -> Path:
     return out_dir / f"{round_id}_ONS下調べ_v{n}.md"
 
 
+TARGET_STATUS = "ACN作成中"
+TARGET_RULE = (f"--ids なし。台帳M列（見出し「回答状況」）の1行目を、全角・半角をそろえ（NFKC）空白を除いた値が"
+               f"「{TARGET_STATUS}」で始まる行（2026-10-16 ユーザー決定）")
+
+
+def is_target_status(m: str) -> bool:
+    first = (m or "").splitlines()[0] if (m or "").strip() else ""
+    v = re.sub(r"\s+", "", unicodedata.normalize("NFKC", first)).upper()
+    return v.startswith(unicodedata.normalize("NFKC", TARGET_STATUS).upper())
+
+
 def select_targets(recs: list[Record], ids: list[int] | None) -> list[Record]:
     by = {r.no: r for r in recs}
     if ids:
@@ -1151,14 +1164,14 @@ def select_targets(recs: list[Record], ids: list[int] | None) -> list[Record]:
         if miss:
             raise SystemExit(f"台帳に見つからない#: {miss}")
         return [by[i] for i in ids]
-    return [r for r in recs if not r.done]
+    return [r for r in recs if is_target_status(r.m)]
 
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="ONS回答の下調べ（最小版）：台帳②と技術解説書2.1.0版から、件ごとの下調べMDを出す")
     ap.add_argument("--ledger", default=str(DEFAULT_LEDGER), help="台帳②のxlsx（読み取りのみ）。省略時はDownloadsの手元コピー")
     ap.add_argument("--round", required=True, help="会議の回（YYYYMMDD）。出力先 ONS問合せ会議/<回>/02_output/ とファイル名に使う")
-    ap.add_argument("--ids", help="対象の#（カンマ区切り）。省略時は台帳M列が「ONS回答済」「取り下げ」以外の全件")
+    ap.add_argument("--ids", help="対象の#（カンマ区切り）。省略時は台帳M列（回答状況）の1行目が「ACN作成中」の行だけ")
     ap.add_argument("--out", help="出力フォルダ（試験用など）。省略時は ONS問合せ会議/<回>/02_output/")
     ap.add_argument("--pdf", help="技術解説書2.1.0版のPDF（省略時は 02_仕様・技術/20260723_技術解説書2.1.0版/01_input/）")
     a = ap.parse_args(argv)
@@ -1187,7 +1200,8 @@ def main(argv=None) -> int:
         raise SystemExit("対象の件がありません（--ids で指定してください）")
     age = (dt.datetime.now() - dt.datetime.fromtimestamp(ledger.stat().st_mtime)).days
     warn = f"台帳の手元コピーが{age}日前の保存です。SharePointの最新を落としてから使うと確実です" if age >= 3 else ""
-    text = render(eng, targets, ledger, h_before, pdf, a.round, warn)
+    rule = TARGET_RULE if not ids else "--ids で指定した件"
+    text = render(eng, targets, ledger, h_before, pdf, a.round, warn, rule)
     h_after = sha256(ledger)
     if h_before != h_after:
         raise SystemExit("台帳のハッシュが実行前後で変わりました。出力を中止します（台帳を確認してください）")
