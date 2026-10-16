@@ -28,7 +28,28 @@ export const SWITCHES = {
 };
 export const KEYS = ['対象月', '提出ファイル', '提出日', '前月公開版', 'JLAC10コード表', 'JLAC11コード表', '17桁コードリスト', '17桁コードリストの取得日',
   '公開日', '公開日が15日でない理由', '新規行の開始行', '前月の表示名', 'JLACセンターの連絡（メール本文）', '連携メモ', '連携済みの変更', 'Rv用の見解', '別シートの理由',
-  '共有対象外のシート', '削除行は依頼済み', '確認したいJLAC11コード', '前月からの引継ぎ', 'ツールの版', ...Object.keys(SWITCHES)];
+  '共有対象外のシート', '削除行は依頼済み', '確認したいJLAC11コード', '前月からの引継ぎ', 'ツールの版', '血液型の確認の期限', '血液型の行', ...Object.keys(SWITCHES)];
+
+// ---------- 血液型（ABO・Rh）の行が残っているかの確認（チェックロジック外。jlac-core の判定には入れない） ----------
+// 2026-10-16 ユーザー決定：血液型は2027年2月版までマスタに入れておく必要がある。確認の対象から落とさない。
+// 対象の行（10月分で特定）：JLAC11コードの測定物（1〜5桁）が K1001（大項目「血液型-ABO」・FHIR項目名称「血液型(ABO)」16行）と
+// K1006（「血液型-Rh」・「血液型(Rh)」22行）。10/6再提出の10274〜10311行目、10/1提出は別シート「免疫血液学的検査ABO、Rh」の38行
+export const BLOOD_DEFAULT = { until: '202702提出分', prefixes: ['K1001', 'K1006'] };
+export function checkBlood(targetRows, prevRows, C, prefixes) {
+  const pf = prefixes && prefixes.length ? prefixes : BLOOD_DEFAULT.prefixes;
+  const isB = (r) => pf.some(p => r.code.startsWith(p));
+  const cur = targetRows.filter(isB), prev = prevRows.filter(r => isB(r) && r.s[C.END] === '99999999');
+  const curCodes = new Set(cur.map(r => r.code));
+  const missing = prev.filter(r => !curCodes.has(r.code));
+  const ended = cur.filter(r => r.s[C.END] !== '99999999');
+  const problems = [];
+  if (!cur.length) problems.push('今回の提出に血液型の行が1行もありません');
+  if (missing.length) problems.push(`前月に有効だった血液型の行のうち${missing.length}行が今回の提出にありません（${missing.slice(0, 10).map(r => r.code).join('、')}${missing.length > 10 ? ' ほか' : ''}）`);
+  if (ended.length) problems.push(`今回の血液型の行のうち${ended.length}行に適用終了日が入っています（${ended.slice(0, 10).map(r => `${r.sheet} ${r.xrow}行目 ${r.code}：${r.s[C.END]}`).join('、')}${ended.length > 10 ? ' ほか' : ''}）`);
+  const bySheet = [...new Set(cur.map(r => r.sheet))].map(sh => { const rs = cur.filter(r => r.sheet === sh); return `${sh} ${rs.length}行（${rs[0].xrow}〜${rs[rs.length - 1].xrow}行目）`; });
+  return { ok: !problems.length, count: cur.length, prevCount: prev.length, where: bySheet.join('、'), problems, prefixes: pf };
+}
+const monthNum = (s) => { const m = /^(\d{6})/.exec(String(s || '')); return m ? +m[1] : NaN; };
 
 export function parseSettings(text) {
   const out = {}, unknown = [];
@@ -114,6 +135,10 @@ export function checkSettings(S, monthDir) {
   if (!v['前月からの引継ぎ']) add('注意', '前月からの引継ぎ', '空です（前月に依頼したことが反映されたかを確かめません）');
   const dr = v['削除行は依頼済み'] || 'いいえ';
   if (!['はい', 'いいえ'].includes(dr)) add('止める', '削除行は依頼済み', `「はい」か「いいえ」：「${dr}」`);
+  const bu = v['血液型の確認の期限'] || BLOOD_DEFAULT.until;
+  if (!/^\d{6}提出分$/.test(bu)) add('止める', '血液型の確認の期限', `「YYYYMM提出分」の形で書いてください：「${bu}」`);
+  else if (folderMonth && +folderMonth > monthNum(bu)) add('注意', '血液型の確認の期限', `期限（${bu}）を過ぎているため、血液型の行の確認はしません`);
+  if (v['血液型の行'] && !v['血液型の行'].split(/[,、\s]+/).every(x => /^[0-9A-Z]{5}$/.test(x))) add('止める', '血液型の行', `JLAC11コードの測定物（5桁）を「,」区切りで書いてください：「${v['血液型の行']}」`);
   const sw = {};
   for (const [k, vals] of Object.entries(SWITCHES)) {
     const x = v[k] || '今のまま';
@@ -246,6 +271,11 @@ async function cmdRun(opt) {
     const head = ((await R.inp.prev.rawRows(R.settings.baseSheet)).find(x => x.r === 1) || { vals: [] }).vals;
     carry = checkCarryover(P.texts['前月からの引継ぎ'], R.newRows, head, J.C);
   }
+  // 血液型（ABO・Rh）の行（期限の提出分まで毎月）
+  const bUntil = v['血液型の確認の期限'] || BLOOD_DEFAULT.until;
+  const blood = +P.folderMonth <= monthNum(bUntil)
+    ? { until: bUntil, ...checkBlood(R.newRows, R.base, J.C, v['血液型の行'] ? v['血液型の行'].split(/[,、\s]+/).filter(Boolean) : null) }
+    : { until: bUntil, skipped: true };
   const comments = {};
   for (const [k, val] of R.comments) comments[k.replace('\u0000', '!')] = J.commentText(val);
   const noteCols = Object.values(R.noteHdr || {})[0];
@@ -255,7 +285,7 @@ async function cmdRun(opt) {
     files: Object.fromEntries(order.map(k => [k, P.files[k]])), fileSha: Object.fromEntries(order.map(k => [k, sha(P.files[k])])),
     label: `JLACセンター ${v['提出日'].slice(0, 4)}-${v['提出日'].slice(4, 6)}-${v['提出日'].slice(6)}提出版`, noteCol: noteCols ? noteCols[0][0] : null,
     checks: P.checks, switches: P.switches, values: Object.fromEntries(Object.entries(v).filter(([k]) => k !== 'JLACセンターの連絡（メール本文）')),
-    outputs: out, carryover: carry,
+    outputs: out, carryover: carry, blood,
     version: R.version, settings: { ...R.settings }, notices: R.notices, findings: R.findings, comments,
     commentRows: R.commentRows, newCodes: R.newCodes.length,
   };
@@ -284,6 +314,8 @@ function cmdReport(opt) {
   const mis = dc && dc.status === '計算済み' ? dc.mismatch.length : null;
   // 比べられる項目が減ったら、何を測らなくなったかを見落とさないよう冒頭に出す（2026-10-08の10月分は54項目）
   if (dc && dc.status === '計算済み' && dc.comparable < 54) L.push(`> ⚠️ **ダブルチェックの比較できる項目が${dc.comparable}件で、10月分（54件）より少なくなっています**。どの項目が「—」（比較できない）になったかを照合シートで確かめてください。`, '');
+  const bl = st.blood;
+  if (bl && !bl.skipped && !bl.ok) L.push(`> ⚠️ **血液型（ABO・Rh）の行に問題があります（本田さんに上げる）**：${bl.problems.join('／')}。血液型は${bl.until}（2027年2月版）までマスタに残す必要があります（2026-10-16 ユーザー決定）。`, '');
   if (!dc || dc.status !== '計算済み') {
     L.push(`> ⚠️ **ダブルチェックの照合が済んでいません**（${dcStatus || (dc ? dc.status : '')}）。照合が済むまで、指摘の説明文（Rv用の見解・関係者への説明）は確定しないでください。`, '');
   } else if (mis > 0 || dc.rowMismatch.some(x => x.count > 0)) {
@@ -299,6 +331,9 @@ function cmdReport(opt) {
   for (const c of st.checks) L.push(`- [${c.level}] ${c.item}：${c.msg}`);
   L.push('', '## 3. 結果の概要', '');
   L.push(`- コメントを付けた行：**${st.commentRows}行**／新規行：${st.newCodes}行／実行時間：${st.seconds}秒`);
+  if (!bl) L.push('- 血液型（ABO・Rh）の行：確認していない（この明細は血液型の確認を足す前の版）');
+  else if (bl.skipped) L.push(`- 血液型（ABO・Rh）の行：期限（${bl.until}）を過ぎたため確認していない`);
+  else L.push(`- 血液型（ABO・Rh）の行（測定物 ${bl.prefixes.join('・')}、${bl.until}まで毎月確認）：${bl.ok ? `問題なし。今回 ${bl.count}行（${bl.where}）、すべて適用終了日99999999、前月に有効だった${bl.prevCount}行がすべて残っている` : `**問題あり（本田さんに上げる）**：${bl.problems.join('／')}`}`);
   L.push(`- 要確認の通知：${st.notices.filter(n => n.level === '要確認').length}件`);
   for (const n of st.notices.filter(n => n.level === '要確認')) L.push(`  - ${mdc(n.title)}`);
   L.push('', '## 4. ダブルチェックの結果', '');

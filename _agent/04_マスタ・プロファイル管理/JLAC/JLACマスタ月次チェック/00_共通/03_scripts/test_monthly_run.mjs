@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { parseSettings, checkSettings, checkCarryover, nextName } from './monthly_run.mjs';
+import { parseSettings, checkSettings, checkCarryover, nextName, checkBlood } from './monthly_run.mjs';
 import { latestTool, loadCore, codec } from './run_check.mjs';
 
 const BASE = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -106,7 +106,12 @@ const tgt = path.join(MONTH, '01_input', '1006再提出［令和8年9月末頃�
 const wb = await J.openWorkbook(new Uint8Array(fs.readFileSync(tgt)), path.basename(tgt), codec);
 const sh = (await J.masterSheets(wb))[0];
 const rows = J._t.toRows(sh, await wb.rawRows(sh));
-const carry = fs.readFileSync(path.join(MONTH, '04_reference', '20261015_翌月への引継ぎ_202610提出分.txt'), 'utf8');
+// 2026-10-16〜：HIVの000コード3件の適用開始日を8月更新の20260813にした版（20261015_の版は残してある）
+const carry = fs.readFileSync(path.join(MONTH, '04_reference', '20261016_翌月への引継ぎ_202610提出分.txt'), 'utf8');
+{
+  const hiv = carry.split(/\r?\n/).filter(l => /^V2259000024[023]00060 ｜ 適用開始日/.test(l));
+  ok(hiv.length === 3 && hiv.every(l => /適用開始日 20260813 /.test(l)), '引継ぎ：HIVの000コード3件の適用開始日が8月更新の20260813', hiv.map(l => l.split('｜')[1].trim()).join('、'));
+}
 const st = (res, code, want) => (res.find(x => x.code.startsWith(code) && x.want === want) || {}).state;
 let res = checkCarryover(carry, rows, ['区分名称'], J.C);
 ok(st(res, 'V2171000025000248（旧12051', '1行だけ') === '未反映', 'T9 10/6の提出：…248 の「1行だけ」は未反映（12051行目がまだある）');
@@ -134,6 +139,24 @@ ok(checkCarryover('（列） ｜ 列なし JLACセンターコメント ｜', []
   const ended = rows.concat(codes000.map((c, i) => like(c, '20261014', 20000 + i)));
   r0 = checkCarryover(carry, ended, ['区分名称'], J.C);
   ok(codes000.every(c => st(r0, c, '有効な行がある') === '未反映'), 'T9 隣の条件（000コードはあるが適用終了日が99999999でない）：未反映');
+}
+
+// ---- 血液型（ABO・Rh）の行（2026-10-16 ユーザー決定：2027年2月版までマスタに残す） ----
+{
+  const B = (rs, pv) => checkBlood(rs, pv || rows, J.C);
+  let r = B(rows);
+  ok(r.ok && r.count === 38 && r.prevCount === 38, '血液型 10/6の提出：残っている（38行・すべて適用終了日99999999）→ 問題なし', `${r.count}行 ${r.where}`);
+  const endedRows = rows.map(x => (x.code === 'K1006000021106304' ? { ...x, s: Object.assign([...x.s], { [J.C.END]: '20261014' }) } : x));
+  r = B(endedRows);
+  ok(!r.ok && r.problems.some(p => /適用終了日が入っています/.test(p) && /K1006000021106304/.test(p)), '血液型 1行（K1006000021106304）に適用終了日 → 問題あり（終わっている）', r.problems.join('／'));
+  r = B(rows.filter(x => !/^K100[16]/.test(x.code)));
+  ok(!r.ok && r.problems.some(p => /1行もありません/.test(p)) && r.problems.some(p => /38行が今回の提出にありません/.test(p)), '血液型 行が無い（38行を消す）→ 問題あり（1行もない・前月の38行が無い）', r.problems.join('／'));
+  r = B(rows.filter(x => x.code !== 'K1001000021109604'));
+  ok(!r.ok && r.problems.some(p => /1行が今回の提出にありません/.test(p)), '血液型 1行だけ消える → 問題あり', r.problems.join('／'));
+  const bs = base.replace(/^判断の線引き:/m, '血液型の確認の期限: 2027年2月\n判断の線引き:');
+  ok(stops(bs).includes('血液型の確認の期限'), '血液型の確認の期限の書き方が違う → 止まる');
+  const s2 = checkSettings(parseSettings(base), path.join(ROOT, '202610提出分')).checks.filter(c => c.item === '血液型の確認の期限');
+  ok(s2.length === 0, '血液型の確認の期限を書かない → 既定（202702提出分）で、10月分は確認する（注意なし）');
 }
 
 // ---- 出力名：同じ名前の最大の番号＋1（上書きしない） ----
