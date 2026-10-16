@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { parseSettings, checkSettings, checkCarryover, nextName, checkBlood } from './monthly_run.mjs';
+import { parseSettings, checkSettings, checkCarryover, nextName, checkBlood, parseBloodExpect } from './monthly_run.mjs';
 import { latestTool, loadCore, codec } from './run_check.mjs';
 
 const BASE = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -141,22 +141,37 @@ ok(checkCarryover('（列） ｜ 列なし JLACセンターコメント ｜', []
   ok(codes000.every(c => st(r0, c, '有効な行がある') === '未反映'), 'T9 隣の条件（000コードはあるが適用終了日が99999999でない）：未反映');
 }
 
-// ---- 血液型（ABO・Rh）の行（2026-10-16 ユーザー決定：2027年2月版までマスタに残す） ----
+// ---- 血液型（ABO・Rh）の行（2026-10-16 ユーザー訂正：2027年1〜3月末に使われる版から外す。どの版からかは調整中） ----
+// 既定（期待が書かれていない月）は状態を情報として出し、⚠️は「一部だけ」のときだけ。期待を書いた月は、期待と違えば⚠️
 {
-  const B = (rs, pv) => checkBlood(rs, pv || rows, J.C);
+  const B = (rs, expect, pv) => checkBlood(rs, pv || rows, J.C, null, expect);
+  const noBlood = rows.filter(x => !/^K100[16]/.test(x.code));
   let r = B(rows);
-  ok(r.ok && r.count === 38 && r.prevCount === 38, '血液型 10/6の提出：残っている（38行・すべて適用終了日99999999）→ 問題なし', `${r.count}行 ${r.where}`);
+  ok(r.state === '全行あり' && !r.alert && r.validCount === 38 && r.refCount === 38, '血液型 全行あり（10/6の提出、期待なし）→ 情報のみ（⚠️なし）', `${r.state} ${r.validCount}/${r.refCount} ${r.where}`);
+  r = B(noBlood);
+  ok(r.state === '全行なし' && !r.alert, '血液型 全行なし（38行を消す、期待なし）→ 情報のみ（⚠️なし）', `${r.state} ${r.detail.join('／').slice(0, 60)}`);
+  r = B(noBlood, undefined, noBlood);
+  ok(r.state === '全行なし' && !r.alert && r.refCount === 38, '血液型 外した翌月（前月にも無い）も38行を基準に全行なし → 情報のみ', `${r.state} 基準${r.refCount}行`);
+  r = B(rows.filter(x => x.code !== 'K1001000021109604'));
+  ok(r.state === '一部だけ' && !!r.alert && /K1001000021109604/.test(r.detail.join()), '血液型 一部欠け（1行消す、期待なし）→ ⚠️', `${r.state}：${r.alert}`);
   const endedRows = rows.map(x => (x.code === 'K1006000021106304' ? { ...x, s: Object.assign([...x.s], { [J.C.END]: '20261014' }) } : x));
   r = B(endedRows);
-  ok(!r.ok && r.problems.some(p => /適用終了日が入っています/.test(p) && /K1006000021106304/.test(p)), '血液型 1行（K1006000021106304）に適用終了日 → 問題あり（終わっている）', r.problems.join('／'));
-  r = B(rows.filter(x => !/^K100[16]/.test(x.code)));
-  ok(!r.ok && r.problems.some(p => /1行もありません/.test(p)) && r.problems.some(p => /38行が今回の提出にありません/.test(p)), '血液型 行が無い（38行を消す）→ 問題あり（1行もない・前月の38行が無い）', r.problems.join('／'));
-  r = B(rows.filter(x => x.code !== 'K1001000021109604'));
-  ok(!r.ok && r.problems.some(p => /1行が今回の提出にありません/.test(p)), '血液型 1行だけ消える → 問題あり', r.problems.join('／'));
-  const bs = base.replace(/^判断の線引き:/m, '血液型の確認の期限: 2027年2月\n判断の線引き:');
-  ok(stops(bs).includes('血液型の確認の期限'), '血液型の確認の期限の書き方が違う → 止まる');
-  const s2 = checkSettings(parseSettings(base), path.join(ROOT, '202610提出分')).checks.filter(c => c.item === '血液型の確認の期限');
-  ok(s2.length === 0, '血液型の確認の期限を書かない → 既定（202702提出分）で、10月分は確認する（注意なし）');
+  ok(r.state === '一部だけ' && !!r.alert && /K1006000021106304：20261014/.test(r.detail.join()), '血液型 一部終了（1行に適用終了日、期待なし）→ ⚠️', `${r.state}：${r.alert}`);
+  const allEnded = rows.map(x => (/^K100[16]/.test(x.code) ? { ...x, s: Object.assign([...x.s], { [J.C.END]: '20261231' }) } : x));
+  r = B(allEnded);
+  ok(r.state === '全行なし' && !r.alert, '血液型 隣の条件：38行すべてに適用終了日（終了で外した形、期待なし）→ 全行なし・情報のみ', r.state);
+  r = B(rows, '外す');
+  ok(r.state === '全行あり' && /「外す」/.test(r.alert), '血液型 期待「外す」の月に全行あり → ⚠️', r.alert);
+  r = B(noBlood, '残す');
+  ok(r.state === '全行なし' && /「残す」/.test(r.alert), '血液型 期待「残す」の月に全行なし → ⚠️', r.alert);
+  ok(!B(noBlood, '外す').alert && !B(rows, '残す').alert, '血液型 隣の条件：期待どおり（外す月に全行なし・残す月に全行あり）→ ⚠️なし');
+  const withExp = (t) => base.replace(/^血液型の期待:.*$/m, '血液型の期待: ' + t);
+  ok(stops(withExp('2027年1月=外す')).includes('血液型の期待'), '血液型の期待の書き方が違う（月の形）→ 止まる');
+  ok(stops(withExp('202701提出分=止める')).includes('血液型の期待'), '血液型の期待の書き方が違う（残す・外す以外）→ 止まる');
+  ok(!stops(withExp('202701提出分=外す, 202704提出分=残す')).includes('血液型の期待'), '血液型の期待「202701提出分=外す, 202704提出分=残す」→ 止まらない');
+  const pe = parseBloodExpect('202701提出分=外す, 202704提出分=残す');
+  ok(pe.map.get('202701提出分') === '外す' && pe.map.get('202704提出分') === '残す' && !pe.map.get('202610提出分'), '血液型の期待：書いた月だけ期待を持ち、書いていない月（202610提出分）は調整中');
+  ok(!/血液型の確認の期限/.test(fs.readFileSync(path.join(BASE, '03_scripts', 'monthly_run.mjs'), 'utf8')), '血液型 202702提出分という既定の期限は無い（キー「血液型の確認の期限」を消した）');
 }
 
 // ---- 出力名：同じ名前の最大の番号＋1（上書きしない） ----

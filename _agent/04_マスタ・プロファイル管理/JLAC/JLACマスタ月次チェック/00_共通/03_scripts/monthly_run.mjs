@@ -28,26 +28,49 @@ export const SWITCHES = {
 };
 export const KEYS = ['対象月', '提出ファイル', '提出日', '前月公開版', 'JLAC10コード表', 'JLAC11コード表', '17桁コードリスト', '17桁コードリストの取得日',
   '公開日', '公開日が15日でない理由', '新規行の開始行', '前月の表示名', 'JLACセンターの連絡（メール本文）', '連携メモ', '連携済みの変更', 'Rv用の見解', '別シートの理由',
-  '共有対象外のシート', '削除行は依頼済み', '確認したいJLAC11コード', '前月からの引継ぎ', 'ツールの版', '血液型の確認の期限', '血液型の行', ...Object.keys(SWITCHES)];
+  '共有対象外のシート', '削除行は依頼済み', '確認したいJLAC11コード', '前月からの引継ぎ', 'ツールの版', '血液型の期待', '血液型の行', ...Object.keys(SWITCHES)];
 
-// ---------- 血液型（ABO・Rh）の行が残っているかの確認（チェックロジック外。jlac-core の判定には入れない） ----------
-// 2026-10-16 ユーザー決定：血液型は2027年2月版までマスタに入れておく必要がある。確認の対象から落とさない。
+// ---------- 血液型（ABO・Rh）の行の状態の確認（チェックロジック外。jlac-core の判定には入れない） ----------
+// 2026-10-16 ユーザー（訂正後）：2027年1月〜3月末は登録できないように、その期間に使われるマスタの版から血液型を外す。どの版から外し、
+// どの版で戻すかは調整中（個人の残論点.md K009）。そのため既定では、毎月の状態（全行あり／全行なし／一部だけ）を情報として出し、
+// ⚠️（本田さんに上げる）は「一部だけ欠けた・一部だけ終了した」ときだけにする。設定「血液型の期待」に書いた月だけ、期待と違えば⚠️。
 // 対象の行（10月分で特定）：JLAC11コードの測定物（1〜5桁）が K1001（大項目「血液型-ABO」・FHIR項目名称「血液型(ABO)」16行）と
-// K1006（「血液型-Rh」・「血液型(Rh)」22行）。10/6再提出の10274〜10311行目、10/1提出は別シート「免疫血液学的検査ABO、Rh」の38行
-export const BLOOD_DEFAULT = { until: '202702提出分', prefixes: ['K1001', 'K1006'] };
-export function checkBlood(targetRows, prevRows, C, prefixes) {
+// K1006（「血液型-Rh」・「血液型(Rh)」22行）の38行。10/6再提出の10274〜10311行目、10/1提出は別シート「免疫血液学的検査ABO、Rh」の38行
+export const BLOOD_DEFAULT = { prefixes: ['K1001', 'K1006'] };
+// 「全行」の基準：202609公開版（前月公開CSV）の38行。前月に有効だった血液型の行があれば、それも基準に足す（外した月の翌月以降も38行で比べるため）
+export const BLOOD_REF = ('K1001000021109604,K1001000021109804,K1001000021109704,K1001000021108504,K1001000021108604,K1001000021109204,K1001000021109304,'
+  + 'K1001000021108704,K1001000021108804,K1001000021109404,K1001000021109504,K1001000021108904,K1001000021190104,K1001000021109004,K1001000021109104,'
+  + 'K1001000021100004,K1006000021106304,K1006000021106504,K1006000021106404,K1006000026004704,K1006000021105904,K1006000021106004,K1006000026004804,'
+  + 'K1006000026004904,K1006000026005104,K1006000026005304,K1006000026005204,K1006000021106104,K1006000021106204,K1006000026005404,K1006000026005704,'
+  + 'K1006000026005504,K1006000026005604,K1006000021190104,K1006000026005004,K1006000026005804,K1006000021100004,K1006000026000004').split(',');
+// 設定「血液型の期待」：「202701提出分=外す, 202704提出分=残す」の形。書いていない月は調整中
+export function parseBloodExpect(text) {
+  const m = new Map(), bad = [];
+  for (const part of String(text || '').split(/[,、]/).map(x => x.trim()).filter(Boolean)) {
+    const a = /^(\d{6}提出分)\s*[=＝]\s*(残す|外す)$/.exec(part);
+    if (a) m.set(a[1], a[2]); else bad.push(part);
+  }
+  return { map: m, bad };
+}
+export function checkBlood(targetRows, prevRows, C, prefixes, expect) {
   const pf = prefixes && prefixes.length ? prefixes : BLOOD_DEFAULT.prefixes;
   const isB = (r) => pf.some(p => r.code.startsWith(p));
-  const cur = targetRows.filter(isB), prev = prevRows.filter(r => isB(r) && r.s[C.END] === '99999999');
-  const curCodes = new Set(cur.map(r => r.code));
-  const missing = prev.filter(r => !curCodes.has(r.code));
+  const ref = new Set([...BLOOD_REF.filter(c => pf.some(p => c.startsWith(p))), ...prevRows.filter(r => isB(r) && r.s[C.END] === '99999999').map(r => r.code)]);
+  const cur = targetRows.filter(isB);
+  const valid = new Set(cur.filter(r => r.s[C.END] === '99999999').map(r => r.code));
+  const missing = [...ref].filter(c => !cur.some(r => r.code === c));
   const ended = cur.filter(r => r.s[C.END] !== '99999999');
-  const problems = [];
-  if (!cur.length) problems.push('今回の提出に血液型の行が1行もありません');
-  if (missing.length) problems.push(`前月に有効だった血液型の行のうち${missing.length}行が今回の提出にありません（${missing.slice(0, 10).map(r => r.code).join('、')}${missing.length > 10 ? ' ほか' : ''}）`);
-  if (ended.length) problems.push(`今回の血液型の行のうち${ended.length}行に適用終了日が入っています（${ended.slice(0, 10).map(r => `${r.sheet} ${r.xrow}行目 ${r.code}：${r.s[C.END]}`).join('、')}${ended.length > 10 ? ' ほか' : ''}）`);
-  const bySheet = [...new Set(cur.map(r => r.sheet))].map(sh => { const rs = cur.filter(r => r.sheet === sh); return `${sh} ${rs.length}行（${rs[0].xrow}〜${rs[rs.length - 1].xrow}行目）`; });
-  return { ok: !problems.length, count: cur.length, prevCount: prev.length, where: bySheet.join('、'), problems, prefixes: pf };
+  const nValid = [...ref].filter(c => valid.has(c)).length;
+  const state = nValid === ref.size && !ended.length ? '全行あり' : nValid === 0 ? '全行なし' : '一部だけ';
+  const detail = [];
+  if (missing.length) detail.push(`提出に無い行 ${missing.length}行（${missing.slice(0, 10).join('、')}${missing.length > 10 ? ' ほか' : ''}）`);
+  if (ended.length) detail.push(`適用終了日が入っている行 ${ended.length}行（${ended.slice(0, 10).map(r => `${r.sheet} ${r.xrow}行目 ${r.code}：${r.s[C.END]}`).join('、')}${ended.length > 10 ? ' ほか' : ''}）`);
+  const where = [...new Set(cur.map(r => r.sheet))].map(sh => { const rs = cur.filter(r => r.sheet === sh); return `${sh} ${rs.length}行（${rs[0].xrow}〜${rs[rs.length - 1].xrow}行目）`; }).join('、');
+  let alert = '';
+  if (expect === '残す' && state !== '全行あり') alert = `この月は「残す」と決まっていますが、${state}です`;
+  else if (expect === '外す' && state !== '全行なし') alert = `この月は「外す」と決まっていますが、${state}です`;
+  else if (!expect && state === '一部だけ') alert = '一部の行だけが欠けた・終了しています（全部残すか全部外すかのどちらかのはず）';
+  return { state, expect: expect || '調整中', alert, refCount: ref.size, validCount: nValid, count: cur.length, where, detail, prefixes: pf };
 }
 const monthNum = (s) => { const m = /^(\d{6})/.exec(String(s || '')); return m ? +m[1] : NaN; };
 
@@ -135,9 +158,9 @@ export function checkSettings(S, monthDir) {
   if (!v['前月からの引継ぎ']) add('注意', '前月からの引継ぎ', '空です（前月に依頼したことが反映されたかを確かめません）');
   const dr = v['削除行は依頼済み'] || 'いいえ';
   if (!['はい', 'いいえ'].includes(dr)) add('止める', '削除行は依頼済み', `「はい」か「いいえ」：「${dr}」`);
-  const bu = v['血液型の確認の期限'] || BLOOD_DEFAULT.until;
-  if (!/^\d{6}提出分$/.test(bu)) add('止める', '血液型の確認の期限', `「YYYYMM提出分」の形で書いてください：「${bu}」`);
-  else if (folderMonth && +folderMonth > monthNum(bu)) add('注意', '血液型の確認の期限', `期限（${bu}）を過ぎているため、血液型の行の確認はしません`);
+  const be = parseBloodExpect(v['血液型の期待']);
+  if (be.bad.length) add('止める', '血液型の期待', `「202701提出分=外す」の形（期待は「残す」か「外す」）で、「,」区切りで書いてください：「${be.bad.join('」「')}」`);
+  else if (folderMonth) add('OK', '血液型の期待', `${folderMonth}提出分は${be.map.get(folderMonth + '提出分') || '調整中（期待が決まっていない。状態を情報として出し、一部だけのときだけ⚠️）'}`);
   if (v['血液型の行'] && !v['血液型の行'].split(/[,、\s]+/).every(x => /^[0-9A-Z]{5}$/.test(x))) add('止める', '血液型の行', `JLAC11コードの測定物（5桁）を「,」区切りで書いてください：「${v['血液型の行']}」`);
   const sw = {};
   for (const [k, vals] of Object.entries(SWITCHES)) {
@@ -271,11 +294,9 @@ async function cmdRun(opt) {
     const head = ((await R.inp.prev.rawRows(R.settings.baseSheet)).find(x => x.r === 1) || { vals: [] }).vals;
     carry = checkCarryover(P.texts['前月からの引継ぎ'], R.newRows, head, J.C);
   }
-  // 血液型（ABO・Rh）の行（期限の提出分まで毎月）
-  const bUntil = v['血液型の確認の期限'] || BLOOD_DEFAULT.until;
-  const blood = +P.folderMonth <= monthNum(bUntil)
-    ? { until: bUntil, ...checkBlood(R.newRows, R.base, J.C, v['血液型の行'] ? v['血液型の行'].split(/[,、\s]+/).filter(Boolean) : null) }
-    : { until: bUntil, skipped: true };
+  // 血液型（ABO・Rh）の行の状態（毎月。期待は設定「血液型の期待」に書いた月だけ）
+  const blood = checkBlood(R.newRows, R.base, J.C, v['血液型の行'] ? v['血液型の行'].split(/[,、\s]+/).filter(Boolean) : null,
+    parseBloodExpect(v['血液型の期待']).map.get(path.basename(monthDir)));
   const comments = {};
   for (const [k, val] of R.comments) comments[k.replace('\u0000', '!')] = J.commentText(val);
   const noteCols = Object.values(R.noteHdr || {})[0];
@@ -315,7 +336,7 @@ function cmdReport(opt) {
   // 比べられる項目が減ったら、何を測らなくなったかを見落とさないよう冒頭に出す（2026-10-08の10月分は54項目）
   if (dc && dc.status === '計算済み' && dc.comparable < 54) L.push(`> ⚠️ **ダブルチェックの比較できる項目が${dc.comparable}件で、10月分（54件）より少なくなっています**。どの項目が「—」（比較できない）になったかを照合シートで確かめてください。`, '');
   const bl = st.blood;
-  if (bl && !bl.skipped && !bl.ok) L.push(`> ⚠️ **血液型（ABO・Rh）の行に問題があります（本田さんに上げる）**：${bl.problems.join('／')}。血液型は${bl.until}（2027年2月版）までマスタに残す必要があります（2026-10-16 ユーザー決定）。`, '');
+  if (bl && bl.alert) L.push(`> ⚠️ **血液型（ABO・Rh）の行を本田さんに上げる**：${bl.alert}（${bl.validCount}／${bl.refCount}行が有効${bl.detail.length ? '。' + bl.detail.join('／') : ''}）。どの版から外し、どの版で戻すかは調整中（個人の残論点.md K009）。`, '');
   if (!dc || dc.status !== '計算済み') {
     L.push(`> ⚠️ **ダブルチェックの照合が済んでいません**（${dcStatus || (dc ? dc.status : '')}）。照合が済むまで、指摘の説明文（Rv用の見解・関係者への説明）は確定しないでください。`, '');
   } else if (mis > 0 || dc.rowMismatch.some(x => x.count > 0)) {
@@ -332,8 +353,8 @@ function cmdReport(opt) {
   L.push('', '## 3. 結果の概要', '');
   L.push(`- コメントを付けた行：**${st.commentRows}行**／新規行：${st.newCodes}行／実行時間：${st.seconds}秒`);
   if (!bl) L.push('- 血液型（ABO・Rh）の行：確認していない（この明細は血液型の確認を足す前の版）');
-  else if (bl.skipped) L.push(`- 血液型（ABO・Rh）の行：期限（${bl.until}）を過ぎたため確認していない`);
-  else L.push(`- 血液型（ABO・Rh）の行（測定物 ${bl.prefixes.join('・')}、${bl.until}まで毎月確認）：${bl.ok ? `問題なし。今回 ${bl.count}行（${bl.where}）、すべて適用終了日99999999、前月に有効だった${bl.prevCount}行がすべて残っている` : `**問題あり（本田さんに上げる）**：${bl.problems.join('／')}`}`);
+  else if (bl.state === undefined) L.push('- 血液型（ABO・Rh）の行：この明細は古い形のため、状態を出していない（流し直す）');
+  else L.push(`- 血液型（ABO・Rh）の行【情報】（測定物 ${bl.prefixes.join('・')}、期待：${bl.expect}）：**${bl.state}**（${bl.validCount}／${bl.refCount}行が有効${bl.where ? `。今回 ${bl.where}` : ''}${bl.detail.length ? '。' + bl.detail.join('／') : ''}）${bl.alert ? '。⚠️ 本田さんに上げる（冒頭）' : ''}`);
   L.push(`- 要確認の通知：${st.notices.filter(n => n.level === '要確認').length}件`);
   for (const n of st.notices.filter(n => n.level === '要確認')) L.push(`  - ${mdc(n.title)}`);
   L.push('', '## 4. ダブルチェックの結果', '');
