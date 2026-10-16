@@ -111,8 +111,12 @@ def embed_img(alt, rel, ctx):
         svg = re.sub(r'^\s*<\?xml[^>]*\?>\s*', '', p.read_text(encoding='utf-8'))
         return f'<figure class="diagram">{svg}<figcaption>{html.escape(alt)}</figcaption></figure>'
     mime = mimetypes.guess_type(p.name)[0] or 'image/png'
-    b64 = base64.b64encode(p.read_bytes()).decode()
-    return (f'<figure><img src="data:{mime};base64,{b64}" alt="{html.escape(alt)}" loading="lazy">'
+    data = p.read_bytes()
+    b64 = base64.b64encode(data).decode()
+    # 横長の画像（幅1800px超のPNG。Excelの横に長い表など）は縮めずに横スクロールで見せる（縮めると字が読めない）
+    wide = mime == 'image/png' and data[:8] == b'\x89PNG\r\n\x1a\n' and int.from_bytes(data[16:20], 'big') > 1800
+    cls = ' class="wide"' if wide else ''
+    return (f'<figure{cls}><img src="data:{mime};base64,{b64}" alt="{html.escape(alt)}" loading="lazy">'
             f'<figcaption>{html.escape(alt)}</figcaption></figure>')
 
 
@@ -441,6 +445,9 @@ figure.diagram svg{display:block;min-width:720px;max-width:100%;height:auto}
 .dg-line{stroke:var(--muted);stroke-width:1.5;fill:none}
 .dg-arrow{fill:var(--muted)}
 figure img{max-width:100%;border:1px solid var(--line)}
+figure.wide{overflow-x:auto}
+figure.wide img{max-width:none;height:auto;width:auto;max-height:none}
+figure.wide figcaption::after{content:"（横にスクロールできます）"}
 figcaption{font-size:12px;color:var(--muted)}
 .warn{color:var(--warn-line)}
 #results{display:none;position:fixed;top:46px;right:16px;width:480px;max-height:70vh;overflow:auto;background:var(--bg);border:1px solid var(--line);border-radius:8px;box-shadow:0 4px 16px var(--shadow);z-index:6}
