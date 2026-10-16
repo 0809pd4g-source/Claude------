@@ -106,6 +106,10 @@ def embed_img(alt, rel, ctx):
     p = (ctx.base_dir / rel).resolve()
     if not p.exists():
         return f'<span class="warn">［画像が見つからない：{html.escape(rel)}］</span>'
+    if p.suffix.lower() == '.svg':
+        # 図（SVG）はそのまま埋め込む：ページのCSS変数（明暗）で色が付くように、図の色は class（dg-…）で指定する
+        svg = re.sub(r'^\s*<\?xml[^>]*\?>\s*', '', p.read_text(encoding='utf-8'))
+        return f'<figure class="diagram">{svg}<figcaption>{html.escape(alt)}</figcaption></figure>'
     mime = mimetypes.guess_type(p.name)[0] or 'image/png'
     b64 = base64.b64encode(p.read_bytes()).decode()
     return (f'<figure><img src="data:{mime};base64,{b64}" alt="{html.escape(alt)}" loading="lazy">'
@@ -185,7 +189,10 @@ def render(lines, ctx, shift=0):
                 and not LIST_RE.match(lines[i]):
             buf.append(lines[i].strip())
             i += 1
-        out.append(f'<p>{"<br>".join(inline(b, ctx) for b in buf)}</p>')
+        if len(buf) == 1 and re.fullmatch(r'!\[[^\]]*\]\([^)]+\)', buf[0]):
+            out.append(inline(buf[0], ctx))   # 画像だけの段落は <p> で包まない（figure は p の中に置けない）
+        else:
+            out.append(f'<p>{"<br>".join(inline(b, ctx) for b in buf)}</p>')
     return '\n'.join(out)
 
 
@@ -401,7 +408,7 @@ main h2{font-size:22px;border-bottom:2px solid var(--accent);padding-bottom:4px}
 main h3{font-size:18px;margin-top:28px;border-left:4px solid var(--accent);padding-left:8px}
 main h4{font-size:16px;margin-top:20px}
 main h5{font-size:15px;margin-top:16px;color:var(--accent)}
-a{color:var(--accent)}
+a{color:var(--accent);overflow-wrap:anywhere}
 code{background:var(--code-bg);padding:1px 4px;border-radius:4px;font-size:.9em;word-break:break-all}
 pre{background:var(--code-bg);padding:10px;border-radius:6px;overflow:auto}
 pre code{padding:0;background:none;word-break:normal}
@@ -422,6 +429,17 @@ blockquote.caution{border-left-color:var(--warn-line);background:var(--warn-bg)}
 .card{display:flex;flex-direction:column;padding:12px;border:1px solid var(--line);border-radius:8px;background:var(--card);box-shadow:0 1px 3px var(--shadow);text-decoration:none;color:var(--fg)}
 .card span{font-size:13px;color:var(--muted)}
 figure{margin:12px 0}
+figure.diagram{overflow-x:auto}
+figure.diagram svg{display:block;min-width:720px;max-width:100%;height:auto}
+.dg-box{fill:var(--card);stroke:var(--line)}
+.dg-mtg{fill:var(--accent-bg);stroke:var(--accent)}
+.dg-work{fill:var(--warn-bg);stroke:var(--warn-line)}
+.dg-head{fill:var(--th-bg);stroke:var(--line)}
+.dg-t{fill:var(--fg);font-size:13px}
+.dg-b{fill:var(--fg);font-size:13px;font-weight:bold}
+.dg-s{fill:var(--muted);font-size:11px}
+.dg-line{stroke:var(--muted);stroke-width:1.5;fill:none}
+.dg-arrow{fill:var(--muted)}
 figure img{max-width:100%;border:1px solid var(--line)}
 figcaption{font-size:12px;color:var(--muted)}
 .warn{color:var(--warn-line)}
